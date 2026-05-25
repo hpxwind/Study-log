@@ -1,0 +1,812 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>PyQuery</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2568db55-6aee-83c1-8d46-018a80f7dc9f" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/rijksmuseum_jansz_1641.jpg" style="object-position:center 80%"/><h1 class="page-title" dir="auto">PyQuery</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="0898db55-6aee-82a3-b139-812829a1ae2e" class="">PyQuery 是一个强大的 Python HTML/XML 解析库，它采用类似 jQuery 的语法，让你能够轻松提取和操作网页数据。</p></div><div style="display:contents" dir="auto"><hr id="e758db55-6aee-836d-9a36-812caa13807d"/></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="7528db55-6aee-82ff-9ae9-01318359dd64" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">pip install pyquery</code></pre></div><div style="display:contents" dir="auto"><hr id="1768db55-6aee-82b0-b311-814c512b959d"/></div><div style="display:contents" dir="auto"><p id="e788db55-6aee-82be-9ed2-8105fbdea12b" class="">基本初始化：</p></div><div style="display:contents" dir="auto"><ul id="28b8db55-6aee-82ec-89a6-01b8238a2a0d" class="toggle"><li><details open=""><summary>从HTML字符串初始化</summary><div style="display:contents" dir="auto"><p id="9158db55-6aee-8345-b479-8155a1cbb41c" class="">直接传入字符串即可构建文档对象模型（DOM）</p></div><div style="display:contents" dir="auto"><pre id="26e8db55-6aee-8341-8d22-01c902721f5f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from pyquery import PyQuery as pq
+
+html = &#x27;&#x27;&#x27;
+&lt;div id=&quot;container&quot;&gt;
+  &lt;ul class=&quot;list&quot;&gt;
+    &lt;li class=&quot;item-0&quot;&gt;first item&lt;/li&gt;
+    &lt;li class=&quot;item-1&quot;&gt;&lt;a href=&quot;link2.html&quot;&gt;second item&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+&#x27;&#x27;&#x27;
+doc = pq(html)
+print(doc(&#x27;#container .list li&#x27;))  # 使用CSS选择器</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="deb8db55-6aee-8275-bdb4-01d0817e1bd5" class="toggle"><li><details open=""><summary>从URL初始化</summary><div style="display:contents" dir="auto"><p id="2cf8db55-6aee-8366-b761-8157c8a8213c" class="">PyQuery 能直接请求网址并初始化，非常方便</p></div><div style="display:contents" dir="auto"><pre id="0f48db55-6aee-82a3-b449-015ebe9d9626" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">doc = pq(url=&#x27;https://example.com&#x27;)
+# 或者更常用的是结合requests库，便于控制请求过程
+import requests
+response = requests.get(&#x27;https://example.com&#x27;)
+doc = pq(response.text)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8788db55-6aee-83e1-91bd-018a481c11b9" class="toggle"><li><details open=""><summary>从本地文件初始化</summary><div style="display:contents" dir="auto"><p id="9858db55-6aee-8382-8453-0167f1a97235" class="">指定文件名即可读取并解析</p></div><div style="display:contents" dir="auto"><pre id="a008db55-6aee-83f0-88e2-011304bd1d3d" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">doc = pq(filename=&#x27;path/to/your/file.html&#x27;)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="6948db55-6aee-826f-b2e8-810482f6d6bb"/></div><div style="display:contents" dir="auto"><p id="66b8db55-6aee-825e-a2f8-016facb7d776" class="">PyQuery 的核心是 <strong>CSS 选择器</strong>，用法与 jQuery 高度一致：</p></div><div style="display:contents" dir="auto"><ul id="0a78db55-6aee-82d3-8a3c-81b49b305c3f" class="toggle"><li><details open=""><summary>基本选择器</summary><div style="display:contents" dir="auto"><p id="76d8db55-6aee-83ca-afb7-016f4cc25aeb" class="">通过标签名、类名、ID 进行选择。</p></div><div style="display:contents" dir="auto"><pre id="3a48db55-6aee-8387-85d9-0198699b5d95" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">doc(&#x27;a&#x27;)           # 选择所有 &lt;a&gt; 标签
+doc(&#x27;.title&#x27;)      # 选择所有 class 为 &quot;title&quot; 的元素
+doc(&#x27;#main&#x27;)       # 选择 id 为 &quot;main&quot; 的元素
+doc(&#x27;div.product &gt; h2&#x27;)  # 组合选择器</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6c08db55-6aee-83a2-bba2-8109049a5cdf" class="toggle"><li><details open=""><summary>伪类选择器</summary><div style="display:contents" dir="auto"><p id="3ee8db55-6aee-82f1-abdf-01ad1aea1a30" class="">用于精细定位，如选择特定序位的元素</p></div><div style="display:contents" dir="auto"><pre id="ab68db55-6aee-83ef-9d3e-013524f798a2" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">doc(&#x27;li:first-child&#x27;)   # 第一个 li 元素
+doc(&#x27;li:last-child&#x27;)    # 最后一个 li 元素
+doc(&#x27;li:nth-child(2)&#x27;)  # 第二个 li 元素</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="98b8db55-6aee-832d-a64b-01c64d86c318"/></div><div style="display:contents" dir="auto"><p id="1f78db55-6aee-829a-93b2-81d7492b21fb" class="">定位到一组元素后，经常需要进一步遍历或查找：</p></div><div style="display:contents" dir="auto"><ul id="ae28db55-6aee-8394-a6d5-81500aa815d2" class="toggle"><li><details open=""><summary>遍历节点</summary><div style="display:contents" dir="auto"><p id="5558db55-6aee-820f-abb4-81b1eaa76719" class="">使用 <code>.items()</code>方法获取可遍历的 PyQuery 对象序列</p></div><div style="display:contents" dir="auto"><pre id="b0a8db55-6aee-8394-9acf-81651ab09bc5" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">lis = doc(&#x27;li&#x27;).items()  # 返回一个生成器
+for li in lis:
+    print(li.text())     # 逐个输出 li 的文本</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bb68db55-6aee-83c7-a1f8-81e011e5db93" class="toggle"><li><details open=""><summary>查找子节点</summary><div style="display:contents" dir="auto"><p id="d278db55-6aee-83c3-b598-01b2407c6d69" class="">find()方法查找所有子孙节点，children()方法仅查找直接子节点</p></div><div style="display:contents" dir="auto"><pre id="ccb8db55-6aee-8397-84ed-816adf6e0f03" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">items = doc(&#x27;.list&#x27;)
+items.find(&#x27;li&#x27;)        # 查找 .list 下的所有 li 标签（任何层级）
+items.children()         # 仅查找 .list 的直接子节点
+items.children(&#x27;.active&#x27;) # 仅查找直接子节点中 class 为 active 的</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4788db55-6aee-823f-9d88-81ff16afffe2" class="toggle"><li><details open=""><summary>查找父节点与祖先节点</summary><div style="display:contents" dir="auto"><p id="bd68db55-6aee-82fb-89ed-81fbe584e5f2" class="">parent()获取直接父节点，parents()获取所有祖先节点</p></div><div style="display:contents" dir="auto"><pre id="fa98db55-6aee-827f-b481-81c85699baef" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">item = doc(&#x27;.item-0.active&#x27;)
+item.parent()           # 直接父节点
+item.parents(&#x27;div&#x27;)      # 所有是 div 标签的祖先节点</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c3e8db55-6aee-82bf-b85c-81f268139007" class="toggle"><li><details open=""><summary>查找兄弟节点</summary><div style="display:contents" dir="auto"><p id="1518db55-6aee-8305-8045-016be308ccf5" class="">siblings()方法获取所有兄弟节点</p></div><div style="display:contents" dir="auto"><pre id="c178db55-6aee-82de-852a-81046e202ae6" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">item.siblings()          # 所有兄弟节点
+item.siblings(&#x27;.active&#x27;) # 兄弟节点中 class 为 active 的</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="c2b8db55-6aee-8228-a694-01384932c1b5"/></div><div style="display:contents" dir="auto"><p id="46f8db55-6aee-8239-9621-81fe9f7fa0f3" class="">成功定位元素后，下一步是提取所需信息：</p></div><div style="display:contents" dir="auto"><ul id="a438db55-6aee-8297-ac6d-81c5af688976" class="toggle"><li><details open=""><summary>获取属性</summary><div style="display:contents" dir="auto"><p id="5148db55-6aee-821d-beaf-01b5933e4898" class="">使用 <code>attr()</code>方法或其属性形式</p></div><div style="display:contents" dir="auto"><pre id="c648db55-6aee-83b1-a4b7-016b45fb2a4b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">a = doc(&#x27;a&#x27;)
+href = a.attr(&#x27;href&#x27;)   # 获取第一个 a 标签的 href 属性
+# 或
+href = a.attr.href       # 效果同上
+
+# 遍历获取多个元素的属性
+for a in doc(&#x27;a&#x27;).items():
+    print(a.attr(&#x27;href&#x27;))</code></pre></div><div style="display:contents" dir="auto"><p id="0e38db55-6aee-8308-95e3-016236b3d324" class=""><strong>注意</strong>：如果选择器匹配多个元素，直接调用 <code>attr()</code>仅返回<strong>第一个</strong>元素的属性。遍历 <code>.items()</code>是安全可靠的做法.</p></div><div style="display:contents" dir="auto"><p id="bc98db55-6aee-8352-bb4b-017ad66b44b0" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d478db55-6aee-83d1-8310-01a54e604c42" class="toggle"><li><details open=""><summary>获取文本</summary><div style="display:contents" dir="auto"><p id="d118db55-6aee-8224-ba2f-01a0940f9510" class="">使用 <code>text()</code>方法获取元素及其后代的文本内容（合并为一个字符串），使用 <code>html()</code>方法获取元素的内部 HTML 内容</p></div><div style="display:contents" dir="auto"><pre id="d578db55-6aee-832e-a5f1-01f0430cb4f7" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">li_text = doc(&#x27;li&#x27;).text()  # 获取所有 li 的文本内容，合并成一个字符串
+li_html = doc(&#x27;li&#x27;).html()  # 获取第一个 li 标签内部的 HTML 内容</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="da98db55-6aee-8220-8006-8122d8cf58e4"/></div><div style="display:contents" dir="auto"><p id="3fd8db55-6aee-8387-8570-014e5cb9e042" class="">进阶技巧与实战：</p></div><div style="display:contents" dir="auto"><ul id="a148db55-6aee-82e0-a6ba-810be2aadcc4" class="toggle"><li><details open=""><summary>链式调用</summary><div style="display:contents" dir="auto"><p id="6058db55-6aee-82a8-94d5-8192da0a642d" class="">PyQuery 支持链式操作，让代码更紧凑</p></div><div style="display:contents" dir="auto"><pre id="52c8db55-6aee-829f-9b79-01410b8ec494" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 获取所有商品名称并去重
+names = doc(&quot;.product-item .name&quot;).text().split()
+unique_names = list(set(names))</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a838db55-6aee-8202-898b-012e6eafe063" class="toggle"><li><details open=""><summary>处理缺失元素</summary><div style="display:contents" dir="auto"><p id="03c8db55-6aee-83d9-a469-81408f962877" class="">在提取信息时，元素可能不存在，建议做判断.</p></div><div style="display:contents" dir="auto"><pre id="a938db55-6aee-8363-bb0a-81feaa3e8e09" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">price_elem = item(&quot;.price&quot;)
+price = price_elem.text() if price_elem else &quot;N/A&quot;  # 如果元素不存在，赋默认值</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0658db55-6aee-822a-8324-0121f8df08d7" class="toggle"><li><details open=""><summary>结合XPath</summary><div style="display:contents" dir="auto"><p id="3a18db55-6aee-8287-9291-812b76ba91ad" class="">对于特别复杂的结构，可以转换为 lxml 对象使用 XPath.</p></div><div style="display:contents" dir="auto"><pre id="8038db55-6aee-82c7-b2a0-01097b70831f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from lxml import etree
+root = etree.HTML(html)
+prices = root.xpath(&#x27;//span[@class=&quot;price&quot;]/text()&#x27;)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="d038db55-6aee-8297-a80d-0144c2e15c0e"/></div><div style="display:contents" dir="auto"><p id="ed98db55-6aee-82b2-9328-81ae44a4ea0b" class="">案例：</p></div><div style="display:contents" dir="auto"><ul id="30b8db55-6aee-828a-acca-010dd9015fad" class="toggle"><li><details open=""><summary>实战案例：提取商品信息</summary><div style="display:contents" dir="auto"><pre id="24e8db55-6aee-827a-9484-0198a32925d7" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;product-item&quot;&gt;
+  &lt;h2 class=&quot;name&quot;&gt;无线蓝牙耳机&lt;/h2&gt;
+  &lt;span class=&quot;price&quot;&gt;¥199.00&lt;/span&gt;
+  &lt;a href=&quot;/product/101&quot; class=&quot;detail-link&quot;&gt;查看详情&lt;/a&gt;
+&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="da38db55-6aee-826c-869c-810cacd749ae" class="">提取代码可以这样写：</p></div><div style="display:contents" dir="auto"><pre id="d2b8db55-6aee-83e4-a494-01a0c9554a49" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def extract_products(url):
+    import requests
+    from pyquery import PyQuery as pq
+    
+    response = requests.get(url)
+    doc = pq(response.text)
+    
+    products = []
+    for item in doc(&quot;.product-item&quot;).items():  # 遍历每个商品块
+        name = item(&quot;.name&quot;).text()           # 提取商品名称
+        price = item(&quot;.price&quot;).text()         # 提取价格
+        link = item(&quot;.detail-link&quot;).attr(&quot;href&quot;)  # 提取链接
+        
+        products.append({
+            &quot;name&quot;: name,
+            &quot;price&quot;: price,
+            &quot;link&quot;: link
+        })
+    
+    return products</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="8be8db55-6aee-838d-b5d4-8189c97a8664"/></div><div style="display:contents" dir="auto"><p id="6628db55-6aee-830d-a638-81e6f62b18f2" class="">常见问题：</p></div><div style="display:contents" dir="auto"><ul id="fe58db55-6aee-8359-819c-015e1238f858" class="toggle"><li><details open=""><summary>编码问题</summary><div style="display:contents" dir="auto"><p id="2f38db55-6aee-838f-a0ad-01259ef46aa3" class="">遇到乱码时，可显式指定编码</p></div><div style="display:contents" dir="auto"><pre id="da88db55-6aee-829d-b812-8152e2faa69f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">response.encoding = &quot;utf-8&quot;  # 或根据实际情况指定 &quot;gbk&quot; 等</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c758db55-6aee-83b8-ad44-012d71d3f09c" class="toggle"><li><details open=""><summary>反爬机制</summary><div style="display:contents" dir="auto"><p id="4368db55-6aee-821e-a6f2-0172a369bc8e" class="">设置请求头模拟浏览器访问是基本策略</p></div><div style="display:contents" dir="auto"><pre id="d7b8db55-6aee-8260-a098-812a78850b4d" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">headers = {
+    &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36...&quot;
+}
+response = requests.get(url, headers=headers)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="5208db55-6aee-8338-899b-81a998f2fb5d" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,849 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>mocha和断言</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c118db55-6aee-8269-8453-01be08ae83b0" class="page serif"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/webb1.jpg" style="object-position:center 50%"/><h1 class="page-title" dir="auto">mocha和断言</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="63f8db55-6aee-83df-99bc-014674fa4057" class="">Mocha 是 JavaScript 中最流行的测试框架之一，用于组织和运行测试用例；而<strong>断言（Assertion）</strong> 是验证代码行为是否符合预期的工具（通常由第三方库提供）。两者配合使用可以构建完整的自动化测试体系。</p></div><div style="display:contents" dir="auto"><hr id="9228db55-6aee-8217-b047-0129787040c7"/></div><div style="display:contents" dir="auto"><ul id="eb08db55-6aee-83bf-b88d-0122a121f1dc" class="toggle"><li><details open=""><summary>Mocha核心作用与特性</summary><div style="display:contents" dir="auto"><p id="bc18db55-6aee-8369-a90d-01944b69688d" class="">Mocha 本身不提供断言功能，主要负责：</p></div><div style="display:contents" dir="auto"><ul id="f8a8db55-6aee-82ad-868b-0169acf950b1" class="bulleted-list"><li style="list-style-type:disc">定义测试结构（测试套件、测试用例）</li></ul></div><div style="display:contents" dir="auto"><ul id="94c8db55-6aee-831f-a094-01577b7fe04e" class="bulleted-list"><li style="list-style-type:disc">执行测试并生成报告</li></ul></div><div style="display:contents" dir="auto"><ul id="55b8db55-6aee-828b-986a-012b787b9f3e" class="bulleted-list"><li style="list-style-type:disc">支持同步 / 异步代码测试</li></ul></div><div style="display:contents" dir="auto"><ul id="3b08db55-6aee-8295-9732-81e946cb31b8" class="bulleted-list"><li style="list-style-type:disc">提供钩子函数（控制测试流程）</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b928db55-6aee-829f-bc96-81c319a0c9be" class="toggle"><li><details open=""><summary>安装</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="b8b8db55-6aee-83b1-a3d8-01303285b181" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 局部安装（推荐）
+npm install mocha --save-dev
+
+# 全局安装（方便命令行直接运行）
+npm install mocha -g</code></pre></div><div style="display:contents" dir="auto"><p id="50c8db55-6aee-83c7-8d66-01cf9842e5ec" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b928db55-6aee-8317-be6d-01cdca432e89" class="toggle"><li><details open=""><summary>基础使用</summary><div style="display:contents" dir="auto"><pre id="5798db55-6aee-82e8-9c2b-81b07ef9ed3f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 测试套件：描述一个功能模块
+describe(&#x27;加法函数测试&#x27;, function() {
+  // 测试用例：具体场景
+  it(&#x27;1 + 2 应该等于 3&#x27;, function() {
+    // 这里需要断言库验证结果（下文会讲）
+  });
+
+  // 嵌套测试套件
+  describe(&#x27;边界情况&#x27;, function() {
+    it(&#x27;0 + 0 应该等于 0&#x27;, function() {
+      // 断言逻辑
+    });
+  });
+});</code></pre></div><div style="display:contents" dir="auto"><pre id="8c18db55-6aee-835c-bbca-8169356df7e9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;scripts&quot;: {
+    &quot;test&quot;: &quot;mocha test/**/*.test.js&quot;  // 匹配 test 目录下所有 .test.js 文件
+  }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="9388db55-6aee-838b-a567-0176fb436ec5" class="">运行测试：</p></div><div style="display:contents" dir="auto"><pre id="1588db55-6aee-8358-8d32-81c5879227dd" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm test</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bbe8db55-6aee-8308-81e4-016c92791cff" class="toggle"><li><details open=""><summary>异步测试支持</summary><div style="display:contents" dir="auto"><p id="fcd8db55-6aee-8387-aefc-01c43a8e7130" class="">Mocha 对异步代码（如回调、Promise、async/await）有原生支持，避免测试提前结束。</p></div><div style="display:contents" dir="auto"><p id="c378db55-6aee-83bd-bc0a-01fef4030267" class="">1、回调函数</p></div><div style="display:contents" dir="auto"><p id="c228db55-6aee-82d5-b00f-81302412f4ee" class="">通过在测试用例中传入 <code>done</code> 参数，调用 <code>done()</code> 标识异步结束：</p></div><div style="display:contents" dir="auto"><pre id="d8d8db55-6aee-8242-b1fc-81772b80e966" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">it(&#x27;异步读取文件应该成功&#x27;, function(done) {
+  fs.readFile(&#x27;test.txt&#x27;, &#x27;utf8&#x27;, function(err, data) {
+    if (err) done(err);  // 失败：传递错误
+    else {
+      // 断言逻辑...
+      done();  // 成功：调用 done()
+    }
+  });
+});</code></pre></div><div style="display:contents" dir="auto"><p id="1178db55-6aee-8261-9cd1-816eb69f08ae" class="">2、Promise</p></div><div style="display:contents" dir="auto"><p id="cec8db55-6aee-825e-8f80-811a4017e7ec" class="">直接返回 Promise，Mocha 会等待其状态变更：</p></div><div style="display:contents" dir="auto"><pre id="4ab8db55-6aee-82d6-a47e-015e921b0988" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">it(&#x27;Promise 应该返回成功结果&#x27;, function() {
+  return new Promise((resolve) =&gt; {
+    setTimeout(() =&gt; {
+      // 断言逻辑...
+      resolve();  // 成功
+    }, 1000);
+  });
+});</code></pre></div><div style="display:contents" dir="auto"><p id="1938db55-6aee-83c6-9ec9-81489257f9f8" class="">3、async/await（推荐）</p></div><div style="display:contents" dir="auto"><pre id="9e48db55-6aee-829a-b4d8-815b0eacc0de" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">it(&#x27;async/await 测试&#x27;, async function() {
+  const result = await someAsyncFunction();  // 等待异步操作
+  // 断言逻辑...
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5578db55-6aee-8337-93a2-81de067536b0" class="toggle"><li><details open=""><summary>钩子函数</summary><div style="display:contents" dir="auto"><p id="b9d8db55-6aee-8287-97c6-81ae573bfab3" class="">用于在测试前/后执行初始化或清理操作</p></div><div style="display:contents" dir="auto"><pre id="7408db55-6aee-8386-bf55-01677e15bec1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">describe(&#x27;用户管理模块&#x27;, function() {
+  let db;
+
+  // 所有测试用例执行前运行（只执行一次）
+  before(function() {
+    db = connectToDatabase();  // 连接数据库
+  });
+
+  // 每个测试用例执行前运行
+  beforeEach(function() {
+    db.clear();  // 清空测试数据
+  });
+
+  it(&#x27;新增用户应该成功&#x27;, function() {
+    // 使用 db 操作...
+  });
+
+  // 所有测试用例执行后运行（只执行一次）
+  after(function() {
+    db.disconnect();  // 断开数据库连接
+  });
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="04f8db55-6aee-8297-a72e-01afaeaa10e6" class="toggle"><li><details open=""><summary>高级用法与配置</summary><div style="display:contents" dir="auto"><pre id="4798db55-6aee-82e6-b1bb-8102428b323d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 监视文件变化，自动重新运行测试
+mocha --watch
+
+# 递归查找所有测试文件
+mocha --recursive
+
+# 指定报告格式（如 spec、dot、nyan 等）
+mocha --reporter nyan
+
+# 只运行匹配的测试用例（通过正则）
+mocha --grep &quot;加法&quot;</code></pre></div><div style="display:contents" dir="auto"><p id="f388db55-6aee-8288-9fa0-01545b130b88" class="">配置文件</p></div><div style="display:contents" dir="auto"><p id="d488db55-6aee-82df-ab75-811556bb5103" class="">创建 <code>mocha.config.js</code> 或 <code>.mocharc.json</code> 统一配置</p></div><div style="display:contents" dir="auto"><pre id="a9b8db55-6aee-8352-a465-010f888a5f4b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// mocha.config.js
+module.exports = {
+  spec: &#x27;test/**/*.test.js&#x27;,  // 测试文件路径
+  reporter: &#x27;spec&#x27;,           // 报告格式
+  watch: false,               // 是否监视
+  timeout: 5000               // 测试超时时间（毫秒）
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="5cf8db55-6aee-830d-863c-01b0b3f41b36"/></div><div style="display:contents" dir="auto"><p id="d2d8db55-6aee-836d-9a50-014ce5c76fc5" class="">断言库</p></div><div style="display:contents" dir="auto"><p id="b3b8db55-6aee-82da-a7fd-8185c041530d" class="">断言库用于验证代码执行结果是否符合预期（如 “结果应该等于 3”“数组应该包含某个元素”）。Mocha 可搭配任意断言库，常见的有：</p></div><div style="display:contents" dir="auto"><hr id="5388db55-6aee-824c-a3ce-0141ac40de4b"/></div><div style="display:contents" dir="auto"><ul id="dd48db55-6aee-832e-8f48-816ca45a6e1f" class="toggle"><li><details open=""><summary>内置assert模块（基础）</summary><div style="display:contents" dir="auto"><pre id="12f8db55-6aee-828b-b239-01aef1b38382" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const assert = require(&#x27;assert&#x27;);
+
+it(&#x27;1 + 2 应该等于 3&#x27;, function() {
+  assert.equal(1 + 2, 3);  // 相等则通过，否则抛出错误
+});</code></pre></div><div style="display:contents" dir="auto"><p id="0248db55-6aee-83b5-920b-0158d210c57e" class="">常用 API：<code>assert.equal(a, b)</code>（宽松相等）、<code>assert.strictEqual(a, b)</code>（严格相等）、<code>assert.ok(condition)</code>（验证条件为真）等。<br/><br/></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0868db55-6aee-8323-9b00-81db21c6bd95" class="toggle"><li><details open=""><summary>Chai（最流行，支持多种风格）</summary><div style="display:contents" dir="auto"><pre id="6bd8db55-6aee-8258-a42c-81af63a0a1d6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm install chai --save-dev</code></pre></div><div style="display:contents" dir="auto"><p id="aee8db55-6aee-82e9-b40b-0104664d3d6c" class="">1、expect风格（推荐，直观灵活）</p></div><div style="display:contents" dir="auto"><pre id="e2d8db55-6aee-8230-a5ce-0120d6ead41c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const { expect } = require(&#x27;chai&#x27;);
+
+it(&#x27;测试示例&#x27;, function() {
+  const result = 1 + 2;
+  expect(result).to.equal(3);  // 等于 3
+  expect([1, 2, 3]).to.include(2);  // 数组包含 2
+  expect({ name: &#x27;foo&#x27; }).to.have.property(&#x27;name&#x27;, &#x27;foo&#x27;);  // 对象有属性 name 且值为 foo
+  expect(true).to.be.true;  // 布尔值为 true
+});</code></pre></div><div style="display:contents" dir="auto"><p id="7118db55-6aee-82aa-a7bd-0122a8e6f15c" class="">2、should风格（链式语法， 需要先扩展Object.prototype）</p></div><div style="display:contents" dir="auto"><pre id="2498db55-6aee-83a5-b889-8184f8a5096b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const { should } = require(&#x27;chai&#x27;);
+should();  // 初始化，扩展 Object.prototype
+
+it(&#x27;测试示例&#x27;, function() {
+  const result = 1 + 2;
+  result.should.equal(3);
+  [1, 2, 3].should.include(2);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-83d7-b974-01ff92407343" class="">3、assert风格（类似内置的，但内容更丰富）</p></div><div style="display:contents" dir="auto"><pre id="7c88db55-6aee-8207-8391-810e9518f47d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const { assert } = require(&#x27;chai&#x27;);
+
+it(&#x27;测试示例&#x27;, function() {
+  assert.equal(1 + 2, 3);
+  assert.include([1, 2, 3], 2);
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4ff8db55-6aee-8341-904f-0140f3ad247d" class="toggle"><li><details open=""><summary>should.js（轻量，仅支持should风格）</summary><div style="display:contents" dir="auto"><pre id="01e8db55-6aee-83cc-8d68-81a1bd0c4a51" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm install should --save-dev</code></pre></div><div style="display:contents" dir="auto"><pre id="20c8db55-6aee-83c2-9afc-81a6bef8fa7e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const should = require(&#x27;should&#x27;);
+
+it(&#x27;测试示例&#x27;, function() {
+  (1 + 2).should.be.exactly(3);
+  [1, 2, 3].should.containEql(2);
+});</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,889 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>动画过度属性和@keyframes关键帧动画</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6fe8db55-6aee-825c-9911-017f3f764202" class="page sans"><header><h1 class="page-title" dir="auto">动画过度属性和<code>@keyframes</code>关键帧动画</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="f7a8db55-6aee-833c-8707-81e7bdb9deb0" class=""><mark class="highlight-pink">百分比是自身的百分比</mark></p></div><div style="display:contents" dir="auto"><ul id="0628db55-6aee-82a9-b251-8133231eecbd" class="toggle"><li><details open=""><summary>2d与3d模式</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="bb48db55-6aee-833f-bce3-81226f3587c3" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">transform-style: preserve-3d;
+/* preserve-3d 3d舞台 */
+/* flat 2d舞台 默认 */</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b408db55-6aee-82d0-92ec-81f5b0c2b94b" class="toggle"><li><details open=""><summary>景深</summary><div style="display:contents" dir="auto"><pre id="59d8db55-6aee-83c3-a1cd-01cfb5a04c30" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">/* perspective 景深效果，该盒子距离屏幕的距离 */
+perspective: 900px;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4e38db55-6aee-83fb-aff5-01598bb6954c" class="toggle"><li><details open=""><summary>关键帧动画</summary><div style="display:contents" dir="auto"><ul id="1428db55-6aee-82cb-8cfa-014d542924aa" class="toggle"><li><details open=""><summary><code>animation</code>复合属性</summary><div style="display:contents" dir="auto"><p id="07e8db55-6aee-8210-88a8-81777bf07412" class=""><code>animation</code> 是多个动画属性的简写</p></div><div style="display:contents" dir="auto"><pre id="e8d8db55-6aee-832a-8df9-81d23a915401" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">元素 { /* 语法 */
+  animation: 名称 时长 速度曲线 延迟 播放次数 方向 填充模式 播放状态;
+}
+如：
+.box {
+  animation: move 2s ease 0.5s infinite alternate forwards running;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="cd28db55-6aee-82ae-aa35-01f036c452ef" class="">可拆分为8个单独属性，每个属性控制动画的不同维度：</p></div><div style="display:contents" dir="auto"><pre id="4528db55-6aee-8378-8a0d-01764bb7d660" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">1、animation-name：关联关键帧动画
+.box {
+  animation-name: move; /* 关联名为 &quot;move&quot; 的 @keyframes 动画 */
+}
+
+2、animation-duration：动画持续时间
+.box {
+  animation-duration: 2s; /* 动画持续2秒 */
+}
+
+3、animation-timing-function：动画速度曲线
+.box {
+  animation-timing-function: ease-out; /* 结束时减速 */
+}
+ease：默认，先慢→快→慢（自然过渡）。
+linear：匀速运动（适合机械感动画）。
+ease-in：开始慢，逐渐加快（如物体下落）。
+ease-out：开始快，逐渐减慢（如物体减速停止）。
+ease-in-out：开始和结束慢，中间快。
+cubic-bezier(n,n,n,n)：自定义贝塞尔曲线（通过 cubic-bezier.com 生成）。
+steps(n, start/end)：分步动画（如帧动画，n 为步数）。
+
+4、animation-delay：动画延迟时间
+.box {
+  animation-delay: 0.5s; /* 延迟0.5秒后开始动画 */
+}
+
+5、animation-iteration-count：动画播放次数
+.box {
+  animation-iteration-count: infinite; /* 无限循环 */
+}
+数字（如 3 表示播放 3 次）。
+infinite：无限循环播放。
+
+6、animation-direction：动画播放方向
+.box {
+  animation-direction: alternate; /* 正向→反向交替播放 */
+}
+normal：默认，每次循环都从 0% 到 100% 正向播放。
+reverse：每次循环都从 100% 到 0% 反向播放。
+alternate：奇数次正向播放，偶数次反向播放（如 “去→回→去→回”）。
+alternate-reverse：奇数次反向播放，偶数次正向播放。
+
+7、animation-fill-mode：动画结束后的状态
+.box {
+  animation-fill-mode: forwards; /* 动画结束后保持最后一帧状态 */
+}
+none：动画结束后，元素回到初始样式（不保留关键帧状态）。
+forwards：动画结束后，元素保留最后一帧（100% 或 to）的样式。
+backwards：动画延迟期间，元素提前应用第一帧（0% 或 from）的样式。
+both：同时应用 forwards 和 backwards 的效果。
+
+8、animation-play-state：动画播放状态
+.box:hover {
+  animation-play-state: paused; /* 鼠标悬停时暂停动画 */
+}
+running：播放动画。
+paused：暂停动画（暂停时保留当前状态）。</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3fc8db55-6aee-8243-9ff2-0187612f7386" class=""><code>@keyframes</code>规则，其用于定义动画的关键帧状态。</p></div><div style="display:contents" dir="auto"><pre id="a838db55-6aee-82a9-97a6-01198a0ed613" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">/* 定义动画名称为 &quot;move&quot; */
+@keyframes move {
+  /* 开始状态（0% 或 from） */
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  /* 中间状态（可选，可多个） */
+  50% {
+    transform: translateX(100px);
+    opacity: 0.5;
+  }
+  /* 结束状态（100% 或 to） */
+  100% {
+    transform: translateX(200px);
+    opacity: 1;
+  }
+}
+
+1、动画名称：自定义名称（如 move、fadeIn），后续通过 animation-name 关联到元素。
+2、关键帧百分比：0%（开始）到 100%（结束），表示动画进度，from 等价于 0%，to 等价于 100%。
+3、样式规则：每个关键帧内定义元素在该时间点的 CSS 属性（如 transform、opacity、background 等），浏览器会自动计算中间帧的过渡效果。</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="46b8db55-6aee-836f-9222-01f3e9211cbc" class="toggle"><li><details open=""><summary><code>transition()</code></summary><div style="display:contents" dir="auto"><pre id="2678db55-6aee-82c5-b997-0148f5ff4273" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">transitoin: [属性名] [过渡时间] [过渡函数] [延迟时间];
+对应单个属性：
+transition-property: width;        /* 要过渡的属性 */
+transition-duration: 0.3s;         /* 过渡持续时间 */
+transition-timing-function: ease;  /* 过渡速度曲线 */
+transition-delay: 0.1s;            /* 延迟开始时间 */
+.box {
+	transition: width 0.3 ease 0.1;/* 属性名为all ，除了display: none -&gt; block 其余都行*/
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="f078db55-6aee-83d5-9914-014ea836a5bd" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">单个解释：
+1、transition-property：指定过渡的属性
+具体属性名（如 width、background-color、transform 等）；
+all：所有可过渡的属性都应用
+过渡（常用，但性能略差，建议指定具体属性）；
+none：不应用过渡（默认）。
+.box {
+  transition-property: width, background-color; /* 仅 width 和 background-color 有过渡效果 */
+}
+
+2、transition-duration：过渡持续时间
+.box {
+  transition-duration: 0.3s; /* 过渡持续 0.3 秒 */
+}
+
+3、transition-timing-function：过渡速度曲线
+ease：默认值，先慢→快→慢（最自然）；
+linear：匀速运动（适合机械感动画）；
+ease-in：开始慢，逐渐加快（如物体下落）；
+ease-out：开始快，逐渐减慢（如物体减速停止）；
+ease-in-out：开始和结束都慢，中间快；
+cubic-bezier(n,n,n,n)：自定义贝塞尔曲线（通过工具生成，如 cubic-bezier.com）。
+.box {
+  transition-timing-function: ease-out; /* 结束时减速 */
+}
+
+4、transition-delay：过渡延迟时间
+.box {
+  transition-delay: 0.2s; /* 延迟 0.2 秒后开始过渡 */
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="6458db55-6aee-8300-ad7d-8104d3e76725" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">多属性过度：
+/* 同时过渡宽度（0.3s 匀速）和背景色（0.5s 先慢后快） */
+.box {
+  transition: 
+    width 0.3s linear,
+    background-color 0.5s ease;
+}
+
+.box:hover {
+  width: 300px;
+  background-color: red;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="98a8db55-6aee-8378-8142-01f1c9ffbe50" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a758db55-6aee-830b-9126-01ee408d40c3" class="toggle"><li><details open=""><summary><code>transform()</code></summary><div style="display:contents" dir="auto"><p id="53c8db55-6aee-83aa-932b-016272619a79" class="">1、平移</p></div><div style="display:contents" dir="ltr"><table id="7668db55-6aee-82c0-afdf-817b11843def" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="8138db55-6aee-82ef-86eb-814a1dd18c2d"><th id="DTQ;" class="simple-table-header-color simple-table-header" style="width:158px"><strong>函数</strong></th><th id="`:B~" class="simple-table-header-color simple-table-header" style="width:281.44140625px"><strong>说明</strong></th><th id="[DKT" class="simple-table-header-color simple-table-header" style="width:336.99609375px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="68e8db55-6aee-82e1-81f4-01a70e601fcf"><td id="DTQ;" class="" style="width:158px"><code>translateX(x)</code></td><td id="`:B~" class="" style="width:281.44140625px">沿 X 轴（水平方向）平移</td><td id="[DKT" class="" style="width:336.99609375px"><code>translateX(50px)</code> 向右移动 50px</td></tr></div><div style="display:contents" dir="ltr"><tr id="fd58db55-6aee-823c-9660-814d33042dcc"><td id="DTQ;" class="" style="width:158px"><code>translateY(y)</code></td><td id="`:B~" class="" style="width:281.44140625px">沿 Y 轴（垂直方向）平移</td><td id="[DKT" class="" style="width:336.99609375px"><code>translateY(-20%)</code> 向上移动自身高度的 20%</td></tr></div><div style="display:contents" dir="ltr"><tr id="2fd8db55-6aee-822c-8101-81422264996a"><td id="DTQ;" class="" style="width:158px"><code>translateZ(z)</code></td><td id="`:B~" class="" style="width:281.44140625px">沿 Z 轴（纵深方向）平移（需配合 3D 场景）</td><td id="[DKT" class="" style="width:336.99609375px"><code>translateZ(100px)</code> 向屏幕外移动 100px</td></tr></div><div style="display:contents" dir="ltr"><tr id="83d8db55-6aee-82b7-a638-81175ed12d07"><td id="DTQ;" class="" style="width:158px"><code>translate(x, y)</code></td><td id="`:B~" class="" style="width:281.44140625px">同时沿 X、Y 轴平移</td><td id="[DKT" class="" style="width:336.99609375px"><code>translate(20px, 30%)</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b908db55-6aee-830b-90e3-01dc3ec82897"><td id="DTQ;" class="" style="width:158px"><code>translate3d(x,y,z)</code></td><td id="`:B~" class="" style="width:281.44140625px">3D 空间内同时沿 X、Y、Z 轴平移</td><td id="[DKT" class="" style="width:336.99609375px"><code>translate3d(10px, 20px, 50px)</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="6a88db55-6aee-82b0-96ba-011a4d9d53f3" class="">百分比参数基于元素自身的宽高</p></div><div style="display:contents" dir="auto"><p id="c758db55-6aee-82ea-be24-81d4431e690d" class="">常用于元素居中（如 <code>position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);</code>）</p></div><div style="display:contents" dir="auto"><p id="4228db55-6aee-8373-8e41-015cc34fc5b6" class="">2、放缩</p></div><div style="display:contents" dir="ltr"><table id="ad88db55-6aee-83fb-b95a-81292e59b995" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="c0d8db55-6aee-838c-8bbb-81f6975378a8"><th id="ju~l" class="simple-table-header-color simple-table-header" style="width:145px"><strong>函数</strong></th><th id="Cvd@" class="simple-table-header-color simple-table-header" style="width:304px"><strong>说明</strong></th><th id="gF;}" class="simple-table-header-color simple-table-header" style="width:342.65625px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="2598db55-6aee-83e7-86f3-0185be493040"><td id="ju~l" class="" style="width:145px"><code>scaleX(x)</code></td><td id="Cvd@" class="" style="width:304px">沿 X 轴（水平方向）缩放</td><td id="gF;}" class="" style="width:342.65625px"><code>scaleX(1.5)</code> 宽度放大至 1.5 倍</td></tr></div><div style="display:contents" dir="ltr"><tr id="a008db55-6aee-82ce-8366-016aa1a79ec9"><td id="ju~l" class="" style="width:145px"><code>scaleY(y)</code></td><td id="Cvd@" class="" style="width:304px">沿 Y 轴（垂直方向）缩放</td><td id="gF;}" class="" style="width:342.65625px"><code>scaleY(0.5)</code> 高度缩小至 0.5 倍</td></tr></div><div style="display:contents" dir="ltr"><tr id="3e48db55-6aee-828e-a0ce-8196fe3d3245"><td id="ju~l" class="" style="width:145px"><code>scaleZ(z)</code></td><td id="Cvd@" class="" style="width:304px">沿 Z 轴缩放（3D 场景，影响纵深方向大小）</td><td id="gF;}" class="" style="width:342.65625px"><code>scaleZ(2)</code> 纵深放大 2 倍</td></tr></div><div style="display:contents" dir="ltr"><tr id="7e98db55-6aee-82af-8acd-813030d2bb7c"><td id="ju~l" class="" style="width:145px"><code>scale(x, y)</code></td><td id="Cvd@" class="" style="width:304px">同时沿 X、Y 轴缩放（y 默认等于 x）</td><td id="gF;}" class="" style="width:342.65625px"><code>scale(0.8)</code> 宽高均缩小至 0.8 倍</td></tr></div><div style="display:contents" dir="ltr"><tr id="0de8db55-6aee-8323-8d7e-815a24d310fd"><td id="ju~l" class="" style="width:145px"><code>scale3d(x,y,z)</code></td><td id="Cvd@" class="" style="width:304px">3D 空间内同时缩放 X、Y、Z 轴</td><td id="gF;}" class="" style="width:342.65625px"><code>scale3d(1.2, 1.2, 0.5)</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="d188db55-6aee-82fa-a304-01e76fdc4990"><td id="ju~l" class="" style="width:145px"><em><code>transform-origin</code></em></td><td id="Cvd@" class="" style="width:304px">指定中心点位置，默认为center </td><td id="gF;}" class="" style="width:342.65625px"><em><code>transform-origin</code></em><code>: left top;</code> 从左上角开始</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="a358db55-6aee-834f-b617-014a7770dc7c" class="">缩放倍数 <code>&gt;1</code> 为放大，<code>0~1</code> 为缩小，<code>&lt;0</code> 为缩放并翻转（如 <code>scaleX(-1)</code> 水平翻转）<br/>缩放会影响元素的视觉大小，但不会改变其在文档流中占据的空间（布局不变）</p></div><div style="display:contents" dir="auto"><p id="d908db55-6aee-82ac-b86e-81ec551ec9b3" class="">3、旋转</p></div><div style="display:contents" dir="ltr"><table id="d878db55-6aee-834f-aefa-0168ded1a00a" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3188db55-6aee-820b-81b0-814eefe9d42f"><th id="dLGH" class="simple-table-header-color simple-table-header"><strong>函数</strong></th><th id="QUN&lt;" class="simple-table-header-color simple-table-header" style="width:307px"><strong>说明</strong></th><th id="W{lV" class="simple-table-header-color simple-table-header" style="width:302px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="8a18db55-6aee-83b3-bdac-01e2e1ff68d7"><td id="dLGH" class=""><code>rotate(angle)</code></td><td id="QUN&lt;" class="" style="width:307px">沿 Z 轴（平面内）旋转（默认）</td><td id="W{lV" class="" style="width:302px"><code>rotate(45deg)</code> 顺时针旋转 45 度</td></tr></div><div style="display:contents" dir="ltr"><tr id="4c98db55-6aee-830c-a584-819a999595eb"><td id="dLGH" class=""><code>rotateX(angle)</code></td><td id="QUN&lt;" class="" style="width:307px">沿 X 轴（水平轴线）旋转（3D 效果）</td><td id="W{lV" class="" style="width:302px"><code>rotateX(90deg)</code> 向前翻转 90 度</td></tr></div><div style="display:contents" dir="ltr"><tr id="4a68db55-6aee-8326-889f-815b0d845aa6"><td id="dLGH" class=""><code>rotateY(angle)</code></td><td id="QUN&lt;" class="" style="width:307px">沿 Y 轴（垂直轴线）旋转（3D 效果）</td><td id="W{lV" class="" style="width:302px"><code>rotateY(180deg)</code> 左右翻转 180 度</td></tr></div><div style="display:contents" dir="ltr"><tr id="3828db55-6aee-8361-a05d-015c0d92e10a"><td id="dLGH" class=""><code>rotateZ(angle)</code></td><td id="QUN&lt;" class="" style="width:307px">同 <code>rotate(angle)</code>，沿 Z 轴旋转</td><td id="W{lV" class="" style="width:302px"><code>rotateZ(-30deg)</code> 逆时针旋转 30 度</td></tr></div><div style="display:contents" dir="ltr"><tr id="3cc8db55-6aee-83a9-b93d-0100513b266b"><td id="dLGH" class=""><code>rotate3d(x,y,z,angle)</code></td><td id="QUN&lt;" class="" style="width:307px">3D 空间内沿自定义轴旋转（x,y,z 为 0~1 的权重）</td><td id="W{lV" class="" style="width:302px"><code>rotate3d(1,1,0, 45deg)</code> 沿对角线旋转 45 度</td></tr></div><div style="display:contents" dir="ltr"><tr id="9ae8db55-6aee-8325-8bdc-015910b6750c"><td id="dLGH" class=""><em><code>transform-origin</code></em></td><td id="QUN&lt;" class="" style="width:307px">指定中心点位置，默认为center </td><td id="W{lV" class="" style="width:302px"><em><code>transform-origin</code></em><code>: left top;</code> 从左上角开始</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="cc08db55-6aee-83ec-b903-01737e1b9bb3" class="">角度为正数时顺时针旋转，负数时逆时针旋转</p></div><div style="display:contents" dir="auto"><p id="e3c8db55-6aee-822e-a4ec-81510c266a65" class="">3D 旋转（<code>rotateX</code>/<code>rotateY</code>）需配合 <code>perspective</code> 属性（定义 3D 透视效果）才能显示立体感</p></div><div style="display:contents" dir="auto"><p id="b3a8db55-6aee-820e-b4d8-81ffc554ec1f" class="">4、倾斜</p></div><div style="display:contents" dir="ltr"><table id="6018db55-6aee-8386-9d72-816efa5a5a3a" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="f618db55-6aee-8298-bdd5-818b1fb1c776"><th id="uE~e" class="simple-table-header-color simple-table-header"><strong>函数</strong></th><th id="bHdQ" class="simple-table-header-color simple-table-header" style="width:290.5025939941406px"><strong>说明</strong></th><th id="Wlz`" class="simple-table-header-color simple-table-header" style="width:355px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="47a8db55-6aee-8210-a14f-81b4cc839bfb"><td id="uE~e" class=""><code>skewX(angle)</code></td><td id="bHdQ" class="" style="width:290.5025939941406px">沿 X 轴（水平方向）倾斜</td><td id="Wlz`" class="" style="width:355px"><code>skewX(30deg)</code> 上边缘向右倾斜 30 度</td></tr></div><div style="display:contents" dir="ltr"><tr id="f118db55-6aee-83a5-af2e-8115927ace15"><td id="uE~e" class=""><code>skewY(angle)</code></td><td id="bHdQ" class="" style="width:290.5025939941406px">沿 Y 轴（垂直方向）倾斜</td><td id="Wlz`" class="" style="width:355px"><code>skewY(-10deg)</code> 右边缘向下倾斜 10 度</td></tr></div><div style="display:contents" dir="ltr"><tr id="a268db55-6aee-827a-9b0d-010ce9a005a8"><td id="uE~e" class=""><code>skew(x, y)</code></td><td id="bHdQ" class="" style="width:290.5025939941406px">同时沿 X、Y 轴倾斜</td><td id="Wlz`" class="" style="width:355px"><code>skew(20deg, 5deg)</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="1bb8db55-6aee-823f-8864-01b1adbb8b46" class="">倾斜会改变元素的形状（如矩形变平行四边形），但不会改变元素的位置和大小。</p></div><div style="display:contents" dir="auto"><p id="18a8db55-6aee-8311-a943-8123175c2674" class="">角度过大会导致元素严重变形，通常用于特殊视觉效果。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="e838db55-6aee-8311-a5b9-012692adf365" class="">一个transform中可以写多个属性值。</p></div><div style="display:contents" dir="auto"><pre id="eda8db55-6aee-8240-b4c7-81916bae7863" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">/* 悬停时同时放大、上移、轻微旋转 */
+.box {
+  width: 100px;
+  height: 100px;
+  background: aquamarine;
+  transition: transform 0.3s; /* 配合过渡实现平滑动画 */
+}
+.box:hover {
+  transform: scale(1.2) translateY(-10px) rotate(5deg);
+  /* 顺序：先放缩，再平移，最后旋转 */
+}</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

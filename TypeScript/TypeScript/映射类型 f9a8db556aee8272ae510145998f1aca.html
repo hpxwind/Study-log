@@ -1,0 +1,883 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>映射类型</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="f9a8db55-6aee-8272-ae51-0145998f1aca" class="page mono"><header><h1 class="page-title" dir="auto">映射类型</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="d658db55-6aee-82a7-8a64-813e2b2b9e7a" class=""><strong>基于已有类型创建新类型</strong>的核心工具，它通过<mark class="highlight-orange">遍历已有类型的属性</mark>（<code>keyof</code> 操作符），<mark class="highlight-orange">对每个属性进行 “修饰”</mark>（如可选、只读、类型转换），最终生成结构关联但<mark class="highlight-orange">特性不同的新类型</mark>。其核心价值是<mark class="highlight-red"><strong>复用类型逻辑、减少重复定义、提升类型安全性</strong></mark>。</p></div><div style="display:contents" dir="auto"><p id="0a38db55-6aee-83f9-a646-81053ca873e7" class="">映射类型的本质是：<mark class="highlight-red"><strong>迭代一个类型的所有属性，对每个属性执行相同的类型转换规则</strong></mark>，生成新类型。</p></div><div style="display:contents" dir="auto"><hr id="ca38db55-6aee-8300-a003-015a283728a2"/></div><div style="display:contents" dir="auto"><ul id="9b48db55-6aee-822d-8f68-01f5bd249dc6" class="toggle"><li><details open=""><summary>基本语法</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js" integrity="sha512-uOw7XYETzS/DPmmirpP5UCMihSDNMeyTS965J0/456OSPfxn9xEtHHjj5Q/5WefVdqyMfN/afmQnNpZd/tpkcA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js" integrity="sha512-xjGCJ9YxyZBfYTCHsEjkOZMoOse1W3cKMXv1szXrxs68myuXt0YTj3/xKPar6iDMlXzTUSEqwUxprWcyp+plaw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="8508db55-6aee-822f-8e7f-016b460bc397" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 泛型 T 是源类型，K 是 T 的属性名（通过 keyof T 遍历）
+type 映射类型名&lt;T&gt; = {
+  [K in keyof T]: 转换规则; // 对 T 的每个属性 K 应用转换规则
+};</code></pre></div><div style="display:contents" dir="auto"><ul id="4548db55-6aee-8331-88b2-81cdbc9a1f56" class="bulleted-list"><li style="list-style-type:disc"><code>keyof T</code>：获取源类型 <code>T</code> 的<mark class="highlight-orange"><strong>所有属性名联合类型</strong></mark>（如 <code>T={a:number,b:string}</code>，则 <code>keyof T = &quot;a&quot; | &quot;b&quot;</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="7808db55-6aee-833c-a3cd-81957630fd9e" class="bulleted-list"><li style="list-style-type:disc"><code>K in keyof T</code>：遍历联合类型 <code>keyof T</code>，<code>K</code> 依次代表每个属性名。</li></ul></div><div style="display:contents" dir="auto"><ul id="8b18db55-6aee-8310-be50-81cf68dc8e21" class="bulleted-list"><li style="list-style-type:disc">右侧 <code>转换规则</code>：定义属性 <code>K</code> 的新类型（可保留原类型、修改类型、添加修饰符等）。</li></ul></div><div style="display:contents" dir="auto"><p id="a088db55-6aee-8272-9dd3-81cba55eb56c" class="">示例：<strong>保留原类型的映射</strong></p></div><div style="display:contents" dir="auto"><pre id="f958db55-6aee-830d-9145-816020747967" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 定义源类型
+interface User {
+  name: string;
+  age: number;
+  email: string;
+}
+
+// 映射类型：保留 User 的所有属性类型，仅生成新类型
+type CopyUser&lt;T&gt; = {
+  [K in keyof T]: T[K]; // T[K] 表示取原属性 K 的类型（索引访问类型）
+};
+
+// 使用：CopyUser&lt;User&gt; 与 User 完全一致
+type UserCopy = CopyUser&lt;User&gt;; 
+// UserCopy = { name: string; age: number; email: string }</code></pre></div><div style="display:contents" dir="auto"><p id="f428db55-6aee-8262-9248-81126f7b835b" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2228db55-6aee-82de-8322-016ee81f43eb" class="toggle"><li><details open=""><summary>属性修饰符的映射</summary><div style="display:contents" dir="auto"><p id="0908db55-6aee-8310-b3c0-81728be0bb32" class="">映射类型可通过 <code>+</code>（添加修饰符）或 <code>-</code>（移除修饰符），修改属性的「可选性」和「只读性」（默认隐含 <code>+</code>）。</p></div><div style="display:contents" dir="auto"><p id="0ae8db55-6aee-8344-bff7-813fc08ee9d2" class="">1.可选修饰符（<code>?</code>）</p></div><div style="display:contents" dir="auto"><ul id="d958db55-6aee-8306-8bf5-81f0cb510405" class="bulleted-list"><li style="list-style-type:disc"><code>+?</code>：添加可选性（默认可省略 <code>+</code>，直接写 <code>?</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="bad8db55-6aee-8326-b6f8-015561296863" class="bulleted-list"><li style="list-style-type:disc"><code>?</code>：移除可选性（强制属性必选）。</li></ul></div><div style="display:contents" dir="auto"><pre id="9a68db55-6aee-837c-a91a-81df1d23b2ff" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 1. 所有属性变为可选（内置类型 Partial 的实现）
+type MyPartial&lt;T&gt; = {
+  [K in keyof T]?: T[K]; // 等价于 [K in keyof T]+?: T[K]
+};
+
+type PartialUser = MyPartial&lt;User&gt;;
+// PartialUser = { name?: string; age?: number; email?: string }
+
+// 2. 所有属性变为必选（内置类型 Required 的实现）
+type MyRequired&lt;T&gt; = {
+  [K in keyof T]-?: T[K]; // 移除可选修饰符
+};
+
+interface PartialUser2 {
+  name?: string;
+  age?: number;
+}
+type RequiredUser = MyRequired&lt;PartialUser2&gt;;
+// RequiredUser = { name: string; age: number }（必选）</code></pre></div><div style="display:contents" dir="auto"><p id="a3a8db55-6aee-8382-9cfa-0140e893e7bd" class="">2.只读修饰符（<code>readonly</code>）</p></div><div style="display:contents" dir="auto"><ul id="b478db55-6aee-839e-a8a9-817eb7665aab" class="bulleted-list"><li style="list-style-type:disc"><code>+readonly</code>：添加只读性（默认可省略 <code>+</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="b1b8db55-6aee-834b-b644-01b72114d36d" class="bulleted-list"><li style="list-style-type:disc"><code>readonly</code>：移除只读性。</li></ul></div><div style="display:contents" dir="auto"><pre id="71e8db55-6aee-8267-a6b7-81e54eaf762f" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 1. 所有属性变为只读（内置类型 Readonly 的实现）
+type MyReadonly&lt;T&gt; = {
+  readonly [K in keyof T]: T[K]; // 等价于 +readonly [K in keyof T]: T[K]
+};
+
+type ReadonlyUser = MyReadonly&lt;User&gt;;
+const user: ReadonlyUser = { name: &quot;张三&quot;, age: 20, email: &quot;a@qq.com&quot; };
+user.age = 21; // 报错：只读属性不能修改
+
+// 2. 移除只读性
+type Mutable&lt;T&gt; = {
+  -readonly [K in keyof T]: T[K];
+};
+
+type MutableUser = Mutable&lt;ReadonlyUser&gt;;
+const user2: MutableUser = { name: &quot;李四&quot;, age: 22, email: &quot;b@qq.com&quot; };
+user2.age = 23; // 正常：可修改</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="09d8db55-6aee-8351-bf9a-01ccab9ca288" class="toggle"><li><details open=""><summary>内置映射类型</summary><div style="display:contents" dir="ltr"><table id="faa8db55-6aee-8225-b5dc-0125b28adf03" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="53f8db55-6aee-8292-9d07-8128b330677d"><th id="ta{m" class="simple-table-header-color simple-table-header" style="width:249.56695556640625px"><strong>内置类型</strong></th><th id="igbn" class="simple-table-header-color simple-table-header" style="width:293.2276916503906px"><strong>作用</strong></th><th id="UZ`r" class="simple-table-header-color simple-table-header" style="width:220.4866180419922px"><strong>实现核心逻辑</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="2f68db55-6aee-83f3-b042-8108d3604a57"><td id="ta{m" class="" style="width:249.56695556640625px"><code>Partial&lt;T&gt;</code></td><td id="igbn" class="" style="width:293.2276916503906px">所有属性变为可选</td><td id="UZ`r" class="" style="width:220.4866180419922px"><code>[K in keyof T]?: T[K]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1688db55-6aee-82c1-adba-01045e6d9adb"><td id="ta{m" class="" style="width:249.56695556640625px"><code>Required&lt;T&gt;</code></td><td id="igbn" class="" style="width:293.2276916503906px">所有属性变为必选</td><td id="UZ`r" class="" style="width:220.4866180419922px"><code>[K in keyof T]-?: T[K]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ee58db55-6aee-8343-be68-01138c90f01e"><td id="ta{m" class="" style="width:249.56695556640625px"><code>Readonly&lt;T&gt;</code></td><td id="igbn" class="" style="width:293.2276916503906px">所有属性变为只读</td><td id="UZ`r" class="" style="width:220.4866180419922px"><code>readonly [K in keyof T]: T[K]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8d48db55-6aee-832c-aaee-810982b2cf61"><td id="ta{m" class="" style="width:249.56695556640625px"><code>Pick&lt;T, K extends keyof T&gt;</code></td><td id="igbn" class="" style="width:293.2276916503906px">挑选 T 中指定的 K 属性（保留原类型）</td><td id="UZ`r" class="" style="width:220.4866180419922px"><code>[P in K]: T[P]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="41f8db55-6aee-8206-84a1-01e5fadf6eb1"><td id="ta{m" class="" style="width:249.56695556640625px"><code>Omit&lt;T, K extends keyof T&gt;</code></td><td id="igbn" class="" style="width:293.2276916503906px">排除 T 中指定的 K 属性（保留其他）</td><td id="UZ`r" class="" style="width:220.4866180419922px"><code>Pick&lt;T, Exclude&lt;keyof T, K&gt;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7178db55-6aee-838c-b3af-01b75eb071a9"><td id="ta{m" class="" style="width:249.56695556640625px"><code>Record&lt;K extends keyof any, T&gt;</code></td><td id="igbn" class="" style="width:293.2276916503906px">定义键为 K、值为 T 的对象类型</td><td id="UZ`r" class="" style="width:220.4866180419922px"><code>[P in K]: T</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4288db55-6aee-83a2-bf67-01e6051f95e7"><td id="ta{m" class="" style="width:249.56695556640625px"><code>Exclude&lt;T, U&gt;</code></td><td id="igbn" class="" style="width:293.2276916503906px">从 T 中排除可赋值给 U 的类型（属性名）</td><td id="UZ`r" class="" style="width:220.4866180419922px">（辅助类型，常配合映射使用）</td></tr></div><div style="display:contents" dir="ltr"><tr id="8b08db55-6aee-82ba-a2af-81d8b5b09d55"><td id="ta{m" class="" style="width:249.56695556640625px"><code>Extract&lt;T, U&gt;</code></td><td id="igbn" class="" style="width:293.2276916503906px">从 T 中提取可赋值给 U 的类型（属性名）</td><td id="UZ`r" class="" style="width:220.4866180419922px">（辅助类型，常配合映射使用）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="ad68db55-6aee-8239-ba41-810cd5fbd46b" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 1. Pick：挑选 User 的 name 和 age 属性
+type PickUser = Pick&lt;User, &quot;name&quot; | &quot;age&quot;&gt;;
+// PickUser = { name: string; age: number }
+
+// 2. Omit：排除 User 的 email 属性
+type OmitUser = Omit&lt;User, &quot;email&quot;&gt;;
+// OmitUser = { name: string; age: number }（与 PickUser 等价）
+
+// 3. Record：定义键为 id/name，值为 string 的对象
+type InfoRecord = Record&lt;&quot;id&quot; | &quot;name&quot;, string&gt;;
+const info: InfoRecord = { id: &quot;1001&quot;, name: &quot;王五&quot; };
+
+// 4. Exclude：从 keyof User 中排除 &quot;age&quot;
+type ExcludeAge = Exclude&lt;keyof User, &quot;age&quot;&gt;; // &quot;name&quot; | &quot;email&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="c538db55-6aee-830b-a6eb-0115b84e5e47"/></div><div style="display:contents" dir="auto"><ul id="be88db55-6aee-8325-b71e-811caae1c982" class="toggle"><li><details open=""><summary>转换属性类型（类型映射）</summary><div style="display:contents" dir="auto"><p id="6a48db55-6aee-82e4-8127-816dc4d30503" class="">对每个属性的类型进行统一转换（如全部转为 <code>string</code>、<code>null</code> 可选等）。</p></div><div style="display:contents" dir="auto"><pre id="4c28db55-6aee-8285-aa3f-019aa636e1f1" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 1. 所有属性类型转为 string
+type Stringify&lt;T&gt; = {
+  [K in keyof T]: string;
+};
+
+type StringUser = Stringify&lt;User&gt;;
+// StringUser = { name: string; age: string; email: string }（age 从 number 转 string）
+
+// 2. 所有属性类型转为「原类型 | null」（可空类型）
+type Nullable&lt;T&gt; = {
+  [K in keyof T]: T[K] | null;
+};
+
+type NullableUser = Nullable&lt;User&gt;;
+const user3: NullableUser = { name: &quot;赵六&quot;, age: null, email: &quot;c@qq.com&quot; }; // 正常</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c268db55-6aee-837d-b0ac-816ca7824d45" class="toggle"><li><details open=""><summary>重命名属性（TS4.1+ 支持 <code>as</code> 从句）</summary><div style="display:contents" dir="auto"><p id="3ba8db55-6aee-822f-bb47-81e6d3f8c006" class="">通过 <code>as</code> 对属性名进行重命名（结合模板字面量类型更强大）。</p></div><div style="display:contents" dir="auto"><pre id="e668db55-6aee-83cc-8563-0124f10c8989" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 1. 属性名转为大写（结合模板字面量类型 Uppercase）
+type UppercaseKeys&lt;T&gt; = {
+  [K in keyof T as Uppercase&lt;string &amp; K&gt;]: T[K];
+};
+
+type UppercaseUser = UppercaseKeys&lt;User&gt;;
+// UppercaseUser = { NAME: string; AGE: number; EMAIL: string }
+
+// 2. 给属性名添加前缀 &quot;prefix_&quot;
+type AddPrefix&lt;T&gt; = {
+  [K in keyof T as `prefix_${string &amp; K}`]: T[K];
+};
+
+type PrefixUser = AddPrefix&lt;User&gt;;
+// PrefixUser = { prefix_name: string; prefix_age: number; prefix_email: string }</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2da8db55-6aee-8384-8aad-8114984d1f7b" class="toggle"><li><details open=""><summary>过滤属性（结合条件类型）</summary><div style="display:contents" dir="auto"><p id="e838db55-6aee-8282-b77b-012714c83205" class="">只保留满足条件的属性（如仅保留 <code>number</code> 类型的属性）。</p></div><div style="display:contents" dir="auto"><pre id="10a8db55-6aee-8235-a09f-01750438bba9" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 保留 T 中类型为 number 的属性
+type PickNumberProps&lt;T&gt; = {
+  [K in keyof T as T[K] extends number ? K : never]: T[K];
+};
+
+type NumberUser = PickNumberProps&lt;User&gt;;
+// NumberUser = { age: number }（仅保留 number 类型的 age 属性）
+
+// 解释：
+// - T[K] extends number ? K : never：若属性 K 的类型是 number，保留 K；否则转为 never（never 会被自动过滤）</code></pre></div><div style="display:contents" dir="auto"><p id="4888db55-6aee-8339-8596-01c52da0163b" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2fa8db55-6aee-8229-9c65-81c709239842" class="toggle"><li><details open=""><summary>递归映射（处理嵌套类型）</summary><div style="display:contents" dir="auto"><p id="0ab8db55-6aee-8313-b565-01cf93fb492e" class="">默认映射仅处理浅层属性，如需处理嵌套对象，可结合递归逻辑。</p></div><div style="display:contents" dir="auto"><pre id="4558db55-6aee-827e-bb2c-81518ba5d749" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 递归将所有属性转为可选（深层 Partial）
+type DeepPartial&lt;T&gt; = {
+  [K in keyof T]?: T[K] extends object ? DeepPartial&lt;T[K]&gt; : T[K];
+};
+
+interface UserWithAddress extends User {
+  address: {
+    province: string;
+    city: string;
+  };
+}
+
+type DeepPartialUser = DeepPartial&lt;UserWithAddress&gt;;
+const user4: DeepPartialUser = {
+  name: &quot;孙七&quot;,
+  address: { city: &quot;北京&quot; } // address 可选，province 可选（深层生效）
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="ed28db55-6aee-83e3-a10a-81cf702de692"/></div><div style="display:contents" dir="auto"><ul id="0268db55-6aee-8232-86d3-01d987c4f1fe" class="toggle"><li><details open=""><summary>DTO类型转换（请求/响应数据处理）</summary><div style="display:contents" dir="auto"><p id="40e8db55-6aee-83d5-ab22-8146fee9c60f" class="">后端返回的原始数据（<code>User</code>）需转换为前端展示用的「可编辑类型」（所有属性可选）或「只读展示类型」。</p></div><div style="display:contents" dir="auto"><pre id="9d38db55-6aee-8235-933b-0160302e017d" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 编辑用户时：所有属性可选（允许部分修改）
+type UserEditDTO = Partial&lt;User&gt;;
+
+// 展示用户时：所有属性只读（防止误修改）
+type UserViewDTO = Readonly&lt;User&gt;;</code></pre></div><div style="display:contents" dir="auto"><p id="f2c8db55-6aee-82d7-952d-8108ce32e6ec" class="">
+</p></div><div style="display:contents" dir="auto"><p id="1428db55-6aee-83bb-beab-81ddc7174623" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="20b8db55-6aee-83d2-a0a6-01a6155b09bc" class="toggle"><li><details open=""><summary>配置类型优化</summary><div style="display:contents" dir="auto"><p id="b988db55-6aee-83d7-93ba-81ac6df062c1" class="">定义基础配置后，通过映射生成「必填配置」「只读配置」等变体。</p></div><div style="display:contents" dir="auto"><pre id="4c48db55-6aee-83ea-80b5-81d45fc75c9d" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 基础配置（部分可选）
+interface BaseConfig {
+  apiUrl: string;
+  timeout?: number;
+  debug?: boolean;
+}
+
+// 生产环境配置：所有属性必选（移除可选性）
+type ProdConfig = Required&lt;BaseConfig&gt;;
+
+// 开发环境配置：只读（防止代码中修改配置）
+type DevConfig = Readonly&lt;BaseConfig&gt;;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8f58db55-6aee-82bd-a9e5-01caf41f1294" class="toggle"><li><details open=""><summary>工具类型封装</summary><div style="display:contents" dir="auto"><p id="0de8db55-6aee-8399-87e5-01181fee509b" class="">封装通用工具类型，复用类型逻辑（如 <code>DeepPartial</code>、<code>Nullable</code> 等）。</p></div><div style="display:contents" dir="auto"><pre id="2b38db55-6aee-820a-bc4a-012fafe3ebc7" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 封装：所有属性可空且可选
+type PartialNullable&lt;T&gt; = Partial&lt;Nullable&lt;T&gt;&gt;;
+
+type PartialNullableUser = PartialNullable&lt;User&gt;;
+const user5: PartialNullableUser = { age: null }; // 仅传部分可空属性，正常</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,1077 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>CryptoWriteUp</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="8ef8db55-6aee-83ed-97ad-01ceb6cb7ea8" class="page mono"><header><div class="page-header-icon undefined"><span class="icon">📝</span></div><h1 class="page-title" dir="auto">CryptoWriteUp</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><hr id="72d8db55-6aee-83a5-a383-81671a147e87"/></div><div style="display:contents" dir="auto"><h3 id="4a58db55-6aee-8316-800e-010d854f4192" class=""><mark class="highlight-gray_background">RSA</mark></h3></div><div style="display:contents" dir="auto"><ul id="7548db55-6aee-839b-bf71-81d0e152092c" class="toggle"><li><details open=""><summary>[鹤城杯 2021]Crazy_Rsa_Tech（RSA低加密指数攻击，广播攻击）</summary><div style="display:contents" dir="auto"><p id="ef88db55-6aee-8326-a718-81b6527bf795" class="">题目分析如下</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="0478db55-6aee-830c-b1e4-816627b40bbc" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from Crypto.Util.number import *
+from Crypto.Util.Padding import *
+# 对flag做填充，使其为64字节长
+FLAG = bytes_to_long(pad(b&quot;flag{??????}&quot;,64))
+def init_key():
+    &quot;&quot;&quot;
+    生成一组独立的RSA密钥对，公钥（n,e） 私钥d
+
+    &quot;&quot;&quot;
+    # 生成512位大质数
+    p, q = getPrime(512), getPrime(512)
+    # 计算模数
+    n = p*q
+    # 公钥加密指数
+    e = 9
+    # 确保e与fn互质
+    while(GCD((p-1)*(q-1),e)!=1):
+        p, q = getPrime(512), getPrime(512)
+        n = p*q
+    # 求逆元
+    d = inverse(e,(p-1)*(q-1))
+    return n,e,d
+
+# 初始化存储列表
+n_list=list()
+c_list=list()
+
+# 循环生成密钥并加密
+for i in range(9):
+    # 生成每一组的的n，e=9, d
+    N,e,d=init_key()
+    # 存储当前n
+    n_list.append(N)
+    # 加密flag
+    c=pow(FLAG,e,N)
+    # 密文存储列表
+    c_list.append(pow(FLAG,e,N))
+    # 验证加密/解密的正确性
+    assert(pow(c,d,N)==FLAG)
+
+
+print(&quot;n_list:&quot;,n_list)
+print(&quot;c_list:&quot;,c_list)</code></pre></div><div style="display:contents" dir="auto"><ul id="1c68db55-6aee-8268-ad5f-818e37649992" class="toggle"><li><details open=""><summary>n_list和c_list</summary><div style="display:contents" dir="auto"><p id="32d8db55-6aee-82de-bfc8-8148130d839d" class=""><code>n_list = [   71189786319102608575263218254922479901008514616376166401353025325668690465852130559783959409002115897148828732231478529655075366072137059589917001875303598680931962384468363842379833044123189276199264340224973914079447846845897807085694711541719515881377391200011269924562049643835131619086349617062034608799,   92503831027754984321994282254005318198418454777812045042619263533423066848097985191386666241913483806726751133691867010696758828674382946375162423033994046273252417389169779506788545647848951018539441971140081528915876529645525880324658212147388232683347292192795975558548712504744297104487514691170935149949,   100993952830138414466948640139083231443558390127247779484027818354177479632421980458019929149817002579508423291678953554090956334137167905685261724759487245658147039684536216616744746196651390112540237050493468689520465897258378216693418610879245129435268327315158194612110422630337395790254881602124839071919,   59138293747457431012165762343997972673625934330232909935732464725128776212729547237438509546925172847581735769773563840639187946741161318153031173864953372796950422229629824699580131369991913883136821374596762214064774480548532035315344368010507644630655604478651898097886873485265848973185431559958627423847,   66827868958054485359731420968595906328820823695638132426084478524423658597714990545142120448668257273436546456116147999073797943388584861050133103137697812149742551913704341990467090049650721713913812069904136198912314243175309387952328961054617877059134151915723594900209641163321839502908705301293546584147,   120940513339890268554625391482989102665030083707530690312336379356969219966820079510946652021721814016286307318930536030308296265425674637215009052078834615196224917417698019787514831973471113022781129000531459800329018133248426080717653298100515701379374786486337920294380753805825328119757649844054966712377,   72186594495190221129349814154999705524005203343018940547856004977368023856950836974465616291478257156860734574686154136925776069045232149725101769594505766718123155028300703627531567850035682448632166309129911061492630709698934310123778699316856399909549674138453085885820110724923723830686564968967391721281,   69105037583161467265649176715175579387938714721653281201847973223975467813529036844308693237404592381480367515044829190066606146105800243199497182114398931410844901178842049915914390117503986044951461783780327749665912369177733246873697481544777183820939967036346862056795919812693669387731294595126647751951,   76194219445824867986050004226602973283400885106636660263597964027139613163638212828932901192009131346530898961165310615466747046710743013409318156266326090650584190382130795884514074647833949281109675170830565650006906028402714868781834693473191228256626654011772428115359653448111208831188721505467497494581]c_list = [   62580922178008480377006528793506649089253164524883696044759651305970802215270721223149734532870729533611357047595181907404222690394917605617029675103788705320032707977225447998111744887898039756375876685711148857676502670812333076878964148863713993853526715855758799502735753454247721711366497722251078739585,   46186240819076690248235492196228128599822002268014359444368898414937734806009161030424589993541799877081745454934484263188270879142125136786221625234555265815513136730416539407710862948861531339065039071959576035606192732936477944770308784472646015244527805057990939765708793705044236665364664490419874206900,   85756449024868529058704599481168414715291172247059370174556127800630896693021701121075838517372920466708826412897794900729896389468152213884232173410022054605870785910461728567377769960823103334874807744107855490558726013068890632637193410610478514663078901021307258078678427928255699031215654693270240640198,   14388767329946097216670270960679686032536707277732968784379505904021622612991917314721678940833050736745004078559116326396233622519356703639737886289595860359630019239654690312132039876082685046329079266785042428947147658321799501605837784127004536996628492065409017175037161261039765340032473048737319069656,   1143736792108232890306863524988028098730927600066491485326214420279375304665896453544100447027809433141790331191324806205845009336228331138326163746853197990596700523328423791764843694671580875538251166864957646807184041817863314204516355683663859246677105132100377322669627893863885482167305919925159944839,   2978800921927631161807562509445310353414810029862911925227583943849942080514132963605492727604495513988707849133045851539412276254555228149742924149242124724864770049898278052042163392380895275970574317984638058768854065506927848951716677514095183559625442889028813635385408810698294574175092159389388091981,   16200944263352278316040095503540249310705602580329203494665614035841657418101517016718103326928336623132935178377208651067093136976383774189554806135146237406248538919915426183225265103769259990252162411307338473817114996409705345401251435268136647166395894099897737607312110866874944619080871831772376466376,   31551601425575677138046998360378916515711528548963089502535903329268089950335615563205720969393649713416910860593823506545030969355111753902391336139384464585775439245735448030993755229554555004154084649002801255396359097917380427525820249562148313977941413268787799534165652742114031759562268691233834820996,   25288164985739570635307839193110091356864302148147148153228604718807817833935053919412276187989509493755136905193728864674684139319708358686431424793278248263545370628718355096523088238513079652226028236137381367215156975121794485995030822902933639803569133458328681148758392333073624280222354763268512333515]</code></p></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="ba78db55-6aee-820f-9921-81fed986d674" class="">RSA加密流程为：</p></div><div style="display:contents" dir="auto"><figure id="0498db55-6aee-8359-9edd-01c422eeb52f" class="equation"><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>c</mi><mo>=</mo><msup><mi>m</mi><mi>e</mi></msup><mi>m</mi><mi>o</mi><mi>d</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">c = m^emod (n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7144em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">e</span></span></span></span></span></span></span></span><span class="mord mathnormal">m</span><span class="mord mathnormal">o</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span></div></figure></div><div style="display:contents" dir="auto"><p id="e868db55-6aee-839d-975d-816467e7c924" class="">由于e=9</p></div><div style="display:contents" dir="auto"><p id="ff48db55-6aee-82e0-b15a-81b6c39666e1" class="">每一次都是不同的c和n进行加密</p></div><div style="display:contents" dir="auto"><figure id="8378db55-6aee-82aa-886a-019aab63dc68" class="equation"><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>c</mi><mi>i</mi></msub><mo>=</mo><msup><mi>m</mi><mn>9</mn></msup><mi>m</mi><mi>o</mi><mi>d</mi><mo stretchy="false">(</mo><msub><mi>n</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">c_{i}=m^9mod(n_{i})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1141em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span><span class="mord mathnormal">m</span><span class="mord mathnormal">o</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></div></figure></div><div style="display:contents" dir="auto"><p id="a508db55-6aee-82b9-aedd-01932278622f" class="">由于模数两两互质，可以理解为</p></div><div style="display:contents" dir="auto"><figure id="1b78db55-6aee-8364-887d-014cd4797cb4" class="equation"><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>m</mi><mn>9</mn></msup><mo>=</mo><msub><mi>c</mi><mn>1</mn></msub><mi>m</mi><mi>o</mi><mi>d</mi><mo stretchy="false">(</mo><msub><mi>n</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mspace linebreak="newline"></mspace><msup><mi>m</mi><mn>9</mn></msup><mo>=</mo><msub><mi>c</mi><mn>2</mn></msub><mi>m</mi><mi>o</mi><mi>d</mi><mo stretchy="false">(</mo><msub><mi>n</mi><mn>2</mn></msub><mo stretchy="false">)</mo><mspace linebreak="newline"></mspace><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mspace linebreak="newline"></mspace><msup><mi>m</mi><mn>9</mn></msup><mo>=</mo><msub><mi>c</mi><mn>9</mn></msub><mi>m</mi><mi>o</mi><mi>d</mi><mo stretchy="false">(</mo><msub><mi>n</mi><mn>9</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">m^9 = c_{1}mod(n_{1}) \\
+m^9 = c_{2}mod(n_{2}) \\
+...... \\
+m^9 = c_{9}mod(n_{9})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">m</span><span class="mord mathnormal">o</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">m</span><span class="mord mathnormal">o</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.1056em;"></span><span class="mord">......</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">9</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">m</span><span class="mord mathnormal">o</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">9</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></div></figure></div><div style="display:contents" dir="auto"><p id="1e68db55-6aee-8276-b865-81bdadec346e" class="">利用中国剩余定理求解X</p></div><div style="display:contents" dir="auto"><figure id="3628db55-6aee-83b6-9980-8137ec54611b" class="equation"><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>X</mi><mo>=</mo><msup><mi>m</mi><mn>9</mn></msup><mi>m</mi><mi>o</mi><mi>d</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">X = m^9 mod(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1141em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span><span class="mord mathnormal">m</span><span class="mord mathnormal">o</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span></span></div></figure></div><div style="display:contents" dir="auto"><p id="a5c8db55-6aee-82e7-928a-8184ebbadd4d" class="">然后求解</p></div><div style="display:contents" dir="auto"><figure id="17b8db55-6aee-830e-85fa-0157a2d55569" class="equation"><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>m</mi><mo>=</mo><msup><mi>X</mi><mfrac linethickness="0.1em"><mn>1</mn><mn>9</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">m = X^{1\above{1pt}9}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0602em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.0602em;"><span style="top:-3.413em;margin-right:0.05em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mopen nulldelimiter sizing reset-size3 size6"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9246em;"><span style="top:-2.5754em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">9</span></span></span></span><span style="top:-3.1786em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line mtight" style="border-bottom-width:0.1429em;"></span></span><span style="top:-3.4643em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4246em;"><span></span></span></span></span></span><span class="mclose nulldelimiter sizing reset-size3 size6"></span></span></span></span></span></span></span></span></span></span></span></span></span></span></div></figure></div><div style="display:contents" dir="auto"><p id="d4b8db55-6aee-8315-86c7-81ab5b46c0f0" class="">解密脚本：</p></div><div style="display:contents" dir="auto"><pre id="75f8db55-6aee-82ae-8d11-0112f270faf7" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from Crypto.Util.Padding import unpad
+from Crypto.Util.number import inverse, long_to_bytes, GCD
+from gmpy2 import iroot
+
+# 已知的9组(n, c)
+n_list = [
+   71189786319102608575263218254922479901008514616376166401353025325668690465852130559783959409002115897148828732231478529655075366072137059589917001875303598680931962384468363842379833044123189276199264340224973914079447846845897807085694711541719515881377391200011269924562049643835131619086349617062034608799,
+   92503831027754984321994282254005318198418454777812045042619263533423066848097985191386666241913483806726751133691867010696758828674382946375162423033994046273252417389169779506788545647848951018539441971140081528915876529645525880324658212147388232683347292192795975558548712504744297104487514691170935149949,
+   100993952830138414466948640139083231443558390127247779484027818354177479632421980458019929149817002579508423291678953554090956334137167905685261724759487245658147039684536216616744746196651390112540237050493468689520465897258378216693418610879245129435268327315158194612110422630337395790254881602124839071919,
+   59138293747457431012165762343997972673625934330232909935732464725128776212729547237438509546925172847581735769773563840639187946741161318153031173864953372796950422229629824699580131369991913883136821374596762214064774480548532035315344368010507644630655604478651898097886873485265848973185431559958627423847,
+   66827868958054485359731420968595906328820823695638132426084478524423658597714990545142120448668257273436546456116147999073797943388584861050133103137697812149742551913704341990467090049650721713913812069904136198912314243175309387952328961054617877059134151915723594900209641163321839502908705301293546584147,
+   120940513339890268554625391482989102665030083707530690312336379356969219966820079510946652021721814016286307318930536030308296265425674637215009052078834615196224917417698019787514831973471113022781129000531459800329018133248426080717653298100515701379374786486337920294380753805825328119757649844054966712377,
+   72186594495190221129349814154999705524005203343018940547856004977368023856950836974465616291478257156860734574686154136925776069045232149725101769594505766718123155028300703627531567850035682448632166309129911061492630709698934310123778699316856399909549674138453085885820110724923723830686564968967391721281,
+   69105037583161467265649176715175579387938714721653281201847973223975467813529036844308693237404592381480367515044829190066606146105800243199497182114398931410844901178842049915914390117503986044951461783780327749665912369177733246873697481544777183820939967036346862056795919812693669387731294595126647751951,
+   76194219445824867986050004226602973283400885106636660263597964027139613163638212828932901192009131346530898961165310615466747046710743013409318156266326090650584190382130795884514074647833949281109675170830565650006906028402714868781834693473191228256626654011772428115359653448111208831188721505467497494581]
+c_list = [
+   62580922178008480377006528793506649089253164524883696044759651305970802215270721223149734532870729533611357047595181907404222690394917605617029675103788705320032707977225447998111744887898039756375876685711148857676502670812333076878964148863713993853526715855758799502735753454247721711366497722251078739585,
+   46186240819076690248235492196228128599822002268014359444368898414937734806009161030424589993541799877081745454934484263188270879142125136786221625234555265815513136730416539407710862948861531339065039071959576035606192732936477944770308784472646015244527805057990939765708793705044236665364664490419874206900,
+   85756449024868529058704599481168414715291172247059370174556127800630896693021701121075838517372920466708826412897794900729896389468152213884232173410022054605870785910461728567377769960823103334874807744107855490558726013068890632637193410610478514663078901021307258078678427928255699031215654693270240640198,
+   14388767329946097216670270960679686032536707277732968784379505904021622612991917314721678940833050736745004078559116326396233622519356703639737886289595860359630019239654690312132039876082685046329079266785042428947147658321799501605837784127004536996628492065409017175037161261039765340032473048737319069656,
+   1143736792108232890306863524988028098730927600066491485326214420279375304665896453544100447027809433141790331191324806205845009336228331138326163746853197990596700523328423791764843694671580875538251166864957646807184041817863314204516355683663859246677105132100377322669627893863885482167305919925159944839,
+   2978800921927631161807562509445310353414810029862911925227583943849942080514132963605492727604495513988707849133045851539412276254555228149742924149242124724864770049898278052042163392380895275970574317984638058768854065506927848951716677514095183559625442889028813635385408810698294574175092159389388091981,
+   16200944263352278316040095503540249310705602580329203494665614035841657418101517016718103326928336623132935178377208651067093136976383774189554806135146237406248538919915426183225265103769259990252162411307338473817114996409705345401251435268136647166395894099897737607312110866874944619080871831772376466376,
+   31551601425575677138046998360378916515711528548963089502535903329268089950335615563205720969393649713416910860593823506545030969355111753902391336139384464585775439245735448030993755229554555004154084649002801255396359097917380427525820249562148313977941413268787799534165652742114031759562268691233834820996,
+   25288164985739570635307839193110091356864302148147148153228604718807817833935053919412276187989509493755136905193728864674684139319708358686431424793278248263545370628718355096523088238513079652226028236137381367215156975121794485995030822902933639803569133458328681148758392333073624280222354763268512333515]
+
+# 计算n = n1*n2*...n9
+n = 1
+for i in n_list:
+   n = n * i
+
+# 计算n_i
+n_ = []
+for i in n_list:
+   n_.append(n // i)
+
+# 计算t_i (n_i的逆元)
+t = []
+for i in range(9):
+   t.append(inverse(n_[i], n_list[i]))
+
+x = 0
+for i in range(len(n_list)):
+   x = c_list[i] * n_[i] * t[i] + x
+x = x % n
+print(x)
+x = iroot(x, 9)[0]
+# iroot(a, b) 是否存在整数m使得m^9 = x 返回一个元组(m, 1)，如果存在返回m，如果不存在返回(0, 0)
+print(long_to_bytes(x))</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="eea8db55-6aee-8363-b816-81cd9aeabbc8" class="toggle"><li><details open=""><summary>[HackINI 2021]RSA2（RSA低加密指数攻击）</summary><div style="display:contents" dir="auto"><p id="3b98db55-6aee-8268-a4cb-0122ef77271f" class="">附件与分析：</p></div><div style="display:contents" dir="auto"><p id="b6e8db55-6aee-82ec-ad29-019059487355" class="">看到e=2加密质数很小，而且N远大于the_encrypted_flag</p></div><div style="display:contents" dir="auto"><p id="de78db55-6aee-828f-b43e-011268d093f0" class="">问题就转换为，flag，N已知</p></div><div style="display:contents" dir="auto"><figure id="d788db55-6aee-83c4-946d-81bbeb824433" class="equation"><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>X</mi><mn>2</mn></msup><mo>=</mo><mi>f</mi><mi>l</mi><mi>a</mi><mi>g</mi><mo stretchy="false">(</mo><mi>m</mi><mi>o</mi><mi>d</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">X^2 = flag(mod(N))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mord mathnormal">o</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mclose">))</span></span></span></span></span></div></figure></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="21f8db55-6aee-8251-b5de-81323b82ef54" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">e = 2
+N = 5004569440512110095315912424236175274218550002178520628553704610188181488300107757918726993816925107576358839207238392032724279712357944600981150418044342904955183246544920154528020203647228706080590639340343735982316211703073337574981350845754016638561933765280884678570680367503568140933515083469472139275415872875491138960647889141175026872713919095134528223443650952975885468899247330481542073142242487522406896050936375863486400486804933954660288571791351740728080243533354249689085912022147064731371745696132875825246594817148582726296487493779171982197115211832071128542525685567572109806874753150627688296718782579760309570820648240192966871855147357680212713231986714423893717406698898987306268449007903381646144106494586566066635414476454341566286646898749536138451297644386089944695562753778211546095612829981319898508937274774759125681653612693566131588017270700916204903608877962939755738345796258686161864194209)
+
+the_encrypted_flag = 178578054113587665880573638525543971357824122622159505488720384368602953181166564534730680603152376825130794419393716164247143515361066971379409790862584250121
+
+from Crypto.Util.Padding import unpad
+from Crypto.Util.number import inverse, long_to_bytes, GCD
+from gmpy2 import iroot
+
+x = iroot(the_encrypted_flag, 2)[0]
+
+print(x)# 13363309998409363618670954816880563712066497261308319592953169265167568993531261
+print(long_to_bytes(x)) # shellmates{4v0id_5m4ll_3xp0n3nt5}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5f68db55-6aee-8337-a191-819b70c0668e" class="toggle"><li><details open=""><summary>[HackINI 2021]RSA1（RSA大整数过小分解）</summary><div style="display:contents" dir="auto"><pre id="3ee8db55-6aee-82fb-8d11-01089e7a23a1" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">## 题目
+e = 65537
+N = 1018261336751023520497560395829454421245429586704872293236600679847605951423419167478189648109263
+the encrypted flag  = 713822463491939628949080236459794906441914407944768290378695739068636927695199214947719158013040
+
+## 网站分解N
+p = 9942874965373398689
+q = 102411157768469768587484356311902427789461430190314198242306101223897141593967
+c = 713822463491939628949080236459794906441914407944768290378695739068636927695199214947719158013040
+
+## python脚本解题
+import gmpy2
+import libnum
+
+phi = (p - 1) * (q - 1) 
+d = gmpy2.invert(e, phi) 
+M = pow(C, d, N) 
+print(libnum.n2s(int(M)))</code></pre></div><div style="display:contents" dir="auto"><p id="f178db55-6aee-8217-aa0d-0170c95e45ce" class="">整数碰撞网站</p></div><div style="display:contents" dir="auto"><p id="2128db55-6aee-83c9-a850-018308f4c32b" class=""><a href="http://www.factordb.com/index.php">http://www.factordb.com/index.php</a></p></div><div style="display:contents" dir="auto"><p id="9338db55-6aee-82e3-99e7-813ef3b17bcf" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="df58db55-6aee-8302-ab54-01cc54027983" class="toggle"><li><details open=""><summary>[强网杯 2019]强网先锋辅助（RSA共模漏洞）</summary><div style="display:contents" dir="auto"><p id="f5a8db55-6aee-82ad-9d00-010bf0f2360e" class="">发现两个加密的n中使用了相同发q</p></div><div style="display:contents" dir="auto"><p id="f458db55-6aee-82ea-a087-816cd4abbd1e" class="">也就是说q位n1，n2的最大公因数，可以直接求出来，那么n就可以求出来</p></div><div style="display:contents" dir="auto"><figure id="d1f8db55-6aee-8281-92f4-81f298108c8c" class="equation"><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>q</mi><mo>=</mo><mi>m</mi><mi>a</mi><mi>t</mi><mi>h</mi><mi mathvariant="normal">.</mi><mi>g</mi><mi>c</mi><mi>d</mi><mo stretchy="false">(</mo><mi>n</mi><mn>1</mn><mo separator="true">,</mo><mi>n</mi><mn>2</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">q = math.gcd(n1,n2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ma</span><span class="mord mathnormal">t</span><span class="mord mathnormal">h</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">c</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mord">2</span><span class="mclose">)</span></span></span></span></span></div></figure></div><div style="display:contents" dir="auto"><pre id="4ed8db55-6aee-83b5-964e-819ba64af47d" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">flag=open(&quot;flag&quot;,&quot;rb&quot;).read()
+
+from Crypto.Util.number import getPrime,bytes_to_long
+p=getPrime(1024)
+q=getPrime(1024)
+e=65537
+n=p*q
+m=bytes_to_long(flag)
+c=pow(m,e,n)
+print c,e,n
+
+p=getPrime(1024)
+e=65537
+n=p*q
+m=bytes_to_long(&quot;1&quot;*32)
+c=pow(m,e,n)
+print c,e,n
+
+&#x27;&#x27;&#x27;
+output:
+
+c = 2482083893746618248544426737023750400124543452082436334398504986023501710639402060949106693279462896968839029712099336235976221571564642900240827774719199533124053953157919850838214021934907480633441577316263853011232518392904983028052155862154264401108124968404098823946691811798952747194237290581323868666637357604693015079007555594974245559555518819140844020498487432684946922741232053249894575417796067090655122702306134848220257943297645461477488086804856018323986796999103385565540496534422406390355987976815450744535949785073009043007159496929187184338592859040917546122343981520508220332785862546608841127597 
+e = 65537 
+n1 = 14967030059975114950295399874185047053736587880127990542035765201425779342430662517765063258784685868107066789475747180244711352646469776732938544641583842313791872986357504462184924075227433498631423289187988351475666785190854210389587594975456064984611990461126684301086241532915267311675164190213474245311019623654865937851653532870965423474555348239858021551589650169602439423841160698793338115204238140085738680883313433574060243600028500600824624358473403059597593891412179399165813622512901263380299561019624741488779367019389775786547292065352885007224239581776975892385364446446185642939137287519945974807727
+
+c2 = 3829060039572042737496679186881067950328956133163629908872348108160129550437697677150599483923925798224328175594483217938833520220087230303470138525970468915511111320396185482564783975435346354440035776909781158407636044986403819840648379609630039348895415045723208843631191252142600667607807479954194447237061080618370787672720344741413537975922184859333432197766580150534457001196765621678659952108010596273244230812327182786329760844037149719587269632133595149294067490955644893402708720284179715002149224068928828656515326446881791228638008572889331511945042911372915003805505412099102954073299010951896955362470 
+e = 65537 
+n2 = 14624662628725820618622370803948630854094687814338334827462870357582795291844925274690253604919535785934208081825425541536057550227048399837243392490762167733083030368221240764693694321150104306044125934201699430146970466657410999261630825931178731857267599750324918610790098952520113593130245010530961350592735239454337631927669542026935873535964487595433984902529960726655481696404006628917922241666148082741874033756970724357470539589848548704573091633917869387239324447730587545472564561496724882799495186768858324490838169123077051890332313671220385830444331578674338014080959653201802476516237464651809255679979
+&#x27;&#x27;&#x27;
+
+# 解密脚本
+import math
+from Crypto.Util.number import *
+from Crypto.Util.Padding import *
+
+# 找到共享的素数
+q = math.gcd(n1, n2)
+print(f&quot;q = {q}&quot;)
+
+# 得到加密flag的p
+p = n1 // q
+print(f&quot;p = {p}&quot;)
+# 验证是否正确
+assert(p*q == n1)
+
+# 计算e的逆元
+phi = (p-1)*(q-1)
+d = inverse(e, phi)
+
+# 计算结果
+m = pow(c, d, n1)
+print(f&quot;m = {m}&quot;)
+print(long_to_bytes(m)) # flag{i_am_very_sad_233333333333}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e828db55-6aee-8345-b93e-01682a65137d" class="toggle"><li><details open=""><summary>[网鼎杯 2018]3-hafuhafu（RSA分解大整数）</summary><div style="display:contents" dir="auto"><pre id="21d8db55-6aee-820c-b970-0176baebf170" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">pk=(25572000680139535995611501720832880791477922165939342981900803052781801299380515116746468338767634903543966903733806796606602206278399959935132433794098659859300196212479681357625729637405673432324426686371817007872620401911782200407165085213561959188129407530503934445657941975876616947807157374921539755157591354073652053446791467492853468641331291383821277151309959102082454909164831353055082841581194955483740168677333571647148118920605752176786316535817860771644086331929655259439187676703604894258185651165017526744816185992824404330229600417035596255176459265305168198215607187593109533971751842888237880624087,65537)
+------enc-------
+DTlEiAKLE24m19es4TBWl4Uo2MvmQMEYqWBCFggWJlJSjCwl3fT9322ytgudiQW2raDh53e6t2ed
+ygpFOP+MsAPXlU469rlmVng5JyDl0CF0ypevnaM5i+CvNT2mBoDadIYnPBVGMtj9HVVPDpMIgv5b
+F9N5ddQS7JB21oDdQBdDLTkKvcSqegtjNFv04R8+yrqOMZYpzdCRRw0j/MMt2JefC6z36mjrTL85
+A9EKlwKg5ydW7qELycfjBvzB/cwJ7mJ2I0xVPToa3sSLNDyddFttATwU6wmCa4XaWpTwVR/PfET2
+FRj0p+8UwYSDdlLLh6gRUVURpT+2jc9zx/rhOw==
+
+------------------------wp------------------------
+n=25572000680139535995611501720832880791477922165939342981900803052781801299380515116746468338767634903543966903733806796606602206278399959935132433794098659859300196212479681357625729637405673432324426686371817007872620401911782200407165085213561959188129407530503934445657941975876616947807157374921539755157591354073652053446791467492853468641331291383821277151309959102082454909164831353055082841581194955483740168677333571647148118920605752176786316535817860771644086331929655259439187676703604894258185651165017526744816185992824404330229600417035596255176459265305168198215607187593109533971751842888237880624087
+
+e=65537
+
+p = 149930380465516707151079321019435489399072155945793735032334088844599773034021170995501688132861944516938448679935403246643441984203770825485165700862168437691254557323938150173733659070945061763789341407547559935070758242521126066900261360899379463301621378242061934281538210192731229473900396425739817670867
+
+q = 170559166199281256887953076784727902849936084815549184550874370897326056825177365209113910954088389779180174518262922176726833811470419181874717574929460298509184863124213663255559781224744696195678069242025195218017449489985102637547369070225979448169459840545693721393354651993457943927480894225788038743661
+
+enc = &quot;DTlEiAKLE24m19es4TBWl4Uo2MvmQMEYqWBCFggWJlJSjCwl3fT9322ytgudiQW2raDh53e6t2edygpFOP+MsAPXlU469rlmVng5JyDl0CF0ypevnaM5i+CvNT2mBoDadIYnPBVGMtj9HVVPDpMIgv5bF9N5ddQS7JB21oDdQBdDLTkKvcSqegtjNFv04R8+yrqOMZYpzdCRRw0j/MMt2JefC6z36mjrTL85A9EKlwKg5ydW7qELycfjBvzB/cwJ7mJ2I0xVPToa3sSLNDyddFttATwU6wmCa4XaWpTwVR/PfET2FRj0p+8UwYSDdlLLh6gRUVURpT+2jc9zx/rhOw==&quot;
+
+import base64
+from Crypto.Util.number import *
+from Crypto.Util.Padding import *
+# 解密base64 然后转换为long
+c_bytes= base64.urlsafe_b64decode(enc)
+c = bytes_to_long(c_bytes)
+
+phi = (p-1)*(q-1)
+
+d = inverse(e, phi)
+
+m = pow(c, d, n)
+
+print(long_to_bytes(m)) # flag{D0nT_uS3_Th3_kN0w_n}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="e288db55-6aee-823d-a2da-8153d6c4b795"/></div><div style="display:contents" dir="auto"><h3 id="fe18db55-6aee-83a0-8bd2-010996d9b574" class=""><mark class="highlight-gray_background">DH</mark></h3></div><div style="display:contents" dir="auto"><ul id="9018db55-6aee-8338-8a51-01f34b9ad07c" class="toggle"><li><details open=""><summary>[WolvCTF 2023]Z2kDH</summary><div style="display:contents" dir="auto"><pre id="8938db55-6aee-82f2-ade0-01db05e06ca5" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">#!/usr/bin/python3
+
+modulus = 1 &lt;&lt; 258
+
+def Z2kDH_init(private_exponent):
+	&quot;&quot;&quot;
+	Computes the public result by taking the generator 5 to the private exponent, then removing the last 2 bits
+	private_exponent must be a positive integer less than 2^256
+	&quot;&quot;&quot;
+	return pow(5, private_exponent, modulus) // 4
+
+def Z2kDH_exchange(public_result, private_exponent):
+	&quot;&quot;&quot;
+	Computes the shared secret by taking the sender&#x27;s public result to the receiver&#x27;s private exponent, then removing the last 2 bits
+	public_result must be a non-negative integer less than 2^256
+	private_exponent must be a positive integer less than 2^256
+	&quot;&quot;&quot;
+	return pow(public_result * 4 + 1, private_exponent, modulus) // 4
+
+alice_private_exponent = int(open(&#x27;alice_private_exponent.txt&#x27;).read(), 16)
+bob_private_exponent = int(open(&#x27;bob_private_exponent.txt&#x27;).read(), 16)
+
+alice_public_result = Z2kDH_init(alice_private_exponent)
+bob_public_result = Z2kDH_init(bob_private_exponent)
+
+# These are sent over the public channel:
+print(f&#x27;{alice_public_result:064x}&#x27;) # Alice sent to Bob
+print(f&#x27;{bob_public_result:064x}&#x27;)   # Bob sent to Alice
+
+alice_shared_secret = Z2kDH_exchange(bob_public_result, alice_private_exponent)
+bob_shared_secret = Z2kDH_exchange(alice_public_result, bob_private_exponent)
+
+assert alice_shared_secret == bob_shared_secret # the math works out!
+
+# ...Wait, how did they randomly end up with this shared secret? What a coincidence!
+
+-----------------------------------------------------------------------------------------
+
+Diffie-Hellman密钥交换协议，称为Z2kDH（可能是某种特定场景下的变体）。
+
+模块定义和初始设置
+modulus = 1 &lt;&lt; 258
+这行代码定义了一个大数modulus，其值等于 2^258这个modulus用于计算模幂操作。由于1 &lt;&lt; 258是用位移操作符表示的，所以这实际上是一个非常大的数（1 后面跟258个0）。
+Alice 和 Bob 的私有指数
+alice_private_exponent = int(open(&#x27;alice_private_exponent.txt&#x27;).read(), 16)
+bob_private_exponent = int(open(&#x27;bob_private_exponent.txt&#x27;).read(), 16)
+这两行代码从文件中读取Alice和Bob的私有指数，并将其从十六进制字符串转换为整数。这两个文件中的内容应该是私有密钥。
+
+初始化公共结果
+def Z2kDH_init(private_exponent):
+    &quot;&quot;&quot;
+    Computes the public result by taking the generator 5 to the private exponent, then removing the last 2 bits
+    private_exponent must be a positive integer less than 2^256
+    &quot;&quot;&quot;
+    return pow(5, private_exponent, modulus) // 4
+这个函数实现了Z2kDH协议的初始化步骤：
+
+计算公共结果：使用基数5和私有指数进行模幂运算 pow(5, private_exponent, modulus)。这里使用了Python的内置pow函数，它计算 (5^private_exponent) % modulus。
+移除最后两位：然后将结果除以4，即移除最后两位。这是因为在计算中有两位被用作控制位或调整值。
+交换共享秘密
+def Z2kDH_exchange(public_result, private_exponent):
+    &quot;&quot;&quot;
+    Computes the shared secret by taking the sender&#x27;s public result to the receiver&#x27;s private exponent, then removing the last 2 bits
+    public_result must be a non-negative integer less than 2^256
+    private_exponent must be a positive integer less than 2^256
+    &quot;&quot;&quot;
+    return pow(public_result * 4 + 1, private_exponent, modulus) // 4
+这个函数实现了共享秘密的交换：
+
+计算共享秘密：使用接收方的私有指数对发送方的公共结果进行计算。首先将公共结果乘以4并加1，然后对结果进行模幂运算 pow(public_result * 4 + 1, private_exponent, modulus)。
+移除最后两位：然后将结果除以4，同样是为了去除调整位或控制位。
+执行密钥交换
+alice_public_result = Z2kDH_init(alice_private_exponent)
+bob_public_result = Z2kDH_init(bob_private_exponent)
+
+# These are sent over the public channel:
+print(f&#x27;{alice_public_result:064x}&#x27;) # Alice sent to Bob
+print(f&#x27;{bob_public_result:064x}&#x27;)   # Bob sent to Alice
+
+alice_shared_secret = Z2kDH_exchange(bob_public_result, alice_private_exponent)
+bob_shared_secret = Z2kDH_exchange(alice_public_result, bob_private_exponent)
+
+assert alice_shared_secret == bob_shared_secret # the math works out!
+生成公共结果：Alice和Bob分别生成他们的公共结果，并打印出来。这里的结果是以十六进制格式输出的，长度为64个字符（填充了零）。
+
+计算共享秘密：Alice和Bob分别计算共享秘密。Alice使用Bob的公共结果和她自己的私有指数，Bob使用Alice的公共结果和他的私有指数。
+
+验证：通过assert语句，验证Alice和Bob计算出的共享秘密是否相同。如果相同，说明算法实现正确，双方获得了相同的共享秘密。</code></pre></div><div style="display:contents" dir="auto"><p id="06d8db55-6aee-82e3-bd16-81f27ad08386" class="">脚本</p></div><div style="display:contents" dir="auto"><pre id="1618db55-6aee-8308-92a0-01ce57438c5f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import math
+from sympy.ntheory import discrete_log
+
+# 定义常量
+modulus = 1 &lt;&lt; 258
+
+def Z2kDH_init(private_exponent):
+    &quot;&quot;&quot;计算 Diffie-Hellman 初始公钥&quot;&quot;&quot;
+    return pow(5, private_exponent, modulus) // 4
+
+def Z2kDH_exchange(public_result, private_exponent):
+    &quot;&quot;&quot;计算 Diffie-Hellman 共享秘密&quot;&quot;&quot;
+    return pow(public_result * 4 + 1, private_exponent, modulus) // 4
+
+# Alice 和 Bob 的公钥（从外部接收到的值）
+alice_public_result = int(&#x27;99edb8ed8892c664350acbd5d35346b9b77dedfae758190cd0544f2ea7312e81&#x27;, 16)
+bob_public_result = int(&#x27;40716941a673bbda0cc8f67fdf89cd1cfcf22a92fe509411d5fd37d4cb926afd&#x27;, 16)
+
+# 计算 Alice 和 Bob 的私钥
+alice_private_exponent = discrete_log(modulus, (alice_public_result * 4 + 1), 5)
+bob_private_exponent = discrete_log(modulus, (bob_public_result * 4 + 1), 5)
+
+print(&quot;alice_private_key =&quot;, alice_private_exponent)
+print(&quot;bob_private_key =&quot;, bob_private_exponent)
+
+# 打印公钥
+print(f&#x27;{alice_public_result:064x}&#x27;)  # Alice 发送给 Bob
+print(f&#x27;{bob_public_result:064x}&#x27;)    # Bob 发送给 Alice
+
+# 计算 Alice 和 Bob 的共享秘密
+alice_shared_secret = Z2kDH_exchange(bob_public_result, alice_private_exponent)
+bob_shared_secret = Z2kDH_exchange(alice_public_result, bob_private_exponent)
+
+print(&quot;alice_shared_secret =&quot;, alice_shared_secret)
+print(&quot;bob_shared_secret =&quot;, bob_shared_secret)
+
+# 确保共享秘密一致
+assert alice_shared_secret == bob_shared_secret
+
+# 输出共享秘密的标志（64字节）
+print(&quot;flag =&quot;, int.to_bytes(int(alice_shared_secret), length=64, byteorder=&#x27;big&#x27;, signed=False))</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

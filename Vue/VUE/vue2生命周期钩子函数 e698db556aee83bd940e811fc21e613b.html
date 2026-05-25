@@ -1,0 +1,745 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>vue2生命周期钩子函数</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e698db55-6aee-83bd-940e-811fc21e613b" class="page mono"><header><h1 class="page-title" dir="auto">vue2生命周期钩子函数</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="b4d8db55-6aee-83fa-a7e7-818f78f77d08" class="">Vue2 的生命周期可分为 4 个核心阶段：<strong>创建阶段、挂载阶段、更新阶段、销毁阶段</strong>，每个阶段包含 2 个关键钩子，共 8 个核心钩子。此外还有针对<code>keep-alive</code>组件的特殊钩子。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="b498db55-6aee-82cd-a852-0189b0f8d623" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">beforeCreate → created → beforeMount → mounted → 
+[当数据更新时：beforeUpdate → updated] → 
+[当实例销毁时：beforeDestroy → destroyed]</code></pre></div><div style="display:contents" dir="auto"><hr id="20e8db55-6aee-82c1-a807-818cda5b8fa2"/></div><div style="display:contents" dir="auto"><ul id="f008db55-6aee-8322-8ab6-81708e986a63" class="toggle"><li><details open=""><summary>创建阶段：实例初始化(内存中)</summary><div style="display:contents" dir="auto"><p id="c978db55-6aee-8246-a09a-01166464e0ca" class=""><strong>阶段目标</strong>：Vue 实例在内存中被创建，初始化数据观测、事件机制等，但尚未关联 DOM。</p></div><div style="display:contents" dir="auto"><p id="2208db55-6aee-8321-91f7-814ddc4f8794" class="">1、<code>beforeCreate()</code> </p></div><div style="display:contents" dir="auto"><p id="c188db55-6aee-83b5-a942-01dd5dc37df2" class="">执行时机：Vue初始化之后（new Vue() 被调用），数据观测（data）和事件配置之前触发</p></div><div style="display:contents" dir="auto"><p id="cc98db55-6aee-8354-9696-012ac1f091ec" class="">可访问的内容：</p></div><div style="display:contents" dir="auto"><ul id="3b88db55-6aee-8319-af79-8192b8740b85" class="bulleted-list"><li style="list-style-type:disc">无法访问<code>data</code>中的数据（如<code>this.myname</code>为<code>undefined</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="4978db55-6aee-8369-8f60-81ec635bfa61" class="bulleted-list"><li style="list-style-type:disc">无法访问<code>methods</code>中的方法</li></ul></div><div style="display:contents" dir="auto"><ul id="dea8db55-6aee-82a8-b00d-81f7ee2f0fa1" class="bulleted-list"><li style="list-style-type:disc">无法访问 DOM（<code>this.$el</code>为<code>undefined</code>）</li></ul></div><div style="display:contents" dir="auto"><p id="2698db55-6aee-8254-9b4e-815bd6cac639" class="">几乎不用，因为此时实例尚未准备好任何核心数据。</p></div><div style="display:contents" dir="auto"><hr id="d1d8db55-6aee-83bd-898e-016ef9ab71d3"/></div><div style="display:contents" dir="auto"><p id="99b8db55-6aee-8218-9da5-01ea02767b04" class="">2、<code>created()</code> 请求接口一般</p></div><div style="display:contents" dir="auto"><p id="d9a8db55-6aee-82e7-9b4e-010ec768d51f" class="">执行时机：Vue 实例创建完成后触发（数据观测、属性和方法的运算、事件回调已配置完成）。</p></div><div style="display:contents" dir="auto"><p id="0858db55-6aee-8284-a5ac-01dcfabdbfb3" class="">可访问的内容：</p></div><div style="display:contents" dir="auto"><ul id="a0d8db55-6aee-82cb-a67e-81435dbdebd1" class="bulleted-list"><li style="list-style-type:disc">可以访问<code>data</code>中的数据（如<code>this.myname</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="3748db55-6aee-834c-9754-01be08efe0a0" class="bulleted-list"><li style="list-style-type:disc">可以调用<code>methods</code>中的方法</li></ul></div><div style="display:contents" dir="auto"><ul id="7fd8db55-6aee-83d8-ab0d-817da951637b" class="bulleted-list"><li style="list-style-type:disc"><strong>仍无法访问 DOM</strong>（<code>this.$el</code>为<code>undefined</code>，因为模板还未渲染）</li></ul></div><div style="display:contents" dir="auto"><p id="8168db55-6aee-82ba-8022-0189fcc2d790" class="">常见用途：</p></div><div style="display:contents" dir="auto"><ul id="4fb8db55-6aee-8363-829a-81570d004013" class="bulleted-list"><li style="list-style-type:disc">初始化数据（如从本地存储读取数据：<code>this.myname = localStorage.getItem(&#x27;name&#x27;)</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="d508db55-6aee-82d0-b094-0161f56cef72" class="bulleted-list"><li style="list-style-type:disc">发起初始网络请求（如获取用户信息）</li></ul></div><div style="display:contents" dir="auto"><ul id="1878db55-6aee-83fd-bffd-815b5636c50f" class="bulleted-list"><li style="list-style-type:disc">绑定自定义事件（非 DOM 事件）</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8be8db55-6aee-826d-b6c5-81e8084b9c03" class="toggle"><li><details open=""><summary>挂载阶段：实例与DOM关联</summary><div style="display:contents" dir="auto"><p id="3fe8db55-6aee-826e-a1c1-016f41ea2090" class=""><strong>阶段目标</strong>：将 Vue 实例的模板渲染为真实 DOM，并挂载到页面中（绑定到<code>el</code>选项指定的 DOM 元素）。</p></div><div style="display:contents" dir="auto"><p id="9818db55-6aee-836b-9905-8199603afec5" class="">1、<code>beforeMount()</code></p></div><div style="display:contents" dir="auto"><p id="b588db55-6aee-8306-8c3f-012fcbad511e" class="">执行时机：模板编译完成（虚拟 DOM 已生成），但尚未挂载到真实 DOM 上时触发。</p></div><div style="display:contents" dir="auto"><p id="84d8db55-6aee-83a5-bc98-01d5522c81a6" class="">执行时机：</p></div><div style="display:contents" dir="auto"><ul id="c928db55-6aee-83a2-af90-01d40240ea6c" class="bulleted-list"><li style="list-style-type:disc">可以访问<code>data</code>和<code>methods</code></li></ul></div><div style="display:contents" dir="auto"><ul id="7118db55-6aee-8340-b031-8160ea8f275a" class="bulleted-list"><li style="list-style-type:disc"><code>this.$el</code>已存在（但为虚拟 DOM，未渲染到页面）</li></ul></div><div style="display:contents" dir="auto"><p id="cd48db55-6aee-83d3-858e-817af76c1033" class="">极少使用，可在 DOM 挂载前做最后准备（如修改数据，会被合并到首次渲染中）。</p></div><div style="display:contents" dir="auto"><hr id="f308db55-6aee-8371-8fc7-01896fa2a52c"/></div><div style="display:contents" dir="auto"><p id="8968db55-6aee-83ac-bfbb-01f27238644b" class="">2、<code>mounted()</code> 获取dom</p></div><div style="display:contents" dir="auto"><p id="0578db55-6aee-8399-bfeb-01d88478c538" class="">执行时机：Vue 实例的模板已成功挂载到真实 DOM 上（<code>el</code>被新创建的<code>vm.$el</code>替换），页面可见时触发。</p></div><div style="display:contents" dir="auto"><p id="15d8db55-6aee-82c2-99f3-8114b35760e0" class="">可访问内容：</p></div><div style="display:contents" dir="auto"><ul id="eba8db55-6aee-8294-a998-010bf59edc47" class="bulleted-list"><li style="list-style-type:disc">可以访问<code>data</code>、<code>methods</code></li></ul></div><div style="display:contents" dir="auto"><ul id="0d88db55-6aee-83a7-9570-0107813a5208" class="bulleted-list"><li style="list-style-type:disc"><strong>可以访问真实 DOM</strong>（<code>this.$el</code>为真实 DOM 元素）</li></ul></div><div style="display:contents" dir="auto"><ul id="e0e8db55-6aee-8275-a4d7-0150852e50ff" class="bulleted-list"><li style="list-style-type:disc">可以通过<code>this.$refs</code>获取 DOM 元素</li></ul></div><div style="display:contents" dir="auto"><p id="f788db55-6aee-82d6-b3ae-81f36f2b496c" class="">常见用途：</p></div><div style="display:contents" dir="auto"><ul id="5f58db55-6aee-821a-a970-8171a8957bf7" class="bulleted-list"><li style="list-style-type:disc">执行 DOM 操作（如初始化第三方插件：地图、图表等，需要真实 DOM）</li></ul></div><div style="display:contents" dir="auto"><ul id="0648db55-6aee-826b-ab00-013dc365fa79" class="bulleted-list"><li style="list-style-type:disc">发起依赖 DOM 的网络请求（如根据 DOM 尺寸加载数据）</li></ul></div><div style="display:contents" dir="auto"><ul id="f868db55-6aee-82e4-ac48-019da2d168aa" class="bulleted-list"><li style="list-style-type:disc">绑定 DOM 事件（如监听滚动、 resize 事件）</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f518db55-6aee-835a-9551-81434e0dc241" class="toggle"><li><details open=""><summary>更新阶段：数据变化导致DOM更新</summary><div style="display:contents" dir="auto"><p id="5418db55-6aee-826b-90e7-01be210e54e8" class=""><strong>阶段目标</strong>：当响应式数据（<code>data</code>或<code>computed</code>）发生变化时，Vue 会重新渲染 DOM，此阶段的钩子用于监控更新过程。</p></div><div style="display:contents" dir="auto"><p id="5d18db55-6aee-8357-bbb7-0110ec206afc" class="">1、<code>beforeUpdate()</code></p></div><div style="display:contents" dir="auto"><p id="ce78db55-6aee-821b-a169-810496a9d24b" class="">执行时机：响应式数据发生变化后，DOM 更新前触发（虚拟 DOM 重新渲染，但尚未应用到真实 DOM）。</p></div><div style="display:contents" dir="auto"><p id="b118db55-6aee-82f0-b1d0-0160fbd45e64" class="">可访问的内容：</p></div><div style="display:contents" dir="auto"><ul id="5ec8db55-6aee-83e9-9578-81d4fe2e2b1b" class="bulleted-list"><li style="list-style-type:disc">可以获取<strong>更新前的 DOM 状态</strong>（如旧的输入框值）</li></ul></div><div style="display:contents" dir="auto"><ul id="2098db55-6aee-83b5-b774-8117c753910d" class="bulleted-list"><li style="list-style-type:disc">可以访问更新后的数据（<code>this.myname</code>已变为新值）</li></ul></div><div style="display:contents" dir="auto"><p id="b328db55-6aee-8249-81b5-017ea14c9a54" class="">常见用途：获取更新前的 DOM 信息（如滚动位置），用于更新后恢复状态。</p></div><div style="display:contents" dir="auto"><hr id="71b8db55-6aee-826c-9b55-0119bf247194"/></div><div style="display:contents" dir="auto"><p id="61b8db55-6aee-83f9-bf87-81cdabcfd0ea" class="">2、update()</p></div><div style="display:contents" dir="auto"><p id="2338db55-6aee-8273-8441-81ad23801b97" class="">执行时机：响应式数据变化导致 DOM 更新完成后触发（真实 DOM 已更新）。</p></div><div style="display:contents" dir="auto"><p id="1138db55-6aee-8221-b40c-01dc2a1f2bd6" class="">可访问内容：</p></div><div style="display:contents" dir="auto"><ul id="d408db55-6aee-8261-acf7-81c8f5df5a87" class="bulleted-list"><li style="list-style-type:disc">可以获取<strong>更新后的 DOM 状态</strong>（如新的输入框值）</li></ul></div><div style="display:contents" dir="auto"><ul id="2898db55-6aee-82f2-a19e-8155873ca0ad" class="bulleted-list"><li style="list-style-type:disc">可以访问更新后的数据</li></ul></div><div style="display:contents" dir="auto"><p id="bc08db55-6aee-8349-8531-8186231b8b3c" class="">常见用途：处理更新后的 DOM 逻辑（如根据新 DOM 尺寸调整布局）。</p></div><div style="display:contents" dir="auto"><p id="2f28db55-6aee-8265-96a1-816019e8013d" class="">注意避免在<code>updated()</code>中修改数据（可能导致无限循环更新）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d008db55-6aee-829d-a0f7-81d330d1042f" class="toggle"><li><details open=""><summary>销毁阶段：实例被销毁</summary><div style="display:contents" dir="auto"><p id="b3c8db55-6aee-8380-9c02-81429652b6c6" class=""><strong>阶段目标</strong>：Vue 实例被销毁，释放资源（移除事件监听、解绑数据等）。</p></div><div style="display:contents" dir="auto"><p id="2d88db55-6aee-8388-acee-813e93ec2c25" class="">1、<code>beforeDestroy()</code></p></div><div style="display:contents" dir="auto"><p id="1c08db55-6aee-83f2-afd3-819cb37e721b" class="">执行时机：Vue 实例销毁前触发（实例仍完全可用）。</p></div><div style="display:contents" dir="auto"><p id="8d38db55-6aee-83cf-bc2e-811c8ebbba3c" class="">可访问的内容：</p></div><div style="display:contents" dir="auto"><ul id="4c78db55-6aee-82c4-b496-815feb981012" class="bulleted-list"><li style="list-style-type:disc">可以访问所有<code>data</code>、<code>methods</code>和 DOM</li></ul></div><div style="display:contents" dir="auto"><ul id="be88db55-6aee-82cb-b2d4-01bca06182c3" class="bulleted-list"><li style="list-style-type:disc">实例尚未被销毁，仍能正常操作</li></ul></div><div style="display:contents" dir="auto"><p id="7808db55-6aee-826c-93f1-01e3ac7d2e71" class="">常见用途：</p></div><div style="display:contents" dir="auto"><ul id="7898db55-6aee-8295-be6e-0175ed5b6343" class="bulleted-list"><li style="list-style-type:disc">清理资源（如清除定时器<code>clearInterval(timer)</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="7be8db55-6aee-82f0-a936-015f02d35a05" class="bulleted-list"><li style="list-style-type:disc">解绑自定义事件（如<code>this.$off(&#x27;eventName&#x27;)</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="1208db55-6aee-8224-a896-017b78049099" class="bulleted-list"><li style="list-style-type:disc">取消网络请求（如 Axios 的<code>cancelToken</code>）</li></ul></div><div style="display:contents" dir="auto"><hr id="d408db55-6aee-82f8-ba1c-819697bc1d90"/></div><div style="display:contents" dir="auto"><p id="ce68db55-6aee-83af-9a28-81ac66191f50" class="">2、<code>destroyed()</code></p></div><div style="display:contents" dir="auto"><p id="cd68db55-6aee-8255-a60a-81d6d6471ca6" class="">执行时机：Vue 实例销毁后触发（所有事件监听被移除，子实例被销毁，与 DOM 的关联被切断）。</p></div><div style="display:contents" dir="auto"><p id="5d08db55-6aee-82c5-9639-811c1f482d52" class="">可访问的内容：</p></div><div style="display:contents" dir="auto"><ul id="38a8db55-6aee-8336-955b-81dbadbd088d" class="bulleted-list"><li style="list-style-type:disc">虽然仍能访问<code>data</code>和<code>methods</code>，但修改数据不会触发更新</li></ul></div><div style="display:contents" dir="auto"><ul id="cbe8db55-6aee-829c-8e08-812b4b2fcd94" class="bulleted-list"><li style="list-style-type:disc">DOM 可能仍存在，但已与 Vue 实例解绑</li></ul></div><div style="display:contents" dir="auto"><p id="7338db55-6aee-82b5-9305-816e4372ebb5" class="">常见用途：做最终的资源清理（如释放内存缓存）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6478db55-6aee-8206-ad55-01f6b51817ee" class="toggle"><li><details open=""><summary>特殊钩子（针对keep-alive组件）</summary><div style="display:contents" dir="auto"><p id="e9e8db55-6aee-8251-bdba-0192dcf4f836" class="">当组件被<code>&lt;keep-alive&gt;</code>包裹时，会触发以下 2 个钩子（用于缓存组件状态）：</p></div><div style="display:contents" dir="auto"><ul id="e3b8db55-6aee-83f8-b183-8154bb2ebdbd" class="bulleted-list"><li style="list-style-type:disc"><code>activated()</code>：组件被激活（从缓存中取出显示）时触发。</li></ul></div><div style="display:contents" dir="auto"><ul id="1b88db55-6aee-8317-a462-8153b8f92983" class="bulleted-list"><li style="list-style-type:disc"><code>deactivated()</code>：组件被缓存（隐藏）时触发。</li></ul></div><div style="display:contents" dir="auto"><p id="2848db55-6aee-8356-850d-01f79b0f40db" class=""><em>用途</em>：在组件激活时重新发起请求，或在缓存时保存临时状态。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6ee8db55-6aee-82b9-a47b-81d858c1b2e2" class="toggle"><li><details open=""><summary>生命周期钩子的核心原则</summary><div style="display:contents" dir="auto"><ol type="1" id="6d98db55-6aee-8250-92e8-8128c331a5a4" class="numbered-list" start="1"><li><strong>自动触发</strong>：钩子函数由 Vue 自动调用，无需手动执行。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="f998db55-6aee-8389-86dd-01eaa0f63a60" class="numbered-list" start="2"><li><strong>this 指向</strong>：所有钩子函数中的<code>this</code>均指向当前 Vue 实例。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="c278db55-6aee-82cb-87d9-8162ffab6af7" class="numbered-list" start="3"><li><strong>执行次数</strong>：<div style="display:contents" dir="auto"><ul id="c298db55-6aee-83ff-bb51-8115ba75d944" class="bulleted-list"><li style="list-style-type:disc"><code>beforeCreate</code>、<code>created</code>、<code>beforeMount</code>、<code>mounted</code> 只执行一次（实例创建到挂载完成）。</li></ul></div><div style="display:contents" dir="auto"><ul id="1cd8db55-6aee-824f-8bc1-0105b2d6f8e5" class="bulleted-list"><li style="list-style-type:disc"><code>beforeUpdate</code>、<code>updated</code> 每次响应式数据变化时都会触发（可能多次）。</li></ul></div><div style="display:contents" dir="auto"><ul id="5d68db55-6aee-8393-8875-8155215ab03c" class="bulleted-list"><li style="list-style-type:disc"><code>beforeDestroy</code>、<code>destroyed</code> 只执行一次（实例销毁时）。</li></ul></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="ltr"><table id="8898db55-6aee-8300-9d4c-01d91253c68d" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="bd48db55-6aee-8371-8706-8104880d0323"><th id="]q{H" class="simple-table-header-color simple-table-header" style="width:168.9951934814453px"><strong>钩子</strong></th><th id="b=Ab" class="simple-table-header-color simple-table-header" style="width:377.9903869628906px"><strong>典型场景</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="5468db55-6aee-828f-ba9a-813aee3e9b51"><td id="]q{H" class="" style="width:168.9951934814453px"><code>created</code></td><td id="b=Ab" class="" style="width:377.9903869628906px">初始化数据、发起初始网络请求</td></tr></div><div style="display:contents" dir="ltr"><tr id="64f8db55-6aee-824a-a611-815cf192e1b7"><td id="]q{H" class="" style="width:168.9951934814453px"><code>mounted</code></td><td id="b=Ab" class="" style="width:377.9903869628906px">DOM 操作、初始化第三方插件（依赖真实 DOM）</td></tr></div><div style="display:contents" dir="ltr"><tr id="9868db55-6aee-82d9-af95-0192d122ac68"><td id="]q{H" class="" style="width:168.9951934814453px"><code>beforeUpdate</code></td><td id="b=Ab" class="" style="width:377.9903869628906px">保存更新前的 DOM 状态（如滚动位置）</td></tr></div><div style="display:contents" dir="ltr"><tr id="1848db55-6aee-8294-bc70-015da4bdc2ca"><td id="]q{H" class="" style="width:168.9951934814453px"><code>updated</code></td><td id="b=Ab" class="" style="width:377.9903869628906px">处理更新后的 DOM 逻辑（如调整布局）</td></tr></div><div style="display:contents" dir="ltr"><tr id="51a8db55-6aee-82f0-a1a0-01cae746f278"><td id="]q{H" class="" style="width:168.9951934814453px"><code>beforeDestroy</code></td><td id="b=Ab" class="" style="width:377.9903869628906px">清理定时器、解绑事件、取消网络请求</td></tr></div></tbody></table></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

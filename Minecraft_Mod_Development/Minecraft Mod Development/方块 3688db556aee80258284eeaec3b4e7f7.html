@@ -1,0 +1,916 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>方块</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3688db55-6aee-8025-8284-eeaec3b4e7f7" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/nationalMuseumOfAsianArt_sparrowsFeedingTheirYoung.jpg" style="object-position:center 80%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🎃</span></div><h1 class="page-title" dir="auto">方块</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="3688db55-6aee-8098-b736-f7a0674d5b71" class="">方块类编写</h1></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-8064-8ca5-e81c2e80b7c2" class="">在com.hpxwind.tutorial下创建block包并创建ModBlocks.java方块类</p></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-80f2-b1cd-f840e6f0559c" class="toggle"><li><details open=""><summary>ModBlocks.java</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3688db55-6aee-8035-b1c1-e1923f9aa71a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 声明该类所在的包路径
+package com.hpxwind.tutorial.block;
+
+// 导入需要的依赖类（模组主类、物品注册类、MC原版类、Forge注册类）
+import com.hpxwind.tutorial.TutorialMod;
+import com.hpxwind.tutorial.item.ModItems;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Supplier;
+
+/**
+ * 模组所有方块的注册类
+ * 作用：集中管理、注册所有自定义方块 + 自动绑定对应的方块物品
+ */
+public class ModBlocks {
+    /**
+     * 方块延迟注册器
+     * DeferredRegister&lt;Block&gt;：专门用来注册【方块】的工具
+     * ForgeRegistries.BLOCKS：固定写法，表示注册类型是方块
+     * TutorialMod.MOD_ID：绑定你的模组ID，所有注册必须带
+     */
+    public static final DeferredRegister&lt;Block&gt; BLOCKS =
+            DeferredRegister.create(ForgeRegistries.BLOCKS, TutorialMod.MOD_ID);
+
+    /**
+     * 注册第一个方块：冰乙太块（ICE_ETHER_BLOCK）
+     * 名称：ice_ether_block（唯一ID，全小写，下划线）
+     * new Block(...)：创建一个普通基础方块
+     * BlockBehaviour.Properties：方块属性（硬度、抗性、声音、亮度等）
+     * strength(破坏硬度, 爆炸抗性)
+     */
+    public static final RegistryObject&lt;Block&gt; ICE_ETHER_BLOCK =
+            registerBlock(&quot;ice_ether_block&quot;, () -&gt; new Block(BlockBehaviour.Properties.of().strength(1.5F, 3.0F)));
+
+    // 注册第二个方块：原始冰乙太块
+    public static final RegistryObject&lt;Block&gt; RAW_ICE_ETHER_BLOCK =
+            registerBlock(&quot;raw_ice_ether_block&quot;, () -&gt; new Block(BlockBehaviour.Properties.of().strength(1.5F, 3.0F)));
+
+    /**
+     * 注册第三个方块：冰乙太矿石
+     * copy(Blocks.STONE)：复制【原版石头】的所有属性（硬度、抗性、声音等）
+     * 不用自己写strength，直接抄石头
+     */
+    public static final RegistryObject&lt;Block&gt; ICE_ETHER_ORE =
+            registerBlock(&quot;ice_ether_ore&quot;, () -&gt; new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    /**
+     * 【自动给方块绑定物品】工具方法
+     * 每个方块必须对应一个物品，才能拿在手里、放在快捷栏
+     * 作用：把方块注册成物品，交给 ModItems.ITEMS 去统一注册
+     */
+    private static &lt;T extends Block&gt; void registerBlockItems(String name, RegistryObject&lt;T&gt; block) {
+        // BlockItem = 方块对应的物品
+        ModItems.ITEMS.register(name, () -&gt; new BlockItem(block.get(), new Item.Properties()));
+    }
+
+    /**
+     * 【统一注册方块】工具方法（核心简化代码）
+     * 1. 注册方块本身
+     * 2. 自动调用 registerBlockItems 给方块绑定物品
+     * 3. 返回注册好的方块对象
+     */
+    private static &lt;T extends Block&gt; RegistryObject&lt;T&gt; registerBlock(String name, Supplier&lt;T&gt; block) {
+        RegistryObject&lt;T&gt; blocks = BLOCKS.register(name, block); // 注册方块
+        registerBlockItems(name, blocks); // 自动绑定物品
+        return blocks;
+    }
+
+    /**
+     * 最终注册：把所有方块提交给Forge事件总线
+     * 必须在模组主类里调用这个方法
+     */
+    public static void register(IEventBus eventBus) {
+        BLOCKS.register(eventBus);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-8058-afa7-c11324bd2c06" class="">在自己创建的创造物品栏中添加物品</p></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-805f-b43e-c99ceb719743" class="toggle"><li><details open=""><summary>ModCreativeModeTabs.java</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80d3-b7cb-e7643589c35a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static final RegistryObject&lt;CreativeModeTab&gt; TUTORIAL_TAB =
+            CREATIVE_MODE_TABS.register(&quot;tutorial_tab&quot;, () -&gt; CreativeModeTab.builder()
+                    .icon(() -&gt; new ItemStack(ModItems.ICE_ETHER.get()))
+                    .title(Component.translatable(&quot;itemGroup.tutorial_tab&quot;))
+                    .displayItems((pParameters, pOutput) -&gt; {
+                        pOutput.accept(ModItems.ICE_ETHER.get());
+                        pOutput.accept(ModItems.RAW_ICE_ETHER.get());
+                        // 添加方块物品
+                        pOutput.accept(ModBlocks.RAW_ICE_ETHER_BLOCK.get());
+                        pOutput.accept(ModBlocks.ICE_ETHER_BLOCK.get());
+                        pOutput.accept(ModBlocks.ICE_ETHER_ORE.get());
+                    }).build());</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-808d-8e8c-cd6fd7f00b32" class="">最后挂载注册器</p></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-8093-a9c5-d5673b8d7686" class="toggle"><li><details open=""><summary>TutorialMod.java</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8063-843e-f0b10bcdab1d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// Register the commonSetup method for modloading
+        modEventBus.addListener(this::commonSetup);
+        ModItems.register(modEventBus);
+        ModCreativeModeTabs.register(modEventBus);
+        // 挂载注册
+        ModBlocks.register(modEventBus);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3688db55-6aee-8010-85a1-c7b5af6f6a16"/></div><div style="display:contents" dir="auto"><h1 id="3688db55-6aee-80a4-a629-e38d87e1b448" class="">添加资源文件</h1></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-805b-b3fe-da61243931f8" class="">首先在tutorial_mod下新建Blockstates文件夹，用来记录方块的状态（门的开关，压力板下压，上弹等）</p></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-8085-976a-da4f7b415365" class="toggle"><li><details open=""><summary>ice_ether_block.json</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-807c-9746-deafaddd2c3b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">{
+  // 这是方块状态文件的固定开头
+  &quot;variants&quot;: {
+
+    // 空字符串 &quot;&quot; = 这个方块 **没有任何状态变化**（普通静态方块）
+    &quot;&quot;: {
+      // model = 指定这个方块用哪个模型文件
+      // 格式：【模组ID】:【模型路径】
+      &quot;model&quot;: &quot;tutorial_mod:block/ice_ether_block&quot;
+    }
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-809e-9beb-ff5ddb823f60" class="toggle"><li><details open=""><summary>ice_ether_ore.json</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8009-adcc-c756abf5b5de" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;variants&quot;: {
+    &quot;&quot;: {
+      &quot;model&quot;: &quot;tutorial_mod:block/ice_ether_ore&quot;
+    }
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-8072-ab09-c5e17a5bd215" class="toggle"><li><details open=""><summary>raw_ice_ether_block.json</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8023-b8a9-dc6fcfdbda6e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;variants&quot;: {
+    &quot;&quot;: {
+      &quot;model&quot;: &quot;tutorial_mod:block/raw_ice_ether_block&quot;
+    }
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-8051-946d-ebb40a275913" class="">接着添加对应翻译</p></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-809b-a491-dd2f38725ad5" class="toggle"><li><details open=""><summary>en_us.json</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80ea-8d77-d2426b46dd4f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&quot;block.tutorial_mod.ice_ether_ore&quot;: &quot;Ice Ether Ore&quot;,
+&quot;block.tutorial_mod.ice_ether_block&quot;: &quot;Ice Ether Block&quot;,
+&quot;block.tutorial_mod.raw_ice_ether_block&quot;: &quot;Raw Ice Ether Block&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-80a1-ba33-eb44e329246d" class="">然后再models中创建block文件夹创建方块资源属性文件</p></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-8026-a5d8-ede400b3ee37" class="toggle"><li><details open=""><summary>ice_ether_block.json</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-806a-ba27-ffcf69fbc14b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">{
+  // 父模型：继承自原版的“立方体全面”模板
+  &quot;parent&quot;: &quot;block/cube_all&quot;,
+  
+  // 纹理（贴图）定义
+  &quot;textures&quot;: {
+    // all = 六个面全部使用这一张贴图
+    &quot;all&quot;: &quot;tutorial_mod:block/ice_ether_block&quot;
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-8028-9552-e125e6e73610" class="toggle"><li><details open=""><summary>ice_ether_ore.json</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80c2-83fb-e7cd3b4d4787" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;parent&quot;: &quot;block/cube_all&quot;,
+  &quot;textures&quot;: {
+    &quot;all&quot;: &quot;tutorial_mod:block/ice_ether_ore&quot;
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-8025-9a80-f6e562ff1f86" class="toggle"><li><details open=""><summary>raw_ice_ether_block.json</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80fa-adc8-f04fc3a44f4e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;parent&quot;: &quot;block/cube_all&quot;,
+  &quot;textures&quot;: {
+    &quot;all&quot;: &quot;tutorial_mod:block/raw_ice_ether_block&quot;
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-80f8-8cd6-e66a3bb69f4e" class="">在同级目录item下创建对应的材质资源文件</p></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-8038-82cc-e36fe646a68a" class="toggle"><li><details open=""><summary>ice_ether_block.json</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80e0-9723-c2bada38925f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;parent&quot;: &quot;tutorial_mod:block/ice_ether_block&quot;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-8037-8f80-f6fa679108b6" class="">最后在textures文件夹下创建block文件夹，放资源文件</p></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-805b-aec3-f4786b3b05b9" class="block-color-teal_background toggle"><li><details open=""><summary>目录结构如下</summary><div style="display:contents" dir="ltr"><figure id="3688db55-6aee-80e0-a665-dcd60dfc9ed8" class="image"><a href="%E6%96%B9%E5%9D%97/Snipaste_2026-05-22_16-41-19.png"><img style="width:321px" src="%E6%96%B9%E5%9D%97/Snipaste_2026-05-22_16-41-19.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-802c-b77b-c8f3d78c361e" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3688db55-6aee-8070-8747-e210dcf7fd8c"/></div><div style="display:contents" dir="auto"><h1 id="3688db55-6aee-80f1-a734-c12e9af28cd1" class="">函数理解</h1></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-80b9-bffe-fdee4c8c8e1b" class="toggle"><li><details open=""><summary>code</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80d4-a03d-e1875d2e477d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static final RegistryObject&lt;Block&gt; ICE_ETHER_BLOCK =
+        registerBlock(&quot;ice_ether_block&quot;, () -&gt; new Block(BlockBehaviour.Properties.of().strength(1.5F, 3.0F)));
+
+public static final RegistryObject&lt;Block&gt; RAW_ICE_ETHER_BLOCK =
+        registerBlock(&quot;raw_ice_ether_block&quot;, () -&gt; new Block(BlockBehaviour.Properties.of().strength(1.5F, 3.0F)));
+
+public static final RegistryObject&lt;Block&gt; ICE_ETHER_ORE =
+        registerBlock(&quot;ice_ether_ore&quot;, () -&gt; new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+private static &lt;T extends Block&gt; void registerBlockItems(String name, RegistryObject&lt;T&gt; block) {
+    ModItems.ITEMS.register(name, () -&gt; new BlockItem(block.get(), new Item.Properties()));
+}
+private static &lt;T extends Block&gt; RegistryObject&lt;T&gt; registerBlock(String name, Supplier&lt;T&gt; block) {
+    RegistryObject&lt;T&gt; blocks = BLOCKS.register(name, block);
+    registerBlockItems(name, blocks);
+    return blocks;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3688db55-6aee-804d-8fc3-e92650d43052" class="">注册一个普通方块</h2></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8042-9b00-dc35084970b0" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static final RegistryObject&lt;Block&gt; ICE_ETHER_BLOCK =
+            registerBlock(&quot;ice_ether_block&quot;, 
+            () -&gt; new Block(BlockBehaviour.Properties.of()
+            .strength(1.5F, 3.0F)));</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-806a-8c70-cf14b330e940" class="numbered-list" start="1"><li>registerBlock(...):自己写的工具方法,自动注册方块 + 自动生成对应的物品.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-80c8-aa1e-c26369b48a78" class="numbered-list" start="2"><li>() -&gt; new Block(...):Lambda 表达式，懒加载,需要时才创建方块对象</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-80e5-8a10-dacc10cb04aa" class="numbered-list" start="3"><li>BlockBehaviour.Properties.of():创建<strong>方块属性,决定方块：硬度、抗性、声音、亮度、是否可破坏等</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-806b-8c06-f02c97d512dc" class="numbered-list" start="4"><li>.strength(1.5F, 3.0F):分别是挖掘硬度，爆炸抗性。</li></ol></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8030-a53e-cb66dd993a93" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static final RegistryObject&lt;Block&gt; ICE_ETHER_ORE =
+            registerBlock(&quot;ice_ether_ore&quot;, 
+            () -&gt; new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-802b-ba1c-cd8b1b5b3301" class="numbered-list" start="5"><li>.copy(Blocks.STONE):复制原版石头的所有属性,不用自己写 .strength()</li></ol></div><div style="display:contents" dir="auto"><blockquote id="3688db55-6aee-801a-82d8-f1d27cfd439f" class=""><code>BlockBehaviour.Properties.of()</code> → 从零新建一个空白属性<br/><code>BlockBehaviour.Properties.copy()</code> → 复制一个现成方块的所有属性<br/>模型、材质靠 ID 自动对应</blockquote></div><div style="display:contents" dir="auto"><h2 id="3688db55-6aee-8025-883b-e022c3671511" class="">核心工具方法 1：自动给方块生成物品</h2></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8024-abe8-dc29c6f5d16c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">private static &lt;T extends Block&gt; void registerBlockItems(String name, RegistryObject&lt;T&gt; block) {
+    ModItems.ITEMS.register(name, () -&gt; new BlockItem(block.get(), new Item.Properties()));
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-8030-91e8-d6f87eaa02ae" class="numbered-list" start="1"><li>&lt;T extends Block&gt;:方块物品都要继承方块类</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-80ad-acae-d9e01edd6871" class="numbered-list" start="2"><li>ModItems.ITEMS.register(...):把<strong>方块对应的物品</strong>注册到物品注册表,让你能在背包里拿到这个方块</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-8098-8fbf-c34ae9633f69" class="numbered-list" start="3"><li>new BlockItem(...):BlockItem=方块对应的物品,没有它，你无法拿在手里、无法放置</li></ol></div><div style="display:contents" dir="auto"><h2 id="3688db55-6aee-80f9-80aa-e7ad9b512d87" class="">核心工具方法 2：统一注册方块</h2></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-801f-b9a3-c3c31a1461cc" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">private static &lt;T extends Block&gt; RegistryObject&lt;T&gt; registerBlock(String name, Supplier&lt;T&gt; block) {
+    RegistryObject&lt;T&gt; blocks = BLOCKS.register(name, block);  // 注册方块
+    registerBlockItems(name, blocks);                        // 自动绑定物品
+    return blocks;                                           // 返回方块
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="3688db55-6aee-8058-8719-c3c19024e09f"/></div><div style="display:contents" dir="auto"><h1 id="3688db55-6aee-801d-b0ce-c8b86ff46998" class="">所有自定义属性</h1></div><div style="display:contents" dir="ltr"><figure id="3688db55-6aee-803e-9ed4-c07732f7f205" class="link-to-page"><a href="%E6%96%B9%E5%9D%97/%E6%96%B9%E5%9D%97%E5%B1%9E%E6%80%A7%203688db556aee803e9ed4c07732f7f205.html">方块属性</a></figure></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

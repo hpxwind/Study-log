@@ -1,0 +1,1070 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>DOM</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="39e8db55-6aee-8214-82f5-019ee583b591" class="page mono"><header><h1 class="page-title" dir="auto">DOM</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="3d48db55-6aee-8372-8089-01df889a7863" class="toggle"><li><details open=""><summary>基础了解</summary><div style="display:contents" dir="auto"><p id="b1b8db55-6aee-8365-9ca2-8160828ab2b7" class="">DOM（Document Object Model）:文档对象模型</p></div><div style="display:contents" dir="auto"><p id="5498db55-6aee-8344-8a3e-01f7537cc24a" class="">起始就是操作html中的标签的一些能力</p></div><div style="display:contents" dir="auto"><p id="8458db55-6aee-8296-a2a5-8196f443b8e7" class="">可以操作哪些标签？</p></div><div style="display:contents" dir="auto"><p id="7598db55-6aee-83b3-a421-816e4b176cb9" class="">获取元素</p></div><div style="display:contents" dir="auto"><p id="6e78db55-6aee-8331-9a1a-81f6ca61bfde" class="">移除元素</p></div><div style="display:contents" dir="auto"><p id="a788db55-6aee-83a5-96b7-81da6187360c" class="">创建元素</p></div><div style="display:contents" dir="auto"><p id="7b18db55-6aee-83d4-820c-01353819e9b0" class="">向页面里添加元素</p></div><div style="display:contents" dir="auto"><p id="b128db55-6aee-82dd-a479-01ad3dfd415d" class="">给元素绑定一些事件</p></div><div style="display:contents" dir="auto"><p id="9268db55-6aee-82bd-9c30-81a0bb7e672e" class="">获取元素的属性</p></div><div style="display:contents" dir="auto"><p id="e4c8db55-6aee-82af-ab29-81d9979a2573" class="">给元素一些css样式</p></div><div style="display:contents" dir="auto"><p id="62e8db55-6aee-8384-a62c-814ae49d423c" class="">。。。</p></div><div style="display:contents" dir="auto"><p id="7538db55-6aee-838c-9749-015602e2a7ec" class="">DOM的核心是document对象</p></div><div style="display:contents" dir="auto"><p id="9988db55-6aee-838b-bb63-81287d75c228" class="">document对象是浏览器内置的一个对象，里面存储着专门用来操作元素的各种元素</p></div><div style="display:contents" dir="auto"><p id="78f8db55-6aee-82c3-a3f2-012487e7ab5d" class="">DOM页面中的标签，我们可以通过js获取到以后，就把这个对象叫做DOM对象</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bb38db55-6aee-8335-bb7c-81b20746f986" class="toggle"><li><details open=""><summary><mark class="highlight-default">约束 DOM 方法</mark></summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="d878db55-6aee-82be-8c9d-0139da3c6430" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">
+查看-&gt; https://www.runoob.com/js/js-validation-api.html
+1. checkValidity()	如果 input 元素中的数据是合法的返回 true，否则返回 false。
+2. setCustomValidity()  设置 input 元素的 validationMessage 属性，用于自定义错误提示信息的方法。
+	使用 setCustomValidity 设置了自定义提示后，validity.customError 就会变成 true，checkValidity 总是会返回 false。如果要重新判断需要取消自定义提示，方式如下：
+setCustomValidity(&#x27;&#x27;) 
+setCustomValidity(null) 
+setCustomValidity(undefined)
+
+注意：validity 属性验证依赖于 type=&quot;number&quot;;
+若需要 type=&quot;text&quot; 但仍验证数字范围，需要手动添加范围验证。
+-----------------------------------------------------------------------------------------
+例如：
+&lt;input id=&quot;id1&quot; type=&quot;number&quot; min=&quot;100&quot; max=&quot;300&quot; required&gt;
+&lt;button onclick=&quot;myFunction()&quot;&gt;验证&lt;/button&gt;
+&lt;p id=&quot;demo&quot;&gt;&lt;/p&gt;
+&lt;script&gt;
+function myFunction() {
+    var inpObj = document.getElementById(&quot;id1&quot;);
+    if (inpObj.checkValidity() == false) {
+        document.getElementById(&quot;demo&quot;).innerHTML = inpObj.validationMessage;
+    }
+}
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fe48db55-6aee-8202-b57f-01f17d903301" class="toggle"><li><details open=""><summary>获取元素方式</summary><div style="display:contents" dir="auto"><ul id="ac28db55-6aee-82ad-9d79-0190f36186a2" class="toggle"><li><details open=""><summary>通过id获取 / document.getElementById()</summary><div style="display:contents" dir="auto"><p id="4a98db55-6aee-82d9-848b-81ac549aa604" class="">元素id是唯一的，在js中，id相当于变量，可以直接使用</p></div><div style="display:contents" dir="auto"><p id="5098db55-6aee-8358-825c-01ba383dcb48" class="">也可以通过document.getElementById(’id’)</p></div><div style="display:contents" dir="auto"><pre id="fdc8db55-6aee-8242-aa57-819ceb406238" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;box&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+	console.log(box); // 存在兼容性问题
+	box.innerHTML = &quot;1111&quot;;
+	
+	const element = document.getElementById(&#x27;box&#x27;);
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b408db55-6aee-83fd-8724-81d388104a44" class="toggle"><li><details open=""><summary>html，head，body标签获取</summary><div style="display:contents" dir="auto"><pre id="f218db55-6aee-839a-9370-81e8fc74ec95" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(document.documnetElement); // 基于动态计算rem
+console.log(document.head);
+console.log(document.body);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a7c8db55-6aee-8226-aed1-01d80f6a1045" class="toggle"><li><details open=""><summary>通过标签名获取 / document.getElementsByTagName()</summary><div style="display:contents" dir="auto"><p id="1b58db55-6aee-8252-8359-8136090fb947" class="">通过 HTML 标签名（如 <code>div</code>、<code>p</code>）获取，返回<strong>HTMLCollection 集合</strong>（类数组，实时更新）。</p></div><div style="display:contents" dir="auto"><pre id="5778db55-6aee-828a-bdc3-8187ab59d4f1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">获取文档中所有指定标签
+const divs = document.getElementsByTagName(&#x27;div&#x27;);
+
+在父元素内获取（更高效）
+const parent = document.getElementById(&#x27;parent&#x27;);
+const childSpans = document.getElementsByTagName(&#x27;span&#x27;);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9368db55-6aee-828c-919a-815caab01a4b" class="toggle"><li><details open=""><summary>通过元素的clas属性获取 / document/father.getElementByClassName()</summary><div style="display:contents" dir="auto"><p id="f208db55-6aee-8284-8bae-8176b98444ad" class="">通过元素的 <code>class</code> 属性获取，返回<strong>HTMLCollection 集合</strong>（类数组）</p></div><div style="display:contents" dir="auto"><p id="e848db55-6aee-83b7-82ff-812bb542a47b" class="">多个类名用空格分隔（如 &#x27;active menu&#x27;）</p></div><div style="display:contents" dir="auto"><pre id="bfa8db55-6aee-83b0-a372-01df6421826e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">文档中所有含指定类名的元素
+const activeTtems = document.getElementsByClassName(&#x27;active&#x27;);
+
+在父元素内获取
+const list = document.getElementById(&#x27;list&#x27;);
+const listItems = list.getElementsByClassName(&#x27;item&#x27;);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7f08db55-6aee-8318-93c1-8190df184aa9" class="toggle"><li><details open=""><summary>通过CSS选择器获取 / document.querySelector() / document.querySelectorAll()</summary><div style="display:contents" dir="auto"><ol type="1" id="9328db55-6aee-8314-8e60-819ff14f2931" class="numbered-list" start="1"><li>获取第一个匹配的元素。</li></ol></div><div style="display:contents" dir="auto"><p id="2e38db55-6aee-838d-ba8a-81db0a184b6d" class="">document.querySelector(selector)</p></div><div style="display:contents" dir="auto"><pre id="0498db55-6aee-820e-b50f-819f5a7f8d57" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const firstItem = dcument.querySelector(&#x27;.list .item&#x27;); // 第一个匹配.list .item 元素
+const input = document.querySelector(&#x27;input[type=&quot;text&quot;]&#x27;); // 桉属性选择</code></pre></div><div style="display:contents" dir="auto"><p id="4048db55-6aee-820c-a879-813c7807cc7a" class="">返回：单个元素（若不存在则返回 <code>null</code>）。</p></div><div style="display:contents" dir="auto"><p id="c958db55-6aee-82e7-a162-01ef7ec6f8df" class="">选择器支持：所有 CSS 选择器（如 ID、类、标签、属性、伪类等）。</p></div><div style="display:contents" dir="auto"><ol type="1" id="bc88db55-6aee-82ca-81b3-819415bd574d" class="numbered-list" start="2"><li>获取所有匹配的元素。</li></ol></div><div style="display:contents" dir="auto"><p id="ad98db55-6aee-8374-aa56-81cb283df987" class="">document.querySelectorAll(selector)</p></div><div style="display:contents" dir="auto"><pre id="c748db55-6aee-82e4-9868-01c85cf29f96" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const allItems = document.querySelectorAll(&#x27;.list .item&#x27;); // 所有匹配的元素</code></pre></div><div style="display:contents" dir="auto"><p id="8fa8db55-6aee-8396-bdaa-811a60461602" class="">返回：<strong>NodeList 集合</strong>（类数组，静态集合，DOM 变化时不会更新）。</p></div><div style="display:contents" dir="auto"><p id="efc8db55-6aee-83bc-ae81-8194dc6ee113" class="">特点：支持复杂选择器，返回的集合是 “静态的”（性能更好）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bde8db55-6aee-8317-9176-01f1abf93624" class="toggle"><li><details open=""><summary>通过H5新方法 / document.imamges / document.forms / document.links</summary><div style="display:contents" dir="auto"><p id="a4e8db55-6aee-83a8-9ee6-0110942d9f52" class="">1、获取所有图片</p></div><div style="display:contents" dir="auto"><pre id="3268db55-6aee-8331-8929-01fb00f26c25" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const images = document.images;
+等价于：
+document.getElementsByTagName(&#x27;img&#x27;);</code></pre></div><div style="display:contents" dir="auto"><p id="1288db55-6aee-839a-a8b0-812bc80342b8" class="">2、获取所有表单</p></div><div style="display:contents" dir="auto"><pre id="3058db55-6aee-837f-9eb3-0103bf0d945a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const forms = document.forms;
+等价于：
+document.getElementsByTagName(&#x27;form&#x27;);</code></pre></div><div style="display:contents" dir="auto"><p id="2358db55-6aee-839e-beef-817ca7f9ee24" class="">3、获取所有锚点（带herf的&lt;a&gt;）</p></div><div style="display:contents" dir="auto"><pre id="a868db55-6aee-8331-821b-01f1711ee92e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const links = document.links;
+等价于：
+document.getElementsByTagName(&#x27;a&#x27;); // 仅包含href的</code></pre></div><div style="display:contents" dir="auto"><p id="37e8db55-6aee-832c-9ce9-01c7c15acc57" class="">4、获取表单元素（通过name属性）</p></div><div style="display:contents" dir="auto"><pre id="c978db55-6aee-829f-b215-01b324ebcde5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 表单内的元素可以通过 form.elements[name] 获取
+const form = document.forms[0];
+const usernameInput = form.elements[&#x27;username&#x27;]; // 获取 name=&#x27;username&#x27; 的表单元素</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3d78db55-6aee-83a6-bfb3-01ccb5d65306" class="toggle"><li><details open=""><summary>通过关系获取（基于已有元素）</summary><div style="display:contents" dir="auto"><p id="4dd8db55-6aee-82e7-90c3-8126c5cdf915" class="">通过元素之间的父子、兄弟关系获取。</p></div><div style="display:contents" dir="auto"><p id="f8f8db55-6aee-83f7-83e5-81e04282e591" class="">1、父元素</p></div><div style="display:contents" dir="auto"><pre id="f6e8db55-6aee-83a3-91f4-818592792b79" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const child = document.getElementById(&#x27;child&#x27;);
+const parent = child.parentElement; // 直接父元素
+const parentNode = child.parentNode; // 直接父节点</code></pre></div><div style="display:contents" dir="auto"><p id="ef98db55-6aee-8349-adff-817400025b71" class="">2、子元素</p></div><div style="display:contents" dir="auto"><pre id="ac18db55-6aee-83e9-b923-012a09fcba61" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const parent = document.getElementById(&#x27;parent&#x27;);
+const children = parent.children; // 所有直接子元素（HTMLCollection, 动态）
+const firstChild = parent.firstElementChild; // 第一个直接子元素
+const lastChild = parent.lastElementChild; // 最后一个直接子元素</code></pre></div><div style="display:contents" dir="auto"><p id="2078db55-6aee-8395-80e4-816812f4c2fe" class="">3、兄弟元素</p></div><div style="display:contents" dir="auto"><pre id="fcb8db55-6aee-83a1-8943-0130ba4c5d6d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const current = document.getElementById(&#x27;current&#x27;);
+const prevSibling = current.previousElementSibling; // 前一个兄弟元素
+const nextSibling = current.nextElementSibling; // 最后一个兄弟元素</code></pre></div></details></li></ul></div><div style="display:contents" dir="ltr"><table id="7458db55-6aee-8325-8399-010dc2005025" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5228db55-6aee-8370-bf76-81e27bc129da"><th id="Ldm{" class="simple-table-header-color simple-table-header"><strong>方法</strong></th><th id="?hzE" class="simple-table-header-color simple-table-header"><strong>返回值类型</strong></th><th id="\Hs=" class="simple-table-header-color simple-table-header"><strong>动态 / 静态</strong></th><th id="=vx~" class="simple-table-header-color simple-table-header"><strong>兼容性</strong></th><th id="R~Th" class="simple-table-header-color simple-table-header" style="width:169.1171875px"><strong>适用场景</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="f9a8db55-6aee-82f4-9997-0104019e919d"><td id="Ldm{" class=""><code>getElementById</code></td><td id="?hzE" class="">单个元素</td><td id="\Hs=" class="">-</td><td id="=vx~" class="">所有浏览器</td><td id="R~Th" class="" style="width:169.1171875px">按唯一 ID 获取（推荐）</td></tr></div><div style="display:contents" dir="ltr"><tr id="7bf8db55-6aee-82c8-9222-01cf9746a979"><td id="Ldm{" class=""><code>getElementsByTagName</code></td><td id="?hzE" class="">HTMLCollection</td><td id="\Hs=" class="">动态</td><td id="=vx~" class="">所有浏览器</td><td id="R~Th" class="" style="width:169.1171875px">按标签名批量获取</td></tr></div><div style="display:contents" dir="ltr"><tr id="c7e8db55-6aee-8382-b3ce-815c0130d6d2"><td id="Ldm{" class=""><code>getElementsByClassName</code></td><td id="?hzE" class="">HTMLCollection</td><td id="\Hs=" class="">动态</td><td id="=vx~" class="">IE9+</td><td id="R~Th" class="" style="width:169.1171875px">按类名批量获取</td></tr></div><div style="display:contents" dir="ltr"><tr id="be58db55-6aee-83a8-8ceb-810c58bb94e9"><td id="Ldm{" class=""><code>querySelector</code></td><td id="?hzE" class="">单个元素</td><td id="\Hs=" class="">-</td><td id="=vx~" class="">IE8+（部分）</td><td id="R~Th" class="" style="width:169.1171875px">复杂选择器获取第一个元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="7018db55-6aee-83ce-accf-018b79779d09"><td id="Ldm{" class=""><code>querySelectorAll</code></td><td id="?hzE" class="">NodeList</td><td id="\Hs=" class="">静态</td><td id="=vx~" class="">IE8+（部分）</td><td id="R~Th" class="" style="width:169.1171875px">复杂选择器批量获取（推荐）</td></tr></div><div style="display:contents" dir="ltr"><tr id="2858db55-6aee-8204-930d-01d6477573cf"><td id="Ldm{" class="">关系获取（如 <code>parentElement</code>）</td><td id="?hzE" class="">单个元素</td><td id="\Hs=" class="">-</td><td id="=vx~" class="">所有浏览器</td><td id="R~Th" class="" style="width:169.1171875px">已知元素，获取相关元素</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bc88db55-6aee-82d3-bfd7-8121540b25db" class="toggle"><li><details open=""><summary>操作元素属性</summary><div style="display:contents" dir="auto"><p id="e198db55-6aee-82b6-89a7-818ad062d5ad" class="">1、innerHTML</p></div><div style="display:contents" dir="auto"><p id="54f8db55-6aee-83d1-baeb-81e5088fc3f8" class="">获取box下的所有内容，文本+标签结构</p></div><div style="display:contents" dir="auto"><p id="f6f8db55-6aee-83dd-a655-8191a03accb8" class="">通过box.innerHTML = &quot;1231231223&quot;;可以进行修改内容</p></div><div style="display:contents" dir="auto"><p id="2fa8db55-6aee-838d-9ccd-81dc4d7477f7" class="">2、innerText</p></div><div style="display:contents" dir="auto"><p id="c428db55-6aee-8208-8b22-81e110c30066" class="">只获取文本信息，不解析</p></div><div style="display:contents" dir="auto"><p id="57f8db55-6aee-8248-abf0-01c198a804fc" class="">3、value</p></div><div style="display:contents" dir="auto"><p id="5bb8db55-6aee-82fc-b57e-018db77ce4ac" class="">value只适用于含有value的表单标签</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js" integrity="sha512-namzGTZvHaug0jeipHRN2pMepMiJj+EbrloktVFlMYGnA0EwZhbdLeENjBYLCgoghVbZGinIz/FFYHmB0o3wLw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="5308db55-6aee-825d-8c07-81e2d303e9cb" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;box&quot;&gt;
+    hello word
+    &lt;div&gt;kb&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;input type=&quot;text&quot; id=&quot;username&quot; value=&quot;123&quot;&gt;
+&lt;script&gt;
+    console.log(box.innerHTML); // 拿走box下的所有内容，文本+标签
+    // box.innerHTML = &quot;1231231223&quot;;
+
+    console.log(box.innerText); // 只拿走文本信息 // 不解析
+
+    console.log(username.value); // value只适用于含有value的表单标签
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="43a8db55-6aee-8265-9857-81b02d3daddd" class="">4、dataset.name=”“ # 自定义属性</p></div><div style="display:contents" dir="auto"><p id="dfe8db55-6aee-82a0-9912-8127ce279fd4" class="">得到data-name属性。</p></div><div style="display:contents" dir="auto"><pre id="f378db55-6aee-82dc-83f4-81ba478ef875" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var oHeaderItems = document.querySelectorAll(&quot;.header li&quot;);
+
+for (var i=0; i&lt;oHeaderItems.length; i++) {
+		// 使用自定义属性
+		oHeaderItems[i].dataset.index = i;
+		oHeaderItems[i].onclick = function (){
+				console.log(this.dataset.index); // 这里无法使用i来获取		
+		}
+}</code></pre></div><div style="display:contents" dir="auto"><p id="e8e8db55-6aee-83a4-86fb-01a91992c9de" class="">5、getAttribute()<br/>const attributeValue = element.getAttribute(attributeName);</p></div><div style="display:contents" dir="auto"><p id="b0f8db55-6aee-83bc-84fa-01ce35c3b67e" class="">attributeName（字符串），表示要获取的属性名称（如 <code>id</code>、<code>class</code>、<code>src</code> 等）</p></div><div style="display:contents" dir="auto"><pre id="6528db55-6aee-82ae-ac29-019756737b31" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const div = document.getElementById(&#x27;myDiv&#x27;);
+
+console.log(div.getAttribute(&#x27;id&#x27;));        // 输出：&quot;myDiv&quot;
+console.log(div.getAttribute(&#x27;class&#x27;));     // 输出：&quot;container&quot;
+console.log(div.getAttribute(&#x27;data-index&#x27;));// 输出：&quot;1&quot;
+console.log(div.getAttribute(&#x27;title&#x27;));     // 输出：&quot;示例容器&quot;
+console.log(div.getAttribute(&#x27;nonexistent&#x27;));// 输出：null（属性不存在）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2a08db55-6aee-8267-a6be-81aa1dc7a02e" class="toggle"><li><details open=""><summary>操作元素样式</summary><div style="display:contents" dir="auto"><p id="0bf8db55-6aee-83d5-b1f6-8173fda2aa55" class="">1、style # 读写权</p></div><div style="display:contents" dir="auto"><p id="dd48db55-6aee-82e7-a1e5-81c1be524091" class="">box.style.height</p></div><div style="display:contents" dir="auto"><p id="8e08db55-6aee-8277-bf6f-01e1906fd439" class="">box.style[&quot;background-color&quot;]</p></div><div style="display:contents" dir="auto"><p id="1a28db55-6aee-8259-825b-0137471ef8a1" class="">box.style.backgroundColor</p></div><div style="display:contents" dir="auto"><p id="a9c8db55-6aee-836d-a240-015ead4295ee" class="">box.style.width = &quot;200px&quot;;</p></div><div style="display:contents" dir="auto"><p id="dc38db55-6aee-82a8-bb95-812a1f12e98b" class="">box.style[&quot;background-color&quot;] = &quot;red&quot;;</p></div><div style="display:contents" dir="auto"><p id="5168db55-6aee-8347-96a6-81f917aff2fa" class="">2、getComputedStyle() # 读权 # 兼容性有问题</p></div><div style="display:contents" dir="auto"><p id="3308db55-6aee-82b6-8b89-81b70482b8b2" class="">getComputedStyle(box).height</p></div><div style="display:contents" dir="auto"><p id="6288db55-6aee-83ea-84e5-01d91f6bb162" class="">getComputedStyle(box).width</p></div><div style="display:contents" dir="auto"><p id="43f8db55-6aee-8290-b4f3-814495a6b52e" class="">currentStyle.backgroundColor # ie低版本不兼容，使用这个</p></div><div style="display:contents" dir="auto"><pre id="d918db55-6aee-83c1-b7c1-011cecdf3276" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;style&gt;
+    #box {
+        height: 100px;
+        background-color: yellow;
+    }
+&lt;/style&gt;
+&lt;div id=&quot;box&quot; style=&quot;width: 100px; color: black; background-color:aqua&quot;&gt;123213&lt;/div&gt;
+&lt;script&gt;
+    // style -- 读写
+    console.log(box.style.height); // 只能获取行内样式
+    console.log(box.style[&quot;background-color&quot;]) // 行内，有链接符号的
+    console.log(box.style.backgroundColor) // 行内，有链接符号的
+
+    box.style.width = &quot;200px&quot;;
+    box.style[&quot;background-color&quot;] = &quot;red&quot;;
+
+    // 内部，外部，行内样式，通过 getComputedStyle，支持驼峰 -- 读 //有兼容性问题
+    console.log(getComputedStyle(box).height) // 外部
+    console.log(getComputedStyle(box).width) // 行内
+
+    // ie 低版本 currentStyle.backgroundColor
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2598db55-6aee-82b9-8824-018da3a156cb" class="toggle"><li><details open=""><summary>操作元素类</summary><div style="display:contents" dir="auto"><p id="9948db55-6aee-827d-a707-8128b100fa7f" class="">1、box.className  # 读写权</p></div><div style="display:contents" dir="auto"><p id="c1f8db55-6aee-82e7-8404-01d6c5360ffd" class="">box.className = “item item2”  # 添加不会去重</p></div><div style="display:contents" dir="auto"><p id="0cb8db55-6aee-8291-9e8e-0101b5747405" class="">2、box.classList 读写权</p></div><div style="display:contents" dir="auto"><p id="1f58db55-6aee-8296-8169-81e636a45906" class="">box.classList.add() # 添加类，会自动去重</p></div><div style="display:contents" dir="auto"><p id="4128db55-6aee-8350-8e21-819315bf4cea" class="">box.classList.remove() # 删除类</p></div><div style="display:contents" dir="auto"><p id="32d8db55-6aee-8255-b743-81912f40e18d" class="">box.classList.toggle() # 动态切换，如果存在要操作的类，就删除，不存在就添加</p></div><div style="display:contents" dir="auto"><pre id="a4d8db55-6aee-8269-8b06-81e5a8182461" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;style&gt;
+    .item {
+        width: 100px;
+        height: 100px;
+        background-color: aqua;
+        color: black;
+        border-radius: 10px;
+    }
+&lt;/style&gt;
+
+&lt;div id=&quot;box&quot; class=&quot;item&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+    // .className --读写
+
+    console.log(box.className);
+    box.className = &quot;item item2&quot;;
+    // box.className+= &quot; iii&quot;;
+
+    // .classList --读写，自动去重
+    console.log(box.classList);
+
+    box.classList.add(&quot;item3&quot;); // 会自动去重
+
+    box.classList.remove(&quot;item2&quot;); // 可删除
+
+    // 切换 toggle
+    box.classList.toggle(&quot;item3&quot;); // 如果calss中有，就删除
+    box.classList.toggle(&quot;item3&quot;); // 没用就添加
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0178db55-6aee-825f-97ea-8127b4a21882" class="toggle"><li><details open=""><summary>获取节点方式</summary><div style="display:contents" dir="ltr"><table id="b058db55-6aee-8219-9ead-81a3e877b2e8" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="d7c8db55-6aee-822d-9632-8109d48342ca"><th id="mG|~" class="simple-table-header-color simple-table-header"><strong>属性</strong></th><th id="&gt;UbP" class="simple-table-header-color simple-table-header" style="width:318px"><strong>含义</strong></th><th id="h?FY" class="simple-table-header-color simple-table-header" style="width:348px"><strong>示例场景</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="e198db55-6aee-823c-a4e9-81dfd16e7a1e"><td id="mG|~" class=""><code>parentNode</code></td><td id="&gt;UbP" class="" style="width:318px">返回当前节点的父节点（唯一）</td><td id="h?FY" class="" style="width:348px">元素节点的父节点可能是元素或文档节点</td></tr></div><div style="display:contents" dir="ltr"><tr id="2888db55-6aee-8248-9d1e-01debf66e95d"><td id="mG|~" class=""><code>childNodes</code></td><td id="&gt;UbP" class="" style="width:318px">返回当前节点的所有子节点（类数组集合）</td><td id="h?FY" class="" style="width:348px">元素节点的子节点可能包含文本、注释、其他元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="9ff8db55-6aee-821c-90f4-01f9ce3477ba"><td id="mG|~" class=""><code>firstChild</code></td><td id="&gt;UbP" class="" style="width:318px">返回第一个子节点</td><td id="h?FY" class="" style="width:348px">-</td></tr></div><div style="display:contents" dir="ltr"><tr id="6bf8db55-6aee-8320-83e1-81832ced3cea"><td id="mG|~" class=""><code>lastChild</code></td><td id="&gt;UbP" class="" style="width:318px">返回最后一个子节点</td><td id="h?FY" class="" style="width:348px">-</td></tr></div><div style="display:contents" dir="ltr"><tr id="99c8db55-6aee-820a-9133-01f8358c08c8"><td id="mG|~" class=""><code>nextSibling</code></td><td id="&gt;UbP" class="" style="width:318px">返回下一个同级节点（兄弟节点）</td><td id="h?FY" class="" style="width:348px">-</td></tr></div><div style="display:contents" dir="ltr"><tr id="6798db55-6aee-8234-87ca-81e30891fc5e"><td id="mG|~" class=""><code>previousSibling</code></td><td id="&gt;UbP" class="" style="width:318px">返回上一个同级节点（兄弟节点）</td><td id="h?FY" class="" style="width:348px">-</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="fdf8db55-6aee-8217-985d-8105d0d1293c" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div&gt;21312&lt;/div&gt;321
+&lt;div id=&quot;box&quot;&gt;
+    weiarewin
+    &lt;p&gt;123&lt;/p&gt;
+    &lt;p&gt;dw21dwsa&lt;/p&gt;
+    &lt;!-- hahahahahaha --&gt;
+&lt;/div&gt;
+adwnew&lt;div&gt;dwdas&lt;/div&gt;
+
+&lt;script&gt;
+    console.log(box.childNodes); // 所有节点，包括换行
+    console.log(box.children); // 获取所有元素
+
+    // firstChild firstElementChild // 第一个子节点，元素
+    console.log(box.firstChild);
+    console.log(box.firstElementChild);
+
+    // lastChild lastElementChild // 最后一个子节点，元素
+    console.log(box.lastChild);
+    console.log(box.lastElementChild);
+
+    // previousSibling previousElementSibling 上一个兄弟节点
+    console.log(box.previousSibling);
+    console.log(box.previousElementSibling);
+
+    // nextSibling nextElementSibling 下一个兄弟节点
+    console.log(box.nextSibling);
+    console.log(box.nextElementSibling);
+
+    // parentNode parentElement 父节点
+    console.log(box.parentNode);
+    console.log(box.parentElement);
+    
+    // console.log(box.getAttribute(&quot;div&quot;));
+    console.log(box.attributes); // 返回所有对象
+
+
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="d688db55-6aee-83ef-b4bb-01d5efc09b42" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1018db55-6aee-830b-b0dd-010899993686" class="toggle"><li><details open=""><summary>操作节点方式</summary><div style="display:contents" dir="auto"><pre id="1e58db55-6aee-8269-b2c0-01b207c58559" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;box&quot;&gt;
+    &lt;div id=&quot;child&quot;&gt;11111111111&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    var odiv = document.createElement(&quot;div&quot;); // 创建一个节点
+    odiv.innerHTML = &quot;new created&quot;; // 给创建的节点添加内容
+    odiv.className = &quot;myClass&quot;; // 添加类属性
+    odiv.id = &quot;myId&quot;; // 添加id
+    console.log(odiv);
+
+    // appendChild(节点对象) 追加
+    box.appendChild(odiv); // 给id = box追加一个孩子
+
+    // insertBefore(要插入的节点， 在谁的前面插入) 任意位置插入
+    box.insertBefore(odiv, child);
+
+    // box.removeChild(节点对象) 删除
+    box.removeChild(child);
+
+    // replaceChild(新节点， 老节点) 替换
+    var odiv2 = document.createElement(&quot;div&quot;);
+    odiv2.innerHTML = &quot;122222222&quot;;
+    box.replaceChild(odiv2, odiv);
+
+    // cloneNode(false/true) 是否克隆后代，默认false
+    var ocloneBox = box.cloneNode(true);
+    console.log(ocloneBox);
+    ocloneBox.id = &quot;box2&quot;;
+
+    document.body.appendChild(ocloneBox);
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b528db55-6aee-8360-8872-0104ecd2bae8" class="toggle"><li><details open=""><summary>节点属性</summary><div style="display:contents" dir="auto"><ul id="f018db55-6aee-83a7-aeb7-8155d02d1a01" class="toggle"><li><details open=""><summary>节点元素特有属性</summary><div style="display:contents" dir="ltr"><table id="48e8db55-6aee-8392-8185-816fed500e40" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="66d8db55-6aee-8218-ac0e-81c3cfd442c3"><th id="={l`" class="simple-table-header-color simple-table-header"><strong>属性</strong></th><th id="F:gS" class="simple-table-header-color simple-table-header" style="width:380.99346923828125px"><strong>含义</strong></th><th id="P]Nl" class="simple-table-header-color simple-table-header" style="width:356px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="ae18db55-6aee-822c-9430-01462e67f80a"><td id="={l`" class=""><code>id</code></td><td id="F:gS" class="" style="width:380.99346923828125px">元素的 id 属性（可读写）</td><td id="P]Nl" class="" style="width:356px"><code>div.id = &quot;newId&quot;;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b118db55-6aee-8336-b715-01f8feac88a5"><td id="={l`" class=""><code>className</code></td><td id="F:gS" class="" style="width:380.99346923828125px">元素的 class 属性（可读写，因<code>class</code>是 JS 关键字，故用<code>className</code>）</td><td id="P]Nl" class="" style="width:356px"><code>div.className = &quot;box red&quot;;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ee38db55-6aee-8285-b502-8123d51f7cbd"><td id="={l`" class=""><code>tagName</code></td><td id="F:gS" class="" style="width:380.99346923828125px">返回标签名（大写，同元素节点的<code>nodeName</code>）</td><td id="P]Nl" class="" style="width:356px"><code>div.tagName; // &quot;DIV&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8288db55-6aee-8319-871c-81499107d50e"><td id="={l`" class=""><code>attributes</code></td><td id="F:gS" class="" style="width:380.99346923828125px">返回元素所有属性的集合（类数组）</td><td id="P]Nl" class="" style="width:356px"><code>input.attributes;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3b78db55-6aee-8293-bcc0-0187347e81af"><td id="={l`" class=""><code>innerHTML</code></td><td id="F:gS" class="" style="width:380.99346923828125px">返回或设置元素的 HTML 内容（包括标签）</td><td id="P]Nl" class="" style="width:356px"><code>div.innerHTML = &quot;&lt;p&gt;新内容&lt;/p&gt;&quot;;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="bad8db55-6aee-8358-8490-01e643502214"><td id="={l`" class=""><code>outerHTML</code></td><td id="F:gS" class="" style="width:380.99346923828125px">返回或设置元素自身及内部的 HTML 内容</td><td id="P]Nl" class="" style="width:356px"><code>div.outerHTML = &quot;&lt;span&gt;替换整个div&lt;/span&gt;&quot;;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="04b8db55-6aee-83de-9449-81c83e9cd7c2"><td id="={l`" class=""><code>textContent</code></td><td id="F:gS" class="" style="width:380.99346923828125px">返回或设置元素的文本内容（忽略标签）</td><td id="P]Nl" class="" style="width:356px"><code>div.textContent = &quot;纯文本&quot;;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2568db55-6aee-82ff-976a-0122b38942da"><td id="={l`" class=""><code>dataset</code></td><td id="F:gS" class="" style="width:380.99346923828125px">访问元素的<code>data-*</code>自定义属性（如<code>data-id</code>）</td><td id="P]Nl" class="" style="width:356px"><code>div.dataset.id = &quot;123&quot;;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b4b8db55-6aee-82e6-a140-01ff10e2ed20"><td id="={l`" class="">表单属性</td><td id="F:gS" class="" style="width:380.99346923828125px">如<code>input.value</code>、<code>input.checked</code>等</td><td id="P]Nl" class="" style="width:356px"><code>input.value = &quot;用户名&quot;;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="99e8db55-6aee-8333-a308-011163d84fde" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;box&quot; class=&quot;container&quot; data-type=&quot;info&quot;&gt;
+  &lt;p&gt;原始内容&lt;/p&gt;
+&lt;/div&gt;
+&lt;input type=&quot;checkbox&quot; checked&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="73d8db55-6aee-83bb-92b4-817d13410f4c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const div = document.getElementById(&#x27;box&#x27;);
+console.log(div.id); // &quot;box&quot;
+console.log(div.className); // &quot;container&quot;
+console.log(div.tagName); // &quot;DIV&quot;
+console.log(div.innerHTML); // &quot;&lt;p&gt;原始内容&lt;/p&gt;&quot;
+console.log(div.textContent); // &quot;原始内容&quot;
+console.log(div.dataset.type); // &quot;info&quot;（获取data-type）
+
+// 修改属性
+div.className = &quot;new-class&quot;; // class变为&quot;new-class&quot;
+div.dataset.type = &quot;update&quot;; // data-type变为&quot;update&quot;
+div.innerHTML = &quot;&lt;span&gt;新内容&lt;/span&gt;&quot;; // 替换内部HTML
+
+const input = document.querySelector(&#x27;input&#x27;);
+console.log(input.checked); // true（布尔值，同input的property）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c778db55-6aee-8224-a9b9-81f5a4be6a17" class="toggle"><li><details open=""><summary>文档节点特有属性</summary><div style="display:contents" dir="ltr"><table id="6c08db55-6aee-83e0-9d4b-81f102e1b795" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="8818db55-6aee-83bd-8a56-018c308576a8"><th id="SQ|j" class="simple-table-header-color simple-table-header"><strong>属性</strong></th><th id="SV:B" class="simple-table-header-color simple-table-header" style="width:297.19659423828125px"><strong>含义</strong></th><th id="}^Mc" class="simple-table-header-color simple-table-header" style="width:403.8802032470703px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="2158db55-6aee-8266-819f-812f92a4c21a"><td id="SQ|j" class=""><code>documentElement</code></td><td id="SV:B" class="" style="width:297.19659423828125px">返回文档的根元素（即<code>&lt;html&gt;</code>标签）</td><td id="}^Mc" class="" style="width:403.8802032470703px"><code>document.documentElement;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="afc8db55-6aee-83e5-9f2a-811a99c443c8"><td id="SQ|j" class=""><code>body</code></td><td id="SV:B" class="" style="width:297.19659423828125px">返回<code>&lt;body&gt;</code>标签</td><td id="}^Mc" class="" style="width:403.8802032470703px"><code>document.body;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="97b8db55-6aee-8310-afc0-014d57ee0fea"><td id="SQ|j" class=""><code>head</code></td><td id="SV:B" class="" style="width:297.19659423828125px">返回<code>&lt;head&gt;</code>标签</td><td id="}^Mc" class="" style="width:403.8802032470703px"><code>document.head;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="80a8db55-6aee-82f7-a7a4-010c7dcc97e0"><td id="SQ|j" class=""><code>title</code></td><td id="SV:B" class="" style="width:297.19659423828125px">返回或设置文档标题（<code>&lt;title&gt;</code>内容）</td><td id="}^Mc" class="" style="width:403.8802032470703px"><code>document.title = &quot;新标题&quot;;</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4088db55-6aee-83ab-85f4-8123b9d9abd6" class="toggle"><li><details open=""><summary>1、每种类型对应不同的内容（整数），通过nodeType可以查看（只读）</summary><div style="display:contents" dir="ltr"><table id="15f8db55-6aee-8359-87a8-016852d17d96" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="feb8db55-6aee-8376-b134-81985d6c6802"><th id="BzD&lt;" class="simple-table-header-color simple-table-header" style="width:191.58203125px"><strong>节点类型</strong></th><th id="yUuj" class="simple-table-header-color simple-table-header"><strong>nodeType 值</strong></th><th id="kwWl" class="simple-table-header-color simple-table-header" style="width:339px"><strong>描述</strong></th><th id="AnaH" class="simple-table-header-color simple-table-header" style="width:157.5546875px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="7fc8db55-6aee-8241-83f1-81fa9e3fb49c"><td id="BzD&lt;" class="" style="width:191.58203125px">文档节点（Document）</td><td id="yUuj" class="">9</td><td id="kwWl" class="" style="width:339px">整个文档的根节点</td><td id="AnaH" class="" style="width:157.5546875px"><code>document</code> 对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="1188db55-6aee-8300-9453-815758b2b8c1"><td id="BzD&lt;" class="" style="width:191.58203125px">元素节点（Element）</td><td id="yUuj" class="">1</td><td id="kwWl" class="" style="width:339px">HTML 标签（如 div、p 等）</td><td id="AnaH" class="" style="width:157.5546875px"><code>&lt;div&gt;...&lt;/div&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="cbf8db55-6aee-82d9-b6f9-01ada16a3e6a"><td id="BzD&lt;" class="" style="width:191.58203125px">文本节点（Text）</td><td id="yUuj" class="">3</td><td id="kwWl" class="" style="width:339px">标签内的文本内容</td><td id="AnaH" class="" style="width:157.5546875px"><code>Hello World</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="f9f8db55-6aee-825d-9086-014a32779ffc"><td id="BzD&lt;" class="" style="width:191.58203125px">注释节点（Comment）</td><td id="yUuj" class="">8</td><td id="kwWl" class="" style="width:339px">注释内容</td><td id="AnaH" class="" style="width:157.5546875px"><code>&lt;!-- 这是注释 --&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="08f8db55-6aee-8252-bd2f-01776e326b64"><td id="BzD&lt;" class="" style="width:191.58203125px">属性节点（Attr）</td><td id="yUuj" class="">2</td><td id="kwWl" class="" style="width:339px">元素的属性（已逐渐被弃用，推荐通过元素节点操作）</td><td id="AnaH" class="" style="width:157.5546875px"><code>class=&quot;box&quot;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="a8b8db55-6aee-83ef-9846-8179384140ad" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const div = document.querySelector(&#x27;div&#x27;);
+const text = div.firstChild; // 文本节点
+const comment = document.createComment(&#x27;注释&#x27;);
+
+console.log(div.nodeType);    // 1（元素节点）
+console.log(text.nodeType);   // 3（文本节点）
+console.log(comment.nodeType);// 8（注释节点）
+console.log(document.nodeType);// 9（文档节点）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6988db55-6aee-8250-b1f9-01d557eafc37" class="toggle"><li><details open=""><summary>2、nodeName（只读）返回节点名称（str），跟随节点类型不同而变化</summary><div style="display:contents" dir="auto"><pre id="8e58db55-6aee-83a3-a973-8187ce960f17" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const div = document.querySelector(&#x27;div&#x27;);
+const text = div.firstChild;
+const comment = document.createComment(&#x27;注释&#x27;);
+
+console.log(div.nodeName);    // &quot;DIV&quot;
+console.log(text.nodeName);   // &quot;#text&quot;
+console.log(comment.nodeName);// &quot;#comment&quot;
+console.log(document.nodeName);// &quot;#document&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b538db55-6aee-826a-8b7e-81cf52d6727f" class="toggle"><li><details open=""><summary>3、nodeValue返回或设置节点的值，值随节点类型不同而变化</summary><div style="display:contents" dir="auto"><pre id="1d58db55-6aee-82e4-bdd7-815b94ce4a53" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const div = document.querySelector(&#x27;div&#x27;);
+const text = div.firstChild; // 假设div内文本为&quot;Hello&quot;
+const comment = document.createComment(&#x27;原始注释&#x27;);
+
+console.log(div.nodeValue);    // null
+console.log(text.nodeValue);   // &quot;Hello&quot;
+console.log(comment.nodeValue);// &quot;原始注释&quot;
+
+// 修改文本节点的值
+text.nodeValue = &quot;Hi&quot;; // div内文本变为&quot;Hi&quot;
+// 修改注释节点的值
+comment.nodeValue = &quot;新注释&quot;; // 注释内容变为&quot;新注释&quot;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="93b8db55-6aee-8251-b83c-016a8c0cf095" class="toggle"><li><details open=""><summary>获取元素尺寸</summary><div style="display:contents" dir="auto"><pre id="7978db55-6aee-837f-b623-01d726396638" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;style&gt;
+    div {
+        width: 200px;
+        height: 200px;
+        padding: 10px;
+        border: 5px solid red;
+        background-color: aqua;
+    }
+&lt;/style&gt;
+&lt;div id=&quot;box&quot;&gt;
+
+&lt;/div&gt;
+&lt;script&gt;
+    // content
+    console.log(getComputedStyle(box).width);
+
+    // offsetWidth, offsetHeight = content + padding + border
+    // 单位为Number
+    // box-sizing：计算方式没用影响
+    // display:none 时拿不到值
+    console.log(box.offsetWidth, box.offsetHeight);
+
+    // clientWidth clientHeight = content + padding
+    // box-sizing：计算方式没用影响
+    // display:none 时拿不到值
+    console.log(box.clientWidth, box.clientHeight)
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9d98db55-6aee-827c-b02f-81630fd2a994" class="toggle"><li><details open=""><summary>获取元素偏移量</summary><div style="display:contents" dir="auto"><pre id="4e48db55-6aee-8316-a2f7-01656f1b812c" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;style&gt;
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #box {
+        width: 500px;
+        height: 500px;
+        background-color: aqua;
+        overflow: hidden;
+    }
+
+    #aparent {
+        width: 300px;
+        height: 300px;
+        background-color: blue;
+        overflow: hidden;
+        position: relative;
+    }
+
+    #child {
+        width: 100px;
+        height: 100px;
+        background-color: yellow;
+        overflow: hidden;
+    }
+
+    div {
+        margin: 50px;
+    }
+
+    ul {
+        width: 200px;
+        height: 200px;
+        padding: 20px;
+        border: 10px solid red;
+        background-color:blueviolet;
+        margin: 50px;
+    }
+&lt;/style&gt;
+&lt;div id=&quot;box&quot;&gt;
+    &lt;div id=&quot;aparent&quot;&gt;
+        &lt;div id=&quot;child&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;ul id=&quot;list&quot;&gt;&lt;/ul&gt;
+&lt;script&gt;
+    // offsetLeft， offsetTop相对于第一个定位父级
+    // 如果父级元素没用定位，就相对于body
+    console.log(child.offsetLeft, child.offsetTop)
+    console.log(aparent.offsetLeft, aparent.offsetTop)
+    console.log(box.offsetLeft, box.offsetTop)
+
+    // clientLeft，clientTop = content距离自己坐上角的位置
+    console.log(list.clientLeft, list.clientTop)
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f4d8db55-6aee-8332-9c25-013f75e6a4bd" class="toggle"><li><details open=""><summary>获取可视窗口的尺寸</summary><div style="display:contents" dir="auto"><p id="e698db55-6aee-82d1-b9a2-0196f53746ac" class="">计算滚动条的宽度</p></div><div style="display:contents" dir="auto"><p id="1088db55-6aee-8365-9625-01185d2404bf" class="">innerWidth</p></div><div style="display:contents" dir="auto"><p id="c368db55-6aee-8331-99d3-81beca711739" class="">innerHeight</p></div><div style="display:contents" dir="auto"><p id="ab68db55-6aee-8337-a3fc-8119df091d1d" class="">不计算滚动条宽度</p></div><div style="display:contents" dir="auto"><p id="c448db55-6aee-82e5-bfeb-017582b67912" class="">document.documentElement.clientWidth</p></div><div style="display:contents" dir="auto"><p id="1a08db55-6aee-8318-9c54-017823b8cc0d" class="">document.documentElement.clientHeight</p></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="83a8db55-6aee-8322-88f6-819c8f1554b7" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

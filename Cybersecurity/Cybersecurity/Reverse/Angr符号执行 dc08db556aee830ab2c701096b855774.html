@@ -1,0 +1,868 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Angr符号执行</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="dc08db55-6aee-830a-b2c7-01096b855774" class="page mono"><header><h1 class="page-title" dir="auto">Angr符号执行</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="7348db55-6aee-82e0-891d-013df10ff88b" class="">Angr 是一个复杂的二进制分析框架，其初始的整体架构设计如下图：</p></div><div style="display:contents" dir="ltr"><figure id="3888db55-6aee-8391-ab3d-816043240e1a" class="image"><a href="Angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C/Angr%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6.png"><img style="width:702.9910888671875px" src="Angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C/Angr%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6.png"/></a></figure></div><div style="display:contents" dir="auto"><ul id="b388db55-6aee-83bf-8f61-01faef9de6de" class="toggle"><li><details open=""><summary>Angr 的核心组件自下而上依次为:</summary><div style="display:contents" dir="auto"><ol type="1" id="37c8db55-6aee-826b-b31c-8193a688e3c7" class="numbered-list" start="1"><li>CLE：加载可执行文件和库文件</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="9128db55-6aee-83be-a124-01e2da68e6f0" class="numbered-list" start="2"><li>archinfo：获取架构信息</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="35a8db55-6aee-838e-91ea-01e4837be9ed" class="numbered-list" start="3"><li>PyVEX：将指令转换成 VEX 这种中间语言（IR）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="70f8db55-6aee-82eb-b092-01439fdc14a0" class="numbered-list" start="4"><li>SimuVEX：模拟执行引擎，负责在虚拟环境中执行 VEX</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="cc98db55-6aee-82b4-98a2-812d04fed0e9" class="numbered-list" start="5"><li>Claripy：用于创建和管理符号变量及条件约束，传递给 Z3 求解器进行求解</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="c198db55-6aee-83f3-9836-8172aa5321ce" class="numbered-list" start="6"><li>Angr：将各个组件集成起来，提供一套整体的二进制分析和符号执行框架</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1428db55-6aee-82fb-a239-811d77c44fa6" class="numbered-list" start="7"><li>analysis：提供一套分析工具，通过 CFG、DDG 等对程序进行分析</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="19d8db55-6aee-83c5-bec2-01f4ba06c4a4" class="numbered-list" start="8"><li>surveyors：用于记录和跟踪程序的可执行路径</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="4058db55-6aee-82c7-9c1d-81b15c0c2da4"/></div><div style="display:contents" dir="auto"><p id="6198db55-6aee-8365-94b3-010cae8af9d2" class="">Angr的整体运行图</p></div><div style="display:contents" dir="ltr"><figure id="8ee8db55-6aee-83fd-8474-01b360d22bb1" class="image"><a href="Angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C/Angr%E8%BF%90%E4%BD%9C%E6%B5%81%E7%A8%8B.png"><img style="width:702.9910888671875px" src="Angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C/Angr%E8%BF%90%E4%BD%9C%E6%B5%81%E7%A8%8B.png"/></a></figure></div><div style="display:contents" dir="auto"><ul id="e528db55-6aee-826e-9d3a-81b71493533a" class="toggle"><li><details open=""><summary>使用 Angr 进行二进制分析时，各组件的运行步骤为：</summary><div style="display:contents" dir="auto"><ol type="1" id="2da8db55-6aee-829a-bb87-812be46688b1" class="numbered-list" start="1"><li>CLE 加载二进制，获取机器指令</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a1c8db55-6aee-8221-a27b-01bce35a7f9a" class="numbered-list" start="2"><li>Archinfo 分析二进制的架构类型</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6be8db55-6aee-826c-b020-01684507f73b" class="numbered-list" start="3"><li>PyVEX 根据架构类型，将机器指令转换为 VEX 中间表达</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="d938db55-6aee-8233-a753-01e451949495" class="numbered-list" start="4"><li>SimEngine 基于 VEX 来模拟程序执行</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="c428db55-6aee-82da-a24b-81a62a3419bc" class="numbered-list" start="5"><li>Clarify 创建和管理执行过程中的符号变量和约束条件，转化为 SMT 表达式，传递给 Z3 求解</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2628db55-6aee-8372-b534-8104a2a94176" class="numbered-list" start="6"><li>SimOS（SimProcedures）模拟程序与系统的交互，如标准 io 流、文件读写、系统调用等操作</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="be88db55-6aee-8314-a4fe-8156fcbbcb95"/></div><div style="display:contents" dir="auto"><hr id="88f8db55-6aee-8271-86f9-8149d2487a7b"/></div><div style="display:contents" dir="auto"><p id="5578db55-6aee-838a-9faa-815400dea7b1" class="">Angr 需要 python 3.8 以上的运行环境，需要先装 3.8 版本以上的 python。</p></div><div style="display:contents" dir="auto"><ul id="7718db55-6aee-8202-aafa-0190095a41de" class="toggle"><li><details open=""><summary>Angr安装</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3848db55-6aee-82c3-a5a2-816b8d88779d" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">pip install Angr</code></pre></div><div style="display:contents" dir="auto"><p id="0228db55-6aee-83f6-ae0e-01631af78eff" class="">源码安装</p></div><div style="display:contents" dir="auto"><pre id="4e68db55-6aee-82bc-b668-8137f643e9ef" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">git clone https://github.com/Angr/Angr-dev.git
+cd Angr-dev
+./setup.sh -i -e Angr</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9488db55-6aee-8290-ae7d-81c9f5a6eebc" class="toggle"><li><details open=""><summary>运行</summary><div style="display:contents" dir="auto"><p id="9108db55-6aee-8388-98f4-01080f51d463" class="">建议在虚拟环境中运行 Angr。源码安装的方式可以自动创建名为 Angr 的虚拟环境。手动创建虚拟环境的命令为：</p></div><div style="display:contents" dir="auto"><pre id="12b8db55-6aee-8357-964a-01f4974dee32" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">python3 -m venv Angr</code></pre></div><div style="display:contents" dir="auto"><p id="2548db55-6aee-8254-84e4-0101537b3eee" class="">启动虚拟环境：</p></div><div style="display:contents" dir="auto"><pre id="5c18db55-6aee-82e9-9b5f-8137f1c6dce7" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">source Angr/bin/active</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ba48db55-6aee-8315-a5bd-81260dc1ccf6" class="toggle"><li><details open=""><summary>使用</summary><div style="display:contents" dir="auto"><pre id="81e8db55-6aee-8391-942d-8164dfe2ed4f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import Angr</code></pre></div><div style="display:contents" dir="auto"><p id="05b8db55-6aee-83d8-a3d2-8189805e8fb2" class="">Angr 的顶层 API 围绕着 Angr 的核心组件来设计，包含一组常用的 Python 类和对象，它们提供了二进制分析、符号执行和其他功能。</p></div><div style="display:contents" dir="auto"><hr id="14f8db55-6aee-83ef-a1a8-815cc6e7d179"/></div><div style="display:contents" dir="auto"><p id="0b08db55-6aee-8211-850c-81c6ca68fc79" class="">以下是 Angr 的一些常用 API 组件：</p></div><div style="display:contents" dir="auto"><ol type="1" id="9ff8db55-6aee-82b2-a3d7-81f008bab2ba" class="numbered-list" start="1"><li><strong>Project（项目）</strong>：<div style="display:contents" dir="auto"><ul id="50d8db55-6aee-82ae-9e1e-819156b9daed" class="bulleted-list"><li style="list-style-type:disc"><code>Project</code>是 Angr 的中心组件，它代表了用户所要处理的二进制文件。</li></ul></div><div style="display:contents" dir="auto"><ul id="96b8db55-6aee-83da-8bb2-013b50b273a4" class="bulleted-list"><li style="list-style-type:disc">创建一个 <code>Project</code> 实例是使用 Angr 进行分析的第一步，<code>Project</code>对象提供了对二进制文件的操作和分析的接口。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="7f18db55-6aee-8370-94e5-81bdb8d83eca" class="numbered-list" start="2"><li><strong>Factory（工厂）</strong>：<div style="display:contents" dir="auto"><ul id="1bd8db55-6aee-83ad-81ed-8111ec7892a1" class="bulleted-list"><li style="list-style-type:disc"><code>Factory</code>对象通过 <code>Project</code> 的<code>factory</code>属性来访问，它提供了快速访问 Angr 的各种分析技术的接口，避免复杂的实例化操作。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6978db55-6aee-824e-892f-0140253db948" class="numbered-list" start="3"><li><strong>SimState（模拟状态）</strong>：<div style="display:contents" dir="auto"><ul id="9368db55-6aee-83f2-a67d-819a4f50517d" class="bulleted-list"><li style="list-style-type:disc"><code>SimState</code>代表程序的一个瞬时状态，它包含寄存器、内存、堆栈、文件系统等运行时的上下文环境状态，可用于执行符号执行和具体执行。</li></ul></div><div style="display:contents" dir="auto"><ul id="6c18db55-6aee-83b4-8655-81c457082d16" class="bulleted-list"><li style="list-style-type:disc"><code>SimState</code>对象通过 <code>Project</code> 的<code>factory</code>属性的方法来访问，这些方法包括 <code>entry_state</code>、<code>blank_state</code>、<code>full_init_state</code> 等。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a068db55-6aee-834a-bb35-0145beb7b300" class="numbered-list" start="4"><li><strong>SimulationManager（模拟管理器）</strong>：<div style="display:contents" dir="auto"><ul id="e128db55-6aee-821a-9bbe-01184cc34c49" class="bulleted-list"><li style="list-style-type:disc"><code>SimulationManager</code>用来跟踪程序执行过程中的路径探索和 <code>SimState</code> 演化，并对这些路径和 <code>SimState</code> 进行管理。</li></ul></div><div style="display:contents" dir="auto"><ul id="0848db55-6aee-8235-9d0a-812d4cbe19f7" class="bulleted-list"><li style="list-style-type:disc"><code>SimulationManager</code>对象通过 <code>Project</code> 的<code>factory</code>属性的 <code>simulation_manager</code> 方法实例化。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2a58db55-6aee-826e-9300-8194cbfed229" class="numbered-list" start="5"><li><strong>Loader（加载器）</strong>：<div style="display:contents" dir="auto"><ul id="ccb8db55-6aee-835c-8e8f-81dcfbc7cb4a" class="bulleted-list"><li style="list-style-type:disc"><code>Loader</code>负责将二进制文件载入内存，并处理符号以及它们的地址空间，为后续分析提供详细信息，如入口点、可执行段、符号表等。</li></ul></div><div style="display:contents" dir="auto"><ul id="7058db55-6aee-824d-a818-81932e4f250d" class="bulleted-list"><li style="list-style-type:disc"><code>Loader</code>对象通过 <code>Project</code> 的<code>loader</code>属性的方法来访问。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="4f18db55-6aee-83df-966f-01c02823e872" class="numbered-list" start="6"><li><strong>Block（块）</strong>：<div style="display:contents" dir="auto"><ul id="c318db55-6aee-82cc-8aa6-81347c19efca" class="bulleted-list"><li style="list-style-type:disc"><code>Block</code>表示程序基本块，是 Angr 分析的基本单位。每个 <code>Block</code> 是一组顺序执行代码片段，具有原子性，以分支或跳转结尾。</li></ul></div><div style="display:contents" dir="auto"><ul id="f088db55-6aee-8254-abe3-81256b007c17" class="bulleted-list"><li style="list-style-type:disc"><code>Block</code>对象通过 <code>Project</code> 的<code>factory</code>属性的 <code>block</code> 方法实例化。</li></ul></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e418db55-6aee-8384-8071-819507184f4f" class="toggle"><li><details open=""><summary>示例</summary><div style="display:contents" dir="auto"><p id="9f78db55-6aee-82fb-a61c-8124954040dc" class="">一个example.c</p></div><div style="display:contents" dir="auto"><pre id="7088db55-6aee-83f2-98a2-81b72368e4dd" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;assert.h&gt;
+
+#define MAX_LEN 100
+
+
+int calculate(int number)
+{
+    return number * number;
+}
+
+int main()
+{
+    char input[MAX_LEN];
+
+    printf(&quot;Enter the string: &quot;);
+    fgets(input, MAX_LEN, stdin);
+
+    int len = strlen(input);
+    int num = 0;
+
+    for(int i = 0; i &lt; len; i++) {
+        if(input[i] &gt;= &#x27;0&#x27; &amp;&amp; input[i] &lt;= &#x27;9&#x27;){
+            num = num * 10 + (input[i] - &#x27;0&#x27;);
+        }
+    }
+
+    int res = calculate(num);
+    assert(res != 65536);
+
+    return 0;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="c238db55-6aee-8356-9397-0146267d0981" class="">将 example.c 编译为 example_binary ：</p></div><div style="display:contents" dir="auto"><pre id="8068db55-6aee-8347-ad0a-8165b7f675f2" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">gcc example.c -o example_binary</code></pre></div><div style="display:contents" dir="auto"><hr id="7828db55-6aee-826b-9b85-019237c3fb25"/></div><div style="display:contents" dir="auto"><hr id="eee8db55-6aee-8376-9025-019dbd96e0e1"/></div><div style="display:contents" dir="auto"><p id="8978db55-6aee-82a6-80f9-816834553080" class="">静态程序分析</p></div><div style="display:contents" dir="auto"><p id="8748db55-6aee-82ee-95c3-8145fce99fd9" class="">首先用 Angr 定位程序入口：</p></div><div style="display:contents" dir="auto"><pre id="c4f8db55-6aee-83a6-a421-81430cab2371" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&gt;&gt;&gt; import angr
+&gt;&gt;&gt; project = angr.Project(&#x27;example_binary&#x27;, load_options={&#x27;auto_load_libs&#x27;: False})
+&gt;&gt;&gt; project.filename
+&#x27;example_binary&#x27;
+&gt;&gt;&gt; project.arch
+&lt;Arch AMD64 (LE)&gt;
+&gt;&gt;&gt; project.entry
+4198624
+&gt;&gt;&gt; bb = project.factory.block(4198624)
+&gt;&gt;&gt; bb.instructions
+12
+&gt;&gt;&gt; hex(bb.addr)
+&#x27;0x4010e0&#x27;</code></pre></div><div style="display:contents" dir="auto"><p id="7158db55-6aee-83cd-8a95-8109d483ceea" class="">这个 <code>0x4010e0</code> 地址对应的是程序的入口 block ，包括 12 条指令，在 CFG 中表示为如下节点，可以看到 block 的名字并不是 main，而是 _start ：</p></div><div style="display:contents" dir="ltr"><figure id="de58db55-6aee-821c-bb5b-0151e125444d" class="image"><a href="Angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C/%E6%89%A7%E8%A1%8Cblock.png"><img style="width:1589px" src="Angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C/%E6%89%A7%E8%A1%8Cblock.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="0378db55-6aee-8210-824d-01d3f295b2ea" class="">接着从 _start 开始执行，执行一次后到达 ___libc_start_main ，然而再执行一次后并没有到达 main ：</p></div><div style="display:contents" dir="auto"><pre id="2738db55-6aee-829c-945f-819944c95ca4" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&gt;&gt;&gt; st_0 = project.factory.entry_state()
+&gt;&gt;&gt; hex(st_0.addr)
+&#x27;0x4010e0&#x27;
+&gt;&gt;&gt; nx  = st_0.step()
+&gt;&gt;&gt; nx.successors
+[&lt;SimState @ 0x500000&gt;]
+&gt;&gt;&gt; st_1 = nx.successors[0]
+&gt;&gt;&gt; hex(st_1.addr)
+&#x27;0x500000&#x27;
+&gt;&gt;&gt; nx = st_1.step()
+&gt;&gt;&gt; nx.successors
+[&lt;SimState @ 0x4012e0&gt;]</code></pre></div><div style="display:contents" dir="auto"><p id="3958db55-6aee-821c-bba3-817fa6407bc6" class="">为了获取 main 这个 block 的状态，可以使用 <code>SimulationManager</code> 来执行：</p></div><div style="display:contents" dir="auto"><pre id="3878db55-6aee-822a-bfa6-01c7d0426080" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&gt;&gt;&gt; simgr = project.factory.simulation_manager(st_0)
+&gt;&gt;&gt; main_obj = project.loader.main_object.get_symbol(&#x27;main&#x27;)
+&gt;&gt;&gt; hex(main_obj.rebased_addr)
+&#x27;0x4011dc&#x27;
+&gt;&gt;&gt; simgr.explore(find=main_obj.rebased_addr)
+&lt;SimulationManager with 1 found&gt;
+&gt;&gt;&gt; simgr.found
+[&lt;SimState @ 0x4011dc&gt;]
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="2e38db55-6aee-834b-8ac4-01b790450118"/></div><div style="display:contents" dir="auto"><ul id="f218db55-6aee-837d-9fc5-014283c51d53" class="toggle"><li><details open=""><summary>静态符号执行</summary><div style="display:contents" dir="auto"><pre id="a008db55-6aee-8233-b839-0128dfd7e0bf" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;assert.h&gt;
+
+#define MAX_LEN 100
+
+
+int calculate(int number)
+{
+    return number * number;
+}
+
+int main()
+{
+    char input[MAX_LEN];
+
+    printf(&quot;Enter the string: &quot;);
+    fgets(input, MAX_LEN, stdin);
+
+    int len = strlen(input);
+    int num = 0;
+
+    for(int i = 0; i &lt; len; i++) {
+        if(input[i] &gt;= &#x27;0&#x27; &amp;&amp; input[i] &lt;= &#x27;9&#x27;){
+            num = num * 10 + (input[i] - &#x27;0&#x27;);
+        }
+    }
+
+    int res = calculate(num);
+    assert(res != 65536);
+
+    return 0;
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="e348db55-6aee-831f-9111-01e7eb0a00fb"/></div><div style="display:contents" dir="auto"><p id="8cf8db55-6aee-836b-aa93-017bd7f76540" class="">example_binary 接受一个最长为 100 位的字符串作为输入，提取字符串中的数字，转换成数值，然后进行平方运算，结果等于 65536 时出现断言错误。反推回来，当输入字符串中包含 2、5、6 这三个数字时，就能导致<code>AssertionError</code>。</p></div><div style="display:contents" dir="auto"><p id="4738db55-6aee-82e5-abf2-0137af0a27e8" class="">要让程序自动找到触发 example_binary 中 <code>AssertionError</code> 的 input，可以用 Angr 符号执行来求解。</p></div><div style="display:contents" dir="auto"><p id="8da8db55-6aee-8222-8a9a-014a2008b802" class="">首先引入<code>claripy</code>，创建符号变量：</p></div><div style="display:contents" dir="auto"><pre id="1108db55-6aee-82bf-b46e-01cd30a9ba96" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&gt;&gt;&gt; import claripy
+&gt;&gt;&gt; input_size = 100
+&gt;&gt;&gt; symbolic_buffer = claripy.BVS(&#x27;input&#x27;, 8 * (input_size - 1))
+&gt;&gt;&gt; entry_state = project.factory.entry_state(stdin=claripy.Concat(symbolic_buffer, claripy.BVV(b&#x27;\n&#x27;)))</code></pre></div><div style="display:contents" dir="auto"><p id="8768db55-6aee-83dc-bc8d-81360f903230" class="">通过CFG可以找到<code>AssertionError</code>的<code>block</code>地址为<code>0x4010c0</code>:</p></div><div style="display:contents" dir="ltr"><figure id="1b88db55-6aee-833c-9b83-812c80041ac8" class="image"><a href="Angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C/AssertError%E8%8A%82%E7%82%B9.png"><img style="width:472.27679443359375px" src="Angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C/AssertError%E8%8A%82%E7%82%B9.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="94c8db55-6aee-8204-b84b-01fa136d489c" class="">然后用 <code>SimulationManager</code> 控制程序朝 <code>AssertionError</code> 开始探索：</p></div><div style="display:contents" dir="auto"><pre id="f698db55-6aee-8277-8323-810ec18f0d7b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&gt;&gt;&gt; simgr = project.factory.simulation_manager(entry_state)
+&gt;&gt;&gt; simgr.explore(find=0x4010c0)
+WARNING  | 2024-03-11 17:27:02,034 | angr.storage.memory_mixins.default_filler_mixin | The program is accessing memory with an unspecified value. This could indicate unwanted behavior.
+WARNING  | 2024-03-11 17:27:03,808 | angr.storage.memory_mixins.default_filler_mixin | angr will cope with this by generating an unconstrained symbolic variable and continuing. You can resolve this by:
+WARNING  | 2024-03-11 17:27:03,808 | angr.storage.memory_mixins.default_filler_mixin | 1) setting a value to the initial state
+WARNING  | 2024-03-11 17:27:03,808 | angr.storage.memory_mixins.default_filler_mixin | 2) adding the state option ZERO_FILL_UNCONSTRAINED_{MEMORY,REGISTERS}, to make unknown regions hold null
+WARNING  | 2024-03-11 17:27:03,808 | angr.storage.memory_mixins.default_filler_mixin | 3) adding the state option SYMBOL_FILL_UNCONSTRAINED_{MEMORY,REGISTERS}, to suppress these messages.
+WARNING  | 2024-03-11 17:27:03,994 | angr.storage.memory_mixins.default_filler_mixin | Filling memory at 0x7fffffffffeff70 with 1 unconstrained bytes referenced from 0x500010 (strlen+0x0 in extern-address space (0x10))
+
+&lt;SimulationManager with 829 active, 20 deadended, 1 found&gt;
+&gt;&gt;&gt;
+&gt;&gt;&gt; simgr.found
+[&lt;SimState @ 0x4010c0&gt;]
+&gt;&gt;&gt; found_state = simgr.found[0]
+&gt;&gt;&gt; found_state
+&lt;SimState @ 0x4010c0&gt;
+&gt;&gt;&gt; found_state.solver.eval(symbolic_buffer, cast_to=bytes)
+b&#x27;256\x00\x00\x00\x01\x00\x00\x00\x80\x01\x00\x00\x00\x00\x00\x00\x00\x00@ \x08\x08\x00\x02\x00 \x00\x00\x80\x00\x00\x00@\x00\x01 \x02\x10\x00\x01 \x10\x00@\x04\x80\x80\x01\x80\x01@\x02\x08\x08\x04\x80\x01@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&#x27;
+&gt;&gt;&gt; len(found_state.solver.eval(symbolic_buffer, cast_to=bytes))
+99
+&gt;&gt;&gt; found_state.solver.constraints
+[&lt;Bool !(input_3_792[791:784] == 10)&gt;, &lt;Bool !(input_3_792[783:776] == 10)&gt;, &lt;Bool !(input_3_792[775:768] == 10)&gt;, &lt;Bool !(input_3_792[767:760] == 10)&gt;, &lt;Bool !(input_3_792[759:752] == 10)&gt;, &lt;Bool !(input_3_792[751:744] == 10)&gt;, &lt;Bool !(input_3_792[743:736] == 10)&gt;, &lt;Bool !(input_3_792[735:728] == 10)&gt;, &lt;Bool !(input_3_792[727:720] == 10)&gt;, &lt;Bool !(input_3_792[719:712] == 10)&gt;, &lt;Bool !(input_3_792[711:704] == 10)&gt;, &lt;Bool !(input_3_792[703:696] == 10)&gt;, &lt;Bool !
+……
+</code></pre></div><div style="display:contents" dir="auto"><p id="00d8db55-6aee-8245-b162-01be2282b7bf" class="">可以看到虽然很慢，但是 Angr 成功地算出了一个可以触发 <code>AssertionError</code> 的输入。计算结果保存在 <code>SimulationManager</code> 的<code>found</code>属性中，每个结果是一个 <code>SimState</code> 实例，通过 <code>SimState</code> 的<code>solver</code>属性可以查看可行解与约束条件。</p></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

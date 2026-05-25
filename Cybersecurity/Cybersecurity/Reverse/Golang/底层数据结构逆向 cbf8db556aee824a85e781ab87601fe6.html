@@ -1,0 +1,787 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>底层数据结构逆向</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="cbf8db55-6aee-824a-85e7-81ab87601fe6" class="page sans"><header><h1 class="page-title" dir="auto">底层数据结构逆向</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="8338db55-6aee-8300-b3a3-81f5856a3102" class="toggle"><li><details open=""><summary>String</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-go.min.js" integrity="sha512-w200Nz1i9KgDNi+IpPMgpZBVRIvfVK/V5vskyHjkz7XJkVnRJcb1uNmpiHhDv0/Ln+GG2VqScKKz/1izBfg64Q==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="27e8db55-6aee-83ff-a0c6-015f0ca5997f" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">package main
+import &quot;fmt&quot;
+
+func main() {
+	str1 := &quot;this is string 1&quot;
+	str2 := &quot;this is string 2&quot;
+	str3 := str1 + str2
+	fmt.println(str3)
+}</code></pre></div><div style="display:contents" dir="auto"><p id="9f48db55-6aee-8321-9c14-81149ed41f96" class="">golang使用两个字段存储字符串，分别是<mark class="highlight-orange">字符串指针</mark>以及<mark class="highlight-orange">字符串长度</mark></p></div><div style="display:contents" dir="auto"><pre id="0968db55-6aee-83c2-9cda-010879706cab" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">type StringHeader struct {
+	Data uintptr // 字符串首地址
+	Len int // 字符串长度
+}</code></pre></div><div style="display:contents" dir="auto"><p id="e898db55-6aee-82c3-acae-8108fcc518c0" class="">逆向时候可以发现如下代码</p></div><div style="display:contents" dir="auto"><pre id="e278db55-6aee-82b0-8c82-01404bed789a" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">lea   rdx,  aThisIsString1;
+mov   [rsp+58h], rdx
+mov   qword ptr [rsp+60h], 10h</code></pre></div><div style="display:contents" dir="auto"><p id="8248db55-6aee-82e9-964b-010b81d1d454" class="">字符串的常见操作时字符串的拼接，若拼接的字符串个数不超过5， 则调用concatstringN</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9908db55-6aee-834f-bc57-81462e075938" class="toggle"><li><details open=""><summary>Array</summary><div style="display:contents" dir="auto"><pre id="7728db55-6aee-8352-a9db-811c0ed98317" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">package main
+import &quot;fmt&quot;
+
+func main() {
+	a := [...]int{1,2,3}
+	b := [...]int{1,2,3,4,5,6,7,8,9}
+	c := [...]int{1,2,3}
+	fmt.Println(a,b,c)
+}</code></pre></div><div style="display:contents" dir="auto"><p id="8b78db55-6aee-826f-84ad-013bb204f62e" class="">golang的数组类型信息由数组元素类型和数组长度组成</p></div><div style="display:contents" dir="ltr"><figure id="8a18db55-6aee-82a1-b0d4-018ccd48e380" class="image"><a href="%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%80%86%E5%90%91/Snipaste_2025-11-29_13-38-41.png"><img style="width:681.9419555664062px" src="%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%80%86%E5%90%91/Snipaste_2025-11-29_13-38-41.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="aad8db55-6aee-821c-813c-0192f87524aa" class="">RTYHPE_25_int 表示这个类型是int[25]，地二项地址是数据地址</p></div><div style="display:contents" dir="auto"><p id="60b8db55-6aee-8274-a42b-0102dc045c40" class="">访问数组元素时的偏移计算在编译时确定。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ea28db55-6aee-822b-8ede-8102ce385144" class="toggle"><li><details open=""><summary>slice</summary><div style="display:contents" dir="auto"><pre id="7918db55-6aee-83fb-b2fe-019f2cd99bab" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">type SliceHeader struct {
+	Data uintptr // 数据指针
+	Len int // 当前长度
+	Cap int // 可容纳的长度
+}</code></pre></div><div style="display:contents" dir="auto"><p id="6e68db55-6aee-8358-8b4e-01182812c316" class="">数组转换切片</p></div><div style="display:contents" dir="auto"><p id="e068db55-6aee-839c-a725-81fac93a029c" class="">一个数组转换成相等大小的切片</p></div><div style="display:contents" dir="ltr"><figure id="1438db55-6aee-822e-b9bc-81804a36d01b" class="image"><a href="%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%80%86%E5%90%91/Snipaste_2025-11-29_13-42-37.png"><img style="width:681.9642944335938px" src="%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%80%86%E5%90%91/Snipaste_2025-11-29_13-42-37.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="ffb8db55-6aee-8368-bd3f-011e9446234b" class="">slice切片类型由元素的类型组成</p></div><div style="display:contents" dir="auto"><hr id="2648db55-6aee-8223-9977-81ee2b9317d6"/></div><div style="display:contents" dir="auto"><p id="dd98db55-6aee-8377-81d1-8157addb4909" class="">创建切片</p></div><div style="display:contents" dir="auto"><pre id="97f8db55-6aee-83f3-a082-81aaa2d2f234" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">go:
+slice1 := make0([]int, len)
+
+asm:
+call   runtime_makeslice([]int, len, cap)
+mov    [rsp+28h], rdx // rdx = makeslice 创建的数组基地址
+mov    [rsp+30h], rax // rax = len
+mov    [rsp+38h], rcx // rcx = cap</code></pre></div><div style="display:contents" dir="auto"><p id="68a8db55-6aee-8207-83d7-817550a4c02e" class="">访问（读写）slice元素</p></div><div style="display:contents" dir="auto"><p id="ecc8db55-6aee-8386-9812-01af874191bc" class="">访问slice元素时候会检查是否越界（len），若越界则调用runtime_paniclndex</p></div><div style="display:contents" dir="auto"><p id="c458db55-6aee-825b-9ccf-8190b91e76e3" class="">最后用slice的数据地址计算元素的实际地址</p></div><div style="display:contents" dir="auto"><p id="f298db55-6aee-829a-a142-813d3ea18c93" class="">访问过程中还有一些runtime_writeBarrier相关的调用代码，忽略即可</p></div><div style="display:contents" dir="auto"><hr id="0648db55-6aee-8370-90b1-81402f0b416c"/></div><div style="display:contents" dir="auto"><p id="ea18db55-6aee-82f4-b9a4-01aa32ebc8d6" class="">Slice append</p></div><div style="display:contents" dir="auto"><pre id="e308db55-6aee-8324-ac3d-81d6fb7cf228" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">slice.append(slice1, 123)</code></pre></div><div style="display:contents" dir="auto"><p id="d9b8db55-6aee-826d-9855-81d852a4cbc3" class="">append的代码一般以inline形式呈现，流程如下</p></div><div style="display:contents" dir="auto"><ol type="1" id="bc88db55-6aee-829f-a07c-81e54fda62f1" class="numbered-list" start="1"><li>先检测目标slice1.len + 1 与slice1.cap的大小关系</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1e88db55-6aee-8340-ba7f-01e0470d08ae" class="numbered-list" start="2"><li>若slice1.len + 1 &gt; slice1.cap 则调用runtime_growslice扩容</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="4d08db55-6aee-82f3-a3cd-015c2c4f19f4" class="numbered-list" start="3"><li>写入append数据</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3088db55-6aee-823e-8885-81276d93228c" class="numbered-list" start="4"><li>更新原始切片信息<div style="display:contents" dir="ltr"><figure id="7f48db55-6aee-8228-8168-810ccbab968a" class="image"><a href="%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%80%86%E5%90%91/Snipaste_2025-11-29_13-51-31.png"><img style="width:2454px" src="%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%80%86%E5%90%91/Snipaste_2025-11-29_13-51-31.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><p id="1568db55-6aee-8298-9aff-018000e2b459" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9ee8db55-6aee-82fa-886c-01452e853ab6" class="toggle"><li><details open=""><summary>map</summary><div style="display:contents" dir="auto"><p id="8ae8db55-6aee-8337-8b66-0133a2be1646" class="">字典相关函数</p></div><div style="display:contents" dir="auto"><pre id="1718db55-6aee-82ac-8117-81379fb91779" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">func fastrand() uint32
+func makemap(mapType *byte, hint int, mapbuf *any) (hmap map[any]any)
+func mapaccess1(mapType *byte, hmap map[any]any, key *any) (val *any)
+func mapaccess2(mapType *byte, hmap map[any]any, key *any) (val *any, pres bool)
+func mapassign(mapType *byte, hmap map[any]any, key *any) (val *any)
+func mapiterinit(mapType *byte, hmap map[any]any, hiter *any)
+func mapiternext(hiter *any)</code></pre></div><div style="display:contents" dir="auto"><p id="98c8db55-6aee-8222-9e16-81fd8875b537" class="">map的赋值</p></div><div style="display:contents" dir="auto"><p id="ab48db55-6aee-82ac-b6e6-01a06d948498" class="">runtime_mapassign_xxx 函数实现对map赋值，该函数原型如下</p></div><div style="display:contents" dir="auto"><pre id="2a78db55-6aee-8260-98e5-818fdb8ea887" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">func mapassign(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer{}</code></pre></div><div style="display:contents" dir="auto"><p id="5008db55-6aee-82d1-be0b-8102e1fc8114" class="">示例：</p></div><div style="display:contents" dir="auto"><pre id="1378db55-6aee-8376-a2ec-81c1badd6acc" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">m := make)(map[string]int)
+m[&quot;k1&quot;] = 7</code></pre></div><div style="display:contents" dir="ltr"><figure id="64d8db55-6aee-82e5-8881-8122c9cbf9f6" class="image"><a href="%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%80%86%E5%90%91/Snipaste_2025-11-29_14-02-33.png"><img style="width:681.9754638671875px" src="%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%80%86%E5%90%91/Snipaste_2025-11-29_14-02-33.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="2968db55-6aee-82ea-b621-81d934fa7bca" class="">map的访问</p></div><div style="display:contents" dir="auto"><p id="e0b8db55-6aee-82e6-a5d7-016efcbf1eb0" class="">runtime_mapaccess1_xxx 函数实现访问map中的元素</p></div><div style="display:contents" dir="auto"><pre id="c268db55-6aee-83a2-975a-811503ceac90" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">func runtime_mapaccess1_xxx(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer</code></pre></div><div style="display:contents" dir="auto"><hr id="1508db55-6aee-838e-a393-017697bfffda"/></div><div style="display:contents" dir="auto"><p id="e8c8db55-6aee-825c-957d-01438183d2b2" class="">Map的迭代访问，迭代map需要mapiterinit 和 mapiternext函数支持</p></div><div style="display:contents" dir="auto"><p id="da18db55-6aee-8329-bd1e-8159aeaafb4c" class="">mapiterinit 赋值初始化迭代器</p></div><div style="display:contents" dir="auto"><p id="b718db55-6aee-823c-af36-0100073fa95e" class="">mapiternext 迭代器前进，迭代器是一个键值对数据结构</p></div><div style="display:contents" dir="auto"><pre id="6688db55-6aee-8339-a79d-81cbc42f6e2d" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">func mapiterinit(mapType *byte, hmap map[any]any, hiter *any)
+func mapiternext(hiter *any)</code></pre></div><div style="display:contents" dir="auto"><p id="7de8db55-6aee-8305-96ac-01d53950cfe9" class="">hiter的数据结构类似于</p></div><div style="display:contents" dir="auto"><pre id="6ab8db55-6aee-8220-8be1-0153d26f6ac9" class="code code-wrap"><code class="language-go" style="white-space:pre-wrap;word-break:break-all">type hiter struct {
+	KeyData uintptr // key 数据指针
+	ValueData uintptr // value 数据指针
+}</code></pre></div><div style="display:contents" dir="auto"><p id="1248db55-6aee-82f6-9583-01a7bb35a557" class="">第一项指向key内存， 第二项指向value内存，<mark class="highlight-orange">如果第一项为0，表示迭代完成</mark></p></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

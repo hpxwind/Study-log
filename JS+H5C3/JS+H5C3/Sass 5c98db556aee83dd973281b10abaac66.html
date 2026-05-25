@@ -1,0 +1,1101 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Sass</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5c98db55-6aee-83dd-9732-81b10abaac66" class="page mono"><header><h1 class="page-title" dir="auto">Sass</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="a158db55-6aee-8387-9cf0-811207e7b5a8" class="">Sass（Syntactically Awesome Style Sheets）是一种<mark class="highlight-orange"><strong>CSS 预处理器</strong></mark>，它扩展了 CSS 的语法，增加了变量、嵌套、混合、继承等高级特性，让 CSS 的编写更高效、可维护性更强。Sass 最终会被编译为普通 CSS 文件，供浏览器识别。</p></div><div style="display:contents" dir="auto"><hr id="91f8db55-6aee-83ab-87b8-8191ecbfd54b"/></div><div style="display:contents" dir="auto"><ul id="b178db55-6aee-83cc-b8f1-017ede4d57f0" class="toggle"><li><details open=""><summary>优势</summary><div style="display:contents" dir="auto"><p id="ac68db55-6aee-8335-9202-81e41fd412c7" class="">相比原生 CSS，Sass 的核心优势体现在以下几点：</p></div><div style="display:contents" dir="auto"><ol type="1" id="4258db55-6aee-834f-8944-8182481d53e8" class="numbered-list" start="1"><li><strong>变量（Variables）</strong>：将重复使用的样式值（如颜色、字体、尺寸）定义为变量，一处修改，多处生效。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2178db55-6aee-82b4-9cc7-01cc9c658a63" class="numbered-list" start="2"><li><strong>嵌套（Nesting）</strong>：支持选择器嵌套，清晰反映 HTML 结构，避免重复书写父选择器。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="16f8db55-6aee-82bb-851b-010804a6957e" class="numbered-list" start="3"><li><strong>混合（Mixins）</strong>：封装可复用的样式片段（如浏览器前缀、复杂布局），通过<code>@include</code>调用，减少代码冗余。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b9b8db55-6aee-83de-80a9-010d9fd06f7c" class="numbered-list" start="4"><li><strong>继承（Inheritance）</strong>：通过<code>@extend</code>实现样式继承，复用已有类的样式，生成更精简的 CSS。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="dd98db55-6aee-8276-9448-01132ddb8e0f" class="numbered-list" start="5"><li><strong>模块化（Modules）</strong>：将样式拆分到多个文件，通过<code>@use</code>和<code>@forward</code>导入组合，便于大型项目管理。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="35e8db55-6aee-8288-a3dd-81644f70d389" class="numbered-list" start="6"><li><strong>运算与函数</strong>：支持数学运算（如<code>width: 100% - 20px</code>）和内置函数（如颜色处理、字符串操作）。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3798db55-6aee-8260-b0f1-818af1cb2e99" class="toggle"><li><details open=""><summary>两种语法格式</summary><div style="display:contents" dir="ltr"><table id="60d8db55-6aee-822c-8a23-01ca7de9a0c6" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="61e8db55-6aee-83e8-a016-013637a42bca"><th id="r||s" class="simple-table-header-color simple-table-header"><strong>格式</strong></th><th id="p]Nb" class="simple-table-header-color simple-table-header"><strong>扩展名</strong></th><th id="`Nbt" class="simple-table-header-color simple-table-header" style="width:397px"><strong>语法特点</strong></th><th id="iIUt" class="simple-table-header-color simple-table-header" style="width:356.66015625px"><strong>示例代码</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="77c8db55-6aee-83eb-9f63-81259ea124a4"><td id="r||s" class=""><strong>Sass</strong></td><td id="p]Nb" class=""><code>.sass</code></td><td id="`Nbt" class="" style="width:397px">缩进式语法，无大括号<code>{}</code>和分号<code>;</code>，依靠缩进区分代码块</td><td id="iIUt" class="" style="width:356.66015625px"><code>body\n color: red\n font-size: 16px</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="91e8db55-6aee-82ae-9bc8-8180880c2ab8"><td id="r||s" class=""><strong>SCSS</strong></td><td id="p]Nb" class=""><code>.scss</code></td><td id="`Nbt" class="" style="width:397px">类 CSS 语法，保留大括号和分号，兼容原生 CSS</td><td id="iIUt" class="" style="width:356.66015625px"><code>body { color: red; font-size: 16px; }</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="d918db55-6aee-832d-ba8d-81f863e54d05" class="">推荐使用 <strong>SCSS</strong> 格式：更接近 CSS 写法，学习成本低，且兼容所有原生 CSS 代码（直接复制粘贴即可运行）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7e28db55-6aee-8358-9d68-016cb432fe74" class="toggle"><li><details open=""><summary>环境搭建</summary><div style="display:contents" dir="auto"><p id="1da8db55-6aee-8384-91bd-8170c017185b" class="">方式一：</p></div><div style="display:contents" dir="auto"><p id="91f8db55-6aee-8383-b03c-81fd8d04408b" class="">安装Sass（依赖Node.js环境）</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="be38db55-6aee-8231-8071-016bad54bdbf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm install -g sass  # 全局安装Sass</code></pre></div><div style="display:contents" dir="auto"><p id="5478db55-6aee-83be-b9ed-018c704353c0" class="">编译命令</p></div><div style="display:contents" dir="auto"><pre id="dae8db55-6aee-8271-8558-81067520ee83" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 单文件编译：将 input.scss 编译为 output.css
+sass input.scss output.css
+
+# 实时监听（开发常用）：文件变化时自动编译
+sass --watch input.scss:output.css
+
+# 监听文件夹：src目录下的.scss文件编译到dist目录
+sass --watch src/:dist/</code></pre></div><div style="display:contents" dir="auto"><ul id="aab8db55-6aee-8334-b730-01ab03c7d0ce" class="bulleted-list"><li style="list-style-type:disc"><code>-style compressed</code>：生成压缩后的 CSS（无空格和注释）</li></ul></div><div style="display:contents" dir="auto"><ul id="5e88db55-6aee-8281-973c-81b620153504" class="bulleted-list"><li style="list-style-type:disc"><code>-source-map</code>：生成 Source Map 文件，方便调试</li></ul></div><div style="display:contents" dir="auto"><hr id="bf68db55-6aee-82a1-9824-811cf4e2e9cc"/></div><div style="display:contents" dir="auto"><p id="e128db55-6aee-829b-b17b-8128ef754b2a" class="">方式二：</p></div><div style="display:contents" dir="auto"><p id="7cc8db55-6aee-8382-87a1-8179e9b52ba8" class="">在 Webpack、Vite、Gulp 等构建工具中集成 Sass，自动处理编译过程：</p></div><div style="display:contents" dir="auto"><p id="b388db55-6aee-8311-9601-014d42e3eb91" class="">·Vite项目（无需额外配置，天生支持Sass）：</p></div><div style="display:contents" dir="auto"><pre id="cc98db55-6aee-8270-a12f-016b7edd933f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm create vite@latest my-project  # 创建Vite项目
+cd my-project
+npm install</code></pre></div><div style="display:contents" dir="auto"><p id="3228db55-6aee-834f-88ac-813965d9851e" class="">直接创建<code>.scss</code>文件并在组件中引入即可。</p></div><div style="display:contents" dir="auto"><p id="37d8db55-6aee-83e1-9dd4-01eadebc24d3" class="">·Webpack项目：</p></div><div style="display:contents" dir="auto"><p id="2c08db55-6aee-8245-bd8c-815e01f8f326" class="">需要安装<code>sass</code>和<code>sass-loader</code>：</p></div><div style="display:contents" dir="auto"><pre id="d668db55-6aee-82be-9fab-01eff6161d21" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm install sass sass-loader --save-dev</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7c68db55-6aee-8370-83a0-01b7c294c09b" class="toggle"><li><details open=""><summary>Sass核心特性</summary><div style="display:contents" dir="auto"><ul id="3ac8db55-6aee-833a-8f85-8190ffe88c7b" class="toggle"><li><details open=""><summary>1、变量（Variables）</summary><div style="display:contents" dir="auto"><p id="e9c8db55-6aee-8334-b343-01d844e689a0" class=""><strong>作用</strong>：存储重复使用的样式值，方便统一维护。</p></div><div style="display:contents" dir="auto"><p id="bb38db55-6aee-8260-bfeb-01162e764522" class=""><strong>语法</strong>：<code>$变量名: 值;</code>（变量名以<code>$</code>开头）</p></div><div style="display:contents" dir="auto"><pre id="9ed8db55-6aee-8296-ba4b-81342ce80c4c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 定义变量
+$primary-color: #0d6efd;  // 主色调（Bootstrap蓝）
+$base-font-size: 16px;    // 基础字体大小
+$border-radius: 4px;      // 边框圆角
+
+// 使用变量
+.btn {
+  color: white;
+  background-color: $primary-color;  // 引用变量
+  font-size: $base-font-size;
+  border-radius: $border-radius;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: $border-radius;  // 复用变量
+}</code></pre></div><div style="display:contents" dir="auto"><p id="8128db55-6aee-826f-9926-01766f59ac3f" class="">编译css后：</p></div><div style="display:contents" dir="auto"><pre id="f948db55-6aee-8321-bf47-81f35ef62b8f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">.btn {
+  color: white;
+  background-color: #0d6efd;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="ea28db55-6aee-839a-b122-8101c0714d1a"/></div><div style="display:contents" dir="auto"><p id="5af8db55-6aee-834c-86ca-01226bb55e98" class="">变量作用域：</p></div><div style="display:contents" dir="auto"><ul id="98a8db55-6aee-83dd-a198-012b35857439" class="bulleted-list"><li style="list-style-type:disc">局部变量：在选择器或代码块内定义，仅在该范围内有效</li></ul></div><div style="display:contents" dir="auto"><ul id="6988db55-6aee-8268-a02a-01d328538dcd" class="bulleted-list"><li style="list-style-type:disc">全局变量：在最外层定义，或通过<code>!global</code>声明为全局</li></ul></div><div style="display:contents" dir="auto"><pre id="6e18db55-6aee-8296-b149-01acc6636545" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$global-color: red;  // 全局变量
+
+.box {
+  $local-color: blue;  // 局部变量
+  color: $local-color;
+  background: $global-color;
+}
+
+.footer {
+  color: $global-color;  // 可访问全局变量
+  // color: $local-color;  // 错误：无法访问局部变量
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4928db55-6aee-826d-9a0e-01b1691db47c" class="toggle"><li><details open=""><summary>2、嵌套（Nesting）</summary><div style="display:contents" dir="auto"><p id="8fd8db55-6aee-8391-b383-013687868daa" class=""><strong>作用</strong>：通过嵌套反映 HTML 结构，减少代码冗余，提高可读性。</p></div><div style="display:contents" dir="auto"><p id="d9a8db55-6aee-8382-bbe3-812c385c9079" class="">选择器嵌套：</p></div><div style="display:contents" dir="auto"><pre id="ce48db55-6aee-826f-92c3-01378b9e9d4b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// HTML结构：
+// &lt;nav class=&quot;navbar&quot;&gt;
+//   &lt;ul class=&quot;menu&quot;&gt;
+//     &lt;li&gt;&lt;a href=&quot;#&quot;&gt;首页&lt;/a&gt;&lt;/li&gt;
+//   &lt;/ul&gt;
+// &lt;/nav&gt;
+
+.navbar {
+  background: #333;
+  padding: 1rem;
+
+  .menu {  // 嵌套：等价于 .navbar .menu
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {  // 嵌套：等价于 .navbar .menu li
+      display: inline-block;
+      margin-right: 1rem;
+
+      a {  // 嵌套：等价于 .navbar .menu li a
+        color: white;
+        text-decoration: none;
+
+        &amp;:hover {  // &amp; 代表父选择器（此处为 a）
+          color: #ffc107;
+        }
+      }
+    }
+  }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="1d78db55-6aee-82c0-9961-817338e6a386" class="">编译后css：</p></div><div style="display:contents" dir="auto"><pre id="37c8db55-6aee-8219-a2f0-01069de54f26" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">.navbar {
+  background: #333;
+  padding: 1rem;
+}
+
+.navbar .menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar .menu li {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.navbar .menu li a {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar .menu li a:hover {  // &amp; 被替换为 a
+  color: #ffc107;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="f6d8db55-6aee-828d-9caf-81882ad3fc73" class="">属性嵌套：</p></div><div style="display:contents" dir="auto"><p id="6e68db55-6aee-8326-8957-81a04e445393" class="">对于具有相同前缀的 CSS 属性（如<code>font-*</code>、<code>border-*</code>），可简化写法：</p></div><div style="display:contents" dir="auto"><pre id="5468db55-6aee-83e7-b8f1-81337b48b89f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">.box {
+  font: {  // 属性嵌套
+    family: Arial, sans-serif;
+    size: 16px;
+    weight: bold;
+  }
+
+  border: {
+    width: 1px;
+    style: solid;
+    color: #ddd;
+  }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="85b8db55-6aee-8223-b9f8-014777a0b192" class="">编译后的css：</p></div><div style="display:contents" dir="auto"><pre id="3478db55-6aee-834c-9277-01aa4911d7c7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">.box {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0ea8db55-6aee-832c-814b-01075c251d22" class="toggle"><li><details open=""><summary>3、混合（Mixins）</summary><div style="display:contents" dir="auto"><p id="d9b8db55-6aee-831b-a61d-81a5e8b7f899" class=""><strong>作用</strong>：封装可复用的样式片段（尤其是带参数的复杂样式），通过<code>@include</code>调用。</p></div><div style="display:contents" dir="auto"><p id="3938db55-6aee-82e3-b7cb-01e7f2095270" class="">1、基础混合</p></div><div style="display:contents" dir="auto"><pre id="ef78db55-6aee-83ea-90ce-01bb136b9e29" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 定义混合（无参数）
+@mixin clearfix {  // @mixin 混合名
+  &amp;::after {
+    content: &quot;&quot;;
+    display: table;
+    clear: both;
+  }
+}
+
+// 使用混合
+.container {
+  @include clearfix;  // @include 调用混合
+  width: 100%;
+}
+
+.card {
+  @include clearfix;  // 复用清除浮动样式
+  border: 1px solid #eee;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="a208db55-6aee-8269-9d01-8120ec34392e" class="">编译后css：</p></div><div style="display:contents" dir="auto"><pre id="39e8db55-6aee-82ad-b7c9-816f80ccc5c9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">.container::after {
+  content: &quot;&quot;;
+  display: table;
+  clear: both;
+}
+
+.container {
+  width: 100%;
+}
+
+.card::after {
+  content: &quot;&quot;;
+  display: table;
+  clear: both;
+}
+
+.card {
+  border: 1px solid #eee;
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="5e08db55-6aee-83e1-b3a4-8168bef858a1"/></div><div style="display:contents" dir="auto"><p id="9228db55-6aee-8306-a2e8-018971be5b88" class="">带参数的混合：</p></div><div style="display:contents" dir="auto"><pre id="10a8db55-6aee-8334-a2d3-01dffaac2211" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 定义带参数的混合（可设置默认值）
+@mixin button-style($bg-color: #0d6efd, $text-color: white) {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: $bg-color;
+  color: $text-color;
+  cursor: pointer;
+
+  &amp;:hover {
+    opacity: 0.9;
+  }
+}
+
+// 使用混合（传递参数）
+.btn-primary {
+  @include button-style;  // 使用默认参数
+}
+
+.btn-danger {
+  @include button-style(#dc3545, white);  // 传递自定义参数
+}
+
+.btn-warning {
+  @include button-style($text-color: #333, $bg-color: #ffc107);  // 按名称传参
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1798db55-6aee-8378-9c90-81335287d14f" class="toggle"><li><details open=""><summary>4、继承（Inheritance）</summary><div style="display:contents" dir="auto"><p id="9668db55-6aee-8261-90cd-0104c49bfa6e" class=""><strong>作用</strong>：通过<code>@extend</code>让一个选择器继承另一个选择器的所有样式，生成更精简的 CSS。</p></div><div style="display:contents" dir="auto"><pre id="7428db55-6aee-829d-909f-0173fa713527" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 基础样式类
+.base-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+// 继承基础样式
+.btn-primary {
+  @extend .base-btn;  // 继承 .base-btn 的所有样式
+  background-color: #0d6efd;
+  color: white;
+}
+
+.btn-secondary {
+  @extend .base-btn;
+  background-color: #6c757d;
+  color: white;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="70c8db55-6aee-838d-923b-0158c158cc1b" class="">编译后的css:</p></div><div style="display:contents" dir="auto"><pre id="d958db55-6aee-8228-9436-81262984591d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">.base-btn, .btn-primary, .btn-secondary {  // 合并选择器，减少冗余
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="8af8db55-6aee-831c-8ddf-01957ba59cb6" class=""><strong>注意</strong>：<code>@extend</code> 与 <code>@mixin</code> 的区别：</p></div><div style="display:contents" dir="auto"><ul id="ec98db55-6aee-831f-a7f2-81d95ac705cb" class="bulleted-list"><li style="list-style-type:disc"><code>@mixin</code> 适合封装带参数的动态样式，会复制代码到调用处</li></ul></div><div style="display:contents" dir="auto"><ul id="d848db55-6aee-83e4-a247-813dbeaf07e2" class="bulleted-list"><li style="list-style-type:disc"><code>@extend</code> 适合复用静态样式，会合并选择器，生成更精简的 CSS</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d748db55-6aee-83e9-b3e1-01aa49b72e2e" class="toggle"><li><details open=""><summary>5、模块化（Modules）</summary><div style="display:contents" dir="auto"><p id="e6b8db55-6aee-8281-9296-81a19bec3793" class=""><strong>作用</strong>：将样式拆分为多个文件（模块），通过<code>@use</code>和<code>@forward</code>管理依赖，避免全局命名冲突。</p></div><div style="display:contents" dir="auto"><p id="3968db55-6aee-82d3-9d4b-8132db58ed6e" class="">1、文件命名规范</p></div><div style="display:contents" dir="auto"><p id="edc8db55-6aee-835e-89e8-012c884a7acd" class="">模块文件通常以<code>_</code>开头（如<code>_variables.scss</code>），表示这是一个<strong>局部文件</strong>（不会被单独编译为 CSS）。</p></div><div style="display:contents" dir="auto"><p id="c6c8db55-6aee-82f7-bb85-0151afd2b9a8" class="">2、@use: 导入并使用模块</p></div><div style="display:contents" dir="auto"><pre id="6b58db55-6aee-82a4-89b2-01e2fd504d4b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// _variables.scss（局部文件）
+$primary: #0d6efd;
+$secondary: #6c757d;
+
+// _mixins.scss（局部文件）
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// main.scss（主文件）
+@use &#x27;variables&#x27;;  // 导入 variables 模块（省略 .scss 和 _）
+@use &#x27;mixins&#x27;;
+
+.header {
+  background-color: variables.$primary;  // 通过 模块名.$变量名 访问
+  @include mixins.flex-center;  // 通过 模块名.混合名 调用
+  height: 60px;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="99d8db55-6aee-8310-8c10-81ad2958b99c" class="">编译后的css:</p></div><div style="display:contents" dir="auto"><pre id="2458db55-6aee-82f4-9e80-811c1141ebc7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">.header {
+  background-color: #0d6efd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="d778db55-6aee-8394-a04c-81100bb94b18"/></div><div style="display:contents" dir="auto"><p id="d7c8db55-6aee-839d-bc51-01853106ab2e" class="">3、别名与命名空间：</p></div><div style="display:contents" dir="auto"><pre id="2cf8db55-6aee-83c7-a1a1-01310a720360" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 给模块起别名（简化调用）
+@use &#x27;variables&#x27; as v;
+@use &#x27;mixins&#x27; as m;
+
+.footer {
+  color: v.$secondary;  // 使用别名访问
+  @include m.flex-center;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="6fb8db55-6aee-8326-8145-01163a01d076" class="">4、@forward：转发模块（公共API）</p></div><div style="display:contents" dir="auto"><p id="f368db55-6aee-824f-af1d-01d9fe74dc42" class="">用于创建 “入口模块”，统一对外暴露多个子模块：</p></div><div style="display:contents" dir="auto"><pre id="2648db55-6aee-826d-92b8-0159cd16873c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// themes/_dark.scss
+$bg-color: #333;
+$text-color: white;
+
+// themes/_light.scss
+$bg-color: #fff;
+$text-color: #333;
+
+// themes/_index.scss（入口模块）
+@forward &#x27;dark&#x27;;  // 转发 dark 模块
+@forward &#x27;light&#x27;; // 转发 light 模块
+
+// main.scss
+@use &#x27;themes&#x27; as t;  // 只需导入入口模块
+
+.dark-mode {
+  background: t.$bg-color;  // 访问 dark 模块的变量
+}</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2ad8db55-6aee-83cf-872a-0183b38d1317" class="toggle"><li><details open=""><summary>运算与函数</summary><div style="display:contents" dir="auto"><ul id="9878db55-6aee-8270-bbb4-81e7ae8283e8" class="toggle"><li><details open=""><summary>1、数学运算</summary><div style="display:contents" dir="auto"><p id="1d28db55-6aee-8232-ae34-0135af4d0fa5" class="">支持<code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>%</code>运算：</p></div><div style="display:contents" dir="auto"><pre id="0778db55-6aee-822d-8984-810a22e62ed3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$base-width: 1000px;
+$gutter: 20px;
+
+.container {
+  width: $base-width;
+}
+
+.content {
+  width: $base-width - 200px;  // 减法
+  margin-left: $gutter / 2;    // 除法
+}
+
+.sidebar {
+  width: 200px - $gutter;      // 运算组合
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  // 内置函数 repeat
+  gap: $gutter;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8458db55-6aee-839e-a222-0177d3c9e9b9" class="toggle"><li><details open=""><summary>2、颜色函数</summary><div style="display:contents" dir="auto"><p id="7f08db55-6aee-834f-88b2-81c68001b5cf" class="">常用颜色函数：</p></div><div style="display:contents" dir="auto"><ul id="b9b8db55-6aee-82f6-9be2-81c7f6d7ce57" class="bulleted-list"><li style="list-style-type:disc"><code>lighten($color, $amount)</code>：提亮颜色</li></ul></div><div style="display:contents" dir="auto"><ul id="25a8db55-6aee-832f-ae8d-015e25b89942" class="bulleted-list"><li style="list-style-type:disc"><code>darken($color, $amount)</code>：加深颜色</li></ul></div><div style="display:contents" dir="auto"><ul id="9318db55-6aee-8274-80a1-81ca89dea90f" class="bulleted-list"><li style="list-style-type:disc"><code>saturate($color, $amount)</code>：提高饱和度</li></ul></div><div style="display:contents" dir="auto"><ul id="ff48db55-6aee-829a-8bde-815bfa4026a4" class="bulleted-list"><li style="list-style-type:disc"><code>desaturate($color, $amount)</code>：降低饱和度</li></ul></div><div style="display:contents" dir="auto"><ul id="5048db55-6aee-82cf-ba28-814a6fc7bd53" class="bulleted-list"><li style="list-style-type:disc"><code>rgba($color, $alpha)</code>：设置透明度</li></ul></div><div style="display:contents" dir="auto"><p id="4408db55-6aee-8396-aa7b-011e755c27be" class="">Sass 提供丰富的颜色处理函数：</p></div><div style="display:contents" dir="auto"><pre id="f7d8db55-6aee-8392-ba4a-8195ad64f730" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$primary: #0d6efd;
+
+.btn {
+  background: $primary;
+}
+
+.btn:hover {
+  background: darken($primary, 10%);  // 颜色加深10%
+}
+
+.btn-outline {
+  color: $primary;
+  border: 1px solid lighten($primary, 20%);  // 颜色变浅20%
+}
+
+.alert {
+  background: rgba($primary, 0.2);  // 调整透明度
+}</code></pre></div><div style="display:contents" dir="auto"><p id="77b8db55-6aee-82e8-bc20-818b32e0cc5c" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c4c8db55-6aee-8332-b875-0140faa6e6dc" class="toggle"><li><details open=""><summary>3、控制语句</summary><div style="display:contents" dir="auto"><p id="71a8db55-6aee-82b2-a0fa-017eff1725d1" class="">Sass 支持条件判断和循环，实现更复杂的样式逻辑（主要用于混合和函数中）。</p></div><div style="display:contents" dir="auto"><p id="f268db55-6aee-82fe-a7d4-815541a386ba" class="">1、条件判断（@if/@else）</p></div><div style="display:contents" dir="auto"><pre id="acf8db55-6aee-830e-8efe-01712f7a2a28" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">@mixin theme($mode: light) {
+  @if $mode == dark {
+    background: #333;
+    color: white;
+  } @else if $mode == light {
+    background: #fff;
+    color: #333;
+  } @else {
+    background: #f5f5f5;
+    color: #666;
+  }
+}
+
+.card {
+  @include theme(dark);  // 调用时指定模式
+}
+
+.footer {
+  @include theme;  // 使用默认模式（light）
+}</code></pre></div><div style="display:contents" dir="auto"><p id="2058db55-6aee-8322-b37c-81ed8b524caa" class="">2、循环（@for/@each）</p></div><div style="display:contents" dir="auto"><pre id="caf8db55-6aee-82d7-8562-01648a768aa8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// @for 循环（生成网格列）
+@for $i from 1 through 6 {
+  .col-#{$i} {  // #{} 是插值语法，用于拼接变量和字符串
+    width: 100% / 6 * $i;
+  }
+}
+
+// @each 循环（处理列表）
+$colors: primary #0d6efd, secondary #6c757d, danger #dc3545;
+
+@each $name, $color in $colors {
+  .btn-#{$name} {
+    background-color: $color;
+  }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="5038db55-6aee-82ca-b349-01b61e603ab8" class="">编译后的css:</p></div><div style="display:contents" dir="auto"><pre id="90d8db55-6aee-83c4-9c69-81cc0f4816ee" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">.col-1 { width: 16.66667%; }
+.col-2 { width: 33.33333%; }
+/* ... 直到 col-6 */
+
+.btn-primary { background-color: #0d6efd; }
+.btn-secondary { background-color: #6c757d; }
+.btn-danger { background-color: #dc3545; }</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3548db55-6aee-838c-8c2e-813eac5a48c2" class="toggle"><li><details open=""><summary>注意</summary><div style="display:contents" dir="auto"><ol type="1" id="bd58db55-6aee-82a3-8fed-8108c7343fd6" class="numbered-list" start="1"><li><strong>合理组织文件结构</strong>：<div style="display:contents" dir="auto"><pre id="7c68db55-6aee-82b2-8411-014ca2648c51" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">scss/
+├── _variables.scss    // 变量定义
+├── _mixins.scss       // 混合定义
+├── _buttons.scss      // 按钮组件
+├── _cards.scss        // 卡片组件
+└── main.scss          // 主文件（导入所有模块）</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1d58db55-6aee-832c-ad4d-01ca0b1e33c1" class="numbered-list" start="2"><li><strong>避免过度嵌套</strong>：嵌套深度建议不超过 3 层，否则会生成冗余的 CSS 选择器（如<code>.a .b .c .d</code>）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="c8f8db55-6aee-8291-8e37-01bac9a9908d" class="numbered-list" start="3"><li><strong>优先使用</strong><code><strong>@use</strong></code><strong>而非</strong><code><strong>@import</strong></code>：<code>@use</code>是 Sass 现代语法（替代旧的<code>@import</code>），支持命名空间，避免变量冲突。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="dc28db55-6aee-8306-aecd-81e3d88fb6af" class="numbered-list" start="4"><li><strong>利用注释分类</strong>：使用<code>/* */</code>（会保留到 CSS）和<code>//</code>（仅在 Sass 中可见）区分注释，方便维护：<div style="display:contents" dir="auto"><pre id="e778db55-6aee-83f4-ad0f-016bdb9e81ea" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 变量：颜色系统（仅Sass可见）
+$primary: #0d6efd;
+
+/* 基础按钮样式（会编译到CSS）
+-------------------------------------------- */
+.btn { ... }</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="eda8db55-6aee-822c-ba8c-81e16bc84b5f" class="numbered-list" start="5"><li><strong>结合 CSS 变量</strong>：Sass 变量（编译时生效）和 CSS 变量（运行时生效）结合使用，兼顾灵活性和动态性：<div style="display:contents" dir="auto"><pre id="9548db55-6aee-83dd-9b51-81dcc9f2228e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 定义Sass变量
+$primary: #0d6efd;
+
+:root {
+  --primary: #{$primary};  // 转为CSS变量
+}
+
+.btn {
+  background: var(--primary);  // 使用CSS变量
+}</code></pre></div></li></ol></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

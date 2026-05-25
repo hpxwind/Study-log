@@ -1,0 +1,766 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>curl</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="4398db55-6aee-8375-98d7-012dcfbadb5f" class="page mono"><header><h1 class="page-title" dir="auto">curl</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="5508db55-6aee-83ff-84b8-818d6290b831" class=""><code>curl</code> 是一款功能强大的命令行工具，用于在网络上传输数据，支持 HTTP、HTTPS、FTP、SFTP 等多种协议，广泛用于接口测试、文件下载、数据提交等场景。以下是其核心用法详解，涵盖基础到高级功能：</p></div><div style="display:contents" dir="auto"><hr id="b078db55-6aee-8222-ad69-0103487d4057"/></div><div style="display:contents" dir="auto"><ul id="3dc8db55-6aee-834a-ac7a-01ecd2592cfa" class="toggle"><li><details open=""><summary>1、发送get请求(默认方式)</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="41f8db55-6aee-83af-b413-01ec858a51b2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 基础用法：获取网页内容
+curl https://www.example.com
+
+# 带参数的 GET 请求（参数用 ?key=value&amp;key2=value2 拼接）
+curl &quot;https://api.example.com/user?id=1&amp;name=test&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="20f8db55-6aee-82b6-944e-81d04f0ef157" class="toggle"><li><details open=""><summary>2、get常用参数</summary><div style="display:contents" dir="auto"><p id="dde8db55-6aee-8340-97ef-0132061307f6" class=""><code>-i</code>：显示响应头 + 响应体（默认只显示响应体）。</p></div><div style="display:contents" dir="auto"><pre id="d068db55-6aee-8360-801e-017db48c9292" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">curl -i https://www.example.com  # 查看状态码、Content-Type 等头信息</code></pre></div><div style="display:contents" dir="auto"><p id="5f58db55-6aee-83b0-84a2-0129ae84c9d3" class=""><code>-I</code>：只显示响应头（不显示响应体）。</p></div><div style="display:contents" dir="auto"><pre id="d3a8db55-6aee-8358-aa7a-01ac1397127b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">curl -I https://www.example.com  # 快速查看状态码（如 200、404）</code></pre></div><div style="display:contents" dir="auto"><p id="e338db55-6aee-838b-ab98-816bf2dcf865" class=""><code>-L</code>：跟随重定向（如果服务器返回 301/302 跳转，自动跟随）。</p></div><div style="display:contents" dir="auto"><pre id="b008db55-6aee-835e-a8ea-0117954a38d8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">curl -L http://example.com  # 自动跳转到 https 版本（若服务器配置了重定向）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7438db55-6aee-83ac-b93e-01bc8b125c5f" class="toggle"><li><details open=""><summary>3、发送post请求（提交数据）</summary><div style="display:contents" dir="auto"><p id="8a78db55-6aee-82fb-b8a2-8171c626270a" class="">1、提交表单<code><strong>application/x-www-form-urlencoded</strong></code></p></div><div style="display:contents" dir="auto"><p id="e508db55-6aee-8365-9786-81c95419d0e1" class="">最常见的 POST 格式，数据用 <code>key=value&amp;key2=value2</code> 表示：</p></div><div style="display:contents" dir="auto"><pre id="76d8db55-6aee-8252-86d2-8138e3e5cc26" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 提交表单：id=123&amp;name=test
+curl -X POST -d &quot;id=123&amp;name=test&quot; &quot;https://api.example.com/submit&quot;</code></pre></div><div style="display:contents" dir="auto"><p id="a438db55-6aee-82c0-bf01-01152b5a4e2a" class="">2、提交json数据<code><strong>application/json</strong></code></p></div><div style="display:contents" dir="auto"><pre id="0f88db55-6aee-83d5-b827-011f6fa4f79c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># Linux/macOS（用单引号包裹 JSON，避免双引号转义问题）
+curl -X POST -H &quot;Content-Type: application/json&quot; -d &#x27;{&quot;id&quot;:123, &quot;name&quot;:&quot;test&quot;}&#x27; &quot;https://api.example.com/submit&quot;
+
+# Windows cmd（双引号需用两个双引号转义：&quot;&quot; 表示一个 &quot;）
+curl -X POST -H &quot;Content-Type: application/json&quot; -d &quot;{&quot;&quot;id&quot;&quot;:123, &quot;&quot;name&quot;&quot;:&quot;&quot;test&quot;&quot;}&quot; &quot;https://api.example.com/submit&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e798db55-6aee-8377-a32f-0107f1810f65" class="toggle"><li><details open=""><summary>4、post选项说明</summary><div style="display:contents" dir="auto"><p id="b448db55-6aee-8292-a377-0107edd621be" class=""><code>X POST</code>：指定请求方法为 POST（必须）。</p></div><div style="display:contents" dir="auto"><p id="f348db55-6aee-8252-b083-0105a1264fb7" class=""><code>d</code>（或 <code>-data</code>）：携带 POST 数据（支持多组 <code>d</code> 拼接，如 <code>d &quot;a=1&quot; -d &quot;b=2&quot;</code>）。</p></div><div style="display:contents" dir="auto"><p id="5408db55-6aee-82aa-98c4-012fb79618df" class=""><code>H</code>（或 <code>-header</code>）：设置请求头（如 <code>Content-Type</code> 告诉服务器数据格式）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5778db55-6aee-8272-99ea-8101aab143a3" class="toggle"><li><details open=""><summary>5、文件下载</summary><div style="display:contents" dir="auto"><p id="6c98db55-6aee-8299-82d8-01cef83115a8" class="">curl 可直接下载文件到本地，常用 <code>-o</code> 或 <code>-O</code> 选项：</p></div><div style="display:contents" dir="auto"><p id="96d8db55-6aee-83f8-adf4-01830244196f" class=""><code>-o &lt;文件名&gt;</code>：指定保存的文件名（自定义名称）。</p></div><div style="display:contents" dir="auto"><pre id="5af8db55-6aee-82a6-b338-81fb86e32f43" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">curl -o example.html https://www.example.com  # 下载网页保存为 example.html</code></pre></div><div style="display:contents" dir="auto"><p id="5af8db55-6aee-8385-8b1b-01b9b90d61fe" class=""><code>-O</code>：按服务器原文件名保存（需 URL 包含文件名）。</p></div><div style="display:contents" dir="auto"><pre id="c9c8db55-6aee-839c-8b44-01f2925274c7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">curl -O https://example.com/file.zip  # 保存为 file.zip</code></pre></div><div style="display:contents" dir="auto"><p id="ce38db55-6aee-83db-8b9e-813eada551f5" class="">高级下载选项：</p></div><div style="display:contents" dir="auto"><p id="7de8db55-6aee-8212-aa4c-8186ec4530b9" class=""><code>-C -</code>：断点续传（下载中断后，继续从断点下载）。</p></div><div style="display:contents" dir="auto"><pre id="1d08db55-6aee-82ad-bc48-012f081303c4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">curl -C - -O https://example.com/large-file.iso</code></pre></div><div style="display:contents" dir="auto"><p id="cc48db55-6aee-821b-b749-81243eb9569e" class=""><code>-L</code>：跟随重定向下载（适用于链接跳转后的文件）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4a18db55-6aee-831a-9550-019195ba987c" class="toggle"><li><details open=""><summary>6、文件上传 <strong>FTP/HTTP</strong></summary><div style="display:contents" dir="auto"><p id="92c8db55-6aee-839e-bd84-018f67cd62f5" class="">1、http上传文件<code><strong>multipart/form-data</strong></code><strong> 格式</strong></p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8299-a2b6-81d78384f0b7" class="">用 <code>-F</code> 模拟表单上传文件（<code>name</code> 为表单字段名，<code>@</code> 后接本地文件路径）：</p></div><div style="display:contents" dir="auto"><pre id="5008db55-6aee-83b5-873c-01b751d26cf4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 上传本地 image.png 文件，表单字段名为 &quot;file&quot;
+curl -X POST -F &quot;file=@./image.png&quot; &quot;https://api.example.com/upload&quot;</code></pre></div><div style="display:contents" dir="auto"><p id="8068db55-6aee-83f3-8624-819df0d55529" class="">2、ftp上传文件</p></div><div style="display:contents" dir="auto"><p id="1448db55-6aee-8383-92e8-0197ae7ba032" class="">需提供 FTP 服务器用户名和密码（式：<code>ftp://user:pass@host/path</code>）：</p></div><div style="display:contents" dir="auto"><pre id="0d98db55-6aee-8363-a595-013b894ee29a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 上传 local.txt 到 FTP 服务器的 /remote/path 目录
+curl -T ./local.txt &quot;ftp://user:password@ftp.example.com/remote/path/&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fa08db55-6aee-83a3-bb28-81c59a61a96b" class="toggle"><li><details open=""><summary>7、高级功能</summary><div style="display:contents" dir="auto"><p id="a988db55-6aee-83fa-a5a8-01ccc3d7d8c7" class="">1、设置请求头（-H）</p></div><div style="display:contents" dir="auto"><p id="5e88db55-6aee-8299-a916-81320844eeea" class="">自定义请求头信息（如认证令牌、User-Agent 等）：</p></div><div style="display:contents" dir="auto"><pre id="c2f8db55-6aee-8319-913f-81d53bc7b294" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 携带 Bearer 令牌（常见于 API 认证）
+curl -H &quot;Authorization: Bearer abc123&quot; &quot;https://api.example.com/data&quot;
+
+# 模拟浏览器 User-Agent（避免服务器识别为爬虫）
+curl -H &quot;User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/100.0.0.0&quot; &quot;https://example.com&quot;</code></pre></div><div style="display:contents" dir="auto"><p id="6698db55-6aee-8379-8b44-81981d7952eb" class="">2、认证（登录验证）<div class="indented"><div style="display:contents" dir="auto"><p id="6b78db55-6aee-839f-9f93-8165e9cf5f1e" class="">1、基本认证（Basic Auth）</p></div><div style="display:contents" dir="auto"><p id="e9b8db55-6aee-83fd-bdc8-8189a0ec6628" class="">用 <code>-u</code> 传入用户名和密码（格式：<code>user:pass</code>）：</p></div><div style="display:contents" dir="auto"><pre id="1f08db55-6aee-8393-88ef-0185c5e5dbe4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 访问需要 Basic Auth 的接口
+curl -u &quot;username:password&quot; &quot;https://api.example.com/secure&quot;</code></pre></div><div style="display:contents" dir="auto"><p id="e978db55-6aee-8240-9666-81401f288595" class="">2、摘要认证（Digest Auth）</p></div><div style="display:contents" dir="auto"><p id="9aa8db55-6aee-830e-851e-815125301ded" class="">用 <code>--digest</code> 选项（适用于更安全的摘要认证）：</p></div><div style="display:contents" dir="auto"><pre id="2038db55-6aee-82a9-99ab-81c28417e1fd" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">curl --digest -u &quot;username:password&quot; &quot;https://api.example.com/secure&quot;</code></pre></div></div></p></div><div style="display:contents" dir="auto"><p id="6708db55-6aee-83f1-ae21-818597166d77" class="">3、使用代理</p></div><div style="display:contents" dir="auto"><p id="0878db55-6aee-832c-b43b-01b2b450aa4f" class="">通过 <code>-x</code>（或 <code>--proxy</code>）指定代理服务器（支持 HTTP/HTTPS/SOCKS 代理）：</p></div><div style="display:contents" dir="auto"><pre id="a618db55-6aee-8214-8a2a-81664348e365" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 使用 HTTP 代理（格式：代理IP:端口）
+curl -x &quot;http://127.0.0.1:8080&quot; &quot;https://example.com&quot;
+
+# 使用 SOCKS5 代理
+curl -x &quot;socks5://127.0.0.1:1080&quot; &quot;https://example.com&quot;</code></pre></div><div style="display:contents" dir="auto"><p id="4a08db55-6aee-83d7-a1b4-011c311c7dce" class="">4、超时设置</p></div><div style="display:contents" dir="auto"><p id="d3a8db55-6aee-8258-9318-815625be3bdd" class="">避免请求无限等待，用 <code>-m</code> 设置总超时时间（单位：秒）：</p></div><div style="display:contents" dir="auto"><pre id="52f8db55-6aee-82c7-a6c8-019e9c0f3a08" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">curl -m 10 &quot;https://example.com&quot;  # 10秒内未完成则超时退出</code></pre></div><div style="display:contents" dir="auto"><p id="3148db55-6aee-82de-ba4c-016da006990e" class="">5、查看详细请求过程（调试用）</p></div><div style="display:contents" dir="auto"><p id="2e88db55-6aee-83b9-9482-8165cb098d52" class="">用 <code>-v</code>（ verbose）显示完整请求过程（包括 DNS 解析、TCP 连接、请求 / 响应细节）：</p></div><div style="display:contents" dir="auto"><pre id="09a8db55-6aee-829b-84bd-81480a9a1209" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">curl -v &quot;https://www.example.com&quot;  # 调试接口时常用，排查连接/参数问题</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1de8db55-6aee-821a-8998-817b6105ea15" class="toggle"><li><details open=""><summary>编码问题</summary><div style="display:contents" dir="auto"><p id="d778db55-6aee-82f4-be48-01c04926d82c" class="">url编码可以在Windows/Linux/macOS中都能稳定解析</p></div><div style="display:contents" dir="auto"><pre id="7f58db55-6aee-83f3-a24d-819bc27cad0b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">{&quot;x&quot;:&quot;wllm&quot;}的 URL 编码为%7B%22x%22%3A%22wllm%22%7D，命令如下：
+
+curl -X POST -d &quot;id=wllmNB&quot; &quot;http://node7.anna.nssctf.cn:22571/index.php?json=%7B%22x%22%3A%22wllm%22%7D&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="a6a8db55-6aee-835e-9715-0160cc8135e2" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

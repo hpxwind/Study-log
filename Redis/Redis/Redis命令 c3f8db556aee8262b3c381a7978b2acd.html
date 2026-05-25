@@ -1,0 +1,751 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Redis命令</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c3f8db55-6aee-8262-b3c3-81a7978b2acd" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/met_winslow_homer_maine_coast.jpg" style="object-position:center 60%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🛶</span></div><h1 class="page-title" dir="auto">Redis命令</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="fac8db55-6aee-82f7-bff4-81e12bb383ac" class="">数据结构</h1></div><div style="display:contents" dir="auto"><ol type="1" id="fdb8db55-6aee-8287-9430-01cd1b1de923" class="numbered-list" start="1"><li>字符串（String）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="50f8db55-6aee-826a-ae07-81bb0bef3e6d" class="numbered-list" start="2"><li>哈希（Hash）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="de58db55-6aee-8202-8225-81ada9c812dd" class="numbered-list" start="3"><li>列表（List）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1288db55-6aee-824c-87dc-819fb6816f2f" class="numbered-list" start="4"><li>集合（Set）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="4998db55-6aee-8247-94c9-018cba1c8aed" class="numbered-list" start="5"><li>有序集合（Sorted Set）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2848db55-6aee-8381-a478-01a005b2a224" class="numbered-list" start="6"><li>扩展数据结构（位图（Bitmap）,HyperLogLog,地理空间（Geospatial）,流（Stream））</li></ol></div><div style="display:contents" dir="auto"><hr id="1828db55-6aee-8257-a9b6-01089b11858c"/></div><div style="display:contents" dir="auto"><h1 id="1238db55-6aee-83ee-84ce-811ccfe0ff31" class="">通用命令</h1></div><div style="display:contents" dir="auto"><ul id="df88db55-6aee-839a-9f36-01267807b38c" class="bulleted-list"><li style="list-style-type:disc">HELP [commods]: 遇到不会的就查看一下</li></ul></div><div style="display:contents" dir="auto"><ul id="7508db55-6aee-836b-aff0-01258aa47cfd" class="bulleted-list"><li style="list-style-type:disc">KEYS: 查看符合薄板的所有key<div style="display:contents" dir="auto"><blockquote id="b888db55-6aee-83a0-8aa1-8147db6b0e3d" class="">Redis是单线程，keys内置模糊查询，如果数据过多，会阻塞redis服务<br/>除非是主从线程，将keys放置在从线程中执行</blockquote></div></li></ul></div><div style="display:contents" dir="auto"><ul id="4e68db55-6aee-8391-8b84-815b94b5efc4" class="bulleted-list"><li style="list-style-type:disc">DEL: 删除一个或多个key</li></ul></div><div style="display:contents" dir="auto"><ul id="38f8db55-6aee-830f-a471-01fbfbbbe5d8" class="bulleted-list"><li style="list-style-type:disc">EXISTS: 判断key是否存在</li></ul></div><div style="display:contents" dir="auto"><ul id="6628db55-6aee-829e-a037-014c76f862d7" class="bulleted-list"><li style="list-style-type:disc">EXPIRE: 给一个key设置有效期，有效期到期时该key会被自动删除</li></ul></div><div style="display:contents" dir="auto"><ul id="eea8db55-6aee-8296-b580-81ce84bceb2f" class="bulleted-list"><li style="list-style-type:disc">TTL: 查看一个key的剩余有效期( 值为-2 的时候key被删除; -1为永久有效)</li></ul></div><div style="display:contents" dir="auto"><hr id="afe8db55-6aee-83d6-80fa-014117e55016"/></div><div style="display:contents" dir="auto"><h1 id="1838db55-6aee-83a1-ab81-81317c24a816" class="">Key的层级格式</h1></div><div style="display:contents" dir="auto"><p id="58c8db55-6aee-82a6-a0b6-81cd405992ae" class="">Redis的key允许多个单词形成层级结构，中间用”:”分割</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="4288db55-6aee-82ac-8579-81088ce5cb90" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">项目名:业务名:类型:id</code></pre></div><div style="display:contents" dir="auto"><p id="ae68db55-6aee-82df-9509-813e8203ef3f" class="">例如:</p></div><div style="display:contents" dir="auto"><pre id="3908db55-6aee-82e5-a39d-8105e4cecbcc" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">user:1001:name          → &quot;Alice&quot;
+user:1001:email         → &quot;alice@example.com&quot;
+user:1001:profile       → JSON 字符串或 Hash key
+
+# 或者整体存储为 Hash
+user:1001               → {name: &quot;Alice&quot;, email: &quot;...&quot;}</code></pre></div><div style="display:contents" dir="auto"><pre id="da58db55-6aee-832b-8250-814611c7bf31" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">order:2023001:user_id   → 1001
+order:2023001:status    → &quot;shipped&quot;
+order:2023001:items     → Set 或 List 存储商品ID列表</code></pre></div><div style="display:contents" dir="auto"><hr id="8318db55-6aee-83f1-afcf-8110106160ec"/></div><div style="display:contents" dir="auto"><h1 id="ef58db55-6aee-8303-8c35-01c51595e18e" class="">String类型</h1></div><div style="display:contents" dir="auto"><p id="04b8db55-6aee-83f8-ab1f-81bf76b96fc5" class="">最简单的存储类型</p></div><div style="display:contents" dir="auto"><p id="d4c8db55-6aee-82ae-aa64-0125c7694300" class="">其value是字符串，根据字符串的格式不同，可以分为三类：</p></div><div style="display:contents" dir="auto"><ul id="9958db55-6aee-8252-bd98-0170d5f854d1" class="bulleted-list"><li style="list-style-type:disc">string: 普通字符串</li></ul></div><div style="display:contents" dir="auto"><ul id="6668db55-6aee-8207-9516-0141e71eafc0" class="bulleted-list"><li style="list-style-type:disc">int: 整数类型，可以自增，自减操作</li></ul></div><div style="display:contents" dir="auto"><ul id="9b38db55-6aee-834a-92c7-0145b66c9391" class="bulleted-list"><li style="list-style-type:disc">float: 浮点类型，可以自增，自减操作</li></ul></div><div style="display:contents" dir="auto"><blockquote id="b098db55-6aee-8226-b5b6-01b3dcf59cc1" class="">不管是那种，最大长度不能超过512字节</blockquote></div><div style="display:contents" dir="auto"><p id="c548db55-6aee-8309-b029-01f09b18c69e" class="">常见命令:</p></div><div style="display:contents" dir="ltr"><table id="5628db55-6aee-8359-8d20-81c331b03ecc" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="a1b8db55-6aee-8370-ace2-016b47366f15"><th id="bhSl" class="simple-table-header-color simple-table-header" style="width:105px"><strong>命令</strong></th><th id="TZVW" class="simple-table-header-color simple-table-header" style="width:387.9910888671875px"><strong>描述</strong></th><th id="tvyz" class="simple-table-header-color simple-table-header" style="width:303.9709930419922px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="6688db55-6aee-8282-8b51-819f2280c9eb"><td id="bhSl" class="" style="width:105px"><code>SET</code></td><td id="TZVW" class="" style="width:387.9910888671875px">设置指定 key 的值，可附加过期时间或条件（NX=不存在时设置，XX=存在时设置）</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>SET name &quot;Alice&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4208db55-6aee-83f6-9048-81d88d317503"><td id="bhSl" class="" style="width:105px"><code>GET</code></td><td id="TZVW" class="" style="width:387.9910888671875px">获取指定 key 的值</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>GET name</code> → <code>&quot;Alice&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="0de8db55-6aee-82b7-b2fb-81a23025a6b1"><td id="bhSl" class="" style="width:105px"><code>MSET</code></td><td id="TZVW" class="" style="width:387.9910888671875px">（批量增）同时设置多个 key-value 对</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>MSET a 1 b 2 c 3</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a528db55-6aee-8201-a096-810cc84b9d2e"><td id="bhSl" class="" style="width:105px"><code>MGET</code></td><td id="TZVW" class="" style="width:387.9910888671875px">（批量获取）获取所有指定 key 的值</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>MGET a b c</code> → <code>[&quot;1&quot;,&quot;2&quot;,&quot;3&quot;]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="9158db55-6aee-8242-9704-01da3648d195"><td id="bhSl" class="" style="width:105px"><code>SETNX</code></td><td id="TZVW" class="" style="width:387.9910888671875px">仅当 key 不存在时设置值（SET if Not eXists）</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>SETNX lock 1</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="e998db55-6aee-8371-8a2f-010796e10a6e"><td id="bhSl" class="" style="width:105px"><code>SETEX</code></td><td id="TZVW" class="" style="width:387.9910888671875px">设置值并指定过期时间（秒）</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>SETEX session 60 &quot;abc123&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6888db55-6aee-829b-96a8-018d8d49d470"><td id="bhSl" class="" style="width:105px"><code>PSETEX</code></td><td id="TZVW" class="" style="width:387.9910888671875px">设置值并指定过期时间（毫秒）</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>PSETEX token 5000 &quot;xyz&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="e628db55-6aee-8303-8bf3-8161554a28c9"><td id="bhSl" class="" style="width:105px"><code>GETSET</code></td><td id="TZVW" class="" style="width:387.9910888671875px">设置新值并返回旧值（原子操作）</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>GETSET counter 10</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b5d8db55-6aee-8339-96cd-81a304f33c28"><td id="bhSl" class="" style="width:105px"><code>INCR</code></td><td id="TZVW" class="" style="width:387.9910888671875px">将 key 中存储的数字值加 1</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>INCR views</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="20f8db55-6aee-82f1-ba29-01064bc2bab6"><td id="bhSl" class="" style="width:105px"><code>INCRBY</code></td><td id="TZVW" class="" style="width:387.9910888671875px">将 key 中存储的数字值增加指定整数</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>INCRBY score 5</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3008db55-6aee-8348-8bbc-815c61b612d5"><td id="bhSl" class="" style="width:105px"><code>DECR</code></td><td id="TZVW" class="" style="width:387.9910888671875px">将 key 中存储的数字值减 1</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>DECR stock</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="0168db55-6aee-8353-a825-810fc0090cc4"><td id="bhSl" class="" style="width:105px"><code>DECRBY</code></td><td id="TZVW" class="" style="width:387.9910888671875px">将 key 中存储的数字值减少指定整数</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>DECRBY balance 100</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="12c8db55-6aee-83bc-9cb0-8163a32558c9"><td id="bhSl" class="" style="width:105px"><code>INCRBYFLOAT</code></td><td id="TZVW" class="" style="width:387.9910888671875px">将 key 中存储的数字值增加指定浮点数</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>INCRBYFLOAT price 0.99</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a5c8db55-6aee-835a-8444-0199eb0c2b6e"><td id="bhSl" class="" style="width:105px"><code>APPEND</code></td><td id="TZVW" class="" style="width:387.9910888671875px">将值追加到原值的末尾</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>APPEND log &quot;new line&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="23a8db55-6aee-832e-a804-811d500c25aa"><td id="bhSl" class="" style="width:105px"><code>STRLEN</code></td><td id="TZVW" class="" style="width:387.9910888671875px">返回 key 存储的字符串值的长度</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>STRLEN name</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ffc8db55-6aee-83d4-98d6-81f5e2e89958"><td id="bhSl" class="" style="width:105px"><code>GETRANGE</code></td><td id="TZVW" class="" style="width:387.9910888671875px">获取字符串的子串（闭区间，支持负数索引）</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>GETRANGE name 0 2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="e0b8db55-6aee-832e-a373-81a3ff1d2196"><td id="bhSl" class="" style="width:105px"><code>SETRANGE</code></td><td id="TZVW" class="" style="width:387.9910888671875px">从指定偏移量开始覆盖原值的一部分</td><td id="tvyz" class="" style="width:303.9709930419922px"><code>SETRANGE name 5 &quot;Alice&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="9818db55-6aee-82b8-b1b4-015fde20fe5f"><td id="bhSl" class="" style="width:105px"><code>DEL</code></td><td id="TZVW" class="" style="width:387.9910888671875px">删除一个或多个 key（通用命令，也适用于其他类型）</td><td id="tvyz" class="" style="width:303.9709930419922px"></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="ca58db55-6aee-8261-9371-810912920da4"/></div><div style="display:contents" dir="auto"><h1 id="3e58db55-6aee-8253-a04c-01409ae9badc" class="">Hash类型</h1></div><div style="display:contents" dir="auto"><p id="3108db55-6aee-820a-be65-018140d01796" class="">散列，其value为无序字典，类似于java中的HashMap结构</p></div><div style="display:contents" dir="auto"><blockquote id="4688db55-6aee-82e9-ab1a-013df97553b7" class="">与String类型不同，String是将对象序列化为Json字符串后存储，当需要修改对象某个字符按时很不方便</blockquote></div><div style="display:contents" dir="auto"><blockquote id="c048db55-6aee-8270-8827-815100fa0f73" class="">而Hash结构可以将对象中的每个字段独立存储，可以针对单个字段做CRUD:</blockquote></div><div style="display:contents" dir="auto"><p id="8e18db55-6aee-83fb-ac24-8188541f2580" class="">Hash类型 value中又分为field:value</p></div><div style="display:contents" dir="ltr"><figure id="42a8db55-6aee-8220-a6b5-812ad42bc516" class="image"><a href="Redis%E5%91%BD%E4%BB%A4/Snipaste_2026-04-05_17-01-47.png"><img style="width:703.9955444335938px" src="Redis%E5%91%BD%E4%BB%A4/Snipaste_2026-04-05_17-01-47.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="f3e8db55-6aee-82c2-8054-0130b689dd43" class="">常见命令:</p></div><div style="display:contents" dir="ltr"><table id="b058db55-6aee-821b-8b36-01cc5b1f810a" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5878db55-6aee-83ba-977e-817b03f35ae5"><th id="pyi:" class="simple-table-header-color simple-table-header" style="width:120.65849304199219px"><strong>命令</strong></th><th id="YHhx" class="simple-table-header-color simple-table-header" style="width:346.6540222167969px"><strong>描述</strong></th><th id="Shpz" class="simple-table-header-color simple-table-header" style="width:340.6584930419922px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="f628db55-6aee-8391-9436-010b1d03c4fd"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HSET</code></td><td id="YHhx" class="" style="width:346.6540222167969px">设置 hash 中一个或多个字段的值。若字段已存在则覆盖，返回新增字段个数。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HSET user:1001 name &quot;Alice&quot; age 30</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="9998db55-6aee-8234-856d-014cada8002c"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HGET</code></td><td id="YHhx" class="" style="width:346.6540222167969px">获取 hash 中指定字段的值。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HGET user:1001 name</code> → <code>&quot;Alice&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ee78db55-6aee-826f-8e51-81615aaa8dde"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HMSET</code></td><td id="YHhx" class="" style="width:346.6540222167969px">（批量新增）同时设置多个字段（<strong>已废弃</strong>，推荐使用 <code>HSET</code>）。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HMSET user:1001 name &quot;Bob&quot; age 25</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4bc8db55-6aee-834e-b0d1-81be9807364a"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HMGET</code></td><td id="YHhx" class="" style="width:346.6540222167969px">（批量获取）获取多个字段的值，返回列表。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HMGET user:1001 name age</code> → <code>[&quot;Alice&quot;,&quot;30&quot;]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7fb8db55-6aee-830c-8662-81c6ee0359d4"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HGETALL</code></td><td id="YHhx" class="" style="width:346.6540222167969px">返回 hash 中所有字段和值（字段-值交替排列）。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HGETALL user:1001</code> → <code>[&quot;name&quot;,&quot;Alice&quot;,&quot;age&quot;,&quot;30&quot;]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5ef8db55-6aee-8305-b17b-01d84c4057d5"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HDEL</code></td><td id="YHhx" class="" style="width:346.6540222167969px">删除一个或多个字段，返回成功删除的个数。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HDEL user:1001 age</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ad98db55-6aee-83f6-80bd-016db7856251"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HEXISTS</code></td><td id="YHhx" class="" style="width:346.6540222167969px">判断字段是否存在。存在返回 1，否则 0。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HEXISTS user:1001 name</code> → <code>1</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="0338db55-6aee-83f7-af18-813e0775f670"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HLEN</code></td><td id="YHhx" class="" style="width:346.6540222167969px">返回 hash 中字段的数量。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HLEN user:1001</code> → <code>2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="d1b8db55-6aee-835d-9170-81a6cbdeb0fc"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HINCRBY</code></td><td id="YHhx" class="" style="width:346.6540222167969px">为指定字段的整数值增加 <code>increment</code>（可为负数）。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HINCRBY user:1001 age 1</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ce58db55-6aee-8248-9206-017a2e797a3e"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HINCRBYFLOAT</code></td><td id="YHhx" class="" style="width:346.6540222167969px">为指定字段的浮点数值增加 <code>increment</code>。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HINCRBYFLOAT product:1001 price 0.99</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ebe8db55-6aee-835c-b73b-8146602dec1f"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HKEYS</code></td><td id="YHhx" class="" style="width:346.6540222167969px">返回 hash 中所有字段名。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HKEYS user:1001</code> → <code>[&quot;name&quot;,&quot;age&quot;]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="f178db55-6aee-83b5-b138-01fd3225c759"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HVALS</code></td><td id="YHhx" class="" style="width:346.6540222167969px">返回 hash 中所有值。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HVALS user:1001</code> → <code>[&quot;Alice&quot;,&quot;30&quot;]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="9808db55-6aee-8325-84af-01706352f826"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HSETNX</code></td><td id="YHhx" class="" style="width:346.6540222167969px">仅当字段不存在时设置该字段的值（原子操作）。成功返回 1，失败返回 0。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HSETNX user:1001 email &quot;alice@xx.com&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4a68db55-6aee-8216-b53a-015b5077c0a5"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HSTRLEN</code></td><td id="YHhx" class="" style="width:346.6540222167969px">返回字段值的字符串长度（字节数）。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HSTRLEN user:1001 name</code> → <code>5</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3f78db55-6aee-8353-afac-817e7b5545fe"><td id="pyi:" class="" style="width:120.65849304199219px"><code>HSCAN</code></td><td id="YHhx" class="" style="width:346.6540222167969px">增量迭代 hash 中的字段-值对，用于避免 <code>HGETALL</code> 阻塞。</td><td id="Shpz" class="" style="width:340.6584930419922px"><code>HSCAN user:1001 0 MATCH name*</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="3b08db55-6aee-83ad-8df8-81d3fdba30ab"/></div><div style="display:contents" dir="auto"><h1 id="0c38db55-6aee-82dc-97cc-0131c4cb2475" class="">List类型</h1></div><div style="display:contents" dir="auto"><p id="0af8db55-6aee-8337-a2c2-81d8ca0c98b8" class="">类似java中的LinkedList，可以看作是一个双向链表结构。即可以支持正向检索也可以反向检索：</p></div><div style="display:contents" dir="auto"><p id="3f08db55-6aee-83bb-a55d-01abd3e52312" class="">特征也类似：</p></div><div style="display:contents" dir="auto"><ul id="1ed8db55-6aee-83d8-bcad-01eeefa7d9dc" class="bulleted-list"><li style="list-style-type:disc">有序</li></ul></div><div style="display:contents" dir="auto"><ul id="ef18db55-6aee-83cb-a129-01a13402e33e" class="bulleted-list"><li style="list-style-type:disc">元素可以复制</li></ul></div><div style="display:contents" dir="auto"><ul id="4bd8db55-6aee-83c1-b645-01019323be0c" class="bulleted-list"><li style="list-style-type:disc">插入和删除快</li></ul></div><div style="display:contents" dir="auto"><ul id="7ed8db55-6aee-8306-9bc8-8156e3b61618" class="bulleted-list"><li style="list-style-type:disc">查询速度一般</li></ul></div><div style="display:contents" dir="ltr"><table id="77a8db55-6aee-832d-ac9a-8199bcd67be9" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3498db55-6aee-82f6-a1ae-013ddb248e22"><th id="Lmxu" class="simple-table-header-color simple-table-header"><strong>命令</strong></th><th id="gDdy" class="simple-table-header-color simple-table-header" style="width:366px"><strong>描述</strong></th><th id="iNJ=" class="simple-table-header-color simple-table-header" style="width:319.30804443359375px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="7498db55-6aee-8207-877e-012328b88a39"><td id="Lmxu" class=""><code>LPUSH</code></td><td id="gDdy" class="" style="width:366px">将一个或多个值插入到列表头部（左侧），返回列表长度。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>LPUSH queue &quot;task1&quot; &quot;task2&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="acd8db55-6aee-830e-b133-8165c27a3cfe"><td id="Lmxu" class=""><code>RPUSH</code></td><td id="gDdy" class="" style="width:366px">将一个或多个值插入到列表尾部（右侧），返回列表长度。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>RPUSH queue &quot;task3&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="86b8db55-6aee-83c1-9565-81c80cb2553b"><td id="Lmxu" class=""><code>LPOP</code></td><td id="gDdy" class="" style="width:366px">移除并返回列表头部的一个或<code>count</code>个元素。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>LPOP queue</code> → <code>&quot;task2&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="49e8db55-6aee-831b-946a-815f7b32266d"><td id="Lmxu" class=""><code>RPOP</code></td><td id="gDdy" class="" style="width:366px">移除并返回列表尾部的一个或<code>count</code>个元素。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>RPOP queue</code> → <code>&quot;task3&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ba28db55-6aee-8213-8cb3-81cad2c20498"><td id="Lmxu" class=""><code>LLEN</code></td><td id="gDdy" class="" style="width:366px">返回列表长度（元素个数）。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>LLEN queue</code> → <code>1</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6218db55-6aee-83ec-bc71-816efa1f8afd"><td id="Lmxu" class=""><code>LRANGE</code></td><td id="gDdy" class="" style="width:366px">返回列表中指定区间内的元素（索引从0开始，支持负数表示倒数）。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>LRANGE queue 0 -1</code> → 所有元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="4918db55-6aee-835e-849a-8102e6d34eb4"><td id="Lmxu" class=""><code>LINDEX</code></td><td id="gDdy" class="" style="width:366px">通过索引获取列表中的元素。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>LINDEX queue 0</code> → <code>&quot;task1&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="cbc8db55-6aee-82f9-945f-8107954c621c"><td id="Lmxu" class=""><code>LSET</code></td><td id="gDdy" class="" style="width:366px">通过索引设置列表元素的值（索引存在时成功）。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>LSET queue 0 &quot;newtask&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8dc8db55-6aee-82bb-9a87-01b97cf004e2"><td id="Lmxu" class=""><code>LINSERT</code></td><td id="gDdy" class="" style="width:366px">在列表中某个参考值<code>pivot</code>之前或之后插入元素。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>LINSERT queue BEFORE &quot;task1&quot; &quot;urgent&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="fa28db55-6aee-8262-9192-0168c0a4d1f2"><td id="Lmxu" class=""><code>LREM</code></td><td id="gDdy" class="" style="width:366px">从列表中删除与<code>value</code>相等的元素。<code>count</code>&gt;0从左删除，=0删除全部，&lt;0从右删除。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>LREM queue 1 &quot;task1&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="f258db55-6aee-83e4-a7f1-0172045e90ec"><td id="Lmxu" class=""><code>LTRIM</code></td><td id="gDdy" class="" style="width:366px">修剪列表，只保留指定区间内的元素，其他删除。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>LTRIM queue 0 1</code> 保留前两个元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="b728db55-6aee-8335-94f3-8128336e54ac"><td id="Lmxu" class=""><code>RPOPLPUSH</code></td><td id="gDdy" class="" style="width:366px">将<code>source</code>列表尾部的元素弹出并推入<code>destination</code>列表头部，原子操作。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>RPOPLPUSH queue backup</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a2d8db55-6aee-8308-b135-818412fb3cd6"><td id="Lmxu" class=""><code>BLPOP</code></td><td id="gDdy" class="" style="width:366px">从非空列表头部弹出元素，若所有列表为空则阻塞等待<code>timeout</code>秒（0表示永久）。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>BLPOP queue 0</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="0608db55-6aee-8342-b1e7-81fc189b5f70"><td id="Lmxu" class=""><code>BRPOP</code></td><td id="gDdy" class="" style="width:366px">与<code>BLPOP</code>类似，但从尾部弹出。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>BRPOP queue 10</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="08b8db55-6aee-8390-aa3b-81658b407552"><td id="Lmxu" class=""><code>BRPOPLPUSH</code></td><td id="gDdy" class="" style="width:366px"><code>RPOPLPUSH</code>的阻塞版本。</td><td id="iNJ=" class="" style="width:319.30804443359375px"><code>BRPOPLPUSH queue backup 5</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="efc8db55-6aee-8285-ae66-01fe788b87e8"/></div><div style="display:contents" dir="auto"><h1 id="3f78db55-6aee-8219-8bc7-81d6c9ca2a5c" class="">Set类型</h1></div><div style="display:contents" dir="auto"><p id="3158db55-6aee-83cc-ab3e-812608a4728d" class="">与Java中HashSet类似，可以看作是一个value为null的HashMap</p></div><div style="display:contents" dir="auto"><p id="f6c8db55-6aee-82ef-bb4e-0134c1490bfc" class="">同样具备Hash的特性</p></div><div style="display:contents" dir="auto"><ul id="6818db55-6aee-839a-bf7c-81aa07c4483b" class="bulleted-list"><li style="list-style-type:disc">无序</li></ul></div><div style="display:contents" dir="auto"><ul id="ef28db55-6aee-823e-9a82-0160cc9806f9" class="bulleted-list"><li style="list-style-type:disc">元素不可重复</li></ul></div><div style="display:contents" dir="auto"><ul id="56f8db55-6aee-82a1-a5b6-01bb650d9e1b" class="bulleted-list"><li style="list-style-type:disc">查找快</li></ul></div><div style="display:contents" dir="auto"><ul id="4a48db55-6aee-832b-a651-81eaaf0510bc" class="bulleted-list"><li style="list-style-type:disc">支持交集，并集，差集等功能</li></ul></div><div style="display:contents" dir="ltr"><table id="14f8db55-6aee-834b-af2b-81da2cb99f10" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="6338db55-6aee-8239-a66f-01c12a9d7c20"><th id="W|U]" class="simple-table-header-color simple-table-header"><strong>命令</strong></th><th id="aqg]" class="simple-table-header-color simple-table-header" style="width:367px"><strong>描述</strong></th><th id=";aV}" class="simple-table-header-color simple-table-header" style="width:365.30357360839844px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="60c8db55-6aee-8275-bd1c-8185fc904a9f"><td id="W|U]" class=""><code>SADD</code></td><td id="aqg]" class="" style="width:367px">向集合添加一个或多个成员，返回新增成员的数量（忽略已存在的成员）。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SADD fruits &quot;apple&quot; &quot;banana&quot; &quot;orange&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4338db55-6aee-838c-ab5f-81492c26516d"><td id="W|U]" class=""><code>SREM</code></td><td id="aqg]" class="" style="width:367px">移除集合中一个或多个成员，返回成功移除的数量。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SREM fruits &quot;banana&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a838db55-6aee-82c3-b44c-0122d50d25f9"><td id="W|U]" class=""><code>SMEMBERS</code></td><td id="aqg]" class="" style="width:367px">返回集合中的所有成员。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SMEMBERS fruits</code> → <code>[&quot;apple&quot;,&quot;orange&quot;]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2e98db55-6aee-83b1-a9a8-81ba56ba71a5"><td id="W|U]" class=""><code>SISMEMBER</code></td><td id="aqg]" class="" style="width:367px">判断成员是否是集合的元素。是返回1，否返回0。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SISMEMBER fruits &quot;apple&quot;</code> → <code>1</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="0338db55-6aee-83e1-86b9-01b7eae7d359"><td id="W|U]" class=""><code>SCARD</code></td><td id="aqg]" class="" style="width:367px">返回集合的元素个数（基数）。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SCARD fruits</code> → <code>2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2af8db55-6aee-82af-8f4d-01cce10121f2"><td id="W|U]" class=""><code>SPOP</code></td><td id="aqg]" class="" style="width:367px">随机移除并返回一个或多个成员。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SPOP fruits</code> → <code>&quot;apple&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5998db55-6aee-8343-88d2-010cd9e3108e"><td id="W|U]" class=""><code>SRANDMEMBER</code></td><td id="aqg]" class="" style="width:367px">随机返回一个或多个成员（不移除）。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SRANDMEMBER fruits 2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5918db55-6aee-83a6-8285-81306659c284"><td id="W|U]" class=""><code>SINTER</code></td><td id="aqg]" class="" style="width:367px">返回所有给定集合的交集。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SINTER set1 set2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="fba8db55-6aee-8384-832f-8120634cd1bd"><td id="W|U]" class=""><code>SINTERSTORE</code></td><td id="aqg]" class="" style="width:367px">求交集并将结果存储到新集合<code>destination</code>。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SINTERSTORE common set1 set2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2bf8db55-6aee-8307-83a0-818aec1c8bbb"><td id="W|U]" class=""><code>SUNION</code></td><td id="aqg]" class="" style="width:367px">返回所有给定集合的并集。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SUNION set1 set2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ad78db55-6aee-8225-b56c-019b1b89821c"><td id="W|U]" class=""><code>SUNIONSTORE</code></td><td id="aqg]" class="" style="width:367px">求并集并将结果存储到新集合。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SUNIONSTORE all set1 set2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="19a8db55-6aee-835f-80c3-01dd011394b7"><td id="W|U]" class=""><code>SDIFF</code></td><td id="aqg]" class="" style="width:367px">返回第一个集合与其他集合的差集（属于第一个但不属于后续的成员）。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SDIFF set1 set2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5f38db55-6aee-83f1-a6cd-012f8b205e68"><td id="W|U]" class=""><code>SDIFFSTORE</code></td><td id="aqg]" class="" style="width:367px">求差集并将结果存储到新集合。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SDIFFSTORE diff set1 set2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5a18db55-6aee-8296-8202-81f841a066bb"><td id="W|U]" class=""><code>SMOVE</code></td><td id="aqg]" class="" style="width:367px">将成员从源集合移动到目标集合（原子操作）。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SMOVE fruits tropical &quot;banana&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a378db55-6aee-831b-a9be-81e2f823d4b6"><td id="W|U]" class=""><code>SSCAN</code></td><td id="aqg]" class="" style="width:367px">增量迭代集合中的元素，避免<code>SMEMBERS</code>阻塞。</td><td id=";aV}" class="" style="width:365.30357360839844px"><code>SSCAN fruits 0 MATCH a* COUNT 10</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="9d18db55-6aee-82cd-883c-01c354d15839"/></div><div style="display:contents" dir="auto"><h1 id="1068db55-6aee-8286-a4de-8120af89dcd0" class="">SortedSet类型</h1></div><div style="display:contents" dir="auto"><p id="90c8db55-6aee-82b8-b678-81ac79409338" class="">有序集合，类似Java中的TreeSet类似（底层实现不同）</p></div><div style="display:contents" dir="auto"><p id="a128db55-6aee-82d0-a535-814085489309" class="">sortedSet中每个元素都带有一个score属性，可以基于score属性对元素排序，底层的实现是一个跳表（SkipList）加Hash表。（常用于排行榜等功能）具有如下特性：</p></div><div style="display:contents" dir="auto"><ul id="c538db55-6aee-82a4-92a4-01eaa5620c7f" class="bulleted-list"><li style="list-style-type:disc">可排序</li></ul></div><div style="display:contents" dir="auto"><ul id="e928db55-6aee-834f-bbcc-015610c49d18" class="bulleted-list"><li style="list-style-type:disc">元素不可重复</li></ul></div><div style="display:contents" dir="auto"><ul id="baa8db55-6aee-83da-afee-0124064d4dd8" class="bulleted-list"><li style="list-style-type:disc">查询速度快</li></ul></div><div style="display:contents" dir="ltr"><table id="a348db55-6aee-8280-a8b8-8155153acf36" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="25d8db55-6aee-83d1-9674-01ebdd1c2cb3"><th id="v=~G" class="simple-table-header-color simple-table-header"><strong>命令</strong></th><th id="w@m:" class="simple-table-header-color simple-table-header" style="width:373.9910888671875px"><strong>描述</strong></th><th id="?l[Q" class="simple-table-header-color simple-table-header" style="width:376.4553680419922px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="f978db55-6aee-82de-8d32-01a73fe3c200"><td id="v=~G" class=""><code>ZADD</code></td><td id="w@m:" class="" style="width:373.9910888671875px">向有序集合添加一个或多个成员，或更新已存在成员的分数。返回新增/修改的数量（取决于选项）。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZADD leaderboard 100 &quot;Alice&quot; 200 &quot;Bob&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1218db55-6aee-822f-8112-0114d83b3872"><td id="v=~G" class=""><code>ZREM</code></td><td id="w@m:" class="" style="width:373.9910888671875px">移除有序集合中的一个或多个成员，返回成功移除的数量。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZREM leaderboard &quot;Bob&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8378db55-6aee-8221-93b5-81996069ead5"><td id="v=~G" class=""><code>ZSCORE</code></td><td id="w@m:" class="" style="width:373.9910888671875px">返回成员的分数。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZSCORE leaderboard &quot;Alice&quot;</code> → <code>100</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="da38db55-6aee-8284-9056-01d066edd4c4"><td id="v=~G" class=""><code>ZINCRBY</code></td><td id="w@m:" class="" style="width:373.9910888671875px">对指定成员的分数增加增量（可为负数），返回新分数。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZINCRBY leaderboard 50 &quot;Alice&quot;</code> → <code>150</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c4e8db55-6aee-8266-b780-018114b357fa"><td id="v=~G" class=""><code>ZCARD</code></td><td id="w@m:" class="" style="width:373.9910888671875px">返回有序集合的元素个数。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZCARD leaderboard</code> → <code>1</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7148db55-6aee-838a-b0c7-81c8612802b4"><td id="v=~G" class=""><code>ZCOUNT</code></td><td id="w@m:" class="" style="width:373.9910888671875px">返回分数在 <code>min</code> 和 <code>max</code> 区间内的成员数量（默认闭区间）。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZCOUNT leaderboard 100 200</code> → <code>1</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="0268db55-6aee-82f1-8c75-01b4390a6cb5"><td id="v=~G" class=""><code>ZRANGE</code></td><td id="w@m:" class="" style="width:373.9910888671875px">按索引范围返回成员（升序）。<code>WITHSCORES</code> 同时返回分数。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZRANGE leaderboard 0 -1 WITHSCORES</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3ea8db55-6aee-8351-8eed-018751399282"><td id="v=~G" class=""><code>ZREVRANGE</code></td><td id="w@m:" class="" style="width:373.9910888671875px">按索引范围返回成员（降序）。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZREVRANGE leaderboard 0 10 WITHSCORES</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="39b8db55-6aee-8306-b00a-81b188f46e28"><td id="v=~G" class=""><code>ZRANGEBYSCORE</code></td><td id="w@m:" class="" style="width:373.9910888671875px">按分数范围返回成员（升序）。<code>min</code>/<code>max</code> 支持 <code>-inf</code>/<code>+inf</code>，<code>(</code> 表示开区间。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZRANGEBYSCORE leaderboard 100 300 WITHSCORES</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7638db55-6aee-82f8-87c5-81873b1da625"><td id="v=~G" class=""><code>ZREVRANGEBYSCORE</code></td><td id="w@m:" class="" style="width:373.9910888671875px">按分数范围返回成员（降序，注意参数顺序：先 max 后 min）。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZREVRANGEBYSCORE leaderboard 300 100</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="f3f8db55-6aee-822f-b524-01d085dfd255"><td id="v=~G" class=""><code>ZRANK</code></td><td id="w@m:" class="" style="width:373.9910888671875px">返回成员在有序集合中的排名（升序，从0开始）。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZRANK leaderboard &quot;Alice&quot;</code> → <code>0</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a728db55-6aee-82bd-9741-81b97261cf38"><td id="v=~G" class=""><code>ZREVRANK</code></td><td id="w@m:" class="" style="width:373.9910888671875px">返回成员在有序集合中的排名（降序，从0开始）。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZREVRANK leaderboard &quot;Alice&quot;</code> → <code>1</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a098db55-6aee-8237-bbe9-01f047c2c03d"><td id="v=~G" class=""><code>ZREM</code></td><td id="w@m:" class="" style="width:373.9910888671875px">移除指定成员（已在上方列出）。</td><td id="?l[Q" class="" style="width:376.4553680419922px"></td></tr></div><div style="display:contents" dir="ltr"><tr id="b858db55-6aee-8356-a26e-81927dbd4260"><td id="v=~G" class=""><code>ZREMRANGEBYRANK</code></td><td id="w@m:" class="" style="width:373.9910888671875px">移除指定排名范围内的成员（按升序排名）。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZREMRANGEBYRANK leaderboard 0 0</code> 移除最低分</td></tr></div><div style="display:contents" dir="ltr"><tr id="c788db55-6aee-8341-a8ef-01262f6b1a2a"><td id="v=~G" class=""><code>ZREMRANGEBYSCORE</code></td><td id="w@m:" class="" style="width:373.9910888671875px">移除指定分数范围内的成员。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZREMRANGEBYSCORE leaderboard 100 200</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="e378db55-6aee-8272-a3c3-01eb595add6c"><td id="v=~G" class=""><code>ZUNIONSTORE</code></td><td id="w@m:" class="" style="width:373.9910888671875px">计算多个有序集合的并集，存储到 <code>destination</code>。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZUNIONSTORE union 2 zset1 zset2 WEIGHTS 2 3</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="97b8db55-6aee-829e-b92b-0196eaa24503"><td id="v=~G" class=""><code>ZINTERSTORE</code></td><td id="w@m:" class="" style="width:373.9910888671875px">计算多个有序集合的交集，存储到 <code>destination</code>。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZINTERSTORE intersect 2 zset1 zset2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c248db55-6aee-833d-96f0-814c7da1528a"><td id="v=~G" class=""><code>ZSCAN</code></td><td id="w@m:" class="" style="width:373.9910888671875px">增量迭代有序集合中的元素（成员+分数）。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZSCAN leaderboard 0 MATCH a* COUNT 10</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1e48db55-6aee-83e0-812a-015eb504a85d"><td id="v=~G" class=""><code>ZPOPMIN</code></td><td id="w@m:" class="" style="width:373.9910888671875px">移除并返回分数最低的一个或多个成员（弹出）。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZPOPMIN leaderboard</code> → <code>[&quot;Alice&quot;,&quot;100&quot;]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2358db55-6aee-833c-9a69-018cce6a55fe"><td id="v=~G" class=""><code>ZPOPMAX</code></td><td id="w@m:" class="" style="width:373.9910888671875px">移除并返回分数最高的一个或多个成员。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>ZPOPMAX leaderboard</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5fd8db55-6aee-8257-afbd-012eb178cecb"><td id="v=~G" class=""><code>BZPOPMIN</code></td><td id="w@m:" class="" style="width:373.9910888671875px">阻塞版本的 <code>ZPOPMIN</code>，若无成员则阻塞等待。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>BZPOPMIN leaderboard 5</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3028db55-6aee-8247-a8c6-01b6e3195a87"><td id="v=~G" class=""><code>BZPOPMAX</code></td><td id="w@m:" class="" style="width:373.9910888671875px">阻塞版本的 <code>ZPOPMAX</code>。</td><td id="?l[Q" class="" style="width:376.4553680419922px"><code>BZPOPMAX leaderboard 5</code></td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><figure id="e868db55-6aee-8229-ad91-811e58941086" class="image"><a href="Redis%E5%91%BD%E4%BB%A4/Snipaste_2026-04-05_18-57-41.png"><img style="width:703.9955444335938px" src="Redis%E5%91%BD%E4%BB%A4/Snipaste_2026-04-05_18-57-41.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="d798db55-6aee-82be-a110-8145db7165d2" class="">
+</p></div><div style="display:contents" dir="auto"><hr id="c008db55-6aee-82eb-992c-812953edc59e"/></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

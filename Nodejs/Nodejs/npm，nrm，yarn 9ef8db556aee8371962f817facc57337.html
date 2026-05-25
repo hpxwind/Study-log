@@ -1,0 +1,924 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>npm，nrm，yarn</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9ef8db55-6aee-8371-962f-817facc57337" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/webb4.jpg" style="object-position:center 50%"/><h1 class="page-title" dir="auto">npm，nrm，yarn</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="39c8db55-6aee-838e-a4dc-81674860631e" class="toggle"><li><details open=""><summary>什么是npm?</summary><div style="display:contents" dir="auto"><ul id="0838db55-6aee-83e7-ae4d-014a2ebe2e9a" class="bulleted-list"><li style="list-style-type:disc"><strong>包管理工具</strong>：管理项目中使用的第三方库（如 React、Vue、lodash 等）。</li></ul></div><div style="display:contents" dir="auto"><ul id="4e48db55-6aee-823e-bae6-81374c75f893" class="bulleted-list"><li style="list-style-type:disc"><strong>命令行工具</strong>：通过终端命令操作（如 <code>npm install</code>、<code>npm run</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="4158db55-6aee-834e-a355-011d0883273d" class="bulleted-list"><li style="list-style-type:disc"><strong>生态系统</strong>：包含海量开源包，解决各种开发需求（UI 组件、工具函数、构建工具等）。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6d58db55-6aee-83c0-922e-81d6d10852d1" class="toggle"><li><details open=""><summary>package.json文件</summary><div style="display:contents" dir="auto"><p id="ed48db55-6aee-8364-b18c-014ff5caef91" class="">项目的 “说明书”，记录项目基本信息和依赖关系，位于项目根目录，必需文件。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="ca48db55-6aee-8385-941f-81b5af234463" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;name&quot;: &quot;my-project&quot;,       // 项目名称（小写，无空格）
+  &quot;version&quot;: &quot;1.0.0&quot;,         // 版本号（遵循语义化版本：MAJOR.MINOR.PATCH）
+  &quot;description&quot;: &quot;我的第一个项目&quot;, // 项目描述
+  &quot;main&quot;: &quot;index.js&quot;,         // 入口文件
+  &quot;scripts&quot;: {                // 自定义脚本命令
+    &quot;start&quot;: &quot;node index.js&quot;,
+    &quot;test&quot;: &quot;jest&quot;
+  },
+  &quot;dependencies&quot;: {           // 生产环境依赖（项目运行必需）
+    &quot;lodash&quot;: &quot;^4.17.21&quot;
+  },
+  &quot;devDependencies&quot;: {        // 开发环境依赖（仅开发时需要，如测试工具）
+    &quot;eslint&quot;: &quot;^8.56.0&quot;
+  },
+  &quot;author&quot;: &quot;Your Name&quot;,      // 作者
+  &quot;license&quot;: &quot;MIT&quot;            // 开源许可证
+}</code></pre></div><div style="display:contents" dir="auto"><ul id="5a28db55-6aee-82bb-964d-01c72362f916" class="bulleted-list"><li style="list-style-type:disc"><strong>生产依赖（</strong><code><strong>dependencies</strong></code><strong>）</strong>：项目运行时必须的包（如 React 核心库）。</li></ul></div><div style="display:contents" dir="auto"><ul id="1f28db55-6aee-8236-abcd-01243a48685c" class="bulleted-list"><li style="list-style-type:disc"><strong>开发依赖（</strong><code><strong>devDependencies</strong></code><strong>）</strong>：仅开发阶段使用的包（如代码检查工具 ESLint、测试工具 Jest）。</li></ul></div><div style="display:contents" dir="auto"><ul id="30c8db55-6aee-828c-a28d-01cfb051f554" class="bulleted-list"><li style="list-style-type:disc"><strong>全局依赖</strong>：安装在系统全局的工具（如 <code>vue-cli</code>、<code>nodemon</code>），可在任何项目使用。</li></ul></div><div style="display:contents" dir="auto"><hr id="9618db55-6aee-8261-9077-0154da502d26"/></div><div style="display:contents" dir="auto"><p id="c0c8db55-6aee-827a-aa96-81f41c013d77" class="">npm 包版本遵循 <code>MAJOR.MINOR.PATCH</code> 格式（如 <code>4.17.21</code>）：</p></div><div style="display:contents" dir="auto"><ul id="a8b8db55-6aee-83c3-b60e-8136d2137b2e" class="bulleted-list"><li style="list-style-type:disc"><code>MAJOR</code>（主版本）：不兼容的 API 变更（如 4.x → 5.x）。</li></ul></div><div style="display:contents" dir="auto"><ul id="4a38db55-6aee-83a8-8f75-0167da488cab" class="bulleted-list"><li style="list-style-type:disc"><code>MINOR</code>（次版本）：向后兼容的功能新增（如 4.17.x → 4.18.x）。</li></ul></div><div style="display:contents" dir="auto"><ul id="b678db55-6aee-8348-b3fb-0162b01aa178" class="bulleted-list"><li style="list-style-type:disc"><code>PATCH</code>（补丁版本）：向后兼容的问题修复（如 4.17.20 → 4.17.21）。</li></ul></div><div style="display:contents" dir="auto"><hr id="83f8db55-6aee-8300-8922-016bfd13fba7"/></div><div style="display:contents" dir="auto"><p id="76f8db55-6aee-83c7-bb27-01a2594d96c5" class=""><strong>版本范围符号</strong>：</p></div><div style="display:contents" dir="auto"><ul id="9a08db55-6aee-837b-be59-015d269d2772" class="bulleted-list"><li style="list-style-type:disc"><code>^1.2.3</code>：允许次版本和补丁版本更新（≥1.2.3 且 &lt;2.0.0）</li></ul></div><div style="display:contents" dir="auto"><ul id="8bb8db55-6aee-8371-9a44-813903e63e8f" class="bulleted-list"><li style="list-style-type:disc"><code>~1.2.3</code>：仅允许补丁版本更新（≥1.2.3 且 &lt;1.3.0）</li></ul></div><div style="display:contents" dir="auto"><ul id="48b8db55-6aee-8307-9a5b-0112fb7c9d21" class="bulleted-list"><li style="list-style-type:disc"><code>1.2.3</code>：固定版本（必须精确匹配）</li></ul></div><div style="display:contents" dir="auto"><ul id="9758db55-6aee-82d5-8354-8130c7ba38e9" class="bulleted-list"><li style="list-style-type:disc">：任意版本</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7358db55-6aee-82c1-8f76-81a64b57cce6" class="toggle"><li><details open=""><summary>npm</summary><div style="display:contents" dir="auto"><ul id="4128db55-6aee-83a4-8791-011ca6a47095" class="toggle"><li><details open=""><summary>1、项目初始化（npm init）</summary><div style="display:contents" dir="auto"><p id="c048db55-6aee-82ca-87dc-01ac35ae25f7" class="">创建 <code>package.json</code> 文件，初始化项目：</p></div><div style="display:contents" dir="auto"><pre id="32c8db55-6aee-83d6-a297-013bf74c6c10" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 交互式创建（逐步提示输入项目信息）
+npm init
+
+# 快速创建（使用默认值，无需交互）
+npm init -y  # 或 npm init --yes</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3d78db55-6aee-828d-9036-010243dc7fdc" class="toggle"><li><details open=""><summary>2、安装依赖（npm install）</summary><div style="display:contents" dir="auto"><pre id="27e8db55-6aee-83d4-9335-81215c191fc2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 简写：npm i 包名
+npm install lodash  # 安装最新版本
+npm install react@18.2.0  # 安装指定版本
+npm install axios@^1.0.0  # 安装符合版本范围的版本</code></pre></div><div style="display:contents" dir="auto"><p id="8f28db55-6aee-82b6-b365-01756ce4ffdf" class="">安装后，包会被下载到 <code>node_modules</code> 目录，并添加到 <code>package.json</code> 的 <code>dependencies</code> 中。</p></div><div style="display:contents" dir="auto"><hr id="b828db55-6aee-820b-a3cd-81d2d60c5031"/></div><div style="display:contents" dir="auto"><p id="db78db55-6aee-8290-a940-01b1857dd3f1" class=""><strong>安装开发依赖：</strong></p></div><div style="display:contents" dir="auto"><pre id="f0c8db55-6aee-82e1-acff-8185010f3149" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 简写：npm i -D 包名
+npm install eslint --save-dev  # 仅开发环境使用</code></pre></div><div style="display:contents" dir="auto"><p id="60d8db55-6aee-83e5-8fd4-0170b4345fe5" class="">安装后，包会添加到 <code>package.json</code> 的 <code>devDependencies</code> 中。</p></div><div style="display:contents" dir="auto"><hr id="44a8db55-6aee-8231-b3e4-017a1c54819c"/></div><div style="display:contents" dir="auto"><p id="37c8db55-6aee-82f3-9115-81fbfdee1f60" class=""><strong>安装全局依赖：</strong></p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8372-9c72-01d610569f52" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 简写：npm i -g 包名
+npm install nodemon -g  # 全局安装 nodemon（用于自动重启 Node.js 服务）</code></pre></div><div style="display:contents" dir="auto"><p id="94b8db55-6aee-831d-87c7-01a6d576083d" class="">全局包安装路径：</p></div><div style="display:contents" dir="auto"><ul id="3028db55-6aee-8391-9cff-017f8f5c10f9" class="bulleted-list"><li style="list-style-type:disc">Windows：<code>C:\Users\用户名\AppData\Roaming\npm\node_modules</code></li></ul></div><div style="display:contents" dir="auto"><ul id="0c08db55-6aee-82a9-aa53-015026f4bd08" class="bulleted-list"><li style="list-style-type:disc">macOS/Linux：<code>/usr/local/lib/node_modules</code> 或 <code>~/.npm-global/lib/node_modules</code></li></ul></div><div style="display:contents" dir="auto"><hr id="6df8db55-6aee-83b0-967e-81700a2121e9"/></div><div style="display:contents" dir="auto"><p id="5078db55-6aee-8322-9dc7-81f960d59430" class=""><strong>安装 package.json 中的所有依赖：</strong></p></div><div style="display:contents" dir="auto"><p id="9d48db55-6aee-8233-9a81-019b88ada74c" class="">克隆项目或迁移环境时，根据 <code>package.json</code> 安装所有依赖：</p></div><div style="display:contents" dir="auto"><pre id="8078db55-6aee-83b9-8ee3-012c9c06fee7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm install  # 安装 dependencies 和 devDependencies 中的所有包</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2198db55-6aee-8349-8811-0125c919e6e8" class="toggle"><li><details open=""><summary>3、卸载依赖（npm uninstall）</summary><div style="display:contents" dir="auto"><pre id="b618db55-6aee-83bc-8725-81a052df6d5c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 卸载生产依赖（同时从 package.json 中移除）
+npm uninstall lodash  # 简写：npm r lodash
+
+# 卸载开发依赖
+npm uninstall eslint --save-dev  # 简写：npm r -D eslint
+
+# 卸载全局依赖
+npm uninstall nodemon -g  # 简写：npm r -g nodemon</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="16b8db55-6aee-83ab-8f2d-01bdf6153b13" class="toggle"><li><details open=""><summary>4、查看依赖信息</summary><div style="display:contents" dir="auto"><pre id="5428db55-6aee-82ce-a981-8117c9aa63bb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 查看已安装的依赖（项目内）
+npm list  # 或 npm ls，显示依赖树
+npm list --depth=0  # 只显示直接依赖（不展开子依赖）
+
+# 查看全局安装的依赖
+npm list -g --depth=0
+
+# 查看某个包的详细信息（版本、描述、依赖等）
+npm info lodash  # 或 npm view lodash</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0558db55-6aee-83e7-9618-81c0479711c5" class="toggle"><li><details open=""><summary>5、脚本明令</summary><div style="display:contents" dir="auto"><p id="9bf8db55-6aee-822a-9532-012674434f18" class="">执行 <code>package.json</code> 中 <code>scripts</code> 字段定义的命令：</p></div><div style="display:contents" dir="auto"><pre id="94f8db55-6aee-8389-b5cd-0120d1cb7cb9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 运行 start 脚本（start 是特殊命令，可省略 run）
+npm start  # 等价于 npm run start
+
+# 运行自定义脚本（如 test、build）
+npm run test
+npm run build
+
+# 示例：如果 scripts 中有 &quot;dev&quot;: &quot;webpack serve&quot;
+npm run dev  # 启动开发服务器</code></pre></div><div style="display:contents" dir="auto"><p id="0ad8db55-6aee-831c-8ca7-0115156dad97" class=""><strong>常用场景</strong>：启动开发服务器、构建项目、运行测试、代码检查等。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3788db55-6aee-82c3-abaa-8158ca249602" class="toggle"><li><details open=""><summary>6、更新依赖</summary><div style="display:contents" dir="auto"><pre id="bd58db55-6aee-8370-b1fe-81d7712babd9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 检查可更新的依赖
+npm outdated  # 列出所有有新版本的依赖
+
+# 更新指定依赖到最新版本（符合版本范围）
+npm update lodash  # 简写：npm up lodash
+
+# 更新到最新版本（可能突破版本范围，谨慎使用）
+npm install lodash@latest</code></pre></div><div style="display:contents" dir="auto"><p id="cf08db55-6aee-83b2-9e34-81eccc56f253" class="">注意：<code>npm update</code> 只会更新到版本范围允许的最新版本（如 <code>^1.2.3</code> 最多更到 <code>1.x.x</code>），不会跨主版本更新。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3d48db55-6aee-8310-aa8f-818b06d455ed" class="toggle"><li><details open=""><summary>7、其他实用命令</summary><div style="display:contents" dir="auto"><pre id="39d8db55-6aee-8276-9f94-816afb1de15a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 清除 npm 缓存（解决安装异常时）
+npm cache clean --force
+
+# 查看 npm 配置（如镜像源）
+npm config list
+
+# 设置 npm 镜像源（加速下载，如淘宝镜像）
+npm config set registry https://registry.npmmirror.com/
+
+# 恢复官方镜像源
+npm config set registry https://registry.npmjs.org/</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9f08db55-6aee-8236-a029-01814323c303" class="toggle"><li><details open=""><summary><code><strong>node_modules</strong></code><strong>与</strong><code><strong>package-lock.json</strong></code></summary><div style="display:contents" dir="auto"><h3 id="bbe8db55-6aee-822a-94f3-8149aea6e41a" class=""><strong>1. </strong><code><strong>node_modules</strong></code><strong> 目录</strong></h3></div><div style="display:contents" dir="auto"><ul id="8d08db55-6aee-820f-a3eb-814e344e9fd8" class="bulleted-list"><li style="list-style-type:disc">存放所有安装的依赖包（包括直接依赖和间接依赖）。</li></ul></div><div style="display:contents" dir="auto"><ul id="ced8db55-6aee-8227-9e0c-0170a46e3dab" class="bulleted-list"><li style="list-style-type:disc">通常体积较大，<strong>不要提交到 Git</strong>（在 <code>.gitignore</code> 中添加 <code>node_modules/</code>）。</li></ul></div><div style="display:contents" dir="auto"><h3 id="6b08db55-6aee-822e-955e-01fff6a6b420" class=""><strong>2. </strong><code><strong>package-lock.json</strong></code><strong> 文件</strong></h3></div><div style="display:contents" dir="auto"><ul id="3f28db55-6aee-8289-a53f-81b760040da1" class="bulleted-list"><li style="list-style-type:disc">自动生成的锁定文件，精确记录所有依赖的版本号和安装路径。</li></ul></div><div style="display:contents" dir="auto"><ul id="ac88db55-6aee-83ed-91a3-014cf6c57c22" class="bulleted-list"><li style="list-style-type:disc">作用：<div style="display:contents" dir="auto"><ul id="be58db55-6aee-82b4-8b43-81d5a4eeb8f8" class="bulleted-list"><li style="list-style-type:circle">确保团队成员或部署环境安装的依赖版本完全一致（解决 “在我电脑上能运行” 问题）。</li></ul></div><div style="display:contents" dir="auto"><ul id="9718db55-6aee-82f6-a882-818351b5ddd9" class="bulleted-list"><li style="list-style-type:circle">加速依赖安装（无需重新计算版本范围）。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="a618db55-6aee-8312-b786-01bd8ac71eea" class="bulleted-list"><li style="list-style-type:disc">注意：<strong>必须提交到 Git</strong>，不要手动修改。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9e58db55-6aee-83c5-9f86-815050d6aa5e" class="toggle"><li><details open=""><summary>npm高级用法</summary><div style="display:contents" dir="auto"><ul id="f208db55-6aee-823c-95ec-812c070658bf" class="toggle"><li><details open=""><summary>1、发布自己的包到npm</summary><div style="display:contents" dir="auto"><pre id="9b48db55-6aee-824e-b840-81ebb43ba941" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 1. 注册 npm 账号（官网：https://www.npmjs.com/）
+# 2. 终端登录
+npm login  # 输入用户名、密码、邮箱
+
+# 3. 发布包（确保 package.json 中的 name 未被占用）
+npm publish
+
+# 4. 更新包（需先修改 version 字段）
+npm publish
+
+# 5. 撤销发布（发布后 24 小时内）
+npm unpublish 包名@版本号 --force</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b5d8db55-6aee-83d4-9f6c-01c83f144c48" class="toggle"><li><details open=""><summary>2、使用.npmrc配置文件</summary><div style="display:contents" dir="auto"><p id="a4f8db55-6aee-83f0-ad26-8152715e7dd7" class="">在项目根目录创建 <code>.npmrc</code> 文件，自定义 npm 配置（优先级高于全局配置）：</p></div><div style="display:contents" dir="auto"><pre id="eef8db55-6aee-8247-afe5-019077c15a79" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 设置镜像源
+registry=https://registry.npmmirror.com/
+
+# 保存依赖时使用精确版本（而非 ^ 或 ~）
+save-exact=true</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2548db55-6aee-83ef-8db8-81c239eb909f" class="toggle"><li><details open=""><summary>3、安装指定镜像包</summary><div style="display:contents" dir="auto"><p id="64a8db55-6aee-823d-951b-81b49db1bc16" class="">临时使用其他镜像安装包：</p></div><div style="display:contents" dir="auto"><pre id="f428db55-6aee-83c8-a6ba-0194395be6ce" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm install lodash --registry=https://registry.npmmirror.com/</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="85f8db55-6aee-83fb-bd16-0108bc0c2595" class="toggle"><li><details open=""><summary>常见问题与解决</summary><div style="display:contents" dir="auto"><ul id="3e78db55-6aee-836b-836f-812716325d8d" class="toggle"><li><details open=""><summary>1、<strong>安装包时权限错误（macOS/Linux）</strong></summary><div style="display:contents" dir="auto"><p id="9b98db55-6aee-8392-a9b3-81ef8af115e3" class="">原因：没有 <code>node_modules</code> 或全局目录的写入权限。</p></div><div style="display:contents" dir="auto"><pre id="18d8db55-6aee-822f-84d5-81f38eea287e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 方案1：使用 sudo（不推荐，可能导致权限混乱）
+sudo npm install -g 包名
+
+# 方案2：修改 npm 全局安装路径（推荐）
+npm config set prefix ~/.npm-global
+# 然后将 ~/.npm-global/bin 添加到环境变量 PATH 中</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8d98db55-6aee-82e3-ae4c-819c0b105c43" class="toggle"><li><details open=""><summary>2、<strong>依赖冲突或安装失败</strong></summary><div style="display:contents" dir="auto"><p id="f2b8db55-6aee-82c1-be22-81b95a5a16df" class="">尝试删除 <code>node_modules</code> 和 <code>package-lock.json</code> 后重新安装：</p></div><div style="display:contents" dir="auto"><pre id="2228db55-6aee-83c5-a667-018684fd35a2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">rm -rf node_modules package-lock.json  # Windows: rmdir /s/q node_modules &amp; del package-lock.json
+npm install</code></pre></div><div style="display:contents" dir="auto"><p id="f2b8db55-6aee-82d2-8f3e-812f7b8caaea" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2fc8db55-6aee-8213-96ea-8126a90c8f74" class="toggle"><li><details open=""><summary>3、<strong>全局安装的包无法使用</strong></summary><div style="display:contents" dir="auto"><p id="9da8db55-6aee-83e8-b6ab-814c5d46ead5" class="">原因：全局安装路径未添加到系统环境变量 <code>PATH</code> 中。</p></div><div style="display:contents" dir="auto"><p id="0ea8db55-6aee-837b-adec-81fbf97d2503" class="">解决：<div class="indented"><div style="display:contents" dir="auto"><ol type="1" id="4158db55-6aee-83ec-a415-013cce9d2e1b" class="numbered-list" start="1"><li>查看全局安装路径：<code>npm config get prefix</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="4f58db55-6aee-82b2-9f92-8170494368a7" class="numbered-list" start="2"><li>将该路径下的 <code>bin</code> 目录添加到 <code>PATH</code> 中。</li></ol></div></div></p></div></details></li></ul></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="98b8db55-6aee-8287-ad68-01487cbbb636" class="toggle"><li><details open=""><summary>nrm</summary><div style="display:contents" dir="auto"><p id="d028db55-6aee-8225-8455-01179d69d811" class="">nrm（Node Registry Manager）是一个 <strong>npm 镜像源管理工具</strong>，它可以帮助开发者快速切换、管理和测试不同的 npm 镜像源，解决因镜像源速度慢或不稳定导致的包安装问题。</p></div><div style="display:contents" dir="auto"><p id="25b8db55-6aee-8213-bf34-016928b14653" class="">nrm 的作用就是：<strong>简化镜像源的切换和管理流程</strong>，无需手动执行 <code>npm config set registry &lt;url&gt;</code> 命令，通过简单的指令即可完成镜像源的切换、查看、测试等操作。</p></div><div style="display:contents" dir="auto"><ul id="0e48db55-6aee-832c-b835-819c35e6bbc0" class="toggle"><li><details open=""><summary>nrm安装</summary><div style="display:contents" dir="auto"><pre id="4418db55-6aee-8204-af92-81c7e4584973" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 全局安装 nrm
+npm install -g nrm
+安装完成后，验证是否安装成功：
+nrm --version  # 查看版本号，如显示版本则安装成功</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7048db55-6aee-82e1-991f-01f72c4d8528" class="toggle"><li><details open=""><summary>常用命令</summary><div style="display:contents" dir="auto"><ul id="95a8db55-6aee-8341-8d7b-01fa51cada20" class="toggle"><li><details open=""><summary>1、查看所有可用镜像源</summary><div style="display:contents" dir="auto"><p id="da18db55-6aee-83fb-8d2b-8112684ca843" class="">列出 nrm 内置的所有镜像源，以及当前正在使用的镜像源（带 <code>*</code> 标记）：</p></div><div style="display:contents" dir="auto"><pre id="f5e8db55-6aee-823b-b1ec-810cb8d2ac38" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">nrm ls</code></pre></div><div style="display:contents" dir="auto"><p id="f1b8db55-6aee-8307-b279-01007709166a" class="">输出例如：</p></div><div style="display:contents" dir="auto"><pre id="eab8db55-6aee-829f-af61-813ef13df319" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">* npm -------- https://registry.npmjs.org/
+  yarn ------- https://registry.yarnpkg.com/
+  tencent ---- https://mirrors.cloud.tencent.com/npm/
+  cnpm ------- https://r.cnpmjs.org/
+  taobao ----- https://registry.npmmirror.com/
+  npmMirror -- https://skimdb.npmjs.com/registry/
+  --------------------
+* 表示当前正在使用的镜像源（示例中是官方 npm 源）
+内置镜像源包括：官方 npm、yarn、腾讯、cnpm、淘宝等（国内源推荐 taobao 或 tencent）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1ad8db55-6aee-8378-bd57-81e181b48682" class="toggle"><li><details open=""><summary>2、切换镜像源</summary><div style="display:contents" dir="auto"><pre id="5d38db55-6aee-82f5-b670-0130320af9ad" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">切换到指定的镜像源，例如切换到淘宝镜像：
+nrm use taobao
+执行后输出：
+Registry has been set to: https://registry.npmmirror.com/
+切换后，后续执行 npm install 等命令时，会从新的镜像源下载包。</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ac58db55-6aee-8251-b61b-81a67f8251a5" class="toggle"><li><details open=""><summary>3、测试镜像源速度</summary><div style="display:contents" dir="auto"><pre id="7268db55-6aee-82b6-9b65-8165e86a8cff" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">测试指定镜像源的响应速度（单位：毫秒），帮助选择最快的镜像源：
+# 测试单个镜像源（如淘宝源）
+nrm test taobao
+
+# 测试所有镜像源（不指定名称）
+nrm test
+-----------------------------------
+测试单个源案例：
+taobao ---- 123ms  # 响应时间越短，速度越快
+----------------------------------
+测试所有源的输出示例：
+npm ---- 897ms
+yarn --- 786ms
+tencent - 156ms
+cnpm --- 210ms
+taobao - 123ms  # 淘宝源速度最快
+npmMirror -- 987ms</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6b18db55-6aee-831a-b4a3-014d593ef7fe" class="toggle"><li><details open=""><summary>4、添加自定义镜像源</summary><div style="display:contents" dir="auto"><p id="64a8db55-6aee-82d0-b47d-812b4d5423c4" class="">如果内置镜像源不满足需求（如公司内部私有镜像源），可以手动添加：</p></div><div style="display:contents" dir="auto"><pre id="9518db55-6aee-8327-9f71-010e6d378427" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 格式：nrm add &lt;源名称&gt; &lt;源URL&gt;
+nrm add mycompany https://npm.mycompany.com/registry/</code></pre></div><div style="display:contents" dir="auto"><p id="b718db55-6aee-820a-8598-81801fe6176e" class="">添加后，可通过 <code>nrm ls</code> 查看是否添加成功。</p></div><div style="display:contents" dir="auto"><p id="6368db55-6aee-8307-9ae1-015b1ab7a7ce" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4578db55-6aee-82c9-a49b-8121af71002e" class="toggle"><li><details open=""><summary>5、删除自定义镜像源</summary><div style="display:contents" dir="auto"><p id="30e8db55-6aee-82df-9f65-81577c2eaa53" class="">删除已添加的自定义镜像源（内置镜像源无法删除）：</p></div><div style="display:contents" dir="auto"><pre id="a9d8db55-6aee-83ce-b9f2-81f8d3882cf3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">nrm del mycompany</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e478db55-6aee-82ce-8b88-81a2ae524446" class="toggle"><li><details open=""><summary>6、查看当前镜像源</summary><div style="display:contents" dir="auto"><pre id="fae8db55-6aee-834d-8768-010dad516629" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">nrm current
+输出示例：
+https://registry.npmmirror.com/  # 当前使用淘宝源</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ea38db55-6aee-825d-82e0-81f72a3586e8" class="toggle"><li><details open=""><summary>nrm与npm配置的关系</summary><div style="display:contents" dir="auto"><p id="3cb8db55-6aee-8241-a3ef-8166774d7a2d" class="">nrm 本质上是对 npm 配置的封装，它的所有操作最终都会反映到 npm 的配置中。例如：</p></div><div style="display:contents" dir="auto"><ul id="7c08db55-6aee-8322-a097-818a51429fe6" class="bulleted-list"><li style="list-style-type:disc">执行 <code>nrm use taobao</code> 等价于 <code>npm config set registry https://registry.npmmirror.com/</code></li></ul></div><div style="display:contents" dir="auto"><ul id="9a28db55-6aee-82d3-ae82-0135904a815d" class="bulleted-list"><li style="list-style-type:disc">执行 <code>nrm current</code> 等价于 <code>npm config get registry</code></li></ul></div><div style="display:contents" dir="auto"><p id="3e78db55-6aee-83ca-bc86-8128845f7ba8" class="">可以通过 <code>npm config list</code> 命令验证镜像源是否切换成功：</p></div><div style="display:contents" dir="auto"><pre id="c958db55-6aee-8372-b43c-012926094290" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm config list  # 查看 npm 配置，包含 registry 字段</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7c28db55-6aee-823a-a77a-813b47634f7a" class="toggle"><li><details open=""><summary>常见问题</summary><div style="display:contents" dir="auto"><h3 id="df88db55-6aee-8245-b43f-81a098748325" class=""><strong>执行 </strong><code><strong>nrm</strong></code><strong> 命令提示 “命令未找到”</strong></h3></div><div style="display:contents" dir="auto"><ul id="3fc8db55-6aee-8378-b130-017b7532139b" class="bulleted-list"><li style="list-style-type:disc">原因：nrm 未全局安装，或安装路径未添加到系统环境变量。</li></ul></div><div style="display:contents" dir="auto"><ul id="9b58db55-6aee-8338-8699-81052c6de8d5" class="bulleted-list"><li style="list-style-type:disc">解决：<div style="display:contents" dir="auto"><ol type="1" id="19b8db55-6aee-835e-a40e-81307253a679" class="numbered-list" start="1"><li>重新全局安装：<code>npm install -g nrm</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b538db55-6aee-8268-8261-8112f484f6ed" class="numbered-list" start="2"><li>检查全局安装路径：<code>npm config get prefix</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1a98db55-6aee-82d3-bab5-815394fbaf71" class="numbered-list" start="3"><li>将该路径添加到系统环境变量 <code>PATH</code> 中。</li></ol></div></li></ul></div><div style="display:contents" dir="auto"><h3 id="9028db55-6aee-83be-a5a3-01da36e67748" class=""><strong>2. 切换镜像源后安装包仍缓慢</strong></h3></div><div style="display:contents" dir="auto"><ul id="b838db55-6aee-83c6-bbb6-81728096c302" class="bulleted-list"><li style="list-style-type:disc">原因：镜像源可能同步不及时，或本地缓存问题。</li></ul></div><div style="display:contents" dir="auto"><ul id="3648db55-6aee-8326-9461-81209dec7f44" class="bulleted-list"><li style="list-style-type:disc">解决：<div style="display:contents" dir="auto"><ol type="1" id="7d78db55-6aee-83d1-99f5-810210cc3926" class="numbered-list" start="1"><li>测试其他镜像源速度：<code>nrm test</code>，切换到更快的源</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0098db55-6aee-8326-80ec-0130f30ae550" class="numbered-list" start="2"><li>清除 npm 缓存：<code>npm cache clean --force</code></li></ol></div></li></ul></div><div style="display:contents" dir="auto"><h3 id="b7f8db55-6aee-8206-a941-81878a135e48" class=""><strong>3. 私有镜像源认证问题</strong></h3></div><div style="display:contents" dir="auto"><ul id="5868db55-6aee-8276-84da-814bcbfb1e96" class="bulleted-list"><li style="list-style-type:disc">原因：公司私有镜像源可能需要账号密码或 token 认证。</li></ul></div><div style="display:contents" dir="auto"><ul id="31e8db55-6aee-82f2-b9dc-0155f95f5967" class="bulleted-list"><li style="list-style-type:disc">解决：通过 npm 配置添加认证信息：</li></ul></div><div style="display:contents" dir="auto"><pre id="f7b8db55-6aee-8326-8612-01736f45fd44" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 方式1：用户名+密码
+npm login --registry=https://npm.mycompany.com/
+
+# 方式2：设置 token（根据私有源要求）
+npm config set //npm.mycompany.com/:_authToken=你的token</code></pre></div><div style="display:contents" dir="auto"><p id="5708db55-6aee-82e4-b3a8-01664df0e3fc" class="">
+</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8608db55-6aee-83cd-8491-8145a138ebb7" class="toggle"><li><details open=""><summary>yarn</summary><div style="display:contents" dir="auto"><p id="f8f8db55-6aee-83ae-a7a6-01cc7617162c" class="">Yarn 是 Facebook 推出的一款高效的 JavaScript 包管理工具，旨在解决 npm（v3 及之前版本）的性能和安全性问题。它与 npm 功能类似，但在<strong>安装速度</strong>、<strong>依赖一致性</strong>和<strong>缓存机制</strong>上有显著优化，目前已成为前端开发的主流包管理工具之一。</p></div><div style="display:contents" dir="auto"><ul id="cea8db55-6aee-82d7-9866-01129414d128" class="toggle"><li><details open=""><summary>优势</summary><div style="display:contents" dir="auto"><p id="5738db55-6aee-837e-b305-819d72732735" class="">相比传统 npm，Yarn 的核心优势体现在：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3538db55-6aee-836f-a6de-013ca50e0752" class="numbered-list" start="1"><li><strong>速度更快</strong>采用并行安装机制（同时下载多个包）和离线缓存（已安装过的包无需重复下载），安装速度提升 2-3 倍。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="dc78db55-6aee-822c-8201-81a7fd5fe5c6" class="numbered-list" start="2"><li><strong>依赖一致性</strong>通过 <code>yarn.lock</code> 文件精确锁定依赖版本和安装结构，确保不同环境安装的依赖完全一致（解决 &quot;在我电脑上能运行&quot; 问题）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0e08db55-6aee-826d-8479-0115161c679f" class="numbered-list" start="3"><li><strong>安全性更高</strong>安装前会校验包的完整性，避免恶意代码或损坏的包被安装。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0148db55-6aee-83bb-a051-01aa1ae7b6a1" class="numbered-list" start="4"><li><strong>丰富的命令集</strong>提供更简洁的命令（如 <code>yarn add</code> 替代 <code>npm install</code>）和额外功能（如工作区、插件系统）。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4418db55-6aee-8345-aea8-81f9b794bb59" class="toggle"><li><details open=""><summary>安装</summary><div style="display:contents" dir="auto"><p id="33a8db55-6aee-83db-8ce7-81135e69b8f0" class="">1、npm</p></div><div style="display:contents" dir="auto"><pre id="7618db55-6aee-820a-bef7-01d0542d757b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm install -g yarn  # 全局安装 Yarn</code></pre></div><div style="display:contents" dir="auto"><p id="5b78db55-6aee-8354-a8f6-0163b9cf2317" class="">2、官方安装</p></div><div style="display:contents" dir="auto"><pre id="62a8db55-6aee-8208-9fdc-011eade661ec" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">curl -o- -L https://yarnpkg.com/install.sh | bash</code></pre></div><div style="display:contents" dir="auto"><p id="9668db55-6aee-83de-a8fd-8122f2e92c03" class="">3、验证安装</p></div><div style="display:contents" dir="auto"><pre id="8308db55-6aee-823d-8d70-018726372d26" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">yarn --version  # 显示版本号即安装成功（如 1.22.19）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="44e8db55-6aee-8240-ba7f-0113419790e3" class="toggle"><li><details open=""><summary>核心机制</summary><div style="display:contents" dir="auto"><h3 id="14b8db55-6aee-839a-ac1e-01e1a02a8898" class=""><strong>1 </strong><code><strong>package.json</strong></code></h3></div><div style="display:contents" dir="auto"><p id="3778db55-6aee-83af-a820-8142444a0e3b" class="">与 npm 一致，记录项目基本信息（名称、版本）和依赖关系，是项目的必备文件。</p></div><div style="display:contents" dir="auto"><h3 id="1308db55-6aee-83ca-a859-81a68e08ee1e" class=""><strong>2 </strong><code><strong>yarn.lock</strong></code></h3></div><div style="display:contents" dir="auto"><p id="c2b8db55-6aee-824d-89dc-0123d78e1fac" class="">自动生成的锁定文件，精确记录所有依赖的版本、下载地址和校验信息，<strong>必须提交到 Git</strong>，确保团队成员和部署环境的依赖一致性。</p></div><div style="display:contents" dir="auto"><h3 id="2668db55-6aee-827e-b530-8117eb3f0669" class=""><strong>3 缓存机制</strong></h3></div><div style="display:contents" dir="auto"><p id="8e58db55-6aee-8224-9388-812ae4d2f7b1" class="">Yarn 会将下载的包缓存到本地目录（如 <code>~/.yarn/cache</code>），再次安装相同包时直接从缓存读取，无需重复下载，大幅提升安装速度。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f378db55-6aee-8287-b3b0-0172a8d18436" class="toggle"><li><details open=""><summary>常用命令</summary><div style="display:contents" dir="auto"><ul id="12c8db55-6aee-8222-ae0f-01e673c3a0ee" class="toggle"><li><details open=""><summary>1、项目初始化</summary><div style="display:contents" dir="auto"><pre id="16a8db55-6aee-8277-92ff-015efc2c2c09" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">yarn init  # 交互式创建（逐步提示输入信息）
+yarn init -y  # 快速创建（使用默认值，无需交互）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0ec8db55-6aee-82e6-9b83-01a8d68e2de4" class="toggle"><li><details open=""><summary>2、安装依赖</summary><div style="display:contents" dir="auto"><p id="ff98db55-6aee-83a9-992e-01b38503585c" class="">安装生产依赖</p></div><div style="display:contents" dir="auto"><pre id="fa28db55-6aee-8208-97f4-817d1fcaab51" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 安装最新版本
+yarn add lodash  # 等价于 npm install lodash
+
+# 安装指定版本
+yarn add react@18.2.0  # 等价于 npm install react@18.2.0
+
+# 安装特定范围版本
+yarn add axios@^1.0.0  # 允许次版本更新</code></pre></div><div style="display:contents" dir="auto"><p id="40a8db55-6aee-82ef-9703-8134edb3fb2b" class="">安装后，依赖会添加到 <code>package.json</code> 的 <code>dependencies</code> 中。</p></div><div style="display:contents" dir="auto"><hr id="e6b8db55-6aee-8222-b694-816034ba7f40"/></div><div style="display:contents" dir="auto"><p id="6e08db55-6aee-8347-ba9a-81505a152970" class="">安装开发依赖</p></div><div style="display:contents" dir="auto"><pre id="fce8db55-6aee-828e-b613-010ceeecf999" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 简写：yarn add -D
+yarn add eslint --dev  # 等价于 npm install eslint --save-dev</code></pre></div><div style="display:contents" dir="auto"><hr id="4628db55-6aee-8372-8e90-013aea358ee6"/></div><div style="display:contents" dir="auto"><p id="7558db55-6aee-83c7-9f34-8137933b7c1a" class="">安装全局依赖</p></div><div style="display:contents" dir="auto"><pre id="02c8db55-6aee-825f-8d86-8147ab855eee" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">yarn global add nodemon  # 全局安装 nodemon（等价于 npm install -g nodemon）</code></pre></div><div style="display:contents" dir="auto"><p id="38b8db55-6aee-83e5-8f02-81465cfe10a2" class="">全局安装路径可通过 <code>yarn global dir</code> 查看。</p></div><div style="display:contents" dir="auto"><p id="dee8db55-6aee-8222-87cd-016490600b8b" class="">4、安装package.json中的所有依赖</p></div><div style="display:contents" dir="auto"><pre id="adc8db55-6aee-8383-9fda-81d8b5f6e882" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">yarn  # 等价于 npm install，安装所有 dependencies 和 devDependencies
+yarn install  # 完整写法，与上一条命令效果一致</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ef28db55-6aee-83ba-aa29-01d68f6662b7" class="toggle"><li><details open=""><summary>3、卸载依赖</summary><div style="display:contents" dir="auto"><pre id="b798db55-6aee-82b9-b566-01a975f380c3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 卸载生产依赖
+yarn remove lodash  # 等价于 npm uninstall lodash
+
+# 卸载开发依赖
+yarn remove eslint --dev  # 等价于 npm uninstall eslint --save-dev
+
+# 卸载全局依赖
+yarn global remove nodemon  # 等价于 npm uninstall -g nodemon</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="14c8db55-6aee-8388-94be-81bec2f0f9e0" class="toggle"><li><details open=""><summary>4、更新依赖</summary><div style="display:contents" dir="auto"><p id="a738db55-6aee-8257-8a12-8105d2aa3982" class="">1、查看可更新依赖</p></div><div style="display:contents" dir="auto"><pre id="f9d8db55-6aee-831b-91df-0177c01a2794" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">yarn outdated  # 列出所有有新版本的依赖（类似 npm outdated）</code></pre></div><div style="display:contents" dir="auto"><p id="8998db55-6aee-83a6-ba9c-81b552e987e3" class="">2、更新依赖到最新版本</p></div><div style="display:contents" dir="auto"><pre id="e0e8db55-6aee-823f-9c81-811dff96b4fd" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 更新指定依赖（符合版本范围）
+yarn upgrade lodash  # 等价于 npm update lodash
+
+# 更新到最新版本（忽略版本范围限制）
+yarn upgrade lodash@latest  # 等价于 npm install lodash@latest</code></pre></div><div style="display:contents" dir="auto"><p id="0348db55-6aee-8201-97d3-81824839a6e8" class="">3、更新所有依赖</p></div><div style="display:contents" dir="auto"><pre id="51c8db55-6aee-8317-a119-01884adc83d7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">yarn upgrade  # 更新所有符合版本范围的依赖</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d1f8db55-6aee-824c-b687-81c21fc8199d" class="toggle"><li><details open=""><summary>5、运行脚本</summary><div style="display:contents" dir="auto"><p id="1088db55-6aee-83fa-bf5d-0101836717cf" class="">执行 <code>package.json</code> 中 <code>scripts</code> 字段定义的命令：</p></div><div style="display:contents" dir="auto"><pre id="3bf8db55-6aee-8393-ae81-818c4bc15263" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 运行 start 脚本（start 可省略 run）
+yarn start  # 等价于 npm start
+
+# 运行自定义脚本（如 test、build）
+yarn run test  # 等价于 npm run test
+yarn build  # 等价于 npm run build（省略 run）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0d08db55-6aee-836f-9d82-8171a2cb445f" class="toggle"><li><details open=""><summary>6、缓存管理</summary><div style="display:contents" dir="auto"><pre id="65c8db55-6aee-8255-84c9-011c9df537d3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 查看缓存目录
+yarn cache dir
+
+# 清除缓存
+yarn cache clean
+
+# 查看缓存的包
+yarn cache list</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0048db55-6aee-82fe-84e8-01180dfe7f1c" class="toggle"><li><details open=""><summary>7、其他的命令</summary><div style="display:contents" dir="auto"><pre id="d4b8db55-6aee-823f-9eee-01568efb73ce" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 查看项目依赖树
+yarn list
+
+# 查看全局安装的依赖
+yarn global list
+
+# 查看某个包的信息
+yarn info lodash  # 等价于 npm info lodash
+
+# 切换镜像源（与 npm 类似）
+yarn config set registry https://registry.npmmirror.com/  # 设置淘宝镜像</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2b18db55-6aee-8298-815b-01d3048ba4cb" class="toggle"><li><details open=""><summary>与npm对比</summary><div style="display:contents" dir="ltr"><table id="3518db55-6aee-83a8-bdff-814cb029310c" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="ff48db55-6aee-8263-ac39-815e0f29f1dd"><th id="a&lt;qg" class="simple-table-header-color simple-table-header" style="width:165px"><strong>功能</strong></th><th id=":XE^" class="simple-table-header-color simple-table-header" style="width:331.9752502441406px"><strong>Yarn 命令</strong></th><th id="]Y~t" class="simple-table-header-color simple-table-header" style="width:362.3671875px"><strong>npm 命令</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="eb68db55-6aee-8380-9fb9-815710c3401f"><td id="a&lt;qg" class="" style="width:165px">初始化项目</td><td id=":XE^" class="" style="width:331.9752502441406px"><code>yarn init</code></td><td id="]Y~t" class="" style="width:362.3671875px"><code>npm init</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2c18db55-6aee-8200-b965-0143311f8c71"><td id="a&lt;qg" class="" style="width:165px">安装生产依赖</td><td id=":XE^" class="" style="width:331.9752502441406px"><code>yarn add &lt;包名&gt;</code></td><td id="]Y~t" class="" style="width:362.3671875px"><code>npm install &lt;包名&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6df8db55-6aee-839f-8e79-8177a57ae2a0"><td id="a&lt;qg" class="" style="width:165px">安装开发依赖</td><td id=":XE^" class="" style="width:331.9752502441406px"><code>yarn add -D &lt;包名&gt;</code></td><td id="]Y~t" class="" style="width:362.3671875px"><code>npm install -D &lt;包名&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="43c8db55-6aee-8214-8294-01a88b6a2010"><td id="a&lt;qg" class="" style="width:165px">安装全局依赖</td><td id=":XE^" class="" style="width:331.9752502441406px"><code>yarn global add &lt;包名&gt;</code></td><td id="]Y~t" class="" style="width:362.3671875px"><code>npm install -g &lt;包名&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2478db55-6aee-83c4-aebf-014305372e20"><td id="a&lt;qg" class="" style="width:165px">安装所有依赖</td><td id=":XE^" class="" style="width:331.9752502441406px"><code>yarn</code> 或 <code>yarn install</code></td><td id="]Y~t" class="" style="width:362.3671875px"><code>npm install</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="f918db55-6aee-834e-83ac-81c9584e825e"><td id="a&lt;qg" class="" style="width:165px">卸载依赖</td><td id=":XE^" class="" style="width:331.9752502441406px"><code>yarn remove &lt;包名&gt;</code></td><td id="]Y~t" class="" style="width:362.3671875px"><code>npm uninstall &lt;包名&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ec28db55-6aee-83e3-ab60-81e258e3df2e"><td id="a&lt;qg" class="" style="width:165px">更新依赖</td><td id=":XE^" class="" style="width:331.9752502441406px"><code>yarn upgrade &lt;包名&gt;</code></td><td id="]Y~t" class="" style="width:362.3671875px"><code>npm update &lt;包名&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="fc58db55-6aee-8254-8d3f-013721c1c6ee"><td id="a&lt;qg" class="" style="width:165px">运行脚本</td><td id=":XE^" class="" style="width:331.9752502441406px"><code>yarn &lt;脚本名&gt;</code></td><td id="]Y~t" class="" style="width:362.3671875px"><code>npm run &lt;脚本名&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c528db55-6aee-8266-a8de-0181ba191839"><td id="a&lt;qg" class="" style="width:165px">查看依赖树</td><td id=":XE^" class="" style="width:331.9752502441406px"><code>yarn list</code></td><td id="]Y~t" class="" style="width:362.3671875px"><code>npm list</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="dbf8db55-6aee-83d3-9c75-014e601bc93f"><td id="a&lt;qg" class="" style="width:165px">清除缓存</td><td id=":XE^" class="" style="width:331.9752502441406px"><code>yarn cache clean</code></td><td id="]Y~t" class="" style="width:362.3671875px"><code>npm cache clean --force</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2f98db55-6aee-8347-85eb-01ff69df1363" class="toggle"><li><details open=""><summary>高级特性</summary><div style="display:contents" dir="auto"><h3 id="8138db55-6aee-82b3-a968-013b480ac38d" class=""><strong>1 工作区（Workspaces）</strong></h3></div><div style="display:contents" dir="auto"><p id="0b88db55-6aee-838c-9e29-816b467ec7c4" class="">用于管理<strong>多包项目</strong>（如 Monorepo），可在一个仓库中管理多个关联包，共享依赖，简化开发流程。</p></div><div style="display:contents" dir="auto"><p id="b0e8db55-6aee-827e-b33e-01a57c4ec32b" class="">配置方式（在 <code>package.json</code> 中）：</p></div><div style="display:contents" dir="auto"><pre id="db88db55-6aee-82aa-9092-01b267d6045f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;private&quot;: true,  // 必须设为 private
+  &quot;workspaces&quot;: [
+    &quot;packages/*&quot;  // 指定包所在目录
+  ]
+}</code></pre></div><div style="display:contents" dir="auto"><h3 id="f978db55-6aee-83d3-adad-0165f9227d7f" class=""><strong>2 离线模式（</strong><code><strong>-offline</strong></code><strong>）</strong></h3></div><div style="display:contents" dir="auto"><p id="6808db55-6aee-835a-8356-81d7090679fd" class="">在无网络环境下，使用本地缓存安装依赖：</p></div><div style="display:contents" dir="auto"><pre id="fbd8db55-6aee-83d7-b199-01aba7652a0f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">yarn install --offline  # 仅从缓存安装，不联网</code></pre></div><div style="display:contents" dir="ltr"><figure id="64a8db55-6aee-829b-baaf-017919c5a9c2" class="image"><a href="data:image/png;base64,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"><img src="data:image/png;base64,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"/></a></figure></div><div style="display:contents" dir="auto"><h3 id="7ca8db55-6aee-821e-a787-8119fd227967" class=""><strong>3 选择性安装（</strong><code><strong>-production</strong></code><strong>）</strong></h3></div><div style="display:contents" dir="auto"><p id="bcf8db55-6aee-8248-9d9d-8148d914e037" class="">仅安装生产环境依赖（忽略 devDependencies）：</p></div><div style="display:contents" dir="auto"><pre id="4ff8db55-6aee-8388-8f70-019bb9df16e9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">yarn install --production  # 等价于 npm install --production</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4998db55-6aee-8317-a4fa-013bc660d43c" class="toggle"><li><details open=""><summary>常见问题与解决</summary><div style="display:contents" dir="auto"><h3 id="8908db55-6aee-83d3-9d2b-01b8ec1a703b" class=""><strong>1 全局安装的包无法使用</strong></h3></div><div style="display:contents" dir="auto"><ul id="79f8db55-6aee-83de-909d-8170d0fe7d9b" class="bulleted-list"><li style="list-style-type:disc">原因：全局安装路径未添加到系统环境变量 <code>PATH</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="70f8db55-6aee-8238-902a-81fd05f21805" class="bulleted-list"><li style="list-style-type:disc">解决：<div style="display:contents" dir="auto"><ol type="1" id="4f18db55-6aee-8319-8959-017b80daf87e" class="numbered-list" start="1"><li>查看全局安装路径：<code>yarn global dir</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="e928db55-6aee-8368-ab50-81ff9443c09e" class="numbered-list" start="2"><li>将路径添加到系统 <code>PATH</code> 中（如 Windows 需添加 <code>C:\Users\用户名\AppData\Local\Yarn\bin</code>）。</li></ol></div></li></ul></div><div style="display:contents" dir="auto"><h3 id="cf98db55-6aee-8388-bf52-81f94bfe39a0" class=""><strong>2 依赖安装冲突</strong></h3></div><div style="display:contents" dir="auto"><ul id="0f38db55-6aee-8391-b82d-01cec3af7b76" class="bulleted-list"><li style="list-style-type:disc">解决：删除 <code>node_modules</code>、<code>yarn.lock</code> 后重新安装：</li></ul></div><div style="display:contents" dir="auto"><pre id="02e8db55-6aee-8305-995e-817dd48f5bca" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">rm -rf node_modules yarn.lock  # Windows: rmdir /s/q node_modules &amp; del yarn.lock
+yarn install</code></pre></div><div style="display:contents" dir="ltr"><figure id="8988db55-6aee-82b0-adaa-81965d1ee539" class="image"><a href="data:image/png;base64,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"><img src="data:image/png;base64,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"/></a></figure></div><div style="display:contents" dir="auto"><h3 id="38d8db55-6aee-825b-8ec1-01fde4271c33" class=""><strong>3 镜像源切换后速度仍慢</strong></h3></div><div style="display:contents" dir="auto"><ul id="9aa8db55-6aee-8381-b593-01c5ffca37c1" class="bulleted-list"><li style="list-style-type:disc">解决：测试镜像源速度，切换到更快的源：</li></ul></div><div style="display:contents" dir="auto"><pre id="96e8db55-6aee-83b5-b2a7-014470309dca" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"># 推荐国内镜像源
+yarn config set registry https://registry.npmmirror.com/  # 淘宝镜像
+yarn config set registry https://mirrors.cloud.tencent.com/npm/  # 腾讯镜像</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="8d48db55-6aee-824e-bdf2-01856c04d35f" class="">
+</p></div><div style="display:contents" dir="auto"><p id="2688db55-6aee-827f-ba36-810384cccbcb" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

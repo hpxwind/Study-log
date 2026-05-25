@@ -1,0 +1,1782 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Agent智能体项目案例</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5aa8db55-6aee-8375-8314-01ca5731abd5" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/texturelabs_glass_124S.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🎾</span></div><h1 class="page-title" dir="auto">Agent智能体项目案例</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="dae8db55-6aee-826c-8f98-81391f95e0f9" class="">需求与服务</h1></div><div style="display:contents" dir="auto"><ol type="1" id="ec78db55-6aee-83ae-b0e3-01976206f1d8" class="numbered-list" start="1"><li>智能问答服务</li></ol></div><div style="display:contents" dir="auto"><ul id="5478db55-6aee-8384-b21f-819a114d3d26" class="bulleted-list"><li style="list-style-type:disc">处理购买前的产品咨询（如功能、价格、对比等）。</li></ul></div><div style="display:contents" dir="auto"><ul id="add8db55-6aee-83d0-92fa-81b8e29780a7" class="bulleted-list"><li style="list-style-type:disc">解决购买后的使用问题（如操作指导、故障处理、维护建议等）。</li></ul></div><div style="display:contents" dir="auto"><ul id="79f8db55-6aee-83ac-a6f2-816734e15829" class="bulleted-list"><li style="list-style-type:disc">基于RAG技术，从知识库中检索准确信息并生成自然语言回答，确保响应及时且可靠。</li></ul></div><div style="display:contents" dir="auto"><ol type="1" id="4088db55-6aee-8205-bf6c-017af547930a" class="numbered-list" start="2"><li>使用报告与优化建议生成：</li></ol></div><div style="display:contents" dir="auto"><ul id="3b78db55-6aee-8398-a9b7-81ccbb4731d9" class="bulleted-list"><li style="list-style-type:disc">针对已购买用户，自动分析扫地机器人的使用数据（如清洁频率、耗材状态、错误日志等）。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-82c5-8307-01f91f470c88" class="bulleted-list"><li style="list-style-type:disc">生成个性化报告，总结使用情况并提供优化建议（如清洁计划调整、部件更换提醒等）。</li></ul></div><div style="display:contents" dir="auto"><ul id="da78db55-6aee-8362-a5b9-01ab52b48c4b" class="bulleted-list"><li style="list-style-type:disc">支持用户主动查询报告或系统定期推送，帮助用户最大化产品价值。</li></ul></div><div style="display:contents" dir="auto"><hr id="ab28db55-6aee-826c-846f-01c489d9ab74"/></div><div style="display:contents" dir="auto"><h1 id="6228db55-6aee-8390-a53f-016580eb36f2" class="">代码结构与关系</h1></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="8be8db55-6aee-83d7-b9ac-810fce40a40b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">📁 项目根目录
+├── 📁 agent
+│   ├── 📁 tools
+│   │   ├── agent_tools.py          # Agent 可调用的工具函数（如搜索、计算等）
+│   │   ├── middleware.py           # Agent 中间件（日志、限流、格式化等）
+│   │   └── react_agent.py          # ReAct 模式的 Agent 实现（思考-行动-观察循环）
+│   ├── 📁 config                   # 配置文件目录（可能存放 yaml/json 配置）
+│   ├── 📁 data                     # 本地的静态数据或样例数据
+│   ├── 📁 model
+│   │   └── factory.py              # 模型工厂类（统一创建 LLM、Embedding 等实例）
+│   ├── 📁 prompts                  # 提示词模板目录（txt 或 yaml）
+│   ├── 📁 rag
+│   │   ├── rag_service.py          # RAG 服务核心逻辑（检索+生成）
+│   │   └── vector_store.py         # 向量数据库的封装（增删查、相似度搜索）
+│   ├── 📁 utils
+│   │   ├── chain_debug.py          # 调试工具（打印链式调用详情）
+│   │   ├── config_handler.py       # 配置加载与解析
+│   │   ├── file_handler.py         # 文件读写（上传、保存、删除）
+│   │   ├── logger_handler.py       # 日志处理器
+│   │   ├── path_tools.py           # 路径处理工具
+│   │   └── prompt_loader.py        # 提示词加载器
+│   ├── .gitignore                  # Git 忽略规则
+│   └── README.md                   # 项目说明文档
+└── app.py                          # 应用入口（Flask/FastAPI 主程序）</code></pre></div><div style="display:contents" dir="auto"><p id="40d8db55-6aee-82df-9fb2-0156c6dcee04" class="">文件关系图</p></div><div style="display:contents" dir="ltr"><figure id="f568db55-6aee-8345-93ef-8140362d9f46" class="image"><a href="Agent%E6%99%BA%E8%83%BD%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A1%88%E4%BE%8B/Snipaste_2026-05-05_11-58-12.png"><img style="width:704.0067138671875px" src="Agent%E6%99%BA%E8%83%BD%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A1%88%E4%BE%8B/Snipaste_2026-05-05_11-58-12.png"/></a></figure></div><div style="display:contents" dir="auto"><hr id="54b8db55-6aee-8365-a611-814a039587ae"/></div><div style="display:contents" dir="auto"><h1 id="1568db55-6aee-823d-a5fe-01f322625a0f" class="">utils组件</h1></div><div style="display:contents" dir="auto"><h2 id="e7d8db55-6aee-820e-81bf-0122d2af4997" class="">path_tool</h2></div><div style="display:contents" dir="auto"><p id="c758db55-6aee-83cb-b360-812362251052" class="">用于获取工程文件的相对路径和绝对路径</p></div><div style="display:contents" dir="auto"><ul id="24e8db55-6aee-825c-9678-81c4b47c70c4" class="toggle"><li><details open=""><summary>代码</summary><div style="display:contents" dir="auto"><pre id="a4b8db55-6aee-8229-983b-0133866603dc" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+Provide a unified absolute path for the entire project.
+&quot;&quot;&quot;
+import os
+
+def get_project_root() -&gt; str:
+    &quot;&quot;&quot;
+    Get the root directory of the project.
+    :return: Project root path as string
+    &quot;&quot;&quot;
+    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def get_abs_path(relative_path: str) -&gt; str:
+    &quot;&quot;&quot;
+    Convert a relative path to an absolute path based on project root.
+    :param relative_path: Relative path of the target file or directory
+    :return: Absolute path as string
+    &quot;&quot;&quot;
+    return os.path.join(get_project_root(), relative_path)
+
+
+# if __name__ == &quot;__main__&quot;:
+#     print(get_abs_path(&quot;config\config.json&quot;))</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="ef08db55-6aee-8367-9f62-017f6e324eae" class="">file_handler </h2></div><div style="display:contents" dir="auto"><p id="2288db55-6aee-83a7-91d9-81085dcaa786" class="">用于读取 PDF/TXT、批量筛选文件、计算文件MD5去重，给AI系统提供文档数据。</p></div><div style="display:contents" dir="auto"><ul id="26c8db55-6aee-8295-a185-01b70ec649a7" class="toggle"><li><details open=""><summary>代码</summary><div style="display:contents" dir="auto"><pre id="e518db55-6aee-83a2-8c0f-81265a801648" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import os
+import hashlib
+from logger_handler import logger
+from langchain_core.documents import Document
+from langchain_community.document_loaders import PyPDFLoader, TextLoader
+
+
+def get_file_md5_hex(filepath: str):
+    &quot;&quot;&quot;
+    Calculate the MD5 hash of a file for duplicate detection.
+    :param filepath: Path to the target file
+    &quot;&quot;&quot;
+    if not os.path.exists(filepath):
+        logger.error(f&quot;[-][get_file_md5_hex] File {filepath} does not exist&quot;)
+
+    if not os.path.isfile(filepath):
+        logger.error(f&quot;[-][get_file_md5_hex] Path {filepath} is not a file&quot;)
+
+    md5_o = hashlib.md5()
+    chunk_size = 1024 * 4
+
+    try:
+        # Must read in binary mode
+        with open(filepath, &quot;rb&quot;) as f:
+            while chunk := f.read(chunk_size):
+                # Walrus operator: assign first, then evaluate
+                md5_o.update(chunk)
+                md5_hex = md5_o.hexdigest()
+    except Exception as e:
+        logger.error(f&quot;[-][get_file_md5_hex] Failed to calculate MD5 for {filepath}: {e}&quot;)
+
+
+def listdir_with_allowed_type(path: str, allowed_types: tuple[str]):
+    &quot;&quot;&quot;
+    List files in a directory that match allowed file extensions.
+    :param path: Target directory path
+    :param allowed_types: Tuple of allowed file extensions (e.g., (&quot;.txt&quot;, &quot;.pdf&quot;))
+    :return: Tuple of valid file paths
+    &quot;&quot;&quot;
+    files = []
+    if not os.path.isdir(path):
+        logger.error(f&quot;[-][listdir_with_allowed_type] Path {path} is not a directory&quot;)
+        return allowed_types
+
+    for f in os.listdir(path):
+        if f.endswith(allowed_types):
+            files.append(os.path.join(path, f))
+
+    # Convert to tuple to prevent modification
+    return tuple(files)
+
+
+def pdf_loader(filepath: str, passw=None) -&gt; list[Document]:
+    &quot;&quot;&quot;
+    Load and parse a PDF file into Document objects.
+    :param filepath: Path to the PDF file
+    :param passw: Optional password for encrypted PDFs
+    :return: List of LangChain Document objects
+    &quot;&quot;&quot;
+    return PyPDFLoader(filepath, passw).load()
+
+
+def txt_loader(filepath: str) -&gt; list[Document]:
+    &quot;&quot;&quot;
+    Load and parse a text file into Document objects.
+    :param filepath: Path to the text file
+    :return: List of LangChain Document objects
+    &quot;&quot;&quot;
+    return TextLoader(filepath, encoding=&quot;utf-8&quot;).load()</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="6268db55-6aee-838a-b6f1-8195a0455dd3" class="">logger_handler</h2></div><div style="display:contents" dir="auto"><p id="e928db55-6aee-8386-9f49-8147887212b4" class="">日志工具，记录每一步的结果与步骤</p></div><div style="display:contents" dir="auto"><ul id="8068db55-6aee-837c-9946-81ae696b268f" class="toggle"><li><details open=""><summary>代码</summary><div style="display:contents" dir="auto"><pre id="8a58db55-6aee-83a2-94e5-81d887cfbcfd" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+Logging utility to record every step and result of the program.
+&quot;&quot;&quot;
+
+import logging
+import os
+from path_tool import get_abs_path
+from datetime import datetime
+
+# Root directory for storing log files
+LOG_ROOT = get_abs_path(&quot;logs&quot;)
+
+# Ensure the log directory exists
+os.makedirs(LOG_ROOT, exist_ok=True)
+
+# Log format: [time] - [logger name] - [level] - [file:line] - [message]
+DEFAULT_LOG_FORMAT = logging.Formatter(
+    &quot;%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s&quot;
+)
+
+
+def get_logger(
+        name: str = &quot;agent&quot;,
+        console_level: int = logging.INFO,
+        file_level: int = logging.DEBUG,
+        log_file=None
+) -&gt; logging.Logger:
+    &quot;&quot;&quot;
+    Create and configure a logger with both console and file output.
+    :param name: Logger name
+    :param console_level: Log level for console output
+    :param file_level: Log level for file output
+    :param log_file: Custom log file path (optional)
+    :return: Configured logger instance
+    &quot;&quot;&quot;
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG)
+
+    # Avoid adding duplicate handlers
+    if logger.handlers:
+        return logger
+
+    # Console handler
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(console_level)
+    console_handler.setFormatter(DEFAULT_LOG_FORMAT)
+    logger.addHandler(console_handler)
+
+    # File handler
+    if not log_file:
+        log_file = os.path.join(LOG_ROOT, f&quot;{name}_{datetime.now().strftime(&#x27;%Y%m%d&#x27;)}.log&quot;)
+
+    file_handler = logging.FileHandler(log_file, encoding=&quot;utf-8&quot;)
+    file_handler.setLevel(file_level)
+    file_handler.setFormatter(DEFAULT_LOG_FORMAT)
+    logger.addHandler(file_handler)
+
+    return logger
+
+
+# Quick access to the default logger
+logger = get_logger()
+
+if __name__ == &quot;__main__&quot;:
+    logger.info(&quot;Info log test&quot;)
+    logger.error(&quot;Error log test&quot;)
+    logger.warning(&quot;Warning log test&quot;)
+    logger.debug(&quot;Debug log test&quot;)</code></pre></div><div style="display:contents" dir="auto"><p id="2358db55-6aee-82a2-bb8a-8191a48ea4d3" class="">log格式</p></div><div style="display:contents" dir="auto"><pre id="7e48db55-6aee-8200-a44f-01b189b9bdb0" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">2026-05-05 12:27:30,224 - agent - INFO - logger_handler.py:59 - 信息日志
+2026-05-05 12:27:30,224 - agent - ERROR - logger_handler.py:60 - 错误日志
+2026-05-05 12:27:30,224 - agent - WARNING - logger_handler.py:61 - 警告日志
+2026-05-05 12:27:30,224 - agent - DEBUG - logger_handler.py:62 - 调试日志</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="c158db55-6aee-83f0-a90f-81c7146eda31" class="">config_handler</h2></div><div style="display:contents" dir="auto"><p id="0c18db55-6aee-8365-b004-019259757d3a" class="">配置文件配置与调用文件</p></div><div style="display:contents" dir="auto"><ul id="0ea8db55-6aee-8398-9f0c-81d224b16c51" class="toggle"><li><details open=""><summary>代码</summary><div style="display:contents" dir="auto"><pre id="0488db55-6aee-82c3-8125-01d3e06b0c3e" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+YAML configuration loader, supports key: value format
+&quot;&quot;&quot;
+import yaml
+from path_tool import get_abs_path
+
+
+def load_rag_config(config_path: str = get_abs_path(r&quot;config\rag.yml&quot;), encoding=&quot;utf-8&quot;):
+    &quot;&quot;&quot;
+    Load RAG-related configuration from a YAML file
+    :param config_path: Path to the rag.yml configuration file
+    :param encoding: File encoding format
+    :return: Parsed configuration dictionary
+    &quot;&quot;&quot;
+    with open(config_path, &#x27;r&#x27;, encoding=encoding) as f:
+        return yaml.load(f, Loader=yaml.FullLoader)
+
+
+def load_chroma_config(config_path: str = get_abs_path(r&quot;config\chroma.yml&quot;), encoding=&quot;utf-8&quot;):
+    &quot;&quot;&quot;
+    Load Chroma vector database configuration from a YAML file
+    :param config_path: Path to the chroma.yml configuration file
+    :param encoding: File encoding format
+    :return: Parsed configuration dictionary
+    &quot;&quot;&quot;
+    with open(config_path, &#x27;r&#x27;, encoding=encoding) as f:
+        return yaml.load(f, Loader=yaml.FullLoader)
+
+
+def load_prompts_config(config_path: str = get_abs_path(r&quot;config\prompts.yml&quot;), encoding=&quot;utf-8&quot;):
+    &quot;&quot;&quot;
+    Load prompt template configuration from a YAML file
+    :param config_path: Path to the prompts.yml configuration file
+    :param encoding: File encoding format
+    :return: Parsed configuration dictionary
+    &quot;&quot;&quot;
+    with open(config_path, &#x27;r&#x27;, encoding=encoding) as f:
+        return yaml.load(f, Loader=yaml.FullLoader)
+
+
+def load_agent_config(config_path: str = get_abs_path(r&quot;config\agent.yml&quot;), encoding=&quot;utf-8&quot;):
+    &quot;&quot;&quot;
+    Load Agent-related configuration from a YAML file
+    :param config_path: Path to the agent.yml configuration file
+    :param encoding: File encoding format
+    :return: Parsed configuration dictionary
+    &quot;&quot;&quot;
+    with open(config_path, &#x27;r&#x27;, encoding=encoding) as f:
+        return yaml.load(f, Loader=yaml.FullLoader)
+
+
+# Initialize global configuration instances
+rag_conf = load_rag_config()
+chroma_conf = load_chroma_config()
+prompts_conf = load_prompts_config()
+agent_conf = load_agent_config()
+
+# if __name__ == &quot;__main__&quot;:
+#    print(rag_conf[&#x27;chat_model_name&#x27;])</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="96f8db55-6aee-821e-b18e-01e23d656740" class="">prompt_handler</h2></div><div style="display:contents" dir="auto"><p id="1ea8db55-6aee-83c5-a5cd-812c1e6b08a1" class="">提示词调用文件(提示词内容很多很大，不方便直接卸载功能函数文件中)</p></div><div style="display:contents" dir="auto"><ul id="e1d8db55-6aee-8300-9744-015c9ae5309c" class="toggle"><li><details open=""><summary>代码</summary><div style="display:contents" dir="auto"><pre id="0a18db55-6aee-822c-ad2d-815d023342a4" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from config_handler import prompts_conf
+from path_tool import get_abs_path
+from logger_handler import logger
+
+
+def load_system_prompts():
+    &quot;&quot;&quot;
+    Load the system prompt from the specified text file
+    Reads path from config: main_prompt_path
+    &quot;&quot;&quot;
+    try:
+        system_prompt_path = get_abs_path(prompts_conf[&quot;main_prompt_path&quot;])
+    except KeyError as e:
+        logger.error(f&quot;[-][load_system_prompts] Missing &#x27;main_prompt_path&#x27; in YAML config: {e}&quot;)
+        raise e
+
+    try:
+        return open(system_prompt_path, &quot;r&quot;, encoding=&quot;utf-8&quot;).read()
+    except FileNotFoundError as e:
+        logger.error(f&quot;[-][load_system_prompts] Failed to load system prompt: {str(e)}&quot;)
+        raise e
+
+
+def load_rag_prompts():
+    &quot;&quot;&quot;
+    Load the RAG summary prompt from the specified text file
+    Reads path from config: rag_summarize_prompt_path
+    &quot;&quot;&quot;
+    try:
+        rag_prompt_path = get_abs_path(prompts_conf[&quot;rag_summarize_prompt_path&quot;])
+    except KeyError as e:
+        logger.error(f&quot;[-][rag_summarize_prompt_path] Missing &#x27;rag_summarize_prompt_path&#x27; in YAML config: {e}&quot;)
+        raise e
+
+    try:
+        return open(rag_prompt_path, &quot;r&quot;, encoding=&quot;utf-8&quot;).read()
+    except FileNotFoundError as e:
+        logger.error(f&quot;[-][rag_summarize_prompt_path] Failed to load RAG prompt: {str(e)}&quot;)
+        raise e
+
+
+def load_report_prompts():
+    &quot;&quot;&quot;
+    Load the report generation prompt from the specified text file
+    Reads path from config: report_prompt_path
+    &quot;&quot;&quot;
+    try:
+        report_prompt_path = get_abs_path(prompts_conf[&quot;report_prompt_path&quot;])
+    except KeyError as e:
+        logger.error(f&quot;[-][report_prompt_path] Missing &#x27;report_prompt_path&#x27; in YAML config: {e}&quot;)
+        raise e
+
+    try:
+        return open(report_prompt_path, &quot;r&quot;, encoding=&quot;utf-8&quot;).read()
+    except FileNotFoundError as e:
+        logger.error(f&quot;[-][report_prompt_path] Failed to load report prompt: {str(e)}&quot;)
+        raise e
+
+
+# if __name__ == &quot;__main__&quot;:
+#     print(load_report_prompts())</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="18b8db55-6aee-83be-9c4b-81084dbac608"/></div><div style="display:contents" dir="auto"><h1 id="42c8db55-6aee-8229-a604-81ae7a0213c8" class="">rag向量存储(vector_store)</h1></div><div style="display:contents" dir="auto"><p id="b688db55-6aee-838f-9282-01e5d6ebdafe" class=""><strong>RAG 系统的向量库服务类</strong>，基于 Chroma 实现<mark class="highlight-pink_background">本地知识库管理</mark>。</p></div><div style="display:contents" dir="auto"><p id="8288db55-6aee-8311-98d8-81a158b3d8df" class="">它自动扫描指定目录下的 TXT、PDF 文件，通过 MD5 校验<mark class="highlight-pink_background">避免重复导入</mark>，读取文件内容后用文本分割器将长文档切分为适配大模型的小块，再通过嵌入模型向量化并持久化存储。</p></div><div style="display:contents" dir="auto"><p id="cbf8db55-6aee-83f1-b5a1-01f483959aba" class="">类中提供检索器接口，采用 <mark class="highlight-pink_background">MMR 算法</mark>返回最相关的 3 条文档，为上层问答服务提供资料支撑。</p></div><div style="display:contents" dir="auto"><p id="b5c8db55-6aee-8346-930b-8151d69de57c" class="">整体负责文档<mark class="highlight-pink_background">入库、切片、向量化、去重与检索</mark>，是 RAG 系统的核心数据支撑模块。</p></div><div style="display:contents" dir="auto"><ul id="5638db55-6aee-82a4-a4f2-812b4d7aefa8" class="toggle"><li><details open=""><summary>代码</summary><div style="display:contents" dir="auto"><pre id="e718db55-6aee-8290-95e6-810281764f5e" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import os
+from langchain_chroma import Chroma
+from 大模型.Agent案例.utils.config_handler import chroma_conf
+from 大模型.Agent案例.model.factory import embed_model
+from 大模型.Agent案例.utils.path_tool import get_abs_path
+from 大模型.Agent案例.utils.logger_handler import logger
+from 大模型.Agent案例.utils.file_handler import (
+    pdf_loader,
+    txt_loader,
+    listdir_with_allowed_type,
+    get_file_md5_hex
+)
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+
+class VectorStoreService:
+    &quot;&quot;&quot;
+    Vector Database Service Class
+    Main functions: load documents -&gt; split text -&gt; embedding -&gt; store into Chroma -&gt; similarity retrieval
+    &quot;&quot;&quot;
+
+    def __init__(self):
+        &quot;&quot;&quot;
+        Initialize vector database and text splitter
+        Step 1: Create or connect Chroma vector database
+        Step 2: Initialize text chunk splitter for long document segmentation
+        &quot;&quot;&quot;
+        # Initialize Chroma vector store
+        self.vector_store = Chroma(
+            collection_name=chroma_conf[&quot;collection_name&quot;],
+            embedding_function=embed_model,
+            persist_directory=chroma_conf[&quot;persist_directory&quot;],
+        )
+
+        # Initialize recursive character text splitter
+        self.spliter = RecursiveCharacterTextSplitter(
+            chunk_size=chroma_conf[&quot;chunk_size&quot;],
+            chunk_overlap=chroma_conf[&quot;chunk_overlap&quot;],
+            separators=chroma_conf[&quot;separators&quot;],
+        )
+
+    def get_retriever(self):
+        &quot;&quot;&quot;
+        Get document retriever for similarity search
+        search_type=&quot;mmr&quot;: Max Marginal Relevance, return more diverse results
+        k: return top 3 related docs
+        fetch_k: select candidates from top 10 docs
+        &quot;&quot;&quot;
+        return self.vector_store.as_retriever(
+            search_type=&quot;mmr&quot;,
+            search_kwargs={&quot;k&quot;: 3, &quot;fetch_k&quot;: 10}
+        )
+
+    def load_document(self):
+        &quot;&quot;&quot;
+        Core method: Batch load local files into vector database
+        Workflow:
+        1. Traverse allowed files in data folder
+        2. Calculate file MD5 to avoid duplicate storage
+        3. Load txt/pdf content
+        4. Split long text into small chunks
+        5. Add chunks to Chroma vector store
+        6. Record MD5 of processed files
+        &quot;&quot;&quot;
+
+        def check_md5_hex(md5_for_check: str):
+            &quot;&quot;&quot;
+            Check if current file has been processed before via MD5 record
+            :param md5_for_check: md5 string of current file
+            :return: True -&gt; already processed; False -&gt; new file
+            &quot;&quot;&quot;
+            md5_file_path = get_abs_path(chroma_conf[&quot;md5_hex_store&quot;])
+            # Create md5 record file if not exists
+            if not os.path.exists(md5_file_path):
+                open(md5_file_path, &quot;w&quot;, encoding=&#x27;utf-8&#x27;).close()
+                logger.error(f&quot;[-][load_document-&gt;check_md5_hex]{chroma_conf[&#x27;md5_hex_store&#x27;]} not found, auto created&quot;)
+                return False
+
+            # Read historical md5 records line by line
+            with open(md5_file_path, &quot;r&quot;, encoding=&#x27;utf-8&#x27;) as f:
+                for line in f.readlines():
+                    line = line.strip()
+                    if line == md5_for_check:
+                        return True
+                return False
+
+        def save_md5_hex(md5_for_check: str):
+            &quot;&quot;&quot;
+            Save md5 of processed file into record file
+            Avoid repeated loading next time
+            &quot;&quot;&quot;
+            md5_file_path = get_abs_path(chroma_conf[&quot;md5_hex_store&quot;])
+            with open(md5_file_path, &quot;a&quot;, encoding=&#x27;utf-8&#x27;) as f:
+                f.write(md5_for_check + &quot;\n&quot;)
+
+        def get_file_documents(read_path: str):
+            &quot;&quot;&quot;
+            Load file content according to file suffix
+            Support: .txt and .pdf
+            :param read_path: absolute path of target file
+            :return: LangChain Document list
+            &quot;&quot;&quot;
+            if read_path.endswith(&quot;txt&quot;):
+                return txt_loader(read_path)
+            if read_path.endswith(&quot;pdf&quot;):
+                return pdf_loader(read_path)
+            return []
+
+        # Get all allowed type files under data directory
+        allowed_files_path: list[str] = listdir_with_allowed_type(
+            get_abs_path(chroma_conf[&quot;data_path&quot;]),
+            tuple(chroma_conf[&quot;allow_knowledge_file_type&quot;]),
+        )
+
+        # Traverse every qualified file
+        for path in allowed_files_path:
+            # Calculate md5 value of current file
+            md5_hex = get_file_md5_hex(path)
+
+            # Skip if md5 calculate failed
+            if not md5_hex:
+                logger.error(f&quot;[-][load_document]{path} MD5 calculate failed, skip&quot;)
+                continue
+
+            # Skip if file already exists in vector store
+            if check_md5_hex(md5_hex):
+                logger.info(f&quot;[+][load_document]{path} already in knowledge base, skip&quot;)
+                continue
+
+            try:
+                # Load raw document content
+                documents = get_file_documents(path)
+
+                # Skip if no valid content
+                if not documents:
+                    logger.warning(f&quot;[-][load_document]{documents} no valid text, skip&quot;)
+                    continue
+
+                # Split long document into small chunks
+                split_document = self.spliter.split_documents(documents)
+
+                # Skip if split result is empty
+                if not split_document:
+                    logger.warning(f&quot;[-][load_document]{documents}-{path} split empty, skip&quot;)
+                    continue
+
+                # Add split chunks into Chroma vector database
+                self.vector_store.add_documents(split_document)
+                # Record md5 to mark file as processed
+                save_md5_hex(md5_hex)
+                logger.info(f&quot;[+][load_document]{documents}-{path} loaded to knowledge base successfully&quot;)
+
+            except Exception as e:
+                logger.error(f&quot;[-][load_document]{path} load failed: {str(e)}&quot;, exc_info=True)
+
+
+# Program entry
+# if __name__ == &quot;__main__&quot;:
+#     # Instantiate vector store service
+#     vs = VectorStoreService()
+#     # Batch load local documents into vector database
+#     vs.load_document()
+#     # Get retrieval tool
+#     retriever = vs.get_retriever()
+#
+#     # Retrieve related documents by query
+#     res = retriever.invoke(&quot;迷路&quot;)
+#
+#     # Deduplicate retrieval results and print
+#     seen = set()
+#     for r in res:
+#         content = r.page_content.strip()
+#         if content not in seen:
+#             seen.add(content)
+#             print(content)
+#             print(&quot;-&quot; * 20)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="f558db55-6aee-834c-8f15-81694bbca415"/></div><div style="display:contents" dir="auto"><h1 id="33e8db55-6aee-834d-9f80-0143c672c238" class="">rag本地知识库寻找服务(rag_service)</h1></div><div style="display:contents" dir="auto"><p id="22e8db55-6aee-8347-b16e-813854ebc74e" class=""><strong>RAG 智能问答总结服务核心类</strong>，依托<mark class="highlight-pink_background">向量库</mark>实现知识库问答。</p></div><div style="display:contents" dir="auto"><p id="3a18db55-6aee-827a-a4b3-818f863bbc45" class="">服务初始化时加载向量库检索器、提示词模板与大模型，构建完整推理链路。</p></div><div style="display:contents" dir="auto"><p id="e918db55-6aee-825c-8830-81469cce5a30" class="">用户提问后，自动从向量库检索相关参考资料，将资料与问题拼接为规范上下文，传入大模型生成回答。</p></div><div style="display:contents" dir="auto"><p id="2848db55-6aee-8275-b916-01d58342d940" class="">内置调试函数打印完整提示词，便于开发排查。</p></div><div style="display:contents" dir="auto"><p id="20a8db55-6aee-8381-b968-01389e86340f" class="">该类是 RAG 系统的交互入口，负责整合检索与生成能力，让 AI 基于本地知识库准确、简洁地总结并回复用户问题。</p></div><div style="display:contents" dir="auto"><ul id="a938db55-6aee-8315-9419-01b6c4a2a43b" class="toggle"><li><details open=""><summary>代码</summary><div style="display:contents" dir="auto"><pre id="8ba8db55-6aee-82de-8171-010b86c8b238" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+Summary Service Class: User asks a question, searches reference materials,
+submits the question and materials to the LLM, and gets a summarized response.
+总结服务类：用户提问，搜索参考资料，将提问和参考资料提交给模型，让模型总结回复
+&quot;&quot;&quot;
+from langchain_core.documents import Document
+from langchain_core.output_parsers import StrOutputParser
+from vector_store import VectorStoreService
+from 大模型.Agent案例.utils.prompt_loader import load_rag_prompts
+from langchain_core.prompts import PromptTemplate
+from 大模型.Agent案例.model.factory import chat_model
+
+
+def print_prompt(prompt):
+    &quot;&quot;&quot;
+    Helper function to print the complete prompt content for debugging
+    辅助函数：打印完整提示词内容，用于调试查看
+    Args:
+        prompt: Formatted prompt template object 格式化后的提示词模板对象
+    Returns:
+        Original prompt object 原始提示词对象
+    &quot;&quot;&quot;
+    print(&quot;=&quot; * 20)
+    print(prompt.to_string())
+    print(&quot;=&quot; * 20)
+    return prompt
+
+
+class RagSummarizeService(object):
+    &quot;&quot;&quot;
+    RAG-based summarization service class
+    基于RAG的问答总结服务类
+    Core functions: Retrieve relevant docs → Generate answer with LLM
+    核心功能：检索相关文档 → 调用大模型生成答案
+    &quot;&quot;&quot;
+
+    def __init__(self):
+        &quot;&quot;&quot;
+        Class initialization method
+        类初始化方法
+        Initialize vector store, retriever, prompt, LLM and inference chain
+        初始化向量库、检索器、提示词、大模型和推理链
+        &quot;&quot;&quot;
+        # Initialize vector storage service 初始化向量存储服务
+        self.vector_store = VectorStoreService()
+        # Get document retriever from vector store 从向量库获取文档检索器
+        self.retriever = self.vector_store.get_retriever()
+        # Load RAG prompt template text 加载RAG提示词模板文本
+        self.prompt_text = load_rag_prompts()
+        # Convert text to LangChain PromptTemplate 转换为LangChain提示词模板对象
+        self.prompt_template = PromptTemplate.from_template(self.prompt_text)
+        # Bind large language model 绑定大语言模型
+        self.model = chat_model
+        # Build the complete inference chain 构建完整的推理调用链
+        self.chain = self.__init__chain()
+
+    def __init__chain(self):
+        &quot;&quot;&quot;
+        Private method to build the LLM inference chain
+        私有方法：构建大模型推理调用链
+        Chain structure: Prompt → Print Debug → LLM → String Output Parser
+        链结构：提示词 → 调试打印 → 大模型 → 字符串解析器
+        Returns:
+            Callable LangChain chain 可调用的LangChain链
+        &quot;&quot;&quot;
+        chain = self.prompt_template | print_prompt | self.model | StrOutputParser()
+        return chain
+
+    def retriever_docs(self, query: str) -&gt; list[Document]:
+        &quot;&quot;&quot;
+        Retrieve relevant documents from vector store by user query
+        根据用户问题从向量库检索相关参考文档
+        Args:
+            query: User&#x27;s question string 用户的提问文本
+        Returns:
+            List of matched Document objects 匹配到的文档对象列表
+        &quot;&quot;&quot;
+        return self.retriever.invoke(query)
+
+    def rag_summarize(self, query: str) -&gt; str:
+        &quot;&quot;&quot;
+        Core method: Execute RAG process and return summarized answer
+        核心方法：执行RAG流程并返回总结后的答案
+        Step 1: Retrieve relevant docs 步骤1：检索相关文档
+        Step 2: Concatenate docs into context string 步骤2：拼接文档为上下文文本
+        Step 3: Invoke LLM chain and get response 步骤3：调用模型链获取结果
+        Args:
+            query: User input question 用户输入的问题
+        Returns:
+            Final summarized answer 最终总结生成的答案
+        &quot;&quot;&quot;
+        # Step 1: Get relevant documents from vector database
+        # 步骤1：从向量数据库获取相关参考文档
+        context_docs = self.retriever_docs(query)
+
+        # Step 2: Concatenate all documents into a single context string
+        # 步骤2：将所有检索到的文档拼接成上下文字符串
+        context = &quot;&quot;
+        counter = 0
+        for doc in context_docs:
+            counter += 1
+            # Add document content and metadata to context
+            # 将文档内容和元数据加入上下文
+            context += f&quot;[参考资料:{counter}] 参考资料:{doc.page_content} | 参考元数据: {doc.metadata}\n&quot;
+
+        # Step 3: Pass query and context to LLM chain and get response
+        # 步骤3：将问题和上下文传入模型链，获取最终回答
+        return self.chain.invoke(
+            {
+                &quot;input&quot;: query,
+                &quot;context&quot;: context,
+            }
+        )
+
+
+# if __name__ == &#x27;__main__&#x27;:
+#     # Create RAG service instance 创建RAG服务实例
+#     rag = RagSummarizeService()
+#     # Call core method to get answer 调用核心方法获取答案
+#     res = rag.rag_summarize(&quot;小户型适合那种扫地机器人&quot;)
+#     # Print final response 打印最终结果
+#     print(res)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="8138db55-6aee-82af-8230-01415d862575"/></div><div style="display:contents" dir="auto"><h1 id="a7a8db55-6aee-8397-b3fd-817f7fa0645c" class="">Agent工具模块(agent_tools)</h1></div><div style="display:contents" dir="auto"><p id="3218db55-6aee-8278-8401-0124698d247c" class=""><strong>智能 Agent 工具集模块</strong>，集成多种业务工具供 AI 智能体调用。</p></div><div style="display:contents" dir="auto"><p id="d0d8db55-6aee-8215-bd4c-81ea6d592f8c" class="">内置 RAG 检索工具对接向量知识库，实现资料检索与答案总结；提供免费天气查询工具，支持城市实时天气获取；通过随机函数模拟用户定位、用户 ID、月份生成，满足测试需求。</p></div><div style="display:contents" dir="auto"><p id="d238db55-6aee-82fe-b667-815df4bf84d1" class="">核心实现外部 CSV 用户数据的加载与解析，将扫地机器人用户的月度使用数据存入全局字典，并提供工具按用户 ID 和月份查询使用记录。</p></div><div style="display:contents" dir="auto"><p id="4ba8db55-6aee-8352-9953-814af90d84dd" class="">模块整体为智能客服、数据分析场景提供工具支撑，让 AI 可完成问答、天气查询、用户数据查询等任务。</p></div><div style="display:contents" dir="auto"><ul id="9c08db55-6aee-8256-8dd1-01c55341abcc" class="toggle"><li><details open=""><summary>代码</summary><div style="display:contents" dir="auto"><pre id="1c38db55-6aee-82cc-b87f-0143b080adb6" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import os
+import random
+import requests
+from langchain_core.tools import tool
+from 大模型.Agent案例.rag.rag_service import RagSummarizeService
+from 大模型.Agent案例.utils.logger_handler import logger
+from 大模型.Agent案例.utils.config_handler import agent_conf
+from 大模型.Agent案例.utils.path_tool import get_abs_path
+
+# Initialize RAG service for knowledge base Q&amp;A
+# 初始化RAG服务，用于知识库问答
+rag = RagSummarizeService()
+
+# List of 50 Chinese cities for weather query
+# 50个中国城市列表，用于天气查询
+city_arr = [
+    &quot;北京&quot;, &quot;上海&quot;, &quot;广州&quot;, &quot;深圳&quot;, &quot;成都&quot;, &quot;重庆&quot;, &quot;杭州&quot;, &quot;武汉&quot;, &quot;西安&quot;, &quot;南京&quot;,
+    &quot;天津&quot;, &quot;苏州&quot;, &quot;长沙&quot;, &quot;郑州&quot;, &quot;东莞&quot;, &quot;青岛&quot;, &quot;沈阳&quot;, &quot;合肥&quot;, &quot;佛山&quot;, &quot;无锡&quot;,
+    &quot;大连&quot;, &quot;昆明&quot;, &quot;厦门&quot;, &quot;济南&quot;, &quot;宁波&quot;, &quot;福州&quot;, &quot;哈尔滨&quot;, &quot;长春&quot;, &quot;石家庄&quot;, &quot;南昌&quot;,
+    &quot;贵阳&quot;, &quot;南宁&quot;, &quot;太原&quot;, &quot;兰州&quot;, &quot;呼和浩特&quot;, &quot;乌鲁木齐&quot;, &quot;海口&quot;, &quot;三亚&quot;, &quot;珠海&quot;, &quot;常州&quot;,
+    &quot;南通&quot;, &quot;绍兴&quot;, &quot;嘉兴&quot;, &quot;徐州&quot;, &quot;潍坊&quot;, &quot;烟台&quot;, &quot;洛阳&quot;, &quot;保定&quot;, &quot;宜昌&quot;, &quot;荆州&quot;
+]
+
+# List of user IDs (string format)
+# 用户ID列表（字符串格式）
+user_arr = [
+    &quot;1001&quot;, &quot;1002&quot;, &quot;1003&quot;, &quot;1004&quot;, &quot;1005&quot;,
+    &quot;1006&quot;, &quot;1007&quot;, &quot;1008&quot;, &quot;1009&quot;, &quot;1010&quot;,
+    &quot;2001&quot;, &quot;2002&quot;, &quot;2003&quot;, &quot;2004&quot;, &quot;2005&quot;,
+    &quot;2006&quot;, &quot;2007&quot;, &quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;,
+    &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;,
+    &quot;2016&quot;, &quot;2017&quot;, &quot;2018&quot;, &quot;2019&quot;, &quot;2020&quot;
+]
+
+# List of months for user data query
+# 月份列表，用于查询用户月度数据
+month_arr = [&quot;2025-02&quot;, &quot;2025-03&quot;, &quot;2025-04&quot;, &quot;2025-05&quot;, &quot;2025-06&quot;]
+
+
+@tool(description=&quot;Retrieve reference materials from the vector database&quot;)
+def rag_summarize(query: str) -&gt; str:
+    &quot;&quot;&quot;
+    Core RAG tool: Search vector database and generate answer via LLM
+    核心RAG工具：从向量库检索资料并通过大模型总结回答
+    Args:
+        query: User question or search content  用户问题或搜索内容
+    Returns:
+        Final summarized answer from LLM  大模型返回的总结回答
+    &quot;&quot;&quot;
+    return rag.rag_summarize(query)
+
+
+@tool(description=&quot;Return real-time weather of the specified city&quot;)
+def get_weather(city: str) -&gt; str:
+    &quot;&quot;&quot;
+    Query real-time weather using public free API
+    使用公开免费API查询实时天气
+    Args:
+        city: Chinese city name  中文城市名称
+    Returns:
+        Formatted weather info string  格式化后的天气信息
+    &quot;&quot;&quot;
+    # Public weather API endpoint
+    # 公开天气接口
+    url = f&quot;http://wttr.in/{city}?format=3&quot;
+
+    try:
+        # Send HTTP request with 5s timeout
+        # 发送HTTP请求，超时时间5秒
+        resp = requests.get(url, timeout=5)
+
+        if resp.status_code == 200:
+            logger.info(f&quot;[+][get_weather] Weather query successful&quot;)
+            return f&quot;{city} real-time weather: {resp.text.strip()}&quot;
+        else:
+            logger.info(f&quot;[-][get_weather] Weather query failed&quot;)
+            return f&quot;Failed to get weather info for {city}&quot;
+
+    except Exception as e:
+        logger.warning(f&quot;[-][get_weather] Weather query error: {str(e)}&quot;)
+        return f&quot;Weather query exception: {str(e)}&quot;
+
+
+@tool(description=&quot;Get user&#x27;s current location city&quot;)
+def get_user_location() -&gt; str:
+    &quot;&quot;&quot;
+    Randomly select a city to simulate user location
+    随机选择一个城市，模拟用户定位
+    Returns:
+        Random city name  随机城市名称
+    &quot;&quot;&quot;
+    return random.choice(city_arr)
+
+
+@tool(description=&quot;Get random user ID&quot;)
+def get_user_id() -&gt; str:
+    &quot;&quot;&quot;
+    Randomly select a user ID from the list
+    从列表中随机获取一个用户ID
+    Returns:
+        Random user ID  随机用户ID
+    &quot;&quot;&quot;
+    return random.choice(user_arr)
+
+
+@tool(description=&quot;Get random month&quot;)
+def get_month() -&gt; str:
+    &quot;&quot;&quot;
+    Randomly select a month from the list
+    从列表中随机获取一个月份
+    Returns:
+        Random month string  随机月份字符串
+    &quot;&quot;&quot;
+    return random.choice(month_arr)
+
+
+# Global dictionary to store external user data (user -&gt; month -&gt; data)
+# 全局字典，存储外部用户数据：用户ID → 月份 → 详细信息
+external_data = {}
+
+
+def get_current_month() -&gt; str:
+    &quot;&quot;&quot;
+    Load external CSV data into global dictionary (one-time loading)
+    将外部CSV数据加载到全局字典（仅加载一次）
+    Steps:
+        1. Get external data path  获取外部数据路径
+        2. Check file existence    检查文件是否存在
+        3. Read and parse CSV      读取并解析CSV
+        4. Store in global dict    存入全局字典
+    &quot;&quot;&quot;
+    # Load data only if the global dict is empty
+    # 仅当全局字典为空时加载数据
+    if not external_data:
+        external_data_path = get_abs_path(agent_conf[&quot;external_data_path&quot;])
+
+        # Check if external data file exists
+        # 检查外部数据文件是否存在
+        if not os.path.exists(external_data_path):
+            logger.error(f&quot;[-][get_current_month] External file {external_data_path} not found&quot;)
+            raise FileNotFoundError(f&quot;External file {external_data_path} not found&quot;)
+
+        # Open and read CSV line by line (skip header)
+        # 打开并逐行读取CSV（跳过表头）
+        with open(external_data_path, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+            for line in f.readlines()[1:]:
+                arr: list[str] = line.strip().split(&quot;,&quot;)
+
+                # Parse each field
+                # 解析每个字段
+                user_id: str = arr[0]
+                house_info: str = arr[1].replace(&#x27;&quot;&#x27;, &quot;&quot;)
+                metrics: str = arr[2].replace(&#x27;&quot;&#x27;, &quot;&quot;)
+                comment: str = arr[3].replace(&#x27;&quot;&#x27;, &quot;&quot;)
+                time: str = arr[4].replace(&#x27;&quot;&#x27;, &quot;&quot;)
+
+                # Initialize user node if not exists
+                # 如果用户不存在，初始化用户节点
+                if user_id not in external_data:
+                    external_data[user_id] = {}
+
+                # Store monthly data under the user
+                # 将月度数据存入对应用户
+                external_data[user_id][time] = {
+                    &quot;house_info&quot;: house_info,
+                    &quot;metrics&quot;: metrics,
+                    &quot;comment&quot;: comment,
+                }
+
+
+@tool(description=&quot;Get user&#x27;s monthly usage data from external system&quot;)
+def fetch_external_data(user_id: str, month: str) -&gt; str:
+    &quot;&quot;&quot;
+    Query user&#x27;s monthly usage data from preloaded external data
+    从预加载的外部数据中查询用户月度使用记录
+    Args:
+        user_id: Target user ID      目标用户ID
+        month: Target month (YYYY-MM)  查询月份
+    Returns:
+        User monthly data dict or empty string  用户月度数据或空字符串
+    &quot;&quot;&quot;
+    # Ensure external data is loaded
+    # 确保外部数据已加载
+    get_current_month()
+
+    try:
+        # Return data by user ID and month
+        # 根据用户ID和月份返回数据
+        return external_data[user_id][month]
+
+    except KeyError as e:
+        # Log warning if data not found
+        # 未找到数据时记录警告
+        logger.warning(f&quot;[-][fetch_external_data] No data for user {user_id} in {month}&quot;)
+        return &quot;&quot;
+
+# if __name__ == &#x27;__main__&#x27;:
+#     res = fetch_external_data(&quot;1009&quot;, &quot;2025-02&quot;)
+#     print(res)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="0448db55-6aee-82c4-8a9a-015dced4d988"/></div><div style="display:contents" dir="auto"><h1 id="a668db55-6aee-83e2-841b-0175b0e0a2f5" class="">中间件(middleware)</h1></div><div style="display:contents" dir="auto"><p id="b1d8db55-6aee-83a7-8565-8172b10f77f6" class=""><strong>LangChain Agent 中间件核心模块</strong>，包含三个自定义中间件函数，用于管控智能体运行流程。</p></div><div style="display:contents" dir="auto"><p id="b5e8db55-6aee-825f-92fc-011c1137ee1f" class=""><code>monitor_tool</code> 作为工具调用拦截中间件，日志记录工具名称、入参和执行结果，捕获调用异常并抛出，同时检测指定工具触发报表模式标记。</p></div><div style="display:contents" dir="auto"><p id="e2e8db55-6aee-821a-80f4-01307e476efb" class=""><code>log_before_model</code> 在大模型调用前执行，安全校验消息列表非空后，日志打印最新会话内容，规避列表越界报错。</p></div><div style="display:contents" dir="auto"><p id="86c8db55-6aee-82b1-a463-81b7ac028064" class=""><code>report_prompt_switch</code> 是动态提示词切换中间件，读取运行上下文标记，自动切换普通对话提示词与报表专用提示词。</p></div><div style="display:contents" dir="auto"><p id="c218db55-6aee-8301-bb08-01b972233c5e" class="">整体实现<strong>工具调用监控、模型调用日志打印、动态提示词切换</strong>能力，为 Agent 提供流程拦截、日志运维、业务模式自适应的基础支撑。</p></div><div style="display:contents" dir="auto"><ul id="9558db55-6aee-8215-bccd-816287d0dff8" class="toggle"><li><details open=""><summary>代码</summary><div style="display:contents" dir="auto"><pre id="a908db55-6aee-825e-8f55-010073fecfe8" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from typing import Callable
+
+from langchain.agents import AgentState
+from langchain.agents.middleware import wrap_tool_call, before_model, dynamic_prompt, ModelRequest
+from langchain_core.messages import ToolMessage
+from langgraph.prebuilt.tool_node import ToolCallRequest
+from langgraph.runtime import Runtime
+from langgraph.types import Command
+from 大模型.Agent案例.utils.logger_handler import logger
+from 大模型.Agent案例.utils.prompt_loader import load_report_prompts, load_system_prompts
+
+
+@wrap_tool_call
+def monitor_tool(
+        request: ToolCallRequest,
+        handler: Callable[[ToolCallRequest], ToolMessage | Command],
+) -&gt; ToolMessage | Command:
+    &quot;&quot;&quot;
+    Middleware to monitor and log tool execution status.
+    Logs tool name, arguments, success/failure, and updates runtime context for report mode.
+
+    Args:
+        request: Encapsulated tool call request with parameters and runtime info
+        handler: The actual tool execution function to wrap
+
+    Returns:
+        ToolMessage or Command: Result from the tool execution
+    &quot;&quot;&quot;
+    logger.info(f&quot;[+][monitor_tool] Executing tool: {request.tool_call[&#x27;name&#x27;]}&quot;)
+    logger.info(f&quot;[+][monitor_tool] Parameters: {request.tool_call[&#x27;args&#x27;]}&quot;)
+
+    try:
+        result = handler(request)
+        logger.info(f&quot;[+][monitor_tool] Tool {request.tool_call[&#x27;name&#x27;]} executed successfully&quot;)
+
+        if request.tool_call[&#x27;name&#x27;] == &quot;fill_context_for_report&quot;:
+            request.runtime.context[&quot;report&quot;] = True
+
+        return result
+
+    except Exception as e:
+        logger.error(f&quot;[-][monitor_tool] Tool {request.tool_call[&#x27;name&#x27;]} failed: {str(e)}&quot;)
+        raise e
+
+
+@before_model
+def log_before_model(
+        state: AgentState,
+        runtime: Runtime,
+):
+    &quot;&quot;&quot;
+    Logs information before invoking the LLM.
+    Includes safety checks to avoid index errors when accessing message history.
+
+    Args:
+        state: Current state of the agent containing message history
+        runtime: Runtime context with execution metadata
+
+    Returns:
+        AgentState: Updated agent state
+    &quot;&quot;&quot;
+    logger.info(&quot;[+][log_before_model] Preparing to call the large language model&quot;)
+
+    if state.get(&quot;messages&quot;) and len(state[&quot;messages&quot;]) &gt; 0:
+        last_msg = state[&quot;messages&quot;][-1]
+        if hasattr(last_msg, &#x27;content&#x27;) and last_msg.content:
+            logger.debug(f&quot;[+][log_before_model] {type(last_msg).__name__} | {last_msg.content.strip()}&quot;)
+
+    return state
+
+
+@dynamic_prompt
+def report_prompt_switch(request: ModelRequest):
+    &quot;&quot;&quot;
+    Dynamically switches system prompts based on runtime context.
+    Uses report-specific prompt if report mode is activated; otherwise uses default prompt.
+
+    Args:
+        request: Model request containing runtime context flags
+
+    Returns:
+        str: Selected system prompt for the LLM
+    &quot;&quot;&quot;
+    is_report = request.runtime.context.get(&quot;report&quot;, False)
+    if is_report:
+        return load_report_prompts()
+
+    return load_system_prompts()</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="9148db55-6aee-8389-bd93-016573879ed7"/></div><div style="display:contents" dir="auto"><h1 id="4158db55-6aee-8388-b38b-016689543861" class="">Agent智能体核心类(react_agent)</h1></div><div style="display:contents" dir="auto"><p id="c4d8db55-6aee-8202-b899-81133b8ea347" class=""><strong>ReAct 智能体核心类</strong>，用于构建具备推理与工具调用能力的 AI 助手。</p></div><div style="display:contents" dir="auto"><p id="ef18db55-6aee-8276-9e82-0122ab63f695" class="">类初始化时加载大模型、系统提示词、业务工具集与中间件，形成完整对话智能体。</p></div><div style="display:contents" dir="auto"><p id="2028db55-6aee-8247-87c6-0106fbe1af32" class="">工具集支持 RAG 检索、天气查询、用户信息获取、外部数据读取及报表生成；中间件实现工具监控、模型调用日志与动态提示词切换。</p></div><div style="display:contents" dir="auto"><p id="6a38db55-6aee-829a-a7c1-010e96481a12" class=""><code>execute_stream</code>方法接收用户问题，以流式方式驱动智能体执行推理、工具调用与回答生成，支持报表模式自动切换。</p></div><div style="display:contents" dir="auto"><p id="3ee8db55-6aee-82ba-bacd-81b2991933e6" class="">整体为项目提供<strong>可直接调用的流式智能体入口</strong>，实现多场景智能问答与业务数据处理。</p></div><div style="display:contents" dir="auto"><ul id="a0e8db55-6aee-82a9-82b6-01b5247a7453" class="toggle"><li><details open=""><summary>代码</summary><div style="display:contents" dir="auto"><pre id="0268db55-6aee-826d-8fc1-81c09c95c6a3" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain.agents import create_agent
+from 大模型.Agent案例.model.factory import chat_model
+from 大模型.Agent案例.utils.prompt_loader import load_system_prompts
+from 大模型.Agent案例.agent.tools.agent_tools import rag_summarize, get_weather, get_user_id, get_user_location, \
+    get_month, get_current_month, fetch_external_data, fill_context_for_report
+from 大模型.Agent案例.agent.tools.middleware import monitor_tool, log_before_model, report_prompt_switch
+
+
+class ReactAgent:
+    &quot;&quot;&quot;
+    A ReAct-based intelligent agent that integrates LLM, tools, and middleware.
+    It supports tool calling, dynamic prompt switching, and streaming response output.
+    基于ReAct架构的智能体，集成大模型、工具集与中间件，支持工具调用、动态提示词切换与流式响应。
+    &quot;&quot;&quot;
+
+    def __init__(self):
+        &quot;&quot;&quot;
+        Initialize the ReAct agent with LLM, system prompt, tools, and middleware.
+        初始化ReAct智能体，加载大模型、系统提示词、工具集与中间件。
+        &quot;&quot;&quot;
+        # Create an agent instance using LangChain create_agent
+        self.agent = create_agent(
+            # Large language model for reasoning and answering
+            model=chat_model,
+            # Base system prompt for the agent
+            system_prompt=load_system_prompts(),
+            # List of available tools for the agent to use
+            tools=[
+                rag_summarize,
+                get_weather,
+                get_user_location,
+                get_user_id,
+                get_month,
+                get_current_month,
+                fetch_external_data,
+                fill_context_for_report
+            ],
+            # Middleware for tool monitoring, logging, and dynamic prompt switching
+            middleware=[
+                monitor_tool,
+                log_before_model,
+                report_prompt_switch
+            ]
+        )
+
+    def execute_stream(self, query: str):
+        &quot;&quot;&quot;
+        Execute the agent query and return streaming response chunks.
+        执行用户查询并以流式方式返回响应片段。
+
+        Args:
+            query: User input question or instruction / 用户输入的问题或指令
+
+        Yields:
+            Streaming response content chunk / 流式输出的响应内容片段
+        &quot;&quot;&quot;
+        # Construct input data in the format required by the agent
+        input_dict = {
+            &quot;messages&quot;: [
+                {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: query},
+            ]
+        }
+
+        # Stream agent responses with context (report mode disabled by default)
+        for chunk in self.agent.stream(input_dict, stream_mode=&quot;values&quot;, context={&quot;report&quot;: False}):
+            # Get the latest message from the state
+            latest_message = chunk[&quot;messages&quot;][-1]
+            # Yield non-empty content
+            if latest_message.content:
+                yield latest_message.content.strip() + &quot;\n&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="9188db55-6aee-8281-9730-01bd4c4613a3"/></div><div style="display:contents" dir="auto"><h1 id="0f18db55-6aee-836f-a92c-817a5106bb49" class="">可视化(app)</h1></div><div style="display:contents" dir="auto"><p id="6038db55-6aee-83f7-80f8-81496b956afe" class="">基于 Streamlit 搭建智能客服网页端，自动配置项目路径解决模块导入问题，初始化并缓存 ReAct 智能体实例。</p></div><div style="display:contents" dir="auto"><p id="5d28db55-6aee-83ed-acfe-818a87f8e4bc" class="">通过会话状态持久化保存聊天记录，渲染历史对话界面；接收用户输入后调用智能体获取流式回复，模拟打字效果逐字输出，自动保存助手回答并刷新页面，实现完整人机对话交互功能。</p></div><div style="display:contents" dir="auto"><ul id="bee8db55-6aee-8368-b98b-81df5f2c0408" class="toggle"><li><details open=""><summary>代码</summary><div style="display:contents" dir="auto"><pre id="f228db55-6aee-8389-9da2-01b81a007be8" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import streamlit as st
+import sys
+import os
+import time
+
+# Add the project root directory to Python path to resolve import issues
+# 将项目根目录添加到Python路径，解决导入问题
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+# Import the core ReAct Agent class
+# 导入核心的ReAct智能体类
+from agent.react_agent import ReactAgent
+
+# Set the title of the Streamlit web page
+# 设置Streamlit网页的标题
+st.title(&quot;智扫通机器人智能客服&quot;)
+
+# Insert a divider line on the page
+# 在页面中插入一条分割线
+st.divider()
+
+# Initialize the Agent instance in session state if it doesn&#x27;t exist
+# 如果会话状态中不存在智能体实例，则进行初始化
+if &quot;agent&quot; not in st.session_state:
+    st.session_state[&quot;agent&quot;] = ReactAgent()
+
+# Initialize the chat message history in session state if it doesn&#x27;t exist
+# 如果会话状态中不存在聊天记录，则进行初始化
+if &quot;message&quot; not in st.session_state:
+    st.session_state[&quot;message&quot;] = []
+
+# Iterate and display all historical chat messages
+# 遍历并展示所有历史聊天消息
+for message in st.session_state[&quot;message&quot;]:
+    st.chat_message(message[&quot;role&quot;]).write(message[&quot;content&quot;])
+
+# Create an input box for the user to type questions
+# 创建输入框，供用户输入问题
+prompt = st.chat_input()
+
+# Check if the user has submitted a prompt
+# 检查用户是否提交了问题
+if prompt:
+    # Display the user&#x27;s message in the chat interface
+    # 在聊天界面显示用户消息
+    st.chat_message(&quot;user&quot;).write(prompt)
+    # Save the user&#x27;s message to the session state history
+    # 将用户消息保存到会话状态历史记录
+    st.session_state[&quot;message&quot;].append({&quot;role&quot;:&quot;user&quot;, &quot;content&quot;:prompt})
+
+    # List to cache the streaming response chunks
+    # 用于缓存流式响应片段的列表
+    response_messages = []
+    
+    # Show a loading spinner while the agent is thinking
+    # 当智能体思考时，显示加载动画
+    with st.spinner(&quot;思考中...&quot;):
+        # Get the streaming response generator from the agent
+        # 从智能体获取流式响应生成器
+        res_stream = st.session_state[&quot;agent&quot;].execute_stream(prompt)
+
+        # Define a wrapper function to capture and simulate typing effect
+        # 定义包装函数，用于捕获响应并模拟打字效果
+        def capture(generator, cache_list):
+            # Iterate over each chunk from the response generator
+            # 遍历响应生成器的每个片段
+            for chunk in generator:
+                # Cache the chunk for saving the full message later
+                # 缓存片段，用于后续保存完整消息
+                cache_list.append(chunk)
+                # Simulate typewriter effect by yielding character by character
+                # 逐字输出，模拟打字机效果
+                for char in chunk:
+                    time.sleep(0.01)
+                    yield char
+
+        # Display the assistant&#x27;s streaming response with typing effect
+        # 显示助手的流式响应，并带有打字效果
+        st.chat_message(&quot;assistant&quot;).write_stream(capture(res_stream, response_messages))
+        
+        # Save the complete response to the chat history
+        # 将完整响应保存到聊天历史记录
+        st.session_state[&quot;message&quot;].append({&quot;role&quot;:&quot;assistant&quot;, &quot;content&quot;:response_messages[-1]})
+        
+        # Rerun the app to refresh the interface and display the new message
+        # 重新运行应用，刷新界面并显示新消息
+        st.rerun()</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="e168db55-6aee-83b1-b49c-8149746b6022" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

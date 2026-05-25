@@ -1,0 +1,752 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>CSS私有前缀（-webkit-/-moz-/-ms-/-o-）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c8a8db55-6aee-829a-af48-018544801f8d" class="page mono"><header><h1 class="page-title" dir="auto">CSS私有前缀（<strong>-webkit-/-moz-/-ms-/-o-</strong>）</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="2e68db55-6aee-832a-8fce-81fab565a245" class="">私有前缀是浏览器厂商给 CSS 属性 / 规则加的「专属标识」，格式为 <code>-[厂商标识]-[属性名]</code>，例如：</p></div><div style="display:contents" dir="auto"><p id="be48db55-6aee-82eb-89f2-01c79c39f974" class=""><code>webkit-border-radius</code>（WebKit 内核浏览器专属）</p></div><div style="display:contents" dir="auto"><p id="3db8db55-6aee-83de-a811-01d5f95dc8d0" class=""><code>moz-box-shadow</code>（Firefox 专属）</p></div><div style="display:contents" dir="auto"><hr id="9088db55-6aee-834d-96d1-01223b6cf4d6"/></div><div style="display:contents" dir="auto"><hr id="1378db55-6aee-826f-9372-81cc773bc270"/></div><div style="display:contents" dir="auto"><ul id="f148db55-6aee-83c2-bacd-816805fc6bbe" class="toggle"><li><details open=""><summary>前缀对应厂商</summary><div style="display:contents" dir="ltr"><table id="20b8db55-6aee-8393-92c0-814d25d79064" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="8648db55-6aee-8353-abe4-0170d616b6ed"><th id="Be\s" class="simple-table-header-color simple-table-header"><strong>私有前缀</strong></th><th id="Pxz=" class="simple-table-header-color simple-table-header"><strong>对应厂商</strong></th><th id="aP[F" class="simple-table-header-color simple-table-header"><strong>内核（渲染引擎）</strong></th><th id="XUc]" class="simple-table-header-color simple-table-header"><strong>代表浏览器 / 环境</strong></th><th id="guuf" class="simple-table-header-color simple-table-header"><strong>现状（是否仍需使用）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="4748db55-6aee-83ef-bb92-01f31fa8ff08"><td id="Be\s" class=""><code>-webkit-</code></td><td id="Pxz=" class="">Apple、Google</td><td id="aP[F" class="">WebKit / Blink</td><td id="XUc]" class="">Safari（macOS/iOS）、Chrome、Edge（80+）、Opera、Brave、iOS WebView</td><td id="guuf" class="">仍需使用（Safari/iOS 兼容性依赖）</td></tr></div><div style="display:contents" dir="ltr"><tr id="d878db55-6aee-82f3-bf66-018b3eb6e006"><td id="Be\s" class=""><code>-moz-</code></td><td id="Pxz=" class="">Mozilla</td><td id="aP[F" class="">Gecko</td><td id="XUc]" class="">Firefox（火狐）</td><td id="guuf" class="">部分特性仍需（如 <code>-moz-appearance</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="a5c8db55-6aee-8339-86e3-014fcf510341"><td id="Be\s" class=""><code>-ms-</code></td><td id="Pxz=" class="">Microsoft</td><td id="aP[F" class="">Trident（旧）</td><td id="XUc]" class="">IE 6-11、Edge（18- 旧版）</td><td id="guuf" class="">基本淘汰（仅兼容 IE 旧版时使用）</td></tr></div><div style="display:contents" dir="ltr"><tr id="c0c8db55-6aee-8382-9400-8179209e9de5"><td id="Be\s" class=""><code>-o-</code></td><td id="Pxz=" class="">Opera Software</td><td id="aP[F" class="">Presto（旧）</td><td id="XUc]" class="">Opera（12- 旧版）</td><td id="guuf" class=""></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fb38db55-6aee-82d8-b1ba-8174ae82d2c4" class="toggle"><li><details open=""><summary>视觉样式类（圆角，阴影，边框）</summary><div style="display:contents" dir="ltr"><table id="4888db55-6aee-83b2-af74-0122a1af71c4" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="cc48db55-6aee-83f8-a965-0162f8cc7bd2"><th id="FylP" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="DUql" class="simple-table-header-color simple-table-header"><strong>私有前缀属性</strong></th><th id="Ao{Z" class="simple-table-header-color simple-table-header"><strong>标准属性</strong></th><th id="^\W}" class="simple-table-header-color simple-table-header"><strong>示例代码（兼容写法）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="6ec8db55-6aee-8363-bc37-01123a264189"><td id="FylP" class="">圆角</td><td id="DUql" class=""><code>-webkit-border-radius</code>、<code>-moz-border-radius</code>、<code>-ms-border-radius</code></td><td id="Ao{Z" class=""><code>border-radius</code></td><td id="^\W}" class=""><code>css .box { -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8158db55-6aee-8336-b588-8120dd8877e5"><td id="FylP" class="">盒子阴影</td><td id="DUql" class=""><code>-webkit-box-shadow</code>、<code>-moz-box-shadow</code>、<code>-ms-box-shadow</code></td><td id="Ao{Z" class=""><code>box-shadow</code></td><td id="^\W}" class=""><code>css .box { -webkit-box-shadow: 0 4px 6px rgba(0,0,0,0.1); -moz-box-shadow: 0 4px 6px rgba(0,0,0,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="0658db55-6aee-826c-9a45-011afb7ac702"><td id="FylP" class="">边框图片</td><td id="DUql" class=""><code>-webkit-border-image</code>、<code>-moz-border-image</code></td><td id="Ao{Z" class=""><code>border-image</code></td><td id="^\W}" class=""><code>css .box { -webkit-border-image: url(border.png) 30 round; -moz-border-image: url(border.png) 30 round; border-image: url(border.png) 30 round; }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b958db55-6aee-8213-aa68-817c6a59e643"><td id="FylP" class="">外观（表单）</td><td id="DUql" class=""><code>-webkit-appearance</code>、<code>-moz-appearance</code></td><td id="Ao{Z" class=""><code>appearance</code></td><td id="^\W}" class=""><code>css /* 清除按钮默认样式 */ button { -webkit-appearance: none; -moz-appearance: none; appearance: none; }</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4f58db55-6aee-8367-bbde-8180958de671" class="toggle"><li><details open=""><summary>背景与渐变类</summary><div style="display:contents" dir="auto"><p id="c318db55-6aee-82cd-a1df-0156d6365e89" class="">渐变、背景裁剪等特性早期依赖私有前缀，尤其是文字渐变至今仍需 <code>-webkit-</code> 兼容 Safari。</p></div><div style="display:contents" dir="ltr"><table id="4ea8db55-6aee-82f4-bfc7-81c834500067" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="ed88db55-6aee-837b-96d8-8159d36d3087"><th id="|g~N" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="qqY]" class="simple-table-header-color simple-table-header"><strong>私有前缀属性</strong></th><th id="Bjwv" class="simple-table-header-color simple-table-header"><strong>标准属性</strong></th><th id="Zgd~" class="simple-table-header-color simple-table-header"><strong>示例代码（重点：文字渐变）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="6788db55-6aee-83a8-8258-0143c949594c"><td id="|g~N" class="">线性渐变</td><td id="qqY]" class=""><code>-webkit-linear-gradient</code>、<code>-moz-linear-gradient</code>、<code>-ms-linear-gradient</code></td><td id="Bjwv" class=""><code>linear-gradient</code></td><td id="Zgd~" class=""><code>css .bg-gradient { background: -webkit-linear-gradient(to right, #3b82f6, #a855f7); background: linear-gradient(to right, #3b82f6, #a855f7); }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b208db55-6aee-833c-8fc8-81e18f5a16d8"><td id="|g~N" class="">径向渐变</td><td id="qqY]" class=""><code>-webkit-radial-gradient</code>、<code>-moz-radial-gradient</code></td><td id="Bjwv" class=""><code>radial-gradient</code></td><td id="Zgd~" class=""><code>css .bg-radial { background: -webkit-radial-gradient(circle, #3b82f6 0%, #a855f7 100%); background: radial-gradient(circle, #3b82f6 0%, #a855f7 100%); }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="13a8db55-6aee-8304-92fc-817f49f9d76d"><td id="|g~N" class="">背景裁剪</td><td id="qqY]" class=""><code>-webkit-background-clip</code>、<code>-moz-background-clip</code></td><td id="Bjwv" class=""><code>background-clip</code></td><td id="Zgd~" class=""><code>css /* 文字渐变（Safari 仍需 -webkit-） */ .text-gradient { background: linear-gradient(to right, #3b82f6, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8888db55-6aee-83dd-baaf-015e100cb13c"><td id="|g~N" class="">背景大小</td><td id="qqY]" class=""><code>-webkit-background-size</code>、<code>-moz-background-size</code></td><td id="Bjwv" class=""><code>background-size</code></td><td id="Zgd~" class=""><code>css .bg-cover { -webkit-background-size: cover; background-size: cover; }</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0f88db55-6aee-82cf-b86c-8175ba2ae2f3" class="toggle"><li><details open=""><summary>布局与盒模型类</summary><div style="display:contents" dir="auto"><p id="78c8db55-6aee-829c-9660-01261690a549" class="">弹性布局（Flexbox）、网格布局（Grid）、盒模型（box-sizing）等核心布局特性，早期均依赖私有前缀。</p></div><div style="display:contents" dir="ltr"><table id="8e38db55-6aee-832d-8fd4-8167427e32ef" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="d118db55-6aee-830c-88e3-01d66a022167"><th id="xhXb" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="SiAV" class="simple-table-header-color simple-table-header"><strong>私有前缀属性</strong></th><th id="Zg;]" class="simple-table-header-color simple-table-header"><strong>标准属性</strong></th><th id="MXBS" class="simple-table-header-color simple-table-header"><strong>示例代码（Flexbox 过渡）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="e728db55-6aee-83a6-8051-818f8754159d"><td id="xhXb" class="">弹性布局</td><td id="SiAV" class=""><code>-webkit-box</code>、<code>-moz-box</code>、<code>-ms-flexbox</code></td><td id="Zg;]" class=""><code>display: flex</code></td><td id="MXBS" class=""><code>css /* 旧版 Flexbox 兼容写法（仅 IE10-、Safari 5-） */ .flex-container { display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: flex; }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8598db55-6aee-8373-a621-017d233a9fcb"><td id="xhXb" class="">盒模型</td><td id="SiAV" class=""><code>-webkit-box-sizing</code>、<code>-moz-box-sizing</code></td><td id="Zg;]" class=""><code>box-sizing</code></td><td id="MXBS" class=""><code>css .box { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="88b8db55-6aee-82cc-a158-8172c7b17056"><td id="xhXb" class="">网格布局</td><td id="SiAV" class=""><code>-webkit-grid</code>、<code>-moz-grid</code></td><td id="Zg;]" class=""><code>display: grid</code></td><td id="MXBS" class=""><code>css .grid-container { -webkit-display: grid; display: grid; grid-template-columns: 1fr 1fr; }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ae68db55-6aee-832e-90eb-81da9b7c8982"><td id="xhXb" class="">列布局</td><td id="SiAV" class=""><code>-webkit-column-count</code>、<code>-moz-column-count</code></td><td id="Zg;]" class=""><code>column-count</code></td><td id="MXBS" class=""><code>css .multi-column { -webkit-column-count: 3; -moz-column-count: 3; column-count: 3; }</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8ba8db55-6aee-83fb-a8d9-01825293505f" class="toggle"><li><details open=""><summary>动画与过渡类</summary><div style="display:contents" dir="auto"><p id="3738db55-6aee-828a-af59-81de15ab3b74" class="">CSS 动画（Animation）、过渡（Transition）、变形（Transform）是私有前缀的高频使用场景，尤其在移动端兼容中。</p></div><div style="display:contents" dir="ltr"><table id="a238db55-6aee-823b-a875-0157831b2fa4" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3348db55-6aee-82cb-b6ba-81ad9c54e853"><th id="cFg{" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="ACmu" class="simple-table-header-color simple-table-header"><strong>私有前缀属性</strong></th><th id="NZlJ" class="simple-table-header-color simple-table-header"><strong>标准属性</strong></th><th id="p&gt;@n" class="simple-table-header-color simple-table-header"><strong>示例代码（旋转动画）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="2228db55-6aee-8398-8106-815d407e2573"><td id="cFg{" class="">变形（旋转 / 缩放）</td><td id="ACmu" class=""><code>-webkit-transform</code>、<code>-moz-transform</code>、<code>-ms-transform</code></td><td id="NZlJ" class=""><code>transform</code></td><td id="p&gt;@n" class=""><code>css .rotate { -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); transform: rotate(45deg); }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="0598db55-6aee-829f-a039-810f5ce8e5ba"><td id="cFg{" class="">过渡动画</td><td id="ACmu" class=""><code>-webkit-transition</code>、<code>-moz-transition</code>、<code>-ms-transition</code></td><td id="NZlJ" class=""><code>transition</code></td><td id="p&gt;@n" class=""><code>css .hover-effect { -webkit-transition: all 0.3s ease; -moz-transition: all 0.3s ease; transition: all 0.3s ease; }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c628db55-6aee-82bb-8801-010bfbd461bf"><td id="cFg{" class="">关键帧动画</td><td id="ACmu" class=""><code>-webkit-keyframes</code>、<code>-moz-keyframes</code>、<code>-ms-keyframes</code></td><td id="NZlJ" class=""><code>@keyframes</code></td><td id="p&gt;@n" class=""><code>css @-webkit-keyframes spin { 0% { -webkit-transform: rotate(0deg); } 100% { -webkit-transform: rotate(360deg); } } @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } .animate-spin { -webkit-animation: spin 1s linear infinite; animation: spin 1s linear infinite; }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1338db55-6aee-8379-9ca0-01c3bf10487d"><td id="cFg{" class="">动画延迟</td><td id="ACmu" class=""><code>-webkit-animation-delay</code>、<code>-moz-animation-delay</code></td><td id="NZlJ" class=""><code>animation-delay</code></td><td id="p&gt;@n" class=""><code>css .delay-1s { -webkit-animation-delay: 1s; animation-delay: 1s; }</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b9e8db55-6aee-83db-b385-81d6c3df1e29" class="toggle"><li><details open=""><summary>交互与触摸类</summary><div style="display:contents" dir="auto"><p id="db38db55-6aee-82f0-bddb-01ad0a146617" class="">主要用于移动端 / 触摸设备的交互特性（如滚动、触摸反馈）。</p></div><div style="display:contents" dir="ltr"><table id="2078db55-6aee-83ba-b941-81f5a008b792" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="0bc8db55-6aee-8274-9b6f-014ac221c893"><th id="Lx&gt;{" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id=":[}o" class="simple-table-header-color simple-table-header"><strong>私有前缀属性</strong></th><th id="nAMb" class="simple-table-header-color simple-table-header"><strong>标准属性</strong></th><th id="nIG\" class="simple-table-header-color simple-table-header"><strong>示例代码（滚动优化）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="2a78db55-6aee-82aa-ba08-01056bc11982"><td id="Lx&gt;{" class="">滚动平滑</td><td id=":[}o" class=""><code>-webkit-overflow-scrolling</code></td><td id="nAMb" class="">无（仅 WebKit 支持）</td><td id="nIG\" class=""><code>css /* iOS 滚动流畅度优化（必填 -webkit-） */ .scroll-container { -webkit-overflow-scrolling: touch; overflow-y: auto; }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="74d8db55-6aee-829a-8392-819268f56513"><td id="Lx&gt;{" class="">触摸缩放</td><td id=":[}o" class=""><code>-webkit-touch-callout</code></td><td id="nAMb" class="">无（仅 WebKit 支持）</td><td id="nIG\" class=""><code>css /* 禁止 iOS 长按图片弹出菜单 */ img { -webkit-touch-callout: none; }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="af88db55-6aee-8235-ac2e-01ae559f7b26"><td id="Lx&gt;{" class="">用户选择</td><td id=":[}o" class=""><code>-webkit-user-select</code>、<code>-moz-user-select</code>、<code>-ms-user-select</code></td><td id="nAMb" class=""><code>user-select</code></td><td id="nIG\" class=""><code>css .no-select { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="87c8db55-6aee-82e9-8f2f-012c4fcaf31d" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="6268db55-6aee-8205-bed4-01a10eb62996"/></div><div style="display:contents" dir="auto"><ul id="0518db55-6aee-83db-b418-812f0e02f4d1" class="toggle"><li><details open=""><summary>书写顺序：<mark class="highlight-orange"><strong>前缀在前，标准在后</strong></mark></summary><div style="display:contents" dir="auto"><p id="fb68db55-6aee-8249-9793-019554156b00" class="">浏览器会优先识别「带前缀的属性」，若不支持则 fallback 到标准属性，最终标准属性会覆盖前缀属性（保证现代浏览器用标准实现）。</p></div><div style="display:contents" dir="auto"><p id="2338db55-6aee-8290-9988-012098044062" class="">❌ 错误写法（标准在前，前缀在后，会被覆盖）：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js" integrity="sha512-uOw7XYETzS/DPmmirpP5UCMihSDNMeyTS965J0/456OSPfxn9xEtHHjj5Q/5WefVdqyMfN/afmQnNpZd/tpkcA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js" integrity="sha512-xjGCJ9YxyZBfYTCHsEjkOZMoOse1W3cKMXv1szXrxs68myuXt0YTj3/xKPar6iDMlXzTUSEqwUxprWcyp+plaw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="fd98db55-6aee-83fd-9f2c-01d637349b7b" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">.box {
+  border-radius: 8px; /* 标准在前，-webkit- 会覆盖它（Safari 中） */
+  -webkit-border-radius: 8px;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="c5e8db55-6aee-8283-aee6-0195dad7b299" class="">✅ 正确写法（前缀在前，标准在后）：</p></div><div style="display:contents" dir="auto"><pre id="3958db55-6aee-8334-944c-017a3004bc3e" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">.box {
+  -webkit-border-radius: 8px; /* Safari/Chrome 旧版 */
+  -moz-border-radius: 8px;    /* Firefox 旧版 */
+  -ms-border-radius: 8px;     /* IE 旧版 */
+  border-radius: 8px;         /* 标准属性（现代浏览器） */
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aa98db55-6aee-83eb-a4a9-0173beb7b4e2" class="toggle"><li><details open=""><summary>需要添加，不盲目堆砌</summary><div style="display:contents" dir="auto"><p id="fb78db55-6aee-822e-a0dd-0122ad4dfd6d" class="">不需要给所有属性加全 4 个前缀，根据目标浏览器选择：</p></div><div style="display:contents" dir="auto"><ul id="5bb8db55-6aee-8288-a401-01cb88a83fe9" class="bulleted-list"><li style="list-style-type:disc">只兼容 Safari/Chrome/Edge：仅加 <code>webkit-</code> + 标准；</li></ul></div><div style="display:contents" dir="auto"><ul id="cce8db55-6aee-8247-9ef7-01d48a7f3839" class="bulleted-list"><li style="list-style-type:disc">只兼容 Firefox：仅加 <code>moz-</code> + 标准；</li></ul></div><div style="display:contents" dir="auto"><ul id="d3b8db55-6aee-8221-9923-8142a37f7b83" class="bulleted-list"><li style="list-style-type:disc">兼容 IE 旧版：加 <code>ms-</code> + 标准。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6a58db55-6aee-8204-9e42-01400b6afbb3" class="toggle"><li><details open=""><summary>避免依赖私有特性</summary><div style="display:contents" dir="auto"><p id="a5b8db55-6aee-83cf-9bb5-8135a6f9de9f" class="">不要使用「仅存在于私有前缀中，未被标准化」的属性（如 <code>-webkit-marquee</code> 滚动文字），这类属性可能被浏览器后续移除，导致兼容性问题。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="dae8db55-6aee-8359-8e79-81fc34323693"/></div><div style="display:contents" dir="auto"><p id="3f98db55-6aee-82c6-9e47-0171cac792ec" class="">自动处理工具</p></div><div style="display:contents" dir="auto"><p id="3a98db55-6aee-821e-89c6-0128ec0be7a6" class="">手动编写容易出错，开发中使用工具自动生成，如：Autoprefixer</p></div><div style="display:contents" dir="auto"><p id="dce8db55-6aee-8281-bc7d-8163c6d05506" class=""><a href="https://autoprefixer.github.io/">Autoprefixer CSS online</a></p></div><div style="display:contents" dir="auto"><hr id="4158db55-6aee-831b-a5c1-81d61666ff40"/></div><div style="display:contents" dir="auto"><ol type="1" id="9558db55-6aee-8334-97bc-81b535496b94" class="numbered-list" start="1"><li><strong>优先使用标准属性</strong>：现代项目（不兼容 IE 旧版）尽量直接用标准 CSS 属性，减少前缀依赖；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="9c48db55-6aee-83f7-9f3b-0186c7836abc" class="numbered-list" start="2"><li><strong>必要时兼容前缀</strong>：仅在需要支持 Safari/iOS 或旧浏览器时，添加对应前缀（重点是 <code>webkit-</code>）；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="05b8db55-6aee-8269-b64a-81a105bc76f2" class="numbered-list" start="3"><li><strong>工具自动化</strong>：用 Autoprefixer 或 Tailwind 自动处理前缀，避免手动编写错误；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3a18db55-6aee-83b4-a60f-018df063cbe6" class="numbered-list" start="4"><li><strong>查询兼容性</strong>：不确定属性是否需要前缀时，用 <a href="https://caniuse.com/">caniuse.com</a> 查询（输入属性名，查看各浏览器支持情况）；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="4a08db55-6aee-8307-bdcb-01164b481734" class="numbered-list" start="5"><li><strong>渐进增强</strong>：以标准属性为核心，前缀为补充，保证旧浏览器有基本效果，现代浏览器有更好体验。</li></ol></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

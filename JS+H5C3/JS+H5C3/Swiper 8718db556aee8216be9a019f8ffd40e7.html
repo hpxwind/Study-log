@@ -1,0 +1,953 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Swiper</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="8718db55-6aee-8216-be9a-019f8ffd40e7" class="page mono"><header><h1 class="page-title" dir="auto">Swiper</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="d568db55-6aee-8331-afb9-81c58e82b990" class="">Swiper 是一款 <strong>强大的移动端 / PC 端滑动组件库</strong>，支持轮播图、滑动列表、Tab 切换、手势操作等多种场景，兼容性好（支持 IE9+ 及主流浏览器），且提供丰富的配置项和扩展插件，是前端开发中实现滑动交互的首选工具。</p></div><div style="display:contents" dir="auto"><hr id="2948db55-6aee-83b7-ae05-817fbe51f7e9"/></div><div style="display:contents" dir="auto"><p id="d668db55-6aee-8249-8ca4-8189de7da57e" class=""><mark class="highlight-blue">官方中文网站：</mark><mark class="highlight-blue"><a href="https://www.swiper.com.cn/usage/index.html">Swiper使用方法 - Swiper中文网</a></mark></p></div><div style="display:contents" dir="auto"><ul id="d118db55-6aee-83ec-87ab-81e6d2eadffd" class="toggle"><li><details open=""><summary>1、核心结构（3层嵌套）</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="30d8db55-6aee-8309-bc5c-817fd1dfcbf9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 1. 最外层容器：Swiper 根容器（自定义类名，需初始化时指定） --&gt;
+&lt;div class=&quot;my-swiper&quot;&gt;
+  &lt;!-- 2. 滑块容器：固定类名 .swiper-wrapper --&gt;
+  &lt;div class=&quot;swiper-wrapper&quot;&gt;
+    &lt;!-- 3. 滑块单元：固定类名 .swiper-slide（每个滑块对应一个轮播项） --&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;滑块1&lt;/div&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;滑块2&lt;/div&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;滑块3&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="f258db55-6aee-8326-b4cd-010244edb1a5" class=""><strong>注意</strong>：<code>.swiper-wrapper</code> 和 <code>.swiper-slide</code> 是 Swiper 内置的固定类名，不可修改；根容器（如 <code>.my-swiper</code>）可自定义，初始化时需通过选择器指向它。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="53b8db55-6aee-8204-ba4a-818b39ee6b7d" class="toggle"><li><details open=""><summary>2、引入Swiper资源</summary><div style="display:contents" dir="auto"><pre id="6898db55-6aee-829a-a12f-0133dcb330f5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 1. 引入 Swiper CSS（版本需与 JS 一致，这里以 11.0.5 为例） --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://unpkg.com/swiper@11.0.5/swiper-bundle.min.css&quot; /&gt;
+
+&lt;!-- 2. 引入 Swiper JS --&gt;
+&lt;script src=&quot;https://unpkg.com/swiper@11.0.5/swiper-bundle.min.js&quot;&gt;&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="2048db55-6aee-83ff-9a2c-811c9154754a" class="">如果是下载的文件</p></div><div style="display:contents" dir="auto"><pre id="8848db55-6aee-8364-ab81-014c31471b3c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    ...
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;dist/css/swiper-bundle.min.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    ...
+    &lt;script src=&quot;dist/js/swiper-bundle.min.js&quot;&gt;&lt;/script&gt;
+    ...
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0978db55-6aee-82b8-a55c-813d2a846744" class="toggle"><li><details open=""><summary>3、html结构</summary><div style="display:contents" dir="auto"><pre id="d7b8db55-6aee-82ad-bbcc-01c3cc43a4d8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;swiper&quot;&gt;
+    &lt;div class=&quot;swiper-wrapper&quot;&gt;
+        &lt;div class=&quot;swiper-slide&quot;&gt;Slide 1&lt;/div&gt;
+        &lt;div class=&quot;swiper-slide&quot;&gt;Slide 2&lt;/div&gt;
+        &lt;div class=&quot;swiper-slide&quot;&gt;Slide 3&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- 如果需要分页器 --&gt;
+    &lt;div class=&quot;swiper-pagination&quot;&gt;&lt;/div&gt;
+    
+    &lt;!-- 如果需要导航按钮 --&gt;
+    &lt;div class=&quot;swiper-button-prev&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;swiper-button-next&quot;&gt;&lt;/div&gt;
+    
+    &lt;!-- 如果需要滚动条 --&gt;
+    &lt;div class=&quot;swiper-scrollbar&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+导航等组件可以放在Swiper容器之外</code></pre></div><div style="display:contents" dir="auto"><pre id="01e8db55-6aee-83eb-804d-0125b3390df5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;my-swiper swiper&quot;&gt; &lt;!-- 根容器：添加 .swiper 类（Swiper 基础样式） --&gt;
+  &lt;div class=&quot;swiper-wrapper&quot;&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;
+      &lt;img src=&quot;https://picsum.photos/800/400?1&quot; alt=&quot;轮播图1&quot; style=&quot;width:100%;&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;
+      &lt;img src=&quot;https://picsum.photos/800/400?2&quot; alt=&quot;轮播图2&quot; style=&quot;width:100%;&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;
+      &lt;img src=&quot;https://picsum.photos/800/400?3&quot; alt=&quot;轮播图3&quot; style=&quot;width:100%;&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- 分页器（圆点指示器）：固定类名 .swiper-pagination --&gt;
+  &lt;div class=&quot;swiper-pagination&quot;&gt;&lt;/div&gt;
+
+  &lt;!-- 导航按钮：固定类名 .swiper-button-prev（前一张）、.swiper-button-next（后一张） --&gt;
+  &lt;div class=&quot;swiper-button-prev&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;swiper-button-next&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cbb8db55-6aee-8275-9f81-017506d97637" class="toggle"><li><details open=""><summary>4、初始化Swiper实例</summary><div style="display:contents" dir="auto"><pre id="d7f8db55-6aee-82eb-a58a-8128a16f7aaa" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;script&gt;        
+  var mySwiper = new Swiper (&#x27;.swiper&#x27;, {
+    direction: &#x27;vertical&#x27;, // 垂直切换选项
+    loop: true, // 循环模式选项
+    
+    // 如果需要分页器
+    pagination: {
+      el: &#x27;.swiper-pagination&#x27;,
+    },
+    
+    // 如果需要前进后退按钮
+    navigation: {
+      nextEl: &#x27;.swiper-button-next&#x27;,
+      prevEl: &#x27;.swiper-button-prev&#x27;,
+    },
+    
+    // 如果需要滚动条
+    scrollbar: {
+      el: &#x27;.swiper-scrollbar&#x27;,
+    },
+  })        
+  &lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="da58db55-6aee-821c-a901-819b7e2b44ba" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 等待 DOM 加载完成（确保 Swiper 容器已存在）
+document.addEventListener(&#x27;DOMContentLoaded&#x27;, function() {
+  // 创建 Swiper 实例
+  const mySwiper = new Swiper(&#x27;.my-swiper&#x27;, {
+    // 1. 基础配置
+    direction: &#x27;horizontal&#x27;, // 滑动方向：&#x27;horizontal&#x27;（水平，默认）/ &#x27;vertical&#x27;（垂直）
+    loop: true, // 是否循环播放（滑动到最后一张后，继续滑动会回到第一张）
+    speed: 500, // 滑动动画时长（毫秒，默认 300）
+
+    // 2. 自动播放配置（需启用 autoplay 模块）
+    autoplay: {
+      delay: 3000, // 自动播放间隔（毫秒，默认 3000）
+      stopOnLastSlide: false, // 循环模式下无效，非循环模式下是否停止在最后一张
+      disableOnInteraction: true, // 用户交互（如点击、滑动）后是否暂停自动播放（默认 true）
+    },
+
+    // 3. 分页器配置（需启用 pagination 模块）
+    pagination: {
+      el: &#x27;.swiper-pagination&#x27;, // 分页器容器的选择器（对应 HTML 中的 .swiper-pagination）
+      clickable: true, // 是否允许点击分页器切换滑块（默认 false）
+      type: &#x27;bullets&#x27;, // 分页器类型：&#x27;bullets&#x27;（圆点，默认）/ &#x27;fraction&#x27;（数字，如 1/3）/ &#x27;progressbar&#x27;（进度条）
+    },
+
+    // 4. 导航按钮配置（需启用 navigation 模块）
+    navigation: {
+      nextEl: &#x27;.swiper-button-next&#x27;, // 下一张按钮的选择器
+      prevEl: &#x27;.swiper-button-prev&#x27;, // 上一张按钮的选择器
+    },
+  });
+});</code></pre></div><div style="display:contents" dir="auto"><hr id="ca68db55-6aee-830b-a67b-810eec830e47"/></div><div style="display:contents" dir="auto"><p id="c018db55-6aee-8340-bac8-819cc2301658" class="">自定义样式：</p></div><div style="display:contents" dir="auto"><pre id="99e8db55-6aee-8395-aea4-8120eb02bd41" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/* 1. 设置轮播图容器大小 */
+.my-swiper {
+  width: 100%; /* 宽度占满父容器 */
+  height: 400px; /* 固定高度（或根据需求自适应） */
+}
+
+/* 2. 调整分页器圆点样式 */
+.swiper-pagination-bullet {
+  width: 12px; /* 圆点宽度 */
+  height: 12px; /* 圆点高度 */
+  background-color: #ccc; /* 未激活圆点颜色 */
+  margin: 0 6px !important; /* 圆点间距（!important 覆盖默认样式） */
+}
+.swiper-pagination-bullet-active {
+  background-color: #ff4400; /* 激活圆点颜色 */
+}
+
+/* 3. 调整导航按钮样式 */
+.swiper-button-prev, .swiper-button-next {
+  color: #ff4400; /* 按钮颜色 */
+  background-color: rgba(255,255,255,0.5); /* 按钮背景 */
+  width: 40px; /* 按钮宽度 */
+  height: 40px; /* 按钮高度 */
+  border-radius: 50%; /* 圆形按钮 */
+}
+/* 隐藏导航按钮默认的图标，自定义图标（可选） */
+.swiper-button-prev::after, .swiper-button-next::after {
+  content: &#x27;&#x27;; /* 清空默认图标 */
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1998db55-6aee-8348-a5ba-8137b6b7460b" class="toggle"><li><details open=""><summary>轮播图场景</summary><div style="display:contents" dir="ltr"><table id="8f48db55-6aee-821f-bf5b-81075407a767" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3f78db55-6aee-8238-aabc-81ccef8b1085"><th id="ry^{" class="simple-table-header-color simple-table-header"><strong>配置项</strong></th><th id="fc^p" class="simple-table-header-color simple-table-header"><strong>类型</strong></th><th id="Ksl\" class="simple-table-header-color simple-table-header" style="width:517px"><strong>说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="a5f8db55-6aee-82e1-87ba-81fd3e465e8b"><td id="ry^{" class=""><code>loop</code></td><td id="fc^p" class="">boolean</td><td id="Ksl\" class="" style="width:517px">是否循环播放（默认 false）</td></tr></div><div style="display:contents" dir="ltr"><tr id="7088db55-6aee-82de-bd97-81e49932be28"><td id="ry^{" class=""><code>autoplay</code></td><td id="fc^p" class="">object</td><td id="Ksl\" class="" style="width:517px">自动播放配置（<code>delay</code> 为间隔时间，<code>disableOnInteraction</code> 控制交互暂停）</td></tr></div><div style="display:contents" dir="ltr"><tr id="6028db55-6aee-821d-b930-817706734f00"><td id="ry^{" class=""><code>pagination</code></td><td id="fc^p" class="">object</td><td id="Ksl\" class="" style="width:517px">分页器配置（<code>el</code> 指向容器，<code>clickable</code> 允许点击切换）</td></tr></div><div style="display:contents" dir="ltr"><tr id="e2d8db55-6aee-83c4-8d88-015bbd69e362"><td id="ry^{" class=""><code>navigation</code></td><td id="fc^p" class="">object</td><td id="Ksl\" class="" style="width:517px">导航按钮配置（<code>nextEl</code>/<code>prevEl</code> 指向按钮）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="a318db55-6aee-83bc-b0f2-012d6f08bea0" class="">1、多滑块场景（一次显示多个）</p></div><div style="display:contents" dir="auto"><pre id="c298db55-6aee-8237-9675-01b73cb03b36" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">new Swiper(&#x27;.my-swiper&#x27;, {
+  slidesPerView: 3, // 一次显示的滑块数量（默认 1，可设为小数如 2.5）
+  spaceBetween: 20, // 滑块之间的间距（单位 px，默认 0）
+  loop: true,
+  // 响应式配置：不同屏幕宽度显示不同数量的滑块
+  breakpoints: {
+    768: { slidesPerView: 2 }, // 屏幕宽度 ≤ 768px 时，一次显示 2 个
+    480: { slidesPerView: 1 }, // 屏幕宽度 ≤ 480px 时，一次显示 1 个
+  }
+});</code></pre></div><div style="display:contents" dir="auto"><p id="e9d8db55-6aee-83c0-9641-015e0e6d69fc" class="">2、垂直滑动场景（垂直轮播，滑动列表）</p></div><div style="display:contents" dir="auto"><pre id="6828db55-6aee-822c-abb9-019f0a0a7586" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">new Swiper(&#x27;.my-swiper&#x27;, {
+  direction: &#x27;vertical&#x27;, // 垂直滑动（默认 horizontal）
+  slidesPerView: &#x27;auto&#x27;, // 自动适应滑块高度（显示完整滑块）
+  freeMode: true, // 自由滑动（松开手指后不自动对齐到滑块，类似滚动列表）
+  scrollbar: { // 显示滚动条
+    el: &#x27;.swiper-scrollbar&#x27;,
+    draggable: true, // 允许拖动滚动条
+  }
+});</code></pre></div><div style="display:contents" dir="auto"><p id="5c98db55-6aee-8284-b7dd-01496b34d3d9" class="">3、手势控制场景（放缩，触摸）</p></div><div style="display:contents" dir="auto"><pre id="20d8db55-6aee-8331-9a8a-01ac8bf7e628" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">new Swiper(&#x27;.my-swiper&#x27;, {
+  zoom: {
+    maxRatio: 2, // 最大缩放比例（默认 3）
+    minRatio: 1, // 最小缩放比例（默认 1）
+  },
+  touchRatio: 1, // 触摸灵敏度（默认 1，值越大越灵敏）
+  preventClicks: true, // 防止滑块内点击事件被触发（默认 true）
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a828db55-6aee-821f-a7c9-01bef72f56f9" class="toggle"><li><details open=""><summary>Swiper事件与方法（交互控制）</summary><div style="display:contents" dir="auto"><p id="efa8db55-6aee-82ac-89f0-011acc6f0c97" class="">1、监听状态</p></div><div style="display:contents" dir="auto"><p id="36c8db55-6aee-83eb-bbf6-01a20715c3f5" class="">通过 <code>on</code> 方法绑定事件，监听滑块的滑动、切换等行为：</p></div><div style="display:contents" dir="auto"><pre id="3458db55-6aee-821c-8d10-814c7384b2f8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const mySwiper = new Swiper(&#x27;.my-swiper&#x27;, { loop: true });
+
+// 1. 滑块切换结束时触发（slideChange 是事件名）
+mySwiper.on(&#x27;slideChange&#x27;, function() {
+  console.log(&#x27;当前滑块索引：&#x27;, this.realIndex); // this 指向 Swiper 实例
+});
+
+// 2. 滑动开始时触发
+mySwiper.on(&#x27;touchStart&#x27;, function() {
+  console.log(&#x27;开始滑动&#x27;);
+});
+
+// 3. 自动播放暂停时触发
+mySwiper.on(&#x27;autoplayPause&#x27;, function() {
+  console.log(&#x27;自动播放已暂停&#x27;);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="1ae8db55-6aee-8361-b542-817d53a65750" class="">2、常用方法（主动控制）</p></div><div style="display:contents" dir="auto"><p id="e578db55-6aee-8351-a501-813196e1d56e" class="">通过 Swiper 实例调用方法，主动控制滑块（如切换到指定滑块、暂停自动播放）：</p></div><div style="display:contents" dir="auto"><pre id="6048db55-6aee-83ea-b217-01764687d3c6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const mySwiper = new Swiper(&#x27;.my-swiper&#x27;, { autoplay: { delay: 3000 }, loop: true });
+
+// 1. 暂停自动播放
+document.querySelector(&#x27;#pause-btn&#x27;).addEventListener(&#x27;click&#x27;, function() {
+  mySwiper.autoplay.pause();
+});
+
+// 2. 恢复自动播放
+document.querySelector(&#x27;#play-btn&#x27;).addEventListener(&#x27;click&#x27;, function() {
+  mySwiper.autoplay.start();
+});
+
+// 3. 切换到指定滑块（index 为索引，1 表示第 2 张，loop 模式下有效）
+document.querySelector(&#x27;#go-to-2&#x27;).addEventListener(&#x27;click&#x27;, function() {
+  mySwiper.slideTo(1, 1000); // 第二个参数是动画时长（毫秒）
+});
+
+// 4. 切换到下一张
+document.querySelector(&#x27;#next-btn&#x27;).addEventListener(&#x27;click&#x27;, function() {
+  mySwiper.slideNext();
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b828db55-6aee-82d5-8c78-81df88efe966" class="toggle"><li><details open=""><summary>Swiper扩展插件（高级功能）</summary><div style="display:contents" dir="auto"><p id="2d68db55-6aee-8250-9355-019c35b3daca" class="">Swiper 提供多个官方扩展插件，需额外引入或启用（部分已包含在 <code>swiper-bundle.min.js</code> 中）：</p></div><div style="display:contents" dir="ltr"><table id="0658db55-6aee-8345-a50f-817fa4f63816" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5028db55-6aee-8225-be42-0166e18d7ed1"><th id="mPxm" class="simple-table-header-color simple-table-header"><strong>插件名称</strong></th><th id="PmZ?" class="simple-table-header-color simple-table-header" style="width:538px"><strong>功能说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="18b8db55-6aee-8327-b328-813bc3a973fa"><td id="mPxm" class=""><code>Autoplay</code></td><td id="PmZ?" class="" style="width:538px">自动播放（基础插件，bundle 已包含）</td></tr></div><div style="display:contents" dir="ltr"><tr id="a878db55-6aee-8369-baa9-0188078d66c2"><td id="mPxm" class=""><code>Pagination</code></td><td id="PmZ?" class="" style="width:538px">分页器（基础插件，bundle 已包含）</td></tr></div><div style="display:contents" dir="ltr"><tr id="8ae8db55-6aee-8353-8e0c-811dd3b3e40a"><td id="mPxm" class=""><code>Navigation</code></td><td id="PmZ?" class="" style="width:538px">导航按钮（基础插件，bundle 已包含）</td></tr></div><div style="display:contents" dir="ltr"><tr id="83b8db55-6aee-8295-9e79-816ffb7e3aa8"><td id="mPxm" class=""><code>Scrollbar</code></td><td id="PmZ?" class="" style="width:538px">滚动条（基础插件，bundle 已包含）</td></tr></div><div style="display:contents" dir="ltr"><tr id="5858db55-6aee-82f3-ac68-01ce3904d5e3"><td id="mPxm" class=""><code>Zoom</code></td><td id="PmZ?" class="" style="width:538px">图片缩放（支持双击 / 手势缩放，bundle 已包含）</td></tr></div><div style="display:contents" dir="ltr"><tr id="b358db55-6aee-835c-9e82-81468906e557"><td id="mPxm" class=""><code>Lazy</code></td><td id="PmZ?" class="" style="width:538px">图片懒加载（延迟加载未显示的滑块图片，优化性能）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3d58db55-6aee-827c-b1de-010fa5343583"><td id="mPxm" class=""><code>EffectFade</code></td><td id="PmZ?" class="" style="width:538px">淡入淡出切换效果（替代默认的滑动效果）</td></tr></div><div style="display:contents" dir="ltr"><tr id="d808db55-6aee-8286-91be-818179c4d39f"><td id="mPxm" class=""><code>Parallax</code></td><td id="PmZ?" class="" style="width:538px">视差效果（滑块内元素随滑动产生不同速度的位移，增强视觉体验）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="ee48db55-6aee-82ef-b5db-81cd6fac212d" class="">淡入淡出效果：</p></div><div style="display:contents" dir="auto"><pre id="faa8db55-6aee-8329-8a82-011dbb5bdcdc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">new Swiper(&#x27;.my-swiper&#x27;, {
+  effect: &#x27;fade&#x27;, // 启用淡入淡出效果（默认 &#x27;slide&#x27; 滑动效果）
+  fadeEffect: {
+    crossFade: true, // 交叉淡入淡出（前后滑块同时显示过渡，默认 false）
+  },
+  autoplay: { delay: 3000 },
+  pagination: { el: &#x27;.swiper-pagination&#x27;, clickable: true },
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4568db55-6aee-83ef-a47f-01160ef77d96" class="toggle"><li><details open=""><summary>兼容性与优化</summary><div style="display:contents" dir="auto"><h3 id="a668db55-6aee-82fc-a2f5-81e0ac3f7596" class=""><strong>兼容性</strong></h3></div><div style="display:contents" dir="auto"><ul id="e328db55-6aee-8324-a1a7-8139aff7796f" class="bulleted-list"><li style="list-style-type:disc"><strong>浏览器支持</strong>：Swiper 11+ 支持 IE11+、Chrome、Firefox、Safari 及主流移动端浏览器；若需支持 IE9/10，需使用 Swiper 6 及以下版本。</li></ul></div><div style="display:contents" dir="auto"><ul id="e568db55-6aee-83d4-9465-019354e3dbec" class="bulleted-list"><li style="list-style-type:disc"><strong>移动端适配</strong>：建议在 <code>head</code> 中添加视口配置，确保滑动体验正常：<div style="display:contents" dir="auto"><pre id="9a68db55-6aee-8212-8d18-814111d7f356" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, minimum-scale=1&quot;&gt;</code></pre></div></li></ul></div><div style="display:contents" dir="auto"><h3 id="d338db55-6aee-820c-be9c-017055051fe4" class=""><strong>2. 性能优化</strong></h3></div><div style="display:contents" dir="auto"><ul id="9e08db55-6aee-836f-8fbc-01d5cabadf9c" class="bulleted-list"><li style="list-style-type:disc"><strong>图片懒加载</strong>：启用 <code>Lazy</code> 插件，避免一次性加载所有图片：<div style="display:contents" dir="auto"><pre id="47b8db55-6aee-83ee-b20b-01e83626b306" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- HTML：图片 src 改为 data-src，添加 .swiper-lazy 类 --&gt;
+&lt;img class=&quot;swiper-lazy&quot; data-src=&quot;https://picsum.photos/800/400?1&quot; alt=&quot;轮播图1&quot;&gt;&lt;!-- 加载占位图（可选） --&gt;
+&lt;div class=&quot;swiper-lazy-preloader&quot;&gt;&lt;/div&gt;</code></pre></div><div style="display:contents" dir="ltr"><figure id="b118db55-6aee-83c0-ba9b-016e7fd81cf9" class="image"><a href="data:image/png;base64,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"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAwCAYAAADab77TAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAjBSURBVHgB7VxNUxNJGO7EoIIGygoHQi0HPbBWeWEN+LFlKRdvsHf9AXBf9y7eZe/wA5a7cPNg3LJ2VYjFxdLiwFatVcBBDhAENfjxPO3bY2cyM/maiYnOU5VMT0/PTE+/3+9Md0LViJWVla6PHz8OHB4e9h8/fjyNbQ+qu1SMVqCUSqX2Mea7KG8nk8mt0dHRUi0nJqo1AGF7cPHT79+/H1IxQdsJr0DoNRB6P6iRL4EpsZ8+ffoZv9NW9TZ+Wzs7O9unTp3ar5WLYjQH0uLDhw+9iUSiD7sD+GXMsaNHj65Dstf8aJHwuWAPuOOyqGGiJm6J0RqQPjCXwygOSdU+6POvF30qCHz//v2+TCYzSuKCaw729vaWr1+/vqNitB2E0L+i2I3fPsrLly5d2rXbJNwnWJJLqX0eq+H2hji/I+qL6q6Q5ITdEAevCnG3Lly4sKxidAyePn1KIlNlk8h/G8FMmgZ0qIxaRoNVFaOjQG2LzQF+jHqGnXr+UTUbb7mrq+ufWC13HkgzRDda6yKkPUOasqwJLB4Z8Sr2lDsX4gy/Ypm5C26TtL1K3G2GQipGR8PQkIkp7Vcx/SjHtmPp7XwIDZmQ0qnllPqaFdlSPyiWl5dvgPPTGJC1sbGxvIoAjx49Sh87duwuy/B3lhClLK6urg6XSqWb6XR69uzZs0UVHkjLDN8bkMBMf6k3b97squ8cUFmLGNyNI0eO5M+fP79g6pECvIn6LIpL+OVVRMB9ctyCmQpPnjwZBgH+Qp1CMin37NmzafRpQ4UAppL7+vpoh3tTCIt68MAKXBRZtorcizdQD7yO4QE3crncb0HngzA8N232QYwCJG1a1QFKCwY0i/tleb5qMa5cuVLEczj7Fy9eXEPsegfE/h27WdDhNrZ1PZMf+J4A2ojF7hSISylWUYZGSIiP+x3DYA++fPkyXUVFpVWTgCrMUVoEoRKYzAMCVe0jnlVvMfiDhUKB0ryB8gL6dYNqm3WgR3FkZKQpZ5e0BPOw2JVSLQA6PWEezgswD+PYLKoagQGp217hnElTxqBOwu5OWodPSpsc6mf8rvHu3bt5SGKFGoVmmMUmq2rvC8djQsq6DpJ8m2MERiTzhSLJROQEhm0ZxIDmgtrgwYb9jkG9D3q031P198G5BwfYp2k24Jjq7u4mE4ZiJ1uFyAkM7s6BO8vqMIgFECln7V/DZrbGS9YtwVCfU5Z63vRoYqSP162LeVzIv3379k+/g/BD5ngv+gDQBndUCxA5gT3Ucx6/h/g5BA6yw5CarFu910Ngkd4JuY+nc0bvWn0Z+Ic4PqMaBDWLlwq37sN+k5nSdrsafJCGkVQRgoNrSyqBwX54cHBQ4eSIHQ4duN+cKUOTzKtviw3px0lTwTFCmPQAtn+OZRUyIpVgqMZrlmokigzwWQA3U1U6jkmQHXajVgmGJ3nL3INeKrzLSMOjACctLwmUTemLQ0hjwniuTfiwEKkEM4Fg71MFWuWCq+01n8s05GQx9sZmnGVI8SY9YBU9tJPm/oFwmnmZZLH6p5+LJsz0sdnwyAuRSbBJLNh1eNBFq1wwoQJRYzysgcGo2oaJBQziNGLwOSTep5EmHEac6ekh494mTGKbKa821Bp29ssHRbRbs65bZp74IsD4E+wPVLKyIoxIGDAyAjPH6lbPsL2bVthT4Yz4xMMV8SUGqiYVLY6MjnehOqdshvLBcICp4LX8CKwZhBoKZmDGVK58TV1p1YznX4MnrSuokmHCxs0YgQkjMR+REdjkXS0wXXnP7HglPuqxw20GncUC4wXGyNQq0BAmRGRmzajupSDvuxlEQmCm3CR5XxfcKk3qKlKA1ASqTkj4M+N1zAqTluoNk8TWa9jOnytBYxOPksrndJg5Sv8gEieLqUDVAMjRtMN2nReB2wmI0x1Coa+O/T0JeLUHcy7Z+zhnPirpJSKRYA/1nEddhf0CI6RRf9euKxaLPDdvXatioPr7+yNJCjQCpkCNHcXW0Sz2y40TJ044hIdzVRYtQGNo6RWndBbXmzehZBgIncBwZsaVyzFi+s6PS93xsDBH3tpPu+11VFmfRmCYmWEOX0Xiee7Zx1lv+ou4fBJtbtnH+bEBiLwAhhjk+XzpAPVeCEuqo1DR4/YO1VZQZ93xsJcdbldI5mmcZebX8V6bz2IzH8MmnWNn+EXimQMkvJw3xeuYWJn1YarsUCWYDof7bQwIFhg7uuNhY4cN17ttMD8QUDVCJKZaaERk5drMRM0FNaQjhVDoD+nbhPUcWq0i9JlOpVK6zwyLaKN5TZtxQcQ7SHBsoI73Sks61cTioYZLoRLY68V+tfiOeWkTGxq47HDDThYGMVunRtBffAQ1MAxGZsa1tTNJqYPd1M/JLzVMW4m9nTdZbIf9W6YNjs+KynbuaSeDwgA/2TnkVx38xLLZrzrcb46ofqupGx6Xtyx2uGETuMzJMqqtFuDZNtGnUCXC3F9iWn7jxcyXZ5iD8GcBTD8JopGAC2B2esyOCqfthZZh2nXKtBE13xRkvhKLpQRuQK+uV+azxLMI6wRj/iCi8OM6quxqhGPcHJbtffHiRQZakLMOdxNQE7+AC3/CznOomXUVo+MBoT2DzTnFGaIg7mupH1Axvhc4kxmSXNCDdhg7GTNhKUbnQmiYYZm0TdKxgo3QE5bsD9NidCZcEwlLOtEBr9XY3qHHjx/3qhgdCZHesomEmsAyYWldDozJjMMYHQRZoeGy7K6biYROqlIormeIQ8zPqRgdBa7TYa3Q4CRbKhZhsVZt2eJSDvFs//aGJDUokEMkrqzQ4EwDLnvZwAOyDAAleQAnXo096/YFl7ziwjlKiMslr9xzvH0XQrMkmYgXQmsjuBdC85Jcg8ClDOUiZ6xqvZQhiM25xDux+m4NxOklURnfli1lCKyL8NW+lKHr4u5l82J8YzAxhdeQ/8Op+q/hxUjdMMsJqy/c0ycTx1sy/fRHh7zx08sJIyn1up7lhD8DfU3/IDqhNFQAAAAASUVORK5CYII="/></a></figure></div><div style="display:contents" dir="auto"><pre id="3888db55-6aee-826d-827a-014fdc88339d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// JS：启用 Lazy 插件
+new Swiper(&#x27;.my-swiper&#x27;, {
+  lazy: {
+    loadPrevNext: true, // 预加载前后一张图片
+  },
+});</code></pre></div><div style="display:contents" dir="ltr"><figure id="8588db55-6aee-8384-98d1-8137224a16a6" class="image"><a href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAwCAYAAADab77TAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAjBSURBVHgB7VxNUxNJGO7EoIIGygoHQi0HPbBWeWEN+LFlKRdvsHf9AXBf9y7eZe/wA5a7cPNg3LJ2VYjFxdLiwFatVcBBDhAENfjxPO3bY2cyM/maiYnOU5VMT0/PTE+/3+9Md0LViJWVla6PHz8OHB4e9h8/fjyNbQ+qu1SMVqCUSqX2Mea7KG8nk8mt0dHRUi0nJqo1AGF7cPHT79+/H1IxQdsJr0DoNRB6P6iRL4EpsZ8+ffoZv9NW9TZ+Wzs7O9unTp3ar5WLYjQH0uLDhw+9iUSiD7sD+GXMsaNHj65Dstf8aJHwuWAPuOOyqGGiJm6J0RqQPjCXwygOSdU+6POvF30qCHz//v2+TCYzSuKCaw729vaWr1+/vqNitB2E0L+i2I3fPsrLly5d2rXbJNwnWJJLqX0eq+H2hji/I+qL6q6Q5ITdEAevCnG3Lly4sKxidAyePn1KIlNlk8h/G8FMmgZ0qIxaRoNVFaOjQG2LzQF+jHqGnXr+UTUbb7mrq+ufWC13HkgzRDda6yKkPUOasqwJLB4Z8Sr2lDsX4gy/Ypm5C26TtL1K3G2GQipGR8PQkIkp7Vcx/SjHtmPp7XwIDZmQ0qnllPqaFdlSPyiWl5dvgPPTGJC1sbGxvIoAjx49Sh87duwuy/B3lhClLK6urg6XSqWb6XR69uzZs0UVHkjLDN8bkMBMf6k3b97squ8cUFmLGNyNI0eO5M+fP79g6pECvIn6LIpL+OVVRMB9ctyCmQpPnjwZBgH+Qp1CMin37NmzafRpQ4UAppL7+vpoh3tTCIt68MAKXBRZtorcizdQD7yO4QE3crncb0HngzA8N232QYwCJG1a1QFKCwY0i/tleb5qMa5cuVLEczj7Fy9eXEPsegfE/h27WdDhNrZ1PZMf+J4A2ojF7hSISylWUYZGSIiP+x3DYA++fPkyXUVFpVWTgCrMUVoEoRKYzAMCVe0jnlVvMfiDhUKB0ryB8gL6dYNqm3WgR3FkZKQpZ5e0BPOw2JVSLQA6PWEezgswD+PYLKoagQGp217hnElTxqBOwu5OWodPSpsc6mf8rvHu3bt5SGKFGoVmmMUmq2rvC8djQsq6DpJ8m2MERiTzhSLJROQEhm0ZxIDmgtrgwYb9jkG9D3q031P198G5BwfYp2k24Jjq7u4mE4ZiJ1uFyAkM7s6BO8vqMIgFECln7V/DZrbGS9YtwVCfU5Z63vRoYqSP162LeVzIv3379k+/g/BD5ngv+gDQBndUCxA5gT3Ucx6/h/g5BA6yw5CarFu910Ngkd4JuY+nc0bvWn0Z+Ic4PqMaBDWLlwq37sN+k5nSdrsafJCGkVQRgoNrSyqBwX54cHBQ4eSIHQ4duN+cKUOTzKtviw3px0lTwTFCmPQAtn+OZRUyIpVgqMZrlmokigzwWQA3U1U6jkmQHXajVgmGJ3nL3INeKrzLSMOjACctLwmUTemLQ0hjwniuTfiwEKkEM4Fg71MFWuWCq+01n8s05GQx9sZmnGVI8SY9YBU9tJPm/oFwmnmZZLH6p5+LJsz0sdnwyAuRSbBJLNh1eNBFq1wwoQJRYzysgcGo2oaJBQziNGLwOSTep5EmHEac6ekh494mTGKbKa821Bp29ssHRbRbs65bZp74IsD4E+wPVLKyIoxIGDAyAjPH6lbPsL2bVthT4Yz4xMMV8SUGqiYVLY6MjnehOqdshvLBcICp4LX8CKwZhBoKZmDGVK58TV1p1YznX4MnrSuokmHCxs0YgQkjMR+REdjkXS0wXXnP7HglPuqxw20GncUC4wXGyNQq0BAmRGRmzajupSDvuxlEQmCm3CR5XxfcKk3qKlKA1ASqTkj4M+N1zAqTluoNk8TWa9jOnytBYxOPksrndJg5Sv8gEieLqUDVAMjRtMN2nReB2wmI0x1Coa+O/T0JeLUHcy7Z+zhnPirpJSKRYA/1nEddhf0CI6RRf9euKxaLPDdvXatioPr7+yNJCjQCpkCNHcXW0Sz2y40TJ044hIdzVRYtQGNo6RWndBbXmzehZBgIncBwZsaVyzFi+s6PS93xsDBH3tpPu+11VFmfRmCYmWEOX0Xiee7Zx1lv+ou4fBJtbtnH+bEBiLwAhhjk+XzpAPVeCEuqo1DR4/YO1VZQZ93xsJcdbldI5mmcZebX8V6bz2IzH8MmnWNn+EXimQMkvJw3xeuYWJn1YarsUCWYDof7bQwIFhg7uuNhY4cN17ttMD8QUDVCJKZaaERk5drMRM0FNaQjhVDoD+nbhPUcWq0i9JlOpVK6zwyLaKN5TZtxQcQ7SHBsoI73Sks61cTioYZLoRLY68V+tfiOeWkTGxq47HDDThYGMVunRtBffAQ1MAxGZsa1tTNJqYPd1M/JLzVMW4m9nTdZbIf9W6YNjs+KynbuaSeDwgA/2TnkVx38xLLZrzrcb46ofqupGx6Xtyx2uGETuMzJMqqtFuDZNtGnUCXC3F9iWn7jxcyXZ5iD8GcBTD8JopGAC2B2esyOCqfthZZh2nXKtBE13xRkvhKLpQRuQK+uV+azxLMI6wRj/iCi8OM6quxqhGPcHJbtffHiRQZakLMOdxNQE7+AC3/CznOomXUVo+MBoT2DzTnFGaIg7mupH1Axvhc4kxmSXNCDdhg7GTNhKUbnQmiYYZm0TdKxgo3QE5bsD9NidCZcEwlLOtEBr9XY3qHHjx/3qhgdCZHesomEmsAyYWldDozJjMMYHQRZoeGy7K6biYROqlIormeIQ8zPqRgdBa7TYa3Q4CRbKhZhsVZt2eJSDvFs//aGJDUokEMkrqzQ4EwDLnvZwAOyDAAleQAnXo096/YFl7ziwjlKiMslr9xzvH0XQrMkmYgXQmsjuBdC85Jcg8ClDOUiZ6xqvZQhiM25xDux+m4NxOklURnfli1lCKyL8NW+lKHr4u5l82J8YzAxhdeQ/8Op+q/hxUjdMMsJqy/c0ycTx1sy/fRHh7zx08sJIyn1up7lhD8DfU3/IDqhNFQAAAAASUVORK5CYII="><img src="data:image/png;base64,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"/></a></figure></div></li></ul></div><div style="display:contents" dir="auto"><ul id="7a78db55-6aee-82ad-921c-01dbe3d49934" class="bulleted-list"><li style="list-style-type:disc"><strong>减少滑块数量</strong>：若轮播图滑块过多（如 100+），建议使用 <code>loop: false</code> 并配合分页器，避免 DOM 元素过多导致性能问题。</li></ul></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

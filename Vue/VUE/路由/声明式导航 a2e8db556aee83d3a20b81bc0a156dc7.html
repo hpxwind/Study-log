@@ -1,0 +1,1124 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>声明式导航</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="a2e8db55-6aee-83d3-a20b-81bc0a156dc7" class="page serif"><header><h1 class="page-title" dir="auto">声明式导航</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="6098db55-6aee-82ac-97f7-81d461aa47c4" class=""><strong>声明式导航</strong>是指通过在模板中使用特定的组件或指令来声明导航链接的方式。在 Vue Router 中，主要通过 <code>&lt;router-link&gt;</code>组件来实现声明式导航。</p></div><div style="display:contents" dir="auto"><hr id="2a98db55-6aee-82d3-83a7-819d88417b4a"/></div><div style="display:contents" dir="auto"><ul id="53d8db55-6aee-823c-943c-81a439b7e8ab" class="toggle"><li><details open=""><summary>核心特点</summary><div style="display:contents" dir="auto"><ul id="0538db55-6aee-824d-a50c-01d88baf076d" class="bulleted-list"><li style="list-style-type:disc"><strong>声明式</strong>：告诉程序&quot;要做什么&quot;，而不是&quot;怎么做&quot;</li></ul></div><div style="display:contents" dir="auto"><ul id="c9d8db55-6aee-8314-8c50-01f3c93c339f" class="bulleted-list"><li style="list-style-type:disc"><strong>组件化</strong>：使用专门的导航组件</li></ul></div><div style="display:contents" dir="auto"><ul id="24c8db55-6aee-82d7-89ee-813a3e396023" class="bulleted-list"><li style="list-style-type:disc"><strong>响应式</strong>：自动处理活动状态样式</li></ul></div><div style="display:contents" dir="auto"><ul id="58a8db55-6aee-83c5-aab5-817e3da3aed5" class="bulleted-list"><li style="list-style-type:disc"><strong>语义化</strong>：代码可读性强</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3468db55-6aee-82b9-a445-014b80e8f606" class="toggle"><li><details open=""><summary><strong>声明式导航 vs 编程式导航</strong></summary><div style="display:contents" dir="ltr"><table id="6f08db55-6aee-82a0-8c4a-0107a5f4817e" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="a288db55-6aee-8218-99cf-0154173f8ddb"><th id="T&gt;kv" class="simple-table-header-color simple-table-header"><strong>特性</strong></th><th id="a@?@" class="simple-table-header-color simple-table-header"><strong>声明式导航</strong></th><th id="QNHc" class="simple-table-header-color simple-table-header"><strong>编程式导航</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="da68db55-6aee-830b-8edf-017784ebbe4c"><td id="T&gt;kv" class=""><strong>实现方式</strong></td><td id="a@?@" class=""><code>&lt;router-link&gt;</code>组件</td><td id="QNHc" class=""><code>this.$router.push()</code>等方法</td></tr></div><div style="display:contents" dir="ltr"><tr id="7c48db55-6aee-8393-adaf-81fed7dd16b8"><td id="T&gt;kv" class=""><strong>使用场景</strong></td><td id="a@?@" class="">模板中的固定导航链接</td><td id="QNHc" class="">事件触发、条件跳转</td></tr></div><div style="display:contents" dir="ltr"><tr id="0268db55-6aee-8224-94cd-01be0e46d466"><td id="T&gt;kv" class=""><strong>代码位置</strong></td><td id="a@?@" class="">模板（Template）</td><td id="QNHc" class="">脚本（Script）</td></tr></div><div style="display:contents" dir="ltr"><tr id="95c8db55-6aee-832d-915c-015b039c67a5"><td id="T&gt;kv" class=""><strong>活动状态</strong></td><td id="a@?@" class="">自动处理</td><td id="QNHc" class="">需要手动处理</td></tr></div><div style="display:contents" dir="ltr"><tr id="4a18db55-6aee-8311-8d97-01123a42c340"><td id="T&gt;kv" class=""><strong>可读性</strong></td><td id="a@?@" class="">高，语义化强</td><td id="QNHc" class="">相对较低</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3458db55-6aee-829f-809f-01a3f40c5bdf" class="toggle"><li><details open=""><summary>基本语法</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="e8a8db55-6aee-83e6-9d60-81a6679ada8c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 最基本的声明式导航 --&gt;
+    &lt;router-link to=&quot;/home&quot;&gt;首页&lt;/router-link&gt;
+    
+    &lt;!-- 相当于传统的 a 标签 --&gt;
+    &lt;a href=&quot;/home&quot;&gt;首页（传统方式）&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="71f8db55-6aee-827e-b68f-81dc2f1796e6" class=""><code>&lt;router-link&gt;会被编译成&lt;a&gt;标签</code></p></div><div style="display:contents" dir="auto"><pre id="8b68db55-6aee-8292-8a41-814110840114" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 编译前 --&gt;
+&lt;router-link to=&quot;/home&quot;&gt;首页&lt;/router-link&gt;
+
+&lt;!-- 编译后 --&gt;
+&lt;a href=&quot;/home&quot; class=&quot;router-link-active&quot;&gt;首页&lt;/a&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bb18db55-6aee-8236-9a97-81801fe4dd44" class="toggle"><li><details open=""><summary><code><strong>&lt;router-link&gt;</strong></code><strong>的多种用法</strong></summary><div style="display:contents" dir="auto"><ol type="1" id="9918db55-6aee-8396-adb6-017dc8fbcaf8" class="numbered-list" start="1"><li>字符串路径</li></ol></div><div style="display:contents" dir="auto"><pre id="49c8db55-6aee-8380-937e-01d8bff35c32" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;nav&gt;
+    &lt;router-link to=&quot;/&quot;&gt;首页&lt;/router-link&gt;
+    &lt;router-link to=&quot;/about&quot;&gt;关于&lt;/router-link&gt;
+    &lt;router-link to=&quot;/contact&quot;&gt;联系&lt;/router-link&gt;
+  &lt;/nav&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="1f38db55-6aee-82b3-b523-81a5e61f8392" class="numbered-list" start="2"><li>对象配置（常用，推荐）</li></ol></div><div style="display:contents" dir="auto"><pre id="acf8db55-6aee-8249-9f08-81787a7ef0db" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;nav&gt;
+    &lt;!-- 使用命名路由 --&gt;
+    &lt;router-link :to=&quot;{ name: &#x27;Home&#x27; }&quot;&gt;首页&lt;/router-link&gt;
+    
+    &lt;!-- 使用路径 --&gt;
+    &lt;router-link :to=&quot;{ path: &#x27;/about&#x27; }&quot;&gt;关于&lt;/router-link&gt;
+    
+    &lt;!-- 带查询参数 --&gt;
+    &lt;router-link :to=&quot;{ path: &#x27;/search&#x27;, query: { keyword: &#x27;vue&#x27;, page: 1 } }&quot;&gt;
+      搜索Vue
+    &lt;/router-link&gt;
+    
+    &lt;!-- 带动态参数 --&gt;
+    &lt;router-link :to=&quot;{ name: &#x27;User&#x27;, params: { id: 123 } }&quot;&gt;
+      用户123
+    &lt;/router-link&gt;
+  &lt;/nav&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="9578db55-6aee-8304-b2d0-0139dd9d5c2f" class="numbered-list" start="3"><li>动态路径参数</li></ol></div><div style="display:contents" dir="auto"><pre id="4be8db55-6aee-836e-a6a6-81fc49a1b24b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 动态用户ID --&gt;
+    &lt;router-link :to=&quot;`/user/${userId}`&quot;&gt;我的主页&lt;/router-link&gt;
+    
+    &lt;!-- 对象形式的动态参数 --&gt;
+    &lt;router-link :to=&quot;{ name: &#x27;Product&#x27;, params: { id: productId } }&quot;&gt;
+      {{ productName }}
+    &lt;/router-link&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      userId: 123,
+      productId: 456,
+      productName: &#x27;Vue教程&#x27;
+    }
+  }
+}
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d008db55-6aee-823d-958c-012ae3c44a9f" class="toggle"><li><details open=""><summary>重要属性</summary><div style="display:contents" dir="auto"><ol type="1" id="5388db55-6aee-8309-8f02-81f5c1a2a2a7" class="numbered-list" start="1"><li>to属性</li></ol></div><div style="display:contents" dir="auto"><pre id="0688db55-6aee-837e-940f-0199e1c964de" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 字符串形式 --&gt;
+    &lt;router-link to=&quot;/user/123/profile&quot;&gt;用户资料&lt;/router-link&gt;
+    
+    &lt;!-- 对象形式（更灵活） --&gt;
+    &lt;router-link :to=&quot;{
+      name: &#x27;UserProfile&#x27;,
+      params: { id: 123 },
+      query: { tab: &#x27;settings&#x27; }
+    }&quot;&gt;用户设置&lt;/router-link&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="dd18db55-6aee-83a4-97a9-8179c2b53903" class="numbered-list" start="2"><li>活动状态类名</li></ol></div><div style="display:contents" dir="auto"><p id="4ac8db55-6aee-82c4-b074-0106d8ebeddf" class="">自动为当前活动路由添加样式类。</p></div><div style="display:contents" dir="auto"><pre id="ced8db55-6aee-833a-a0e7-018ff4790c38" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;nav&gt;
+    &lt;router-link 
+      to=&quot;/home&quot;
+      active-class=&quot;active-link&quot;
+      exact-active-class=&quot;exact-active-link&quot;
+    &gt;
+      首页
+    &lt;/router-link&gt;
+  &lt;/nav&gt;
+&lt;/template&gt;
+
+&lt;style&gt;
+.active-link {
+  color: #42b983;
+  font-weight: bold;
+}
+
+.exact-active-link {
+  color: #ff6b6b;
+  border-bottom: 2px solid #ff6b6b;
+}
+&lt;/style&gt;</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="e008db55-6aee-8342-aa42-812fa19db9d2" class="numbered-list" start="3"><li>精确匹配模式</li></ol></div><div style="display:contents" dir="auto"><pre id="fc08db55-6aee-8284-a0fd-81828a63eff7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 精确匹配：只有路径完全相同时才激活 --&gt;
+    &lt;router-link to=&quot;/&quot; exact&gt;首页（精确匹配）&lt;/router-link&gt;
+    
+    &lt;!-- 非精确匹配：路径包含时即激活 --&gt;
+    &lt;router-link to=&quot;/user&quot; active-class=&quot;active&quot;&gt;用户（包含匹配）&lt;/router-link&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="0618db55-6aee-8201-b160-01d4f4db55bc" class="numbered-list" start="4"><li>自定义标签和样式</li></ol></div><div style="display:contents" dir="auto"><pre id="c258db55-6aee-838e-a1c2-8129237beddf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 渲染为 button 标签 --&gt;
+    &lt;router-link to=&quot;/home&quot; tag=&quot;button&quot; class=&quot;btn&quot;&gt;
+      按钮式导航
+    &lt;/router-link&gt;
+    
+    &lt;!-- 渲染为 li 标签 --&gt;
+    &lt;router-link to=&quot;/about&quot; tag=&quot;li&quot; active-class=&quot;active&quot;&gt;
+      &lt;a&gt;关于我们&lt;/a&gt;
+    &lt;/router-link&gt;
+    
+    &lt;!-- 自定义事件 --&gt;
+    &lt;router-link to=&quot;/contact&quot; event=&quot;dblclick&quot;&gt;
+      双击跳转
+    &lt;/router-link&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="26a8db55-6aee-82a7-b526-01d65e6eb747" class="toggle"><li><details open=""><summary>vue4（vue3.1.0+）高级用法</summary><div style="display:contents" dir="auto"><p id="dfd8db55-6aee-8354-98a5-811c58ef3324" class="">作用域插槽</p></div><div style="display:contents" dir="auto"><pre id="3668db55-6aee-83e1-ad8c-81434e276c5b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;router-link 
+      to=&quot;/dashboard&quot; 
+      custom
+      v-slot=&quot;{ href, route, navigate, isActive, isExactActive }&quot;
+    &gt;
+      &lt;a 
+        :href=&quot;href&quot; 
+        @click=&quot;navigate&quot;
+        :class=&quot;{ 
+          &#x27;nav-item&#x27;: true, 
+          &#x27;active&#x27;: isActive,
+          &#x27;exact-active&#x27;: isExactActive 
+        }&quot;
+      &gt;
+        📊 仪表板
+        &lt;span v-if=&quot;isActive&quot; class=&quot;indicator&quot;&gt;●&lt;/span&gt;
+      &lt;/a&gt;
+    &lt;/router-link&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  methods: {
+    handleNavigation(event, navigate) {
+      // 自定义导航逻辑
+      if (this.hasUnsavedChanges) {
+        event.preventDefault()
+        if (confirm(&#x27;确定要离开吗？&#x27;)) {
+          navigate()
+        }
+      } else {
+        navigate()
+      }
+    }
+  }
+}
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="5c78db55-6aee-83a2-a5b2-01bed5e5c0b9" class="">导航首位集成</p></div><div style="display:contents" dir="auto"><pre id="9d28db55-6aee-8317-864c-01dd32114800" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;router-link 
+      to=&quot;/protected&quot;
+      @click.native=&quot;checkPermission&quot;
+    &gt;
+      需要权限的页面
+    &lt;/router-link&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  methods: {
+    checkPermission(event) {
+      if (!this.$store.state.isLoggedIn) {
+        event.preventDefault()
+        this.$router.push(&#x27;/login&#x27;)
+      }
+    }
+  }
+}
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f378db55-6aee-82c9-af3a-0134a9b546fc" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><p id="0ff8db55-6aee-8264-99f5-01add078eca9" class="">1、导航菜单组件</p></div><div style="display:contents" dir="auto"><pre id="9308db55-6aee-8247-afb9-01305f8a7f06" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;nav class=&quot;main-navigation&quot;&gt;
+    &lt;ul class=&quot;nav-list&quot;&gt;
+      &lt;li v-for=&quot;item in navItems&quot; :key=&quot;item.name&quot; class=&quot;nav-item&quot;&gt;
+        &lt;router-link 
+          :to=&quot;item.to&quot;
+          :class=&quot;[&#x27;nav-link&#x27;, { &#x27;has-notification&#x27;: item.hasNotification }]&quot;
+          active-class=&quot;active&quot;
+          exact
+        &gt;
+          &lt;span class=&quot;icon&quot;&gt;{{ item.icon }}&lt;/span&gt;
+          &lt;span class=&quot;text&quot;&gt;{{ item.text }}&lt;/span&gt;
+          &lt;span v-if=&quot;item.hasNotification&quot; class=&quot;notification-badge&quot;&gt;&lt;/span&gt;
+        &lt;/router-link&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      navItems: [
+        { 
+          name: &#x27;home&#x27;, 
+          text: &#x27;首页&#x27;, 
+          icon: &#x27;🏠&#x27;, 
+          to: &#x27;/&#x27;,
+          hasNotification: false
+        },
+        { 
+          name: &#x27;messages&#x27;, 
+          text: &#x27;消息&#x27;, 
+          icon: &#x27;💬&#x27;, 
+          to: &#x27;/messages&#x27;,
+          hasNotification: true
+        },
+        { 
+          name: &#x27;profile&#x27;, 
+          text: &#x27;个人资料&#x27;, 
+          icon: &#x27;👤&#x27;, 
+          to: { name: &#x27;Profile&#x27; }
+        }
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+.main-navigation {
+  background: #2c3e50;
+  padding: 1rem;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.nav-link:hover {
+  background: #34495e;
+}
+
+.nav-link.active {
+  background: #3498db;
+  color: white;
+}
+
+.has-notification::after {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 8px;
+  height: 8px;
+  background: #e74c3c;
+  border-radius: 50%;
+}
+
+.notification-badge {
+  background: #e74c3c;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+}
+&lt;/style&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="2bb8db55-6aee-8393-8554-81df2f2c88e9" class="">2、面包屑导航</p></div><div style="display:contents" dir="auto"><pre id="d648db55-6aee-8298-b20e-01956e0d908b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;nav class=&quot;breadcrumb&quot;&gt;
+    &lt;router-link 
+      v-for=&quot;(item, index) in breadcrumbs&quot; 
+      :key=&quot;index&quot;
+      :to=&quot;item.to&quot;
+      :class=&quot;[&#x27;breadcrumb-item&#x27;, { &#x27;active&#x27;: item.active }]&quot;
+    &gt;
+      {{ item.text }}
+      &lt;span v-if=&quot;!item.active&quot; class=&quot;separator&quot;&gt;/&lt;/span&gt;
+    &lt;/router-link&gt;
+  &lt;/nav&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  computed: {
+    breadcrumbs() {
+      const route = this.$route
+      const crumbs = []
+      
+      // 首页面包屑
+      crumbs.push({
+        text: &#x27;首页&#x27;,
+        to: &#x27;/&#x27;,
+        active: route.path === &#x27;/&#x27;
+      })
+      
+      // 动态生成面包屑
+      if (route.path.includes(&#x27;/product&#x27;)) {
+        crumbs.push({
+          text: &#x27;产品详情&#x27;,
+          to: route.path,
+          active: true
+        })
+      }
+      
+      return crumbs
+    }
+  }
+}
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+}
+
+.breadcrumb-item {
+  color: #6c757d;
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: #495057;
+  font-weight: bold;
+}
+
+.breadcrumb-item:not(.active):hover {
+  color: #007bff;
+}
+
+.separator {
+  margin-left: 0.5rem;
+  color: #6c757d;
+}
+&lt;/style&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d308db55-6aee-8212-bc41-014b730a8743" class="toggle"><li><details open=""><summary>优化</summary><div style="display:contents" dir="auto"><ol type="1" id="7978db55-6aee-82f7-9459-01933c367074" class="numbered-list" start="1"><li>性能优化</li></ol></div><div style="display:contents" dir="auto"><pre id="c2c8db55-6aee-83b1-be9c-81de999b5661" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 避免不必要的重新渲染 --&gt;
+    &lt;router-link 
+      v-for=&quot;item in menuItems&quot; 
+      :key=&quot;item.id&quot;
+      :to=&quot;item.path&quot;
+      custom
+      v-slot=&quot;{ isActive, navigate }&quot;
+    &gt;
+      &lt;button 
+        @click=&quot;navigate&quot;
+        :class=&quot;{ &#x27;active&#x27;: isActive }&quot;
+        :disabled=&quot;item.disabled&quot;
+      &gt;
+        {{ item.title }}
+      &lt;/button&gt;
+    &lt;/router-link&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="adb8db55-6aee-820f-9837-01b83f09ddfa" class="numbered-list" start="2"><li>可访问性</li></ol></div><div style="display:contents" dir="auto"><pre id="9648db55-6aee-82e4-ba90-018e0fd9608e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;nav aria-label=&quot;主导航&quot;&gt;
+    &lt;router-link 
+      to=&quot;/main&quot;
+      aria-current=&quot;page&quot;
+      role=&quot;link&quot;
+      tabindex=&quot;0&quot;
+    &gt;
+      主要内容
+    &lt;/router-link&gt;
+  &lt;/nav&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

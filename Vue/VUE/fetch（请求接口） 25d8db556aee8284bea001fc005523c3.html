@@ -1,0 +1,1008 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>fetch（请求接口）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="25d8db55-6aee-8284-bea0-01fc005523c3" class="page mono"><header><h1 class="page-title" dir="auto">fetch（请求接口）</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="ffe8db55-6aee-83b1-ad4d-818c795a71f6" class="">在 Vue 中，<code>fetch</code> 是一种用于发起网络请求的<strong>原生 JavaScript API</strong>（并非 Vue 专属），常用于从后端接口获取数据或提交数据。它基于 Promise 设计，语法简洁，替代了传统的<code>XMLHttpRequest</code>，在 Vue 项目中被广泛用于异步数据交互。</p></div><div style="display:contents" dir="auto"><hr id="0928db55-6aee-823d-bd48-010844084c5d"/></div><div style="display:contents" dir="auto"><ul id="b358db55-6aee-822c-a0cd-01bce18c786e" class="toggle"><li><details open=""><summary>基础语法</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="9878db55-6aee-82c7-87ea-012019245fe4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">fetch(url, options)
+  .then(response =&gt; {
+    // 处理响应（如解析为JSON、文本等）
+    return response.json(); // 解析为JSON格式
+  })
+  .then(data =&gt; {
+    // 处理解析后的数据
+    console.log(data);
+  })
+  .catch(error =&gt; {
+    // 捕获错误（如网络错误）
+    console.error(&#x27;请求失败:&#x27;, error);
+  });</code></pre></div><div style="display:contents" dir="auto"><ul id="5bd8db55-6aee-82da-beb4-817e79b94055" class="bulleted-list"><li style="list-style-type:disc"><code><strong>url</strong></code>：必选，请求的接口地址（字符串）。</li></ul></div><div style="display:contents" dir="auto"><ul id="5668db55-6aee-8206-b803-8146f39690b2" class="bulleted-list"><li style="list-style-type:disc"><code><strong>options</strong></code>：可选，配置对象，包含请求方法、 headers、body 等。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8538db55-6aee-83ca-9d06-816e414c9f8f" class="toggle"><li><details open=""><summary>在Vue中的典型用法</summary><div style="display:contents" dir="auto"><p id="06b8db55-6aee-83dd-811d-81e57336286a" class="">在 Vue 组件中，<code>fetch</code> 通常用于<strong>生命周期钩子</strong>（如<code>created</code>、<code>mounted</code>）或<strong>事件方法</strong>（如按钮点击）中，用于获取数据并更新组件状态。</p></div><div style="display:contents" dir="auto"><p id="61c8db55-6aee-82b9-bd4b-81436b93bc6e" class="">获取数据：</p></div><div style="display:contents" dir="auto"><pre id="c188db55-6aee-83ce-8766-819eb307f395" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;ul&gt;
+      &lt;li v-for=&quot;user in users&quot; :key=&quot;user.id&quot;&gt;
+        {{ user.name }} - {{ user.email }}
+      &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p v-if=&quot;loading&quot;&gt;加载中...&lt;/p&gt;
+    &lt;p v-if=&quot;error&quot;&gt;{{ error }}&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      users: [], // 存储接口返回的用户数据
+      loading: false, // 加载状态
+      error: &#x27;&#x27; // 错误信息
+    };
+  },
+  created() {
+    // 组件创建后发起请求（适合初始化数据）
+    this.fetchUsers();
+  },
+  methods: {
+    fetchUsers() {
+      this.loading = true; // 开始加载
+      this.error = &#x27;&#x27;; // 清空错误
+
+      // 发起GET请求
+      fetch(&#x27;https://api.example.com/users&#x27;)
+        .then(response =&gt; {
+          // 检查HTTP响应状态（200-299为成功）
+          if (!response.ok) {
+            throw new Error(`HTTP错误，状态码: ${response.status}`);
+          }
+          // 解析响应为JSON（返回Promise）
+          return response.json();
+        })
+        .then(data =&gt; {
+          this.users = data; // 更新数据
+          this.loading = false; // 结束加载
+        })
+        .catch(error =&gt; {
+          this.error = error.message; // 捕获错误
+          this.loading = false; // 结束加载
+        });
+    }
+  }
+};
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2078db55-6aee-83d1-806a-010263c30899" class="toggle"><li><details open=""><summary>options配置</summary><div style="display:contents" dir="auto"><p id="37c8db55-6aee-8394-ad68-81ee57c16efe" class=""><code>fetch</code> 的第二个参数<code>options</code>用于配置请求细节，常用属性如下：</p></div><div style="display:contents" dir="auto"><p id="9668db55-6aee-8358-9d5a-01a3e85c3670" class="">1、请求方法（method）</p></div><div style="display:contents" dir="auto"><p id="7dc8db55-6aee-8384-8b6c-012dac0ad4f4" class="">默认是GET，常用值：GET，POST，PUT，DELETE等</p></div><div style="display:contents" dir="auto"><pre id="9cc8db55-6aee-83a7-ad74-01648099ff19" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">fetch(&#x27;/api/user&#x27;, {
+  method: &#x27;POST&#x27; // 发送POST请求
+});</code></pre></div><div style="display:contents" dir="auto"><p id="4208db55-6aee-828b-9821-8108d5ff3006" class="">2、请求头（headers）</p></div><div style="display:contents" dir="auto"><p id="a278db55-6aee-8211-afb8-01a794f67586" class="">设置请求头信息（如<code>Content-Type</code>）：</p></div><div style="display:contents" dir="auto"><pre id="b048db55-6aee-8305-8eb9-012f86f21117" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">fetch(&#x27;/api/login&#x27;, {
+  method: &#x27;POST&#x27;,
+  headers: {
+    &#x27;Content-Type&#x27;: &#x27;application/json&#x27;, // 表示请求体是JSON格式
+    &#x27;Authorization&#x27;: &#x27;Bearer &#x27; + token // 携带令牌（如JWT）
+  }
+});</code></pre></div><div style="display:contents" dir="auto"><p id="7318db55-6aee-82a9-849b-01e6ad35d88b" class="">3、请求体（body）</p></div><div style="display:contents" dir="auto"><p id="bdd8db55-6aee-8245-894b-0149d3ef1669" class="">发送数据（仅用于<code>POST</code>、<code>PUT</code>等方法），需与<code>Content-Type</code>匹配：</p></div><div style="display:contents" dir="auto"><p id="0b28db55-6aee-830b-ae5c-01fb0757d069" class="">JSON数据：需要JSON.stringify()转换位字符串</p></div><div style="display:contents" dir="auto"><pre id="b888db55-6aee-82c5-af1e-012e1aa0935a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">fetch(&#x27;/api/user&#x27;, {
+  method: &#x27;POST&#x27;,
+  headers: { &#x27;Content-Type&#x27;: &#x27;application/json&#x27; },
+  body: JSON.stringify({ name: &#x27;张三&#x27;, age: 20 }) // JSON格式
+});</code></pre></div><div style="display:contents" dir="auto"><p id="4ca8db55-6aee-83ef-abab-018cee842c99" class="">表单数据：用FormData对象</p></div><div style="display:contents" dir="auto"><pre id="3a38db55-6aee-8356-953f-81a37b2bcf45" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const formData = new FormData();
+formData.append(&#x27;name&#x27;, &#x27;张三&#x27;);
+formData.append(&#x27;avatar&#x27;, file); // 可上传文件
+
+fetch(&#x27;/api/upload&#x27;, {
+  method: &#x27;POST&#x27;,
+  body: formData // 表单数据（自动设置Content-Type为multipart/form-data）
+});</code></pre></div><div style="display:contents" dir="auto"><p id="ecf8db55-6aee-820f-8b93-01cf7b209bb2" class="">4、其他常用配置</p></div><div style="display:contents" dir="auto"><p id="b308db55-6aee-83cb-810d-01ed301d238a" class="">credentials：控制是否写道Cookie（跨域请求时候）</p></div><div style="display:contents" dir="auto"><pre id="2fe8db55-6aee-831b-bcfc-01e2a579aa50" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">fetch(&#x27;https://other-domain.com/api&#x27;, {
+  credentials: &#x27;include&#x27; // 跨域请求携带Cookie
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c038db55-6aee-82c5-9926-819687ea0da0" class="toggle"><li><details open=""><summary>async/await简化代码</summary><div style="display:contents" dir="auto"><p id="aba8db55-6aee-820b-8d3c-0107d987c431" class=""><code>fetch</code> 返回 Promise，可配合<code>async/await</code>使代码更简洁（避免嵌套<code>then</code>）：</p></div><div style="display:contents" dir="auto"><pre id="aae8db55-6aee-8389-b632-01ab935c2540" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">methods: {
+  async fetchUsers() { // 声明为async函数
+    try {
+      this.loading = true;
+      const response = await fetch(&#x27;https://api.example.com/users&#x27;);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP错误，状态码: ${response.status}`);
+      }
+      
+      const data = await response.json(); // 等待JSON解析
+      this.users = data;
+    } catch (error) {
+      this.error = error.message;
+    } finally {
+      this.loading = false; // 无论成功失败，都结束加载
+    }
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4758db55-6aee-82ea-b10f-01757f296194" class="toggle"><li><details open=""><summary>注意事项</summary><div style="display:contents" dir="auto"><ol type="1" id="cc58db55-6aee-839d-9d7b-8170e144f35e" class="numbered-list" start="1"><li><strong>错误处理</strong>：<code>fetch</code> 仅在<strong>网络错误</strong>（如断网）时触发<code>catch</code>，对于 HTTP 错误状态（如 404、500）不会直接报错，需手动通过<code>response.ok</code>（<code>true</code>表示 200-299 状态）判断。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="9268db55-6aee-82fb-80e2-813c7a2980b0" class="numbered-list" start="2"><li><strong>跨域问题</strong>：若请求跨域接口，需后端配置<strong>CORS（跨域资源共享）</strong>，否则会被浏览器拦截。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="cde8db55-6aee-8277-b823-81ecdb8c1b48" class="numbered-list" start="3"><li><strong>兼容性</strong>：现代浏览器（Chrome、Firefox 等）支持<code>fetch</code>，但 IE 完全不支持，如需兼容可引入<code>whatwg-fetch</code>等 polyfill。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="5288db55-6aee-82a8-9d6f-0167000ae411" class="numbered-list" start="4"><li><strong>与 Axios 的区别</strong>：<div style="display:contents" dir="auto"><ul id="08f8db55-6aee-82b6-ba4d-81fe8ceb47da" class="bulleted-list"><li style="list-style-type:disc"><code>fetch</code> 是原生 API，无需额外安装；<code>Axios</code> 是第三方库，需引入（<code>npm install axios</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="cc48db55-6aee-8317-b051-81ebd7f099ca" class="bulleted-list"><li style="list-style-type:disc"><code>Axios</code> 自动解析 JSON 响应，内置拦截器（请求 / 响应拦截），而<code>fetch</code>需手动处理。</li></ul></div><div style="display:contents" dir="auto"><ul id="db28db55-6aee-838d-bd3b-81100fa9beee" class="bulleted-list"><li style="list-style-type:disc">在 Vue 项目中，两者均可使用，根据需求选择（简单场景用<code>fetch</code>，复杂场景用<code>Axios</code>）。</li></ul></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4078db55-6aee-8393-b741-81e8909e8717" class="toggle"><li><details open=""><summary>fetch-get/post/put/delete写法</summary><div style="display:contents" dir="auto"><ul id="e4f8db55-6aee-82bb-9948-81df9670aecd" class="toggle"><li><details open=""><summary>get：获取数据</summary><div style="display:contents" dir="auto"><pre id="6c38db55-6aee-83c9-8ba7-81f2802cd796" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;button @click=&quot;getData&quot;&gt;获取数据&lt;/button&gt;
+    &lt;p&gt;{{ result }}&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      result: null
+    };
+  },
+  methods: {
+    async getData() {
+      try {
+        // 1. 定义URL（可拼接查询参数，如?id=1&amp;name=test）
+        const url = &#x27;https://api.example.com/data?id=1&#x27;;
+        
+        // 2. 发送GET请求（默认method为GET，可省略）
+        const response = await fetch(url, {
+          method: &#x27;GET&#x27;, // 可选，默认就是GET
+          headers: {
+            &#x27;Content-Type&#x27;: &#x27;application/json&#x27;, // 告诉服务器期望接收JSON
+            // 可选：携带令牌（如JWT）
+            &#x27;Authorization&#x27;: &#x27;Bearer &#x27; + localStorage.getItem(&#x27;token&#x27;)
+          },
+          credentials: &#x27;include&#x27; // 跨域请求时携带Cookie（如需）
+        });
+
+        // 3. 检查响应状态（200-299为成功）
+        if (!response.ok) {
+          throw new Error(`请求失败：${response.status}`);
+        }
+
+        // 4. 解析响应数据（根据实际返回格式选择json()/text()等）
+        const data = await response.json();
+        this.result = data; // 更新组件数据
+
+      } catch (error) {
+        console.error(&#x27;GET请求错误：&#x27;, error.message);
+      }
+    }
+  }
+};
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c278db55-6aee-831d-a1fb-0197043a57b5" class="toggle"><li><details open=""><summary>post：提交数据</summary><div style="display:contents" dir="auto"><p id="1c28db55-6aee-83fc-82d2-01a14582ba30" class="">向服务器提交新数据（如创建用户、提交表单），数据放在<code>body</code>中。</p></div><div style="display:contents" dir="auto"><p id="6918db55-6aee-833a-b56e-01180c800fa4" class="">headers:{</p></div><div style="display:contents" dir="auto"><p id="cfd8db55-6aee-826a-8262-015f1be730a6" class="">“Content-Type”:”application/x-www-form-urlencoded”</p></div><div style="display:contents" dir="auto"><p id="84d8db55-6aee-82f9-8128-810493c22c75" class="">},</p></div><div style="display:contents" dir="auto"><p id="f028db55-6aee-8286-a7c2-01dde0347e10" class="">body:”name=kkk&amp;age=100”</p></div><div style="display:contents" dir="auto"><pre id="1468db55-6aee-824b-b3bc-0121fba3cea7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;button @click=&quot;submitData&quot;&gt;提交数据&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  methods: {
+    async submitData() {
+      try {
+        // 1. 定义请求数据
+        const postData = {
+          name: &#x27;张三&#x27;,
+          age: 20,
+          email: &#x27;zhangsan@example.com&#x27;
+        };
+
+        // 2. 发送POST请求
+        const response = await fetch(&#x27;https://api.example.com/users&#x27;, {
+          method: &#x27;POST&#x27;, // 必须指定为POST
+          headers: {
+            &#x27;Content-Type&#x27;: &#x27;application/json&#x27;, // 声明请求体为JSON格式
+            &#x27;Authorization&#x27;: &#x27;Bearer &#x27; + localStorage.getItem(&#x27;token&#x27;)
+          },
+          body: JSON.stringify(postData), // 数据必须转为JSON字符串
+          credentials: &#x27;include&#x27;
+        });
+
+        if (!response.ok) {
+          throw new Error(`提交失败：${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log(&#x27;创建成功：&#x27;, result);
+
+      } catch (error) {
+        console.error(&#x27;POST请求错误：&#x27;, error.message);
+      }
+    }
+  }
+};
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="13d8db55-6aee-83fb-a4f8-016b45dd9e7b" class="toggle"><li><details open=""><summary>put：更新数据</summary><div style="display:contents" dir="auto"><p id="5ed8db55-6aee-8239-8a4b-81b313d9a8bc" class="">全量更新服务器资源（如替换整条数据），需指定资源 ID，数据放在<code>body</code>中。</p></div><div style="display:contents" dir="auto"><pre id="a4e8db55-6aee-83fe-8181-01af6077e386" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;button @click=&quot;updateData&quot;&gt;更新数据&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  methods: {
+    async updateData() {
+      try {
+        const userId = 1; // 要更新的资源ID
+        const updateData = {
+          name: &#x27;张三（更新后）&#x27;,
+          age: 21 // 全量更新，需包含所有必填字段
+        };
+
+        const response = await fetch(`https://api.example.com/users/${userId}`, {
+          method: &#x27;PUT&#x27;, // 必须指定为PUT
+          headers: {
+            &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
+            &#x27;Authorization&#x27;: &#x27;Bearer &#x27; + localStorage.getItem(&#x27;token&#x27;)
+          },
+          body: JSON.stringify(updateData), // 全量更新的数据
+          credentials: &#x27;include&#x27;
+        });
+
+        if (!response.ok) {
+          throw new Error(`更新失败：${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log(&#x27;更新成功：&#x27;, result);
+
+      } catch (error) {
+        console.error(&#x27;PUT请求错误：&#x27;, error.message);
+      }
+    }
+  }
+};
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="98e8db55-6aee-8387-866a-0170d3b32819" class="toggle"><li><details open=""><summary>delete：删除数据</summary><div style="display:contents" dir="auto"><p id="3238db55-6aee-83e6-bb2b-011d87fcc7ca" class="">删除服务器资源，需指定资源 ID，通常无请求体（或仅传递少量参数）。</p></div><div style="display:contents" dir="auto"><pre id="62a8db55-6aee-8237-8226-81ed183450a3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;button @click=&quot;deleteData&quot;&gt;删除数据&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  methods: {
+    async deleteData() {
+      try {
+        const userId = 1; // 要删除的资源ID
+
+        const response = await fetch(`https://api.example.com/users/${userId}`, {
+          method: &#x27;DELETE&#x27;, // 必须指定为DELETE
+          headers: {
+            &#x27;Authorization&#x27;: &#x27;Bearer &#x27; + localStorage.getItem(&#x27;token&#x27;) // 通常需要权限验证
+          },
+          credentials: &#x27;include&#x27;
+        });
+
+        if (!response.ok) {
+          throw new Error(`删除失败：${response.status}`);
+        }
+
+        // 有些接口删除成功后返回空，用text()解析
+        const result = await response.text();
+        console.log(&#x27;删除成功：&#x27;, result || &#x27;无返回数据&#x27;);
+
+      } catch (error) {
+        console.error(&#x27;DELETE请求错误：&#x27;, error.message);
+      }
+    }
+  }
+};
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="ltr"><table id="8868db55-6aee-8351-9c20-018e5ffce91f" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="39d8db55-6aee-828b-b1a2-0116167f11bb"><th id="Nm:f" class="simple-table-header-color simple-table-header"><strong>请求类型</strong></th><th id="]Kqv" class="simple-table-header-color simple-table-header"><strong>用途</strong></th><th id="Kz\Q" class="simple-table-header-color simple-table-header"><strong>核心配置差异</strong></th><th id="S{Y\" class="simple-table-header-color simple-table-header"><strong>数据位置</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="32b8db55-6aee-82d9-b14d-01b7be2ecdd7"><td id="Nm:f" class="">GET</td><td id="]Kqv" class="">获取数据</td><td id="Kz\Q" class=""><code>method: &#x27;GET&#x27;</code>（可省略）</td><td id="S{Y\" class="">URL 查询参数</td></tr></div><div style="display:contents" dir="ltr"><tr id="ebc8db55-6aee-83e9-b08c-012b28340d0f"><td id="Nm:f" class="">POST</td><td id="]Kqv" class="">创建数据</td><td id="Kz\Q" class=""><code>method: &#x27;POST&#x27;</code></td><td id="S{Y\" class=""><code>body</code>（JSON 字符串）</td></tr></div><div style="display:contents" dir="ltr"><tr id="91e8db55-6aee-82c5-8d82-818000ba36cf"><td id="Nm:f" class="">PUT</td><td id="]Kqv" class="">全量更新数据</td><td id="Kz\Q" class=""><code>method: &#x27;PUT&#x27;</code></td><td id="S{Y\" class=""><code>body</code>（全量数据）</td></tr></div><div style="display:contents" dir="ltr"><tr id="30f8db55-6aee-8321-a725-815da3eb91d6"><td id="Nm:f" class="">DELETE</td><td id="]Kqv" class="">删除数据</td><td id="Kz\Q" class=""><code>method: &#x27;DELETE&#x27;</code></td><td id="S{Y\" class="">通常在 URL 路径中</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ul id="b888db55-6aee-82b5-b5a7-817f682956b0" class="toggle"><li><details open=""><summary>注意事项</summary><div style="display:contents" dir="auto"><ol type="1" id="fb18db55-6aee-820c-94de-0127a46e4d20" class="numbered-list" start="1"><li><strong>响应处理</strong>：<div style="display:contents" dir="auto"><ul id="bd48db55-6aee-828e-a85b-813b9a0e6f5d" class="bulleted-list"><li style="list-style-type:disc">用<code>response.json()</code>解析 JSON 格式响应（最常用）。</li></ul></div><div style="display:contents" dir="auto"><ul id="3258db55-6aee-83c0-81fd-01871dfc7590" class="bulleted-list"><li style="list-style-type:disc">用<code>response.text()</code>解析文本响应。</li></ul></div><div style="display:contents" dir="auto"><ul id="0108db55-6aee-8396-8c5b-81055e48ac32" class="bulleted-list"><li style="list-style-type:disc">用<code>response.blob()</code>解析二进制响应（如图片）。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0068db55-6aee-827b-b9d9-010851d8205c" class="numbered-list" start="2"><li><strong>错误处理</strong>：<div style="display:contents" dir="auto"><ul id="bd38db55-6aee-83bb-ac6a-01ba20018aa7" class="bulleted-list"><li style="list-style-type:disc"><code>fetch</code>仅在<strong>网络错误</strong>（如断网）时触发<code>catch</code>，HTTP 错误状态（404、500 等）需通过<code>response.ok</code>手动判断。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6b28db55-6aee-82d1-8db2-81433805051f" class="numbered-list" start="3"><li><strong>跨域请求</strong>：<div style="display:contents" dir="auto"><ul id="5d38db55-6aee-83a9-87b1-818036c922cc" class="bulleted-list"><li style="list-style-type:disc">需后端配置 CORS，否则请求会被浏览器拦截。</li></ul></div><div style="display:contents" dir="auto"><ul id="f4a8db55-6aee-82a6-89be-019180929842" class="bulleted-list"><li style="list-style-type:disc">跨域携带 Cookie 需设置<code>credentials: &#x27;include&#x27;</code>。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6d98db55-6aee-828b-862c-016c9f359d03" class="numbered-list" start="4"><li><strong>Content-Type</strong>：<div style="display:contents" dir="auto"><ul id="6898db55-6aee-8375-b67e-01d0a13c6f4a" class="bulleted-list"><li style="list-style-type:disc">发送 JSON 数据时必须设置<code>&#x27;Content-Type&#x27;: &#x27;application/json&#x27;</code>，并将<code>body</code>转为 JSON 字符串。</li></ul></div><div style="display:contents" dir="auto"><ul id="4428db55-6aee-83a0-8aa8-0171a7720c1c" class="bulleted-list"><li style="list-style-type:disc">发送表单数据（含文件）时用<code>FormData</code>，无需设置<code>Content-Type</code>（浏览器自动处理）。</li></ul></div></li></ol></div></details></li></ul></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

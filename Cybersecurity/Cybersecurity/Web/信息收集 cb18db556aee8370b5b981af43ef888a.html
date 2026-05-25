@@ -1,0 +1,771 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>信息收集</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="cb18db55-6aee-8370-b5b9-81af43ef888a" class="page sans"><header><h1 class="page-title" dir="auto">信息收集</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="c6a8db55-6aee-823f-9ae8-018ab43a7292" class="">主动搜集与被动搜集</p></div><div style="display:contents" dir="auto"><h2 id="3608db55-6aee-8316-a15d-81acec3e5f6d" class="">收集内容的核心：</h2></div><div style="display:contents" dir="auto"><p id="b2e8db55-6aee-8238-a700-0154d85e88d0" class="">1、域名或子域名信息<div class="indented"><div style="display:contents" dir="auto"><p id="fc48db55-6aee-8352-984b-010e90f7302f" class="">子域名枚举，DNS记录，域名注册信息，域名历史解析记录</p></div></div></p></div><div style="display:contents" dir="auto"><p id="f2c8db55-6aee-8264-b070-81f74b962a9e" class="">2、IP与端口信息<div class="indented"><div style="display:contents" dir="auto"><p id="5358db55-6aee-8226-b34b-01709b9ff9da" class="">开放的端口，服务器真实IP，端口对应服务，服务版本</p></div></div></p></div><div style="display:contents" dir="auto"><p id="e998db55-6aee-83e7-b3c6-013821c6c8c1" class="">3、技术栈与架构信息<div class="indented"><div style="display:contents" dir="auto"><p id="d538db55-6aee-8382-9c77-0191ee210a38" class="">服务器软件，web架构，编程语言，CMS系统，数据库类型</p></div></div></p></div><div style="display:contents" dir="auto"><p id="1638db55-6aee-83ab-a677-0166daada1a5" class="">4、敏感信息挖掘<div class="indented"><div style="display:contents" dir="auto"><p id="6408db55-6aee-8270-9cf3-8193b876e9c6" class="">目录遍历与文件泄露，robot.txt中的隐藏路径，公开github仓库</p></div></div></p></div><div style="display:contents" dir="auto"><p id="4c78db55-6aee-8296-8413-01bfc5324a3b" class="">5、第三方证书等信息</p></div><div style="display:contents" dir="auto"><h2 id="f738db55-6aee-839b-bc07-8151d831d267" class="">工具：</h2></div><div style="display:contents" dir="auto"><h3 id="4148db55-6aee-830a-a6d7-817376a55d31" class=""><strong>1. 域名与子域名枚举工具</strong></h3></div><div style="display:contents" dir="auto"><ul id="d3c8db55-6aee-820f-8965-01bc87f04aed" class="bulleted-list"><li style="list-style-type:disc"><strong>Amass</strong>（主动 + 被动）功能：多源子域名枚举（结合 DNS 服务器、搜索引擎、证书透明度日志等），支持被动模式（减少目标检测风险）。特点：数据来源广（超过 50 个数据源），可导出详细报告。<div style="display:contents" dir="auto"><ul id="cca8db55-6aee-821d-9443-81c5ef996285" class="toggle"><li><details open=""><summary>安装与使用（kali）</summary><div style="display:contents" dir="auto"><p id="cdb8db55-6aee-83cb-9b2c-01ece432f630" class="">安装（Linux）</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="9788db55-6aee-837f-af9e-0152f5d1d487" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all"># 方法一：直接下载预编译二进制文件（推荐）
+wget https://github.com/OWASP/Amass/releases/download/v3.21.1/amass_linux_amd64.zip
+unzip amass_linux_amd64.zip
+cd amass_linux_amd64
+chmod +x amass
+./amass -h  # 验证安装
+
+# 方法二：通过 go 命令安装（需先安装 Go 环境）
+go install -v github.com/OWASP/Amass/v3/...@master</code></pre></div><div style="display:contents" dir="auto"><p id="5d78db55-6aee-82ec-8fe9-0101a6895dbd" class="">配置API密钥</p></div><div style="display:contents" dir="auto"><p id="c888db55-6aee-83e7-b99c-8141c0e9b684" class="">Amass 通过第三方 API 获取更全面的数据，需在配置文件（默认 <code>~/.config/amass/config.ini</code>）中添加 API 密钥：<br/></p></div><div style="display:contents" dir="auto"><pre id="7438db55-6aee-8281-b925-817b56646e8a" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[virustotal]
+apikey = your_virustotal_api_key
+
+[shodan]
+apikey = your_shodan_api_key
+
+[censysio]
+id = your_censys_id
+secret = your_censys_secret</code></pre></div><div style="display:contents" dir="auto"><hr id="5988db55-6aee-82bf-bd94-81b337b8a0cd"/></div><div style="display:contents" dir="auto"><hr id="9118db55-6aee-83db-9929-8131bdc7cdfe"/></div><div style="display:contents" dir="auto"><h2 id="73a8db55-6aee-8343-89a5-814c1e965ca4" class="">基础用法：</h2></div><div style="display:contents" dir="auto"><p id="ded8db55-6aee-83e9-a1c8-81d56038abe6" class="">1、被动模式</p></div><div style="display:contents" dir="auto"><pre id="1778db55-6aee-838c-8539-81d03eef070e" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">amass enum -d baidu.com -passive</code></pre></div><div style="display:contents" dir="auto"><p id="1158db55-6aee-82b9-8dbd-8179d972cd16" class=""><strong>参数解析</strong>：<div class="indented"><div style="display:contents" dir="auto"><ul id="1e78db55-6aee-8203-a430-81d92bafda2e" class="bulleted-list"><li style="list-style-type:disc"><code>d example.com</code>：指定目标域名。</li></ul></div><div style="display:contents" dir="auto"><ul id="71f8db55-6aee-822e-a5e3-81c107ca3fd6" class="bulleted-list"><li style="list-style-type:disc"><code>passive</code>：仅使用被动数据源（不发送 DNS 请求），隐蔽性高。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="bc38db55-6aee-823e-9e09-81df9e4370d9" class="">2、主动模式（验证子域名有效性）</p></div><div style="display:contents" dir="auto"><pre id="2408db55-6aee-83ab-a181-011d2c662c64" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">amass enum -d example.com -active -brute -min-for-recursive 2</code></pre></div><div style="display:contents" dir="ltr"><figure id="d828db55-6aee-8330-a7ac-81197efdf17e" class="image"><a href="%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/Snipaste_2025-07-10_09-56-24.png"><img style="width:634px" src="%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/Snipaste_2025-07-10_09-56-24.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="3fa8db55-6aee-82d2-a0d4-01e2edd424af" class=""><strong>参数解析</strong>：<div class="indented"><div style="display:contents" dir="auto"><ul id="43e8db55-6aee-826b-b933-813184e65a9e" class="bulleted-list"><li style="list-style-type:disc"><code>active</code>：主动验证子域名（发送 DNS 请求）。</li></ul></div><div style="display:contents" dir="auto"><ul id="b6c8db55-6aee-8209-a8e4-81305d34c37a" class="bulleted-list"><li style="list-style-type:disc"><code>brute</code>：启用字典爆破（结合内置字典生成子域名）。</li></ul></div><div style="display:contents" dir="auto"><ul id="db58db55-6aee-8292-a6fe-01236008d981" class="bulleted-list"><li style="list-style-type:disc"><code>min-for-recursive 2</code>：发现至少 2 个子域名时，递归爆破其下的子域名（如 <code>dev.example.com</code> → <code>api.dev.example.com</code>）。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><hr id="9738db55-6aee-8267-a5a8-81ae48b9925b"/></div><div style="display:contents" dir="auto"><hr id="4b88db55-6aee-824f-b923-01ef09cce709"/></div><div style="display:contents" dir="auto"><p id="a188db55-6aee-838e-ae21-01ff8b4308fb" class=""><code>-o aubdomains.txt</code> 输出到指定文件中</p></div><div style="display:contents" dir="auto"><hr id="2b58db55-6aee-832f-98e2-01b5de9fc850"/></div><div style="display:contents" dir="auto"><hr id="6f88db55-6aee-8335-8bf2-81e2ce1a9a59"/></div><div style="display:contents" dir="auto"><h2 id="4888db55-6aee-8233-9179-810e229979b2" class="">其他用法</h2></div><div style="display:contents" dir="auto"><p id="bfb8db55-6aee-8324-ac71-81f6dbfc81b9" class="">1、指定数据源</p></div><div style="display:contents" dir="auto"><pre id="50e8db55-6aee-834f-86c4-8183a3f48fe1" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">amass enum -d example.com -src -only censys,virustotal</code></pre></div><div style="display:contents" dir="auto"><ul id="4268db55-6aee-8261-bf68-01480b4198ab" class="bulleted-list"><li style="list-style-type:disc"><code>src</code>：显示每个子域名的来源。</li></ul></div><div style="display:contents" dir="auto"><ul id="9f48db55-6aee-828f-b3cd-01c02e63af03" class="bulleted-list"><li style="list-style-type:disc"><code>only censys,virustotal</code>：仅使用指定的数据源。</li></ul></div><div style="display:contents" dir="auto"><p id="9ac8db55-6aee-8338-a73e-81c330c27d97" class="">2、结合自定义字典</p></div><div style="display:contents" dir="auto"><pre id="1cb8db55-6aee-83b7-89b9-012b31c4f404" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">amass enum -d example.com -wordlist /path/to/wordlist.txt</code></pre></div><div style="display:contents" dir="auto"><p id="3a48db55-6aee-82c1-ada6-012b4262a9b2" class="">• <code>-wordlist</code>：指定自定义字典文件，可结合公开字典（如 <code>SecLists/Discovery/DNS/</code>）。</p></div><div style="display:contents" dir="auto"><p id="a258db55-6aee-824e-9308-817a9c7f29bb" class="">3、网络拓扑分析</p></div><div style="display:contents" dir="auto"><pre id="fbc8db55-6aee-830c-a180-011976c4f373" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">amass intel -d example.com -asn -cidr</code></pre></div><div style="display:contents" dir="auto"><pre id="2bc8db55-6aee-83f9-b190-8154ac957b26" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">amass enum -d example.com -o out.json
+amass viz -d3 out.json  # 生成 D3.js 可视化页面
+# 打开index.html，可查看域名，ip，ASN之间的关系</code></pre></div></details></li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="2e68db55-6aee-8366-ab8f-8135197bb63d" class="bulleted-list"><li style="list-style-type:disc"><strong>Sublist3r</strong>（被动为主）功能：基于搜索引擎（Google、Bing、Yahoo）和字典枚举子域名，轻量易用。特点：适合快速初步枚举，支持多线程。</li></ul></div><div style="display:contents" dir="auto"><ul id="a118db55-6aee-820a-93dc-81d8d1c1b712" class="bulleted-list"><li style="list-style-type:disc"><strong>OneForAll</strong>（国产工具）功能：整合多种子域名枚举方法（DNS 爆破、证书解析、API 查询等），支持批量处理。特点：中文友好，结果去重，适合国内目标。<div style="display:contents" dir="auto"><ul id="0af8db55-6aee-8311-a4ff-01926467eb28" class="toggle"><li><details open=""><summary>安装与使用（win）</summary><div style="display:contents" dir="auto"><pre id="0cd8db55-6aee-82e3-a556-8125b80c7aff" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all"># 1. 克隆仓库
+git clone https://github.com/shmilylty/OneForAll.git
+cd OneForAll
+
+# 2. 安装依赖
+pip3 install -r requirements.txt
+
+# 3. 配置 API（可选但推荐）
+# 编辑 config/api.py，填入各类 API 密钥（如证书透明度、ZoomEye 等）</code></pre></div><div style="display:contents" dir="auto"><h2 id="fc78db55-6aee-830a-99bb-813e0b483840" class="">基本使用</h2></div><div style="display:contents" dir="auto"><p id="b6c8db55-6aee-82fb-92ff-013854b66afd" class="">进入文件目录</p></div><div style="display:contents" dir="auto"><p id="76a8db55-6aee-83d9-86e3-01ef03d36f97" class="">1、单个扫描</p></div><div style="display:contents" dir="auto"><pre id="d8c8db55-6aee-82ca-9866-0160a39ca6c5" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">python oneforall.py --target baidu.com run</code></pre></div><div style="display:contents" dir="auto"><ul id="6c48db55-6aee-832a-9af9-0106749897ee" class="bulleted-list"><li style="list-style-type:disc"><strong>关键参数</strong>：<div style="display:contents" dir="auto"><ul id="fa18db55-6aee-822d-8a82-01f627c8d1d5" class="bulleted-list"><li style="list-style-type:circle"><code>-target</code>：指定目标域名。</li></ul></div><div style="display:contents" dir="auto"><ul id="d078db55-6aee-83f9-a849-0181049c2b33" class="bulleted-list"><li style="list-style-type:circle"><code>-output</code>：指定结果输出路径（默认在 results 目录）。</li></ul></div><div style="display:contents" dir="auto"><ul id="1dd8db55-6aee-824f-92a5-01239ccc7eb8" class="bulleted-list"><li style="list-style-type:circle"><code>-format</code>：指定输出格式（csv、json、txt 等）。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><p id="32d8db55-6aee-829f-9ea4-01059eec3c8b" class="">2、多个扫描</p></div><div style="display:contents" dir="auto"><pre id="1168db55-6aee-8239-a277-81eabbcbee81" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">python oneforall.py --targets domains.txt run</code></pre></div><div style="display:contents" dir="auto"><p id="15f8db55-6aee-8247-8963-01082e713b26" class="">• <code>domains.txt</code> 需包含多个域名，每行一个。</p></div><div style="display:contents" dir="auto"><p id="f618db55-6aee-827d-80ef-01f9e8ebc546" class="">3、指定扫描模块</p></div><div style="display:contents" dir="auto"><pre id="5408db55-6aee-8384-97e0-811db98289d0" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">python oneforall.py --target baidu.com --module brute run</code></pre></div><div style="display:contents" dir="auto"><ul id="0498db55-6aee-8388-9a7a-81e2c6edb7a6" class="bulleted-list"><li style="list-style-type:disc"><code>-module</code> 可选值：<div style="display:contents" dir="auto"><ul id="a508db55-6aee-82c9-86ed-81368bdd6845" class="bulleted-list"><li style="list-style-type:circle"><code>brute</code>：字典爆破。</li></ul></div><div style="display:contents" dir="auto"><ul id="f808db55-6aee-822a-984b-01376c46ee6a" class="bulleted-list"><li style="list-style-type:circle"><code>search</code>：搜索引擎查询。</li></ul></div><div style="display:contents" dir="auto"><ul id="83f8db55-6aee-83af-a98a-01070b8879ff" class="bulleted-list"><li style="list-style-type:circle"><code>api</code>：调用第三方 API。</li></ul></div><div style="display:contents" dir="auto"><ul id="f008db55-6aee-8282-96f0-81f937aea1df" class="bulleted-list"><li style="list-style-type:circle"><code>all</code>（默认）：启用所有模块。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><p id="08f8db55-6aee-83be-ab30-0134fdc3aa98" class="">4、自定义字典</p></div><div style="display:contents" dir="auto"><pre id="3378db55-6aee-83e9-930b-01d8e43c395d" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">python oneforall.py --target baidu.com --wordlist mydict.txt run</code></pre></div><div style="display:contents" dir="auto"><p id="c0b8db55-6aee-821c-8d58-816eb4e2bb79" class="">• <code>mydict.txt</code> 需包含自定义子域名前缀（如 <code>admin</code>, <code>api</code>）。</p></div><div style="display:contents" dir="auto"><p id="a738db55-6aee-8381-a719-81b28cc765f1" class="">5、深度扫描</p></div><div style="display:contents" dir="auto"><pre id="1268db55-6aee-8348-bfbb-8109c19a6bf4" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">python oneforall.py --target baidu.com --deep 2 run</code></pre></div><div style="display:contents" dir="auto"><p id="9118db55-6aee-8235-9c88-01000a861290" class="">• <code>mydict.txt</code> 需包含自定义子域名前缀（如 <code>admin</code>, <code>api</code>）。</p></div><div style="display:contents" dir="auto"><p id="5b18db55-6aee-8392-9053-819f9a16da50" class="">
+</p></div><div style="display:contents" dir="auto"><hr id="03a8db55-6aee-8382-8ff0-0118824106a1"/></div><div style="display:contents" dir="auto"><hr id="ade8db55-6aee-82d1-a26c-8113119a5375"/></div><div style="display:contents" dir="auto"><p id="fc98db55-6aee-82a1-ab56-01654bf20dde" class="">
+</p></div><div style="display:contents" dir="auto"><p id="c648db55-6aee-827a-9463-81d3aad5480e" class="">1、调用api（需要预先配置）</p></div><div style="display:contents" dir="auto"><pre id="4cf8db55-6aee-8302-9617-81b4f23bf780" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">python3 oneforall.py --target example.com --api True run</code></pre></div><div style="display:contents" dir="auto"><p id="d108db55-6aee-8325-9c4d-01e02f0b3d70" class="">• 支持的 API 包括：证书透明度日志、DNSDB、Shodan 等。</p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-83bc-a865-0160d8a9b785" class="">2、端口扫描</p></div><div style="display:contents" dir="auto"><pre id="e208db55-6aee-8377-b222-81b428896a3b" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">python3 oneforall.py --target example.com --port medium run</code></pre></div><div style="display:contents" dir="auto"><p id="2ff8db55-6aee-83df-a4c2-01c6358c6e35" class="">• <code>--port</code> 可选值：<code>small</code>（常用端口）、<code>medium</code>（500 个端口）、<code>large</code>（全端口）。</p></div></details></li></ul></div></li></ul></div><div style="display:contents" dir="auto"><h3 id="a408db55-6aee-83df-87a5-81fd6fd90014" class=""><strong>3. 端口扫描与服务识别工具</strong></h3></div><div style="display:contents" dir="auto"><ul id="2c68db55-6aee-8257-ad8c-819127408aea" class="bulleted-list"><li style="list-style-type:disc"><strong>Nmap</strong>（主动扫描）功能：端口扫描（全端口 / 常用端口）、服务版本识别（<code>sV</code>参数）、操作系统探测（<code>O</code>）。示例：<code>nmap -sV -p 1-1000 目标IP</code>（扫描 1-1000 端口并识别服务版本）。特点：功能全面，支持脚本扩展（如漏洞检测脚本）。</li></ul></div><div style="display:contents" dir="auto"><ul id="e848db55-6aee-83e2-9aa4-01fd3b36c030" class="bulleted-list"><li style="list-style-type:disc"><strong>Masscan</strong>（高速扫描）功能：超高速端口扫描（比 Nmap 快 10 倍以上），适合大规模 IP 段扫描。特点：速度快，但精度略低，需配合 Nmap 验证。</li></ul></div><div style="display:contents" dir="auto"><ul id="0388db55-6aee-82f3-a8e8-815c2223f00b" class="bulleted-list"><li style="list-style-type:disc"><strong>Zmap</strong>（批量扫描）功能：针对整个互联网的端口扫描（如扫描全网 80 端口开放情况），适合宏观统计。</li></ul></div><div style="display:contents" dir="auto"><h3 id="bc58db55-6aee-8369-aafc-01ca4b743ef2" class=""><strong>4. 技术栈识别工具</strong></h3></div><div style="display:contents" dir="auto"><ul id="5488db55-6aee-8255-9276-8176a21ece61" class="bulleted-list"><li style="list-style-type:disc"><strong>Wappalyzer</strong>（浏览器插件 / CLI）功能：识别网站的服务器、框架、CMS、编程语言等技术栈（通过 HTTP 头、页面特征）。特点：图形化插件易用，CLI 版本支持批量扫描。</li></ul></div><div style="display:contents" dir="auto"><ul id="c358db55-6aee-8235-8e26-81000cbbda65" class="bulleted-list"><li style="list-style-type:disc"><strong>WhatWeb</strong>（命令行）功能：通过指纹库（如 HTML 标签、Cookie、响应头）识别网站技术栈，支持自定义规则。示例：<code>whatweb 目标URL</code>（输出目标使用的技术，如 “Nginx 1.21.0, WordPress 6.0”）。</li></ul></div><div style="display:contents" dir="auto"><ul id="ca78db55-6aee-82c0-9336-01913cbfdab8" class="bulleted-list"><li style="list-style-type:disc"><strong>BuiltWith</strong>（在线工具）功能：可视化展示网站技术栈（包括服务器、CDN、分析工具等），适合非技术人员。</li></ul></div><div style="display:contents" dir="auto"><h3 id="3738db55-6aee-82ac-aded-019d5f76624f" class=""><strong>5. 敏感信息挖掘工具</strong></h3></div><div style="display:contents" dir="auto"><ul id="3468db55-6aee-82ae-bc4e-81758f368334" class="bulleted-list"><li style="list-style-type:disc"><strong>Dirsearch</strong>（目录爆破）功能：通过字典枚举网站隐藏目录和文件（如<code>/admin</code>、<code>/backup.zip</code>），支持自定义字典。示例：<code>dirsearch -u 目标URL -w /usr/share/wordlists/dirb/common.txt</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="5958db55-6aee-8330-81d6-810563f00991" class="bulleted-list"><li style="list-style-type:disc"><strong>Gobuster</strong>（目录 / 子域名爆破）功能：多模式（目录爆破、子域名爆破），支持 HTTP/HTTPS，速度快。</li></ul></div><div style="display:contents" dir="auto"><ul id="4fa8db55-6aee-8374-9ba0-0151e16e3334" class="bulleted-list"><li style="list-style-type:disc"><strong>GitHack</strong>（代码泄露）功能：检测并下载目标网站的<code>.git</code>目录泄露（可能包含完整源代码）。</li></ul></div><div style="display:contents" dir="auto"><ul id="5a48db55-6aee-8278-ac00-01d86c1aaa96" class="bulleted-list"><li style="list-style-type:disc"><strong>Burp Suite</strong>（集成工具）功能：爬虫（爬取网站所有链接）、参数分析、敏感信息搜索（如页面中的邮箱、密钥），是渗透测试核心工具。</li></ul></div><div style="display:contents" dir="auto"><h3 id="43f8db55-6aee-82e9-bdda-0175fef0b899" class=""><strong>6. 被动信息搜集平台</strong></h3></div><div style="display:contents" dir="auto"><ul id="7808db55-6aee-827b-a908-0115eb64a295" class="bulleted-list"><li style="list-style-type:disc"><strong>Shodan</strong>（设备搜索引擎）功能：搜索联网设备（服务器、摄像头等）的开放端口、服务信息（如 “apache country:CN” 搜索中国的 Apache 服务器）。特点：适合发现暴露在公网的敏感服务（如未授权的 MySQL）。</li></ul></div><div style="display:contents" dir="auto"><ul id="6a78db55-6aee-8203-8501-01bc71e9dd81" class="bulleted-list"><li style="list-style-type:disc"><strong>Censys</strong>（证书与设备搜索）功能：通过 SSL 证书、IP 端口信息搜索目标，支持复杂过滤（如 “certificate.issuer:Let&#x27;s Encrypt”）。</li></ul></div><div style="display:contents" dir="auto"><ul id="c638db55-6aee-83ad-92e3-011d7de07d5b" class="bulleted-list"><li style="list-style-type:disc"><strong>ZoomEye</strong>（钟馗之眼，国产）功能：类似 Shodan，侧重国内目标，支持按地理位置、端口、服务搜索。</li></ul></div><div style="display:contents" dir="auto"><ul id="69f8db55-6aee-8252-8719-8116f51bd325" class="bulleted-list"><li style="list-style-type:disc"><strong>Google Hacking</strong>（搜索引擎语法）功能：通过特殊语法精准搜索目标信息，如：<div style="display:contents" dir="auto"><ul id="18c8db55-6aee-8244-9d6e-01eb1bf409ec" class="bulleted-list"><li style="list-style-type:circle"><code>site:目标域名 filetype:sql</code>（搜索目标域名下的.sql 备份文件）；</li></ul></div><div style="display:contents" dir="auto"><ul id="e2d8db55-6aee-8320-9eac-81953f748862" class="bulleted-list"><li style="list-style-type:circle"><code>site:目标域名 intitle:后台管理</code>（搜索后台登录页）。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><h3 id="a298db55-6aee-82e1-a7be-81ca3e277f11" class=""><strong>7. 自动化信息收集框架</strong></h3></div><div style="display:contents" dir="auto"><ul id="c878db55-6aee-82b6-87ca-01836fbfeb4b" class="bulleted-list"><li style="list-style-type:disc"><strong>Recon-ng</strong>功能：集成多种信息收集模块（子域名枚举、WHOIS 查询、端口扫描等），支持模块化扩展，适合自动化工作流。</li></ul></div><div style="display:contents" dir="auto"><ul id="7d08db55-6aee-82ad-aa3a-015d0e8f86a4" class="bulleted-list"><li style="list-style-type:disc"><strong>SpiderFoot</strong>功能：开源情报收集框架，自动关联多源信息（域名、IP、邮箱等），生成可视化报告，适合新手。</li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

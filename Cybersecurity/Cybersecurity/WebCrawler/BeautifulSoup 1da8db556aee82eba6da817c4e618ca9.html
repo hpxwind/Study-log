@@ -1,0 +1,854 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>BeautifulSoup</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1da8db55-6aee-82eb-a6da-817c4e618ca9" class="page sans"><header><h1 class="page-title" dir="auto">BeautifulSoup</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="ec08db55-6aee-83e9-9c53-81f8b149e078" class="">BeautifulSoup（通常简称为bs）是Python中一个功能强大且易于使用的库，主要用于从HTML或XML文档中提取数据。</p></div><div style="display:contents" dir="ltr"><figure id="bcd8db55-6aee-8391-96ba-8170cfc78e7a" class="image"><a href="BeautifulSoup/image.png"><img style="width:5173px" src="BeautifulSoup/image.png"/></a></figure></div><div style="display:contents" dir="auto"><hr id="0958db55-6aee-82e8-8cb7-01c6ce8f244f"/></div><div style="display:contents" dir="auto"><ul id="3328db55-6aee-8291-847d-8195b3f71cff" class="toggle"><li><details open=""><summary>安装</summary><div style="display:contents" dir="auto"><p id="fd08db55-6aee-823c-a751-81de22a6346f" class="">使用前需要先安装BeautifulSoup库，推荐同时安装一个高性能解析器如<code>lxml</code>：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="0938db55-6aee-8308-b3fd-81173b2b1eea" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">pip install beautifulsoup4 lxml</code></pre></div><div style="display:contents" dir="auto"><p id="ed88db55-6aee-8295-baf6-019c2df0745f" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5218db55-6aee-83bd-83d2-019bdbefd6dd" class="toggle"><li><details open=""><summary>初始化BeautifulSoup对象</summary><div style="display:contents" dir="auto"><pre id="7fa8db55-6aee-82e5-b741-81d4c9fc2e3b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from bs4 import BeautifulSoup
+import requests
+
+# 从网络获取HTML
+resp = requests.get(&#x27;https://example.com&#x27;)
+soup = BeautifulSoup(resp.text, &#x27;lxml&#x27;) # 推荐使用lxml解析器
+
+# 从本地文件或字符串获取
+# soup = BeautifulSoup(open(&quot;index.html&quot;, encoding=&quot;utf-8&quot;), &#x27;lxml&#x27;)
+# soup = BeautifulSoup(&#x27;&lt;html&gt;data&lt;/html&gt;&#x27;, &#x27;lxml&#x27;)</code></pre></div><div style="display:contents" dir="auto"><h3 id="8318db55-6aee-83ea-9fc4-81445a468880" class="">🧬 理解四种核心对象</h3></div><div style="display:contents" dir="auto"><p id="3d58db55-6aee-83de-87fa-8132184b92b9" class="">BeautifulSoup将HTML文档转换为树形结构，主要由四种对象组成：</p></div><div style="display:contents" dir="auto"><ol type="1" id="9ac8db55-6aee-836d-b2d6-81f039f0d1c8" class="numbered-list" start="1"><li><strong>BeautifulSoup</strong>：代表整个文档树，是一个特殊的Tag对象，可当作根节点使用</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="e998db55-6aee-82fa-8d6a-810a706f8565" class="numbered-list" start="2"><li><strong>Tag</strong>（标签）：对应HTML中的标签（如<code>&lt;div&gt;</code>、<code>&lt;a&gt;</code>），是操作最多的对象</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="8608db55-6aee-8335-8294-01d8e4c1f733" class="numbered-list" start="3"><li><strong>NavigableString</strong>：标签内的文本字符串，不包含标签本身</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="c968db55-6aee-8256-9f7a-015ca1e9571e" class="numbered-list" start="4"><li><strong>Comment</strong>：一种特殊的NavigableString，表示HTML注释</li></ol></div><div style="display:contents" dir="auto"><pre id="c5e8db55-6aee-8379-979d-8145b53dc35f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 获取标签对象
+tag = soup.a  # 获取文档中第一个&lt;a&gt;标签
+
+# 获取标签名称
+print(tag.name)  # 输出: &#x27;a&#x27;
+
+# 获取标签属性
+print(tag[&#x27;href&#x27;])  # 直接通过属性名获取
+print(tag.get(&#x27;href&#x27;))  # 更安全的获取方式
+print(tag.attrs)  # 获取所有属性的字典
+
+# 获取标签文本
+print(tag.string)  # 如果标签内只有文本，返回该文本
+print(tag.get_text())  # 获取标签内所有文本（包括子孙标签的文本）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="20f8db55-6aee-8265-a071-8120806dd7f7" class="toggle"><li><details open=""><summary>三种数据提取方式</summary><div style="display:contents" dir="auto"><ol type="1" id="79d8db55-6aee-8267-af53-813bdbdb9529" class="numbered-list" start="1"><li>文档树遍历与节点导航</li></ol></div><div style="display:contents" dir="auto"><p id="a328db55-6aee-8315-bdfe-81978cdff294" class="">这种方法按照HTML的嵌套结构进行导航</p></div><div style="display:contents" dir="auto"><pre id="fae8db55-6aee-8250-96a7-81b301068f68" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 父子节点关系
+soup.head.title  # 嵌套选择：获取head标签下的title标签
+soup.p.contents  # 获取p标签的所有直接子节点列表
+soup.p.children  # 获取直接子节点的迭代器
+soup.p.descendants  # 获取所有子孙节点的迭代器（包括嵌套标签）
+soup.a.parent  # 获取直接父节点
+soup.a.parents  # 获取所有祖先节点的迭代器
+
+# 兄弟节点关系
+soup.a.next_sibling  # 下一个兄弟节点
+soup.a.previous_sibling  # 上一个兄弟节点
+soup.a.next_siblings  # 后面所有兄弟节点的迭代器
+soup.a.previous_siblings  # 前面所有兄弟节点的迭代器</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="7ce8db55-6aee-837d-8d3e-019543ac1734" class="numbered-list" start="2"><li>搜索文档树（find与find_all）</li></ol></div><div style="display:contents" dir="auto"><pre id="e618db55-6aee-8222-8782-01878ef13f78" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 基本用法
+soup.find_all(&#x27;a&#x27;)  # 查找所有&lt;a&gt;标签
+soup.find(&#x27;div&#x27;)  # 查找第一个&lt;div&gt;标签
+
+# 多种过滤方式
+soup.find_all([&#x27;a&#x27;, &#x27;div&#x27;])  # 查找所有&lt;a&gt;和&lt;div&gt;标签
+soup.find_all(id=&#x27;header&#x27;)  # 按id属性查找
+soup.find_all(class_=&#x27;item&#x27;)  # 按class查找（注意class后的下划线）
+soup.find_all(attrs={&#x27;data-type&#x27;: &#x27;news&#x27;})  # 按自定义属性查找
+
+# 文本内容过滤
+soup.find_all(text=&#x27;首页&#x27;)  # 按文本内容查找
+soup.find_all(text=re.compile(&#x27;Python&#x27;))  # 使用正则表达式匹配文本
+
+# 更精细的控制
+soup.find_all(&#x27;li&#x27;, limit=3)  # 只返回前3个结果
+soup.find_all(&#x27;div&#x27;, recursive=False)  # 只查找直接子节点</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="c408db55-6aee-82bc-b449-81b4b548a52e" class="numbered-list" start="3"><li>css选择器（select）</li></ol></div><div style="display:contents" dir="auto"><pre id="e188db55-6aee-82d3-a1b2-810923080025" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 基本选择器
+soup.select(&#x27;div&#x27;)  # 所有&lt;div&gt;标签
+soup.select(&#x27;.item&#x27;)  # class为item的所有元素
+soup.select(&#x27;#header&#x27;)  # id为header的元素
+
+# 组合选择器
+soup.select(&#x27;div.item&#x27;)  # class为item的&lt;div&gt;标签
+soup.select(&#x27;li &gt; a&#x27;)  # 所有直接是&lt;li&gt;子标签的&lt;a&gt;标签
+soup.select(&#x27;div p&#x27;)  # 所有在&lt;div&gt;内的&lt;p&gt;标签（不限嵌套层级）
+
+# 属性选择器
+soup.select(&#x27;a[target=&quot;_blank&quot;]&#x27;)  # 所有target为_blank的链接
+soup.select(&#x27;input[type=&quot;text&quot;]&#x27;)  # 所有类型为text的输入框
+
+# 获取单个元素
+soup.select_one(&#x27;.content&#x27;)  # 只返回第一个匹配的元素</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9108db55-6aee-8261-b1e7-01e3b8b1be70" class="toggle"><li><details open=""><summary>不同解释器的不同点</summary><div style="display:contents" dir="ltr"><figure id="c708db55-6aee-82c1-ab6e-01afc8c8f1d3" class="image"><a href="BeautifulSoup/Snipaste_2026-01-05_19-57-18.png"><img style="width:409.96875px" src="BeautifulSoup/Snipaste_2026-01-05_19-57-18.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="6178db55-6aee-8304-8e10-81bcee74e62d" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="4158db55-6aee-8380-994b-013094b2fb8d"/></div><div style="display:contents" dir="auto"><p id="8aa8db55-6aee-8390-a7f2-819d79e89cec" class="">BeautifulSoup<mark class="highlight-blue">自动</mark>将输入文档转换为<mark class="highlight-blue">Unicode</mark>，输出转换为<mark class="highlight-blue">UTF-8</mark>，一般无需手动处理编码。</p></div><div style="display:contents" dir="auto"><hr id="5d38db55-6aee-834a-be32-8160035c2850"/></div><div style="display:contents" dir="auto"><p id="6698db55-6aee-83e7-9dc4-81ecc9d34ba2" class="">案例：</p></div><div style="display:contents" dir="auto"><ul id="6f48db55-6aee-838c-b88d-817da1d65b1f" class="toggle"><li><details open=""><summary>提取豆瓣电影信息</summary><div style="display:contents" dir="auto"><pre id="b258db55-6aee-8297-a727-813725aeddcc" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import requests
+from bs4 import BeautifulSoup
+
+def scrape_douban_movies():
+    url = &quot;https://movie.douban.com/chart&quot;
+    headers = {
+        &#x27;User-Agent&#x27;: &#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36&#x27;
+    }
+    
+    # 获取网页内容
+    resp = requests.get(url, headers=headers)
+    soup = BeautifulSoup(resp.text, &#x27;lxml&#x27;)
+    
+    movies = []
+    
+    # 查找所有电影条目（根据实际页面结构调整选择器）
+    items = soup.find_all(&#x27;div&#x27;, class_=&#x27;pl2&#x27;)  # 示例选择器，需根据实际情况调整
+    
+    for item in items:
+        # 提取电影名称
+        name_tag = item.find(&#x27;a&#x27;)
+        name = name_tag.get_text().strip() if name_tag else &quot;未知&quot;
+        
+        # 提取链接
+        link = name_tag[&#x27;href&#x27;] if name_tag and name_tag.has_attr(&#x27;href&#x27;) else &quot;未知&quot;
+        
+        # 提取评分
+        rating_tag = item.find(&#x27;span&#x27;, class_=&#x27;rating_nums&#x27;)
+        rating = rating_tag.get_text() if rating_tag else &quot;暂无评分&quot;
+        
+        movies.append({
+            &#x27;name&#x27;: name,
+            &#x27;link&#x27;: link,
+            &#x27;rating&#x27;: rating
+        })
+    
+    return movies
+
+# 使用示例
+movies = scrape_douban_movies()
+for i, movie in enumerate(movies[:5], 1):  # 只显示前5部电影
+    print(f&quot;{i}. 电影名称: {movie[&#x27;name&#x27;]}&quot;)
+    print(f&quot;   链接: {movie[&#x27;link&#x27;]}&quot;)
+    print(f&quot;   评分: {movie[&#x27;rating&#x27;]}\n&quot;)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3f38db55-6aee-834a-a4ff-01181a3a42bd" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

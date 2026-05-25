@@ -1,0 +1,969 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>ArrayList</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6e58db55-6aee-8271-b743-013a53610e71" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/woodcuts_1.jpg" style="object-position:center 90%"/><h1 class="page-title" dir="auto">ArrayList</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h2 id="5288db55-6aee-82ab-8edb-0139920ab3fc" class="">核心概念</h2></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="ed98db55-6aee-82ec-bf50-811976ad8fda" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 传统数组的局限性
+int[] fixedArray = new int[10];  // 固定大小，无法扩容
+fixedArray[10] = 11;  // ❌ ArrayIndexOutOfBoundsException
+
+// 动态数组的优势
+List&lt;Integer&gt; dynamicList = new ArrayList&lt;&gt;();
+dynamicList.add(1);  // 自动扩容
+dynamicList.add(2);
+// ✅ 无需预先知道大小</code></pre></div><div style="display:contents" dir="auto"><h2 id="7788db55-6aee-82d5-9f56-01276d103e21" class="">创建和初始化</h2></div><div style="display:contents" dir="auto"><pre id="2938db55-6aee-8368-b169-01ddf7860c2d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 创建空列表
+List&lt;String&gt; list1 = new ArrayList&lt;&gt;();
+
+// 指定初始容量
+List&lt;String&gt; list2 = new ArrayList&lt;&gt;(20);
+
+// 从其他集合创建
+List&lt;String&gt; list3 = new ArrayList&lt;&gt;(Arrays.asList(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;));
+
+// 使用静态工厂方法
+List&lt;String&gt; list4 = List.of(&quot;Java&quot;, &quot;Python&quot;, &quot;C++&quot;);  // 不可变
+List&lt;String&gt; list5 = new ArrayList&lt;&gt;(List.of(&quot;A&quot;, &quot;B&quot;));  // 可变</code></pre></div><div style="display:contents" dir="auto"><h2 id="ed08db55-6aee-8215-812d-817bf356dc76" class="">添加元素</h2></div><div style="display:contents" dir="auto"><pre id="4048db55-6aee-8280-b103-81f3b7e30ef9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+
+// 尾部添加
+boolean added = list.add(1);       // 总是返回true
+list.add(2);
+list.add(3);
+
+// 指定位置插入
+list.add(0, 0);      // 头部插入
+list.add(2, 100);    // 索引2处插入
+list.add(list.size(), 999);  // 等效于尾部添加
+
+// 批量添加
+list.addAll(Arrays.asList(4, 5, 6));
+list.addAll(1, Arrays.asList(7, 8, 9));  // 指定位置批量添加</code></pre></div><div style="display:contents" dir="auto"><h2 id="5e08db55-6aee-82fc-ac09-816f45190ec6" class="">获取元素</h2></div><div style="display:contents" dir="auto"><pre id="af28db55-6aee-82b8-b526-01e7da7dab72" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;String&gt; list = new ArrayList&lt;&gt;(Arrays.asList(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;));
+
+// 获取单个元素
+String first = list.get(0);   // &quot;A&quot;
+String last = list.get(list.size() - 1);  // &quot;D&quot;
+
+// 遍历
+for (int i = 0; i &lt; list.size(); i++) {
+    System.out.println(list.get(i));
+}
+
+// 增强for循环
+for (String item : list) {
+    System.out.println(item);
+}
+
+// 使用迭代器
+Iterator&lt;String&gt; it = list.iterator();
+while (it.hasNext()) {
+    System.out.println(it.next());
+}
+
+// Lambda表达式
+list.forEach(item -&gt; System.out.println(item));
+list.forEach(System.out::println);</code></pre></div><div style="display:contents" dir="auto"><h2 id="9878db55-6aee-83f0-b105-813acbaca62d" class="">修改元素</h2></div><div style="display:contents" dir="auto"><pre id="6138db55-6aee-8275-87f7-01be2d99f28b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;String&gt; list = new ArrayList&lt;&gt;(Arrays.asList(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;));
+
+// 替换元素
+String oldValue = list.set(1, &quot;X&quot;);  // 返回&quot;B&quot;，列表变为[&quot;A&quot;, &quot;X&quot;, &quot;C&quot;]
+
+// 批量替换
+list.replaceAll(s -&gt; s + &quot;-1&quot;);  // 所有元素加&quot;-1&quot;，变成[&quot;A-1&quot;, &quot;X-1&quot;, &quot;C-1&quot;]</code></pre></div><div style="display:contents" dir="auto"><h2 id="39a8db55-6aee-8205-9c24-810371eaf319" class="">删除元素</h2></div><div style="display:contents" dir="auto"><pre id="d398db55-6aee-8309-ac11-011df1119072" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;Integer&gt; list = new ArrayList&lt;&gt;(Arrays.asList(1, 2, 3, 4, 5, 3));
+
+// 删除指定索引的元素
+int removed = list.remove(1);  // 删除索引1，返回2
+
+// 删除第一个匹配的元素
+boolean removed2 = list.remove(Integer.valueOf(3));  // 删除第一个3，返回true
+boolean removed3 = list.remove(Integer.valueOf(10)); // 返回false
+
+// 删除多个元素
+list.removeAll(Arrays.asList(3, 4));  // 删除所有3和4
+list.retainAll(Arrays.asList(1, 5));  // 只保留1和5，删除其他
+
+// 条件删除
+list.removeIf(n -&gt; n &gt; 3);  // 删除所有大于3的元素
+
+// 清空
+list.clear();  // 清空所有</code></pre></div><div style="display:contents" dir="auto"><h2 id="12b8db55-6aee-831c-853e-814d43e0a141" class="">查找和判断</h2></div><div style="display:contents" dir="auto"><pre id="d958db55-6aee-8251-8ba4-010f57bd7b36" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;String&gt; list = new ArrayList&lt;&gt;(Arrays.asList(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;A&quot;));
+
+// 包含判断
+boolean hasA = list.contains(&quot;A&quot;);  // true
+boolean hasAll = list.containsAll(Arrays.asList(&quot;A&quot;, &quot;B&quot;));  // true
+
+// 查找索引
+int firstIndex = list.indexOf(&quot;A&quot;);     // 0
+int lastIndex = list.lastIndexOf(&quot;A&quot;);  // 3
+int notFound = list.indexOf(&quot;Z&quot;);       // -1
+
+// 空判断
+boolean isEmpty = list.isEmpty();  // false
+int size = list.size();           // 获取大小</code></pre></div><div style="display:contents" dir="auto"><h2 id="7c18db55-6aee-83fb-b36d-81af5df2d955" class="">批量操作</h2></div><div style="display:contents" dir="auto"><pre id="1ea8db55-6aee-828c-a0d5-01c61909b248" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;Integer&gt; list1 = new ArrayList&lt;&gt;(Arrays.asList(1, 2, 3));
+List&lt;Integer&gt; list2 = new ArrayList&lt;&gt;(Arrays.asList(2, 3, 4));
+
+// 交集
+list1.retainAll(list2);  // list1变为[2, 3]
+
+// 并集
+list1.addAll(list2);  // 将list2所有元素加到list1末尾
+
+// 差集
+list1.removeAll(list2);  // 从list1中删除list2中所有元素
+
+// 相等判断
+boolean equal = list1.equals(Arrays.asList(1, 2, 3));  // 比较内容</code></pre></div><div style="display:contents" dir="auto"><h2 id="9e08db55-6aee-83ad-a0c0-010969b87db1" class="">转换操作</h2></div><div style="display:contents" dir="auto"><pre id="fc28db55-6aee-821e-bc16-01842a73bbfd" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;String&gt; list = new ArrayList&lt;&gt;(Arrays.asList(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;));
+
+// 转数组
+String[] array1 = list.toArray(new String[0]);           // 常用
+String[] array2 = list.toArray(new String[list.size()]); // 预分配大小
+
+// 转指定类型列表
+String[] array3 = list.stream().toArray(String[]::new);
+
+// 子列表
+List&lt;String&gt; subList = list.subList(1, 3);  // [B, C]（视图，原列表修改会影响子列表）
+
+// 转为不可修改列表
+List&lt;String&gt; unmodifiable = List.copyOf(list);
+List&lt;String&gt; unmodifiable2 = Collections.unmodifiableList(list);</code></pre></div><div style="display:contents" dir="auto"><h2 id="8d48db55-6aee-8388-a0c2-01562f7f8c66" class="">排序和比较</h2></div><div style="display:contents" dir="auto"><pre id="ed88db55-6aee-82c9-9e6e-0171d7d3fc31" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;Integer&gt; numbers = new ArrayList&lt;&gt;(Arrays.asList(5, 2, 8, 1, 9));
+
+// 自然排序
+Collections.sort(numbers);  // 升序
+numbers.sort(null);         // 同上
+numbers.sort(Comparator.naturalOrder());  // 升序
+numbers.sort(Comparator.reverseOrder());  // 降序
+
+// 自定义排序
+numbers.sort((a, b) -&gt; b - a);  // 降序
+numbers.sort(Comparator.comparingInt(n -&gt; n));  // 升序
+numbers.sort(Comparator.comparingInt(n -&gt; n).reversed());  // 降序
+
+// 复杂对象排序
+List&lt;Person&gt; people = new ArrayList&lt;&gt;();
+people.sort(Comparator.comparing(Person::getAge).thenComparing(Person::getName));
+
+// 随机排序
+Collections.shuffle(numbers);</code></pre></div><div style="display:contents" dir="auto"><hr id="e418db55-6aee-82bf-9a69-81ec71c288f8"/></div><div style="display:contents" dir="auto"><hr id="6d78db55-6aee-8338-b0b5-81fd92dda97c"/></div><div style="display:contents" dir="auto"><hr id="8698db55-6aee-82de-afb5-01b61a69e20c"/></div><div style="display:contents" dir="auto"><h2 id="99f8db55-6aee-83d2-8ba7-01677223c9d8" class="">流操作</h2></div><div style="display:contents" dir="auto"><pre id="b858db55-6aee-8250-bb83-01c826b3ab80" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;Integer&gt; list = Arrays.asList(1, 2, 3, 4, 5);
+
+// 过滤
+List&lt;Integer&gt; filtered = list.stream()
+    .filter(n -&gt; n &gt; 2)
+    .collect(Collectors.toList());
+
+// 映射
+List&lt;String&gt; mapped = list.stream()
+    .map(n -&gt; &quot;Number: &quot; + n)
+    .collect(Collectors.toList());
+
+// 聚合
+int sum = list.stream().mapToInt(Integer::intValue).sum();
+Optional&lt;Integer&gt; max = list.stream().max(Integer::compare);
+Optional&lt;Integer&gt; min = list.stream().min(Integer::compare);
+double average = list.stream().mapToInt(Integer::intValue).average().orElse(0.0);
+
+// 统计
+IntSummaryStatistics stats = list.stream().mapToInt(Integer::intValue).summaryStatistics();
+long count = stats.getCount();
+int maxNum = stats.getMax();
+int minNum = stats.getMin();
+double avg = stats.getAverage();
+long sumNum = stats.getSum();
+
+// 去重
+List&lt;Integer&gt; distinct = list.stream().distinct().collect(Collectors.toList());
+
+// 收集
+Set&lt;Integer&gt; set = list.stream().collect(Collectors.toSet());
+Map&lt;Integer, Long&gt; countMap = list.stream()
+    .collect(Collectors.groupingBy(n -&gt; n, Collectors.counting()));</code></pre></div><div style="display:contents" dir="auto"><h2 id="b208db55-6aee-826e-9c37-01ea95f3d053" class="">实用方法</h2></div><div style="display:contents" dir="auto"><pre id="ead8db55-6aee-831d-83e6-011a918358b4" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;String&gt; list = new ArrayList&lt;&gt;(Arrays.asList(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;));
+
+// 填充
+Collections.fill(list, &quot;X&quot;);  // 所有元素变为&quot;X&quot;
+
+// 反转
+Collections.reverse(list);
+
+// 旋转
+Collections.rotate(list, 1);  // 右移1位
+Collections.rotate(list, -1); // 左移1位
+
+// 交换
+Collections.swap(list, 0, 2);
+
+// 填充
+list.replaceAll(s -&gt; s + &quot;!&quot;);
+
+// 转为字符串
+String str = list.toString();  // &quot;[A, B, C]&quot;
+String joined = String.join(&quot;, &quot;, list);  // &quot;A, B, C&quot;
+
+// 清空并回收空间
+list.clear();
+list.trimToSize();  // 缩容到当前大小</code></pre></div><div style="display:contents" dir="auto"><h2 id="afa8db55-6aee-8215-8cad-015945304793" class="">性能优化</h2></div><div style="display:contents" dir="auto"><pre id="20e8db55-6aee-8213-994d-01060806c8f2" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 1. 预分配容量
+List&lt;Integer&gt; list = new ArrayList&lt;&gt;(1000);  // 避免多次扩容
+
+// 2. 批量操作
+list.addAll(anotherList);  // 批量添加比循环快
+
+// 3. 使用Arrays.asList
+List&lt;String&gt; list = Arrays.asList(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;);  // 固定大小
+List&lt;String&gt; mutable = new ArrayList&lt;&gt;(Arrays.asList(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;));  // 可变
+
+// 4. 避免频繁插入删除
+LinkedList&lt;String&gt; linked = new LinkedList&lt;&gt;();  // 适合频繁插入删除</code></pre></div><div style="display:contents" dir="auto"><h2 id="dee8db55-6aee-8352-ae7b-8124b2e14fe2" class="">常见错误</h2></div><div style="display:contents" dir="auto"><pre id="c1c8db55-6aee-8262-b6da-81b09ff4277d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 错误：遍历时删除
+List&lt;String&gt; list = new ArrayList&lt;&gt;(Arrays.asList(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;));
+for (int i = 0; i &lt; list.size(); i++) {
+    if (list.get(i).equals(&quot;B&quot;)) {
+        list.remove(i);  // 会跳过检查C
+    }
+}
+
+// 正确：使用迭代器删除
+Iterator&lt;String&gt; it = list.iterator();
+while (it.hasNext()) {
+    if (it.next().equals(&quot;B&quot;)) {
+        it.remove();  // 安全删除
+    }
+}
+
+// 正确：从后往前删除
+for (int i = list.size() - 1; i &gt;= 0; i--) {
+    if (list.get(i).equals(&quot;B&quot;)) {
+        list.remove(i);
+    }
+}</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,841 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>函数类型</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9948db55-6aee-8275-adb0-0167185a4054" class="page mono"><header><h1 class="page-title" dir="auto">函数类型</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="f3c8db55-6aee-8324-8628-81e0307c7589" class="">TypeScript（TS）的<strong>函数类型</strong>是对函数输入（参数）和输出（返回值）的类型约束，核心是明确函数的参数类型、返回值类型，以及函数本身的类型签名</p></div><div style="display:contents" dir="auto"><hr id="3a98db55-6aee-8352-934b-011dcfca2be1"/></div><div style="display:contents" dir="auto"><ul id="0eb8db55-6aee-82c8-89c1-81351994fa42" class="toggle"><li><details open=""><summary>直接在函数定义中标注类型</summary><div style="display:contents" dir="auto"><p id="2398db55-6aee-83d3-96c1-8146f318f68b" class=""><code>(参数名: 类型, ...) =&gt; 返回值类型</code></p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="1da8db55-6aee-8227-a58c-81bf9f3c4347" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 普通函数
+function add(a: number, b: number): number {
+  return a + b;
+}
+
+// 箭头函数
+const multiply = (x: number, y: number): number =&gt; {
+  return x * y;
+};
+
+// 无返回值（void 类型）
+function logMsg(msg: string): void {
+  console.log(msg);
+  // 无 return 或 return undefined 均符合 void
+}
+
+// 返回值为 never（永远不会执行完，如抛出错误/无限循环）
+function throwError(msg: string): never {
+  throw new Error(msg);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="00b8db55-6aee-826e-a7b0-0171e9859bc4" class="toggle"><li><details open=""><summary>先定义函数类型别名，再赋值</summary><div style="display:contents" dir="auto"><p id="abb8db55-6aee-8375-a471-81ebb32ce15c" class="">通过 <code>type</code> 定义函数类型签名，再将符合该签名的函数赋值给变量，适合多个函数共享同一类型约束</p></div><div style="display:contents" dir="auto"><pre id="b488db55-6aee-82dd-b3ac-816c58bb944e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 定义函数类型别名：接收两个 number，返回 number
+type CalculateFunc = (a: number, b: number) =&gt; number;
+
+// 符合类型的函数
+const add: CalculateFunc = (x, y) =&gt; x + y; // 无需重复标注参数类型（TS 自动推导）
+const subtract: CalculateFunc = (a, b) =&gt; a - b;
+
+// 错误示例：参数类型不匹配（TS 报错）
+// const invalidFunc: CalculateFunc = (a: string, b: string) =&gt; a + b;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b438db55-6aee-8302-b430-018aa7967421" class="toggle"><li><details open=""><summary>可选参数</summary><div style="display:contents" dir="auto"><p id="7088db55-6aee-8392-a45e-010332645da6" class="">用 <code>?</code> 标记参数为可选，<strong>可选参数必须放在必选参数之后</strong></p></div><div style="display:contents" dir="auto"><pre id="0e18db55-6aee-8336-a0b1-01acb8ab631d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// age 是可选参数（number | undefined）
+function getUserInfo(name: string, age?: number): string {
+  return age ? `${name}, ${age}岁` : name;
+}
+
+getUserInfo(&quot;张三&quot;); // 合法
+getUserInfo(&quot;李四&quot;, 20); // 合法
+// getUserInfo(&quot;王五&quot;, &quot;20&quot;); // 报错：age 需为 number | undefined</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4838db55-6aee-831f-8de9-016cf3dbaf8c" class="toggle"><li><details open=""><summary>默认参数</summary><div style="display:contents" dir="auto"><p id="cad8db55-6aee-82bc-abae-01240e815301" class="">参数指定默认值后，<mark class="highlight-orange">TS 会自动推导类型</mark>（也可显式标注），默认参数可放在必选参数前（但需传 undefined 触发默认值）。</p></div><div style="display:contents" dir="auto"><pre id="87c8db55-6aee-825d-8d57-01e6b3961c28" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 默认参数：gender 默认为 &quot;male&quot;，类型推导为 string
+function getPerson(name: string, gender = &quot;male&quot;): string {
+  return `${name}, ${gender}`;
+}
+
+getPerson(&quot;张三&quot;); // 张三, male
+getPerson(&quot;李四&quot;, &quot;female&quot;); // 李四, female
+
+// 默认参数在前（需传 undefined 触发默认值）
+function getInfo(age = 18, name: string): string {
+  return `${name}, ${age}岁`;
+}
+getInfo(undefined, &quot;王五&quot;); // 王五, 18岁</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b588db55-6aee-8291-9938-015dd4e0efc7" class="toggle"><li><details open=""><summary>剩余参数</summary><div style="display:contents" dir="auto"><p id="6d28db55-6aee-8277-8b4a-012a403867be" class="">用 <code>...</code> 接收剩余参数，类型通常为数组（<code>类型[]</code>）</p></div><div style="display:contents" dir="auto"><pre id="0f48db55-6aee-82be-88c1-01ca77c0ff71" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 剩余参数 nums 为 number 数组
+function sum(...nums: number[]): number {
+  return nums.reduce((total, num) =&gt; total + num, 0);
+}
+
+sum(1, 2, 3); // 6
+sum(1, 2, 3, 4); // 10
+// sum(1, &quot;2&quot;); // 报错：剩余参数需为 number</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9ee8db55-6aee-8273-b256-811f7e7025c5" class="toggle"><li><details open=""><summary>无参数 / 无返回值的函数类型</summary><div style="display:contents" dir="auto"><pre id="0f38db55-6aee-8286-87a6-814babcda057" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 无参数，返回 string
+type NoParamFunc = () =&gt; string;
+const getHello: NoParamFunc = () =&gt; &quot;hello&quot;;
+
+// 无参数，无返回值
+type VoidFunc = () =&gt; void;
+const doNothing: VoidFunc = () =&gt; {};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0618db55-6aee-8339-8e8f-01554fe688f0" class="toggle"><li><details open=""><summary>函数重载（处理多参数 / 返回值组合）</summary><div style="display:contents" dir="auto"><p id="f958db55-6aee-834e-9874-01c8357db97c" class="">当一个函数需要<mark class="highlight-orange">接收不同类型 / 数量的参数</mark>，并<mark class="highlight-orange">返回不同类型</mark>时，可通过<strong>函数重载</strong>定义多个类型签名，TS 会根据入参匹配对应的签名。</p></div><div style="display:contents" dir="auto"><pre id="1678db55-6aee-83ed-9ca9-812dbc30d846" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 步骤1：定义重载签名（仅声明，无实现）
+function formatData(data: string): string; // 入参 string → 返回 string
+function formatData(data: number): number[]; // 入参 number → 返回 number[]
+
+// 步骤2：实现函数（需兼容所有重载签名）
+function formatData(data: string | number): string | number[] {
+  if (typeof data === &quot;string&quot;) {
+    return data.toUpperCase();
+  } else {
+    return [data, data * 2, data * 3];
+  }
+}
+
+// 调用：TS 自动匹配签名
+const strRes = formatData(&quot;hello&quot;); // 类型为 string
+const numRes = formatData(10); // 类型为 number[]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="db68db55-6aee-8251-a5a4-012b6cddf18e" class="toggle"><li><details open=""><summary>将函数作为参数</summary><div style="display:contents" dir="auto"><pre id="a518db55-6aee-835a-a4d0-81ac9a25c4a9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 定义接收回调函数的函数：回调接收 string，无返回值
+function handleData(data: string, callback: (res: string) =&gt; void): void {
+  const processed = data + &quot;_processed&quot;;
+  callback(processed);
+}
+
+// 调用：回调函数符合类型约束
+handleData(&quot;test&quot;, (res) =&gt; {
+  console.log(res); // res 类型为 string
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1c98db55-6aee-82d6-bdf0-81141de21d5f" class="toggle"><li><details open=""><summary>函数类型中的this类型（显式约束）</summary><div style="display:contents" dir="auto"><p id="ebd8db55-6aee-82ad-8364-0136b55a3f70" class="">TS 允许显式指定函数内部 <code>this</code> 的类型（需放在第一个参数位置，仅做类型约束，不实际传参）</p></div><div style="display:contents" dir="auto"><pre id="c558db55-6aee-82ee-b464-81dddc532ae8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 定义 this 的类型
+type User = { name: string; age: number };
+
+// 显式约束 this 为 User 类型
+function printUser(this: User): void {
+  console.log(`${this.name}, ${this.age}岁`);
+}
+
+// 绑定 this 并调用
+const user: User = { name: &quot;张三&quot;, age: 20 };
+const boundPrint = printUser.bind(user);
+boundPrint(); // 张三, 20岁
+
+// 错误调用：this 类型不匹配
+// printUser(); // 报错：this 应为 User，但实际是 undefined</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="fa08db55-6aee-8317-a6e0-010c76f7eaec"/></div><div style="display:contents" dir="auto"><p id="e1d8db55-6aee-8373-b941-015f550554eb" class="">误区：</p></div><div style="display:contents" dir="auto"><ol type="1" id="22b8db55-6aee-83b8-94d0-01f8b9a29f38" class="numbered-list" start="1"><li><strong>void 不是 undefined</strong>：<code>void</code> 表示 “无返回值”，函数可返回 <code>undefined</code>，但 <code>undefined</code> 类型表示 “明确返回 undefined”；</li></ol></div><div style="display:contents" dir="auto"><pre id="f288db55-6aee-8254-8a61-01ee667f9d94" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function fn1(): void { return; } // 合法
+function fn2(): undefined { return undefined; } // 必须显式返回 undefined</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="3508db55-6aee-8275-8eb5-0159de2b82ca" class="numbered-list" start="2"><li><strong>never 类型不可赋值给其他类型</strong>：<code>never</code> 表示函数永远不会完成（如抛错 / 死循环），是所有类型的子类型，但无类型是 <code>never</code> 的子类型；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="cb18db55-6aee-8359-b22e-8138232de490" class="numbered-list" start="3"><li><strong>函数类型匹配是 “协变” 的</strong>：只要参数类型兼容、返回值类型兼容，即可赋值（TS 严格模式下会检查参数类型的逆变）。</li></ol></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

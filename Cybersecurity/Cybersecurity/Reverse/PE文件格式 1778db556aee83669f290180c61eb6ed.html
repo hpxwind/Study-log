@@ -1,0 +1,1084 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>PE文件格式</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1778db55-6aee-8366-9f29-0180c61eb6ed" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/nasa_reduced_gravity_walking_simulator.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">📁</span></div><h1 class="page-title" dir="auto">PE文件格式</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="6938db55-6aee-827b-b21a-0125eb8daa6e" class="">PE文件为Windows下的可执行文件。分：PE32，PE+（即64位，PE32+，为32位的扩展形式）</p></div><div style="display:contents" dir="auto"><ul id="7cf8db55-6aee-8307-b415-015b3122e6c4" class="toggle"><li><details open=""><summary>PE文件种类</summary><div style="display:contents" dir="auto"><p id="a608db55-6aee-8373-ab2f-817e1f2cf025" class="">可执行系列：EXE、SCR</p></div><div style="display:contents" dir="auto"><p id="a568db55-6aee-82f7-9298-0170c5e58af8" class="">库系列：DLL、OCX、CPL、DRV</p></div><div style="display:contents" dir="auto"><p id="b068db55-6aee-828d-a174-8168d0eb0c7a" class="">驱动系列：SYS、VXD</p></div><div style="display:contents" dir="auto"><p id="cf78db55-6aee-832f-98b8-815a7f099efb" class="">对象文件系列：OBJ</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="b9a8db55-6aee-83df-9240-011651010be0"/></div><div style="display:contents" dir="auto"><p id="3088db55-6aee-82c1-ad20-81c1d3484476" class="">下面以notepad.exe为例子，研究PE文件基本结构，</p></div><div style="display:contents" dir="auto"><ul id="a0c8db55-6aee-8317-95d0-017a579de8bc" class="toggle"><li><details open=""><summary>EXE文件结构（无比重要）</summary><div style="display:contents" dir="ltr"><figure id="aa28db55-6aee-8306-893f-81485ab43484" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-21_22-03-45.png"><img style="width:156.99868774414062px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-21_22-03-45.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9a08db55-6aee-8276-85a0-01ad99432706" class="toggle"><li><details open=""><summary>VA &amp;&amp; RVA &amp;&amp; FOA</summary><div style="display:contents" dir="auto"><p id="0ad8db55-6aee-833e-8430-01fc885477ba" class="">VA指 进程虚拟内存的绝对地址</p></div><div style="display:contents" dir="auto"><p id="dd18db55-6aee-829e-91db-819d55febebb" class="">RVA指 相对虚拟地址，即：从某个基准位置（ImageBase）开始的相对地址</p></div><div style="display:contents" dir="auto"><p id="14e8db55-6aee-826a-9d53-0167ffb328d9" class="">关系如下：<mark class="highlight-yellow"><mark class="highlight-gray_background">RVA+ImageBase = VA</mark></mark></p></div><div style="display:contents" dir="auto"><p id="7038db55-6aee-821b-92ea-81e0fcc81505" class="">FOA指 文件地址偏移</p></div><div style="display:contents" dir="auto"><p id="eb48db55-6aee-8270-bd59-81cedc1b05c6" class="">FOV+FileBuff=导出表地址</p></div><div style="display:contents" dir="auto"><hr id="be88db55-6aee-839e-b16e-81cdc9ef2a9d"/></div><div style="display:contents" dir="auto"><p id="8fa8db55-6aee-82fd-bfa7-810c4a6e7665" class="">PE头内信息大多以RVA形式存在，为什么？</p></div><div style="display:contents" dir="auto"><p id="0848db55-6aee-8300-abc5-818701c0d3f2" class="">&gt;&gt;&gt;PE文件（主要为DLL）加载到进程虚拟内存的特定位置上，该位置可能已经加载了其他PE文件，此时必须重定位（Relocation）到其他空白位置上，否则就会出错。（类比于基地址和偏移地址）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6b38db55-6aee-8304-ba7a-81e33b27dc8e" class="toggle"><li><details open=""><summary>PE头</summary><div style="display:contents" dir="auto"><p id="bff8db55-6aee-822f-9ea9-81b62ebac820" class="">PE头由许多 结构体 组成。</p></div><div style="display:contents" dir="auto"><hr id="fad8db55-6aee-8374-9c11-016d939b2473"/></div><div style="display:contents" dir="auto"><ul id="2588db55-6aee-8261-8a9a-0196ff87d6f9" class="toggle"><li><details open=""><summary>DOS头</summary><div style="display:contents" dir="auto"><p id="9c88db55-6aee-8336-a3a5-818250b3579b" class="">最早人们使用DOS文件，PE文件对DOS文件具有兼容性，即在PE头前面添加了一个</p></div><div style="display:contents" dir="auto"><p id="7bc8db55-6aee-83a1-88d5-01b8d658323f" class=""><mark class="highlight-yellow"><mark class="highlight-gray_background">IMAGE_DOS_HEADER结构体 </mark></mark><mark class="highlight-gray_background">扩展DOS EXE</mark></p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js" integrity="sha512-namzGTZvHaug0jeipHRN2pMepMiJj+EbrloktVFlMYGnA0EwZhbdLeENjBYLCgoghVbZGinIz/FFYHmB0o3wLw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="62f8db55-6aee-83bd-94f0-81e771c03cd2" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">#define IMAGE_DOS_SIGNATURE 0x5A4D // MZ
+typedef struct _IMAGE_DOS_HEADER {
+WORD e_magic; // MZ 标记
+WORD e_cblp; // 最后（部分）页中的字节数
+WORD e_cp; // 文件中的页数
+WORD e_crlc; // 重定位表中的指针数
+WORD e_cparhdr; // 头部尺寸（以段落为单位）
+WORD e_minalloc; // 所需的最小附加段
+WORD e_maxalloc; // 所需的最大附加段
+WORD e_ss; // 初始的 SS 值
+WORD e_sp; // 初始的 SP 值
+WORD e_csum; // 补码校验值
+WORD e_ip; // 初始的 IP 值
+WORD e_cs; // 初始的 CS 值
+WORD e_lfarlc; // 重定位表的字节偏移量
+WORD e_ovno; // 覆盖号
+WORD e_res[4]; // 保留字
+WORD e_oemid; // OEM 标识符
+WORD e_oeminfo; // OEM 信息
+WORD e_res2[10]; // 保留字
+LONG e_lfanew; // NT 头（PE 标记）相对于文件的偏移地址
+} IMAGE_DOS_HEADER, *PIMAGE_DOS_HEADER;</code></pre></div><div style="display:contents" dir="auto"><p id="9798db55-6aee-82e5-9609-01fcd10d5c81" class=""><mark class="highlight-yellow"><mark class="highlight-gray_background">IMAGE_DOS_HEADER结构体  </mark></mark><mark class="highlight-gray_background">大小为40字节，内部有两个重要成员：</mark></p></div><div style="display:contents" dir="auto"><p id="0f68db55-6aee-83b0-8b6c-01f94a516d9b" class="">1、e_magic：DOS签名（signature 即：”MZ”）</p></div><div style="display:contents" dir="auto"><p id="6ea8db55-6aee-82e7-a0c1-015d10b29e01" class="">2、e_lfanew：指示NT头的偏移（根据不同文件，值不同）</p></div><div style="display:contents" dir="auto"><p id="b4b8db55-6aee-821d-a5b0-0175f1b92b19" class=""><mark class="highlight-pink">DOS最后一个字节指向PE头的位置，即PE头的偏移，之间时stub</mark></p></div><div style="display:contents" dir="auto"><ul id="b548db55-6aee-82db-82b9-013b4c4b14c6" class="toggle"><li><details open=""><summary>代码查看DOS头中两个重要成员：</summary><div style="display:contents" dir="auto"><pre id="09e8db55-6aee-82bb-a96c-815ca7a4da3c" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">#include&lt;Windows.h&gt;
+#include&lt;iostream&gt;
+int main() {
+	HANDLE hfile = CreateFileA(&quot;notepad++.exe&quot;, 
+		GENERIC_READ, // 访问权限
+		FILE_SHARE_READ, // 其他进程的对该句柄的权限
+		NULL, // 子进程是否能继承句柄
+		OPEN_EXISTING, // 对存在或不存在的文件或设备执行的操作 // OPEN_EXISTING，存在时打开，不存在时报错：ERROR_FILE_NOT_FOUND
+		FILE_ATTRIBUTE_NORMAL, // 文件最常见的默认值
+		0); // 
+	DWORD fileSize = GetFileSize(hfile, NULL);
+	char* fileBuff = new char[fileSize];
+	DWORD realRead = 0;
+	BOOL bsucess = ReadFile(hfile, fileBuff,fileSize, &amp;realRead, NULL);
+	if (bsucess) 
+	{
+		PIMAGE_DOS_HEADER pDosHeader = (PIMAGE_DOS_HEADER)fileBuff;
+		if (pDosHeader-&gt;e_magic != 0x5A4D)
+		{
+			printf(&quot;不是有效的PE文件\n&quot;);
+			delete[] fileBuff;
+			return 0;
+		}
+		printf(&quot;e_lfanew=%d\n&quot;, pDosHeader-&gt;e_lfanew);
+	}
+	else 
+	{
+		printf(&quot;读取文件失败：ReadFileError&quot;);
+	}
+	
+	return 0;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="ab38db55-6aee-833f-a4b0-819e9012b153"/></div><div style="display:contents" dir="auto"><p id="f5c8db55-6aee-8286-b483-81ba9398dcbe" class="">查看notepad.exe：</p></div><div style="display:contents" dir="ltr"><figure id="bea8db55-6aee-820d-bc2a-01b2c3f23ba7" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/01.png"><img style="width:653.9908447265625px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/01.png"/></a></figure></div><div style="display:contents" dir="auto"><hr id="ccf8db55-6aee-83ea-be66-81a2e110474d"/></div><div style="display:contents" dir="auto"><p id="9448db55-6aee-830e-a180-8194baee5332" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3f78db55-6aee-835c-b4e1-019e3286ec58" class="toggle"><li><details open=""><summary>DOS存根（垃圾）</summary><div style="display:contents" dir="auto"><p id="73d8db55-6aee-8262-babd-01d2d9f96031" class="">DOS存根（stub）在DOS头下方，大小不固定（即使没有DOS存根，文件也能正常运行）</p></div><div style="display:contents" dir="auto"><p id="be18db55-6aee-837c-95ee-814069b72b53" class="">该程序在 DOS 下执行的时候，就会执行这部分的内容。</p></div><div style="display:contents" dir="auto"><hr id="2328db55-6aee-8248-8e8b-813d06b46f84"/></div><div style="display:contents" dir="auto"><p id="d558db55-6aee-8333-9e0f-8159baf23f48" class="">stub由代码与数据混合而成。notepad.exe：</p></div><div style="display:contents" dir="ltr"><figure id="c478db55-6aee-83a9-a8ac-8158a1b53644" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/02.png"><img style="width:653.984375px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/02.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="06d8db55-6aee-83f5-940a-01d6641ec7b5" class="">上图中40~4D区域为16位的汇编指令，由于被视为PE文件，使用代码被忽视，不会执行（Windows OS），但是在Windows XP环境下，使用<code>debug D:\…\notepad.exe</code>会执行。</p></div><div style="display:contents" dir="auto"><hr id="fec8db55-6aee-833b-a900-8164ec77dff4"/></div><div style="display:contents" dir="auto"><p id="2be8db55-6aee-83b6-8b8e-8130308ebd51" class="">DOS存根是可选项，开发工具应该支持（VB，VC++，Delphi等默认支持DOS存根）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f3d8db55-6aee-83cf-950d-0178435a93e8" class="toggle"><li><details open=""><summary>NT头</summary><div style="display:contents" dir="auto"><p id="5c58db55-6aee-8278-b5a1-0153a5f9f9e6" class="">NT头：IMAGE_NT_HEADERS</p></div><div style="display:contents" dir="auto"><pre id="2458db55-6aee-8342-817d-0151e690260a" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">typedef struct _IMAGE_NT_HEADERS64 { // 32 位
+DWORD Signature; // PE 标记 0x00004550
+IMAGE_FILE_HEADER FileHeader; // 标准 PE 头
+IMAGE_OPTIONAL_HEADER32 OptionalHeader; // 扩展/可选 PE 头
+} IMAGE_NT_HEADERS32, *PIMAGE_NT_HEADERS32;</code></pre></div><div style="display:contents" dir="auto"><p id="db78db55-6aee-8272-b3e9-011f06d7fffe" class="">成员说明：</p></div><div style="display:contents" dir="auto"><ul id="1ec8db55-6aee-8250-9fac-81049f96b776" class="toggle"><li><details open=""><summary>1、标签结构体（Signature）：固定值为0x4550（即：“PE”）</summary><div style="display:contents" dir="auto"><p id="3518db55-6aee-8333-b741-01f7964a414d" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ee88db55-6aee-8236-8e14-016bfabb5825" class="toggle"><li><details open=""><summary>2、文件头（File Header）</summary><div style="display:contents" dir="auto"><p id="3858db55-6aee-834a-bdc9-011c2abe23d8" class="">文件头是表现文件大致属性的<mark class="highlight-yellow"><mark class="highlight-gray_background">IMAGE_FILE_HEADER结构体</mark></mark></p></div><div style="display:contents" dir="auto"><pre id="8ed8db55-6aee-82b2-8299-014a92aae5bf" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">typedef struct _IMAGE_FILE_HEADER {
+WORD Machine; // 程序运行平台 // 程序允许运行的CPU型号，为0表示可以在任何设备上运行 0x14c 386.....
+WORD NumberOfSections; // PE 中节的数量 // 区段数量
+DWORD TimeDateStamp; // 时间戳，文件创建日期和时间
+DWORD PointerToSymbolTable; // COFF 符号表的文件偏移
+DWORD NumberOfSymbols; // 符号表中的符号数量
+WORD SizeOfOptionalHeader; // 扩展/可选 PE 头的大小 32bit 默认E0，64bit 默认F0
+WORD Characteristics; // PE 文件属性（可读，可写，可执行）
+} IMAGE_FILE_HEADER, *PIMAGE_FILE_HEADER;</code></pre></div><div style="display:contents" dir="auto"><ul id="22f8db55-6aee-822d-a0b7-813ae9d06fe6" class="toggle"><li><details open=""><summary>有四个重要成员（如果设置不正确，文件无法运行）</summary><div style="display:contents" dir="auto"><p id="0eb8db55-6aee-8216-bba9-01eb22d26318" class="">1、Machine：每个CPU都有唯一的Machine码，兼容32位Intel x86芯片的Machine码为 <code>14c</code> </p></div><div style="display:contents" dir="auto"><p id="dc18db55-6aee-832c-b809-8123ddd1d3ce" class="">2、NumberOfSections：用来指出文件中存在的节区数量。该值一定要大于0，如果定义的节区数量与实际不符，会发生错误。</p></div><div style="display:contents" dir="auto"><p id="c7c8db55-6aee-8285-97f3-01d67fcc6a9f" class="">3、SizeOfOptionalHeader：IMAGE_NT_HEADER结构体最后一个成员为IMAGE_OPTIONAL_HEADER32结构体，其用来指出这个结构体的长度。</p></div><div style="display:contents" dir="auto"><p id="bfb8db55-6aee-829b-974b-8115e503d296" class="">（IMAGE_OPTIONAL_HEADER32结构体 由C语言编写而成，大小是确定的，但是Windows的PE装载器需要查看SizeOfOptionalHeader值来确定大小）</p></div><div style="display:contents" dir="auto"><p id="23a8db55-6aee-8215-ab13-817005a915a1" class="">（同时IMAGE_OPTIONAL_HEADER32与IMAGE_OPTIONAL_HEADER64的尺寸不同，因此需要SizeOfOptionalHeader来确认大小）</p></div><div style="display:contents" dir="auto"><p id="63d8db55-6aee-83bc-af7f-015039f88042" class="">4、Characteristics：用于标识文件的属性，文件是否是可运行的状态，是否为DLL信息，以bit OR形式组合起来的。需要记住：</p></div><div style="display:contents" dir="auto"><p id="3f18db55-6aee-82fe-937d-014e10a4b6bd" class=""><code>#define IMAGE_FILE_EXECUTABLE_IMAGE  0x0002 //文件是executable</code> </p></div><div style="display:contents" dir="auto"><p id="6b18db55-6aee-83c3-a29f-01c91de8fd7a" class=""><code>#define IMAGE_FILE_DLL  0x2000 //文件是DLL</code></p></div><div style="display:contents" dir="auto"><p id="dc08db55-6aee-82cd-bb5c-010e35a58017" class="">还有一个TimeDateStamp成员，不影响文件运行，用来记录编译器创建此文件的时间（VB，VC++支持）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fcf8db55-6aee-838b-b7ab-81bf2f658391" class="toggle"><li><details open=""><summary>代码查看成员</summary><div style="display:contents" dir="auto"><pre id="d818db55-6aee-82df-986e-811992967899" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">#include&lt;Windows.h&gt;
+#include&lt;iostream&gt;
+
+
+int main() {
+	HANDLE hfile = CreateFileA(&quot;notepad++.exe&quot;, 
+		GENERIC_READ, // 访问权限
+		FILE_SHARE_READ, // 其他进程的对该句柄的权限
+		NULL, // 子进程是否能继承句柄
+		OPEN_EXISTING, // 对存在或不存在的文件或设备执行的操作 // OPEN_EXISTING，存在时打开，不存在时报错：ERROR_FILE_NOT_FOUND
+		FILE_ATTRIBUTE_NORMAL, // 文件最常见的默认值
+		0); // 
+	DWORD fileSize = GetFileSize(hfile, NULL);
+	char* fileBuff = new char[fileSize];
+	DWORD realRead = 0;
+	PIMAGE_NT_HEADERS pNtHeaders = 0;
+	PIMAGE_FILE_HEADER pFileHeader = 0;
+	BOOL bsucess = ReadFile(hfile, fileBuff,fileSize, &amp;realRead, NULL);
+	if (bsucess) 
+	{
+		PIMAGE_DOS_HEADER pDosHeaders = (PIMAGE_DOS_HEADER)fileBuff;
+		if (pDosHeaders-&gt;e_magic != 0x5A4D) // 判断是否为PE文件
+		{
+			printf(&quot;不是有效的PE文件\n&quot;);
+			delete[] fileBuff;
+			CloseHandle(hfile);
+			return 0;
+		}
+		printf(&quot;e_lfanew=%d\n&quot;, pDosHeaders-&gt;e_lfanew);
+		pNtHeaders = (PIMAGE_NT_HEADERS)(pDosHeaders-&gt;e_lfanew + (UINT_PTR)fileBuff);
+		DWORD pe = pNtHeaders-&gt;Signature; // 这里DWORD 是 32 位整数类型
+		/*
+		DWORD pe = pNtHeaders-&gt;Signature;
+		这里DWORD 是 32 位整数类型
+		但指针（如 fileBuff）在 64 位系统中是 64 位的。
+		代码中使用 (DWORD) 强制转换指针，
+		会导致 64 位地址被截断，从而计算出错误的 pNtHeaders 地址。
+		解决方案：
+		1、UINT_PTR 在32/64中都有效
+		pNtHeaders = (PIMAGE_NT_HEADERS)( (UINT_PTR)fileBuff + pDosHeaders-&gt;e_lfanew );
+		2、该换x86 Debug
+		*/
+		if (pe != 0x4550)
+		{
+			printf(&quot;不是有效的PE文件\n&quot;);
+			delete[] fileBuff;
+			CloseHandle(hfile);
+			return 0;
+		}
+		pFileHeader = (PIMAGE_FILE_HEADER)&amp;pNtHeaders-&gt;FileHeader;
+		printf(&quot;Machine=%x\n&quot;, pFileHeader-&gt;Machine);
+		printf(&quot;Characteristics=%x\n&quot;, pFileHeader-&gt;Characteristics);
+		printf(&quot;NumberOfSections=%d\n&quot;, pFileHeader-&gt;NumberOfSections);
+		printf(&quot;SizeOfOptionalHeader=%d\n&quot;, pFileHeader-&gt;SizeOfOptionalHeader);
+	}
+	else 
+	{
+		printf(&quot;读取文件失败：ReadFileError&quot;);
+	}
+	delete[] fileBuff;
+	CloseHandle(hfile);
+	return 0;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="7408db55-6aee-82c5-a7a4-813488e5af82"/></div><div style="display:contents" dir="auto"><p id="85a8db55-6aee-83ee-959c-8158e5b9f4b5" class="">IMAGE_FILE_HEADER结构体：notepad.exe：</p></div><div style="display:contents" dir="ltr"><figure id="9318db55-6aee-8203-aa36-819a47861827" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_20-09-17.png"><img style="width:625.9830322265625px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_20-09-17.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="34b8db55-6aee-839d-aebb-014418e0bfd1" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="efc8db55-6aee-8227-ab4a-01af88271747" class="toggle"><li><details open=""><summary>3、可选头（Optional Header）</summary><div style="display:contents" dir="auto"><p id="dc08db55-6aee-8325-866f-0120e623c4b2" class="">IMAGE_OPTIONAL_HEADER32结构体是PE头结构体中最大的</p></div><div style="display:contents" dir="auto"><pre id="3e78db55-6aee-8304-8e2e-8177985c84af" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">typedef struct _IMAGE_OPTIONAL_HEADER {
+  WORD       Magic; // 32位：10B，64位：20B
+  BYTE       MajorLinkerVersion;
+  BYTE       MinorLinkerVersion;
+  DWORD      SizeOfCode; // 所有代码段的总大小，按照FileAlignment对齐后的大小（即：为FileAlignment整数倍）
+  DWORD      SizeOfInitializedData; // 已初始化的数据大小，按FileAlignment对齐
+  DWORD      SizeOfUninitializedData; // 未初始化的数据大小，按FileAlignment对齐
+  DWORD      AddressOfEntryPoint; // 程序入口 OEP
+  DWORD      BaseOfCode; // 代码开始地址
+  DWORD      BaseOfData; // 数据开始地址
+  DWORD      ImageBase; // 内存镜像地址
+  DWORD      SectionAlignment; // 内存对齐大小
+  DWORD      FileAlignment; // 文件对齐大小
+  WORD       MajorOperatingSystemVersion;
+  WORD       MinorOperatingSystemVersion;
+  WORD       MajorImageVersion;
+  WORD       MinorImageVersion;
+  WORD       MajorSubsystemVersion;
+  WORD       MinorSubsystemVersion;
+  DWORD      Win32VersionValue;
+  DWORD      SizeOfImage;
+  DWORD      SizeOfHeaders;
+  DWORD      CheckSum;
+  WORD       Subsystem;
+  WORD       DllCharacteristics;
+  DWORD      SizeOfStackReserve;
+  DWORD      SizeOfStackCommit;
+  DWORD      SizeOfHeapReserve;
+  DWORD      SizeOfHeapCommit;
+  DWORD      LoaderFlags;
+  DWORD      NumberOfRvaAndSizes;
+  IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
+} IMAGE_OPTIONAL_HEADER32, *PIMAGE_OPTIONAL_HEADER32;</code></pre></div><div style="display:contents" dir="auto"><p id="2698db55-6aee-8229-b487-016ad16fc8e2" class=""><mark class="highlight-red">DataDirectory[]：这个表很重要，包含内容：</mark></p></div><div style="display:contents" dir="auto"><pre id="8b38db55-6aee-8213-928f-01dbc2059d40" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">// Directory Entries
+
+#define IMAGE_DIRECTORY_ENTRY_EXPORT          0   // Export Directory
+#define IMAGE_DIRECTORY_ENTRY_IMPORT          1   // Import Directory
+#define IMAGE_DIRECTORY_ENTRY_RESOURCE        2   // Resource Directory
+#define IMAGE_DIRECTORY_ENTRY_EXCEPTION       3   // Exception Directory
+#define IMAGE_DIRECTORY_ENTRY_SECURITY        4   // Security Directory
+#define IMAGE_DIRECTORY_ENTRY_BASERELOC       5   // Base Relocation Table
+#define IMAGE_DIRECTORY_ENTRY_DEBUG           6   // Debug Directory
+//      IMAGE_DIRECTORY_ENTRY_COPYRIGHT       7   // (X86 usage)
+#define IMAGE_DIRECTORY_ENTRY_ARCHITECTURE    7   // Architecture Specific Data
+#define IMAGE_DIRECTORY_ENTRY_GLOBALPTR       8   // RVA of GP
+#define IMAGE_DIRECTORY_ENTRY_TLS             9   // TLS Directory
+#define IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG    10   // Load Configuration Directory
+#define IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT   11   // Bound Import Directory in headers
+#define IMAGE_DIRECTORY_ENTRY_IAT            12   // Import Address Table
+#define IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT   13   // Delay Load Import Descriptors
+#define IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR 14   // COM Runtime descriptor
+</code></pre></div><div style="display:contents" dir="auto"><ul id="4248db55-6aee-82fe-a354-0130be3aabab" class="toggle"><li><details open=""><summary>需要关注以下成员（都是必须的，设置错误，文件会无法运行）</summary><div style="display:contents" dir="auto"><p id="b068db55-6aee-8208-8a44-811502d83d6c" class="">1、Magic：32位时，值为10B；64位时，值为20B</p></div><div style="display:contents" dir="auto"><p id="5e28db55-6aee-8231-881c-01ebbc4b16d6" class="">2、AddressOfEntryPoint：持有RVA值，该值指出程序<mark class="highlight-teal"><mark class="highlight-gray_background">最先执行的代码起始位置</mark></mark>。</p></div><div style="display:contents" dir="auto"><p id="6ec8db55-6aee-8391-bb5d-01048d87ef5b" class="">3、ImageBase：指出文件优先装入地址。虚拟内存的范围是0~FFFFFFFF(32位)。</p></div><div style="display:contents" dir="auto"><p id="7488db55-6aee-83cb-842b-017814dee8f1" class="">EXE，DLL被装载到用户内存的0~7FFFFFFF中，</p></div><div style="display:contents" dir="auto"><p id="8138db55-6aee-822f-958c-01ed29ab50b5" class="">SYS被装载入到内核内存的80000000~FFFFFFFF中。</p></div><div style="display:contents" dir="auto"><p id="8d08db55-6aee-836c-a731-0189b9894d81" class="">一般创建好EXE文件后，其Image的值为00400000，DLL的值为10000000.</p></div><div style="display:contents" dir="auto"><p id="93a8db55-6aee-83fe-9035-01b69d875fc5" class="">之后把EIP寄存器的值设置为<code>EIP = ImageBase + AddressOfEntryPoint</code></p></div><div style="display:contents" dir="auto"><p id="bba8db55-6aee-832f-961c-819df27a4b37" class="">4、FileAlignment &amp;&amp; SectionAlignment：PE文件的Body部分划分为若干节区</p></div><div style="display:contents" dir="auto"><p id="79e8db55-6aee-8260-9251-01cd79960947" class="">FileAlignment ：指定了节区在<mark class="highlight-blue">磁盘文件</mark>中的最小单位。</p></div><div style="display:contents" dir="auto"><p id="9738db55-6aee-8271-9588-01b16b1f8dc9" class="">SectionAlignment：指定了节区在<mark class="highlight-blue">内存</mark>中的最小单位。</p></div><div style="display:contents" dir="auto"><p id="1488db55-6aee-83fa-8e1a-81fa009c5fcc" class="">5、SizeOfImage：指定了PE Image在虚拟内存所占空间大小。磁盘文件或内存的节区大小必定为FileAlignment或SectionAlignment值的整数倍。</p></div><div style="display:contents" dir="auto"><p id="bbc8db55-6aee-8259-a268-01ef7107b0c5" class="">6、SizeOfHeader：指出整个PE头的大小，改值也是FileAlignment的整数倍。</p></div><div style="display:contents" dir="auto"><p id="d4a8db55-6aee-83bc-9875-81a81f5893ae" class="">7、Subsystem：用来区分 系统驱动文件（*.sys）与 普通文件（*.exe,*.dll）</p></div><div style="display:contents" dir="auto"><p id="e3d8db55-6aee-82c4-a4ce-8135ff5a3dc2" class="">8、NumberOfRvaAndSizes：用来指定DataDirectory表的个数（IMAGE_OPTIONAL_HEADER32结构体中最后一个成员）</p></div><div style="display:contents" dir="auto"><p id="c048db55-6aee-8203-9890-010f2ede4905" class="">9、DataDirectory：由<mark class="highlight-red">IMAGE_DATA_DIRECTORY结构体组成的数组</mark>，数组中每一项都有被定义的值。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="b398db55-6aee-838b-9977-81901d07f058"/></div><div style="display:contents" dir="auto"><p id="7488db55-6aee-8312-8988-0176c7e9a9d9" class="">IMAGE_OPTIONAL_HEADER，notepad.exe：</p></div><div style="display:contents" dir="auto"><p id="ac08db55-6aee-82f8-83d2-81df77031376" class="">IMAGE_OPTIONAL_DESCRIPTOR结构体数组的其实地址（RVA）:</p></div><div style="display:contents" dir="auto"><p id="0658db55-6aee-837d-af49-81c7ca89d404" class="">IMAGE_OPTIONAL_HEADER32.DataDirectory[1].VirtualAddress的值</p></div><div style="display:contents" dir="ltr"><figure id="0268db55-6aee-83e8-8ffd-815862274fb7" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_20-46-02.png"><img style="width:625.9895629882812px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_20-46-02.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="e098db55-6aee-825c-bdf9-816bd821c6e7" class="">
+</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="efd8db55-6aee-8262-9053-812e11826ad0" class="toggle"><li><details open=""><summary>区段/区节头</summary><div style="display:contents" dir="auto"><p id="f468db55-6aee-8227-97b2-81c3c8ff5415" class="">区节中定义了各区节属性。正常会有多个，PE文件中的code（代码），data（数据），resource（资源）等按照属性分类存储在不同节区，一定程度上可以保证程序安全，稳定。</p></div><div style="display:contents" dir="auto"><ul id="ea98db55-6aee-8349-9509-81e2abbecd76" class="toggle"><li><details open=""><summary>不同区节的权限</summary><div style="display:contents" dir="auto"><p id="7ac8db55-6aee-8265-b9c5-014906f8e6fd" class="">code               执行，读</p></div><div style="display:contents" dir="auto"><p id="38b8db55-6aee-82f9-809e-81f5d332bcef" class="">data                非执行，读写</p></div><div style="display:contents" dir="auto"><p id="4728db55-6aee-838a-bf60-81e2d220dcf6" class="">resource        非执行，读</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="c3d8db55-6aee-832d-96b1-01d58fefe2c0"/></div><div style="display:contents" dir="auto"><p id="2378db55-6aee-8200-9287-0161d048b340" class="">IMAGE_SECTION_HEADER</p></div><div style="display:contents" dir="auto"><pre id="1998db55-6aee-8395-aad5-81f021e94d33" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">typedef struct _IMAGE_SECTION_HEADER {
+BYTE Name[IMAGE_SIZEOF_SHORT_NAME]; // 节名称 // 跟字符串不一样，不会以0结尾。
+union {
+DWORD PhysicalAddress; // 物理地址
+DWORD VirtualSize; // 虚拟大小 // 内存中未对齐的大小
+} Misc; // 区段在内存中的真实大小（未对齐）
+DWORD VirtualAddress; // 虚拟地址 // 在内存中的偏移位置，+ImageBase为真正的地址。// 即内存对齐
+DWORD SizeOfRawData; // 原始数据大小 // 文件中对齐后的大小
+DWORD PointerToRawData; // 原始数据指针 // 区段在文件中的偏移位置 // 即文件对齐
+DWORD PointerToRelocations; // 重定位指针
+DWORD PointerToLinenumbers; // 行号指针
+WORD NumberOfRelocations; // 重定位数量
+WORD NumberOfLinenumbers; // 行号数量
+DWORD Characteristics; // 特征
+} IMAGE_SECTION_HEADER, *PIMAGE_SECTION_HEADER;</code></pre></div><div style="display:contents" dir="auto"><p id="ff28db55-6aee-839c-bb15-814f584b5a02" class="">节区头是由<mark class="highlight-yellow"><mark class="highlight-gray_background">IMAGE_SECTION_HEADER结构体</mark></mark><mark class="highlight-default">组成的的数组，每个结构体对应一个节区。</mark></p></div><div style="display:contents" dir="ltr"><figure id="3fa8db55-6aee-8314-8a99-8115fa26f461" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_20-52-48.png"><img style="width:653.984375px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_20-52-48.png"/></a></figure></div><div style="display:contents" dir="auto"><ul id="02b8db55-6aee-829b-899a-012238ca4ac9" class="toggle"><li><details open=""><summary>重要成员：</summary><div style="display:contents" dir="auto"><p id="d688db55-6aee-83e1-95b0-01c057b98303" class="">1、VirtualSize：内存中节区所占大小</p></div><div style="display:contents" dir="auto"><p id="4088db55-6aee-82af-acdf-814f697248b4" class="">2、VirtualAddress：内存中节区起始地址（RVA），不带有任何值。</p></div><div style="display:contents" dir="auto"><p id="6c98db55-6aee-8395-81d6-016e88716649" class="">3、SizeOfRawData：磁盘文件中节区所占大小</p></div><div style="display:contents" dir="auto"><p id="6758db55-6aee-837a-9798-81753c2b667a" class="">4、PointerToRawData：磁盘文件中节区起始位置，不带有任何值。</p></div><div style="display:contents" dir="auto"><p id="bff8db55-6aee-8257-9548-016e0228ff06" class="">5、Characterisitics：节区属性（bit OR）</p></div></details></li></ul></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ded8db55-6aee-83ac-ae1d-0115d0a2e696" class="toggle"><li><details open=""><summary>RVA to RAW</summary><div style="display:contents" dir="auto"><p id="4798db55-6aee-826a-905d-813fd1768268" class="">PE文件加载到内存时，每个节区都要能准确完成<mark class="highlight-teal">内存地址</mark>与<mark class="highlight-blue">文件偏移</mark>间的映射（RVA to RAW）</p></div><div style="display:contents" dir="auto"><ul id="2d68db55-6aee-8346-9e2a-8114409216c7" class="toggle"><li><details open=""><summary>找映射关系方法 与 公式：</summary><div style="display:contents" dir="auto"><p id="9e88db55-6aee-8330-86d2-01ee478ff5af" class="">1、查找RVA所在节区</p></div><div style="display:contents" dir="auto"><p id="40a8db55-6aee-83f4-b047-0114c3672a8a" class="">2、使用简单的公式计算文件偏移（RAW）</p></div><div style="display:contents" dir="auto"><p id="a4d8db55-6aee-8210-82d6-81179d424a20" class="">公式：<code>RAW = RVA - VirtualAddress + PointerToRawData</code> </p></div><div style="display:contents" dir="auto"><p id="86a8db55-6aee-8213-a1e6-810fe80031e5" class="">    即：<code>文件偏移 = 内存中节区的起始位置 - 虚拟地址 + 文件中节区的起始位置</code></p></div><div style="display:contents" dir="auto"><p id="f478db55-6aee-825c-b7cc-01f8b3dfa870" class="">例子：</p></div><div style="display:contents" dir="auto"><div id="be08db55-6aee-829e-a12a-8122d79a733b" class="column-list"><div style="display:contents" dir="auto"><div id="2718db55-6aee-8266-acdf-81d09ee44586" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="a628db55-6aee-8336-85aa-81aa3f6c6cfb" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_21-04-25.png"><img style="width:303.9908752441406px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_21-04-25.png"/></a></figure></div></div></div><div style="display:contents" dir="auto"><div id="b448db55-6aee-83e3-9fe8-81565a051a4b" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="d178db55-6aee-832a-8773-818d2c32199b" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_21-04-53.png"><img style="width:303.9908752441406px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_21-04-53.png"/></a></figure></div></div></div></div></div><div style="display:contents" dir="auto"><p id="ea38db55-6aee-8319-91e3-01641b6c1ea0" class="">
+</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3598db55-6aee-8385-8abe-01271d398e50" class="toggle"><li><details open=""><summary>IAT &amp;&amp; 导入表</summary><div style="display:contents" dir="auto"><p id="92b8db55-6aee-827c-bf13-8160ee3cbc20" class="">IAT是一种表格，用来记录程序正在使用那些库中的哪些函数。</p></div><div style="display:contents" dir="auto"><ul id="d1f8db55-6aee-835a-90b7-0109700281bd" class="toggle"><li><details open=""><summary>DLL</summary><div style="display:contents" dir="auto"><p id="7198db55-6aee-83c4-abb7-81b9ca577757" class="">DLL（Dynamic Linked Library）动态链接库。对于一个程序，由很多库函数组成，对于这个程序的DLL描述：</p></div><div style="display:contents" dir="auto"><p id="76b8db55-6aee-8361-8a49-017d09343ceb" class="">1、不要把库包含到程序中，单独组成DLL文件，需要时调用即可。</p></div><div style="display:contents" dir="auto"><p id="d5d8db55-6aee-82c6-aed0-01b2efaa31c2" class="">2、内存映射技术使加载后的DLL代码，资源在多个进程中实现共享。</p></div><div style="display:contents" dir="auto"><p id="c498db55-6aee-82b5-8792-010499208de2" class="">3、更新库时只要替换相关DLL文件即可，简单易行。</p></div><div style="display:contents" dir="auto"><hr id="1a38db55-6aee-8275-880b-019d0179e8ee"/></div><div style="display:contents" dir="auto"><p id="d0f8db55-6aee-8360-a441-813491aeee67" class="">加载DLL的方式分为：</p></div><div style="display:contents" dir="auto"><p id="60a8db55-6aee-836a-9a7a-815ca01e4a00" class="">1、显式链接：使用DLL时加载，使用完后释放内存</p></div><div style="display:contents" dir="auto"><p id="5068db55-6aee-8320-a727-815aedbbddcf" class="">2、隐式链接：程序开始使一同加载DLL，程序终止时再释放内存</p></div><div style="display:contents" dir="auto"><hr id="3df8db55-6aee-8338-8f74-017ca774bf4d"/></div><div style="display:contents" dir="auto"><p id="8bc8db55-6aee-83be-818a-015fc70d64e9" class="">例子：</p></div><div style="display:contents" dir="ltr"><figure id="c458db55-6aee-827b-b13f-01ca39f21738" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_21-17-00.png"><img style="width:653.9908447265625px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_21-17-00.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="8dd8db55-6aee-8325-9fe9-018c4b79e8e3" class="">调用CreateFileW()函数时并非直接调用，而是胡哦去01001104地址处的值来实现（所有的API调用均采用这种方式）。</p></div><div style="display:contents" dir="auto"><p id="6e68db55-6aee-83e7-a789-01448a28ea8f" class="">编译器为什么不直接写 CALL 7C8107F0 ？这样不是更精确码？</p></div><div style="display:contents" dir="auto"><p id="7118db55-6aee-827e-ae08-01fa1bf947eb" class="">&gt;&gt;&gt; notepad.exe程序会运行再不同的操作系统上，kernel32.dll的版本也各不相同，为了都能够正常访问CreateFileW()函数，编译器准备了保存CreateFileW()的函数实际地址（01001104），并以CALL DWORD PTR DS:[01001104]形式记录。</p></div><div style="display:contents" dir="auto"><p id="b5a8db55-6aee-8233-999f-81fccf822148" class="">也有可能时DLL重定位导致的，这个程序使用了多个dll，比如：a.dll，b.dll，PE先将a.dll装在到ImageBase（100000000）处，到了b.dll，由于已经挂在了a.dll，b.dll只能查找其他空白的地方。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9098db55-6aee-83ac-890c-81a4562bbdd1" class="toggle"><li><details open=""><summary>导入表</summary><div style="display:contents" dir="auto"><ul id="6ea8db55-6aee-830f-b6a6-01f4d4788ea7" class="toggle"><li><details open=""><summary>调用DLL文件原理<br/><code>FOA = (RVA - 节的VirtualAddress) + 节的PointerToRawData</code></summary><div style="display:contents" dir="auto"><p id="9458db55-6aee-8256-a083-01f64421aa5c" class="">在文件中，对应的函数地址部分存储的是函数名称。</p></div><div style="display:contents" dir="auto"><p id="56c8db55-6aee-8394-97af-8109c2d66df0" class="">通过函数名→函数地址</p></div><div style="display:contents" dir="auto"><pre id="0978db55-6aee-8274-b3f7-813821eec4ab" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">// 显式调用dll
+1、HMODULE = LoadLibrayA = IMAGEBASE
+2、GetProcessAddr(HMODULE, fun1)</code></pre></div><div style="display:contents" dir="auto"><hr id="6108db55-6aee-8339-bfc2-010fabaf2416"/></div><div style="display:contents" dir="auto"><p id="7bb8db55-6aee-83a9-ab88-8198ca498fb7" class="">一个进程中的exe，dll文件如何被加载到内存中的？</p></div><div style="display:contents" dir="auto"><p id="a7b8db55-6aee-822e-8f84-01930d5e87ba" class="">1、创建进程内核对象</p></div><div style="display:contents" dir="auto"><p id="7298db55-6aee-823b-b135-01ac5b9fdb0a" class="">2、解析EXE文件的PE头</p></div><div style="display:contents" dir="auto"><p id="0088db55-6aee-8388-ab28-014c74cc6b33" class="">3、映射文件到内存</p></div><div style="display:contents" dir="auto"><p id="ac68db55-6aee-8220-975a-01f5a8ac8e3c" class="">4、处理重定位表</p></div><div style="display:contents" dir="auto"><p id="7c78db55-6aee-8209-af50-81d6ef80c9d4" class="">5、加载依赖DLL</p></div><div style="display:contents" dir="auto"><p id="d7a8db55-6aee-828d-85b1-011b1ed4df64" class="">6、初始化程序</p></div><div style="display:contents" dir="auto"><p id="df18db55-6aee-83b2-bd56-81f5bb44810f" class="">EXE 和 DLL 的加载核心是<strong>将磁盘文件按 PE 格式映射到进程虚拟内存</strong>，并通过解析 PE 头中的导入表、导出表、重定位表等结构，确保程序能正确执行和相互调用。</p></div><div style="display:contents" dir="auto"><p id="5008db55-6aee-83a7-889b-017c973b432b" class="">并且一般先加载EXE，之后再加载DLL，所以DLL的地址是随机的，因此通过函数名→函数地址（显式）</p></div><div style="display:contents" dir="auto"><hr id="8aa8db55-6aee-8334-b454-818fc81565f9"/></div><div style="display:contents" dir="auto"><p id="51d8db55-6aee-8357-958f-81f135a3fae6" class="">EXE调用动态链接库在内存中与在硬盘中有什么不同？</p></div><div style="display:contents" dir="auto"><p id="63e8db55-6aee-8382-a662-014d808e5467" class="">在硬盘中：</p></div><div style="display:contents" dir="auto"><p id="c148db55-6aee-82e8-9338-01964d5f8503" class="">DLL是静态的，EXE 无法直接访问其内容。DLL仅仅记录调用所需的DLL名称和函数名/序号，作为加载时的索引。</p></div><div style="display:contents" dir="auto"><p id="4418db55-6aee-8395-969d-0153a9757356" class="">在内存中：</p></div><div style="display:contents" dir="auto"><p id="cce8db55-6aee-82fb-ba2f-81cdf040488a" class="">操作系统通过LoadLibraryA加载DLL时，会将其映射到进程的虚拟地址空间，并解析EXE导入表，将 DLL 中导出函数的实际内存地址（VA）填充到 EXE 的 IAT（导入地址表） 中。后续EXE调用DLL时直接通过IAT跳转。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="0638db55-6aee-8320-aec2-81b0751c799c" class="">找导入表→找到可选文件头_IMAGE_OPTIONAL_HEADER → 找<mark class="highlight-default">DataDirectory[1]（里面是一个_IMAGE_DATA_DIRECTORY结构体）→ 导入表。</mark></p></div><div style="display:contents" dir="auto"><pre id="b9c8db55-6aee-8231-b724-811f7bffe093" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">typedef struct _IMAGE_DATA_DIRECTORY {
+DWORD VirtualAddress; // 内存中的偏移，RVA内存偏移。
+DWORD Size;
+} IMAGE_DATA_DIRECTORY, *PIMAGE_DATA_DIRECTORY;</code></pre></div><div style="display:contents" dir="auto"><p id="cb18db55-6aee-8344-9cdd-818029faaffa" class="">IMAGE_IMPORT_DESCRIPTOR,导出表结构体：</p></div><div style="display:contents" dir="auto"><pre id="7578db55-6aee-83c9-b98d-01dc894d669f" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">typedef struct _IMAGE_IMPORT_DESCRIPTOR {
+union {
+DWORD Characteristics;
+DWORD OriginalFirstThunk; // 导入名称表(INT)的地址RVA // 指向IMAGE_THUNK_DATA（输入表名）结构体的的数组
+} DUMMYUNIONNAME;
+DWORD TimeDateStamp; // 时间戳，当可执行文件不与被输入的DLL进行绑定时，此字段为0
+DWORD ForwarderChain; // 链表的前一个结构 // 第一个被转向的API的索引
+DWORD Name; // 导入DLL文件名的地址RVA
+DWORD FirstThunk; // 导入地址表(IAT)的地址RVA // 是一个IMAGE_THUNK_DATA结构体的的数组
+} IMAGE_IMPORT_DESCRIPTOR;</code></pre></div><div style="display:contents" dir="auto"><pre id="05e8db55-6aee-82cc-a100-01f4a9ee8d8c" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">typedef struct _IMAGE_THUNK_DATA32 {
+     union {
+           DWORD ForwarderString; // 一个RVA地址，指向forwarder string
+           DWORD Function; // PDWORD，被导入的函数的入口地址
+           DWORD Ordinal; // 该函数的序数
+           DWORD AddressOfData; // 一个RVA地址，指向IMAGE_IMPORT_BY_NAME
+      } u1;
+} IMAGE_THUNK_DATA32;</code></pre></div><div style="display:contents" dir="auto"><pre id="e528db55-6aee-835d-b4ca-81799142b728" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">typedef struct _IMAGE_IMPORT_BY_NAME { 
+    	WORD Hint; 
+    	BYTE Name[1]; 
+} IMAGE_IMPORT_BY_NAME;</code></pre></div><div style="display:contents" dir="auto"><hr id="90c8db55-6aee-8338-979d-0161698d7956"/></div><div style="display:contents" dir="auto"><p id="bf98db55-6aee-83ab-8057-817df35fc961" class="">一个程序导入多少库，就有多少个IMAGE_IMPORT_DESCRIPTOR结构体，这些结构体形成了数组，且结构体数组最后以NULL结构体结束。</p></div><div style="display:contents" dir="auto"><hr id="8648db55-6aee-83f7-bbc6-812fae6aa976"/></div><div style="display:contents" dir="auto"><ul id="3598db55-6aee-83bc-8e13-816c486436e7" class="toggle"><li><details open=""><summary>重要成员：</summary><div style="display:contents" dir="auto"><p id="7dc8db55-6aee-83f5-bad6-0176bf4f9a2a" class="">1、Name（库名称）：库名名称字符串的地址（RVA）| 为一个字符串指针，指向导入函数所属的库文件名称。</p></div><div style="display:contents" dir="ltr"><figure id="3078db55-6aee-838d-8e4c-01a40a4a885b" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_21-42-38.png"><img style="width:653.9713134765625px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_21-42-38.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="8a28db55-6aee-8373-9c40-817530b5c265" class="">2、OriginalFirstThunk—INT：INT的地址（RVA） | INT是一个包含导入函数信息（Ordinal，Name）的结构体指针数组。每一个地址值分别指向IMAGE_IMPORT_BY_NAME结构体。</p></div><div style="display:contents" dir="auto"><p id="25f8db55-6aee-821f-9840-818c6e6a4b03" class="">3、IMAGE_IMPORT_BY_NAME：RVA：7A7A，即：RAW：6E7A</p></div><div style="display:contents" dir="auto"><p id="1318db55-6aee-83ac-b95d-812c7ccd4639" class="">INT是IMAGE_IMPORT_BY_NAME结构体指针数组。数组的第一个元素指向函数的Ordinal值000F，函数名称为PageSetupDlgW。</p></div><div style="display:contents" dir="ltr"><figure id="1428db55-6aee-825e-88a5-0158299279fa" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_21-50-39.png"><img style="width:653.9583129882812px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_21-50-39.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="c808db55-6aee-825f-8dc3-81de71e741d3" class="">4、FirstThunk—IAT：IAT的地址（RVA）| RVA：12C4，即：RAW：6C4</p></div><div style="display:contents" dir="ltr"><figure id="f128db55-6aee-83c6-af1e-017c0f49edca" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_21-55-59.png"><img style="width:653.984375px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_21-55-59.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="18b8db55-6aee-8307-a358-81c94e1b66a9" class="">IAT的第一个元素值被硬编码为 76324906 即comdlg32.dll</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="5f38db55-6aee-83d9-86ed-81b634752593"/></div><div style="display:contents" dir="auto"><ul id="b658db55-6aee-8359-9500-81198db89719" class="toggle"><li><details open=""><summary>用代码访问:</summary><div style="display:contents" dir="auto"><pre id="f4e8db55-6aee-83e2-9b0b-01aa82f526c4" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">void CPeUtil::GetImportTables()
+{
+	IMAGE_DATA_DIRECTORY directory = pOptionalHeader-&gt;DataDirectory[1]; // 数据目录表中第一个为导入表
+	PIMAGE_IMPORT_DESCRIPTOR pImport =  (PIMAGE_IMPORT_DESCRIPTOR)(RvaToFoa(directory.VirtualAddress) + FileBuff);
+	while (pImport-&gt;OriginalFirstThunk)
+	{
+		char* dllName = RvaToFoa(pImport-&gt;Name) + FileBuff;
+		printf(&quot;dll文件名称：%s\n&quot;, dllName);
+		printf(&quot;TimeDateStamp=%d\n&quot;,pImport-&gt;TimeDateStamp);
+		PIMAGE_THUNK_DATA pThunkData =(PIMAGE_THUNK_DATA)(RvaToFoa(pImport-&gt;OriginalFirstThunk) + FileBuff);
+		while (pThunkData-&gt;u1.Function)
+		{
+			// 判断是否按序号导入
+			if (pThunkData-&gt;u1.Ordinal &amp; 0x80000000)
+			{
+				printf(&quot;按序号导入：%d\n&quot;, pThunkData-&gt;u1.Ordinal &amp; 0x7FFFFFFF);
+			}
+			else
+			{
+				PIMAGE_IMPORT_BY_NAME importNmae = (PIMAGE_IMPORT_BY_NAME)(RvaToFoa(pThunkData-&gt;u1.AddressOfData) + FileBuff);
+				printf(&quot;按名称导入：%s\n&quot;, importNmae-&gt;Name);
+			}
+			pThunkData++;
+		}
+		pImport++;
+	}
+}
+</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="1538db55-6aee-8294-af44-01eae67465b8" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b7a8db55-6aee-8237-a4e8-8195839ce936" class="toggle"><li><details open=""><summary>EAT &amp;&amp; 导出表</summary><div style="display:contents" dir="auto"><p id="2498db55-6aee-822e-8bb2-01fba343266d" class="">EAT是一种<mark class="highlight-teal"><mark class="highlight-gray_background">核心机制</mark></mark>，它使<mark class="highlight-teal"><mark class="highlight-gray_background">不同的应用程序可以调用库文件中提供的函数</mark></mark>。也就是说通过EAT才能准确求得从相应库中导出函数的起始地址。</p></div><div style="display:contents" dir="auto"><p id="e2c8db55-6aee-8303-a416-817cc1553e0e" class="">PE文件内的特定结构（IMAGE_EXPORT_DIRECTORY）保存着导出信息。且PE文件中仅有一个用来说明库EAT的IMAGE_EXPORT_DIRECTORY结构体。</p></div><div style="display:contents" dir="auto"><p id="1cd8db55-6aee-8373-97b0-81e07227b9db" class="">IMAGE_EXPORT_DIRECTORY的其实地址（RVA）：IMAGE_EXPORT_DIRECTORY32.DataDirectory[0].VirtualAddress值</p></div><div style="display:contents" dir="ltr"><figure id="3b18db55-6aee-8208-9dc3-01183a3d645b" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_23-17-43.png"><img style="width:681.9595947265625px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-20_23-17-43.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="28b8db55-6aee-8379-adfe-0138dddf7082" class="">第一个四字节为VirtualAddress值，第二个四字节为Size成员</p></div><div style="display:contents" dir="auto"><hr id="f468db55-6aee-8344-ae7a-8154fc6528da"/></div><div style="display:contents" dir="auto"><ul id="d1e8db55-6aee-8371-8c9b-81701dbe3283" class="toggle"><li><details open=""><summary>导出表</summary><div style="display:contents" dir="auto"><p id="53d8db55-6aee-8374-bcc1-016359d305de" class=""><strong>导出表就是：当前的PE文件提供了那些函数.给别人用。</strong></p></div><div style="display:contents" dir="auto"><p id="9408db55-6aee-8213-bb3c-018fc17fb2bd" class="">找导出表→找到可选文件头_IMAGE_OPTIONAL_HEADER → 找<mark class="highlight-default">DataDirectory[0]（里面是一个_IMAGE_DATA_DIRECTORY结构体）→ 导出表。</mark></p></div><div style="display:contents" dir="auto"><pre id="76f8db55-6aee-830f-8eb2-814fbaf7a6df" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">typedef struct _IMAGE_DATA_DIRECTORY {
+DWORD VirtualAddress; // 内存中的偏移，RVA内存偏移。
+DWORD Size;
+} IMAGE_DATA_DIRECTORY, *PIMAGE_DATA_DIRECTORY;</code></pre></div><div style="display:contents" dir="auto"><p id="aec8db55-6aee-83fd-93e1-0161b141a523" class="">IMAGE_EXPORT_DIRECTORY,导出表结构体：</p></div><div style="display:contents" dir="auto"><pre id="6178db55-6aee-83a1-b150-015075c7e8c3" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">typedef struct _IMAGE_EXPORT_DIRECTORY {
+DWORD Characteristics; // 未使用
+DWORD TimeDateStamp; // 时间戳
+WORD MajorVersion; // 未使用
+WORD MinorVersion; // 未使用
+DWORD Name; // 模块名称的 RVA // RVA -&gt; FOV+FileBuff=char*name;
+DWORD Base; // 导出函数序号的起始值
+DWORD NumberOfFunctions; // 导出函数的总数 // 序号最大值-序号最小值+1
+DWORD NumberOfNames; // 以名称导出的函数总数
+DWORD AddressOfFunctions; // 导出函数地址表的 RVA // RVA-&gt;FOV+FileBuff=char*name;
+DWORD AddressOfNames; // 导出函数名称表的 RVA
+DWORD AddressOfNameOrdinals; // 导出函数序号表的 RVA // AddressOfNameOrdinals[i]=Base+导出表中的序号
+} IMAGE_EXPORT_DIRECTORY, *PIMAGE_EXPORT_DIRECTORY;</code></pre></div><div style="display:contents" dir="auto"><p id="3288db55-6aee-82a0-8685-81519117057d" class=""><mark class="highlight-default">DWORD AddressOfFunctions; // 导出函数地址表的 RVA  // DWORD<br/>DWORD AddressOfNames; // 导出函数名称表的 RVA // DWORD<br/>DWORD AddressOfNameOrdinals; // 导出函数序号表的 RVA  // </mark><mark class="highlight-pink">WORD</mark></p></div><div style="display:contents" dir="auto"><p id="b8f8db55-6aee-834b-872a-01a0d19528c8" class="">三者之间的关系：</p></div><div style="display:contents" dir="ltr"><figure id="51f8db55-6aee-8237-a6c5-0103f2c1bcdb" class="image"><a href="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-21_00-31-20.png"><img style="width:775.8267822265625px" src="PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/Snipaste_2025-07-21_00-31-20.png"/></a></figure></div><div style="display:contents" dir="auto"><ul id="fef8db55-6aee-8322-8168-01426c13b2b4" class="toggle"><li><details open=""><summary>简单手写DLL文件示例</summary><div style="display:contents" dir="auto"><p id="8368db55-6aee-8224-b979-8198b81693f7" class="">myExport.def文件</p></div><div style="display:contents" dir="auto"><pre id="5948db55-6aee-8301-a75a-012ca4cbaea8" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">LIBRARY myExport.dll
+EXPORTS
+    myFunc1 @1
+    myFunc2 @2
+    myFunc3 @3
+    myFunc4 @4</code></pre></div><div style="display:contents" dir="auto"><p id="6a48db55-6aee-8310-b11f-017f42e32b72" class="">mydll.c文件</p></div><div style="display:contents" dir="auto"><pre id="3de8db55-6aee-8230-84df-01fe1224fdb8" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">// mydll.c
+// 函数名必须与 .def 中完全一致（包括大小写）
+void myFunc1() {}
+void myFunc2() {}
+void myFunc3() {}
+void myFunc4() {}</code></pre></div><div style="display:contents" dir="auto"><hr id="2db8db55-6aee-82a2-ba07-814669accc00"/></div><div style="display:contents" dir="auto"><p id="e1b8db55-6aee-838d-b811-0107b93a43e9" class="">编译DLL：</p></div><div style="display:contents" dir="auto"><pre id="0088db55-6aee-833d-8d04-8180a7955662" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">// 使用MinGW编译：
+gcc -shared -o myExport.dll mydll.c myExport.def 
+// /LD表示生成DLL：
+cl /LD mydll.c mydll.def
+// 使用 Visual Studio 自带的 dumpbin 工具查看DLL导出表
+dumpbin /exports mydll.dll
+-----------------
+g++ -shared -o mydll.dll mydll.cpp -Wl,--out-implib=mydll.lib</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="48d8db55-6aee-83cf-b959-01534a36eb08" class="">RVA - 区段地址的RVA = 数据距离 区段多远</p></div><div style="display:contents" dir="auto"><p id="3238db55-6aee-82af-8d03-0168054c95b7" class="">数据的FOA - 区段的FOA = 数据的RVA - 区段RVA</p></div><div style="display:contents" dir="auto"><p id="de88db55-6aee-833f-aa24-81b3ab2523f5" class=""><code>FOA = 区段的FOA +  数据的RVA - 区段的RVA</code></p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e3b8db55-6aee-8381-873c-811b7ad7a7d4" class="toggle"><li><details open=""><summary>重定位表</summary><div style="display:contents" dir="auto"><p id="4f58db55-6aee-83a4-b95e-81a04dfc7443" class="">用于在程序加载到<a href="https://so.csdn.net/so/search?q=%E5%86%85%E5%AD%98&amp;spm=1001.2101.3001.7020">内存</a>中时，进行内存地址的修正，</p></div><div style="display:contents" dir="auto"><p id="6918db55-6aee-82a2-9b41-819b766e51ee" class="">为什么要进行内存地址的修正？<div class="indented"><div style="display:contents" dir="auto"><p id="90c8db55-6aee-8367-adc8-81403f81571b" class="">例如有一个t.exe需要调用三个动态链接库（a.dll,b.dll,c.dll）t.exe的ImageBase为400000H，三个dll的ImageBase为1000000H。</p></div><div style="display:contents" dir="auto"><p id="4d78db55-6aee-825d-99f3-8193a2b126ca" class="">加载进内存时，t.exe直接复制到程序的400000H处，接着加载dll，首先是a.dll，直接复制到1000000H处，到b.dll，只能另寻空间，但是b.dll和c.dll中有些地址是根据ImageBase固定写死的，而且是绝对地址，不是偏移。</p></div><div style="display:contents" dir="auto"><p id="6218db55-6aee-8284-ac93-01061c2089d9" class="">因此对于一个程序，这样被写死的地址有很多，需要一张表来记录，每个PE文件都有一张重定位表（Relocation Table）（由于exe一般是第一个加载到内存中的，所以一般exe没有重定位表，但是有的有）</p></div></div></p></div><div style="display:contents" dir="auto"><hr id="1c78db55-6aee-820a-a42b-01547f66b9e3"/></div><div style="display:contents" dir="auto"><p id="a208db55-6aee-8240-b3d8-0160bc95c96d" class="">位于<mark class="highlight-red">DataDirectory目录</mark><mark class="highlight-default">中</mark><mark class="highlight-teal">索引为5</mark><mark class="highlight-default">的位置。</mark></p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-8247-bfab-01ab1bfc5ac3" class="">内存会分页，以0x1000为单位，并且会进行分块</p></div><div style="display:contents" dir="auto"><pre id="e918db55-6aee-8333-a9e5-0119dc8a95c5" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">typedef struct _IMAGE_BASE_RELOCATION {
+    DWORD   VirtualAddress;//RVA
+    DWORD   SizeOfBlock;
+} IMAGE_BASE_RELOCATION,* PIMAGE_BASE_RELOCATION;
+#define IMAGE_SIZEOF_BASE_RELOCATION         8</code></pre></div><div style="display:contents" dir="auto"><p id="4358db55-6aee-834d-9bac-81a8732ac02a" class="">由于重定位表的SizeOfBlock大小不确定，新的Block的重定位信息的结构体接着上一个Block4字节对齐后开始，而当出现一个_IMAGE_BASE_RELOCATION结构体的值全为0时，表明重定位表结束。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="0528db55-6aee-82c4-b0b4-81788a4166ab"/></div><div style="display:contents" dir="auto"><ul id="9488db55-6aee-8389-9a9b-0131c0326ff3" class="toggle"><li><details open=""><summary>TLS</summary><div style="display:contents" dir="auto"><p id="39d8db55-6aee-8292-a150-813aea089adf" class="">TLS（Thread Local Storage）：线程局部储存。主要是为了解决多线程中变量同步的问题。</p></div><div style="display:contents" dir="auto"><hr id="b018db55-6aee-82ad-b0fd-01c26ea045af"/></div><div style="display:contents" dir="auto"><p id="b648db55-6aee-8205-aff9-8156d4e10ad0" class="">如何创建TLS变量：（添加<code>_declspec(thread)</code> 其余不变）</p></div><div style="display:contents" dir="auto"><p id="d9f8db55-6aee-83f0-9493-81051f67d14f" class=""><code>_declspec(thread) int g_number = 100;</code></p></div><div style="display:contents" dir="auto"><hr id="dab8db55-6aee-826d-913f-81eb6aca181b"/></div><div style="display:contents" dir="auto"><ul id="8548db55-6aee-8270-9fe8-015b6fed0e5e" class="toggle"><li><details open=""><summary>用途</summary><div style="display:contents" dir="auto"><p id="e3d8db55-6aee-82b7-86b4-01d44809e080" class="">1、线程A去修改TLS变量时，线程B不会受到影响，因为每个线程都拥有一个TLS变量副本。</p></div><div style="display:contents" dir="auto"><p id="08d8db55-6aee-8233-b249-01126bf1b8ed" class="">2、安全领域中，TLS常被用于处理反调试，抢占执行等操作。</p></div><div style="display:contents" dir="auto"><p id="07a8db55-6aee-8209-b024-811918370f56" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0ec8db55-6aee-8376-a4aa-811e7b14e775" class="toggle"><li><details open=""><summary>TLS回调函数</summary><div style="display:contents" dir="auto"><pre id="72e8db55-6aee-838a-a089-8137cc1e777d" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">#pragma comment(linker, &quot;/SECTION:.CRT$XLX,RWS&quot;)
+// 添加节属性：确保.CRT$XLX节有读写权限（关键修复）
+
+#pragma data_seg(&quot;.CRT$XLX&quot;)
+// 创建一个名为.CRT$XLX的自定义数据节（section）。
+// .CRT是 C 运行时（C Runtime）相关节的前缀。
+// $XLX是节的后缀，用于告诉链接器该节的排序和用途（TLS 回调表必须放在特定位置）。
+// 该节会被操作系统识别为 TLS 回调函数表的存储位置。
+// 节名的命名有严格规范，$X前缀的节会被链接器归类到 TLS 回调相关的区块。
+
+PIMAGE_TLS_CALLBACK pTLS_CALLBACKs[] = {TLS_CALLBACK, 0};
+// 存储 TLS 回调函数的地址列表，以0结尾（类似 C 字符串的\0终止符）。
+// TLS_CALLBACK是用户定义的回调函数（需自行实现）。</code></pre></div><div style="display:contents" dir="auto"><pre id="7ce8db55-6aee-8377-9fea-816b2c3484e0" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">// 实例：
+#include &lt;windows.h&gt;
+
+// 定义TLS回调函数
+VOID NTAPI TLS_CALLBACK(PVOID DllHandle, DWORD Reason, PVOID Reserved) {
+    switch (Reason) {
+        case DLL_PROCESS_ATTACH:    // 进程启动时
+            OutputDebugStringA(&quot;TLS: 进程启动\n&quot;);
+            break;
+        case DLL_THREAD_ATTACH:     // 线程创建时
+            OutputDebugStringA(&quot;TLS: 线程创建\n&quot;);
+            break;
+        case DLL_THREAD_DETACH:     // 线程退出时
+            OutputDebugStringA(&quot;TLS: 线程退出\n&quot;);
+            break;
+        case DLL_PROCESS_DETACH:    // 进程退出时
+            OutputDebugStringA(&quot;TLS: 进程退出\n&quot;);
+            break;
+    }
+}
+
+// 注册TLS回调函数（必须放在自定义的.CRT$XLX节）
+#pragma data_seg(&quot;.CRT$XLX&quot;)
+PIMAGE_TLS_CALLBACK pTLS_CALLBACKs[] = {TLS_CALLBACK, 0};
+#pragma data_seg()  // 结束自定义节
+
+// 可选：设置节属性（可读可写）
+#pragma comment(linker, &quot;/SECTION:.CRT$XLX,RWS&quot;)
+
+int main() {
+    OutputDebugStringA(&quot;进入main函数\n&quot;);
+    return 0;
+}</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f578db55-6aee-83c9-b8ff-017e40483fc9" class="toggle"><li><details open=""><summary>内存管理-堆</summary><div style="display:contents" dir="auto"><p id="63f8db55-6aee-83ac-ba1c-8124bb16041f" class="">每个进程都有自己独立的4G内存空间，高2G操作系统内核使用，低2G用户使用。</p></div><div style="display:contents" dir="auto"><p id="4fd8db55-6aee-8381-abfe-817091ac977e" class="">每个进程中我们使用的都是虚拟地址，虚拟机地址到物理地址的转换由操作系统内核完成，因此我们无法在自己的进程当中访问其他进程的内存。</p></div><div style="display:contents" dir="auto"><p id="87e8db55-6aee-8264-a55d-819130a78c19" class="">Windows尽量保证同一份数据，在物理内存中只有一份，分别映射到多个进程中。</p></div><div style="display:contents" dir="auto"><p id="55a8db55-6aee-8315-9bac-814a432798f3" class="">当各个进程所使用的内存数量超出物理内存大小后，操作系统还能够将物理内存中暂时用不到的数据交换到硬盘中。</p></div><div style="display:contents" dir="auto"><hr id="6518db55-6aee-832d-8621-010c5898382e"/></div><div style="display:contents" dir="auto"><p id="9bc8db55-6aee-82e6-9955-81e73b509256" class="">Windows是如何管理数据的？</p></div><div style="display:contents" dir="auto"><p id="17e8db55-6aee-8205-9860-019e26769cfd" class="">1、堆：适用来管理大量的小型对象，适用堆管理方式可以非常方便的帮我们管理所需要的内存空间，缺点是效率低，控制不够灵活。</p></div><div style="display:contents" dir="auto"><p id="5778db55-6aee-82dc-8731-81499b21df7b" class="">2、虚拟内存：适合用于管理大型的对象数组或大型的结构数组，适用虚拟内存管理方式有丰富的内存管理接口，可以使我们更加精确的控制内存数据。</p></div><div style="display:contents" dir="auto"><p id="f0a8db55-6aee-823a-9884-01fc16737596" class="">3、文件映射：适合用于管理大型的数据流，以及在同一个机器上的不同进程间共享数据。</p></div><div style="display:contents" dir="auto"><hr id="9ce8db55-6aee-82af-b4fd-01ffbf11df3a"/></div><div style="display:contents" dir="auto"><p id="e3d8db55-6aee-83e7-9134-810939d612f3" class="">堆在Windows中是作为一个<mark class="highlight-teal">对象</mark>来管理的，我们可以创建一个堆对象，之后在其基础上分配内存，销毁内存等。C/C++中的 new malloc 其实也是使用的Windows中的堆 对象（Windows API）来分配空间的。</p></div><div style="display:contents" dir="auto"><p id="c188db55-6aee-82eb-af43-014774096bd9" class="">当Windows系统创建一个进程后，会为此进程创建一个默认的堆，这个默认堆是不能够被销毁的。</p></div><div style="display:contents" dir="auto"><pre id="b928db55-6aee-8320-98cf-0119a60878d1" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">#include&lt;Windows.h&gt;
+#include&lt;iostream&gt;
+
+int main() {
+	// 创建一个堆对象
+	HANDLE hHeap = HeapCreate(0,0,0);
+	//  申请内存
+	char* str = (char*)HeapAlloc(hHeap, HEAP_ZERO_MEMORY, 10);
+	strcpy_s(str,10,&quot;helloword&quot;);
+	printf(&quot;%s\n&quot;, str);
+	HeapFree(hHeap, 0, str);
+	HeapDestroy(hHeap);
+	return 0;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0dc8db55-6aee-83c7-9d69-81fcfcdf992d" class="toggle"><li><details open=""><summary>虚拟内存</summary><div style="display:contents" dir="auto"><p id="3638db55-6aee-82da-8a1b-8137e5e4c2b4" class="">虚拟内存状态：</p></div><div style="display:contents" dir="ltr"><table id="c888db55-6aee-83e3-b930-819287abeb58" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="8cc8db55-6aee-8317-ad80-81aad336c35b"><td id="ms]H" class="" style="width:279.9153594970703px">状态</td><td id="r@Tl" class="" style="width:415px"></td></tr></div><div style="display:contents" dir="ltr"><tr id="9d48db55-6aee-82a6-aa8f-01b536e51d87"><td id="ms]H" class="" style="width:279.9153594970703px">空闲（Free）</td><td id="r@Tl" class="" style="width:415px">内存页不可用</td></tr></div><div style="display:contents" dir="ltr"><tr id="8008db55-6aee-82ba-9224-0187bd84a83f"><td id="ms]H" class="" style="width:279.9153594970703px">保留（Reserve）</td><td id="r@Tl" class="" style="width:415px">内存页被预定了，但为了与物理内存做映射，还是不可用</td></tr></div><div style="display:contents" dir="ltr"><tr id="1fc8db55-6aee-8240-b2a2-01282e93ce94"><td id="ms]H" class="" style="width:279.9153594970703px">提交（Commit）</td><td id="r@Tl" class="" style="width:415px">内存被分配，并且与物理内存进行了映射，进程可以使用了</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="64d8db55-6aee-82dd-b345-01072c73203e" class="">内存映射方式：</p></div><div style="display:contents" dir="ltr"><table id="6f88db55-6aee-835f-958b-01f02e66f47a" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="50c8db55-6aee-83b9-8b9e-811d913d2e07"><td id="Xj`B" class="" style="width:282px">映射方式</td><td id="X^zt" class="" style="width:417px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="d798db55-6aee-8341-b96f-81274af8bb33"><td id="Xj`B" class="" style="width:282px">Private</td><td id="X^zt" class="" style="width:417px">进程私有内存，不被其他进程所共享，一般是堆，栈</td></tr></div><div style="display:contents" dir="ltr"><tr id="68d8db55-6aee-839a-a594-0120f2aee36d"><td id="Xj`B" class="" style="width:282px">Mapped</td><td id="X^zt" class="" style="width:417px">从别的内存映射而来</td></tr></div><div style="display:contents" dir="ltr"><tr id="a5f8db55-6aee-832d-b822-814bb497d642"><td id="Xj`B" class="" style="width:282px">Image</td><td id="X^zt" class="" style="width:417px">从程序的PE映像映射而来</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="9b38db55-6aee-83b8-9779-01b0e0ae73e5" class="">虚拟内存管理-内存属性：</p></div><div style="display:contents" dir="ltr"><table id="f838db55-6aee-8275-830b-01809cfa7dfe" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="1788db55-6aee-8223-9357-81c6a9078639"><td id="[QZK" class="" style="width:283px">ReadOnly</td><td id="Wk~\" class="" style="width:421px">只读</td></tr></div><div style="display:contents" dir="ltr"><tr id="7778db55-6aee-8274-8f06-811e6d9473f2"><td id="[QZK" class="" style="width:283px">READ_WRITE</td><td id="Wk~\" class="" style="width:421px">读写</td></tr></div><div style="display:contents" dir="ltr"><tr id="04a8db55-6aee-8386-a2f5-817acb5fd026"><td id="[QZK" class="" style="width:283px">EXECUTE</td><td id="Wk~\" class="" style="width:421px">执行</td></tr></div><div style="display:contents" dir="ltr"><tr id="8568db55-6aee-8393-8d29-0110a541f150"><td id="[QZK" class="" style="width:283px">EXECUTE_READ_WRITE</td><td id="Wk~\" class="" style="width:421px">可读可写可执行</td></tr></div><div style="display:contents" dir="ltr"><tr id="8dc8db55-6aee-839f-a474-01489058b1cb"><td id="[QZK" class="" style="width:283px">WRITE_COPY</td><td id="Wk~\" class="" style="width:421px">写时拷贝</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ul id="dc98db55-6aee-8391-a687-0164a44bfca9" class="toggle"><li><details open=""><summary>虚拟内存相关API</summary><div style="display:contents" dir="ltr"><table id="0bc8db55-6aee-83db-acb8-81389f1ff31b" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="f9a8db55-6aee-8230-858b-81a4a039c430"><td id="FhcK" class="" style="width:269.9947814941406px">VirtualAlloc</td><td id="\:n[" class="" style="width:402.99737548828125px">分配或者预定一块虚拟内存</td></tr></div><div style="display:contents" dir="ltr"><tr id="c188db55-6aee-8327-aa33-817f846c35a8"><td id="FhcK" class="" style="width:269.9947814941406px">VirtualAllocEx</td><td id="\:n[" class="" style="width:402.99737548828125px">可以在其他进程分配或者预定一块内存</td></tr></div><div style="display:contents" dir="ltr"><tr id="1cc8db55-6aee-8343-8bd5-812da65ef46f"><td id="FhcK" class="" style="width:269.9947814941406px">VirtualFree</td><td id="\:n[" class="" style="width:402.99737548828125px">释放内存</td></tr></div><div style="display:contents" dir="ltr"><tr id="0928db55-6aee-82c2-ac70-0160e2716041"><td id="FhcK" class="" style="width:269.9947814941406px">VirtualFreeEx</td><td id="\:n[" class="" style="width:402.99737548828125px">可以释放其他进程内存</td></tr></div><div style="display:contents" dir="ltr"><tr id="2548db55-6aee-82eb-a9db-81c45aecf0af"><td id="FhcK" class="" style="width:269.9947814941406px">VirtualLock</td><td id="\:n[" class="" style="width:402.99737548828125px">锁定内存不能交换到硬盘</td></tr></div><div style="display:contents" dir="ltr"><tr id="df88db55-6aee-8283-9adb-0164d59be206"><td id="FhcK" class="" style="width:269.9947814941406px">VirtualUnLock</td><td id="\:n[" class="" style="width:402.99737548828125px">解锁</td></tr></div><div style="display:contents" dir="ltr"><tr id="7688db55-6aee-8276-b4f2-012826894d20"><td id="FhcK" class="" style="width:269.9947814941406px">VirtualProtect</td><td id="\:n[" class="" style="width:402.99737548828125px">修改内存读写执行属性</td></tr></div><div style="display:contents" dir="ltr"><tr id="4e18db55-6aee-8384-a932-01e988f71072"><td id="FhcK" class="" style="width:269.9947814941406px">VirtualProtectEx</td><td id="\:n[" class="" style="width:402.99737548828125px">可以修改其他进程内存属性</td></tr></div><div style="display:contents" dir="ltr"><tr id="9478db55-6aee-82cb-bca7-0155f66e9c82"><td id="FhcK" class="" style="width:269.9947814941406px">ReadProcessMemory</td><td id="\:n[" class="" style="width:402.99737548828125px">读取远程进程内存</td></tr></div><div style="display:contents" dir="ltr"><tr id="ce48db55-6aee-824e-b8e5-8106d3772178"><td id="FhcK" class="" style="width:269.9947814941406px">WriteProcessMemory</td><td id="\:n[" class="" style="width:402.99737548828125px">写入数据到远程进程内存</td></tr></div><div style="display:contents" dir="ltr"><tr id="17e8db55-6aee-83cc-88e3-814fb0f9d24d"><td id="FhcK" class="" style="width:269.9947814941406px">VirtualQuery</td><td id="\:n[" class="" style="width:402.99737548828125px">查询内存状态</td></tr></div><div style="display:contents" dir="ltr"><tr id="e268db55-6aee-82d5-ae75-015f30f2e939"><td id="FhcK" class="" style="width:269.9947814941406px">VirtualQueryEx</td><td id="\:n[" class="" style="width:402.99737548828125px">可以在其他进程分配查询内存状态</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ul id="b248db55-6aee-823b-9659-0182f2b6bc0c" class="bulleted-list"><li style="list-style-type:disc"><code>Ex</code>：扩展版本，支持跨进程操作（如<code>VirtualAllocEx</code>可在其他进程分配内存）。</li></ul></div><div style="display:contents" dir="auto"><ul id="ed38db55-6aee-82c0-a523-816e569a22f6" class="bulleted-list"><li style="list-style-type:disc"><code>A</code>：ANSI 字符集版本，处理单字节字符串。</li></ul></div><div style="display:contents" dir="auto"><ul id="9dc8db55-6aee-83a2-a29d-814f01557803" class="bulleted-list"><li style="list-style-type:disc"><code>W</code>：宽字符（Unicode）版本，处理多字节字符串，支持多语言。</li></ul></div></details></li></ul></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

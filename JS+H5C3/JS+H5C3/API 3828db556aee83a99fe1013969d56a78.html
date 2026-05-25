@@ -1,0 +1,874 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>API</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3828db55-6aee-83a9-9fe1-013969d56a78" class="page mono"><header><h1 class="page-title" dir="auto">API</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="b698db55-6aee-83f2-983b-81a7dc07ab88" class="toggle"><li><details open=""><summary>XMLHttpRequest</summary><div style="display:contents" dir="auto"><p id="6488db55-6aee-8242-b4b0-81f0ea0d4b8a" class=""><code>XMLHttpRequest</code>（简称 XHR）是浏览器提供的一个<strong>API 对象</strong>，用于在不刷新页面的情况下与服务器交换数据，是实现 “异步请求”（AJAX，Asynchronous JavaScript and XML）的核心技术。</p></div><div style="display:contents" dir="auto"><hr id="b0f8db55-6aee-8200-b271-01fe1b454815"/></div><div style="display:contents" dir="auto"><p id="c3c8db55-6aee-8272-8bf6-81a591338755" class="">使用<code>XMLHttpRequest</code>发起请求通常分为 4 步：<strong>创建对象→配置请求→发送请求→处理响应:</strong></p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="78e8db55-6aee-8317-91f7-81ad3db5cec7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 1. 创建XMLHttpRequest对象
+const xhr = new XMLHttpRequest();
+
+// 2. 配置请求（方法、URL、是否异步）
+// 语法：open(method, url, async)
+// method: 请求方法（GET/POST/PUT/DELETE等）
+// url: 请求地址
+// async: 是否异步（true为异步，false为同步，推荐true）
+xhr.open(&#x27;GET&#x27;, &#x27;https://api.example.com/data&#x27;, true);
+
+// 3. 发送请求（GET请求无请求体，传null）
+xhr.send(null);
+
+// 4. 监听请求状态变化，处理响应
+xhr.onreadystatechange = function() {
+  // readyState === 4：请求已完成
+  // status === 200：服务器成功响应
+  if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) {
+    // 响应数据在xhr.responseText（文本）或xhr.responseXML（XML）中
+    const data = JSON.parse(xhr.responseText); // 解析JSON数据
+    console.log(&#x27;请求成功：&#x27;, data);
+  } else if (xhr.readyState === 4) {
+    // 其他状态码（如404、500）表示请求失败
+    console.error(&#x27;请求失败，状态码：&#x27;, xhr.status);
+  }
+};</code></pre></div><div style="display:contents" dir="auto"><hr id="fcb8db55-6aee-821b-8ef2-0123a6d0d169"/></div><div style="display:contents" dir="auto"><ul id="6ad8db55-6aee-829d-b178-013269d66a77" class="toggle"><li><details open=""><summary><strong>核心属性</strong></summary><div style="display:contents" dir="auto"><ul id="a0c8db55-6aee-8365-ac41-0136cb5300c2" class="bulleted-list"><li style="list-style-type:disc"><code><strong>readyState</strong></code>：请求状态码，取值说明：<div style="display:contents" dir="auto"><ul id="2278db55-6aee-838a-9195-01f953f634f0" class="bulleted-list"><li style="list-style-type:circle"><code>0</code>：未初始化（未调用<code>open()</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="a428db55-6aee-82e9-87c3-810ce119ecaf" class="bulleted-list"><li style="list-style-type:circle"><code>1</code>：已打开（<code>open()</code>已调用，未调用<code>send()</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="a128db55-6aee-83c6-b6ac-81596d7fefae" class="bulleted-list"><li style="list-style-type:circle"><code>2</code>：已发送（<code>send()</code>已调用，未收到响应）。</li></ul></div><div style="display:contents" dir="auto"><ul id="70f8db55-6aee-83f0-a49c-016b143700ce" class="bulleted-list"><li style="list-style-type:circle"><code>3</code>：正在接收（已收到部分响应）。</li></ul></div><div style="display:contents" dir="auto"><ul id="87e8db55-6aee-8337-9b24-01ce6f628240" class="bulleted-list"><li style="list-style-type:circle"><code>4</code>：完成（响应全部接收完毕）。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="5938db55-6aee-8328-945e-01435abf1f54" class="bulleted-list"><li style="list-style-type:disc"><code><strong>status</strong></code>：服务器响应的 HTTP 状态码（如<code>200</code>成功、<code>404</code>未找到、<code>500</code>服务器错误）。</li></ul></div><div style="display:contents" dir="auto"><ul id="93d8db55-6aee-82b8-80b8-819eb9ea4518" class="bulleted-list"><li style="list-style-type:disc"><code><strong>statusText</strong></code>：服务器返回的状态文本（如<code>&quot;OK&quot;</code>对应<code>200</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="6ac8db55-6aee-83f8-9391-0145aa2b54ac" class="bulleted-list"><li style="list-style-type:disc"><code><strong>responseText</strong></code>：服务器返回的文本数据（适用于 JSON、HTML 等）。</li></ul></div><div style="display:contents" dir="auto"><ul id="a668db55-6aee-8260-94eb-01666bbbfe7c" class="bulleted-list"><li style="list-style-type:disc"><code><strong>responseXML</strong></code>：服务器返回的 XML 文档（已解析为<code>Document</code>对象，较少使用）。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7858db55-6aee-82be-9ee9-01fa23e7d8b0" class="toggle"><li><details open=""><summary><strong>常用方法</strong></summary><div style="display:contents" dir="auto"><ul id="0118db55-6aee-82b4-93d6-017296d1ee59" class="bulleted-list"><li style="list-style-type:disc"><code><strong>open(method, url, async)</strong></code>：配置请求参数。<div style="display:contents" dir="auto"><ul id="4c88db55-6aee-83a8-a297-01e8958500ed" class="bulleted-list"><li style="list-style-type:circle"><code>method</code>：请求方法（<code>GET</code>/<code>POST</code>等）。</li></ul></div><div style="display:contents" dir="auto"><ul id="0e48db55-6aee-8395-8c00-01e964cae067" class="bulleted-list"><li style="list-style-type:circle"><code>url</code>：请求的服务器地址（相对路径或绝对路径）。</li></ul></div><div style="display:contents" dir="auto"><ul id="7cb8db55-6aee-82f3-b23e-016fe5f061f9" class="bulleted-list"><li style="list-style-type:circle"><code>async</code>：是否异步（默认<code>true</code>，建议保持异步避免阻塞页面）。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="eab8db55-6aee-83af-84c2-01fe3f702a9f" class="bulleted-list"><li style="list-style-type:disc"><code><strong>send(body)</strong></code>：发送请求。<div style="display:contents" dir="auto"><ul id="29a8db55-6aee-8391-862c-017539b8f738" class="bulleted-list"><li style="list-style-type:circle"><code>body</code>：请求体数据（<code>GET</code>请求传<code>null</code>，<code>POST</code>请求传表单数据、JSON 等）。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="acc8db55-6aee-820e-8c9a-814af86590d1" class="bulleted-list"><li style="list-style-type:disc"><code><strong>setRequestHeader(header, value)</strong></code>：设置请求头（需在<code>open()</code>之后、<code>send()</code>之前调用）。<div style="display:contents" dir="auto"><ul id="8c08db55-6aee-8332-8672-01ce138b5043" class="bulleted-list"><li style="list-style-type:circle">示例：<code>xhr.setRequestHeader(&#x27;Content-Type&#x27;, &#x27;application/json&#x27;)</code>（声明发送 JSON 数据）。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="7238db55-6aee-8239-b4b1-81d1bdf4f135" class="bulleted-list"><li style="list-style-type:disc"><code><strong>abort()</strong></code>：取消当前请求（如用户关闭页面或超时处理）。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7708db55-6aee-82c6-b442-01eb88aab8b0" class="toggle"><li><details open=""><summary>事件监听</summary><div style="display:contents" dir="auto"><p id="abe8db55-6aee-8225-a155-01b961a56461" class="">除了<code>onreadystatechange</code>，还有更直观的事件可监听：</p></div><div style="display:contents" dir="auto"><ul id="19b8db55-6aee-8337-b1d8-817c21570991" class="bulleted-list"><li style="list-style-type:disc"><code>onload</code>：请求完成且成功（<code>readyState === 4</code>且<code>status</code>正常）时触发。</li></ul></div><div style="display:contents" dir="auto"><ul id="b008db55-6aee-83b4-bac5-81380a8df6c6" class="bulleted-list"><li style="list-style-type:disc"><code>onerror</code>：网络错误（如断网）时触发。</li></ul></div><div style="display:contents" dir="auto"><ul id="2408db55-6aee-83d7-9ee2-017e7ce1f04f" class="bulleted-list"><li style="list-style-type:disc"><code>onabort</code>：请求被<code>abort()</code>取消时触发。</li></ul></div><div style="display:contents" dir="auto"><ul id="ae78db55-6aee-82bd-ae96-01afaac67f6f" class="bulleted-list"><li style="list-style-type:disc"><code>onprogress</code>：接收响应过程中触发（可用于显示进度条）。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><pre id="eff8db55-6aee-828d-abe7-0146a82bbf76" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">xhr.onload = function() {
+  if (xhr.status === 200) {
+    console.log(&#x27;成功：&#x27;, xhr.responseText);
+  } else {
+    console.error(&#x27;失败：&#x27;, xhr.status);
+  }
+};
+
+xhr.onerror = function() {
+  console.error(&#x27;网络错误！&#x27;);
+};</code></pre></div><div style="display:contents" dir="auto"><ul id="c718db55-6aee-8303-80f5-0170a6cce434" class="toggle"><li><details open=""><summary>post发送示例</summary><div style="display:contents" dir="auto"><pre id="d788db55-6aee-8279-9390-012096f76fd8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const xhr = new XMLHttpRequest();
+xhr.open(&#x27;POST&#x27;, &#x27;https://api.example.com/submit&#x27;, true);
+
+// 设置请求头：告诉服务器发送的是JSON数据
+xhr.setRequestHeader(&#x27;Content-Type&#x27;, &#x27;application/json&#x27;);
+
+// 监听响应
+xhr.onload = function() {
+  if (xhr.status === 200) {
+    console.log(&#x27;提交成功：&#x27;, xhr.responseText);
+  }
+};
+
+// 发送JSON数据（需转为字符串）
+const data = JSON.stringify({ name: &#x27;Alice&#x27;, age: 25 });
+xhr.send(data);</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cff8db55-6aee-82b4-afd8-81dae9d62b88" class="toggle"><li><details open=""><summary>fetch</summary><div style="display:contents" dir="auto"><p id="ebc8db55-6aee-83bf-b122-01e649bf3d57" class=""><code>fetch</code> 是 JavaScript 中用于发起<strong>网络请求</strong>的现代 API，主要作用是从服务器获取资源（如数据、文件等）或向服务器发送数据，支持异步操作，是替代传统 <code>XMLHttpRequest</code> 的更简洁、更强大的方案。</p></div><div style="display:contents" dir="auto"><hr id="f8a8db55-6aee-8391-89c2-8135c0070621"/></div><div style="display:contents" dir="auto"><p id="8638db55-6aee-82ec-9bb9-017089c41223" class="">基本特点：</p></div><div style="display:contents" dir="auto"><ol type="1" id="b798db55-6aee-8387-b4a4-019b9c3f6f73" class="numbered-list" start="1"><li><strong>基于promise</strong>：<code>fetch</code> 方法返回一个 <code>Promise</code> 对象，可通过 <code>then()</code> 处理成功响应，<code>catch()</code> 捕获错误，也支持 <code>async/await</code> 语法，避免回调地狱。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="9158db55-6aee-82a8-ac58-013528c4b494" class="numbered-list" start="2"><li><strong>默认不携带Cookie</strong>：需手动配置 <code>credentials</code> 参数才能携带 Cookie（如跨域请求时）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1048db55-6aee-826a-ba0f-81f3ac3c8501" class="numbered-list" start="3"><li><strong>仅网络错误会reject</strong>：HTTP 错误状态（如 404、500）不会触发 <code>Promise</code> 的 <code>reject</code>，需手动判断响应状态。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1938db55-6aee-83b8-9718-01ac7771d28e" class="numbered-list" start="4"><li><strong>支持多种数据类型</strong>：可处理 JSON、文本、表单数据、二进制数据等。</li></ol></div><div style="display:contents" dir="auto"><hr id="b768db55-6aee-836d-8b2f-010e8ffa85f7"/></div><div style="display:contents" dir="auto"><ul id="4f18db55-6aee-833c-89d6-81de557e9361" class="toggle"><li><details open=""><summary>基本语法</summary><div style="display:contents" dir="auto"><pre id="b1e8db55-6aee-82ae-b8c4-01f2a6739137" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">fetch(url, options)
+  .then(response =&gt; {
+    // 处理响应（如解析为JSON、文本等）
+    return response.json(); // 解析为JSON
+  })
+  .then(data =&gt; {
+    // 处理解析后的数据
+    console.log(data);
+  })
+  .catch(error =&gt; {
+    // 捕获网络错误
+    console.error(&#x27;请求失败:&#x27;, error);
+  });</code></pre></div><div style="display:contents" dir="auto"><pre id="4068db55-6aee-83e7-8421-01525e464e68" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">url：必选参数，请求的资源地址（字符串）。
+options：可选参数，配置请求的对象，常用属性：
+method：请求方法（GET、POST、PUT、DELETE 等，默认 GET）。
+headers：请求头（如 {&#x27;Content-Type&#x27;: &#x27;application/json&#x27;}）。
+body：请求体（发送的数据，适用于 POST、PUT 等，不能用于 GET）。
+credentials：是否携带 Cookie（&#x27;include&#x27; 表示携带，跨域时需设置）。
+mode：请求模式（&#x27;cors&#x27; 允许跨域，&#x27;no-cors&#x27; 限制跨域，&#x27;same-origin&#x27; 仅同源）。</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f0e8db55-6aee-823e-a37f-01bdcd26896e" class="toggle"><li><details open=""><summary>get请求（获取数据）</summary><div style="display:contents" dir="auto"><pre id="7ed8db55-6aee-83a3-a6e1-81fde6726ef3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 获取JSON数据
+fetch(&#x27;https://api.example.com/users&#x27;)
+  .then(response =&gt; {
+    // 检查HTTP状态码（200-299表示成功）
+    if (!response.ok) {
+      throw new Error(`HTTP错误，状态码: ${response.status}`);
+    }
+    return response.json(); // 解析为JSON对象
+  })
+  .then(users =&gt; {
+    console.log(&#x27;用户列表:&#x27;, users);
+  })
+  .catch(error =&gt; {
+    console.error(&#x27;请求失败:&#x27;, error);
+  });</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6738db55-6aee-8313-a5ed-8115d859b1eb" class="toggle"><li><details open=""><summary>post请求（发送数据）</summary><div style="display:contents" dir="auto"><pre id="db48db55-6aee-8250-8551-8143c3cf65ab" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 发送JSON数据
+fetch(&#x27;https://api.example.com/users&#x27;, {
+  method: &#x27;POST&#x27;,
+  headers: {
+    &#x27;Content-Type&#x27;: &#x27;application/json&#x27;, // 声明发送的是JSON
+  },
+  body: JSON.stringify({ // 将对象转为JSON字符串
+    name: &#x27;Alice&#x27;,
+    age: 25
+  }),
+  credentials: &#x27;include&#x27; // 携带Cookie（跨域时需要）
+})
+.then(response =&gt; {
+  if (!response.ok) throw new Error(&#x27;提交失败&#x27;);
+  return response.json();
+})
+.then(result =&gt; {
+  console.log(&#x27;提交成功:&#x27;, result);
+})
+.catch(error =&gt; {
+  console.error(&#x27;错误:&#x27;, error);
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="42e8db55-6aee-8270-ab5a-81ee2839a441" class="toggle"><li><details open=""><summary>使用async/await（更简洁）</summary><div style="display:contents" dir="auto"><pre id="f298db55-6aee-831a-8ec0-8194ac84a79d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">async function fetchData() {
+  try {
+    const response = await fetch(&#x27;https://api.example.com/data&#x27;);
+    if (!response.ok) throw new Error(`状态码: ${response.status}`);
+    const data = await response.json(); // 等待解析完成
+    console.log(&#x27;数据:&#x27;, data);
+  } catch (error) {
+    console.error(&#x27;请求失败:&#x27;, error);
+  }
+}
+
+fetchData();</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d168db55-6aee-8272-a1bb-0182e4f669d6" class="toggle"><li><details open=""><summary>处理不同类型的响应/响应对象</summary><div style="display:contents" dir="auto"><pre id="ddd8db55-6aee-82d5-a33a-0144c619737a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">fetch 的响应对象（response）提供多种方法解析数据：
+
+response.json()：解析为 JSON 对象（最常用）。
+response.text()：解析为文本字符串。
+response.blob()：解析为二进制大对象（如图片、文件）。
+response.formData()：解析为 FormData 表单数据。</code></pre></div><div style="display:contents" dir="auto"><pre id="b9a8db55-6aee-8320-9c2f-81bba0d4c7be" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">fetch(&#x27;https://example.com/text.txt&#x27;)
+  .then(response =&gt; response.text())
+  .then(text =&gt; console.log(&#x27;文本内容:&#x27;, text));</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aa68db55-6aee-8268-9e63-81861704baa4" class="toggle"><li><details open=""><summary>注意</summary><div style="display:contents" dir="auto"><ol type="1" id="7478db55-6aee-83b7-a1e5-011287869f9f" class="numbered-list" start="1"><li><strong>HTTP 错误不触发 catch</strong>：即使服务器返回 404 或 500，<code>fetch</code> 的 <code>Promise</code> 仍会进入 <code>resolve</code> 状态，需通过 <code>response.ok</code>（<code>true</code> 表示 200-299）手动判断。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="7628db55-6aee-83ca-be85-0131a5b3329c" class="numbered-list" start="2"><li><strong>跨域请求需服务器支持</strong>：跨域时，服务器需设置 CORS 头（如 <code>Access-Control-Allow-Origin</code>），否则请求会失败。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b2c8db55-6aee-82af-a11c-81dc4d9abc28" class="numbered-list" start="3"><li><strong>默认不携带 Cookie</strong>：跨域请求需添加 <code>credentials: &#x27;include&#x27;</code> 才能携带 Cookie，同源请求可省略。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="aac8db55-6aee-83e8-ac79-814eba946429" class="numbered-list" start="4"><li><strong>无法取消请求（原生）</strong>：原生 <code>fetch</code> 本身不支持取消，需结合 <code>AbortController</code> 实现：</li></ol></div><div style="display:contents" dir="auto"><pre id="33f8db55-6aee-820f-9523-812933e204a9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const controller = new AbortController();
+const signal = controller.signal;
+
+fetch(&#x27;https://api.example.com/data&#x27;, { signal })
+  .then(response =&gt; response.json())
+  .catch(error =&gt; {
+    if (error.name === &#x27;AbortError&#x27;) console.log(&#x27;请求已取消&#x27;);
+  });
+
+// 1秒后取消请求
+setTimeout(() =&gt; controller.abort(), 1000);</code></pre></div></details></li></ul></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

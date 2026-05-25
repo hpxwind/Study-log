@@ -1,0 +1,1094 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>样式穿透</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="0478db55-6aee-827a-bc29-81a73eb707dc" class="page serif"><header><h1 class="page-title" dir="auto">样式穿透</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="e748db55-6aee-82f0-8863-017a1fedf298" class="">样式穿透是Vue开发中处理样式作用域的重要技术，用于在scoped样式中修改子组件或深层DOM元素的样式。<br/>样式穿透是Vue中用于打破<code>scoped</code>样式限制的技术，<mark class="highlight-pink_background">允许父组件修改子组件内部的样式。</mark></p></div><div style="display:contents" dir="auto"><hr id="f998db55-6aee-827a-bd75-01008c07f0a4"/></div><div style="display:contents" dir="auto"><p id="4bf8db55-6aee-82ce-91bd-01248276e1fc" class=""><code>::v-deep</code> 是<strong>专门为 scoped 样式设计</strong>的穿透语法。它的作用是：</p></div><div style="display:contents" dir="auto"><ul id="5ee8db55-6aee-832f-93b7-813749377057" class="bulleted-list"><li style="list-style-type:disc">在<strong>保持父组件样式隔离</strong>的前提下</li></ul></div><div style="display:contents" dir="auto"><ul id="3728db55-6aee-820a-881e-01d399e8f8b7" class="bulleted-list"><li style="list-style-type:disc">允许<strong>选择性地</strong>穿透到子组件内部</li></ul></div><div style="display:contents" dir="auto"><hr id="0488db55-6aee-823b-9500-81db6d384ef7"/></div><div style="display:contents" dir="auto"><hr id="3bf8db55-6aee-8373-be57-014f06aa7104"/></div><div style="display:contents" dir="auto"><ul id="4fe8db55-6aee-8231-8cb6-810f4edfedf4" class="toggle"><li><details open=""><summary>vue样式作用域原理</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="2d38db55-6aee-8279-9319-8187b9d7b3c5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 子组件 Child.vue --&gt;
+&lt;template&gt;
+  &lt;div class=&quot;child&quot;&gt;
+    &lt;button class=&quot;btn&quot;&gt;子组件按钮&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;!-- 编译后 --&gt;
+&lt;div class=&quot;child&quot; data-v-123456&gt;
+  &lt;button class=&quot;btn&quot; data-v-123456&gt;子组件按钮&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;style scoped&gt;
+/* 编译前 */
+.child .btn { color: red; }
+
+/* 编译后 */
+.child .btn[data-v-123456] { color: red; }
+&lt;/style&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="14a8db55-6aee-83a7-8592-01d32560c8f1"/></div><div style="display:contents" dir="auto"><p id="46a8db55-6aee-821b-bf4b-01db926d60da" class="">不同版本的穿透样式</p></div><div style="display:contents" dir="auto"><ul id="f3d8db55-6aee-8375-b00b-81a3abc03a13" class="toggle"><li><details open=""><summary>原生CSS/SCSS</summary><div style="display:contents" dir="auto"><pre id="aaa8db55-6aee-823a-89ae-019936f68671" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 父组件
+&lt;style scoped&gt;
+li {list-style: none;}
+
+.active {
+  background-color: red;
+  color: #fff;
+}
+
+/* 【样式穿透】使用 ::v-deep */
+/* Vue2 和 Vue3 都推荐使用 ::v-deep 语法 */
+
+/* 穿透修改子组件的 .child-text 样式 */
+::v-deep .child-text {
+  color: red !important;
+  font-weight: bold;
+}
+
+/* 穿透修改子组件的 .child-box 样式 */
+::v-deep .child-box {
+  background-color: lightgreen !important;
+  border: 2px dashed orange;
+}
+&lt;/style&gt;
+
+// 子组件
+
+&lt;template&gt;
+    &lt;div class=&quot;child-wrapper&quot;&gt;
+        &lt;h3&gt;我是子组件ChuanTou&lt;/h3&gt;
+        &lt;p class=&quot;child-text&quot;&gt;这段文字的样式可以被父组件穿透修改&lt;/p&gt;
+        &lt;div class=&quot;child-box&quot;&gt;
+            &lt;span&gt;盒子内容&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+    name: &#x27;ChuanTou&#x27;
+}
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+/* scoped 作用域样式：默认只在当前组件生效 */
+.child-wrapper {
+    border: 2px solid #333;
+    padding: 20px;
+    margin: 10px 0;
+}
+
+.child-text {
+    color: blue;
+    font-size: 16px;
+}
+
+.child-box {
+    background-color: lightgray;
+    padding: 10px;
+    margin-top: 10px;
+}
+&lt;/style&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="6b28db55-6aee-831a-b573-81c7fef464c9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;parent&quot;&gt;
+    &lt;ChildComponent class=&quot;child-wrapper&quot; /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+/* Vue 2的写法 - 已废弃但仍支持 */
+.parent &gt;&gt;&gt; .child-wrapper .inner-element {
+  color: red;
+}
+
+/* 或使用/deep/ */
+.parent /deep/ .child-wrapper .inner-element {
+  background: blue;
+}
+&lt;/style&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5608db55-6aee-83bd-b5d5-01f17a15f298" class="toggle"><li><details open=""><summary>Sass/SCSS</summary><div style="display:contents" dir="auto"><pre id="c898db55-6aee-82ee-9d04-01b612e87ee1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;style lang=&quot;scss&quot; scoped&gt;
+/* Vue 2的写法 */
+.parent {
+  /* 使用::v-deep */
+  ::v-deep .child-wrapper {
+    .inner-element {
+      color: red;
+    }
+  }
+  
+  /* 或使用/deep/ */
+  /deep/ .child-wrapper {
+    .inner-element {
+      background: blue;
+    }
+  }
+}
+&lt;/style&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a7f8db55-6aee-8222-a943-81e7d77977a6" class="toggle"><li><details open=""><summary>vue3推荐</summary><div style="display:contents" dir="auto"><p id="2cf8db55-6aee-836e-8177-01362ba74971" class="">Vue 3统一使用<code>:deep()</code>、<code>:slotted()</code>、<code>:global()</code>选择器：</p></div><div style="display:contents" dir="auto"><pre id="5e28db55-6aee-835c-8cb0-01080d6ef998" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;style scoped&gt;
+/* 修改子组件样式 */
+:deep(.child-wrapper) {
+  .inner-element {
+    color: red;
+  }
+}
+
+/* 等同于 */
+:deep(.child-wrapper .inner-element) {
+  color: red;
+}
+&lt;/style&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="6d58db55-6aee-8237-a66e-01859d20b54f"/></div><div style="display:contents" dir="auto"><p id="0a18db55-6aee-8360-9004-8129278dc96f" class="">各种使用场景</p></div><div style="display:contents" dir="auto"><ul id="6a98db55-6aee-8271-9471-817a88551444" class="toggle"><li><details open=""><summary>修改子组件根元素</summary><div style="display:contents" dir="auto"><pre id="f888db55-6aee-8328-9566-014683783045" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;parent&quot;&gt;
+    &lt;MyButton class=&quot;custom-button&quot; /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+/* 修改子组件根元素 */
+:deep(.custom-button) {
+  padding: 20px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+&lt;/style&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="96c8db55-6aee-82a6-8505-01c70aa9d657" class="toggle"><li><details open=""><summary>修改子组件内部元素</summary><div style="display:contents" dir="auto"><pre id="90b8db55-6aee-83d5-996d-81d6131a908d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;DataTable class=&quot;my-table&quot; /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+/* 深入修改表格内部样式 */
+:deep(.my-table) {
+  .table-header {
+    background: linear-gradient(45deg, #409EFF, #67C23A);
+    color: white;
+    font-weight: bold;
+  }
+  
+  .table-row:hover {
+    background-color: #f5f7fa;
+  }
+  
+  .table-cell {
+    padding: 12px 16px;
+  }
+}
+&lt;/style&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fac8db55-6aee-8200-bc77-81e96ae7be9c" class="toggle"><li><details open=""><summary>修改第三方组件样式</summary><div style="display:contents" dir="auto"><pre id="2d88db55-6aee-836f-95f9-81198e6eb467" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;page&quot;&gt;
+    &lt;!-- Element Plus组件 --&gt;
+    &lt;el-dialog
+      v-model=&quot;dialogVisible&quot;
+      title=&quot;提示&quot;
+      width=&quot;30%&quot;
+      class=&quot;custom-dialog&quot;
+    &gt;
+      &lt;span&gt;这是一段信息&lt;/span&gt;
+    &lt;/el-dialog&gt;
+    
+    &lt;!-- Ant Design Vue组件 --&gt;
+    &lt;a-button type=&quot;primary&quot; class=&quot;custom-btn&quot;&gt;
+      自定义按钮
+    &lt;/a-button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from &#x27;vue&#x27;
+
+const dialogVisible = ref(false)
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+/* 修改Element Plus对话框样式 */
+:deep(.custom-dialog) {
+  .el-dialog__header {
+    background: linear-gradient(90deg, #409EFF, #67C23A);
+    
+    .el-dialog__title {
+      color: white;
+      font-size: 18px;
+    }
+    
+    .el-dialog__headerbtn {
+      .el-dialog__close {
+        color: white;
+        
+        &amp;:hover {
+          color: #f0f0f0;
+        }
+      }
+    }
+  }
+  
+  .el-dialog__body {
+    padding: 30px 20px;
+  }
+  
+  .el-dialog__footer {
+    text-align: center;
+  }
+}
+
+/* 修改Ant Design按钮样式 */
+:deep(.custom-btn) {
+  &amp;.ant-btn-primary {
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    border: none;
+    border-radius: 25px;
+    padding: 0 30px;
+    height: 40px;
+    
+    &amp;:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+    }
+  }
+}
+&lt;/style&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2648db55-6aee-824c-9b3a-01ea52bfd297" class="toggle"><li><details open=""><summary>插槽内容样式</summary><div style="display:contents" dir="auto"><pre id="a7a8db55-6aee-8368-bde5-014d213c82d8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;card-wrapper&quot;&gt;
+    &lt;CardComponent&gt;
+      &lt;!-- 插槽内容 --&gt;
+      &lt;template #header&gt;
+        &lt;h3 class=&quot;custom-header&quot;&gt;自定义标题&lt;/h3&gt;
+      &lt;/template&gt;
+      
+      &lt;template #default&gt;
+        &lt;p class=&quot;custom-content&quot;&gt;自定义内容区域&lt;/p&gt;
+      &lt;/template&gt;
+    &lt;/CardComponent&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+/* 修改插槽内容的样式 */
+:deep(.custom-header) {
+  color: #409EFF;
+  border-bottom: 2px solid #409EFF;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+:deep(.custom-content) {
+  line-height: 1.8;
+  color: #606266;
+  font-size: 14px;
+}
+&lt;/style&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="33d8db55-6aee-82a8-a8cd-81a2de285bdb"/></div><div style="display:contents" dir="auto"><hr id="3db8db55-6aee-825c-b8ea-0109279ee7b3"/></div><div style="display:contents" dir="auto"><ul id="fd68db55-6aee-82b0-a06b-8136a23b620d" class="toggle"><li><details open=""><summary><code>:slotted()</code>选择器</summary><div style="display:contents" dir="auto"><p id="1388db55-6aee-82dd-a331-812df09d5d4f" class="">专门用于<mark class="highlight-orange"><mark class="highlight-pink_background">修改插槽内容</mark></mark>的样式：</p></div><div style="display:contents" dir="auto"><pre id="a598db55-6aee-834b-a5d5-81061af140d5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- ParentComponent.vue --&gt;
+&lt;template&gt;
+  &lt;div class=&quot;parent&quot;&gt;
+    &lt;slot&gt;
+      &lt;span class=&quot;default-slot&quot;&gt;默认内容&lt;/span&gt;
+    &lt;/slot&gt;
+    
+    &lt;slot name=&quot;footer&quot;&gt;
+      &lt;div class=&quot;default-footer&quot;&gt;默认页脚&lt;/div&gt;
+    &lt;/slot&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+/* 修改插槽内容的样式 */
+:slotted(.slot-content) {
+  color: #f56c6c;
+  font-weight: bold;
+}
+
+/* 修改具名插槽的样式 */
+:slotted(.footer-content) {
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+/* 默认插槽内容 */
+.default-slot {
+  color: #909399;
+}
+
+.default-footer {
+  color: #c0c4cc;
+}
+&lt;/style&gt;
+
+&lt;!-- 使用组件 --&gt;
+&lt;template&gt;
+  &lt;ParentComponent&gt;
+    &lt;!-- 会被:slotted选择器选中 --&gt;
+    &lt;span class=&quot;slot-content&quot;&gt;插槽内容&lt;/span&gt;
+    
+    &lt;template #footer&gt;
+      &lt;div class=&quot;footer-content&quot;&gt;自定义页脚&lt;/div&gt;
+    &lt;/template&gt;
+  &lt;/ParentComponent&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1ef8db55-6aee-829b-a489-011d9dd96fdc" class="toggle"><li><details open=""><summary><code>:global()</code>选择器</summary><div style="display:contents" dir="auto"><p id="ad78db55-6aee-8292-94e3-01cacd35a1c7" class="">用于在<mark class="highlight-pink_background"><code>scoped</code></mark><mark class="highlight-pink_background">样式</mark>中添加全局样式：</p></div><div style="display:contents" dir="auto"><pre id="8478db55-6aee-8333-ac2d-011a66dd28f8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;page-container&quot;&gt;
+    &lt;h1&gt;页面标题&lt;/h1&gt;
+    &lt;div class=&quot;content&quot;&gt;
+      &lt;p&gt;页面内容&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.page-container {
+  padding: 20px;
+}
+
+/* 全局样式 - 不受scoped限制 */
+:global(.global-class) {
+  color: red;
+  font-size: 20px;
+}
+
+/* 全局修改body样式 */
+:global(body) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* 修改其他组件的全局样式 */
+:global(.some-external-component) {
+  .internal-element {
+    background: blue;
+  }
+}
+&lt;/style&gt;
+
+&lt;style&gt;
+/* 另一种添加全局样式的方式 */
+.global-button {
+  padding: 10px 20px;
+  background: #409EFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+&lt;/style&gt;</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

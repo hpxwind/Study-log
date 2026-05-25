@@ -1,0 +1,813 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>ELF文件概述</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e8a8db55-6aee-831d-a852-811453d6cbf7" class="page mono"><header><h1 class="page-title" dir="auto">ELF文件概述</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="bd08db55-6aee-828d-9f63-813867aa500e" class="">ELF文件是什么？</p></div><div style="display:contents" dir="auto"><p id="be68db55-6aee-83f0-9d91-014ae28d5670" class="">ELF 是 Executable Linkable Format 的简称. 它是Linux平台的可执行文件的存储格式. 它是一种基于 <a href="https://zhida.zhihu.com/search?content_id=209066163&amp;content_type=Article&amp;match_order=1&amp;q=COFF&amp;zhida_source=entity">COFF</a>( Common File Format )文件标准的变种。</p></div><div style="display:contents" dir="auto"><ul id="81c8db55-6aee-8287-b3a5-8130e6a88182" class="toggle"><li><details open=""><summary>目标文件是什么？</summary><div style="display:contents" dir="auto"><p id="5c38db55-6aee-82f6-b8cd-017aa1a518d8" class="">目标文件是编译出来后,没有进行链接前的中间文件. </p></div><div style="display:contents" dir="auto"><p id="1738db55-6aee-839d-88fb-813bca1bdae8" class="">Linux平台的目标文件的后缀一般是: <mark class="highlight-orange">.o</mark> </p></div><div style="display:contents" dir="auto"><p id="7818db55-6aee-83ca-99da-81180f097404" class="">Windows平台的目标文件的后缀一般是: <mark class="highlight-orange">.obj</mark></p></div><div style="display:contents" dir="auto"><p id="04d8db55-6aee-839c-9c00-81ba09e2ef97" class="">目标文件的存储格式实际与可执行文件使用的是同一套存储标准,即 .o文件在Linux平台上与可执行文件都是使用的ELF文件格式进行存储的.</p></div><div style="display:contents" dir="auto"><p id="ca28db55-6aee-8230-9fb8-01201a8ff763" class="">
+</p></div><div style="display:contents" dir="auto"><p id="08c8db55-6aee-839b-877a-814e40011f95" class="">除了目标文件,我们熟悉的<a href="https://zhida.zhihu.com/search?content_id=209066163&amp;content_type=Article&amp;match_order=1&amp;q=%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93&amp;zhida_source=entity">动态链接库</a>文件也是使用ELF文件标准进行存储的.</p></div><div style="display:contents" dir="auto"><p id="fde8db55-6aee-823e-a7ff-81f4de46852e" class="">动态链接库在Linux平台下的后缀是: <mark class="highlight-orange">.so</mark><br/>Windows平台下的后缀是: <mark class="highlight-orange">.dll</mark></p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="8da8db55-6aee-832b-889a-81fd1ee2587b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">注: windows平台下的可执行文件标签是PE-COFF ,它是标准的COFF文件的变种.
+COFF 文件格式是Unix System V Release 3 提出的标准.后来微软公司基于 COFF制定了 PE 文件格式标准. 
+并将其应用于Windows NT系统. Unix System V4 在COFF的基础上引入了ELF . 
+目前流行的Linux系统也是使用ELF格式作为基本的可执行文件格式.</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="0578db55-6aee-83a0-8492-813cb8859c97" class="">目标文件格式：</p></div><div style="display:contents" dir="auto"><ul id="9748db55-6aee-8209-977b-019cca81f20f" class="toggle"><li><details open=""><summary>头文件</summary><div style="display:contents" dir="auto"><p id="a618db55-6aee-821e-9f26-01d185d69d2b" class="">一般的二进制文件格式都会制定文件头, 这样我们在解析文件的时候可行先读取文件头.判定文件格式,然后再根据文件头信息进一步的确认后序步骤怎样解析.</p></div><div style="display:contents" dir="auto"><pre id="23e8db55-6aee-828a-b4cc-8110db71218a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">#define EI_NIDENT 16
+
+typedef struct {
+        unsigned char   e_ident[EI_NIDENT];
+        Elf32_Half      e_type;
+        Elf32_Half      e_machine;
+        Elf32_Word      e_version;
+        Elf32_Addr      e_entry;
+        Elf32_Off       e_phoff;
+        Elf32_Off       e_shoff;
+        Elf32_Word      e_flags;
+        Elf32_Half      e_ehsize;
+        Elf32_Half      e_phentsize;
+        Elf32_Half      e_phnum;
+        Elf32_Half      e_shentsize;
+        Elf32_Half      e_shnum;
+        Elf32_Half      e_shstrndx;
+} Elf32_Ehdr;
+
+typedef struct {
+        unsigned char   e_ident[EI_NIDENT];
+        Elf64_Half      e_type;
+        Elf64_Half      e_machine;
+        Elf64_Word      e_version;
+        Elf64_Addr      e_entry;
+        Elf64_Off       e_phoff;
+        Elf64_Off       e_shoff;     // 重要: 我们下一步的解析目标就从这里开始,这个段表的文件内偏移
+        Elf64_Word      e_flags;
+        Elf64_Half      e_ehsize;
+        Elf64_Half      e_phentsize;
+        Elf64_Half      e_phnum;
+        Elf64_Half      e_shentsize;
+        Elf64_Half      e_shnum;     // 重要: 这里给出了段表中的表项的个数
+        Elf64_Half      e_shstrndx;  // 重要: 这里给出了段表中引用的用于表示段名的字符串表的段表项索引
+} Elf64_Ehdr;</code></pre></div><div style="display:contents" dir="auto"><p id="8fd8db55-6aee-830e-b023-01300c35bdb1" class="">Linux的文件头定义了两种标准.一种是32位机器的,一种是64位机器的. 它们的内容结构其实是一样的(不是全部,可以基本认为是完全等价的),只是存储宽度不一样而已.</p></div><div style="display:contents" dir="auto"><hr id="0b48db55-6aee-8359-9afe-81f29a5fd97b"/></div><div style="display:contents" dir="auto"><p id="c958db55-6aee-8305-9dec-81848cf7a646" class="">表头中的字段主要描述elf文件服务的目标平台,以及相关的版本等信息.</p></div><div style="display:contents" dir="auto"><p id="3118db55-6aee-82a3-9a69-81bf2722f4ab" class="">同时给出了段表(<code>Section Header Table</code>)在<mark class="highlight-orange">文件中的偏移</mark></p></div><div style="display:contents" dir="auto"><p id="67d8db55-6aee-82ae-8812-01012df3f7f9" class="">字段: <code>Elf64_Ehdr.e_shoff</code> ,它表明段表在文件中的偏移.</p></div><div style="display:contents" dir="auto"><p id="2fb8db55-6aee-83d1-9564-816a95458ce5" class="">偏移有了我们要知道有多少个item以及每一个item的大小</p></div><div style="display:contents" dir="auto"><p id="1968db55-6aee-83cb-a623-81a129d2df07" class="">这里的item就是段描述符: <code>section descriptor</code> 每一个描述符代表一个段</p></div><div style="display:contents" dir="auto"><p id="e1f8db55-6aee-82e1-9f52-01b58b803d1a" class="">比如在一个ELF文件中,就会存在一个.text的段. 那就会存在一个段描述符与之对应.</p></div><div style="display:contents" dir="auto"><pre id="5928db55-6aee-8230-b205-81c1f34fb10b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">段描述符的大小为: e_shentsize 它表示一个段描述符的大小.
+段描述符的个数为: e_shnum ,它表示我们的ELF文件中有多少个段描述符,同时也说明了一个ELF文件中有多少个段.</code></pre></div><div style="display:contents" dir="auto"><pre id="e498db55-6aee-8333-b284-01b25ebeb0ae" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">注: ELF文件头可以使用命令: readelf -h xxx来直接查看.</code></pre></div><div style="display:contents" dir="auto"><p id="fa28db55-6aee-83d7-a276-0100c06f9952" class="">文件头中我们可以得到以下重要信息:</p></div><div style="display:contents" dir="auto"><pre id="8f08db55-6aee-837d-96bd-81abe6c23983" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">e_shoff: 段表在文件中的偏移位置.
+e_shentsize: 段表中的每一个段描述符的大小.
+e_shnum: 段描述符的个数. 即有多少个段.
+e_shstrndx: 段表中所描述的段的相关信息所引用的字符串表所在的段表的段描述符的索引号.</code></pre></div><div style="display:contents" dir="ltr"><figure id="2e68db55-6aee-83b7-ac60-810bbcb0be33" class="image"><a href="ELF%E6%96%87%E4%BB%B6%E6%A6%82%E8%BF%B0/v2-220053ae3306add37706351f98e69873_1440w.jpg"><img style="width:506.454345703125px" src="ELF%E6%96%87%E4%BB%B6%E6%A6%82%E8%BF%B0/v2-220053ae3306add37706351f98e69873_1440w.jpg"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1508db55-6aee-82b6-9d9e-0148ca709fe9" class="toggle"><li><details open=""><summary>段表：Section Header Table</summary><div style="display:contents" dir="auto"><p id="6e18db55-6aee-8308-b538-013f75a0660b" class="">在ELF文件中存在很多的段. 比如<mark class="highlight-orange">.text段,.data以及.bss段</mark></p></div><div style="display:contents" dir="auto"><p id="e858db55-6aee-82c7-9f6d-01b6e06dceda" class="">而这些段所在的地方以及他们的基本属性, 这些由段的元数据进行描述,而这些<mark class="highlight-orange">元数据所在的地方就是段表</mark>.</p></div><div style="display:contents" dir="auto"><p id="2b38db55-6aee-82d2-9f37-81343ba96300" class="">这描述了各ELF段的<mark class="highlight-orange">基本信息:</mark></p></div><div style="display:contents" dir="auto"><p id="0808db55-6aee-82b8-b1cf-8118d4303602" class="">比如: 段名,段长度,段偏移,段属性等.</p></div><div style="display:contents" dir="auto"><p id="dac8db55-6aee-82e4-8469-01518fb5a7b8" class="">同样,存在两个版本的Shdr分别是32位与64位.</p></div><div style="display:contents" dir="auto"><pre id="db38db55-6aee-83e2-9462-017196e45047" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all"> typedef struct {
+	Elf32_Word	sh_name;
+	Elf32_Word	sh_type;
+	Elf32_Word	sh_flags;
+	Elf32_Addr	sh_addr;
+	Elf32_Off	sh_offset;
+	Elf32_Word	sh_size;
+	Elf32_Word	sh_link;
+	Elf32_Word	sh_info;
+	Elf32_Word	sh_addralign;
+	Elf32_Word	sh_entsize;
+} Elf32_Shdr;
+
+typedef struct {
+	Elf64_Word	sh_name; //1
+	Elf64_Word	sh_type;
+	Elf64_Xword	sh_flags;
+	Elf64_Addr	sh_addr;
+	Elf64_Off	sh_offset;
+	Elf64_Xword	sh_size;
+	Elf64_Word	sh_link;
+	Elf64_Word	sh_info;
+	Elf64_Xword	sh_addralign;
+	Elf64_Xword	sh_entsize;
+} Elf64_Shdr;</code></pre></div><div style="display:contents" dir="auto"><p id="5af8db55-6aee-8328-b176-812ce3beb9b5" class="">重要信息如下：</p></div><div style="display:contents" dir="auto"><pre id="b578db55-6aee-824f-894c-81c9a682b468" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">sh_name: 一个段的名称. 这个是引用的 段名字符串表(.shstrtab段)中的偏移. (注意: 不是索引号, 这里是偏移. 一个相对于文件的偏移)
+sh_type: 段的类型. 参考: https://refspecs.linuxfoundation.org</code></pre></div><div style="display:contents" dir="ltr"><table id="6028db55-6aee-832e-b247-015bebfef7e2" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="e558db55-6aee-8339-af5d-01c3843f4a18"><th id="wa|P" class="simple-table-header-color simple-table-header" style="width:341px"><strong>Name</strong></th><th id="GHc_" class="simple-table-header-color simple-table-header"><strong>Value</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="8af8db55-6aee-83ba-9752-81605916b244"><td id="wa|P" class="" style="width:341px">SHT_NULL</td><td id="GHc_" class="">0</td></tr></div><div style="display:contents" dir="ltr"><tr id="d7a8db55-6aee-836d-b2ec-81b1343bcb1b"><td id="wa|P" class="" style="width:341px">SHT_PROGBITS : 程序/数据/</td><td id="GHc_" class="">1</td></tr></div><div style="display:contents" dir="ltr"><tr id="0468db55-6aee-837d-baaf-81234ed77899"><td id="wa|P" class="" style="width:341px">SHT_SYMTAB : <a href="https://zhida.zhihu.com/search?content_id=209066163&amp;content_type=Article&amp;match_order=1&amp;q=%E7%AC%A6%E5%8F%B7%E8%A1%A8&amp;zhida_source=entity">符号表</a></td><td id="GHc_" class="">2</td></tr></div><div style="display:contents" dir="ltr"><tr id="edc8db55-6aee-8390-bde4-011c031a15e8"><td id="wa|P" class="" style="width:341px">SHT_STRTAB : 字符串表</td><td id="GHc_" class="">3</td></tr></div><div style="display:contents" dir="ltr"><tr id="db98db55-6aee-8292-bf7f-0125eb5b72e2"><td id="wa|P" class="" style="width:341px">SHT_RELA : 重定位表</td><td id="GHc_" class="">4</td></tr></div><div style="display:contents" dir="ltr"><tr id="2598db55-6aee-836e-a7a9-01dcf32b2288"><td id="wa|P" class="" style="width:341px">SHT_HASH: HASH 表</td><td id="GHc_" class="">5</td></tr></div><div style="display:contents" dir="ltr"><tr id="fac8db55-6aee-825c-ae62-0173e9574c36"><td id="wa|P" class="" style="width:341px">SHT_DYNAMIC: 动态链接</td><td id="GHc_" class="">6</td></tr></div><div style="display:contents" dir="ltr"><tr id="41a8db55-6aee-8333-8bb1-816de6428c9c"><td id="wa|P" class="" style="width:341px">SHT_NOTE : 注释</td><td id="GHc_" class="">7</td></tr></div><div style="display:contents" dir="ltr"><tr id="9b08db55-6aee-83ae-ac93-81188c21af25"><td id="wa|P" class="" style="width:341px">SHT_NOBITS: 不存在于文件中</td><td id="GHc_" class="">8</td></tr></div><div style="display:contents" dir="ltr"><tr id="be98db55-6aee-83c4-91d6-81fb6ac27230"><td id="wa|P" class="" style="width:341px">SHT_REL : 重定位的一些信息</td><td id="GHc_" class="">9</td></tr></div><div style="display:contents" dir="ltr"><tr id="9ba8db55-6aee-83cd-a516-81fd61c50780"><td id="wa|P" class="" style="width:341px">SHT_SHLIB</td><td id="GHc_" class="">10</td></tr></div><div style="display:contents" dir="ltr"><tr id="c738db55-6aee-82a8-b059-81c7b2359836"><td id="wa|P" class="" style="width:341px">SHT_DYNSYM : 动态链接的符号表</td><td id="GHc_" class="">11</td></tr></div><div style="display:contents" dir="ltr"><tr id="9b28db55-6aee-83d5-9c85-01e5b1dec8a8"><td id="wa|P" class="" style="width:341px">SHT_INIT_ARRAY</td><td id="GHc_" class="">14</td></tr></div><div style="display:contents" dir="ltr"><tr id="e7f8db55-6aee-8350-a0ed-81ff2eefec9d"><td id="wa|P" class="" style="width:341px">SHT_FINI_ARRAY</td><td id="GHc_" class="">15</td></tr></div><div style="display:contents" dir="ltr"><tr id="5ed8db55-6aee-833c-a63c-81579b81f570"><td id="wa|P" class="" style="width:341px">SHT_PREINIT_ARRAY</td><td id="GHc_" class="">16</td></tr></div><div style="display:contents" dir="ltr"><tr id="4398db55-6aee-8220-90a5-0105440a8f9f"><td id="wa|P" class="" style="width:341px">SHT_GROUP</td><td id="GHc_" class="">17</td></tr></div><div style="display:contents" dir="ltr"><tr id="3cd8db55-6aee-8264-b504-012013802a14"><td id="wa|P" class="" style="width:341px">SHT_SYMTAB_SHNDX</td><td id="GHc_" class="">18</td></tr></div><div style="display:contents" dir="ltr"><tr id="3bc8db55-6aee-83e0-b8e7-01fc58cc5c07"><td id="wa|P" class="" style="width:341px">SHT_LOOS</td><td id="GHc_" class="">0x60000000</td></tr></div><div style="display:contents" dir="ltr"><tr id="6f88db55-6aee-836b-8912-811aa214c14a"><td id="wa|P" class="" style="width:341px">SHT_HIOS</td><td id="GHc_" class="">0x6fffffff</td></tr></div><div style="display:contents" dir="ltr"><tr id="07c8db55-6aee-8302-80b4-810ec115bbae"><td id="wa|P" class="" style="width:341px">SHT_LOPROC</td><td id="GHc_" class="">0x70000000</td></tr></div><div style="display:contents" dir="ltr"><tr id="6d58db55-6aee-822d-9490-01101b3e5f25"><td id="wa|P" class="" style="width:341px">SHT_HIPROC</td><td id="GHc_" class="">0x7fffffff</td></tr></div><div style="display:contents" dir="ltr"><tr id="3788db55-6aee-8394-9d7b-0124519a6445"><td id="wa|P" class="" style="width:341px">SHT_LOUSER</td><td id="GHc_" class="">0x80000000</td></tr></div><div style="display:contents" dir="ltr"><tr id="6168db55-6aee-838b-b93c-01ae38094028"><td id="wa|P" class="" style="width:341px">SHT_HIUSER</td><td id="GHc_" class="">0xffffffff</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="4b08db55-6aee-83a4-b65d-016e86f45191" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">sh_addr 加载到内存后的虚拟地址. 比如.text段.加载到内存后,其起始地址就应该是这里指定的虚拟地址
+sh_offset: 相对于文件的偏移
+sh_size: 段内容的大小.</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6518db55-6aee-82f8-ad98-0134401c266b" class="toggle"><li><details open=""><summary>段名字符串表</summary><div style="display:contents" dir="auto"><p id="b4f8db55-6aee-8307-b6be-81c7f82830a4" class="">上面有说到一个段的名称在.段描述中进行定义时,是引用的段名字符串表的内容.</p></div><div style="display:contents" dir="auto"><p id="8948db55-6aee-833f-9860-01def5134a95" class="">这个段就是<code>.shstrtab</code>段.</p></div><div style="display:contents" dir="auto"><p id="18d8db55-6aee-826a-b8fb-016d1c05ce7f" class="">其实字符串表的内容非常简单. 大家可以理解为把一个个的ASCII字符串直接堆到一起就完事了. 比如下图:</p></div><div style="display:contents" dir="ltr"><figure id="4e18db55-6aee-821b-9bb0-014ab5ed866b" class="image"><a href="ELF%E6%96%87%E4%BB%B6%E6%A6%82%E8%BF%B0/v2-28c3b3f1ab52a8cdbe3fed635c10376f_1440w.jpg"><img style="width:506.4302978515625px" src="ELF%E6%96%87%E4%BB%B6%E6%A6%82%E8%BF%B0/v2-28c3b3f1ab52a8cdbe3fed635c10376f_1440w.jpg"/></a></figure></div><div style="display:contents" dir="auto"><p id="9e88db55-6aee-8231-b6d4-8188864749d6" class="">这个内容分析起来很简单. 第0个字符串是一个空串, 也就是上图中第一行中的黄色的那个<code>\0</code> ;后序是跟着其它的字符串,紧接着的是:<code>.systab</code>然后是<code>.strtab</code> 用一个表格描述就是: <a href="https://link.zhihu.com/?target=https%3A//refspecs.linuxfoundation.org/elf/gabi4%2B/ch4.strtab.html">String Table</a></p></div><div style="display:contents" dir="ltr"><figure id="6418db55-6aee-82d2-9072-816ca342eb35" class="image"><a href="ELF%E6%96%87%E4%BB%B6%E6%A6%82%E8%BF%B0/v2-f26c3beb474589bdbf8dd792588d676d_1440w.jpg"><img style="width:1440px" src="ELF%E6%96%87%E4%BB%B6%E6%A6%82%E8%BF%B0/v2-f26c3beb474589bdbf8dd792588d676d_1440w.jpg"/></a></figure></div><div style="display:contents" dir="auto"><p id="c0e8db55-6aee-8299-a89c-8136ac48d173" class=""><mark class="highlight-orange"><strong>比如我要引用字符串:</strong></mark><mark class="highlight-orange"><code><strong>variable</strong></code></mark><mark class="highlight-orange"><strong> ,那</strong></mark><mark class="highlight-orange"><code><strong>sh_name </strong></code></mark><mark class="highlight-orange"><strong>的值应该就是: 7; 所以是偏移.不是索引号.切记.</strong></mark></p></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="92d8db55-6aee-822d-97ea-811ebe63a3aa" class="">有了以上信息后,我们可以对ELF文件的大概而已基本就可以画出来了.</p></div><div style="display:contents" dir="ltr"><figure id="6c38db55-6aee-830e-af71-814864d667fd" class="image"><a href="ELF%E6%96%87%E4%BB%B6%E6%A6%82%E8%BF%B0/v2-3dee1727b191042655cb8c23caa6f1a8_1440w.jpg"><img style="width:536.4423217773438px" src="ELF%E6%96%87%E4%BB%B6%E6%A6%82%E8%BF%B0/v2-3dee1727b191042655cb8c23caa6f1a8_1440w.jpg"/></a></figure></div><div style="display:contents" dir="auto"><p id="9c78db55-6aee-820d-bdb6-01ca973b9314" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

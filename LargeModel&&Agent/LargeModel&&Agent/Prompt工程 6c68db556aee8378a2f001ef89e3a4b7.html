@@ -1,0 +1,762 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Prompt工程</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6c68db55-6aee-8378-a2f0-01ef89e3a4b7" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/rijksmuseum_claesz_1628.jpg" style="object-position:center 100%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🚪</span></div><h1 class="page-title" dir="auto">Prompt工程</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="9668db55-6aee-8310-9862-0165ffe7ad9a"><div style="font-size:1.5em"><span class="icon">‼️</span></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="39c8db55-6aee-82c0-b388-81de05437265" class="">以下内容由AI生成</p></div></div></figure></div><div style="display:contents" dir="auto"><h1 id="5d78db55-6aee-8295-bcd9-019a2e79419c" class=""><strong>一、什么是 Prompt 工程？</strong></h1></div><div style="display:contents" dir="auto"><p id="6418db55-6aee-8219-8e56-01040b800f69" class=""><strong>Prompt 工程</strong>（提示工程）是指设计和优化输入提示（prompt），以引导大语言模型（LLM，如 GPT-4、通义千问、Claude 等）生成符合预期输出的技术和方法。它本质上是人与 AI 之间的一种“沟通艺术”和“工程技术”，目标是用最简洁、最有效的指令激发出模型的最佳性能。</p></div><div style="display:contents" dir="auto"><p id="5988db55-6aee-825c-ae6c-01bc6105d76b" class=""><strong>核心观点</strong>：好的 prompt 不是“询问”，而是“编程”——你通过在提示中明确上下文、约束格式、指定推理步骤，来精确控制模型的行为。</p></div><div style="display:contents" dir="auto"><h1 id="0be8db55-6aee-8257-81db-81fa4bfdf2d6" class=""><strong>二、为什么 Prompt 工程如此重要？</strong></h1></div><div style="display:contents" dir="auto"><ol type="1" id="3648db55-6aee-83f2-8adc-8148ec2f1359" class="numbered-list" start="1"><li><strong>模型能力与用户意图的鸿沟</strong>：LLM 拥有海量知识，但它不知道你具体想要什么格式、风格、详细程度。Prompt 是填补这一鸿沟的桥梁。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="11a8db55-6aee-8287-9356-0109f12919c6" class="numbered-list" start="2"><li><strong>成本与效率</strong>：精心设计的 prompt 可以直接获得高质量输出，避免多次迭代、后处理或微调，节省 API 调用成本和开发时间。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="fba8db55-6aee-8215-951a-8100028d6f62" class="numbered-list" start="3"><li><strong>可解释性与可控性</strong>：好的 prompt 可以让模型的推理过程透明化（如“思维链”），便于调试和信任。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ad98db55-6aee-82ae-96af-814615d2314d" class="numbered-list" start="4"><li><strong>任务适配</strong>：同一个模型通过不同 prompt 可以完成翻译、摘要、代码生成、角色扮演等截然不同的任务，无需修改模型参数。</li></ol></div><div style="display:contents" dir="auto"><h1 id="6cb8db55-6aee-8358-9cc5-81fae58ff06e" class=""><strong>三、Prompt 工程的基本原则</strong></h1></div><div style="display:contents" dir="ltr"><table id="7708db55-6aee-83f1-b528-0162aebe7ce9" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="2518db55-6aee-83fc-9b3a-0194fa129caa"><th id="Vv&gt;w" class="simple-table-header-color simple-table-header"><strong>原则</strong></th><th id="Hgva" class="simple-table-header-color simple-table-header"><strong>说明</strong></th><th id="FMop" class="simple-table-header-color simple-table-header"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="fdb8db55-6aee-8269-867b-01eeee3b6b21"><td id="Vv&gt;w" class=""><strong>清晰明确</strong></td><td id="Hgva" class="">避免歧义，使用具体、可度量的指令</td><td id="FMop" class="">❌“写一篇好文章” → ✅“写一篇500字的介绍北京故宫的博客，语气亲切，面向中学生”</td></tr></div><div style="display:contents" dir="ltr"><tr id="c108db55-6aee-820e-908d-817b4fb280f7"><td id="Vv&gt;w" class=""><strong>提供上下文</strong></td><td id="Hgva" class="">给出背景、角色、约束条件</td><td id="FMop" class="">“你是一位资深 Python 工程师，请审查以下代码并指出潜在的性能问题。”</td></tr></div><div style="display:contents" dir="ltr"><tr id="5c68db55-6aee-8324-9d4c-01703009a5de"><td id="Vv&gt;w" class=""><strong>分隔清晰</strong></td><td id="Hgva" class="">使用标记（如 <code>###</code>、<code>&quot;&quot;&quot;</code>、<code>---</code>）区分指令、输入、示例</td><td id="FMop" class=""><code>### 指令：...</code> <code>### 输入：...</code> <code>### 输出：</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1718db55-6aee-826f-be56-01a580af96e0"><td id="Vv&gt;w" class=""><strong>指定输出格式</strong></td><td id="Hgva" class="">明确要求 JSON、Markdown、列表、表格等</td><td id="FMop" class="">“以 JSON 格式输出，包含字段 name, age, city”</td></tr></div><div style="display:contents" dir="ltr"><tr id="8528db55-6aee-824c-9f26-016b2b7ea23e"><td id="Vv&gt;w" class=""><strong>给出示例（Few‑shot）</strong></td><td id="Hgva" class="">提供 1~3 个输入输出对，让模型模仿</td><td id="FMop" class="">示例见下文 Few‑shot 部分</td></tr></div><div style="display:contents" dir="ltr"><tr id="0698db55-6aee-82aa-8218-016be7a27c59"><td id="Vv&gt;w" class=""><strong>分步思考（Chain‑of‑Thought）</strong></td><td id="Hgva" class="">让模型先写出推理步骤，再给出最终答案</td><td id="FMop" class="">“请一步步推理，最后以‘因此答案是：...’结尾”</td></tr></div><div style="display:contents" dir="ltr"><tr id="e568db55-6aee-835d-9e32-01325b598aa4"><td id="Vv&gt;w" class=""><strong>设置角色</strong></td><td id="Hgva" class="">为模型分配一个专家角色</td><td id="FMop" class="">“你是一位营养学专家，请根据以下食谱给出健康建议。”</td></tr></div><div style="display:contents" dir="ltr"><tr id="02d8db55-6aee-82c3-98f1-0118466130ef"><td id="Vv&gt;w" class=""><strong>使用肯定语气</strong></td><td id="Hgva" class="">告诉模型“要做什么”，而非“不要做什么”</td><td id="FMop" class="">❌“不要使用复杂词汇” → ✅“使用初中生能理解的基础词汇”</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h1 id="0398db55-6aee-83e1-8747-8112dcc954a6" class=""><strong>四、Prompt 工程的核心技术与高级技巧</strong></h1></div><div style="display:contents" dir="auto"><h3 id="ab68db55-6aee-8347-afe9-017a0915195c" class=""><strong>1. Zero‑shot Prompting（零样本提示）</strong></h3></div><div style="display:contents" dir="auto"><p id="aa48db55-6aee-82e5-afd2-81c8a3f1b00d" class="">直接给出指令，不提供示例。适用于模型已具备的基础任务（翻译、分类等）。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1978db55-6aee-82a3-ae00-01b940b2b9b2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">将以下句子翻译成英文：“今天天气很好。”</code></pre></div><div style="display:contents" dir="auto"><h3 id="58c8db55-6aee-8338-92da-81bbff48e780" class=""><strong>2. Few‑shot Prompting（少样本提示）</strong></h3></div><div style="display:contents" dir="auto"><p id="b5a8db55-6aee-831d-b407-81112f291a6f" class="">提供几个输入输出示例，让模型学习模式。尤其适合需要格式、风格、特殊逻辑的任务。</p></div><div style="display:contents" dir="auto"><pre id="c1c8db55-6aee-83e7-b414-81f152eab287" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">将英文短语翻译为中文俚语：
+“Break a leg” -&gt; “祝你演出成功”
+“Piece of cake” -&gt; “小菜一碟”
+“Spill the beans” -&gt; “？？？”</code></pre></div><div style="display:contents" dir="auto"><h3 id="7968db55-6aee-8278-b6b9-8131e3247b22" class=""><strong>3. Chain‑of‑Thought (CoT) Prompting（思维链提示）</strong></h3></div><div style="display:contents" dir="auto"><p id="cb78db55-6aee-83bf-8d98-817d8bbd071c" class="">诱导模型生成中间推理步骤，显著提升逻辑、数学、常识推理任务的准确性。</p></div><div style="display:contents" dir="auto"><pre id="3258db55-6aee-82b8-91b1-0122c1e03124" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">问：一个水池有一个进水口和一个排水口。单独开进水口5小时可注满，单独开排水口10小时可排空。如果同时打开，多少小时可以注满水池？
+答：每小时进水 1/5 池，排水 1/10 池，净进水 1/5 - 1/10 = 1/10 池。所以需要 10 小时。因此答案是：10小时。</code></pre></div><div style="display:contents" dir="auto"><p id="ba38db55-6aee-8359-be78-81028048c775" class=""><strong>变种</strong>：<strong>Self‑consistency CoT</strong>（自我一致性）——多次采样 CoT，取多数答案。</p></div><div style="display:contents" dir="auto"><h3 id="8b78db55-6aee-821d-bb18-81e40b4ae0b9" class=""><strong>4. Tree‑of‑Thoughts (ToT)（思维树）</strong></h3></div><div style="display:contents" dir="auto"><p id="7be8db55-6aee-83e0-96d4-812bcdb3bf1c" class="">扩展 CoT，让模型在推理过程中探索多个分支，并自我评估选择最优路径。适合复杂规划、创意写作等任务。</p></div><div style="display:contents" dir="auto"><h3 id="2ff8db55-6aee-8236-970f-01e64893f329" class=""><strong>5. ReAct Prompting（Reasoning + Acting）</strong></h3></div><div style="display:contents" dir="auto"><p id="ae78db55-6aee-8207-8b2b-8107c853f13c" class="">结合推理和行动，让模型不仅能“想”，还能“调用工具”（如搜索、计算）。常用于 AI Agent。</p></div><div style="display:contents" dir="auto"><pre id="6fe8db55-6aee-8203-a864-0148f39f9630" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">你是一个可以查询天气的助手。当用户询问天气时，请先思考需要哪个城市，然后调用 `get_weather(city)` 工具。
+用户：北京今天需要带伞吗？
+思考：北京今天有没有雨？我需要获取北京的天气数据。
+行动：get_weather(&quot;北京&quot;)
+观察：北京今天小雨，气温5-10℃。
+最终回答：北京今天有小雨，建议带伞。</code></pre></div><div style="display:contents" dir="auto"><h3 id="6e78db55-6aee-82b0-8ba9-8181ce839f6d" class=""><strong>6. Directional Stimulus Prompting（定向刺激提示）</strong></h3></div><div style="display:contents" dir="auto"><p id="76a8db55-6aee-822e-8ae4-818d6ba15602" class="">在 prompt 中包含一个“提示线索”（如关键词或小模板）来引导模型生成特定内容。</p></div><div style="display:contents" dir="auto"><h3 id="d858db55-6aee-821f-a587-01aa303e7617" class=""><strong>7. Automatic Prompt Engineering (APE)</strong></h3></div><div style="display:contents" dir="auto"><p id="4bd8db55-6aee-8234-a4ff-01db1ff32e3a" class="">使用算法自动搜索、优化 prompt（如通过梯度下降或 LLM 自己生成候选 prompt）。</p></div><div style="display:contents" dir="auto"><h3 id="5818db55-6aee-829a-8a11-818740fe49c5" class=""><strong>8. Meta‑Prompting（元提示）</strong></h3></div><div style="display:contents" dir="auto"><p id="0878db55-6aee-82e3-8667-8189ea85645a" class="">让模型为自己生成或改进 prompt。例如：“请为‘将产品评论分类为正面或负面’这个任务生成一个有效的 prompt。”</p></div><div style="display:contents" dir="auto"><h1 id="0c08db55-6aee-822b-bf93-81502f8c6af4" class=""><strong>五、Prompt 的结构化设计模式</strong></h1></div><div style="display:contents" dir="auto"><p id="4dd8db55-6aee-8261-8984-01767e55d8bc" class="">一个优秀的 prompt 常包含以下模块（可按需组合）：</p></div><div style="display:contents" dir="auto"><pre id="6cf8db55-6aee-83a7-a3c1-019095e9fb40" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[角色定义] 你是一位[领域]专家。
+[任务描述] 你需要[具体任务]。
+[输入格式] 输入会以[格式]给出，内容如下：
+[输入]
+[约束条件] 请遵守：1. ... 2. ...
+[输出格式] 以[格式]输出，例如...
+[示例] （Few‑shot 示例）
+[思考指令] 请先逐步推理，然后输出最终答案。</code></pre></div><div style="display:contents" dir="auto"><h1 id="7d18db55-6aee-82e9-83af-810b156eb2df" class=""><strong>六、常见陷阱与误区</strong></h1></div><div style="display:contents" dir="ltr"><table id="29b8db55-6aee-83fc-952a-01d9ca3ca58c" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="7fb8db55-6aee-82cc-a50f-018040341ece"><th id="j&gt;oO" class="simple-table-header-color simple-table-header"><strong>陷阱</strong></th><th id="\&lt;ml" class="simple-table-header-color simple-table-header"><strong>说明</strong></th><th id="m~v\" class="simple-table-header-color simple-table-header"><strong>改进方法</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="ffa8db55-6aee-8269-9e31-018dea2c13d0"><td id="j&gt;oO" class=""><strong>过度约束</strong></td><td id="\&lt;ml" class="">太多的规则会限制模型创造力或导致矛盾</td><td id="m~v\" class="">保留必要约束，信任模型能力</td></tr></div><div style="display:contents" dir="ltr"><tr id="ca38db55-6aee-82b4-aa1f-015f293a789e"><td id="j&gt;oO" class=""><strong>模糊否定</strong></td><td id="\&lt;ml" class="">“不要写不相关的内容” —— 模型不知道什么是相关</td><td id="m~v\" class="">正面描述需要的内容</td></tr></div><div style="display:contents" dir="ltr"><tr id="6b48db55-6aee-8377-9883-0116fbe0b1d2"><td id="j&gt;oO" class=""><strong>忽略格式错误</strong></td><td id="\&lt;ml" class="">忘记要求纯 JSON 或 Markdown，模型会加入额外解释</td><td id="m~v\" class="">明确要求“只输出 JSON，不要有其他文字”</td></tr></div><div style="display:contents" dir="ltr"><tr id="1f78db55-6aee-82c9-9d10-01e9b34a8396"><td id="j&gt;oO" class=""><strong>上下文错位</strong></td><td id="\&lt;ml" class="">把示例放在指令之前/之后导致模型混淆</td><td id="m~v\" class="">保持顺序：角色→指令→上下文→示例→输入</td></tr></div><div style="display:contents" dir="ltr"><tr id="df48db55-6aee-8337-ade7-01a62f6ec23a"><td id="j&gt;oO" class=""><strong>示例不够代表性</strong></td><td id="\&lt;ml" class="">示例太简单或太特殊，模型无法泛化</td><td id="m~v\" class="">选择覆盖不同边缘情况的示例</td></tr></div><div style="display:contents" dir="ltr"><tr id="ad48db55-6aee-8219-832d-818d147b851c"><td id="j&gt;oO" class=""><strong>忘记多轮对话</strong></td><td id="\&lt;ml" class="">在连续对话中每次都用独立 prompt，丢失记忆</td><td id="m~v\" class="">使用 <code>RunnableWithMessageHistory</code> 等管理历史</td></tr></div><div style="display:contents" dir="ltr"><tr id="1db8db55-6aee-83d5-8d7e-01636c45f9d4"><td id="j&gt;oO" class=""><strong>过度依赖 prompt</strong></td><td id="\&lt;ml" class="">任务过于复杂或需要大量示例 → 应考虑微调</td><td id="m~v\" class="">评估是否 finetune 更合适</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h1 id="8928db55-6aee-82c4-b8e2-8191bc2473bc" class=""><strong>七、Prompt 工程在不同任务中的应用示例</strong></h1></div><div style="display:contents" dir="auto"><h3 id="13b8db55-6aee-832a-a772-01803c2c9c36" class=""><strong>1. 文本分类</strong></h3></div><div style="display:contents" dir="auto"><pre id="0d18db55-6aee-8380-b15a-01bbeeac4e70" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">将以下产品评论的情感分类为：正面、负面、中性。只输出一个词。
+评论：“这个手机电池续航太差了，一天要充三次。”
+情感：</code></pre></div><div style="display:contents" dir="auto"><h3 id="2f18db55-6aee-82ba-afd6-019e2936e6a9" class=""><strong>2. 信息抽取</strong></h3></div><div style="display:contents" dir="auto"><pre id="2358db55-6aee-8216-878b-813d0839164a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">从下面的新闻中抽取：时间、地点、人物、事件。输出 JSON。
+新闻：2025年10月1日，中国科学家李明在实验室成功合成了一种新型超导材料。</code></pre></div><div style="display:contents" dir="auto"><h3 id="6fd8db55-6aee-82af-bc9e-812bf3c2fab0" class=""><strong>3. 代码生成</strong></h3></div><div style="display:contents" dir="auto"><pre id="43c8db55-6aee-83d2-b14f-811f44f7e786" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">编写一个 Python 函数，输入是一个整数列表，返回排序后的列表，要求使用快速排序算法，并包含类型注解和文档字符串。</code></pre></div><div style="display:contents" dir="auto"><h3 id="f798db55-6aee-82d0-8ddc-010bb163b381" class=""><strong>4. 创意写作</strong></h3></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-83cd-86dd-81fb619a4c08" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">你是一位科幻作家。请根据以下设定写一段 200 字的故事开头：22 世纪，人类已经移民火星，但地球突然出现一种能吞噬金属的细菌。</code></pre></div><div style="display:contents" dir="auto"><h3 id="3028db55-6aee-8346-8957-81c4bf73607d" class=""><strong>5. 对话系统（角色扮演）</strong></h3></div><div style="display:contents" dir="auto"><pre id="28f8db55-6aee-8361-9297-81e62e09aa11" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">你是一位耐心的数学老师，名叫“李老师”。你的任务是用苏格拉底式提问帮助学生解方程。学生问题：老师，2x + 5 = 15，x 等于多少？请一步步提问引导。</code></pre></div><div style="display:contents" dir="auto"><h3 id="ec08db55-6aee-8337-b079-01c662545bd9" class=""><strong>6. 结构化数据生成</strong></h3></div><div style="display:contents" dir="auto"><pre id="fe38db55-6aee-83af-ba6e-01d0e83edb42" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">生成 5 条模拟的用户评论，用于测试电影推荐系统。每条评论包含字段：user_id（整数），movie_name（字符串），rating（1-5 整数），comment（10-30 字）。输出为 JSON 数组。</code></pre></div><div style="display:contents" dir="auto"><h1 id="eda8db55-6aee-8265-8e9d-8101262f2334" class=""><strong>八、Prompt 工程工具与框架</strong></h1></div><div style="display:contents" dir="ltr"><table id="3e58db55-6aee-83a6-906d-01262530b569" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="2cb8db55-6aee-83c8-b124-0172e2875d73"><th id="Uc_U" class="simple-table-header-color simple-table-header"><strong>名称</strong></th><th id="]r^n" class="simple-table-header-color simple-table-header"><strong>类型</strong></th><th id="COE`" class="simple-table-header-color simple-table-header"><strong>功能</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="9868db55-6aee-8223-a6bf-01351bf93e0f"><td id="Uc_U" class=""><strong>LangChain</strong></td><td id="]r^n" class="">开发框架</td><td id="COE`" class="">提供 PromptTemplate, FewShotPromptTemplate, 输出解析器等</td></tr></div><div style="display:contents" dir="ltr"><tr id="9058db55-6aee-8357-8f1b-01a171cfe6ca"><td id="Uc_U" class=""><strong>OpenAI Playground</strong></td><td id="]r^n" class="">在线调试</td><td id="COE`" class="">可视化调参，保存 prompt 模板</td></tr></div><div style="display:contents" dir="ltr"><tr id="6088db55-6aee-8218-b717-81a74eaf5e5d"><td id="Uc_U" class=""><strong>PromptPerfect</strong></td><td id="]r^n" class="">自动优化</td><td id="COE`" class="">使用 APE 自动改进 prompt</td></tr></div><div style="display:contents" dir="ltr"><tr id="c9c8db55-6aee-8378-9845-81ffcfabd213"><td id="Uc_U" class=""><strong>LearnPrompting</strong></td><td id="]r^n" class="">教程网站</td><td id="COE`" class="">系统性教学与练习</td></tr></div><div style="display:contents" dir="ltr"><tr id="4fc8db55-6aee-827c-9269-810d6898685b"><td id="Uc_U" class=""><strong>DSPy</strong></td><td id="]r^n" class="">编程框架</td><td id="COE`" class="">将 prompt 视为程序，自动优化</td></tr></div><div style="display:contents" dir="ltr"><tr id="4a88db55-6aee-8347-85a4-01bd37ba5ea9"><td id="Uc_U" class=""><strong>Guidance</strong></td><td id="]r^n" class="">结构化生成</td><td id="COE`" class="">使用类似 Handlebars 的语法控制生成流程</td></tr></div><div style="display:contents" dir="ltr"><tr id="8d18db55-6aee-82b3-963b-0167c5e801ea"><td id="Uc_U" class=""><strong>Outlines</strong></td><td id="]r^n" class="">库</td><td id="COE`" class="">使用正则表达式或 JSON Schema 约束生成内容</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h1 id="d4d8db55-6aee-82b2-b430-813d425728e9" class=""><strong>九、评估 Prompt 效果的方法</strong></h1></div><div style="display:contents" dir="auto"><ol type="1" id="7968db55-6aee-8365-a6b7-815f52402a56" class="numbered-list" start="1"><li><strong>定性评估</strong>：人工检查输出的准确性、相关性、格式正确性。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="fc48db55-6aee-8316-af7c-01d6ecdd6ca3" class="numbered-list" start="2"><li><strong>定量指标</strong>：对于分类/抽取任务，计算精确率、召回率、F1；对于生成任务，使用 BLEU、ROUGE、BERTScore 等。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a658db55-6aee-8241-85cb-819ce0386ef0" class="numbered-list" start="3"><li><strong>鲁棒性测试</strong>：改变输入微小扰动（如改写、加噪），观察输出稳定性。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0178db55-6aee-839a-90ec-813c940bd5dd" class="numbered-list" start="4"><li><strong>对抗性测试</strong>：设计边缘案例或故意误导的输入，检查模型是否保持正确。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b3f8db55-6aee-83ff-b621-8186af34710f" class="numbered-list" start="5"><li><strong>成本与延迟</strong>：统计 token 使用量和响应时间，平衡质量与效率。</li></ol></div><div style="display:contents" dir="auto"><h1 id="5d88db55-6aee-83de-aff1-8184d78824f5" class=""><strong>十、Prompt 工程的未来趋势</strong></h1></div><div style="display:contents" dir="auto"><ol type="1" id="01a8db55-6aee-83ac-8b2d-81b1f419cf57" class="numbered-list" start="1"><li><strong>自动化 Prompt 优化</strong>：AI 自己设计、A/B 测试、进化 prompt（如 APE, OPRO）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a808db55-6aee-82a7-b685-81eb0bfc5d29" class="numbered-list" start="2"><li><strong>多模态 Prompt</strong>：结合图像、音频、视频的跨模态提示。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b738db55-6aee-8309-9609-019079c015cf" class="numbered-list" start="3"><li><strong>系统化工程</strong>：Prompt 版本管理、CI/CD 测试、注册表（Prompt Hub）将成为 MLOps 的一部分。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="bb18db55-6aee-8201-8c7e-81f53f4eb8f7" class="numbered-list" start="4"><li><strong>领域专用模板库</strong>：医疗、法律、金融等垂直行业会积累经过验证的 prompt patterns。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="5d28db55-6aee-82cc-9fe2-813392b9a025" class="numbered-list" start="5"><li><strong>交互式 Prompt 调试</strong>：可视化工具允许开发者像调试代码一样单步执行 prompt 的推理过程。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="38d8db55-6aee-830b-bd53-81bd3569ea6d" class="numbered-list" start="6"><li><strong>从 Prompt 到微调</strong>：对于企业级应用，prompt 工程会与 RAG（检索增强生成）、轻量级微调（LoRA）结合，形成混合策略。</li></ol></div><div style="display:contents" dir="auto"><h1 id="acb8db55-6aee-831f-8d40-01d9c3d02d9d" class=""><strong>十一、学习与实践建议</strong></h1></div><div style="display:contents" dir="auto"><ol type="1" id="11e8db55-6aee-83a0-b19e-01c08a968286" class="numbered-list" start="1"><li><strong>从模板开始</strong>：使用 LangChain 的 <code>PromptTemplate</code> 结构化你的提示。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="db38db55-6aee-831f-b5a3-81aa108d884b" class="numbered-list" start="2"><li><strong>记录迭代</strong>：保存每次修改的 prompt 及对应的输出，建立实验日志。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="7868db55-6aee-83cf-b1c9-014a839b20af" class="numbered-list" start="3"><li><strong>反向思考</strong>：先手写理想输出，再倒推需要什么样的 prompt 能产生它。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a4b8db55-6aee-830a-818c-814c373ca306" class="numbered-list" start="4"><li><strong>与人测试</strong>：让你同事阅读你的 prompt，看他们是否能准确理解任务要求。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b598db55-6aee-826b-bad6-816fe5e01a55" class="numbered-list" start="5"><li><strong>利用模型自身</strong>：要求模型对自己的输出进行评分或解释，发现 prompt 的不足之处。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1768db55-6aee-829a-9b97-81d99449ffbc" class="numbered-list" start="6"><li><strong>关注安全</strong>：防止 prompt 注入（利用恶意输入绕过限制），使用边界标记和输入过滤。</li></ol></div><div style="display:contents" dir="auto"><hr id="4008db55-6aee-82d6-beb3-015a9c672769"/></div><div style="display:contents" dir="auto"><p id="e6d8db55-6aee-8253-b8f2-8134b010aada" class=""><strong>总结</strong>：Prompt 工程是一门将人类意图高效转换为 LLM 可执行指令的技艺。它融合了语言学、认知科学、软件工程和机器学习的思想。随着大语言模型能力的不断增强，prompt 工程的意义不仅在于“更好地提问”，更在于构建出可靠、可控、可复用的 AI 应用系统。掌握它，是每一位 LLM 开发者的基本功与进阶之路。</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

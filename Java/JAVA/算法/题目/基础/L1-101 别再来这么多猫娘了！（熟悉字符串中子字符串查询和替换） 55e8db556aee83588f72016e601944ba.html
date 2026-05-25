@@ -1,0 +1,820 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>L1-101 别再来这么多猫娘了！（熟悉字符串中子字符串查询和替换）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="55e8db55-6aee-8358-8f72-016e601944ba" class="page sans"><header><h1 class="page-title" dir="auto"><strong>L1-101 别再来这么多猫娘了！（熟悉</strong>字符串中子字符串查询和替换<strong>）</strong></h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="c218db55-6aee-821f-b4e4-01911088fb0b" class="toggle"><li><details open=""><summary>题目</summary><div style="display:contents" dir="auto"><p id="e368db55-6aee-8315-8c1a-81695a017a09" class=""><em>部分公司使用 AI 进行网络营销，网友同样乐于使用“变猫娘”的方式进行反击。注意：图中内容与题目无关，如无法看到图片不影响解题。</em></p></div><div style="display:contents" dir="auto"><p id="17b8db55-6aee-8318-9fa5-812dc2193d76" class="">当然，由于训练数据里并不区分道德或伦理倾向，因此如果不加审查，AI 会生成大量的、不一定符合社会公序良俗的内容。尽管关于这个问题仍有争论，但至少在比赛中，我们还是期望 AI 能用于对人类更有帮助的方向上，少来一点猫娘。</p></div><div style="display:contents" dir="auto"><p id="d0e8db55-6aee-83e3-8db0-812a2f832a21" class="">因此你的工作是实现一个审查内容的代码，用于对 AI 生成的内容的初步审定。更具体地说，你会得到一段由大小写字母、数字、空格及 ASCII 码范围内的标点符号的文字，以及若干个违禁词以及警告阈值，你需要首先检查内容里有多少违禁词，如果少于阈值个，则简单地将违禁词替换为<code><strong>&lt;censored&gt;</strong></code>；如果大于等于阈值个，则直接输出一段警告并输出有几个违禁词。</p></div><div style="display:contents" dir="auto"><h3 id="d0d8db55-6aee-828c-9826-01c4ddac2857" class=""><strong>输入格式:</strong></h3></div><div style="display:contents" dir="auto"><p id="0ee8db55-6aee-82cc-a2f1-8111ac8ce742" class="">输入第一行是一个正整数 <em>N</em> (1≤<em>N</em>≤100)，表示违禁词的数量。接下来的 <em>N</em> 行，每行一个长度不超过 10 的、只包含大小写字母、数字及 ASCII 码范围内的标点符号的单词，表示应当屏蔽的违禁词。</p></div><div style="display:contents" dir="auto"><p id="4c58db55-6aee-82b3-8aac-8184228a3d68" class="">然后的一行是一个非负整数 <em>k</em> (0≤<em>k</em>≤100)，表示违禁词的阈值。</p></div><div style="display:contents" dir="auto"><p id="c0e8db55-6aee-8243-b94d-81d5529d55bc" class="">最后是一行不超过 5000 个字符的字符串，表示需要检查的文字。</p></div><div style="display:contents" dir="auto"><p id="64d8db55-6aee-829d-a344-8104ee792afd" class="">从左到右处理文本，违禁词则按照输入顺序依次处理；对于有重叠的情况，无论计数还是替换，查找完成后从违禁词末尾继续处理。</p></div><div style="display:contents" dir="auto"><h3 id="57a8db55-6aee-83e4-9ceb-81897300d658" class=""><strong>输出格式:</strong></h3></div><div style="display:contents" dir="auto"><p id="d8e8db55-6aee-833d-8047-81fa4e244f36" class="">如果违禁词数量小于阈值，则输出替换后的文本；否则先输出一行一个数字，表示违禁词的数量，然后输出<code><strong>He Xie Ni Quan Jia!</strong></code>。</p></div><div style="display:contents" dir="auto"><h3 id="3b08db55-6aee-8348-982a-0133f82f53ec" class=""><strong>输入样例1:</strong></h3></div><div style="display:contents" dir="auto"><p id="5bc8db55-6aee-8385-a3d7-01d68e4f5c3e" class="">5</p></div><div style="display:contents" dir="auto"><p id="a778db55-6aee-8293-a236-816d90decd42" class="">MaoNiang</p></div><div style="display:contents" dir="auto"><p id="dbc8db55-6aee-8392-b9bd-015719a016ed" class="">SeQing</p></div><div style="display:contents" dir="auto"><p id="06c8db55-6aee-822f-94d5-0190b0b9656e" class="">BaoLi</p></div><div style="display:contents" dir="auto"><p id="3b08db55-6aee-832e-80c7-8149abbddfca" class="">WeiGui</p></div><div style="display:contents" dir="auto"><p id="43f8db55-6aee-82c5-8faf-017667724fb3" class="">BuHeShi</p></div><div style="display:contents" dir="auto"><p id="d6c8db55-6aee-83ed-80ae-81fde527e67c" class="">4</p></div><div style="display:contents" dir="auto"><p id="bf48db55-6aee-835c-b193-0139b38ec66f" class="">BianCheng MaoNiang ba! WeiGui De Hua Ye Keyi Shuo! BuYao BaoLi NeiRong.</p></div><div style="display:contents" dir="auto"><h3 id="62e8db55-6aee-83ad-b4e3-81887fdda872" class=""><strong>输出样例1:</strong></h3></div><div style="display:contents" dir="auto"><p id="f728db55-6aee-83a0-94b6-0112a800bd8f" class="">BianCheng &lt;censored&gt; ba! &lt;censored&gt; De Hua Ye Keyi Shuo! BuYao &lt;censored&gt; NeiRong.</p></div><div style="display:contents" dir="auto"><h3 id="3648db55-6aee-82c9-ac0b-81b129c4dc47" class=""><strong>输入样例2:</strong></h3></div><div style="display:contents" dir="auto"><p id="67f8db55-6aee-8203-b761-8120f5be87a2" class="">5</p></div><div style="display:contents" dir="auto"><p id="4b08db55-6aee-832d-9125-81aaaf52f620" class="">MaoNiang</p></div><div style="display:contents" dir="auto"><p id="4838db55-6aee-832d-9186-815af911900a" class="">SeQing</p></div><div style="display:contents" dir="auto"><p id="58f8db55-6aee-8280-ad43-01234f1faeee" class="">BaoLi</p></div><div style="display:contents" dir="auto"><p id="ad28db55-6aee-8291-8893-014957710606" class="">WeiGui</p></div><div style="display:contents" dir="auto"><p id="b548db55-6aee-83e8-a2e2-8183869be8ff" class="">BuHeShi</p></div><div style="display:contents" dir="auto"><p id="c138db55-6aee-82db-95f2-017a76ad05af" class="">3</p></div><div style="display:contents" dir="auto"><p id="6f58db55-6aee-83e3-830d-8135091420d1" class="">BianCheng MaoNiang ba! WeiGui De Hua Ye Keyi Shuo! BuYao BaoLi NeiRong.</p></div><div style="display:contents" dir="auto"><h3 id="ab68db55-6aee-8271-812c-016a335a4cc3" class=""><strong>输出样例2:</strong></h3></div><div style="display:contents" dir="auto"><p id="de88db55-6aee-8201-a8c3-0118131b1bd3" class="">3</p></div><div style="display:contents" dir="auto"><p id="a498db55-6aee-83aa-b8e2-8156f8428e89" class="">He Xie Ni Quan Jia!</p></div><div style="display:contents" dir="auto"><h3 id="1bb8db55-6aee-8230-b7fc-01521df9959f" class=""><strong>输入样例3:</strong></h3></div><div style="display:contents" dir="auto"><p id="57b8db55-6aee-830e-9b34-81c21783c406" class="">2</p></div><div style="display:contents" dir="auto"><p id="78b8db55-6aee-831f-a5e5-81e250daa4d0" class="">AA</p></div><div style="display:contents" dir="auto"><p id="fa18db55-6aee-8324-809f-01cf546a9a04" class="">BB</p></div><div style="display:contents" dir="auto"><p id="98c8db55-6aee-838e-bf95-8137c779debf" class="">3</p></div><div style="display:contents" dir="auto"><p id="48b8db55-6aee-8347-8898-01270e30c07d" class="">AAABBB</p></div><div style="display:contents" dir="auto"><h3 id="9cd8db55-6aee-83ca-9788-01924001f1d1" class=""><strong>输出样例3:</strong></h3></div><div style="display:contents" dir="auto"><p id="e4c8db55-6aee-837d-8530-01c8f2dc697c" class="">&lt;censored&gt;A&lt;censored&gt;B</p></div><div style="display:contents" dir="auto"><h3 id="2c08db55-6aee-8289-beb8-8175279ae8bc" class=""><strong>输入样例4:</strong></h3></div><div style="display:contents" dir="auto"><p id="88e8db55-6aee-8317-8a5c-01b25f189589" class="">2</p></div><div style="display:contents" dir="auto"><p id="45f8db55-6aee-834e-9f1b-01a1a80e4530" class="">AB</p></div><div style="display:contents" dir="auto"><p id="58b8db55-6aee-8313-93d9-01192979b731" class="">BB</p></div><div style="display:contents" dir="auto"><p id="3a48db55-6aee-83bf-9cb2-01376ff41c5f" class="">3</p></div><div style="display:contents" dir="auto"><p id="e1c8db55-6aee-8253-a51d-81001f3e2811" class="">AAABBB</p></div><div style="display:contents" dir="auto"><h3 id="fcc8db55-6aee-83d9-b8c1-8168a1521fd1" class=""><strong>输出样例4:</strong></h3></div><div style="display:contents" dir="auto"><p id="9fb8db55-6aee-83ad-ab63-81b386712cb4" class="">AA&lt;censored&gt;&lt;censored&gt;</p></div><div style="display:contents" dir="auto"><h3 id="7338db55-6aee-8283-9c99-012574f4ba2f" class=""><strong>输入样例5:</strong></h3></div><div style="display:contents" dir="auto"><p id="2c68db55-6aee-83b6-a775-0159a8897d79" class="">2</p></div><div style="display:contents" dir="auto"><p id="f468db55-6aee-839b-aad0-81ad90579da2" class="">BB</p></div><div style="display:contents" dir="auto"><p id="75f8db55-6aee-829b-baa5-81d3319ac168" class="">AB</p></div><div style="display:contents" dir="auto"><p id="f9f8db55-6aee-825e-a0f0-014c705afdf0" class="">3</p></div><div style="display:contents" dir="auto"><p id="b0e8db55-6aee-839f-ad68-81100ea0e7ae" class="">AAABBB</p></div><div style="display:contents" dir="auto"><h3 id="e548db55-6aee-82e2-912c-81d822b4e8ff" class=""><strong>输出样例5:</strong></h3></div><div style="display:contents" dir="auto"><p id="bf38db55-6aee-8310-be61-014a95f2f400" class="">AAA&lt;censored&gt;B</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="f718db55-6aee-8216-b223-814ba02d7742"/></div><div style="display:contents" dir="auto"><p id="a838db55-6aee-8339-b6dd-01bf5a6f387e" class="">字符串中子字符串查询和替换</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="0358db55-6aee-833b-a130-015293549d3d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        // 读取违禁词数量
+        int N = Integer.parseInt(reader.readLine().trim());
+        String[] banWords = new String[N];
+        for (int i = 0; i &lt; N; i++) {
+            banWords[i] = reader.readLine();
+        }
+
+        // 读取阈值
+        int k = Integer.parseInt(reader.readLine().trim());
+
+        // 读取待审查文本
+        String text = reader.readLine();
+
+        int n = text.length();
+        boolean[] censored = new boolean[n];   // 标记字符是否属于被替换部分
+        List&lt;int[]&gt; replacements = new ArrayList&lt;&gt;(); // 存储每个替换的起始和结束索引
+
+        // 从左到右扫描文本
+        int i = 0;
+        while (i &lt; n) {
+            boolean matched = false;
+            // 按输入顺序检查违禁词
+            for (String word : banWords) {
+                if (i + word.length() &lt;= n &amp;&amp; text.startsWith(word, i)) {
+                    // 匹配成功
+                    matched = true;
+                    // 记录替换区间
+                    int start = i;
+                    int end = i + word.length();
+                    replacements.add(new int[]{start, end});
+                    // 标记这些位置为已替换（后续不再匹配）
+                    for (int j = start; j &lt; end; j++) {
+                        censored[j] = true;
+                    }
+                    // 跳过整个违禁词
+                    i = end;
+                    break;
+                }
+            }
+            if (!matched) {
+                i++;
+            }
+        }
+
+        int count = replacements.size();
+
+        if (count &lt; k) {
+            // 输出替换后的文本
+            StringBuilder result = new StringBuilder();
+            int pos = 0;
+            for (int[] rep : replacements) {
+                int start = rep[0];
+                int end = rep[1];
+                // 输出替换区间之前的普通字符
+                result.append(text, pos, start);
+                // 输出 &lt;censored&gt;
+                result.append(&quot;&lt;censored&gt;&quot;);
+                pos = end;
+            }
+            // 输出剩余部分
+            result.append(text, pos, n);
+            System.out.println(result.toString());
+        } else {
+            System.out.println(count);
+            System.out.println(&quot;He Xie Ni Quan Jia!&quot;);
+        }
+    }
+}</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

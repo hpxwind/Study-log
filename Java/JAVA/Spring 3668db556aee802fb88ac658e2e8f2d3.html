@@ -1,0 +1,1199 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Spring</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3668db55-6aee-802f-b88a-c658e2e8f2d3" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/woodcuts_7.jpg" style="object-position:center 70%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Spring/ODF.png"/></div><h1 class="page-title" dir="auto">Spring</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="3668db55-6aee-808d-8f90-c60218b874c5" class="">Spring全家桶：Spring MVC, Spring Boot, Spring Cloud, Spring Data JPA, Spring Security, Spring Ai</p></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-80f6-a0bd-fbf1e38a7028" class="">项目开发基于Spring框架，由Spring框架搭建项目的基础环境，在此环境上再添加其他的业务架构</p></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-80d0-8ccc-e5219f203f62" class="">Spring不是业务层框架，它是构建业务层框架的框架</p></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-8070-9416-f896fdd45e0d" class="">Spring提供的是底层的容器，该容器来构建业务层框架</p></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-80a9-ab73-daf40e463f7d" class=""><mark class="highlight-orange"><mark class="highlight-gray_background">业务框架本质上也是由各个对象组成的，Spring提供的容器就是管理这些对象的</mark></mark></p></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-806a-af23-e46c59eb9847" class="">Spring两大核心组件：Ioc + AOP</p></div><div style="display:contents" dir="auto"><hr id="3668db55-6aee-806d-9cfb-d0207da185da"/></div><div style="display:contents" dir="auto"><h1 id="3668db55-6aee-80e2-b041-f1f754ad8770" class="">Maven</h1></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-80f3-93cd-f0cb2055afaf" class="">Maven 帮助工程机型jar包管理以及父子工程构建的服务。</p></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-8000-8368-d85eb6ff18b5" class="">在pom.xml中配置工程所需的jar包，就可以自动下载与整合。</p></div><div style="display:contents" dir="auto"><blockquote id="3668db55-6aee-80cd-bfc1-d9f70f329922" class="">Maven有一个远程的仓库，包含了所有的jar包及版本，本地只需要连接到远程仓库(确保网络稳定)，就可以自动将响应的jar包下载到本地，再自动导入到工程中。</blockquote></div><div style="display:contents" dir="auto"><ul id="3668db55-6aee-80ce-957c-e8c509259c22" class="block-color-purple_background toggle"><li><details open=""><summary>Maven换源</summary><div style="display:contents" dir="auto"><p id="3668db55-6aee-80fb-b4fc-c905dd0f3d67" class="">找到下面路径：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3668db55-6aee-808d-9c0a-ca1269c67cc3" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">C:\Users\你的用户名\.m2</code></pre></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-803f-8798-ceecdfc29192" class="">打开setting.xml,替换如下代码：</p></div><div style="display:contents" dir="auto"><pre id="3668db55-6aee-8084-ab78-f2c60c83d532" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;
+          xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+          xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt;
+
+    &lt;!-- 阿里云镜像仓库 --&gt;
+    &lt;mirrors&gt;
+        &lt;mirror&gt;
+            &lt;id&gt;aliyunmaven&lt;/id&gt;
+            &lt;name&gt;阿里云公共仓库&lt;/name&gt;
+            &lt;url&gt;https://maven.aliyun.com/repository/public&lt;/url&gt;
+            &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
+        &lt;/mirror&gt;
+    &lt;/mirrors&gt;
+
+    &lt;!-- 使用JDK8编译 --&gt;
+    &lt;profiles&gt;
+        &lt;profile&gt;
+            &lt;id&gt;jdk-1.8&lt;/id&gt;
+            &lt;activation&gt;
+                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+                &lt;jdk&gt;1.8&lt;/jdk&gt;
+            &lt;/activation&gt;
+            &lt;properties&gt;
+                &lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;
+                &lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;
+                &lt;maven.compiler.compilerVersion&gt;1.8&lt;/maven.compiler.compilerVersion&gt;
+                &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+            &lt;/properties&gt;
+        &lt;/profile&gt;
+    &lt;/profiles&gt;
+&lt;/settings&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3668db55-6aee-80cd-ae2d-e9c8c45e650c" class="block-color-purple_background toggle"><li><details open=""><summary>pom.xml引入模块</summary><div style="display:contents" dir="ltr"><table id="3668db55-6aee-80a5-82b8-c02a7be24cd2" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3668db55-6aee-80d2-b821-e7ed2aa20438"><th id="QZfn" class="simple-table-header-color simple-table-header">标签</th><th id="v@:v" class="simple-table-header-color simple-table-header">含义</th><th id="[&lt;uP" class="simple-table-header-color simple-table-header">解释</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3668db55-6aee-80e8-b600-e6d69a786bc4"><td id="QZfn" class=""><strong>groupId</strong></td><td id="v@:v" class="">组织 / 公司</td><td id="[&lt;uP" class=""><code>org.springframework</code> = 官方 Spring</td></tr></div><div style="display:contents" dir="ltr"><tr id="3668db55-6aee-80cb-96be-e7b76777f766"><td id="QZfn" class=""><strong>artifactId</strong></td><td id="v@:v" class="">模块名称</td><td id="[&lt;uP" class=""><code>spring-context</code> = Spring<strong>核心容器</strong></td></tr></div><div style="display:contents" dir="ltr"><tr id="3668db55-6aee-8014-a152-c89160150772"><td id="QZfn" class=""><strong>version</strong></td><td id="v@:v" class="">版本号</td><td id="[&lt;uP" class=""><code>7.0.6</code> = <strong>Spring 7 最新稳定版</strong></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="3668db55-6aee-8096-b2f3-f0fc2d8198fd" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;junit&lt;/groupId&gt;
+    &lt;artifactId&gt;junit&lt;/artifactId&gt;
+    &lt;version&gt;3.8.1&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+  &lt;/dependency&gt;
+
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+    &lt;version&gt;7.0.6&lt;/version&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-808c-b39f-ed1cc9bc8aaa" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3668db55-6aee-80f5-af93-ec660f1470ff"/></div><div style="display:contents" dir="auto"><h1 id="3668db55-6aee-80a5-b58c-c5b31ae3f285" class="">Spring IoC</h1></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-805b-8c94-d7cdf6c72613" class="">IoC: 控制翻转，将对象的创建方式进行反转，由原来的手动new对象变成现在的Spring框架自动创建</p></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-8037-88aa-ed4b4be7812f" class="block-color-orange">Ioc创建对象，只需要再配置文件中设置你要创建的对象即可。</p></div><div style="display:contents" dir="auto"><ol type="1" id="3678db55-6aee-80fe-bada-ef3ec5d215a0" class="numbered-list" start="1"><li>在XML中配置bean</li></ol></div><div style="display:contents" dir="auto"><ul id="3668db55-6aee-805e-b215-cdbe97aa530d" class="toggle"><li><details open=""><summary>resources/spring.xml配置</summary><div style="display:contents" dir="auto"><pre id="3668db55-6aee-8088-8764-de7e3dd190ea" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!-- XML头部声明，固定格式，定义版本与编码格式 --&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+
+    &lt;!--
+        bean标签：将Java对象交由Spring IOC容器创建并管理
+        id：容器中对象唯一标识，用于后续获取对象
+        class：实体类全限定类名（包名+类名）
+    --&gt;
+    &lt;bean id=&quot;user&quot; class=&quot;com.southwind.test.User&quot;&gt;
+        &lt;!--
+            property标签：set方式依赖注入，给实体类成员变量赋值
+            name：实体类中的成员变量名
+            value：给变量设置的具体数值
+            底层自动调用对应set方法完成赋值
+        --&gt;
+        &lt;property name=&quot;name&quot; value=&quot;aaa&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;password&quot; value=&quot;aaa&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;address&quot; ref=&quot;addr&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+    
+    &lt;bean id=&quot;addr&quot; class=&quot;com.southwind.test.Address&quot;&gt;
+        &lt;property name=&quot;id&quot; value=&quot;3&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;key&quot; value=&quot;key&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+
+&lt;/beans&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3668db55-6aee-80f9-b917-ce74f1abcd47" class="toggle"><li><details open=""><summary><a href="http://User.java">User.java</a> @data配置</summary><div style="display:contents" dir="auto"><p id="3668db55-6aee-80f7-93b3-d97e279a7b4a" class="">类中不需要写get set构造方法，使用@Data自动构造(需要引入lombok包)</p></div><div style="display:contents" dir="auto"><pre id="3668db55-6aee-80db-b3aa-d5e6c88cf87c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+@Data
+public class User {
+    private String name;
+    private String password;
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-807e-8421-da0c6c8c2937" class="toggle"><li><details open=""><summary><a href="http://Address.java">Address.java</a> @data配置</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-80ce-b0ba-d1ca3b47a0d9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+@Data
+public class Address {
+    private Integer id;
+    private String key;
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3668db55-6aee-8068-a503-c86af4758a31" class="toggle"><li><details open=""><summary><a href="http://Test.java">Test.java</a> 对象调用</summary><div style="display:contents" dir="auto"><pre id="3668db55-6aee-8001-ada0-c2461aa6d334" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+    public static void main(String[] args) {
+        // 常规方式
+        User user = new User();
+
+        // IoC
+        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;spring.xml&quot;);
+        System.out.println(context.getBean(&quot;user&quot;)); // User(name=aaa, password=aaa)
+    }
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-806d-a988-c53892b3fab6" class="">结果：</p></div><div style="display:contents" dir="auto"><pre id="3668db55-6aee-80dc-a663-f3fd6fb45f61" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">User(pwd=aaa, name=aaa, Address=Address(id=3, key=key))</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ol type="1" id="3678db55-6aee-8044-94fc-e867af37dae0" class="numbered-list" start="2"><li>通过注解配置</li></ol></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-800b-8bdf-e6300fcff73a" class="toggle"><li><details open=""><summary><a href="http://User.java">User.java</a> @Component配置</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-80f4-97cf-dfdc34d926eb" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">    package com.southwind.test;
+
+    import lombok.Data;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.beans.factory.annotation.Value;
+    import org.springframework.stereotype.Component;
+
+    @Data
+    @Component
+    public class User {
+        @Value(&quot;1&quot;)
+        private String  pwd;
+        @Value(&quot;张三&quot;)
+        private String name;
+        @Autowired
+        private Address Address;
+    }
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-807a-8b9f-f79fbfb06c6d" class="toggle"><li><details open=""><summary><a href="http://Address.java">Address.java</a> @Component配置</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-80f1-802c-f0b934104131" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Data
+@Component
+public class Address {
+    @Value(&quot;11&quot;)
+    private Integer id;
+    @Value(&quot;github&quot;)
+    private String key;
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-809f-81c2-d58ded78b8a1" class="toggle"><li><details open=""><summary><a href="http://Test.java">Test.java</a> 对象调用</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-80a6-9fd7-fabfff276d3f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+    public static void main(String[] args) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(&quot;com.southwind.test&quot;);
+        System.out.println(context.getBean(&quot;user&quot;));
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="3678db55-6aee-804a-b3c5-e6f132dd05b7" class="">1.实体类必须添加注解<br/>2.构建IoC的时候必须覆盖实体类</blockquote></div><div style="display:contents" dir="auto"><blockquote id="3678db55-6aee-800c-ac9b-d1a2e00b186c" class="block-color-purple_background">1.@Component 相当于xml里的&lt;bean id=&quot;address&quot; class=&quot;com.southwind.test.entity.Address&quot;/&gt;<br/>2.@Data 可以自动创建set，get方法</blockquote></div><div style="display:contents" dir="auto"><ol type="1" id="3678db55-6aee-80f7-9a49-c30d2ed4c705" class="block-color-orange numbered-list" start="3"><li>注释配置与XML整合，创建一个配置类来代替XML文件</li></ol></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-8031-ba9b-dc4e6a8ac1d9" class="toggle"><li><details open=""><summary>目录结构</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-802f-9bfa-e3017f8ac51d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">com.southwind.test
+  ├─ configuration
+  │    └─ BeanConfiguration.java  →  Spring 配置类
+  └─ entity
+       ├─ User.java
+       └─ Address.java</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-8085-b4d2-ce5ff804dd6b" class="toggle"><li><details open=""><summary><a href="http://address.java">address</a> 实体类</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-803a-b263-d0cd470305bb" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.entity;
+
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+/**
+ * 地址实体类
+ * 相当于 XML 中 &lt;bean id=&quot;address&quot; class=&quot;...Address&quot;/&gt;
+ */
+// Lombok 自动生成 getter/setter/toString/构造方法等
+@Data
+// 把这个类交给 Spring 管理 → Spring 自动创建对象
+@Component
+public class Address {
+
+    // 给 id 属性赋值为 1
+    @Value(&quot;1&quot;)
+    private Integer id;
+
+    // 给 key 属性赋值为 &quot;roooo&quot;
+    @Value(&quot;roooo&quot;)
+    private String key;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-8044-b808-cb93bb2aa947" class="toggle"><li><details open=""><summary><a href="http://user.java">user</a> 实体类</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-80f2-b08a-e93547726725" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.entity;
+
+import lombok.Data;
+
+/**
+ * 用户实体类
+ */
+@Data
+public class User {
+    // 密码
+    private String pwd;
+    // 姓名
+    private String name;
+    // 用户的地址（一对一关联 Address）
+    private Address address;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-8025-a5d0-c401119fed43" class="toggle"><li><details open=""><summary>BeanConfiguration 配置类</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-80e1-9da9-fc68e1aa87ba" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.configuration;
+
+import com.southwind.test.entity.Address;
+import com.southwind.test.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * Spring 配置类
+ * 作用 = 替代原来的 spring.xml 配置文件
+ */
+// 标记这是一个 Spring 配置类
+@Configuration
+public class BeanConfiguration {
+
+    /**
+     * 从 Spring 容器中自动找到 Address 对象
+     * 并赋值给当前属性 → 依赖注入
+     */
+    @Autowired
+    private Address address;  // 注意：你之前拼写错误，这里已修正
+
+    /**
+     * 创建 User 对象，并交给 Spring 管理
+     * 方法名 user() = bean 的 id
+     * 相当于 XML 中的 &lt;bean id=&quot;user&quot; class=&quot;...User&quot;/&gt;
+     */
+    @Bean
+    public User user() {
+        // 1. 创建 User 对象
+        User user = new User();
+        
+        // 2. 手动给属性赋值
+        user.setPwd(&quot;123&quot;);
+        user.setName(&quot;zhangsan&quot;);
+        
+        // 3. 把 Spring 注入的 Address 对象 设置给 User
+        user.setAddress(address);
+        
+        // 4. 将创建并赋值好的 User 对象交给 Spring 容器
+        return user;
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-8024-8547-c1b908b9b260" class="toggle"><li><details open=""><summary>测试类</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-80d0-a002-ccce1dbf7efa" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import com.southwind.test.configuration.BeanConfiguration;
+import com.southwind.test.entity.User;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class Test {
+    public static void main(String[] args) {
+        // 1. 加载 Spring 注解配置类（替代加载 XML）
+        ApplicationContext context = new AnnotationConfigApplicationContext(BeanConfiguration.class);
+
+        // 2. 从 Spring 容器中获取 User 对象
+        User user = context.getBean(User.class);
+
+        // 3. 打印对象（@Data 自动生成 toString）
+        System.out.println(user);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3668db55-6aee-80ee-a0a4-cdcac4c459d1"/></div><div style="display:contents" dir="auto"><h1 id="3668db55-6aee-80e2-9e1e-f66c92c152bb" class="">Spring AOP</h1></div><div style="display:contents" dir="auto"><blockquote id="3668db55-6aee-8095-889c-ede0f4503f66" class="">APO（Aspect Oriented Programming）: 面向切面编程<br/>OOP（Object Oriented Programming）: 面向对象编程</blockquote></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-80b5-b9a7-c9f30f620f34" class="">OOP将程序中参与模块都抽象成对象，然后通过对象之间的相互调用完成特定功能，AOP是对OOP的一种补充，是在另一个维度上抽象出对象，具体是指程序运行时动态将非业务切入到业务代码中，实现了业务代码和非业务代码的解耦合。</p></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-80e1-b4cf-e41bc7c4a913" class="">对于如下代码：</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-800d-a09f-f263294bdd0c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Override
+public int add(int a, int b) {
+    System.out.println(&quot;parmas:&quot; + a + &quot;,&quot; + b); // 业务代码
+    int res = a + b; // 功能代码
+    System.out.println(&quot;result:&quot; + res); // 业务代码
+    return res;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-8068-89bd-e3ef7d07447b" class="">OOP可以将这个代码解耦合，将业务代码和功能代码分开</p></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-80ea-ba86-e0587e9a5d1d" class="">对于每个方法进行结构拆分</p></div><div style="display:contents" dir="auto"><div id="3688db55-6aee-80d0-8983-d9ca98332397" class="column-list"><div style="display:contents" dir="auto"><div id="3688db55-6aee-8060-aef1-cda73457fe1e" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="3688db55-6aee-80b4-af6a-f31c5932877c" class="image"><a href="Spring/Snipaste_2026-05-22_17-17-40.png"><img style="width:336px" src="Spring/Snipaste_2026-05-22_17-17-40.png"/></a></figure></div></div></div><div style="display:contents" dir="auto"><div id="3688db55-6aee-80e8-91a7-fb6405013c74" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="3688db55-6aee-80f1-9fa6-ef2417b194d0" class="image"><a href="Spring/Snipaste_2026-05-22_17-19-50.png"><img style="width:321.015625px" src="Spring/Snipaste_2026-05-22_17-19-50.png"/></a></figure></div></div></div></div></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-8058-a968-e5acf0d06c3e" class="block-color-purple_background"><mark class="highlight-orange">业务和切面最后要融合到一起输出，最终通过代理融合（通过IoC）</mark><br/>AOP基于IoC， 将业务对象和切面对象分别注入到IoC中，同时业务对象只写业务代码，切面对象只写非业务代码，从而在代码层面实现业务代码和非业务代码的解耦合，通过IoC再将业务代码和非业务代码整合到一起即可，开发时解耦，运行时合并。</p></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-80fe-af0b-dd1d69b0b5b3" class="block-color-purple_background">如何整合？ 通过代理对象，将业务对象注入到IoC中，将切面对象也注入到IoC中，由IoC负责根据业务对象和切面对象创建出一个动态代理对象，分别取完成业务代码和非业务代码的执行。<br/>1、业务对象和切面必须注入到IoC中<br/>2、切面对象需要天机器<mark class="highlight-orange">切面注释以及动态代理注释</mark></p></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-8041-8786-ec0f20b6bf29" class="numbered-list" start="1"><li>需要引入依赖</li></ol></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-8087-ab9a-d4f0d51cf3ce" class="toggle"><li><details open=""><summary>pom.xml</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-807f-ada0-c1902eae5b3c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+  &lt;version&gt;7.0.6&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-aop&lt;/artifactId&gt;
+  &lt;version&gt;7.0.6&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;
+  &lt;version&gt;2.7.18&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-80e0-a6c8-cbf5fa9c54d8" class="numbered-list" start="2"><li>创建测试类和方法</li></ol></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-80d5-b9cf-fd12b5ebdb80" class="toggle"><li><details open=""><summary>Cal.interface</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8046-95cd-e01c8d6dcc81" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.aop;
+
+public interface Cal {
+    public int add(int a, int b);
+    public int sub(int a, int b);
+    public int mul(int a, int b);
+    public int div(int a, int b);
+
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-8000-9ffb-df8efda9903a" class="toggle"><li><details open=""><summary>CalImpl.java</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-805d-8f96-f9063101b85a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.aop;
+
+import org.springframework.stereotype.Component;
+
+/**
+ * 计算器实现类
+ * 交给 Spring 管理（@Component）
+ */
+@Component // 把这个类交给 Spring 容器管理
+public class CalImpl implements Cal{ // 实现 Cal 接口
+
+    // 加法
+    @Override
+    public int add(int a, int b) {
+        int res = a + b;
+        return res;
+    }
+
+    // 减法
+    @Override
+    public int sub(int a, int b) {
+        int res = a - b;
+        return res;
+    }
+
+    // 乘法
+    @Override
+    public int mul(int a, int b) {
+        int res = a * b;
+        return res;
+    }
+
+    // 除法
+    @Override
+    public int div(int a, int b) {
+        int res = a / b;
+        return res;
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-80ad-970b-c61c21ba709c" class="toggle"><li><details open=""><summary>LoggerAspect.java</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80f3-8af0-d3ee0df6bb75" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.aop;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+
+/**
+ * 日志切面类
+ * 作用：在不修改业务代码的前提下，给计算方法统一添加【日志功能】
+ */
+// 1. 把这个类交给 Spring 管理（必须加，否则 Spring 不识别）
+@Component
+// 2. 声明这是一个【切面类】（AOP核心注解）
+@Aspect
+// 3. 开启 AspectJ 自动代理，让 AOP 注解生效（Spring AOP 开关）
+@EnableAspectJAutoProxy
+public class LoggerAspect {
+
+    /**
+     * 前置通知：目标方法【执行之前】运行
+     * 作用：打印方法名 + 传入的参数
+     *
+     * @Before 前置通知注解
+     * execution(...) 切点表达式：表示要拦截哪些方法
+     * 解释：拦截 com.southwind.test.aop.CalImpl 类下的 所有public int返回值的方法
+     */
+    @Before(&quot;execution(public int com.southwind.test.aop.CalImpl.*(..))&quot;)
+    public void before(JoinPoint joinPoint) {
+        // JoinPoint：连接点对象，封装了【目标方法】的所有信息
+
+        // 1. 获取目标方法的名字（如 add、sub、mul、div）
+        String name = joinPoint.getSignature().getName();
+
+        // 2. 获取目标方法的参数，转成字符串
+        String args = Arrays.toString(joinPoint.getArgs());
+
+        // 3. 打印日志：方法名 + 参数
+        System.out.println(name + &quot;&#x27;s params: &quot; + args);
+    }
+
+    /**
+     * 返回后通知：目标方法【正常执行完毕、返回结果后】运行
+     * 作用：打印方法名 + 返回结果
+     *
+     * @AfterReturning
+     *  value：切点表达式（和上面一样，拦截同一批方法）
+     *  returning = &quot;result&quot;：把方法返回值赋值给参数 result
+     */
+    @AfterReturning(
+            value=&quot;execution(public int com.southwind.test.aop.CalImpl.*(..))&quot;,
+            returning = &quot;result&quot;)
+    public void afterReturning(JoinPoint joinPoint,  Object result) {
+        // 1. 获取目标方法名
+        String name = joinPoint.getSignature().getName();
+
+        // 2. 打印日志：方法名 + 返回结果
+        System.out.println(name + &quot; result:&quot; + result);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-8042-98d3-fecf09cd7433" class="toggle"><li><details open=""><summary>Tset.java</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-801d-8df5-ec78bcd0fe0c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.aop;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class Test {
+    public static void main(String[] args) {
+//        Cal cal = new CalImpl();
+//        System.out.println(cal.add(1, 2));
+//        System.out.println(cal.sub(1, 2));
+//        System.out.println(cal.mul(1, 2));
+//        System.out.println(cal.div(1, 2));
+        ApplicationContext context =
+                new AnnotationConfigApplicationContext(&quot;com.southwind.test.aop&quot;);
+        Cal cal = (Cal)context.getBean(&quot;calImpl&quot;);
+        System.out.println(cal.add(1, 2));
+        System.out.println(cal.sub(1, 2));
+        System.out.println(cal.mul(1, 2));
+        System.out.println(cal.div(1, 2));
+    }
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-808d-a292-d302d72be4ca" class="">结果：</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8066-b198-d23df90a9cae" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">add&#x27;s params: [1, 2]
+add result:3
+3
+sub&#x27;s params: [1, 2]
+sub result:-1
+-1
+mul&#x27;s params: [1, 2]
+mul result:2
+2
+div&#x27;s params: [1, 2]
+div result:0
+0</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3688db55-6aee-80da-94b6-f09f86409927"/></div><div style="display:contents" dir="auto"><h1 id="3688db55-6aee-8063-96cf-e7fc1d8d6a4f" class="">Spring MVC</h1></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-8020-99e7-f9975fd87300" class="">Spring MVC（业务框架）对JavaWeb开发流程进行了封装，不需要再通过Servlet的方式来完成代码的开发，无论时代码量还是参数的接收，返回值等各个方面都做了优化。基于Spring 框架（基于IoC容器）</p></div><div style="display:contents" dir="ltr"><figure id="3688db55-6aee-8020-bc86-db721b76ac4c" class="image"><a href="Spring/b0730cc8-1851-4fbe-b34b-e2931801967a.png"><img style="width:720px" src="Spring/b0730cc8-1851-4fbe-b34b-e2931801967a.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-807c-b595-f00b447db831" class="">MVC 只使用一个Servle作为控制器（Controller）进行中间调度，把用户操作汇总，集中查询请求，再返回，例如：</p></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-8067-b1fc-f362bfbc18b0" class="block-color-purple_background">请求→web.xml 分发→springmvc.xml 解析规则→Controller 执行业务</p></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-80cd-94c8-e1ff7bec4800" class="numbered-list" start="1"><li>web.xml:项目全局入口配置，Tomcat 优先加载<div style="display:contents" dir="auto"><ul id="3688db55-6aee-80f3-9128-eb3ada8c7248" class="toggle"><li><details open=""><summary>web.xml</summary><div style="display:contents" dir="auto"><p id="3688db55-6aee-80b2-9fd7-fc7acf5cc60e" class="">注册前端控制器，拦截所有请求，绑定 SpringMVC 配置文件</p></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-8064-b43f-e53793c24b05" class="">浏览器发请求 → <code>/</code>拦截 → 交给 DispatcherServlet → 读取 springmvc.xml</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8057-b7de-c407f62c5efa" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 注册SpringMVC核心调度器 --&gt;
+&lt;servlet&gt;
+  &lt;servlet-name&gt;springmvc&lt;/servlet-name&gt;
+  &lt;!-- 框架核心类，所有请求必经此类 --&gt;
+  &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+  &lt;!-- 指定加载springmvc配置文件 --&gt;
+  &lt;init-param&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;classpath:springmvc.xml&lt;/param-value&gt;
+  &lt;/init-param&gt;
+&lt;/servlet&gt;
+
+&lt;!-- 映射：拦截浏览器所有访问请求 --&gt;
+&lt;servlet-mapping&gt;
+  &lt;servlet-name&gt;springmvc&lt;/servlet-name&gt;
+  &lt;url-pattern&gt;/&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;</code></pre></div></details></li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-805f-b571-f64b85f37ddb" class="numbered-list" start="2"><li>springmvc.xml:框架规则定义<div style="display:contents" dir="auto"><ul id="3688db55-6aee-80f3-88e8-cec378d96455" class="toggle"><li><details open=""><summary>springmvc.xml</summary><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80fc-ad2e-e66ce3dc6d02" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 1. 包扫描：自动识别com.southwind.test下@Controller类 --&gt;
+&lt;context:component-scan base-package=&quot;com.southwind.test&quot;/&gt;
+
+&lt;!-- 2. 注解驱动：生效@RequestMapping请求映射 --&gt;
+&lt;mvc:annotation-driven /&gt;
+
+&lt;!-- 3. 视图解析器：拼接页面路径 --&gt;
+&lt;!-- return &quot;index&quot; → 拼接为 /index.jsp --&gt;
+&lt;bean class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;
+    &lt;property name=&quot;prefix&quot; value=&quot;/&quot;/&gt;
+    &lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;/&gt;
+&lt;/bean&gt;</code></pre></div></details></li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-8097-a6b8-c2e092a94b7c" class="numbered-list" start="3"><li>TestController.java:业务请求处理<div style="display:contents" dir="auto"><ul id="3688db55-6aee-80e9-912c-cd3804143e4d" class="toggle"><li><details open=""><summary>TestController.java</summary><div style="display:contents" dir="auto"><p id="3688db55-6aee-80b4-b8e4-ee7c880af64f" class="">接收指定地址请求，执行逻辑，返回视图名</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80a5-8e52-eb5b43b22576" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 标识为MVC控制器，被扫描后交给Spring管理
+@Controller
+public class TestController {
+    // 绑定访问地址：/index
+    @RequestMapping(&quot;/index&quot;)
+    public String index() {
+        System.out.println(&quot;index......&quot;);
+        // 返回视图名，交由视图解析器拼接页面
+        return &quot;index&quot;;
+    }
+}</code></pre></div></details></li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-80f2-8e0e-e1926b174f10" class="block-color-purple_background numbered-list" start="4"><li>用户请求整个流程<div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-80b7-8b91-f387f56d8e79" class="numbered-list" start="1"><li>客户端浏览器发起请求，访问地址形如<code>http://localhost:8080/项目名/index</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-8048-b822-e306ecdd26f3" class="numbered-list" start="2"><li>服务器读取<code>web.xml</code>配置，匹配到拦截规则<code>/</code>，将所有请求交给 SpringMVC 核心调度器<code>DispatcherServlet</code>处理。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-80d0-9cb9-f582bcaf78a2" class="numbered-list" start="3"><li>调度器根据配置参数，加载读取<code>springmvc.xml</code>框架配置文件。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-8009-87b2-fcbb3c67b271" class="numbered-list" start="4"><li>配置文件执行包扫描，检索到<code>com.southwind.test</code>包下标注<code>@Controller</code>的控制器类，并将其交由 Spring 容器管理。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-802a-814a-d6437732169b" class="numbered-list" start="5"><li>框架通过注解驱动功能，匹配请求路径与控制器中<code>@RequestMapping(&quot;/index&quot;)</code>映射地址，定位到对应处理方法。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-80fc-8daf-c6e18fd9f9c5" class="numbered-list" start="6"><li>执行 index 方法，控制台打印日志，方法执行完毕返回视图名称<code>index</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-8011-a3bf-f7f53f4607fe" class="numbered-list" start="7"><li>视图解析器按照前缀、后缀配置，拼接得到真实页面路径<code>/index.jsp</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-8039-b720-ddcf39551fde" class="numbered-list" start="8"><li>服务器跳转至对应 jsp 页面，最终页面内容响应返回给浏览器展示。</li></ol></div></li></ol></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-801d-b5e4-cea99cd7cba7" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

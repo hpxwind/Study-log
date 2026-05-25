@@ -1,0 +1,928 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>接口类型</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="84c8db55-6aee-8304-b537-013ea227c7da" class="page mono"><header><h1 class="page-title" dir="auto">接口类型</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="6b08db55-6aee-82fd-b4a0-81c6cf5e65f9" class=""><strong>接口（Interface）</strong> 是用于约束对象、函数、类等结构的核心类型工具，核心作用是<strong>定义 “契约”</strong> —— 明确指定数据 / 代码的结构规范，是 TS 实现类型抽象、复用和扩展的关键特性</p></div><div style="display:contents" dir="auto"><p id="fc88db55-6aee-82a9-9bdd-81ebe79145da" class="">接口仅存在于<mark class="highlight-orange">编译阶段</mark></p></div><div style="display:contents" dir="auto"><hr id="2038db55-6aee-832e-9748-015d8c92cd65"/></div><div style="display:contents" dir="auto"><ul id="3188db55-6aee-8247-9201-0124846b1503" class="toggle"><li><details open=""><summary>对象接口</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js" integrity="sha512-uOw7XYETzS/DPmmirpP5UCMihSDNMeyTS965J0/456OSPfxn9xEtHHjj5Q/5WefVdqyMfN/afmQnNpZd/tpkcA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js" integrity="sha512-xjGCJ9YxyZBfYTCHsEjkOZMoOse1W3cKMXv1szXrxs68myuXt0YTj3/xKPar6iDMlXzTUSEqwUxprWcyp+plaw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="cd48db55-6aee-82b1-9bed-81761ad36ae6" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 定义接口：描述 User 对象的结构
+interface User {
+  // 必选属性：字符串类型
+  name: string;
+  // 必选属性：数字类型
+  age: number;
+  // 可选属性：加 ? 标记，类型为 string | undefined
+  email?: string;
+  // 只读属性：加 readonly，初始化后不可修改
+  readonly id: number;
+}
+
+// 符合接口的对象（合法）
+const user1: User = {
+  id: 1001,
+  name: &quot;张三&quot;,
+  age: 25,
+  // email 可选，可省略
+};
+
+// 错误示例：缺少必选属性 age（TS 编译报错）
+// const user2: User = { id: 1002, name: &quot;李四&quot; };
+
+// 错误示例：修改只读属性（TS 编译报错）
+// user1.id = 1003;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b048db55-6aee-8392-b085-011079497f15" class="toggle"><li><details open=""><summary>嵌套接口</summary><div style="display:contents" dir="auto"><p id="2598db55-6aee-8307-a756-810d7483dbe4" class="">接口可嵌套定义，描述多层级的对象结构</p></div><div style="display:contents" dir="auto"><pre id="f6d8db55-6aee-8356-8a83-01e4510eb28b" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 嵌套接口：地址结构
+interface Address {
+  province: string;
+  city: string;
+  detail?: string;
+}
+
+// 主接口：包含嵌套接口
+interface User {
+  name: string;
+  age: number;
+  address: Address; // 嵌套接口作为属性类型
+}
+
+const user: User = {
+  name: &quot;李四&quot;,
+  age: 30,
+  address: {
+    province: &quot;浙江&quot;,
+    city: &quot;杭州&quot;,
+  },
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5048db55-6aee-8309-8c6a-812915842c11" class="toggle"><li><details open=""><summary>索引签名：处理动态属性</summary><div style="display:contents" dir="auto"><p id="cdc8db55-6aee-820c-b814-019e17dc25c3" class="">当对象的属性名是动态的（不确定具体键名），用<strong>索引签名</strong>描述</p></div><div style="display:contents" dir="auto"><pre id="2758db55-6aee-8218-8571-0155c2fd376d" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 字符串索引签名：键为 string，值为 number（适用于任意字符串键）
+interface ScoreMap {
+  [key: string]: number;
+  // 可显式声明固定属性（需符合索引值类型）
+  math: number;
+}
+
+const scores: ScoreMap = {
+  math: 90,
+  english: 85, // 动态属性，符合索引签名
+  chinese: 95,
+};
+
+// 数字索引签名：键为 number，值为 string（适用于类数组对象）
+interface StringArray {
+  [index: number]: string;
+  length: number; // 固定属性（TS 允许 number 类型，兼容数字索引）
+}
+
+const arr: StringArray = { 0: &quot;a&quot;, 1: &quot;b&quot;, length: 2 };</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a228db55-6aee-82c2-8d7f-013923c760fa" class="toggle"><li><details open=""><summary>接口集成（extends）</summary><div style="display:contents" dir="auto"><p id="6b98db55-6aee-83cc-a3a7-015c43f3a7a8" class="">通过 <code>extends</code> 实现接口复用和扩展，支持单继承 / 多继承，比 <code>type</code> 的交叉类型（<code>&amp;</code>）更直观。</p></div><div style="display:contents" dir="auto"><ol type="1" id="f388db55-6aee-823e-bcab-01c547d68d3f" class="numbered-list" start="1"><li>单集成</li></ol></div><div style="display:contents" dir="auto"><pre id="5318db55-6aee-83a8-91a7-01dda4fbf55b" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 基础接口
+interface Person {
+  name: string;
+  age: number;
+}
+
+// 继承 Person，扩展新属性
+interface Student extends Person {
+  studentId: number;
+  grade: string;
+}
+
+// Student 包含：name、age、studentId、grade
+const student: Student = {
+  name: &quot;王五&quot;,
+  age: 18,
+  studentId: 2024001,
+  grade: &quot;高一&quot;,
+};</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="c6a8db55-6aee-8317-beaf-813b742e7c41" class="numbered-list" start="2"><li>多继承</li></ol></div><div style="display:contents" dir="auto"><p id="58e8db55-6aee-82ff-957b-81497766a8b5" class="">继承多个接口，合并所有属性：</p></div><div style="display:contents" dir="auto"><pre id="9b28db55-6aee-82db-b2be-018fd8321a71" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">interface Contact {
+  phone: string;
+  email: string;
+}
+
+// 同时继承 Person 和 Contact
+interface Teacher extends Person, Contact {
+  subject: string;
+}
+
+// Teacher 包含：name、age（Person） + phone、email（Contact） + subject
+const teacher: Teacher = {
+  name: &quot;赵六&quot;,
+  age: 35,
+  phone: &quot;13800138000&quot;,
+  email: &quot;zhaoliu@school.com&quot;,
+  subject: &quot;数学&quot;,
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="19a8db55-6aee-8251-b367-815cb258b9e8" class="toggle"><li><details open=""><summary>接口合并（声明合并）</summary><div style="display:contents" dir="auto"><p id="4a58db55-6aee-82be-b99f-810a9becceba" class="">TS 特有特性：<strong>同名接口会自动合并</strong>，适合拆分复杂接口定义（如分文件定义同一接口）。</p></div><div style="display:contents" dir="auto"><pre id="86f8db55-6aee-8302-83bf-01f1957ecf0b" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 第一次定义 User 接口
+interface User {
+  name: string;
+  age: number;
+}
+
+// 第二次定义同名接口，自动合并
+interface User {
+  email?: string;
+  greet: () =&gt; string;
+}
+
+// 合并后的 User 包含：name、age、email、greet
+const user: User = {
+  name: &quot;孙七&quot;,
+  age: 28,
+  greet: () =&gt; &quot;Hello!&quot;,
+};</code></pre></div><div style="display:contents" dir="auto"><p id="8738db55-6aee-82f9-b53a-811c51177c08" class="">⚠️ 注意：合并的接口中，同名属性的类型必须<strong>兼容</strong>，否则报错：</p></div><div style="display:contents" dir="auto"><pre id="c338db55-6aee-83ee-b9d7-81934a6c1843" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 错误示例：同名属性类型冲突
+// interface User { age: number; }
+// interface User { age: string; } // TS 报错：属性 age 类型不兼容</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="acd8db55-6aee-832f-98c7-015d33776bd0" class="toggle"><li><details open=""><summary>接口描述函数类型</summary><div style="display:contents" dir="auto"><p id="c538db55-6aee-839d-91a9-81a249eb7a46" class="">接口不仅能约束对象，还能定义函数的参数和返回值类型（替代 <code>type</code> 定义函数类型）：</p></div><div style="display:contents" dir="auto"><pre id="66a8db55-6aee-8206-94c2-81fe22d6794d" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 定义函数接口：接收两个 number，返回 number
+interface CalculateFunc {
+  (a: number, b: number): number;
+}
+
+// 实现函数（符合接口规范）
+const add: CalculateFunc = (x, y) =&gt; x + y;
+const subtract: CalculateFunc = (a, b) =&gt; a - b;
+
+add(1, 2); // 3</code></pre></div><div style="display:contents" dir="auto"><p id="a358db55-6aee-82fc-8725-014b8e379001" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e918db55-6aee-8300-8811-81557f8f4d1a" class="toggle"><li><details open=""><summary>接口描述类类型（implements）</summary><div style="display:contents" dir="auto"><p id="bda8db55-6aee-830f-bd4e-818367d3cf2c" class="">接口可定义类的 “实现规范”，类通过 <code>implements</code> 实现接口，强制类满足接口的结构约束</p></div><div style="display:contents" dir="auto"><pre id="7008db55-6aee-835f-97d9-01e9b68cd489" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 定义接口：约束类必须包含的属性和方法
+interface Animal {
+  name: string;
+  makeSound(): void;
+}
+
+// 类实现接口（必须实现所有属性和方法）
+class Dog implements Animal {
+  name: string; // 必须有 name 属性
+  constructor(name: string) {
+    this.name = name;
+  }
+  // 必须实现 makeSound 方法
+  makeSound(): void {
+    console.log(`${this.name} 汪汪叫`);
+  }
+}
+
+const dog = new Dog(&quot;旺财&quot;);
+dog.makeSound(); // 旺财 汪汪叫</code></pre></div><div style="display:contents" dir="auto"><p id="1448db55-6aee-8379-ad70-013070e8e6e8" class=""><strong>类实现多个接口</strong></p></div><div style="display:contents" dir="auto"><pre id="1148db55-6aee-8310-94d5-81f3ad54c8f0" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">interface Runable {
+  run(): void;
+}
+
+// 同时实现 Animal 和 Runable
+class Cat implements Animal, Runable {
+  name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+  makeSound(): void {
+    console.log(`${this.name} 喵喵叫`);
+  }
+  run(): void {
+    console.log(`${this.name} 跑起来了`);
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="17c8db55-6aee-82e8-9fb6-81cb57e1b5f4" class="toggle"><li><details open=""><summary><strong>泛型接口</strong></summary><div style="display:contents" dir="auto"><p id="cbe8db55-6aee-82c7-9c0a-8112199f267a" class="">结合泛型，让接口支持“动态类型”，提升复用性</p></div><div style="display:contents" dir="auto"><pre id="98e8db55-6aee-8251-9376-81bef36f813e" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 泛型接口：T 为类型参数，可自定义
+interface Result&lt;T&gt; {
+  code: number;
+  msg: string;
+  data: T; // 动态类型
+}
+
+// 使用泛型接口：指定 T 为 User 类型
+type UserResult = Result&lt;User&gt;;
+const userResult: UserResult = {
+  code: 200,
+  msg: &quot;成功&quot;,
+  data: { name: &quot;周八&quot;, age: 30 },
+};
+
+// 使用泛型接口：指定 T 为数组类型
+type ListResult = Result&lt;string[]&gt;;
+const listResult: ListResult = {
+  code: 200,
+  msg: &quot;成功&quot;,
+  data: [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;],
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="0218db55-6aee-831c-9d42-0140bb33e384"/></div><div style="display:contents" dir="auto"><p id="7f48db55-6aee-83f6-8288-81045cd0502e" class=""><strong>接口 </strong>vs<strong> 类型别名（</strong>type<strong>）</strong></p></div><div style="display:contents" dir="ltr"><table id="1c18db55-6aee-82ac-bd49-8179453d5323" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="87c8db55-6aee-8236-a203-81cf1c47c9b9"><th id="DxjD" class="simple-table-header-color simple-table-header"><strong>特性</strong></th><th id="P&gt;fZ" class="simple-table-header-color simple-table-header"><strong>接口（interface）</strong></th><th id="&lt;_qO" class="simple-table-header-color simple-table-header"><strong>类型别名（type）</strong></th><th id="Wykq" class="simple-table-header-color simple-table-header"></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="0208db55-6aee-8345-8dc0-812536244ab1"><td id="DxjD" class="">核心用途</td><td id="P&gt;fZ" class="">定义对象 / 类 / 函数的 “结构契约”</td><td id="&lt;_qO" class="">定义任意类型（对象、联合、字面量等）</td><td id="Wykq" class=""></td></tr></div><div style="display:contents" dir="ltr"><tr id="a378db55-6aee-83c4-afe2-81666f0726ee"><td id="DxjD" class="">继承</td><td id="P&gt;fZ" class="">支持 <code>extends</code>（单 / 多继承）</td><td id="&lt;_qO" class="">需用交叉类型 <code>&amp;</code> 实现 “合并”</td><td id="Wykq" class=""></td></tr></div><div style="display:contents" dir="ltr"><tr id="73a8db55-6aee-82b7-a665-81fce3366f87"><td id="DxjD" class="">声明合并</td><td id="P&gt;fZ" class="">支持同名接口自动合并</td><td id="&lt;_qO" class="">不支持（同名 type 会报错）</td><td id="Wykq" class=""></td></tr></div><div style="display:contents" dir="ltr"><tr id="3eb8db55-6aee-83d8-a9b0-01c9e7f1f932"><td id="DxjD" class="">泛型支持</td><td id="P&gt;fZ" class="">支持（泛型接口）</td><td id="&lt;_qO" class="">支持（泛型类型）</td><td id="Wykq" class=""></td></tr></div><div style="display:contents" dir="ltr"><tr id="4618db55-6aee-8381-8b1c-8121be0ee8ef"><td id="DxjD" class="">定义非对象类型</td><td id="P&gt;fZ" class="">不支持（仅对象 / 函数 / 类）</td><td id="&lt;_qO" class="">支持（如 <code>type Num = number</code>、`type Union = string</td><td id="Wykq" class="">number`）</td></tr></div><div style="display:contents" dir="ltr"><tr id="0958db55-6aee-82d4-94e2-8136a0287cce"><td id="DxjD" class="">映射类型</td><td id="P&gt;fZ" class="">支持，但不如 type 灵活</td><td id="&lt;_qO" class="">更适合映射类型（如 <code>Partial&lt;T&gt;</code>）</td><td id="Wykq" class=""></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="d768db55-6aee-8204-b1e4-81f5576a45f0" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

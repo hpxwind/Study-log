@@ -1,0 +1,836 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>CSS变量</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="f508db55-6aee-8212-8a4f-81bc2dfac2fa" class="page sans"><header><h1 class="page-title" dir="auto">CSS变量</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="9fd8db55-6aee-835d-94d2-8174d7e96882" class="">CSS 变量（也称为 “自定义属性”）是 CSS 中用于存储和复用值的强大功能，允许你在样式表中定义一个值，然后在多个地方引用，大幅提升样式的可维护性和灵活性。</p></div><div style="display:contents" dir="auto"><hr id="30d8db55-6aee-8298-92be-014c2061390c"/></div><div style="display:contents" dir="auto"><ul id="7eb8db55-6aee-83ae-8fec-81ac8a95c794" class="toggle"><li><details open=""><summary>定义CSS变量</summary><div style="display:contents" dir="auto"><ul id="6108db55-6aee-829d-9f61-012f762a98d2" class="bulleted-list"><li style="list-style-type:disc">变量名必须以 <code>-</code> 开头（<mark class="highlight-orange">区分大小写</mark>，<code>-color</code> 和 <code>-Color</code> 是两个不同变量）。</li></ul></div><div style="display:contents" dir="auto"><ul id="e4d8db55-6aee-82c4-b466-01282d27c500" class="bulleted-list"><li style="list-style-type:disc">通常定义在 <code>:root</code> 伪类中（<mark class="highlight-orange">全局变量</mark>，作用于整个文档），也可定义在<mark class="highlight-orange">特定选择器中</mark>（局部变量，仅作用于该选择器及其子元素）。</li></ul></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="c678db55-6aee-8331-a876-812df09932bb" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">/* 全局变量（:root 等价于 &lt;html&gt;，但优先级更高） */
+:root {
+  --primary-color: #4285f4; /* 谷歌蓝 */
+  --font-size: 16px;
+  --spacing: 20px;
+}
+
+/* 局部变量（仅 .card 及其子元素可用） */
+.card {
+  --card-bg: #fff;
+  --border-radius: 8px;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="48f8db55-6aee-8229-acf4-0169922f2967" class="toggle"><li><details open=""><summary>使用CSS变量</summary><div style="display:contents" dir="auto"><p id="1d18db55-6aee-8282-88e2-0143d0235c4d" class="">通过 <code>var()</code> 函数引用变量，语法：<code>var(变量名, 默认值)</code>（默认值可选，当变量未定义时使用）。</p></div><div style="display:contents" dir="auto"><pre id="6ca8db55-6aee-83aa-878f-81d092441625" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">body {
+  color: var(--primary-color); /* 使用全局变量 */
+  font-size: var(--font-size);
+  padding: var(--spacing);
+}
+
+.card {
+  background: var(--card-bg); /* 使用局部变量 */
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing); /* 混合使用全局变量 */
+}
+
+/* 带默认值的引用（若 --unknown 未定义，则使用 #ccc） */
+.box {
+  border: 1px solid var(--unknown, #ccc);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e648db55-6aee-8362-b532-81384ce99de4" class="toggle"><li><details open=""><summary>作用域与继承</summary><div style="display:contents" dir="auto"><ul id="c4c8db55-6aee-8385-acb2-811faca5240f" class="bulleted-list"><li style="list-style-type:disc"><strong>全局变量</strong>：定义在 <code>:root</code> 中，全文档可访问。</li></ul></div><div style="display:contents" dir="auto"><ul id="8518db55-6aee-82c7-ac98-8142e824de3d" class="bulleted-list"><li style="list-style-type:disc"><strong>局部变量</strong>：定义在特定选择器中，仅该选择器及其后代可访问。</li></ul></div><div style="display:contents" dir="auto"><ul id="2918db55-6aee-8307-97a6-01f867cedb0c" class="bulleted-list"><li style="list-style-type:disc"><strong>继承性</strong>：子元素会继承父元素的变量，若子元素有同名变量则覆盖。</li></ul></div><div style="display:contents" dir="auto"><pre id="9348db55-6aee-837e-b4a1-018774321786" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">:root { --color: red; }
+.parent { --color: green; }
+.child { color: var(--color); } /* 继承父元素的 --color: green */</code></pre></div><div style="display:contents" dir="auto"><p id="c498db55-6aee-8376-b2f5-0116dca47f1e" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7df8db55-6aee-83c2-8c2d-01eb7914f531" class="toggle"><li><details open=""><summary>动态性<strong>（可通过 JS 修改）</strong></summary><div style="display:contents" dir="auto"><p id="c6b8db55-6aee-8338-bd01-0136a67519fe" class="">CSS 变量是动态的，可通过 JavaScript 读取或修改，<mark class="highlight-orange">实现样式的实时更新</mark>（这是它相比预处理器变量的核心优势）。</p></div><div style="display:contents" dir="auto"><pre id="3ef8db55-6aee-83f1-a238-81cc35aede6f" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;box&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  // 读取变量
+  const rootStyles = getComputedStyle(document.documentElement);
+  const primaryColor = rootStyles.getPropertyValue(&#x27;--primary-color&#x27;);
+  console.log(primaryColor); // 输出 #4285f4
+
+  // 修改变量（会实时更新所有引用该变量的样式）
+  document.documentElement.style.setProperty(&#x27;--primary-color&#x27;, &#x27;#ea4335&#x27;); // 改为谷歌红
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="24e8db55-6aee-8313-ae7d-81f3a71c8b36" class="toggle"><li><details open=""><summary>与其他CSS特性结合</summary><div style="display:contents" dir="auto"><p id="aac8db55-6aee-82ed-b00b-016e8fe49f30" class=""><strong>媒体查询</strong></p></div><div style="display:contents" dir="auto"><p id="d2b8db55-6aee-8205-b739-81b4814c779a" class="">：在不同屏幕尺寸下修改变量值，实现响应式设计。</p></div><div style="display:contents" dir="auto"><pre id="3528db55-6aee-839f-92d0-81f06b0986c9" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">:root { --font-size: 16px; }
+@media (max-width: 768px) {
+  :root { --font-size: 14px; } /* 小屏幕缩小字体 */
+}</code></pre></div><div style="display:contents" dir="auto"><p id="4c58db55-6aee-825f-9112-813b1748232d" class=""><strong>伪类 / 伪元素</strong></p></div><div style="display:contents" dir="auto"><p id="3c58db55-6aee-8273-98bb-01217a327202" class="">：在状态变化时（如 <code>:hover</code>）修改变量。</p></div><div style="display:contents" dir="auto"><pre id="53e8db55-6aee-82dd-9375-814c087c2510" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">.button {
+  --btn-color: #4285f4;
+  background: var(--btn-color);
+}
+.button:hover {
+  --btn-color: #3367d6; /*  hover 时加深颜色 */
+}</code></pre></div><div style="display:contents" dir="auto"><p id="1ea8db55-6aee-83d1-819c-812396ccff34" class="">计算属性（<code>calc()</code>）</p></div><div style="display:contents" dir="auto"><p id="0198db55-6aee-8231-b660-8106a82816b5" class="">：与变量结合实现动态计算。</p></div><div style="display:contents" dir="auto"><pre id="1e58db55-6aee-8239-81f8-01e79c4a8bea" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">:root {
+  --base-size: 10px;
+  --double-size: calc(var(--base-size) * 2); /* 20px */
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="19e8db55-6aee-8355-b4e6-017c9146e4d5"/></div><div style="display:contents" dir="auto"><ul id="0138db55-6aee-8249-9b86-01f2ec01cfcb" class="toggle"><li><details open=""><summary>案例：切换主题</summary><div style="display:contents" dir="auto"><p id="0438db55-6aee-8274-a4a1-81d1123a3b93" class="">通过 JS 动态修改根元素变量，实现一键切换主题。</p></div><div style="display:contents" dir="auto"><pre id="fec8db55-6aee-826d-836c-81342d5e2efb" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">/* 浅色主题（默认） */
+:root {
+  --bg-color: #fff;
+  --text-color: #333;
+}
+
+/* 深色主题（通过 JS 给 html 加 class 激活） */
+:root.dark {
+  --bg-color: #333;
+  --text-color: #fff;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s; /* 平滑过渡 */
+}</code></pre></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="e4f8db55-6aee-82ed-9ac1-015277885b47" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 切换主题按钮
+document.getElementById(&#x27;themeToggle&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
+  document.documentElement.classList.toggle(&#x27;dark&#x27;);
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="00f8db55-6aee-83ae-82b9-01ce3dafa6ec" class="toggle"><li><details open=""><summary>配合<code>@property</code> 增强类型（CSS Houdini）</summary><div style="display:contents" dir="auto"><p id="0d98db55-6aee-8398-ae21-0176d7fee061" class="">通过 <code>@property</code> 定义变量的类型、初始值和继承性，支持更复杂的动画和计算（现代浏览器支持）。</p></div><div style="display:contents" dir="auto"><pre id="9ee8db55-6aee-8288-9d9d-017883970ab6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/* 定义一个带类型的颜色变量 */
+@property --primary-color {
+  syntax: &#x27;&lt;color&gt;&#x27;; /* 变量类型为颜色 */
+  initial-value: #4285f4;
+  inherits: true; /* 允许继承 */
+}
+
+/* 可对该变量使用过渡动画 */
+.box {
+  background: var(--primary-color);
+  transition: --primary-color 0.3s;
+}
+.box:hover {
+  --primary-color: #ea4335; /* 颜色变化会平滑过渡 */
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a738db55-6aee-8222-adfb-815b16576f59" class="toggle"><li><details open=""><summary>兼容性与降级处理</summary><div style="display:contents" dir="auto"><p id="07d8db55-6aee-833d-a99b-010914566fe6" class=""><strong>支持浏览器</strong>：Chrome 49+、Firefox 31+、Edge 15+、Safari 9.1+（IE 完全不支持）。</p></div><div style="display:contents" dir="auto"><p id="4708db55-6aee-82ab-b33a-017804be3a40" class="">降级方案：</p></div><div style="display:contents" dir="auto"><ol type="1" id="09a8db55-6aee-82cc-965f-81e08a5e8285" class="numbered-list" start="1"><li>对不支持的浏览器提供默认值：</li></ol></div><div style="display:contents" dir="auto"><pre id="4158db55-6aee-83b6-9791-01bffd7e5628" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">.element {
+  color: #4285f4; /* IE 等不支持变量的浏览器使用该值 */
+  color: var(--primary-color); /* 现代浏览器覆盖 */
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="2908db55-6aee-8206-98fa-01a4c21c5260" class="numbered-list" start="2"><li>通过 JS 检测支持性，动态加载降级样式：</li></ol></div><div style="display:contents" dir="auto"><pre id="6e38db55-6aee-82f3-afa4-81a297075d93" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if (!window.CSS || !CSS.supports(&#x27;--test&#x27;, 0)) {
+  // 不支持 CSS 变量，加载降级样式表
+  const link = document.createElement(&#x27;link&#x27;);
+  link.rel = &#x27;stylesheet&#x27;;
+  link.href = &#x27;fallback.css&#x27;;
+  document.head.appendChild(link);
+}</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

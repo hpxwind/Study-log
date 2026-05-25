@@ -1,0 +1,860 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>git</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="86d8db55-6aee-8331-9805-011447e7e4bc" class="page sans"><header><h1 class="page-title" dir="auto">git</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="6158db55-6aee-82ab-b9d5-81cc55803db6" class="toggle"><li><details open=""><summary>基础配置</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e58db55-6aee-8330-8f05-01a837b74182" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 1. 设置用户名（与 GitHub/GitLab 账号一致）
+git config --global user.name &quot;Your Name&quot;
+
+# 2. 设置邮箱（与账号绑定的邮箱）
+git config --global user.email &quot;your.email@example.com&quot;
+
+# 3. 查看配置信息
+git config --list
+
+# 4. 配置默认编辑器（如 VS Code）
+git config --global core.editor &quot;code --wait&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5988db55-6aee-8399-a770-015625f9f103" class="toggle"><li><details open=""><summary>仓库初始化与克隆</summary><div style="display:contents" dir="auto"><pre id="6268db55-6aee-8253-b354-012756ae27be" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 1. 初始化本地仓库（在项目目录执行）
+git init
+
+# 2. 克隆远程仓库到本地（复制项目）
+git clone &lt;远程仓库地址&gt;  # 例如：git clone https://github.com/username/repo.git
+
+# 3. 克隆到指定目录
+git clone &lt;远程仓库地址&gt; &lt;本地目录名&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c178db55-6aee-8253-b10d-81dac099c544" class="toggle"><li><details open=""><summary>文件状态与暂存</summary><div style="display:contents" dir="auto"><p id="eff8db55-6aee-8303-af42-812ed1877cf1" class="">git 中文件有三种状态：<strong>工作区（Working Directory）→ 暂存区（Stage/Index） → 本地仓库（Repository）</strong></p></div><div style="display:contents" dir="auto"><pre id="daf8db55-6aee-83bf-a22c-01ceaf61b410" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 1. 查看文件状态
+git status  # 详细显示状态
+git status -s  # 简洁显示（??: 未跟踪；A: 已暂存；M: 已修改）
+
+# 2. 将工作区文件添加到暂存区
+git add &lt;文件名&gt;  # 添加单个文件
+git add &lt;目录名&gt;  # 添加整个目录
+git add .  # 添加当前目录所有文件（不包括被忽略的）
+git add -A  # 添加所有变化（包括删除的文件）
+
+# 3. 从暂存区移除文件（保留工作区文件）
+git reset &lt;文件名&gt;
+
+# 4. 放弃工作区修改（恢复到最近一次提交状态）
+git checkout -- &lt;文件名&gt;  # 谨慎使用！会丢失未提交的修改
+
+# 5. 忽略文件（创建 .gitignore 文件）
+echo &quot;node_modules/&quot; &gt;&gt; .gitignore  # 忽略 node_modules 目录
+echo &quot;*.log&quot; &gt;&gt; .gitignore  # 忽略所有 .log 文件</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ab48db55-6aee-829c-ada9-01acf2df5c50" class="toggle"><li><details open=""><summary>提交与分支操作</summary><div style="display:contents" dir="auto"><pre id="4918db55-6aee-8208-adae-01100fcc58fb" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 1. 提交暂存区文件到本地仓库
+git commit -m &quot;提交说明&quot;  # 说明需简洁明了（如：&quot;fix: 修复登录bug&quot;）
+
+# 2. 直接提交工作区已跟踪的文件（跳过暂存区）
+git commit -am &quot;提交说明&quot;  # 仅适用于已跟踪的文件（已 add 过的）
+
+# 3. 修改最近一次提交（未推送到远程时使用）
+git commit --amend  # 会打开编辑器修改提交信息
+git commit --amend -m &quot;新的提交说明&quot;  # 直接修改说明</code></pre></div><div style="display:contents" dir="auto"><p id="ff08db55-6aee-82ef-a6da-810ac19eff93" class="">分支用于并行开发</p></div><div style="display:contents" dir="auto"><pre id="7508db55-6aee-83e9-a95d-810973e4481f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 1. 提交暂存区文件到本地仓库
+git commit -m &quot;提交说明&quot;  # 说明需简洁明了（如：&quot;fix: 修复登录bug&quot;）
+
+# 2. 直接提交工作区已跟踪的文件（跳过暂存区）
+git commit -am &quot;提交说明&quot;  # 仅适用于已跟踪的文件（已 add 过的）
+
+# 3. 修改最近一次提交（未推送到远程时使用）
+git commit --amend  # 会打开编辑器修改提交信息
+git commit --amend -m &quot;新的提交说明&quot;  # 直接修改说明</code></pre></div><div style="display:contents" dir="auto"><p id="41a8db55-6aee-82c4-93f3-0154322be080" class="">合并分支</p></div><div style="display:contents" dir="auto"><pre id="b588db55-6aee-825c-8b8c-81441faf74a4" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 1. 切换到目标分支（如主分支）
+git checkout main
+
+# 2. 合并来源分支（如 feature 分支）
+git merge &lt;来源分支名&gt;  # 例如：git merge feature/login
+
+# 3. 处理合并冲突
+# 冲突时文件中会显示 &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD（当前分支）和 &gt;&gt;&gt;&gt;&gt;&gt;&gt; 分支名（来源分支）
+# 手动编辑文件解决冲突后，执行：
+git add &lt;冲突文件&gt;
+git commit -m &quot;解决合并冲突&quot;
+
+# 4. 取消合并（合并冲突时）
+git merge --abort</code></pre></div><div style="display:contents" dir="auto"><p id="ae58db55-6aee-837a-a9f0-81660931f78f" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="27b8db55-6aee-8319-8312-8164d2b2cae6" class="toggle"><li><details open=""><summary>远程仓库操作</summary><div style="display:contents" dir="auto"><pre id="23c8db55-6aee-82e5-86ad-01799b5f7567" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 1. 查看远程仓库信息
+git remote  # 显示远程仓库别名（默认 origin）
+git remote -v  # 显示远程仓库地址
+
+# 2. 添加远程仓库
+git remote add &lt;别名&gt; &lt;远程地址&gt;  # 例如：git remote add origin https://xxx.git
+
+# 3. 从远程仓库拉取最新代码（不合并）
+git fetch &lt;远程别名&gt;  # 例如：git fetch origin
+
+# 4. 拉取并合并远程代码（常用，等价于 fetch + merge）
+git pull &lt;远程别名&gt; &lt;远程分支&gt;  # 例如：git pull origin main
+
+# 5. 推送本地分支到远程仓库
+git push &lt;远程别名&gt; &lt;本地分支&gt;  # 例如：git push origin main
+
+# 6. 推送新分支到远程（首次推送）
+git push -u &lt;远程别名&gt; &lt;本地分支&gt;  # -u 关联远程分支，后续可直接 git push
+
+# 7. 删除远程分支
+git push &lt;远程别名&gt; --delete &lt;远程分支名&gt;  # 例如：git push origin --delete feature/test
+
+# 8. 更换远程仓库地址
+git remote set-url origin &lt;新地址&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7588db55-6aee-82a2-abff-01efe9febb61" class="toggle"><li><details open=""><summary>退回操作</summary><div style="display:contents" dir="auto"><pre id="0208db55-6aee-8283-8dc9-017910ddebea" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 1. 查看提交历史（详细）
+git log  # 按 q 退出
+git log --oneline  # 简洁显示（一行一个提交）
+git log --graph  # 图形化显示分支合并历史
+
+# 2. 回退到指定版本（本地仓库）
+git reset --hard &lt;提交ID&gt;  # 提交ID可通过 git log 查看前几位
+
+# 3. 回退到上一个版本
+git reset --hard HEAD~1  # ~n 表示回退 n 个版本
+
+# 4. 撤销已推送到远程的提交（谨慎！会覆盖远程历史）
+git revert &lt;提交ID&gt;  # 创建一个新提交来抵消指定提交的修改</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bad8db55-6aee-832d-906a-81c085bae033" class="toggle"><li><details open=""><summary>查看文件内容操作</summary><div style="display:contents" dir="auto"><pre id="a958db55-6aee-82f5-b431-81e8cd399c15" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">查看提交日志：
+git log：显示当前分支的提交历史，包括提交哈希值、作者、日期和提交信息等。按q键可退出查看。
+git log -n：n为具体数字，用于显示最近n次提交。例如git log -5会显示最近 5 次提交记录。
+git log --stat：显示 commit 历史，以及每次 commit 发生变更的文件，会列出文件的增删行数等统计信息。
+git log --oneline：单行显示提交记录，只显示简短的 commit id 及提交日志。
+查看文件差异：
+git diff：查看工作区与暂存区之间的差异，即显示已修改但未暂存的文件内容变化。
+git diff --cached：查看暂存区与本地仓库中最新提交之间的差异，也就是已暂存但未提交的文件变化。
+git diff HEAD：显示工作区与当前分支最新 commit 之间的差异。
+git diff &lt;first - branch&gt; &lt;second - branch&gt;：显示两个分支之间的差异。
+查看某次提交的内容：
+git show &lt;commit&gt;：显示指定 commit 的元数据和内容变化，包括提交者、日期、提交信息以及文件的改动等。
+git show --name - only &lt;commit&gt;：仅显示指定 commit 中发生变化的文件名称。
+git show &lt;commit&gt;:&lt;filename&gt;：显示指定 commit 时，某个具体文件的内容。例如git show abc1234:README.md，会显示哈希值为abc1234的提交中README.md文件的内容。
+查看文件相关信息：
+git status：查看工作区中文件的状态，包括哪些是未跟踪文件、哪些文件已修改但未暂存、哪些已暂存等。
+git blame &lt;file&gt;：显示指定文件的每一行最后是由谁在何时修改的，常用于追溯代码的修改历史。
+git whatchanged &lt;file&gt;：显示某个文件的版本历史，包括文件改名等情况。</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

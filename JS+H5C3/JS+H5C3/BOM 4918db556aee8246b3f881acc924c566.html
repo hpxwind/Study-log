@@ -1,0 +1,882 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>BOM</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="4918db55-6aee-8246-b3f8-81acc924c566" class="page mono"><header><h1 class="page-title" dir="auto">BOM</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="0958db55-6aee-836c-b059-01450f09e016" class="toggle"><li><details open=""><summary>基础认识</summary><div style="display:contents" dir="auto"><p id="9558db55-6aee-8381-9236-01c5e076efa9" class="">浏览器对象模型，是一些操作浏览器的能力，比如</p></div><div style="display:contents" dir="auto"><p id="9dd8db55-6aee-836c-9807-01af985d8eff" class="">获得一些浏览器的相关信息，</p></div><div style="display:contents" dir="auto"><p id="62a8db55-6aee-8259-8266-81ff0a72f34e" class="">浏览器跳转页面，</p></div><div style="display:contents" dir="auto"><p id="ff08db55-6aee-83f3-93a5-01e0ae7d2f06" class="">地址栏信息，</p></div><div style="display:contents" dir="auto"><p id="a4c8db55-6aee-8351-a30d-815ec5b6bc2f" class="">操作浏览器的滚动条，</p></div><div style="display:contents" dir="auto"><p id="53e8db55-6aee-82db-beb8-01c1b03cf629" class="">浏览器信息，</p></div><div style="display:contents" dir="auto"><p id="7b68db55-6aee-8331-bb97-815870e25bcd" class="">让浏览器出现一个弹框。</p></div><div style="display:contents" dir="auto"><p id="4238db55-6aee-821d-8bfb-8118d78d7785" class="">。。。</p></div><div style="display:contents" dir="auto"><p id="1928db55-6aee-82da-8be3-01074d7de709" class="">BOM的核心是Window对象</p></div><div style="display:contents" dir="auto"><p id="d848db55-6aee-8331-ace5-81568e6f272e" class="">window是浏览器的一个内置的一个对象，里面包含着浏览器的操作方法。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5d58db55-6aee-83a5-b3a4-0183212f6eb0" class="toggle"><li><details open=""><summary>浏览器可视窗口的尺寸</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="bd38db55-6aee-83a3-a63a-811f3f4819dc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(window.innerHeight, innerHeight); // 浏览器可视高度
+console.log(window.innerWidth, innerWidth); // 浏览器可视宽度</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2cf8db55-6aee-8207-b7de-0132083ea4c8" class="toggle"><li><details open=""><summary>浏览器的弹出层</summary><div style="display:contents" dir="auto"><p id="5628db55-6aee-8299-a0cb-817ec08466c5" class="">1、弹出框alert()</p></div><div style="display:contents" dir="auto"><pre id="17f8db55-6aee-8243-be95-81120a9ca2a0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">window.alert(&quot;jeo&quot;);
+&lt;button id=&quot;btn&quot;&gt;click&lt;/button&gt;
+
+btn.onclick = function() {
+    alert(&quot;hi&quot;);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="1648db55-6aee-83ed-a1b5-016df2d8d7a3" class="">2、询问框confirm()</p></div><div style="display:contents" dir="auto"><pre id="f658db55-6aee-8343-b5e3-01074b26b67e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;button id=&quot;btn&quot;&gt;click&lt;/button&gt;
+
+btn.onclick = function() {
+		var res = confirm(&quot;请输入:&quot;);
+		console.log(res); // 返回值点击确定为true，否则为false
+}</code></pre></div><div style="display:contents" dir="auto"><p id="2698db55-6aee-820f-bc42-0152dc0b57d4" class="">3、输入框prompt()</p></div><div style="display:contents" dir="auto"><pre id="a658db55-6aee-824c-963e-81ff5928704f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;button id=&quot;btn&quot;&gt;click&lt;/button&gt;
+
+btn.onclick = function() {
+    var res = prompt(&quot;请输入&quot;);
+    console.log(res); // 返回输入值，不输入返回空
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="87d8db55-6aee-830f-9c58-81774e4100e2" class="toggle"><li><details open=""><summary>浏览器地址栏</summary><div style="display:contents" dir="auto"><p id="c038db55-6aee-83f6-b8b2-81832dcf5aad" class="">1、window.location</p></div><div style="display:contents" dir="auto"><p id="6518db55-6aee-83d5-a49e-0180c09ed05d" class="">location.href = &quot;https://www.baidu.com&quot;</p></div><div style="display:contents" dir="auto"><p id="d728db55-6aee-82c2-ac94-01e412b3eced" class="">location.reload()</p></div><div style="display:contents" dir="auto"><pre id="e828db55-6aee-83ec-ad02-812234e2676b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(window.location);
+console.log(location.herf) // 获取当前地址
+&lt;button id=&quot;btn&quot;&gt;click&lt;/button&gt;
+&lt;button id=&quot;btn2&quot;&gt;click2&lt;/button&gt;
+
+btn.onclick = function() {
+    location.href = &quot;https://www.baidu.com&quot;; // 需要熟软完整链接
+}
+
+btn2.onclick = function() {
+    location.reload(); // 刷新页面
+}</code></pre></div><div style="display:contents" dir="auto"><p id="e238db55-6aee-833f-a878-013f073dd22d" class="">2、window.open()</p></div><div style="display:contents" dir="auto"><p id="6ef8db55-6aee-838a-987c-81e44745f848" class="">在新标签页打开</p></div><div style="display:contents" dir="auto"><pre id="1198db55-6aee-8249-9672-81cdbc11cc35" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// window.open(&quot;&quot;)
+btn.onclick  = function () {
+    window.open(&quot;https://www.baidu.com&quot;);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="fa18db55-6aee-8237-b247-0112f558adaa" class="">3、window.close()</p></div><div style="display:contents" dir="auto"><p id="c398db55-6aee-821b-b0a4-01dfe0691f8f" class="">关掉自己的标签页</p></div><div style="display:contents" dir="auto"><pre id="7608db55-6aee-83c8-86ed-0194e9fec45c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// window.close()
+btn.onclick  = function () {
+    window.open();
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e5d8db55-6aee-83b2-949f-81e0bbda3fd2" class="toggle"><li><details open=""><summary>浏览器的常见事件</summary><div style="display:contents" dir="auto"><p id="8d78db55-6aee-83f0-beba-015f2c7b2b06" class="">1、window.onresize</p></div><div style="display:contents" dir="auto"><p id="2398db55-6aee-82f3-935f-01b8a2b2006c" class="">没每次改变可视窗口时执行</p></div><div style="display:contents" dir="auto"><pre id="50b8db55-6aee-83a3-8bc1-8181444cd1c1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">window.onresize = function () {
+		console.log(&quot;resized&quot;); // 没每次改变可视窗口时会打印一次reiszed
+}</code></pre></div><div style="display:contents" dir="auto"><p id="4c08db55-6aee-83f2-b14a-818961db5d91" class="">2、window.onload</p></div><div style="display:contents" dir="auto"><p id="6e28db55-6aee-83c9-871f-814cd32a2b45" class="">当页面中所有资源加载完毕后执行</p></div><div style="display:contents" dir="auto"><pre id="2f98db55-6aee-83ea-9ca2-01294b7a19fc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;button id=&quot;btn&quot;&gt;click&lt;/button&gt;
+
+window.onload = function() {
+		console.log(&quot;loaded up&quot;);
+		console.log(btn);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="7c88db55-6aee-82d7-8b64-0182cd3008a4" class="">3、window.onscroll &amp; document.documentElement.scrollTop &amp; window.scrollTo()</p></div><div style="display:contents" dir="auto"><p id="c198db55-6aee-82fb-bc2c-81d45e709abc" class="">页面滚动时执行</p></div><div style="display:contents" dir="auto"><p id="97e8db55-6aee-83fb-82d3-819fb90269aa" class="">document.documentElement.scrollTop</p></div><div style="display:contents" dir="auto"><p id="8fa8db55-6aee-83e2-ba2f-01c064127727" class="">document.documentElement.scrollLeft</p></div><div style="display:contents" dir="auto"><p id="7118db55-6aee-82e8-b72e-0142725c381c" class="">计算距离顶部的高度/左侧的宽度</p></div><div style="display:contents" dir="auto"><p id="1358db55-6aee-8366-9307-8147d9683851" class="">如果没用&lt;!DOCTYPE html&gt;（低版本浏览器）时，使用</p></div><div style="display:contents" dir="auto"><p id="f6c8db55-6aee-83e9-b7d7-01c1f615bb53" class="">document.body.scrollTop</p></div><div style="display:contents" dir="auto"><p id="0058db55-6aee-836c-b667-01c5acd92daa" class="">兼容性解决</p></div><div style="display:contents" dir="auto"><p id="29e8db55-6aee-8388-9db5-01394dc19384" class="">document.documentElement.scrollTop || document.body.scrollTop</p></div><div style="display:contents" dir="auto"><p id="63d8db55-6aee-8258-831c-818f48041bdd" class="">
+</p></div><div style="display:contents" dir="auto"><p id="1298db55-6aee-826f-9fff-81e414a6f66c" class="">window.scrollTo(0,0) 滚动到(x,y)位置</p></div><div style="display:contents" dir="auto"><pre id="ddf8db55-6aee-8295-8921-010a63d35cae" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">window.onscroll = function(){
+		console.log(&quot;scroll&quot;, &quot;滚动距离&quot;);
+}
+
+window.onscroll = function() {
+    console.log(document.documentElement.scrollTop || document.body.scrollTop);// 兼容所有浏览器版本
+}
+
+window.onscroll = function() {
+    if ((document.documentElement.scrollTop || document.body.scrollTop) &gt; 150) {
+        console.log(&quot;显示&quot;);
+    } else {
+        console.log(&quot;隐藏&quot;);
+    }
+}
+
+btn.onclick = function() {
+    window.scrollTo(0,0); // x滚动到0， y滚动到0
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cd18db55-6aee-82bf-86dc-017d22a6df37" class="toggle"><li><details open=""><summary>浏览器历史记录操作</summary><div style="display:contents" dir="auto"><p id="5158db55-6aee-82c3-a2eb-0131d2adc228" class="">1、history.back() &amp; history.forward()</p></div><div style="display:contents" dir="auto"><p id="c328db55-6aee-83b7-8d23-8102d625900c" class="">返回最近一次前进跳转，前提是有跳转</p></div><div style="display:contents" dir="auto"><p id="1b28db55-6aee-834e-b607-81c0eab5c883" class="">前进最近一次后退跳转，前提是有回退</p></div><div style="display:contents" dir="auto"><pre id="7da8db55-6aee-8281-9a12-01c964d6667e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">btn.onclick = function(){
+    // location.href = &quot;数字操作.html&quot;;
+    history.forward(); // history.go(-1);后退，传1就是前进
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="cbf8db55-6aee-82e3-bf09-01780cf3efa4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">btn.onclick = function() {
+    history.back();
+}</code></pre></div><div style="display:contents" dir="auto"><p id="90f8db55-6aee-8301-b15c-019516139734" class="">2、history.go()</p></div><div style="display:contents" dir="auto"><p id="7948db55-6aee-836f-84d3-817583a1e050" class="">history.go(Number)</p></div><div style="display:contents" dir="auto"><p id="9128db55-6aee-8262-a34f-81cb6170cbe7" class="">Number &gt; 0 前进 Number个页面</p></div><div style="display:contents" dir="auto"><p id="2cd8db55-6aee-83c8-aecd-8145f7ee93e5" class="">Number &lt; 0 后退 Number个页面</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e028db55-6aee-831b-97e3-817e81495b3d" class="toggle"><li><details open=""><summary>浏览器本地存储</summary><div style="display:contents" dir="auto"><p id="7778db55-6aee-8356-b091-01ad7d02216f" class="">localStorage为永久存储</p></div><div style="display:contents" dir="auto"><p id="d1a8db55-6aee-83dd-9e69-817f8f298552" class="">sessionStorage为临时存储，关闭页面就丢失了</p></div><div style="display:contents" dir="auto"><p id="75c8db55-6aee-826e-a67e-012124be97b8" class="">1、localStorage</p></div><div style="display:contents" dir="auto"><pre id="0098db55-6aee-83c7-809d-81b4f929d075" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 增
+localStorage.setItem(&quot;name&quot;, &quot;k&quot;);
+// 取
+localStorage.getItem(&quot;name&quot;);
+// 删
+localStorage.removeItem(&quot;name&quot;);
+// 清空
+localStorage.clear()</code></pre></div><div style="display:contents" dir="auto"><p id="2b08db55-6aee-8314-b0ff-01005e538ea1" class="">2、sessionStorage</p></div><div style="display:contents" dir="auto"><pre id="5ab8db55-6aee-8321-803e-01953f6c78af" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 增
+sessionStorage.setItem(&quot;name&quot;, &quot;K&quot;);
+// 取
+sessionStorage.getItem(&quot;name&quot;);
+// 删
+sessionStorage.removeItem(&quot;name&quot;);
+// 清空
+sessionStorage.clear()</code></pre></div><div style="display:contents" dir="auto"><pre id="d458db55-6aee-821a-8a9a-819c09d00123" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;button id=&quot;btn&quot;&gt;存&lt;/button&gt;
+&lt;button id=&quot;btn2&quot;&gt;取&lt;/button&gt;
+&lt;button id=&quot;btn3&quot;&gt;删&lt;/button&gt;
+&lt;button id=&quot;btn4&quot;&gt;clear&lt;/button&gt;
+&lt;script&gt;
+    btn.onclick = function() { // 只能存字符串
+        localStorage.setItem(&quot;age&quot;, &quot;200&quot;);
+        localStorage.setItem(&quot;obj&quot;, JSON.stringify({name:&quot;k&quot;, age:100}));
+    }
+
+    btn2.onclick = function() {
+        console.log(localStorage.getItem(&quot;age&quot;));
+        console.log(JSON.parse(localStorage.getItem(&quot;obj&quot;)));
+    }
+
+    btn3.onclick = function() {
+        localStorage.removeItem(&quot;age&quot;);
+    }
+
+    btn4.onclick = function() {
+        localStorage.clear();
+    }
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="66c8db55-6aee-8345-8c1e-812555dfad0d" class="toggle"><li><details open=""><summary>记住用户名案例</summary><div style="display:contents" dir="auto"><pre id="d148db55-6aee-83d5-9718-01b7bf826679" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;
+        username:
+        &lt;input type=&quot;text&quot; id=&quot;username&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div&gt;
+        password:
+        &lt;input type=&quot;password&quot; id=&quot;password&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div&gt;
+        &lt;button id=&quot;login&quot;&gt; login&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        // 先获取用户名信息
+        var getUsername = localStorage.getItem(&quot;username&quot;);
+        var getPassword = localStorage.getItem(&quot;password&quot;);
+
+        if (getUsername &amp;&amp; getPassword) {
+            username.value = getUsername;
+            password.value = getPassword;
+        }
+
+        login.onclick = function() {
+            // console.log(username.value, password.value);
+            localStorage.setItem(&quot;username&quot;, username.value);
+            localStorage.setItem(&quot;password&quot;, password.value);
+        }
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

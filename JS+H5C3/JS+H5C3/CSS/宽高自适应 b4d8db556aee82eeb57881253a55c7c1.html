@@ -1,0 +1,801 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>宽高自适应</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b4d8db55-6aee-82ee-b578-81253a55c7c1" class="page sans"><header><h1 class="page-title" dir="auto">宽高自适应</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="fad8db55-6aee-83c8-81ab-01df4e2c1e9e" class="toggle"><li><details open=""><summary>宽度自适应：元素宽度随外部容器或浏览器窗口变化而自动调整。</summary><div style="display:contents" dir="auto"><p id="b098db55-6aee-82a0-bbf4-015b487f4ef4" class="">1、块级元素默认特性：</p></div><div style="display:contents" dir="auto"><p id="2ba8db55-6aee-82f7-945d-81d684beaade" class=""><code>div，p，section</code>等，默认情况下会根据父元素的全部可用宽度（width：100%），并且会自动换行</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3d78db55-6aee-8206-ab37-0111ea8dbbdc" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.box {
+  /* 无需设置width，默认占满父元素宽度 */
+  background: #f0f0f0;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="ff08db55-6aee-82ec-b2a5-0165ae110149" class="">2、通过<code>width：百分比</code> 让元素宽度相对于父元素宽度自适应</p></div><div style="display:contents" dir="auto"><pre id="5138db55-6aee-83e2-9e85-01115def3217" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.child {
+  width: 50%; /* 宽度为父元素宽度的50% */
+}</code></pre></div><div style="display:contents" dir="auto"><p id="22e8db55-6aee-8242-b2b4-01be47532001" class="">3、使用<code>max-width</code> 和<code>min-width</code> 限制范围</p></div><div style="display:contents" dir="auto"><p id="8528db55-6aee-83bc-bd46-01206ecab950" class=""><code>max-width</code>：设置元素的最大宽度，避免元素过宽（如在大屏幕上内容过度拉伸）。</p></div><div style="display:contents" dir="auto"><p id="e958db55-6aee-8250-84d2-013dd28383bc" class=""><code>min-width</code>：设置元素的最小宽度，避免元素过窄（如在小屏幕上内容挤压变形）。</p></div><div style="display:contents" dir="auto"><pre id="0a98db55-6aee-8309-8e03-814a63ef212c" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.container {
+  width: 80%;
+  max-width: 1200px; /* 最大不超过1200px */
+  min-width: 320px; /* 最小不小于320px（适配手机） */
+  margin: 0 auto; /* 居中显示 */
+}</code></pre></div><div style="display:contents" dir="auto"><p id="ba38db55-6aee-82d5-beca-01469d8e3a82" class="">4、浮动与overflow配合，</p></div><div style="display:contents" dir="auto"><p id="5b08db55-6aee-827c-bd3f-0169127f3ca7" class="">浮动元素（<code>float: left/right</code>）的宽度默认由内容决定，但可通过父元素的 <code>overflow: hidden</code> 触发 BFC（块级格式化上下文），让父元素自适应包含浮动子元素的宽度。</p></div><div style="display:contents" dir="auto"><p id="7678db55-6aee-8288-b5b9-81e70ea3d4f1" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1d38db55-6aee-83f4-9a35-81f13d6bf8c7" class="toggle"><li><details open=""><summary>高度自适应：元素高度默认由内容撑开，若需随父元素或窗口变化，需特殊处理。</summary><div style="display:contents" dir="auto"><p id="0878db55-6aee-8361-b6a6-81073974e2f6" class="">1、若元素未设置固定高度时，高度会默认由内部内容（文本，子元素等）撑开，内容增加时，高度自动变大。</p></div><div style="display:contents" dir="auto"><pre id="a698db55-6aee-8378-9c26-01605f46adec" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.content {
+  /* 不设置height，高度随内容变化 */
+  padding: 20px;
+  background: #eee;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="27f8db55-6aee-82da-bead-81e21a45e865" class="">2、百分比限制</p></div><div style="display:contents" dir="auto"><p id="b048db55-6aee-82a6-a926-014144e85a28" class="">与宽度不同，<code>height: 百分比</code> 生效的前提是<strong>父元素必须有明确的高度</strong>（不能是默认的 <code>auto</code>）。</p></div><div style="display:contents" dir="auto"><pre id="8358db55-6aee-83af-8e38-8132225da4ad" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.parent {
+  height: 500px; /* 父元素明确高度 */
+}
+.child {
+  height: 50%; /* 子元素高度为父元素的50%（即250px） */
+}</code></pre></div><div style="display:contents" dir="auto"><p id="1a48db55-6aee-835e-9577-01d710ae84c7" class="">3、全屏高度自适应</p></div><div style="display:contents" dir="auto"><p id="b958db55-6aee-82bf-9a52-81424064d295" class="">要让元素高度占满整个浏览器窗口，可借助 <code>html</code> 和 <code>body</code> 传递高度</p></div><div style="display:contents" dir="auto"><pre id="9d48db55-6aee-8291-a4aa-8193d358eaab" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">html, body {
+  height: 100%; /* 让html和body占满窗口高度 */
+  margin: 0; /* 清除默认边距 */
+}
+.full-screen {
+  height: 100%; /* 继承body的100%高度，即全屏 */
+}</code></pre></div><div style="display:contents" dir="auto"><p id="7f88db55-6aee-83c8-8999-01f08f016d64" class="">4、使用<code>min-height</code>和<code>max-height</code> 限制范围</p></div><div style="display:contents" dir="auto"><p id="a148db55-6aee-8250-ad9e-01db173a495f" class=""><code>min-height</code>：设置元素最小高度，内容不足时保持该高度；内容超出时自动撑开。</p></div><div style="display:contents" dir="auto"><p id="2628db55-6aee-8250-b31a-01cbbcace7df" class=""><code>max-height</code>：设置元素最大高度，内容超出时会出现滚动条（需配合 <code>overflow: auto</code>）。</p></div><div style="display:contents" dir="auto"><pre id="e898db55-6aee-824e-9069-0163f3762d48" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.scroll-box {
+  min-height: 100px;
+  max-height: 300px;
+  overflow: auto; /* 内容超出max-height时显示滚动条 */
+}</code></pre></div><div style="display:contents" dir="auto"><p id="4028db55-6aee-824e-a523-010b42444b3b" class="">5、弹性布局（Flexbox）</p></div><div style="display:contents" dir="auto"><p id="4578db55-6aee-83e0-99e7-81ef99fef201" class="">弹性容器中，子元素，可以通过flex属性自动分配父元素的剩余高度</p></div><div style="display:contents" dir="auto"><pre id="25d8db55-6aee-82a7-bcc2-81dc2f7b1d47" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.flex-container {
+  display: flex;
+  flex-direction: column;
+  height: 500px; /* 父容器固定高度 */
+}
+.flex-child {
+  flex: 1; /* 自动占满父容器剩余高度 */
+}</code></pre></div><div style="display:contents" dir="auto"><p id="2168db55-6aee-8366-9ad2-014301118998" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="01d8db55-6aee-83ba-90fb-012af2c32a77" class="toggle"><li><details open=""><summary>浮动元素的父元素（高度塌陷）高度自适应</summary><div style="display:contents" dir="auto"><p id="d9e8db55-6aee-8354-8b27-01f3b9f53863" class="">使用伪元素清除（清除浮动）</p></div><div style="display:contents" dir="auto"><pre id="fd58db55-6aee-8200-9079-0134c2f966a5" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.box::after {
+	  content: &quot;&quot;;
+	  clear: both;
+	  display: block;
+	  width: 0; /* 避免显示内容 */
+	  height: 0; /* 避免显示内容 */
+	  visibility: hidden; /* 占位隐藏 */
+    /* display: none; 不占位隐藏 */ 
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e328db55-6aee-83a3-b296-01ab4ec074fa" class="toggle"><li><details open=""><summary>窗口自适应</summary><div style="display:contents" dir="auto"><p id="0088db55-6aee-8251-b757-01383895dc93" class="">正常设置div等盒子时，设置height，width设置自适应，会相对于祖先盒子html和body。</p></div><div style="display:contents" dir="auto"><p id="c368db55-6aee-8269-9f09-815aef235295" class="">但默认html，body的height为0，所以div盒子为高度height为0，更改为如下即可</p></div><div style="display:contents" dir="auto"><pre id="2b58db55-6aee-821a-9f13-81d01531cc22" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">html, body {
+		height: 100%;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b478db55-6aee-8293-b65a-813e786be96a" class="toggle"><li><details open=""><summary>特殊场景</summary><div style="display:contents" dir="auto"><p id="3f58db55-6aee-8278-ba0f-01d207225b8a" class="">1、图片自适应</p></div><div style="display:contents" dir="auto"><p id="45d8db55-6aee-82df-8f5d-8167acc5bad1" class="">图片默认按照原始尺寸，可能导致溢出容器，通过以下方式自适应:</p></div><div style="display:contents" dir="auto"><pre id="15c8db55-6aee-82a3-8e1c-810e10aec6d0" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">img {
+	max-width: 100%; /* 宽度不超过父容器，自动缩小 */
+	height: auto; /* 高度按比例自适应，避免变形 */
+}</code></pre></div><div style="display:contents" dir="auto"><p id="b9a8db55-6aee-83d0-a26e-01dbfec6a939" class="">2、表格自适应</p></div><div style="display:contents" dir="auto"><p id="2f58db55-6aee-82ff-ac1e-817066f73aa7" class="">表格（table）可以通过<code>width：100%</code> 自适应父容器宽度，同时<code>table-layout：fixed</code> 让列宽均匀分配：</p></div><div style="display:contents" dir="auto"><pre id="a738db55-6aee-828e-88bf-815d93335589" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">table {
+  width: 100%;
+  table-layout: fixed; /* 列宽按比例分配，不随内容变化 */
+}</code></pre></div><div style="display:contents" dir="auto"><p id="f7a8db55-6aee-8372-8faa-815d00c2e927" class="">3、视窗单位<strong>（vw/vh）</strong></p></div><div style="display:contents" dir="auto"><p id="b718db55-6aee-834f-99b3-81a556d10595" class="">使用视窗单位可让元素宽高直接相对于浏览器窗口尺寸自适应：</p></div><div style="display:contents" dir="auto"><p id="6188db55-6aee-830f-91be-817e4bfeadcc" class=""><code>vw</code>：1vw = 视窗宽度的 1%</p></div><div style="display:contents" dir="auto"><p id="a8e8db55-6aee-831b-a610-01a9928ade86" class=""><code>vh</code>：1vh = 视窗高度的 1%</p></div><div style="display:contents" dir="auto"><pre id="a818db55-6aee-834c-8696-01b671067180" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.header {
+  width: 100vw; /* 宽度等于窗口宽度 */
+  height: 10vh; /* 高度为窗口高度的10% */
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="2968db55-6aee-8285-a9a5-810547f38c8b" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

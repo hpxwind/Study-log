@@ -1,0 +1,932 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>网络编程</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6d28db55-6aee-8397-9e0e-814e835aec40" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/usda_cherries.png" style="object-position:center 48%"/><h1 class="page-title" dir="auto">网络编程</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="4e48db55-6aee-835a-acfd-01a59fa476d4" class="">TCP协议</h1></div><div style="display:contents" dir="auto"><p id="f9a8db55-6aee-8286-b91a-812ca5e6c2e8" class="">tcp面向连接的运输层协议，比较复杂，安全，效率低，使用tcp协议前需要建立连接，才能传输数据，数据传输完毕之后需要释放连接</p></div><div style="display:contents" dir="auto"><p id="ee48db55-6aee-82f7-9fa6-81c7e3e4a965" class="">ServerScoket</p></div><div style="display:contents" dir="ltr"><table id="e978db55-6aee-8362-9548-817c14ee1496" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="e3d8db55-6aee-824d-9f5d-01db786ff907"><td id="?UU`" class="" style="width:416.6651916503906px">方法</td><td id="D`X=" class="" style="width:290.6651916503906px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="4258db55-6aee-8237-9ccf-812743dc909d"><td id="?UU`" class="" style="width:416.6651916503906px">public ServerSocket(int port)</td><td id="D`X=" class="" style="width:290.6651916503906px">根据端口创建ServerSocket对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="fcc8db55-6aee-82eb-89f1-016a3461828b"><td id="?UU`" class="" style="width:416.6651916503906px">public ServerSocket(int port,int backlog,InetAddress address)</td><td id="D`X=" class="" style="width:290.6651916503906px">根据端口，backlog，IP地址创建对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="1008db55-6aee-82a1-ac0b-01f0e3053f5d"><td id="?UU`" class="" style="width:416.6651916503906px">public Socket accept()</td><td id="D`X=" class="" style="width:290.6651916503906px">等待客户端请求，返回Socket对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="2e78db55-6aee-82e0-8125-81600142373c"><td id="?UU`" class="" style="width:416.6651916503906px">public void close()</td><td id="D`X=" class="" style="width:290.6651916503906px">关闭ServerSocket</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="ef58db55-6aee-83ab-a3d2-816198fb633b" class="">Socket</p></div><div style="display:contents" dir="ltr"><table id="2dd8db55-6aee-83b0-b568-01944c907cd3" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="af68db55-6aee-83b2-a07f-812134feb2a6"><td id="d]]I" class="" style="width:418.6651916503906px">方法</td><td id="R{zb" class="" style="width:295.6651916503906px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="a858db55-6aee-831f-8386-81a96f3e0fae"><td id="d]]I" class="" style="width:418.6651916503906px">public Socket(String host, int port)</td><td id="R{zb" class="" style="width:295.6651916503906px">根据主机，端口创建要连接的Socket对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="b9a8db55-6aee-837b-85c4-810bfcb04ab6"><td id="d]]I" class="" style="width:418.6651916503906px">public Socket(InetAddress host,int port)</td><td id="R{zb" class="" style="width:295.6651916503906px">根据ip，端口创建要连接的Socket对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="92a8db55-6aee-8355-bb58-01a0302a92d5"><td id="d]]I" class="" style="width:418.6651916503906px">public InputStream getInputStream()</td><td id="R{zb" class="" style="width:295.6651916503906px">获取Socket输入流</td></tr></div><div style="display:contents" dir="ltr"><tr id="c318db55-6aee-820b-982e-013bcbc4163b"><td id="d]]I" class="" style="width:418.6651916503906px">public OutputStream getOutPutSream()</td><td id="R{zb" class="" style="width:295.6651916503906px">获取Socket输出流（发送信息）</td></tr></div><div style="display:contents" dir="ltr"><tr id="6748db55-6aee-8249-b91e-817156456634"><td id="d]]I" class="" style="width:418.6651916503906px">public synchronized void close()</td><td id="R{zb" class="" style="width:295.6651916503906px">关闭Socket</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ul id="35d8db55-6aee-8275-bd52-0178d83a20ee" class="toggle"><li><details open=""><summary>简单例子</summary><div style="display:contents" dir="auto"><p id="b708db55-6aee-8327-a1d0-81dc5fe9c3b5" class="">Server.java</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="b4d8db55-6aee-83d5-8699-01b4ccdc12cb" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Server {
+
+    public static void main(String[] args) throws IOException {
+        // 1. 创建ServerSocket对象，绑定8888端口
+        try (ServerSocket serverSocket = new ServerSocket(8888)) {
+            System.out.println(&quot;服务器已连接，等待客户端连接...&quot;);
+
+            // 2. 阻塞等待客户端连接，返回Socket对象
+            Socket socket = serverSocket.accept();
+            System.out.println(&quot;客户端已连接: &quot; + socket.getInetAddress());
+
+            // 3. 获取Socket 输入流，读取客户端发送的数据
+            InputStream inputStream = socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String message = reader.readLine();
+            System.out.println(&quot;收到: &quot; + message);
+
+            // 4. 回复
+            String resp = &quot;Hello world&quot;;
+            OutputStream outputStream = socket.getOutputStream();
+            outputStream.write((resp+&quot;\n&quot;).getBytes());
+
+            // 5. 关闭socket连接
+            socket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="a238db55-6aee-82ee-b8d0-81a8983e88f7" class="">Client.java</p></div><div style="display:contents" dir="auto"><pre id="6908db55-6aee-8337-a659-810cb6e45e32" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
+
+public class Client {
+    public static void main(String[] args) {
+        // 1. 创建 Socket，连接本机 8888 端口
+        try (Socket socket = new Socket(&quot;127.0.0.1&quot;, 8888)) {
+            System.out.println(&quot;成功连接到服务端！&quot;);
+
+            // 2. 获取输出流，发送消息
+            OutputStream outputStream = socket.getOutputStream();
+            outputStream.write(&quot;你好，我是客户端！\n&quot;.getBytes());
+
+            // 3. 获取服务端的信息
+            InputStream inputStream = socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String message = reader.readLine();
+            System.out.println(&quot;收到: &quot; + message);
+
+            // 3. 自动关闭 Socket
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="46b8db55-6aee-8319-8fa8-816ae93334c1"/></div><div style="display:contents" dir="auto"><h1 id="9698db55-6aee-83b1-b04e-0132bb72a9cd" class="">UDP协议</h1></div><div style="display:contents" dir="auto"><p id="0478db55-6aee-8342-8884-811846945b8f" class="">UDP协议相反，效率高，不安全</p></div><div style="display:contents" dir="auto"><p id="55c8db55-6aee-8310-970a-0179b2e20e6f" class="">DatagramSocket</p></div><div style="display:contents" dir="ltr"><table id="7db8db55-6aee-833c-8dbc-01f8d5853627" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="8d38db55-6aee-8214-ab94-8163d2c6e78d"><td id="HvqZ" class="" style="width:432.65625px">方法</td><td id="Ve^V" class="" style="width:274.6651916503906px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="2958db55-6aee-8251-882c-81069d1878d3"><td id="HvqZ" class="" style="width:432.65625px">public DatagramSocket(int port)</td><td id="Ve^V" class="" style="width:274.6651916503906px">根据端口创建DatagramSocket对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="1b78db55-6aee-8394-bedd-81d5bc56f5c5"><td id="HvqZ" class="" style="width:432.65625px">public void send(DatagramPacket p)</td><td id="Ve^V" class="" style="width:274.6651916503906px">发送数据包</td></tr></div><div style="display:contents" dir="ltr"><tr id="e648db55-6aee-8286-b8c1-016f153c6422"><td id="HvqZ" class="" style="width:432.65625px">public synchronized receive(DatagramPacket p)</td><td id="Ve^V" class="" style="width:274.6651916503906px">接收数据包</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="a5f8db55-6aee-8257-9fab-81074d3e9f70" class="">DatagramPacket</p></div><div style="display:contents" dir="ltr"><table id="1828db55-6aee-83de-9654-81e00f38a37b" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="f678db55-6aee-82f8-aec5-01873e3e44a1"><td id="f_&lt;[" class="" style="width:442.6651916503906px">方法</td><td id="vbMj" class="" style="width:272.6651916503906px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="8238db55-6aee-82b6-bf3e-815ba9da44bd"><td id="f_&lt;[" class="" style="width:442.6651916503906px">public DatagramPacket(byte buf[],int length, IntAddress address, int port)</td><td id="vbMj" class="" style="width:272.6651916503906px">根据发送的数据，数据长度，IP地址，端口创建DatagramPacket对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="2208db55-6aee-83bf-b5fe-81eeb730e232"><td id="f_&lt;[" class="" style="width:442.6651916503906px">public synchronized byte[] getData()</td><td id="vbMj" class="" style="width:272.6651916503906px">获取接收的数据</td></tr></div><div style="display:contents" dir="ltr"><tr id="8e68db55-6aee-8251-9faa-8191f35e0837"><td id="f_&lt;[" class="" style="width:442.6651916503906px">public synchronized int getLength()</td><td id="vbMj" class="" style="width:272.6651916503906px">获取数据长度</td></tr></div><div style="display:contents" dir="ltr"><tr id="8ac8db55-6aee-83f0-8708-01b1819951e0"><td id="f_&lt;[" class="" style="width:442.6651916503906px">public sunchronized int getPort()</td><td id="vbMj" class="" style="width:272.6651916503906px">获取发送数据的Socket 端口</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ul id="1448db55-6aee-83a6-85cc-01fb1e4e8f0a" class="toggle"><li><details open=""><summary>简单案例</summary><div style="display:contents" dir="auto"><p id="2fb8db55-6aee-8349-8584-010afee3730e" class="">Server.java</p></div><div style="display:contents" dir="auto"><pre id="4008db55-6aee-831d-95d8-81c983dc1fe8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
+public class UDPReceiver {
+    public static void main(String[] args) {
+        // 1. 根据端口创建 DatagramSocket
+        try (DatagramSocket socket = new DatagramSocket(9999)) {
+            System.out.println(&quot;UDP 接收端已启动，等待数据...&quot;);
+
+            // 准备缓冲区
+            byte[] buf = new byte[1024];
+            DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+            // 2. 阻塞接收数据包
+            socket.receive(packet);
+
+            // 3. 获取数据、长度、端口
+            byte[] data = packet.getData();         // 获取数据
+            int len = packet.getLength();          // 获取数据长度
+            int port = packet.getPort();            // 获取对方端口
+            InetAddress ip = packet.getAddress();  // 获取对方IP
+
+            String msg = new String(data, 0, len);
+            System.out.println(&quot;收到来自 &quot; + ip + &quot;:&quot; + port + &quot; 的消息：&quot; + msg);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="0188db55-6aee-830b-b0bd-01bb93117ba5" class="">Client.java</p></div><div style="display:contents" dir="auto"><pre id="f838db55-6aee-8392-b5b2-01b5c6efe9a9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
+public class UDPSender {
+    public static void main(String[] args) {
+        // 1. 创建发送用的 DatagramSocket（端口自动分配）
+        try (DatagramSocket socket = new DatagramSocket()) {
+            // 目标地址和端口
+            InetAddress ip = InetAddress.getByName(&quot;127.0.0.1&quot;);
+            int port = 9999;
+            String msg = &quot;Hello UDP！&quot;;
+
+            // 2. 创建数据包：数据、长度、IP、端口
+            DatagramPacket packet = new DatagramPacket(
+                    msg.getBytes(),
+                    msg.getBytes().length,
+                    ip,
+                    port
+            );
+
+            // 3. 发送数据包
+            socket.send(packet);
+            System.out.println(&quot;发送完成！&quot;);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="e1b8db55-6aee-8367-8704-01249c32a387"/></div><div style="display:contents" dir="auto"><h1 id="cf08db55-6aee-83d0-8bf3-81dd29fee039" class="">多线程下的网络编程</h1></div><div style="display:contents" dir="auto"><p id="9b98db55-6aee-8342-9564-819e947004ce" class="">每来一个客户端就创建一个新的线程处理，主线程负责监听连接，不处理业务</p></div><div style="display:contents" dir="auto"><ul id="0ed8db55-6aee-8258-a93a-01230dd569d1" class="toggle"><li><details open=""><summary>例子</summary><div style="display:contents" dir="auto"><p id="f6c8db55-6aee-824e-bc6d-81cf54540ad4" class="">Server.java</p></div><div style="display:contents" dir="auto"><pre id="8858db55-6aee-8255-9cad-01590128358a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.io.*;
+import java.net.*;
+
+public class MultiThreadServer {
+    public static void main(String[] args) throws IOException {
+        // 监听 8888 端口
+        ServerSocket serverSocket = new ServerSocket(8888);
+        System.out.println(&quot;多线程服务端已启动，等待客户端连接...&quot;);
+
+        while (true) {
+            // 阻塞等待客户端连接
+            Socket socket = serverSocket.accept();
+            System.out.println(&quot;新客户端连接：&quot; + socket.getInetAddress());
+
+            // 为每个客户端创建新线程
+            new Thread(new ClientHandler(socket)).start();
+        }
+    }
+}
+
+// 客户端处理线程（核心）
+class ClientHandler implements Runnable {
+    private Socket socket;
+
+    public ClientHandler(Socket socket) {
+        this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+        try (
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true)
+        ) {
+            String msg;
+            // 循环读取客户端消息
+            while ((msg = in.readLine()) != null) {
+                System.out.println(&quot;收到客户端：&quot; + msg);
+                out.println(&quot;服务端已收到：&quot; + msg); // 回写数据
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                socket.close();
+            } catch (IOException e) {}
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="5828db55-6aee-83c1-a929-8159d74cc720" class="">Client.java</p></div><div style="display:contents" dir="auto"><pre id="dff8db55-6aee-823a-900a-01122f073aeb" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+
+public class Client {
+    public static void main(String[] args) throws IOException {
+        Socket socket = new Socket(&quot;127.0.0.1&quot;, 8888);
+        Scanner scanner = new Scanner(System.in);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+        while (true) {
+            System.out.print(&quot;请输入消息：&quot;);
+            String msg = scanner.nextLine();
+            out.println(msg);
+
+            String resp = in.readLine();
+            System.out.println(resp);
+        }
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="a2b8db55-6aee-8247-82fb-81be881fe10f" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,1374 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>集合框架</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="19c8db55-6aee-8267-b755-81b3eef58982" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/met_william_morris_1878.jpg" style="object-position:center 0%"/><h1 class="page-title" dir="auto">集合框架</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="3c68db55-6aee-837a-bd0f-01f24e552179" class="">什么是集合？</p></div><div style="display:contents" dir="auto"><p id="a308db55-6aee-8350-8807-817279e2360d" class="">一个长度可变，可以保存任何数据类型的动态数组</p></div><div style="display:contents" dir="auto"><p id="1cb8db55-6aee-824c-9d7e-010eaa661c73" class="">在java中由一组接口和类共同构成的框架体系（而非一个类）</p></div><div style="display:contents" dir="auto"><p id="5138db55-6aee-8353-a6c9-8187fd5e0cf0" class="">大致可以分为三层：最上层是一组接口，继而是接口的实现类，接下来就是对集合各种操作的工具类</p></div><div style="display:contents" dir="ltr"><table id="2388db55-6aee-8245-8cfd-8164f13bbc51" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="b1e8db55-6aee-824d-9e7e-01542c7960a6"><td id="H=D;" class="" style="width:151.65625px">接口</td><td id="Or~H" class="" style="width:568.6651916503906px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="b7c8db55-6aee-8347-b953-817a1d843645"><td id="H=D;" class="" style="width:151.65625px">Collection</td><td id="Or~H" class="" style="width:568.6651916503906px">结合框架最基础的接口，一个Collection存储一组无需，不唯一的对象，一般不直接使用该接口</td></tr></div><div style="display:contents" dir="ltr"><tr id="7c48db55-6aee-8261-93b7-0143ee63def6"><td id="H=D;" class="" style="width:151.65625px">List</td><td id="Or~H" class="" style="width:568.6651916503906px">Collection的子接口，存储一组有序，不唯一的对象，开发中常用</td></tr></div><div style="display:contents" dir="ltr"><tr id="c6b8db55-6aee-83e4-827b-8153e91cd8df"><td id="H=D;" class="" style="width:151.65625px">Set</td><td id="Or~H" class="" style="width:568.6651916503906px">Collection的子接口，存储一组无序，唯一的对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="8578db55-6aee-839f-9a63-012b91b20c0e"><td id="H=D;" class="" style="width:151.65625px">Map</td><td id="Or~H" class="" style="width:568.6651916503906px">独立于Collection的另外一个接口，存储一组键值对，提供键到值的映射</td></tr></div><div style="display:contents" dir="ltr"><tr id="88f8db55-6aee-8253-a40b-81cc22341b3f"><td id="H=D;" class="" style="width:151.65625px">Iterator</td><td id="Or~H" class="" style="width:568.6651916503906px">专门用来输出集合元素的接口，一般适用于无序集合，从前往后输出元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="2f48db55-6aee-8218-8c8e-81adeae696b3"><td id="H=D;" class="" style="width:151.65625px">ListIterator</td><td id="Or~H" class="" style="width:568.6651916503906px">Iterator的子接口，可以双向输出集合中的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="cbd8db55-6aee-836e-86b3-01e358462d72"><td id="H=D;" class="" style="width:151.65625px">Enumeration</td><td id="Or~H" class="" style="width:568.6651916503906px">传统的输出接口，已经被Iterator取代</td></tr></div><div style="display:contents" dir="ltr"><tr id="f928db55-6aee-8351-9898-0130952672e0"><td id="H=D;" class="" style="width:151.65625px">SortedSet</td><td id="Or~H" class="" style="width:568.6651916503906px">Set的子接口，可以对集合元素进行排序</td></tr></div><div style="display:contents" dir="ltr"><tr id="d978db55-6aee-82c5-a46f-014c6db1753e"><td id="H=D;" class="" style="width:151.65625px">SortedMap</td><td id="Or~H" class="" style="width:568.6651916503906px">Map的子接口，可以对集合中的键元素进行排序</td></tr></div><div style="display:contents" dir="ltr"><tr id="f918db55-6aee-83e0-9c4e-01685826e544"><td id="H=D;" class="" style="width:151.65625px">Queue</td><td id="Or~H" class="" style="width:568.6651916503906px">队列接口，此接口实现类可以实现队列操作</td></tr></div><div style="display:contents" dir="ltr"><tr id="8f58db55-6aee-835a-8511-81c6900f872f"><td id="H=D;" class="" style="width:151.65625px">Map.Entry</td><td id="Or~H" class="" style="width:568.6651916503906px">Map的内部接口，描述Map中的一个键值对元素</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h1 id="1148db55-6aee-83b4-895d-0108049a392a" class="">Collection接口</h1></div><div style="display:contents" dir="auto"><p id="9048db55-6aee-8294-aee9-0132e02eab63" class="">Collection是集合框架中最基础的父接口，可以存储一组无序，不唯一的对象</p></div><div style="display:contents" dir="auto"><p id="3348db55-6aee-83c0-a69f-01561d150398" class="">Iterable专门用来迭代，即把集合中的所有元素都取出来</p></div><div style="display:contents" dir="auto"><p id="6618db55-6aee-8357-b582-01a896f9b58b" class="">Collection中的所有元素可以通过Iterator进行迭代（List，Set）</p></div><div style="display:contents" dir="auto"><p id="d108db55-6aee-8282-b9d2-810553739c4d" class="">Collection 常用方法</p></div><div style="display:contents" dir="ltr"><table id="4ff8db55-6aee-825f-b9ff-015dda1ec5a1" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="e2d8db55-6aee-827f-93bd-01214d1e2730"><td id="ubpw" class="" style="width:245.65625px">方法</td><td id="u}M:" class="" style="width:277.6584930419922px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="e0f8db55-6aee-822f-9c69-016e77ccf476"><td id="ubpw" class="" style="width:245.65625px">int size()</td><td id="u}M:" class="" style="width:277.6584930419922px">获取集合长度</td></tr></div><div style="display:contents" dir="ltr"><tr id="6f38db55-6aee-8210-a34e-01274a6c2a69"><td id="ubpw" class="" style="width:245.65625px">boolean isEmpty()</td><td id="u}M:" class="" style="width:277.6584930419922px">判断集合是否为空</td></tr></div><div style="display:contents" dir="ltr"><tr id="aba8db55-6aee-83e2-a428-81d7c6f6e3b9"><td id="ubpw" class="" style="width:245.65625px">boolean contains(Object o)</td><td id="u}M:" class="" style="width:277.6584930419922px">判断集合中是否包含某个元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="5798db55-6aee-8205-93a5-01671db7b7d1"><td id="ubpw" class="" style="width:245.65625px">Iterator&lt;E&gt; Iterator()</td><td id="u}M:" class="" style="width:277.6584930419922px">实例化Iterator接口，遍历集合</td></tr></div><div style="display:contents" dir="ltr"><tr id="1fb8db55-6aee-82f9-96ba-81533c36584f"><td id="ubpw" class="" style="width:245.65625px">Object[] toArray()</td><td id="u}M:" class="" style="width:277.6584930419922px">将集合转换为一个Object类型的对象数组</td></tr></div><div style="display:contents" dir="ltr"><tr id="e208db55-6aee-8262-aa15-0195dd6e31b4"><td id="ubpw" class="" style="width:245.65625px">boolean add(E e)</td><td id="u}M:" class="" style="width:277.6584930419922px">向集合中添加元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="30b8db55-6aee-83bf-8d3c-81bd6f0b3809"><td id="ubpw" class="" style="width:245.65625px">boolean remove(Object o)</td><td id="u}M:" class="" style="width:277.6584930419922px">从集合中移除元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="6398db55-6aee-83d1-97d8-0114b3d52965"><td id="ubpw" class="" style="width:245.65625px">boolean containsAll(Collection c)</td><td id="u}M:" class="" style="width:277.6584930419922px">判读能集合中是否存在某一个集合的所有的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="8da8db55-6aee-8316-9e73-012ff8fec5c0"><td id="ubpw" class="" style="width:245.65625px">boolean addAll(Collection c)</td><td id="u}M:" class="" style="width:277.6584930419922px">从集合中添加某个集合的所有元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="cae8db55-6aee-8392-881f-0157d5a86e23"><td id="ubpw" class="" style="width:245.65625px">boolean removeAll(Collection c)</td><td id="u}M:" class="" style="width:277.6584930419922px">从集合中移除满足条件的另一个集合</td></tr></div><div style="display:contents" dir="ltr"><tr id="e8d8db55-6aee-83e4-87a8-01595d13d353"><td id="ubpw" class="" style="width:245.65625px">void clear()</td><td id="u}M:" class="" style="width:277.6584930419922px">清空集合</td></tr></div><div style="display:contents" dir="ltr"><tr id="ef78db55-6aee-83e0-a819-01139a9cab12"><td id="ubpw" class="" style="width:245.65625px">boolean equals(Object o)</td><td id="u}M:" class="" style="width:277.6584930419922px">比较两个集合是否相等</td></tr></div><div style="display:contents" dir="ltr"><tr id="bb68db55-6aee-82da-bd83-8161296b4fcf"><td id="ubpw" class="" style="width:245.65625px">int hashCode()</td><td id="u}M:" class="" style="width:277.6584930419922px">获取集合对象的散列值</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h2 id="4688db55-6aee-83a8-8698-81a513d2d57e" class="">Collection的子接口</h2></div><div style="display:contents" dir="auto"><p id="3f68db55-6aee-8307-a88a-01e5a73736f1" class="">使用子接口</p></div><div style="display:contents" dir="auto"><ul id="6078db55-6aee-824a-af64-81fb14991641" class="bulleted-list"><li style="list-style-type:disc">List：存放有序，不唯一的元素</li></ul></div><div style="display:contents" dir="auto"><ul id="8af8db55-6aee-82cf-81d4-81914aae03e4" class="bulleted-list"><li style="list-style-type:disc">Set：存放无序，唯一的元素</li></ul></div><div style="display:contents" dir="auto"><ul id="9028db55-6aee-8246-ab2b-8161b9ee681b" class="bulleted-list"><li style="list-style-type:disc">Queue：队列接口</li></ul></div><div style="display:contents" dir="auto"><h1 id="5e88db55-6aee-83d2-914f-015a117c7adf" class="">List接口</h1></div><div style="display:contents" dir="auto"><p id="2558db55-6aee-82db-a3df-01f20dcb6026" class="">List接口在继承Collection接口的基础上进行扩展，常用的扩展方法</p></div><div style="display:contents" dir="ltr"><table id="f948db55-6aee-82dc-b69e-01e8ffa5c917" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="1928db55-6aee-822a-b8b4-818518555210"><td id="vvK}" class="" style="width:313.6495666503906px">方法</td><td id="qxyc" class="" style="width:358.6450958251953px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="d318db55-6aee-8270-91fb-81becfc3ffe4"><td id="vvK}" class="" style="width:313.6495666503906px">E get(int index)</td><td id="qxyc" class="" style="width:358.6450958251953px">通过下标获取指定位置的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="f068db55-6aee-83d9-8135-0124f2b02601"><td id="vvK}" class="" style="width:313.6495666503906px">E set(int index, E element)</td><td id="qxyc" class="" style="width:358.6450958251953px">替换集合中指定位置的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="6cc8db55-6aee-82ae-b21a-8106ba5fc5ae"><td id="vvK}" class="" style="width:313.6495666503906px">void add(int index, E element)</td><td id="qxyc" class="" style="width:358.6450958251953px">向集合中的指定位置添加元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="d048db55-6aee-83da-83a4-01a6a24c30a2"><td id="vvK}" class="" style="width:313.6495666503906px">E remove(int index)</td><td id="qxyc" class="" style="width:358.6450958251953px">通过下标删除集合中指定位置的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="c4e8db55-6aee-83cb-9175-816779198967"><td id="vvK}" class="" style="width:313.6495666503906px">int indexOf(Object o)</td><td id="qxyc" class="" style="width:358.6450958251953px">查找某个对象在集合中的下标</td></tr></div><div style="display:contents" dir="ltr"><tr id="7068db55-6aee-82fb-b367-811c6ca9e78b"><td id="vvK}" class="" style="width:313.6495666503906px">int lastIndexOf(Object o)</td><td id="qxyc" class="" style="width:358.6450958251953px">从后向前查找某个对象在集合中的下标</td></tr></div><div style="display:contents" dir="ltr"><tr id="2708db55-6aee-8314-a5e1-81efa44f93d7"><td id="vvK}" class="" style="width:313.6495666503906px">Listiterator&lt;E&gt; listIterator()</td><td id="qxyc" class="" style="width:358.6450958251953px">实例化ListIterator接口</td></tr></div><div style="display:contents" dir="ltr"><tr id="a638db55-6aee-8336-a81c-01b84d005bb6"><td id="vvK}" class="" style="width:313.6495666503906px">List&lt;E&gt;subList(int fromIndex, int toIndex)</td><td id="qxyc" class="" style="width:358.6450958251953px">获取集合中的字集合</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h2 id="3f18db55-6aee-8360-8ebe-0110c7ed2591" class="">List接口的实现类</h2></div><div style="display:contents" dir="auto"><p id="6388db55-6aee-821c-8096-01fec66f8a63" class="">ArrayList 实现了<mark class="highlight-yellow_background">长度可变的数组</mark></p></div><div style="display:contents" dir="auto"><p id="a418db55-6aee-824b-a6e7-0192876df876" class="">优点：查找快，因为元素是连续的，可以快速求出下标从而取出元素</p></div><div style="display:contents" dir="auto"><p id="7778db55-6aee-832a-b233-812c48ea5323" class="">缺点：增删慢，因为元素是连续的，需要顺序找到增删的元素再增删</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="34d8db55-6aee-82bb-8aa8-81a24462a869" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">int类型ArrayList第n个元素的地址 = n*0004</code></pre></div><div style="display:contents" dir="auto"><hr id="ef98db55-6aee-82d5-98cb-81744c63b049"/></div><div style="display:contents" dir="auto"><hr id="07f8db55-6aee-82ab-ab76-810a03e8e2e1"/></div><div style="display:contents" dir="auto"><p id="70e8db55-6aee-8375-8244-0159a2e451fe" class="">LinkedList采用链表的形式来存储数据，何ArrayList恰好相反</p></div><div style="display:contents" dir="auto"><p id="33a8db55-6aee-8230-9cb6-8109bed0fde5" class="">优点：增删快</p></div><div style="display:contents" dir="auto"><p id="d6e8db55-6aee-83fa-b32a-81880ae71424" class="">缺点：查询慢</p></div><div style="display:contents" dir="auto"><hr id="6108db55-6aee-8308-bfe7-01803c30ba35"/></div><div style="display:contents" dir="auto"><h1 id="efb8db55-6aee-8274-9381-01284a6e0655" class="">Set接口</h1></div><div style="display:contents" dir="auto"><p id="42c8db55-6aee-839c-8cfa-818b1340b392" class="">set接口是Collection的子接口，Set接口以散列的形式存储数据，所以元素是无序的，可以存储一组无序且唯一的对象。</p></div><div style="display:contents" dir="auto"><h2 id="ff98db55-6aee-8310-a3b7-8110918264d0" class="">Set接口的实现类</h2></div><div style="display:contents" dir="auto"><p id="b498db55-6aee-82f4-acf9-815b8d040c22" class="">HashSet存储一组无序且唯一的元素，这里的无序是指元素的存储顺序和遍历顺序不一致</p></div><div style="display:contents" dir="auto"><ul id="6e78db55-6aee-8365-9449-0199413dfe3c" class="toggle"><li><details open=""><summary>实现</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="5d28db55-6aee-8344-8c1e-0164d91e9892" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class HashSetDemo {
+    public static void main(String[] args) {
+        Set&lt;String&gt; set = new HashSet&lt;&gt;();
+        set.add(&quot;banana&quot;);
+        set.add(&quot;apple&quot;);
+        set.add(&quot;orange&quot;);
+        set.add(&quot;apple&quot;); // 重复，不会被添加
+
+        System.out.println(&quot;HashSet 遍历结果：&quot;);
+        for (String s : set) {
+            System.out.println(s);
+        }
+        // 输出顺序可能为：orange, banana, apple（完全取决于哈希值，无固定顺序）
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="22a8db55-6aee-82f1-aab8-01d0aec2878d" class="">LinkedHashSet是set的另外一个子接口，可以存储一组有序唯一的元素，有序是指元素的存储顺序和遍历顺序是一致的。（同一个类，值相等但可能存为两个相同的值（因为通过equals方法判断），需要重写equals方法）</p></div><div style="display:contents" dir="auto"><ul id="fe88db55-6aee-8218-85c9-0195e1c1862f" class="toggle"><li><details open=""><summary>实现</summary><div style="display:contents" dir="auto"><pre id="9358db55-6aee-834c-9d70-01bc32ee6005" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class LinkedHashSetDemo {
+    public static void main(String[] args) {
+        Set&lt;String&gt; set = new LinkedHashSet&lt;&gt;();
+        set.add(&quot;banana&quot;);
+        set.add(&quot;apple&quot;);
+        set.add(&quot;orange&quot;);
+        set.add(&quot;apple&quot;); // 重复，不会被添加
+
+        System.out.println(&quot;LinkedHashSet 遍历结果：&quot;);
+        for (String s : set) {
+            System.out.println(s);
+        }
+        // 输出顺序：banana, apple, orange（与插入顺序一致）
+    }</code></pre></div><div style="display:contents" dir="auto"><pre id="b148db55-6aee-83dd-9c18-01803681c93a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.HashSet;
+import java.util.Set;
+
+class Person {
+    String name;
+    Person(String name) { this.name = name; }
+    // 未重写 equals/hashCode
+}
+
+public class HashSetCustom {
+    public static void main(String[] args) {
+        Set&lt;Person&gt; set = new HashSet&lt;&gt;();
+        set.add(new Person(&quot;Alice&quot;));
+        set.add(new Person(&quot;Alice&quot;)); // 视为两个不同对象，因为默认用 == 比较
+
+        System.out.println(set.size()); // 输出 2
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="bf78db55-6aee-83e5-aed4-816cda80fb6b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
+
+class Person {
+    String name;
+    Person(String name) { this.name = name; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(name, person.name);
+    }
+
+    @Override                     
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+}
+
+public class HashSetCustom {
+    public static void main(String[] args) {
+        Set&lt;Person&gt; set = new HashSet&lt;&gt;();
+        set.add(new Person(&quot;Alice&quot;));
+        set.add(new Person(&quot;Alice&quot;)); // 现在只添加一个
+
+        System.out.println(set.size()); // 输出 1
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="b9a8db55-6aee-8393-a904-81c9a9e19128" class="">TreeSet存储一组有序，唯一元素，与LinkedHashSet不同，TreeSet的有序指集合内部给所有的元素进行升序排列（内部有一个实现排序的接口Comparable接口，类默认无法排序，需要重写Comparable接口）</p></div><div style="display:contents" dir="auto"><ul id="8cd8db55-6aee-8210-b39e-0181bb52ad75" class="toggle"><li><details open=""><summary>实现</summary><div style="display:contents" dir="auto"><pre id="9a18db55-6aee-8303-972d-8194eacb4589" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class TreeSetDemo {
+    public static void main(String[] args) {
+        Set&lt;String&gt; set = new TreeSet&lt;&gt;();
+        set.add(&quot;banana&quot;);
+        set.add(&quot;apple&quot;);
+        set.add(&quot;orange&quot;);
+        set.add(&quot;apple&quot;); // 重复，不会被添加
+
+        System.out.println(&quot;TreeSet 遍历结果：&quot;);
+        for (String s : set) {
+            System.out.println(s);
+        }
+        // 输出顺序：apple, banana, orange（字母升序）
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="24f8db55-6aee-82cb-a4c5-8141227b2187" class="">类的重写</p></div><div style="display:contents" dir="auto"><pre id="7e38db55-6aee-8211-8535-8194539aa025" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.Set;
+import java.util.TreeSet;
+
+class Student implements Comparable&lt;Student&gt; {
+    String name;
+    int score;
+
+    Student(String name, int score) {
+        this.name = name;
+        this.score = score;
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        // 按分数升序，分数相同则按姓名
+        if (this.score != o.score) {
+            return Integer.compare(this.score, o.score);
+        }
+        return this.name.compareTo(o.name);
+    }
+
+    @Override
+    public String toString() {
+        return name + &quot;:&quot; + score;
+    }
+}
+
+public class TreeSetCustom {
+    public static void main(String[] args) {
+        Set&lt;Student&gt; set = new TreeSet&lt;&gt;();
+        set.add(new Student(&quot;Bob&quot;, 85));
+        set.add(new Student(&quot;Alice&quot;, 90));
+        set.add(new Student(&quot;Charlie&quot;, 85)); // 分数相同，姓名不同，视为不同元素
+
+        for (Student s : set) {
+            System.out.println(s);
+        }
+        // 输出顺序：Bob:85, Charlie:85, Alice:90（按分数升序，分数相同时按姓名）
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="1088db55-6aee-82f9-8728-01ad995a28e6"/></div><div style="display:contents" dir="auto"><h1 id="d548db55-6aee-83c3-84e4-811a1ed0cbc1" class="">Map接口</h1></div><div style="display:contents" dir="auto"><p id="32a8db55-6aee-83b9-af3a-81e9e39a1e08" class="">map接口与Collection完全独立的 另一个体系，区别在于Set，List，Collection只能操作单个元素，map可以操作一对元素（key-value）</p></div><div style="display:contents" dir="ltr"><table id="a6b8db55-6aee-8379-8f3b-0183675d202b" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="ff28db55-6aee-832e-94d7-81e5754e6548"><td id="OOVx" class="" style="width:380.6607208251953px">方法</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="5f88db55-6aee-82e6-b23b-0195c6400be3"><td id="OOVx" class="" style="width:380.6607208251953px">int size()</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">获取集合长度</td></tr></div><div style="display:contents" dir="ltr"><tr id="c948db55-6aee-824d-b672-0128dea8e2c4"><td id="OOVx" class="" style="width:380.6607208251953px">boolean isEmpty()</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">判断集合是否为空</td></tr></div><div style="display:contents" dir="ltr"><tr id="3de8db55-6aee-83ba-91b1-011c63b05e24"><td id="OOVx" class="" style="width:380.6607208251953px">boolean containsKey(Object key)</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">判断集合中是否存在key</td></tr></div><div style="display:contents" dir="ltr"><tr id="83c8db55-6aee-83d6-b15d-0122c328363b"><td id="OOVx" class="" style="width:380.6607208251953px">boolean containsValue(Object value)</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">判断集合中是否存在value</td></tr></div><div style="display:contents" dir="ltr"><tr id="8348db55-6aee-8217-bd06-81812956e95a"><td id="OOVx" class="" style="width:380.6607208251953px">V get(Object key)</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">通过key取出对应的value</td></tr></div><div style="display:contents" dir="ltr"><tr id="4738db55-6aee-839f-9f5f-81f47860e797"><td id="OOVx" class="" style="width:380.6607208251953px">V put(Object key, Object value)</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">通过集合中添加一组key-value</td></tr></div><div style="display:contents" dir="ltr"><tr id="9d48db55-6aee-8296-92ec-8181cbd7d46c"><td id="OOVx" class="" style="width:380.6607208251953px">V remove(Object key)</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">通过key删除集合元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="f788db55-6aee-830e-8afc-018456e62951"><td id="OOVx" class="" style="width:380.6607208251953px">void clear()</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">清空集合</td></tr></div><div style="display:contents" dir="ltr"><tr id="dbd8db55-6aee-832c-93de-01c8cdf8273a"><td id="OOVx" class="" style="width:380.6607208251953px">Set keySet()</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">取出所有的key，返回set</td></tr></div><div style="display:contents" dir="ltr"><tr id="3a48db55-6aee-8320-b390-81f52b43919c"><td id="OOVx" class="" style="width:380.6607208251953px">Collection values()</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">取出所有的value，返回Collection</td></tr></div><div style="display:contents" dir="ltr"><tr id="4058db55-6aee-8325-b2e8-01f15fec7ca9"><td id="OOVx" class="" style="width:380.6607208251953px">Set entrySet()</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">将Map转换为Set对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="6cf8db55-6aee-8311-9096-019202f34248"><td id="OOVx" class="" style="width:380.6607208251953px">int hashCode()</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">获取集合的散列码</td></tr></div><div style="display:contents" dir="ltr"><tr id="73c8db55-6aee-83e7-bb16-014cc79c8599"><td id="OOVx" class="" style="width:380.6607208251953px">boolean equals(Object o)</td><td id="k&gt;eJ" class="" style="width:365.654052734375px">比较两个集合是否相等</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="b2b8db55-6aee-83f9-bd2e-015f64ca86b1"/></div><div style="display:contents" dir="auto"><h2 id="4cc8db55-6aee-839d-8e8c-01f07723ee31" class="">Map接口的实现类</h2></div><div style="display:contents" dir="auto"><p id="e5f8db55-6aee-828d-ba6f-816ff7a94f9f" class="">HashMap 存储一组无序，key不可重复，value可重复，线程不安全</p></div><div style="display:contents" dir="auto"><p id="0f68db55-6aee-828a-a6d6-81f5cf2dd042" class="">Hashtale 存储一组无序，key不可重复，value可重复，线程安全</p></div><div style="display:contents" dir="auto"><p id="4d48db55-6aee-8268-bb42-01e94863bd88" class="">TreeMap 存储一组有序，key不可重复，value可重复，可以按照key来排序</p></div><div style="display:contents" dir="auto"><hr id="94a8db55-6aee-8236-96aa-817ec639be73"/></div><div style="display:contents" dir="auto"><h1 id="bf88db55-6aee-8340-a33f-01dcbbb127c8" class="">Collection 工具类</h1></div><div style="display:contents" dir="auto"><p id="9738db55-6aee-82e3-b5b4-81dbdcd18d15" class="">Collections工具类专门用来操作集合的，添加元素，对元素进行排序，替换元素。</p></div><div style="display:contents" dir="auto"><p id="7278db55-6aee-82d0-940f-81b54dfb078b" class="">Collection常用方法</p></div><div style="display:contents" dir="ltr"><table id="a3b8db55-6aee-8333-932d-81ab4fdf0493" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="9478db55-6aee-83fa-9b42-01533f54394c"><td id="^@Kl" class="" style="width:456.65625px">方法</td><td id="Bfil" class="" style="width:291.6383972167969px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="43f8db55-6aee-8345-a9f8-01a714551f03"><td id="^@Kl" class="" style="width:456.65625px">public static void sort(List list, Comparator)</td><td id="Bfil" class="" style="width:291.6383972167969px">根据Comparatior接口进行排序</td></tr></div><div style="display:contents" dir="ltr"><tr id="fdb8db55-6aee-82cb-a5c3-8179b7124ad3"><td id="^@Kl" class="" style="width:456.65625px">public static int binarySearch(List list,Object k)</td><td id="Bfil" class="" style="width:291.6383972167969px">查找元素再集合中的下标，要求集合必须是升序排列</td></tr></div><div style="display:contents" dir="ltr"><tr id="9b88db55-6aee-822c-a573-8191a8080468"><td id="^@Kl" class="" style="width:456.65625px">public static Object get(int index)</td><td id="Bfil" class="" style="width:291.6383972167969px">根据下标找到元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="b388db55-6aee-8288-80f2-01fbebbf829a"><td id="^@Kl" class="" style="width:456.65625px">public static void reverse(List list)</td><td id="Bfil" class="" style="width:291.6383972167969px">对集合元素的顺序进行反转</td></tr></div><div style="display:contents" dir="ltr"><tr id="9de8db55-6aee-8209-98e8-018482a41609"><td id="^@Kl" class="" style="width:456.65625px">public static void swap(List list, int i, int j)</td><td id="Bfil" class="" style="width:291.6383972167969px">交换两个元素的位置</td></tr></div><div style="display:contents" dir="ltr"><tr id="6738db55-6aee-83da-96e4-81760e00be0c"><td id="^@Kl" class="" style="width:456.65625px">public static void fill(List list, Object o)</td><td id="Bfil" class="" style="width:291.6383972167969px">将集合中的元素全部替换为o</td></tr></div><div style="display:contents" dir="ltr"><tr id="1288db55-6aee-824f-84d9-81b4e525a42f"><td id="^@Kl" class="" style="width:456.65625px">public static void min(List list)</td><td id="Bfil" class="" style="width:291.6383972167969px">返回集合中的最小值</td></tr></div><div style="display:contents" dir="ltr"><tr id="b448db55-6aee-8261-ae25-019ea72d4549"><td id="^@Kl" class="" style="width:456.65625px">public static void max(List list)</td><td id="Bfil" class="" style="width:291.6383972167969px">返回集合中的最大值</td></tr></div><div style="display:contents" dir="ltr"><tr id="69a8db55-6aee-8395-a363-01ee8fe3b5ef"><td id="^@Kl" class="" style="width:456.65625px">public static boolean replaceAll(List list, Object oldV, Object newV)</td><td id="Bfil" class="" style="width:291.6383972167969px">将集合中所有的oldV 替换为 newV</td></tr></div><div style="display:contents" dir="ltr"><tr id="6348db55-6aee-82eb-80d7-81fabc445e84"><td id="^@Kl" class="" style="width:456.65625px">public static boolean addAll(List list, Object… o)</td><td id="Bfil" class="" style="width:291.6383972167969px">向集合中添加元素</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h2 id="0288db55-6aee-8246-8908-01edab4a003a" class="">动态参数<code>…</code></h2></div><div style="display:contents" dir="auto"><pre id="ad38db55-6aee-82b6-8029-8196887dd4df" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static void test(String... name) {} // 可以是0，1，2，3，4....个String参数
+// 如果大于一个，所有参数被封装在一个数组中</code></pre></div><div style="display:contents" dir="auto"><h1 id="72c8db55-6aee-82e8-99dc-01b1347e5caa" class="">实用类</h1></div><div style="display:contents" dir="auto"><h2 id="fa38db55-6aee-8316-b92c-011333f71c4d" class="">泛型</h2></div><div style="display:contents" dir="auto"><p id="91f8db55-6aee-82df-8aaa-01324a20beff" class="">泛型是指在类定义时不指定类中信息的具体数据类型，而是用一个标识符来替代，当外部实例化对象的时候再来指定具体的数据。</p></div><div style="display:contents" dir="auto"><p id="1e98db55-6aee-830f-a0fe-8165eeb3a6e8" class="">多态的思想</p></div><div style="display:contents" dir="auto"><ul id="8048db55-6aee-825b-817e-81e25ab00810" class="toggle"><li><details open=""><summary>例子</summary><div style="display:contents" dir="auto"><pre id="dfb8db55-6aee-824a-8613-81de2b14f1f3" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 定义一个泛型类，类型参数为 T
+public class Box&lt;T&gt; {
+    private T content;
+
+    public void set(T content) {
+        this.content = content;
+    }
+
+    public T get() {
+        return content;
+    }
+
+    public static void main(String[] args) {
+        // 存放 String
+        Box&lt;String&gt; stringBox = new Box&lt;&gt;();
+        stringBox.set(&quot;Hello&quot;);
+        String str = stringBox.get();   // 不需要强制类型转换
+        System.out.println(str);
+
+        // 存放 Integer
+        Box&lt;Integer&gt; intBox = new Box&lt;&gt;();
+        intBox.set(123);
+        Integer num = intBox.get();     // 自动拆装箱，也不需强转
+        System.out.println(num);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="2f78db55-6aee-8265-a1ba-81b032a0770c" class="">多个参数</p></div><div style="display:contents" dir="auto"><pre id="5978db55-6aee-8275-9e72-81575a78980e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Pair&lt;K, V&gt; {
+    private K key;
+    private V value;
+
+    public Pair(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    public K getKey() {
+        return key;
+    }
+
+    public V getValue() {
+        return value;
+    }
+
+    public void setKey(K key) {
+        this.key = key;
+    }
+
+    public void setValue(V value) {
+        this.value = value;
+    }
+
+    public static void main(String[] args) {
+        // 键为 String，值为 Integer
+        Pair&lt;String, Integer&gt; pair1 = new Pair&lt;&gt;(&quot;Age&quot;, 25);
+        System.out.println(pair1.getKey() + &quot; : &quot; + pair1.getValue());
+
+        // 键为 Integer，值为 String
+        Pair&lt;Integer, String&gt; pair2 = new Pair&lt;&gt;(1001, &quot;Alice&quot;);
+        System.out.println(pair2.getKey() + &quot; : &quot; + pair2.getValue());
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="d188db55-6aee-8282-a9df-81d2706ecfcb"/></div><div style="display:contents" dir="auto"><h2 id="f378db55-6aee-83d5-985a-81e10674283f" class="">枚举</h2></div><div style="display:contents" dir="auto"><p id="d078db55-6aee-832a-a8bf-81e1f90424ae" class="">Enum 是一种有确定取值区间的数据类型，本质上是一种类，具有简洁，高校，安全，方便的特点</p></div><div style="display:contents" dir="auto"><p id="b3a8db55-6aee-82b1-8f2e-01fa44861899" class="">枚举的值被约束到一个特定的范围，只能从该范围中取值。</p></div><div style="display:contents" dir="auto"><ul id="1f28db55-6aee-82ff-81f3-0125e6e8a7bb" class="toggle"><li><details open=""><summary>例子</summary><div style="display:contents" dir="auto"><pre id="afa8db55-6aee-82c4-8d08-01f2242e9990" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 定义一个表示季节的枚举
+public enum Season {
+    SPRING, SUMMER, AUTUMN, WINTER
+}
+
+// 使用枚举
+public class Main {
+    public static void main(String[] args) {
+        // 1. 直接使用枚举常量
+        Season s = Season.SPRING;
+        System.out.println(s);  // 输出: SPRING
+
+        // 2. 遍历所有枚举值
+        for (Season season : Season.values()) {
+            System.out.println(season + &quot; 的序号是 &quot; + season.ordinal());
+        }
+
+        // 3. 在 switch 中使用枚举
+        switch (s) {
+            case SPRING:
+                System.out.println(&quot;春天&quot;);
+                break;
+            case SUMMER:
+                System.out.println(&quot;夏天&quot;);
+                break;
+            case AUTUMN:
+                System.out.println(&quot;秋天&quot;);
+                break;
+            case WINTER:
+                System.out.println(&quot;冬天&quot;);
+                break;
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="4f78db55-6aee-83bb-98c4-01b64a949d77" class="">待字段的(更常用)</p></div><div style="display:contents" dir="auto"><pre id="b878db55-6aee-8296-9d4e-817888bdf81a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public enum Planet {
+    MERCURY(3.303e23, 2.4397e6),
+    VENUS(4.869e24, 6.0518e6),
+    EARTH(5.976e24, 6.37814e6);
+
+    private final double mass;   // 质量
+    private final double radius; // 半径
+
+    Planet(double mass, double radius) {
+        this.mass = mass;
+        this.radius = radius;
+    }
+
+    public double getMass() { return mass; }
+    public double getRadius() { return radius; }
+
+    // 计算表面重力加速度
+    public double surfaceGravity() {
+        final double G = 6.67430e-11;
+        return G * mass / (radius * radius);
+    }
+}
+
+// 使用
+Planet earth = Planet.EARTH;
+System.out.println(earth.surfaceGravity());  // 约 9.80</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="08b8db55-6aee-826b-8540-010e1fc92d8b"/></div><div style="display:contents" dir="auto"><h1 id="d198db55-6aee-8358-9969-01a21b96232c" class="">日期类</h1></div><div style="display:contents" dir="auto"><p id="1d58db55-6aee-8277-8132-0148a0213f21" class="">Java 的日期时间 API 经历了从 <code>java.util.Date</code> → <code>java.util.Calendar</code> → <code>java.time</code></p></div><div style="display:contents" dir="auto"><h3 id="a328db55-6aee-8347-8239-8149e123754b" class=""><strong>java.util.Date</strong></h3></div><div style="display:contents" dir="auto"><p id="8fb8db55-6aee-8283-a13d-01fff227161e" class=""><code>Date</code> 类代表一个<strong>特定的时间点</strong>，内部以 <code>long</code> 值存储自 <strong>1970-01-01 00:00:00 UTC</strong> 以来的毫秒数。它试图同时表示日期和时间，但设计上存在诸多问题。</p></div><div style="display:contents" dir="auto"><pre id="80d8db55-6aee-833a-941c-81bc96c6fc5f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 当前时间
+Date now = new Date();
+
+// 根据时间戳创建
+Date date = new Date(1672531200000L); // 2023-01-01 00:00:00 UTC
+
+// 获取/设置时间戳（毫秒）
+long time = date.getTime();
+date.setTime(time + 86400000); // 加一天
+
+// 比较
+boolean before = date.before(now);
+boolean after = date.after(now);
+int cmp = date.compareTo(now);</code></pre></div><div style="display:contents" dir="auto"><h3 id="0328db55-6aee-8261-9e96-81338e87bd06" class=""><strong>java.util.Calendar</strong></h3></div><div style="display:contents" dir="auto"><p id="67b8db55-6aee-82cc-9954-8149346b37fc" class=""><code>Calendar</code> 是一个<strong>抽象类</strong>，提供了日期字段（年、月、日、时、分、秒等）的运算和转换功能，弥补了 <code>Date</code> 的部分不足。通常使用 <code>GregorianCalendar</code> 子类。</p></div><div style="display:contents" dir="auto"><pre id="5328db55-6aee-8268-b24a-01aa16e82444" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 获取实例（默认时区和区域）
+Calendar cal = Calendar.getInstance();
+
+// 设置特定日期
+cal.set(2026, Calendar.MARCH, 29); // 月份使用常量，但注意 Calendar.MARCH = 2
+
+// 获取字段
+int year = cal.get(Calendar.YEAR);
+int month = cal.get(Calendar.MONTH);     // 3月 = 2
+int day = cal.get(Calendar.DAY_OF_MONTH);
+
+// 日期运算
+cal.add(Calendar.DAY_OF_MONTH, 10);      // 加10天
+cal.add(Calendar.MONTH, -1);             // 减1个月
+
+// Date 与 Calendar 互转
+Date date = cal.getTime();
+cal.setTime(date);</code></pre></div><div style="display:contents" dir="auto"><h3 id="2e38db55-6aee-8223-b0bc-015e181bc6df" class=""><strong>java.time（Java 8+，JSR-310）</strong></h3></div><div style="display:contents" dir="auto"><ul id="df18db55-6aee-83cf-a63d-818a797c8e38" class="bulleted-list"><li style="list-style-type:disc"><strong>不可变且线程安全</strong>：所有类都是 <code>final</code>，修改操作返回新实例。</li></ul></div><div style="display:contents" dir="auto"><ul id="4f98db55-6aee-83b3-aede-813088d51d7a" class="bulleted-list"><li style="list-style-type:disc"><strong>清晰的类型分离</strong>：日期（<code>LocalDate</code>）、时间（<code>LocalTime</code>）、日期时间（<code>LocalDateTime</code>）、时间戳（<code>Instant</code>）、带时区的日期时间（<code>ZonedDateTime</code>）各司其职。</li></ul></div><div style="display:contents" dir="auto"><ul id="5068db55-6aee-83e2-ac5e-81677c943b12" class="bulleted-list"><li style="list-style-type:disc"><strong>合理的索引</strong>：月份 1~12，星期⼀~⽇。</li></ul></div><div style="display:contents" dir="auto"><ul id="c268db55-6aee-83dc-a00d-0142bca9300f" class="bulleted-list"><li style="list-style-type:disc"><strong>流畅的 API</strong>：<code>plusDays()</code>、<code>withMonth()</code> 等。</li></ul></div><div style="display:contents" dir="auto"><ul id="da18db55-6aee-83fc-934f-017cbfb23de7" class="bulleted-list"><li style="list-style-type:disc"><strong>内置解析/格式化</strong>：<code>DateTimeFormatter</code> 线程安全且可自定义。</li></ul></div><div style="display:contents" dir="auto"><ul id="0f28db55-6aee-82da-ba91-81f5238dde1c" class="toggle"><li><details open=""><summary><strong>LocalDate – 年-月-日</strong></summary><div style="display:contents" dir="auto"><pre id="07b8db55-6aee-8242-bcaa-81db084c2dac" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">LocalDate today = LocalDate.now();              // 2026-03-29
+LocalDate birthday = LocalDate.of(1990, 5, 20); // 月份 5 月
+LocalDate parsed = LocalDate.parse(&quot;2026-03-29&quot;);
+
+// 运算
+LocalDate nextWeek = today.plusWeeks(1);
+LocalDate prevMonth = today.minusMonths(1);
+boolean leap = today.isLeapYear();</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="10c8db55-6aee-8381-9d68-01bfb28c09aa" class="toggle"><li><details open=""><summary><strong>LocalTime – 时:分:秒.纳秒</strong></summary><div style="display:contents" dir="auto"><pre id="3148db55-6aee-833c-adea-818ac22f6c72" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">LocalTime now = LocalTime.now();                // 15:30:45.123
+LocalTime meeting = LocalTime.of(14, 30, 0);
+LocalTime parsed = LocalTime.parse(&quot;14:30:00&quot;);
+
+// 运算
+LocalTime inOneHour = now.plusHours(1);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6d68db55-6aee-822b-90b0-015b72ea49f7" class="toggle"><li><details open=""><summary><strong>LocalDateTime – 日期+时间（无时区）</strong></summary><div style="display:contents" dir="auto"><pre id="1168db55-6aee-82fc-8f09-8143eeb8dcc1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">LocalDateTime dt = LocalDateTime.now();
+LocalDateTime dt2 = LocalDateTime.of(2026, 3, 29, 15, 30);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ade8db55-6aee-8337-8547-01524303128c" class="toggle"><li><details open=""><summary><strong>Instant – 时间戳（UTC）</strong></summary><div style="display:contents" dir="auto"><pre id="f0e8db55-6aee-837a-8bc1-816f8a4723ed" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Instant now = Instant.now();                    // 当前 UTC 时间戳
+long epochSecond = now.getEpochSecond();
+Instant fromEpoch = Instant.ofEpochSecond(1672531200L);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aca8db55-6aee-833a-8793-01396e1e97b4" class="toggle"><li><details open=""><summary><strong>ZonedDateTime – 带时区的日期时间</strong></summary><div style="display:contents" dir="auto"><pre id="e388db55-6aee-8345-a945-81b7f6a08f3f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">ZonedDateTime beijing = ZonedDateTime.now(ZoneId.of(&quot;Asia/Shanghai&quot;));
+ZonedDateTime ny = beijing.withZoneSameInstant(ZoneId.of(&quot;America/New_York&quot;));</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="43b8db55-6aee-83e1-9b6a-01185a51e9f7" class="toggle"><li><details open=""><summary><strong>Duration / Period – 时间间隔</strong></summary><div style="display:contents" dir="auto"><pre id="8ce8db55-6aee-83bf-92b5-81564d4ea30d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 时间间隔（秒/纳秒）
+LocalTime start = LocalTime.of(9, 0);
+LocalTime end = LocalTime.of(17, 30);
+Duration d = Duration.between(start, end);
+long minutes = d.toMinutes(); // 510
+
+// 日期间隔（年/月/日）
+LocalDate startDate = LocalDate.of(2026, 1, 1);
+LocalDate endDate = LocalDate.of(2026, 3, 29);
+Period p = Period.between(startDate, endDate);
+System.out.println(p.getDays());   // 28
+System.out.println(p.getMonths()); // 2</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1288db55-6aee-8227-b4e2-816838b09f37" class="toggle"><li><details open=""><summary><strong>DateTimeFormatter – 格式化/解析（线程安全）</strong></summary><div style="display:contents" dir="auto"><pre id="c268db55-6aee-8323-8cfa-81f6091e17a8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+String formatted = dt.format(formatter);
+LocalDateTime parsedDT = LocalDateTime.parse(&quot;2026-03-29 15:30:00&quot;, formatter);
+
+// 预定义格式
+String iso = dt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2158db55-6aee-827f-9226-81d0001501ac" class="toggle"><li><details open=""><summary><strong>新旧 API 互转</strong></summary><div style="display:contents" dir="auto"><pre id="2368db55-6aee-82bc-8ee7-013966291197" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// Date ↔ Instant
+Date oldDate = new Date();
+Instant instant = oldDate.toInstant();
+Date newDate = Date.from(instant);
+
+// Calendar ↔ ZonedDateTime
+Calendar cal = Calendar.getInstance();
+ZonedDateTime zdt = ((GregorianCalendar) cal).toZonedDateTime();
+GregorianCalendar newCal = GregorianCalendar.from(zdt);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="a398db55-6aee-8302-b14c-81af1cfacd23"/></div><div style="display:contents" dir="auto"><h1 id="daa8db55-6aee-8258-a754-0155eb785779" class="">IO流</h1></div><div style="display:contents" dir="auto"><p id="b3b8db55-6aee-83fe-a1ec-01b647776e4a" class="">input stream / output steam</p></div><div style="display:contents" dir="auto"><h2 id="aab8db55-6aee-829f-a601-8143b36f062e" class="">File类</h2></div><div style="display:contents" dir="ltr"><figure id="e0a8db55-6aee-8322-90d6-812f5f3ca118" class="image"><a href="%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/Snipaste_2026-03-29_20-42-20.png"><img style="width:704.0067138671875px" src="%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/Snipaste_2026-03-29_20-42-20.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="7f78db55-6aee-8332-a0ac-0123e4a9e05a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.io.File;
+import java.io.IOException;
+
+public class FileDemo {
+    public static void main(String[] args) {
+        // 1. public File(String path)  - 根据路径创建文件对象（不创建实际文件）
+        File file = new File(&quot;test.txt&quot;);
+        File dir = new File(&quot;myFolder&quot;);
+
+        // 2. public String getName()    - 获取文件名
+        System.out.println(&quot;文件名：&quot; + file.getName());   // test.txt
+
+        // 3. public String getParent()  - 获取文件所在的目录（字符串形式）
+        System.out.println(&quot;父目录：&quot; + file.getParent()); // 若构造时未指定父路径，返回 null
+
+        // 4. public File getParentFile() - 获取文件所在的目录对应的 File 对象
+        File parentFile = file.getParentFile();           // 同上，返回 File 对象
+
+        // 5. public String getPath()     - 获取文件路径（构造时传入的路径）
+        System.out.println(&quot;路径：&quot; + file.getPath());     // test.txt
+
+        // 6. public boolean exists()     - 判断对象是否存在
+        System.out.println(&quot;是否存在：&quot; + file.exists());  // false（还未创建）
+
+        // 7. public boolean isDirectory() - 判断是否为目录
+        System.out.println(&quot;是否为目录：&quot; + file.isDirectory()); // false
+
+        // 8. public boolean isFile()      - 判断是否为文件
+        System.out.println(&quot;是否为文件：&quot; + file.isFile());      // false
+
+        // 9. public long length()         - 获取文件大小（字节）
+        System.out.println(&quot;文件大小：&quot; + file.length());       // 0（不存在或目录返回0）
+
+        // 10. public boolean createNewFile() - 创建文件（如果不存在）
+        try {
+            if (file.createNewFile()) {
+                System.out.println(&quot;文件创建成功&quot;);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 11. public boolean delete()       - 删除文件或空目录
+        if (file.delete()) {
+            System.out.println(&quot;文件已删除&quot;);
+        }
+
+        // 12. public boolean mkdir()         - 创建单级目录
+        if (dir.mkdir()) {
+            System.out.println(&quot;目录创建成功&quot;);
+        }
+
+        // 13. public boolean renameTo(File file) - 重命名（或移动）文件
+        File renamed = new File(&quot;renamed.txt&quot;);
+        if (file.renameTo(renamed)) {
+            System.out.println(&quot;重命名成功&quot;);
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><h2 id="b1e8db55-6aee-8242-9fd0-81d5cc4357a8" class="">字节流</h2></div><div style="display:contents" dir="auto"><ul id="ed48db55-6aee-8224-a0d8-01b925e1cf9d" class="bulleted-list"><li style="list-style-type:disc">按方向分，输出流和输入流</li></ul></div><div style="display:contents" dir="auto"><ul id="3f88db55-6aee-835e-948c-01604f5d7e0c" class="bulleted-list"><li style="list-style-type:disc">按照单位分，字节流和字符流字节流指每次处理的数据式以字节为单位，字符流是以字符为单位</li></ul></div><div style="display:contents" dir="auto"><h3 id="f1b8db55-6aee-838f-9eb3-01e0a2183193" class="">输入字节流和输出字节流</h3></div><div style="display:contents" dir="auto"><ul id="8bb8db55-6aee-83e0-af97-818f61a98c7b" class="bulleted-list"><li style="list-style-type:disc">输入字节流InputStream<div style="display:contents" dir="ltr"><table id="43e8db55-6aee-82d3-b700-0147cf74ccbe" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="5148db55-6aee-82e1-ba84-81847efecb00"><td id="~Ezn" class="" style="width:306.3303527832031px">方法</td><td id="l?`]" class="" style="width:356.330322265625px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="1958db55-6aee-8348-98ea-0113975fd925"><td id="~Ezn" class="" style="width:306.3303527832031px">public int read()</td><td id="l?`]" class="" style="width:356.330322265625px">以字节为单位读取数据</td></tr></div><div style="display:contents" dir="ltr"><tr id="22c8db55-6aee-824a-9bd2-01635d5ab347"><td id="~Ezn" class="" style="width:306.3303527832031px">public ubt read(byte[] bytes)</td><td id="l?`]" class="" style="width:356.330322265625px">将数据存入byte数组，返回数据长度</td></tr></div><div style="display:contents" dir="ltr"><tr id="c058db55-6aee-83b9-842f-812dd0616835"><td id="~Ezn" class="" style="width:306.3303527832031px">public int read(byte[] bytes, int off, int len)</td><td id="l?`]" class="" style="width:356.330322265625px">将数据存入byte数组的指定区间，返回数组长度</td></tr></div><div style="display:contents" dir="ltr"><tr id="e0f8db55-6aee-834e-ad59-81b08d0ebda4"><td id="~Ezn" class="" style="width:306.3303527832031px">public int available()</td><td id="l?`]" class="" style="width:356.330322265625px">返回当前数据流中未读取的数据个数</td></tr></div><div style="display:contents" dir="ltr"><tr id="ac08db55-6aee-8391-bb7e-01b3a2687702"><td id="~Ezn" class="" style="width:306.3303527832031px">public void close()</td><td id="l?`]" class="" style="width:356.330322265625px">关闭数据流</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="7098db55-6aee-82c4-b322-0154c223a6df" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.io.*;
+
+public class InputStreamDemo {
+    public static void main(String[] args) {
+        // 假设有一个文件 test.txt，内容为 &quot;Hello&quot;
+        try (InputStream is = new FileInputStream(&quot;test.txt&quot;)) {
+
+            // 1. public int read() —— 读取一个字节，返回 int（0-255），读到末尾返回 -1
+            int b = is.read();
+            System.out.println(&quot;第一个字节: &quot; + (char) b); // 输出 H
+
+            // 2. public int read(byte[] bytes) —— 将数据存入 byte 数组，返回实际读取的字节数
+            byte[] buffer = new byte[10];
+            int len = is.read(buffer); // 读取剩余内容 &quot;ello&quot;
+            System.out.println(&quot;读取了 &quot; + len + &quot; 个字节: &quot; + new String(buffer, 0, len)); // 输出 ello
+
+            // 重新打开流演示第三个方法（因为上面已经读完）
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 重新打开流来演示 read(byte[], int, int)
+        try (InputStream is = new FileInputStream(&quot;test.txt&quot;)) {
+            byte[] buffer = new byte[10];
+            // 3. public int read(byte[] bytes, int off, int len)
+            //    将数据存入 byte 数组的指定区间，返回实际读取长度
+            int len = is.read(buffer, 2, 3); // 从索引2开始放，最多放3个字节
+            System.out.println(&quot;读取了 &quot; + len + &quot; 个字节&quot;);
+            System.out.println(&quot;数组内容: &quot; + Arrays.toString(buffer)); // 前两个元素为0，后三个为 &#x27;H&#x27;,&#x27;e&#x27;,&#x27;l&#x27;
+            System.out.println(&quot;字符串表示: &quot; + new String(buffer, 2, len)); // Hel
+
+            // 4. public int available() —— 返回当前流中未读取的字节数（估计值）
+            int remaining = is.available();
+            System.out.println(&quot;剩余未读取字节数: &quot; + remaining); // 因为文件共5字节，已读3个，剩余2个
+
+            // 5. public void close() —— 关闭流，释放资源（已在 try-with-resources 中自动关闭）
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre></div></li></ul></div><div style="display:contents" dir="auto"><ul id="2f98db55-6aee-83e3-8a1a-0100b08a1de0" class="bulleted-list"><li style="list-style-type:disc">输出字节流OutputStream<div style="display:contents" dir="ltr"><table id="1fe8db55-6aee-8374-a8b1-81a268fc9ae7" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="d038db55-6aee-82f5-b343-81012bfa4148"><td id="_=Hi" class="" style="width:308.3214416503906px">方法</td><td id="u__j" class="" style="width:351.3169860839844px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="ee48db55-6aee-83be-965a-81a2c0219170"><td id="_=Hi" class="" style="width:308.3214416503906px">public void write(int b)</td><td id="u__j" class="" style="width:351.3169860839844px">以字节为单位写数据</td></tr></div><div style="display:contents" dir="ltr"><tr id="04b8db55-6aee-83ff-99fe-011efd212965"><td id="_=Hi" class="" style="width:308.3214416503906px">public void write(byte[] b)</td><td id="u__j" class="" style="width:351.3169860839844px">将byte数组中的数组写出</td></tr></div><div style="display:contents" dir="ltr"><tr id="5468db55-6aee-8264-83c1-01d67da35aa1"><td id="_=Hi" class="" style="width:308.3214416503906px">public void write(byte[] b, int off, int len)</td><td id="u__j" class="" style="width:351.3169860839844px">将byte数组中指定区间的数据写出</td></tr></div><div style="display:contents" dir="ltr"><tr id="8578db55-6aee-8316-a035-017d560d371b"><td id="_=Hi" class="" style="width:308.3214416503906px">public void close()</td><td id="u__j" class="" style="width:351.3169860839844px">关闭输出流</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="9ad8db55-6aee-83fb-9f5c-81bf65774bee" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.io.*;
+
+public class OutputStreamDemo {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自动关闭输出流
+        try (OutputStream os = new FileOutputStream(&quot;output.txt&quot;)) {
+
+            // 1. public void write(int b) —— 写入一个字节（只取低8位）
+            os.write(&#x27;H&#x27;);        // 写入字符 &#x27;H&#x27; 的 ASCII 码
+            os.write(101);        // 写入 101，对应字符 &#x27;e&#x27;
+            os.write(&#x27;l&#x27;);        // 写入 &#x27;l&#x27;
+            os.write(&#x27;l&#x27;);        // 写入 &#x27;l&#x27;
+            os.write(&#x27;o&#x27;);        // 写入 &#x27;o&#x27;
+            os.write(&#x27;\n&#x27;);       // 换行符
+
+            // 2. public void write(byte[] b) —— 将整个字节数组写入
+            byte[] data = &quot;World!&quot;.getBytes();
+            os.write(data);       // 写入 &quot;World!&quot;
+
+            // 3. public void write(byte[] b, int off, int len) —— 写入数组的部分区间
+            byte[] extra = &quot; Java I/O&quot;.getBytes();   // 总共 9 个字节
+            // 从索引 1 开始，写入长度为 5 的数据：&quot;Java &quot;
+            os.write(extra, 1, 5);  // 写入 &quot;Java &quot;（注意空格）
+
+            // 此时文件内容为：
+            // Hello
+            // World!Java 
+
+            // 4. public void close() —— 关闭流（此处由 try-with-resources 自动完成）
+            // 也可以显式调用，但通常不必要
+            // os.close();  // 自动关闭，不需要显式调用
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 验证写入的内容（可选）
+        try (InputStream is = new FileInputStream(&quot;output.txt&quot;)) {
+            byte[] content = is.readAllBytes();
+            System.out.println(&quot;写入的内容：&quot;);
+            System.out.print(new String(content));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre></div></li></ul></div><div style="display:contents" dir="auto"><h2 id="42c8db55-6aee-83ef-95fc-01dba4bfe929" class="">字符流</h2></div><div style="display:contents" dir="auto"><p id="2e58db55-6aee-8342-a3b1-81869c78ee10" class="">字节流以字节为单位进行数据的输入和输出</p></div><div style="display:contents" dir="auto"><p id="d168db55-6aee-8268-ba2e-01bb512728fe" class="">字符流以字符为单位进行数据的输入和输出</p></div><div style="display:contents" dir="auto"><p id="73a8db55-6aee-8316-9a16-811251ddb393" class="">输入字符流 Reader</p></div><div style="display:contents" dir="ltr"><figure id="c2d8db55-6aee-8357-90ec-8124202c6671" class="image"><a href="%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/Snipaste_2026-04-05_12-18-01.png"><img style="width:484.296875px" src="%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/Snipaste_2026-04-05_12-18-01.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="5ba8db55-6aee-82c3-a43e-01c077a8a2b1" class="">当被读取的内容是英文数字，符合字节流和字符流输出的结果一致 为什么？</p></div><div style="display:contents" dir="auto"><p id="c098db55-6aee-8381-9572-81c2094b9e76" class="">英文一个字符是一个字节</p></div><div style="display:contents" dir="auto"><p id="ad98db55-6aee-82c1-9319-01cda8bdec11" class="">汉字一个字符是三个字节</p></div><div style="display:contents" dir="auto"><p id="fd98db55-6aee-83d4-9bd0-016d5d24d021" class="">输出字符流 Writer</p></div><div style="display:contents" dir="ltr"><figure id="a6c8db55-6aee-82b9-9b9f-01af4151929d" class="image"><a href="%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/Snipaste_2026-04-05_12-20-50.png"><img style="width:484.2857360839844px" src="%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/Snipaste_2026-04-05_12-20-50.png"/></a></figure></div><div style="display:contents" dir="auto"><hr id="7448db55-6aee-8245-b337-01295c675681"/></div><div style="display:contents" dir="auto"><h2 id="34e8db55-6aee-82e2-88f4-0187065b5b98" class="">序列化与反序列化</h2></div><div style="display:contents" dir="auto"><p id="5ea8db55-6aee-83ea-9602-8186b359d283" class="">如果把一个Java对象存入文件中，则需要对该对象进行序列化处理，而需要从文件输出出来就需要反序列化处理</p></div><div style="display:contents" dir="auto"><p id="65c8db55-6aee-8363-ac6e-018e54159700" class="">可序列化类</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="ae08db55-6aee-825d-8164-0115ea9775f7" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">import java.io.Serializable;
+
+// 类必须实现 Serializable 接口
+public class Person implements Serializable {
+    // 建议显式声明 serialVersionUID，保证版本一致性
+    private static final long serialVersionUID = 1L;
+
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Person{name=&#x27;&quot; + name + &quot;&#x27;, age=&quot; + age + &quot;}&quot;;
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="5a18db55-6aee-8379-8a1a-01e02da166d3" class="">序列化与反序列化过程</p></div><div style="display:contents" dir="auto"><pre id="e3f8db55-6aee-83a5-a0f2-8193196b8f42" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.io.*;
+
+public class SerializationDemo {
+    public static void main(String[] args) {
+        String fileName = &quot;person.ser&quot;;
+
+        // 创建一个 Person 对象
+        Person originalPerson = new Person(&quot;张三&quot;, 25);
+        System.out.println(&quot;原始对象: &quot; + originalPerson);
+
+        // 序列化：将对象写入文件
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(originalPerson);
+            System.out.println(&quot;序列化完成，对象已写入 &quot; + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 反序列化：从文件读取对象
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            Person deserializedPerson = (Person) ois.readObject();
+            System.out.println(&quot;反序列化得到的对象: &quot; + deserializedPerson);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="02b8db55-6aee-834b-84eb-015483148e37"/></div><div style="display:contents" dir="auto"><h1 id="6298db55-6aee-8284-8005-016f9b4cb152" class="">反射</h1></div><div style="display:contents" dir="auto"><p id="fe58db55-6aee-835e-8b07-018b2478bfa6" class="">通过一个实例化对象映射到类，在程序运行期间就可获取类的信息，进行相关操作。</p></div><div style="display:contents" dir="auto"><h2 id="ced8db55-6aee-83c4-b30a-016b6d68cd78" class="">Class类</h2></div><div style="display:contents" dir="auto"><p id="7ce8db55-6aee-82c6-b297-8196769d5783" class="">Class类是反射的基础</p></div><div style="display:contents" dir="auto"><p id="1fc8db55-6aee-83ae-b910-81d0e9872ac3" class="">用一个对象来表示某个类的信息，通过Class类来闯将，</p></div><div style="display:contents" dir="auto"><p id="69e8db55-6aee-8377-bb81-01cb154730b3" class="">Class是专门用来描述其他类的类，每一个Class对象都是对某个类的具体描述</p></div><div style="display:contents" dir="auto"><p id="ed98db55-6aee-838f-8b76-01699ae99c75" class="">获取class类的三种方法：</p></div><div style="display:contents" dir="auto"><ol type="1" id="1028db55-6aee-8338-889f-81e1bf4a7d7a" class="numbered-list" start="1"><li>调用forName方法</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ca78db55-6aee-8232-bae7-8198a9af26c8" class="numbered-list" start="2"><li>通过目标类的类字面量获取</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="4d28db55-6aee-8350-bb01-8169026116ec" class="numbered-list" start="3"><li>通过目标类的实例化对象获取</li></ol></div><div style="display:contents" dir="auto"><pre id="dd48db55-6aee-822e-9666-811a877ce1a1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package test;
+
+public class Main {
+    public static void main(String[] args) throws ClassNotFoundException {
+        // forName
+        Class clazz1 = Class.forName(&quot;test.User&quot;);
+        System.out.println(clazz1); // class User
+        // 类字面量
+        Class clazz2 = User.class;
+        System.out.println(clazz2);
+        // 实例化对象
+        User user = new User();
+        Class clazz3 =  user.getClass();
+        System.out.println(clazz3);
+
+        System.out.println(clazz1 == clazz2); // true
+        System.out.println(clazz2 == clazz3); // true
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><blockquote id="76a8db55-6aee-82f2-9b42-01ef523da6c4" class="">上述三种方法获取的class类是同一个，因为每一个类在内存中只有一份，对应的对象也只有一个，不是有它创建出来的实例化对象，而是描述它内部结果的对象</blockquote></div><div style="display:contents" dir="ltr"><table id="36b8db55-6aee-82d2-b2ab-81261829c0ef" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="3e88db55-6aee-822c-acd9-81ff82b73198"><td id="vZKP" class="block-color-gray_background" style="width:375.65625px">方法</td><td id="q_`g" class="block-color-gray_background" style="width:358.6629638671875px">描述</td></tr></div><div style="display:contents" dir="ltr"><tr id="97f8db55-6aee-8206-bb4e-8184b6e4ae1c"><td id="vZKP" class="" style="width:375.65625px">public boolean isInterface()</td><td id="q_`g" class="" style="width:358.6629638671875px">判断是否为接口</td></tr></div><div style="display:contents" dir="ltr"><tr id="8648db55-6aee-82a3-9424-814d7b7bd505"><td id="vZKP" class="" style="width:375.65625px">public boolean isArray()</td><td id="q_`g" class="" style="width:358.6629638671875px">判断类是否为数组</td></tr></div><div style="display:contents" dir="ltr"><tr id="24c8db55-6aee-821f-8d84-811181712cee"><td id="vZKP" class="" style="width:375.65625px">public boolean isAnnotation()</td><td id="q_`g" class="" style="width:358.6629638671875px">判断类是否为注释</td></tr></div><div style="display:contents" dir="ltr"><tr id="cb98db55-6aee-8337-a04c-018abc60c6e4"><td id="vZKP" class="" style="width:375.65625px">public String getName()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类名</td></tr></div><div style="display:contents" dir="ltr"><tr id="e358db55-6aee-8356-b64c-01e5c405ab0b"><td id="vZKP" class="" style="width:375.65625px">public ClassLoader getClassLoader()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类加载器</td></tr></div><div style="display:contents" dir="ltr"><tr id="7988db55-6aee-8378-b2dc-013390a499a3"><td id="vZKP" class="" style="width:375.65625px">public Class getSuperclas()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类的父类</td></tr></div><div style="display:contents" dir="ltr"><tr id="58c8db55-6aee-827e-ad1c-81c4d7bf0af0"><td id="vZKP" class="" style="width:375.65625px">public Package getPackage()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类所在的包</td></tr></div><div style="display:contents" dir="ltr"><tr id="9268db55-6aee-8361-a5a8-01200b8f3ce1"><td id="vZKP" class="" style="width:375.65625px">public String getPackageName()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类所在的包名</td></tr></div><div style="display:contents" dir="ltr"><tr id="9768db55-6aee-83d0-8b17-011e8cf1e17a"><td id="vZKP" class="" style="width:375.65625px">public Class[] getInterfaces()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类的接口</td></tr></div><div style="display:contents" dir="ltr"><tr id="03e8db55-6aee-82ec-8fa0-010ffdf7c6ec"><td id="vZKP" class="" style="width:375.65625px">public int getModifiers()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类的访问权限修饰符</td></tr></div><div style="display:contents" dir="ltr"><tr id="28d8db55-6aee-82cd-80b7-0143dcf940cc"><td id="vZKP" class="" style="width:375.65625px">public Field[] getFields()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类的全部<mark class="highlight-pink_background">公有</mark>成员变量，包括继承父类和自定义的</td></tr></div><div style="display:contents" dir="ltr"><tr id="8b18db55-6aee-821f-abab-815747c908fc"><td id="vZKP" class="" style="width:375.65625px">public Field[] getDeclaredFields()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类的自定义成员变量</td></tr></div><div style="display:contents" dir="ltr"><tr id="d2a8db55-6aee-82f7-b3b6-81b1dade5f26"><td id="vZKP" class="" style="width:375.65625px">public Field getField(String name)</td><td id="q_`g" class="" style="width:358.6629638671875px">通过名称获取类的成员变量，包括继承父类和自定义的</td></tr></div><div style="display:contents" dir="ltr"><tr id="8718db55-6aee-8332-bb3d-8127b5a95e77"><td id="vZKP" class="" style="width:375.65625px">public Field getDeclaredField(String name)</td><td id="q_`g" class="" style="width:358.6629638671875px">通过名称获取类的自定义成员变量</td></tr></div><div style="display:contents" dir="ltr"><tr id="c9f8db55-6aee-822d-8403-81a738f00649"><td id="vZKP" class="" style="width:375.65625px">public Method[] getMethods()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类的全部公有方法，包括继承父类和自定义的</td></tr></div><div style="display:contents" dir="ltr"><tr id="cc38db55-6aee-82c1-8426-81d4dae56674"><td id="vZKP" class="" style="width:375.65625px">public Method[] getDeclaredMethods()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类的自定义方法</td></tr></div><div style="display:contents" dir="ltr"><tr id="7de8db55-6aee-82ca-92cb-017ec9098170"><td id="vZKP" class="" style="width:375.65625px">public Method getMethod(String name, Class… pars)</td><td id="q_`g" class="" style="width:358.6629638671875px">通过名称和参数获取类的公有方法，包括继承父类和自定义的</td></tr></div><div style="display:contents" dir="ltr"><tr id="92e8db55-6aee-824a-aa8a-016e5be10fbd"><td id="vZKP" class="" style="width:375.65625px">public Method getDeclaredMethod(String name, Class… pars)</td><td id="q_`g" class="" style="width:358.6629638671875px">通过名称和参数获取类的自定义方法</td></tr></div><div style="display:contents" dir="ltr"><tr id="d238db55-6aee-83a8-9c7c-81aa1b234ba1"><td id="vZKP" class="" style="width:375.65625px">public Constructor[] getConstructors()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类的全部公有构造器</td></tr></div><div style="display:contents" dir="ltr"><tr id="3b98db55-6aee-83dc-abea-81b48113d61a"><td id="vZKP" class="" style="width:375.65625px">public Constructor[] getDeclaredConsturctors()</td><td id="q_`g" class="" style="width:358.6629638671875px">获取类的全部构造器</td></tr></div><div style="display:contents" dir="ltr"><tr id="7c28db55-6aee-8282-83fd-018c91849668"><td id="vZKP" class="" style="width:375.65625px">public Constructor getConstructor(Class… pars)</td><td id="q_`g" class="" style="width:358.6629638671875px">通过参数信息获取类的公有构造器</td></tr></div><div style="display:contents" dir="ltr"><tr id="2f58db55-6aee-8227-8540-01910a58fe48"><td id="vZKP" class="" style="width:375.65625px">public Constructor getDeclaredConstructor(Class… pars)</td><td id="q_`g" class="" style="width:358.6629638671875px">通过参数信息获取类的构造器</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ul id="9d98db55-6aee-82b4-8ee7-81adf2fc08a5" class="toggle"><li><details open=""><summary>使用示例</summary><div style="display:contents" dir="auto"><p id="0158db55-6aee-8279-b2a8-01fc402f89d4" class="">定义 注释 接口 父类</p></div><div style="display:contents" dir="auto"><pre id="f378db55-6aee-8223-9c8a-0195e8b060f9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 注解（运行时保留，以便通过反射判断）
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+// 接口
+interface MyInterface {
+    void interfaceMethod();
+}
+
+@Retention(RetentionPolicy.RUNTIME)
+@interface MyAnnotation {
+}
+
+// 父类
+class Parent {
+    public String parentField = &quot;parent&quot;;
+    public void parentMethod() {}
+}</code></pre></div><div style="display:contents" dir="auto"><p id="c068db55-6aee-8212-82a1-81e833955b8a" class="">定义目标类 DemoClass</p></div><div style="display:contents" dir="auto"><pre id="1d58db55-6aee-8397-ba71-0116fa7145ff" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class DemoClass extends Parent implements MyInterface {
+    // 字段
+    public String publicField = &quot;public&quot;;
+    private int privateField = 100;
+    static double staticField = 3.14;
+
+    // 构造器
+    public DemoClass() {}
+    private DemoClass(int x) {}
+    public DemoClass(String s, int i) {}
+
+    // 方法
+    public void publicMethod() {}
+    private void privateMethod() {}
+    public static void staticMethod() {}
+
+    @Override
+    public void interfaceMethod() {}
+}</code></pre></div><div style="display:contents" dir="auto"><p id="5a98db55-6aee-82f6-8639-01ac97b3811c" class="">主程序演示所有反射方法</p></div><div style="display:contents" dir="auto"><pre id="76e8db55-6aee-8308-a690-81d218e6abb1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.lang.reflect.*;
+import java.util.Arrays;
+
+public class ReflectionMethodsDemo {
+    public static void main(String[] args) throws Exception {
+        // 获取 Class 对象
+        Class&lt;?&gt; clazz = DemoClass.class;
+
+        System.out.println(&quot;=== 基本信息 ===&quot;);
+        System.out.println(&quot;isInterface(): &quot; + clazz.isInterface());          // false
+        System.out.println(&quot;isArray(): &quot; + clazz.isArray());                  // false
+        System.out.println(&quot;isAnnotation(): &quot; + clazz.isAnnotation());        // false
+        System.out.println(&quot;getName(): &quot; + clazz.getName());                  // DemoClass
+        System.out.println(&quot;getClassLoader(): &quot; + clazz.getClassLoader());
+        System.out.println(&quot;getSuperclass(): &quot; + clazz.getSuperclass().getSimpleName()); // Parent
+        System.out.println(&quot;getPackage(): &quot; + clazz.getPackage());
+        System.out.println(&quot;getPackageName(): &quot; + clazz.getPackageName());
+        System.out.println(&quot;getInterfaces(): &quot; + Arrays.toString(clazz.getInterfaces()));
+        System.out.println(&quot;getModifiers(): &quot; + Modifier.toString(clazz.getModifiers())); // public
+
+        System.out.println(&quot;\n=== 字段相关 ===&quot;);
+        // public 字段（包括继承的）
+        System.out.println(&quot;getFields():&quot;);
+        for (Field f : clazz.getFields()) {
+            System.out.println(&quot;  &quot; + f.getName());
+        }
+        // 本类声明的所有字段（不限访问权限）
+        System.out.println(&quot;getDeclaredFields():&quot;);
+        for (Field f : clazz.getDeclaredFields()) {
+            System.out.println(&quot;  &quot; + f.getName() + &quot; (&quot; + Modifier.toString(f.getModifiers()) + &quot;)&quot;);
+        }
+        // 通过名称获取 public 字段（包括继承的）
+        Field fPublic = clazz.getField(&quot;publicField&quot;);
+        System.out.println(&quot;getField(\&quot;publicField\&quot;): &quot; + fPublic.getName());
+        // 通过名称获取本类声明的字段（包括 private）
+        Field fPrivate = clazz.getDeclaredField(&quot;privateField&quot;);
+        System.out.println(&quot;getDeclaredField(\&quot;privateField\&quot;): &quot; + fPrivate.getName());
+
+        System.out.println(&quot;\n=== 方法相关 ===&quot;);
+        // 所有 public 方法（包括继承的）
+        System.out.println(&quot;getMethods():&quot;);
+        for (Method m : clazz.getMethods()) {
+            System.out.println(&quot;  &quot; + m.getName());
+        }
+        // 本类声明的所有方法（不限访问权限）
+        System.out.println(&quot;getDeclaredMethods():&quot;);
+        for (Method m : clazz.getDeclaredMethods()) {
+            System.out.println(&quot;  &quot; + m.getName() + &quot; (&quot; + Modifier.toString(m.getModifiers()) + &quot;)&quot;);
+        }
+        // 通过名称+参数获取 public 方法（包括继承）
+        Method mPublic = clazz.getMethod(&quot;publicMethod&quot;);
+        System.out.println(&quot;getMethod(\&quot;publicMethod\&quot;): &quot; + mPublic.getName());
+        // 通过名称+参数获取本类声明的方法（包括 private）
+        Method mPrivate = clazz.getDeclaredMethod(&quot;privateMethod&quot;);
+        System.out.println(&quot;getDeclaredMethod(\&quot;privateMethod\&quot;): &quot; + mPrivate.getName());
+
+        System.out.println(&quot;\n=== 构造器相关 ===&quot;);
+        // 所有 public 构造器
+        System.out.println(&quot;getConstructors():&quot;);
+        for (Constructor&lt;?&gt; c : clazz.getConstructors()) {
+            System.out.println(&quot;  &quot; + c);
+        }
+        // 本类声明的所有构造器（不限访问权限）
+        System.out.println(&quot;getDeclaredConstructors():&quot;);
+        for (Constructor&lt;?&gt; c : clazz.getDeclaredConstructors()) {
+            System.out.println(&quot;  &quot; + c);
+        }
+        // 通过参数获取 public 构造器
+        Constructor&lt;?&gt; cPublic = clazz.getConstructor(String.class, int.class);
+        System.out.println(&quot;getConstructor(String.class, int.class): &quot; + cPublic);
+        // 通过参数获取本类声明的构造器（包括 private）
+        Constructor&lt;?&gt; cPrivate = clazz.getDeclaredConstructor(int.class);
+        System.out.println(&quot;getDeclaredConstructor(int.class): &quot; + cPrivate);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="6fd8db55-6aee-833b-abd3-0116cc1260ac"/></div><div style="display:contents" dir="auto"><h2 id="fbd8db55-6aee-82be-84da-01433528936e" class="">反射的应用</h2></div><div style="display:contents" dir="auto"><p id="7f98db55-6aee-83fb-b387-01dbff1987d7" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,848 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>SSRF</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="4468db55-6aee-82b5-a33a-01c9482fc524" class="page sans"><header><h1 class="page-title" dir="auto">SSRF</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="f4d8db55-6aee-83cb-b022-01e4349874b7" class="">&gt;&gt;&gt;SSRF(Server-Side Request Forgery)，服务器端请求伪造，利用漏洞伪造服务器端发起请求，从而突破客户端获取不到数据的限制。</p></div><div style="display:contents" dir="auto"><p id="b008db55-6aee-8357-9ac4-81559df27481" class="">&gt;&gt;&gt;<mark class="highlight-teal">在服务器对外发起请求获取数据的时候 ，未能做好目标地址的过滤与限制。</mark></p></div><div style="display:contents" dir="auto"><p id="6be8db55-6aee-825e-89c6-810b8c3e7d94" class="">&gt;&gt;&gt;<mark class="highlight-red">服务端必须存在向外发送网络请求的能力。</mark></p></div><div style="display:contents" dir="auto"><p id="9d08db55-6aee-8322-b4c9-017d24a4d302" class="">&gt;&gt;&gt;SSRF类型：1、回显SSRF。2、盲SSRF</p></div><div style="display:contents" dir="auto"><p id="6ab8db55-6aee-83f4-ac12-818174d795cf" class="">&gt;&gt;&gt;在线网络上，AI可以自动生成SSRF</p></div><div style="display:contents" dir="auto"><ul id="c688db55-6aee-83a4-a78c-0103c4b6f423" class="toggle"><li><details open=""><summary>SSRF漏洞危害</summary><div style="display:contents" dir="auto"><p id="40d8db55-6aee-8254-9468-01c8663a65b5" class="">主要用来进行<mark class="highlight-red">内网探测存活主机，和开放端口，信息收集</mark>。</p></div><div style="display:contents" dir="auto"><p id="e968db55-6aee-8312-a819-8104bf4e242d" class="">1、可以对外网服务器所在的内网进行端口扫描，获取一些服务的banner信息；</p></div><div style="display:contents" dir="auto"><p id="ccb8db55-6aee-82fb-8ac6-81142ab2cc6b" class="">2、有时候可以攻击运行在内或本地的应用程序（比如溢出）；比如通过ssrf给内网的redis写定时任务，实现反弹shell</p></div><div style="display:contents" dir="auto"><p id="a3c8db55-6aee-8335-a10b-01707a62b70e" class="">3、对内网web应用进行指纹识别；</p></div><div style="display:contents" dir="auto"><p id="2e68db55-6aee-83e2-acb5-01d2926a9e4e" class="">4、攻击内外网的web应用，主要是使用get参数就可以实现的攻击（struts2，sql注入）；</p></div><div style="display:contents" dir="auto"><p id="5878db55-6aee-8256-bc5f-01436ef656b1" class="">5、利用file协议赌气本地文件等；</p></div><div style="display:contents" dir="auto"><p id="b318db55-6aee-8213-9643-81816db2ce48" class="">6、各种伪协议进行探测：http,file,dict,ftp,gopher等</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c4e8db55-6aee-839a-9327-8101f67f2b3e" class="toggle"><li><details open=""><summary>攻击原理以及流程</summary><div style="display:contents" dir="auto"><p id="86c8db55-6aee-8340-bd6d-8134fe383a87" class="">1、侦测向外发送请求的能力</p></div><div style="display:contents" dir="auto"><p id="a6c8db55-6aee-8365-bfab-018b46d31534" class="">通过探测内网服务，端口，远程执行代码，攻击内网web应用，读取文件等。</p></div><div style="display:contents" dir="auto"><p id="3c18db55-6aee-82be-8eff-01aa94ee5b3a" class="">→向存在SSRF漏洞的Web服务器发送恶意请求</p></div><div style="display:contents" dir="auto"><p id="d878db55-6aee-82e5-9567-017d716928cf" class="">→Web服务器向位于防火墙后面的受害者服务器发出请求</p></div><div style="display:contents" dir="auto"><p id="4b98db55-6aee-8383-a3b9-8182a1a5e4b3" class="">→受害者服务器把响应之后的数据传递回web服务器</p></div><div style="display:contents" dir="auto"><p id="66d8db55-6aee-8264-a177-010bb0b6b7f4" class="">→web服务器会将数据返回给攻击者机器</p></div><div style="display:contents" dir="auto"><p id="f5b8db55-6aee-83c4-97b5-013bc86ca36e" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fd48db55-6aee-82a4-a4b0-81817e053eae" class="toggle"><li><details open=""><summary>如何找到SSRF漏洞位置</summary><div style="display:contents" dir="auto"><p id="0d18db55-6aee-831e-868d-8173177a490a" class="">1、分享连接中存在嵌套网址。</p></div><div style="display:contents" dir="auto"><p id="1f38db55-6aee-83fa-aee7-81da2c3903bb" class=""><mark class="highlight-blue">service.weibo.com为微博的网址</mark></p></div><div style="display:contents" dir="auto"><p id="7af8db55-6aee-8344-99b9-01269c676ca6" class=""><mark class="highlight-red">www.bilibili.com为b站网址</mark></p></div><div style="display:contents" dir="auto"><p id="a008db55-6aee-8279-a9e1-01ef96fd7eb0" class="">将b站网址改为微博的内网网址，通过微博web服务器访问微博内网（前提是存在ssrf漏洞）。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7418db55-6aee-8387-b329-812ee3124b7f" class="code code-wrap"><code class="language-markdown" style="white-space:pre-wrap;word-break:break-all">https://service.weibo.com/share/share.php?url=https%3A%2F%2Fwww.bilibili.com%2Fvideo%2FBV1uKrzYqE35%2F%3Fp%3D2%26vd_source%3D072928e048ec05652cd6858d492e8141%26share_medium%3Dweb%26share_source%3Dweibo%26bbid%3D2CE6DBB3-3BFE-2B6A-EB39-4D320808559982148infoc%26ts%3D1754145603603&amp;type=3&amp;count=1&amp;appkey=2841902482&amp;title=这才是Ssrf漏洞！【通俗易懂版】这绝对是B站2025年深度学习入门的天花板教程！%23哔哩哔哩动画%23&amp;pic=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farchive%2F0c1fdd6af3fce5963f120c872b693d745184bf67.png&amp;searchPic=false&amp;ralateUid=&amp;language=zh_cn&amp;rnd=1754145603603</code></pre></div><div style="display:contents" dir="auto"><p id="8c38db55-6aee-8279-89d2-81a47cb9b20e" class="">2、翻译</p></div><div style="display:contents" dir="auto"><p id="c4d8db55-6aee-8276-b689-01297504dfea" class="">通过有道翻译给网页翻译，连接中包含双层链接</p></div><div style="display:contents" dir="auto"><pre id="a2e8db55-6aee-8241-8f1d-01670b731a05" class="code code-wrap"><code class="language-markdown" style="white-space:pre-wrap;word-break:break-all">http://webtrans.yodao.com/webTransPc/index.html#/?url=https%3A%2F%2Fnginx.org%2F&amp;from=auto&amp;to=auto&amp;type=1</code></pre></div><div style="display:contents" dir="auto"><p id="7198db55-6aee-83a8-b869-010e0a74cf56" class="">3、可以上传图片等内容，收藏内容</p></div><div style="display:contents" dir="auto"><p id="61a8db55-6aee-82db-9bfa-81eeacd1184b" class="">博客园收藏信息中也存在类似的双层连接，</p></div><div style="display:contents" dir="auto"><p id="8888db55-6aee-82ab-97cd-819cc079d58a" class="">收藏内容即收藏一篇文章的url</p></div><div style="display:contents" dir="auto"><pre id="4318db55-6aee-83ba-b88b-01ab50c819ce" class="code code-wrap"><code class="language-markdown" style="white-space:pre-wrap;word-break:break-all">https://wz.cnblogs.com/create?t=MjAyNeeGteWvhuadryAtLSDliJ3lp4vosJzpopggLS0gUmVwcm9kdWNpYmlsaXR5IC0gY2hlbl94aW5nIC0g5Y2a5a6i5Zut&amp;u=https%3A%2F%2Fwww.cnblogs.com%2Fchen-xing-zzu%2Fp%2F19019413&amp;c=&amp;bid=19019413&amp;i=0&amp;base64=1</code></pre></div><div style="display:contents" dir="auto"><p id="8e78db55-6aee-827a-82dc-01433056799b" class="">4、inurl</p></div><div style="display:contents" dir="auto"><p id="85f8db55-6aee-83f0-9a9c-81724888c4ce" class="">inrul是搜索引擎（谷歌，百度等）常用的高级搜索指令，用于精确筛选URL中包含特定关键词的网页。</p></div><div style="display:contents" dir="auto"><p id="c128db55-6aee-83f2-9e19-010405c0ad3e" class="">对大小写不敏感。</p></div><div style="display:contents" dir="auto"><p id="4708db55-6aee-827e-a0b4-0132fb001172" class=""><code>url:关键词</code></p></div><div style="display:contents" dir="auto"><pre id="7b38db55-6aee-82f7-ad2c-01f03be59688" class="code code-wrap"><code class="language-markdown" style="white-space:pre-wrap;word-break:break-all">inurl:login # 会返回所有url中包含&quot;login&quot;的网页。（https://example.com/login.php）
+电商 inurl:product # 会返回所有url中包含&quot;product&quot;且内容与&quot;电商&quot;相关的网页。（https://shop.com/product/123）
+inurl:news inurl:2024 # 返回url中同时包含&quot;news&quot;和&quot;2024&quot;的网页（https://xxx.com/news/2024/）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3fd8db55-6aee-8203-ad19-8151a8479908" class="toggle"><li><details open=""><summary>PHP中产生SSRF漏洞的函数</summary><div style="display:contents" dir="auto"><p id="2b98db55-6aee-83ec-9d90-81a72cfca3bd" class="">其实每个语言中，可以向网络发起请求的模块，函数等都有可能存在风险。 </p></div><div style="display:contents" dir="auto"><p id="4b88db55-6aee-837a-98ac-01daf1265246" class="">1、<code>file_get_contents()</code></p></div><div style="display:contents" dir="auto"><p id="1718db55-6aee-822e-acfe-810fc436f05d" class="">读取文件内容，支持通过URL赌气网络资源（需要allow_url_fopen=On）</p></div><div style="display:contents" dir="auto"><p id="5a68db55-6aee-82bd-acee-811eb2658c19" class="">如果将用户1可控的URL直接传入该函数，攻击者可构造恶意URL让服务器发起非预期请求。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="34f8db55-6aee-8345-8619-81b9ae806eba" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+$url = $_GET[&#x27;url&#x27;];
+$content = file_get_contents($url); // 攻击者可以传入 http://127.0.0.1/secret 等
+?&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="f208db55-6aee-82ff-83a3-013502ba1ca3" class="">2、<code>fopen()</code> </p></div><div style="display:contents" dir="auto"><p id="5d38db55-6aee-835c-8619-01b5ce59fffd" class="">打开文件或URL资源（需要allow_url_fopen=On）</p></div><div style="display:contents" dir="auto"><p id="bee8db55-6aee-82ae-b3bf-01a2fff77b65" class="">与<code>file_get_contents()</code>类似</p></div><div style="display:contents" dir="auto"><pre id="9de8db55-6aee-82ec-b75a-810506f98961" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+$url = $_GET[&#x27;url&#x27;];
+$handle = fopen($url, &#x27;r&#x27;); // 可被滥用访问内网或本地文件
+?&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="2ff8db55-6aee-829b-8c9d-0169e6ece709" class="">3、<code>curl_exec()</code> </p></div><div style="display:contents" dir="auto"><p id="f9d8db55-6aee-83a5-8bca-01564160855c" class="">通过cURL库发送网络请求，支持多种协议</p></div><div style="display:contents" dir="auto"><p id="3398db55-6aee-8281-930c-812155bca296" class="">若未限制协议和目标地址，攻击者可利用CURLOPT_URL构造内网IP，本地文件路径。</p></div><div style="display:contents" dir="auto"><pre id="c298db55-6aee-839f-b1f0-811fef834cb1" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $_GET[&#x27;url&#x27;]); // 用户可控URL
+curl_exec($ch); // 可访问 http://192.168.1.1 等内网地址
+curl_close($ch);
+?&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="92a8db55-6aee-821b-98d7-81dd643b44a1" class="">4、<code>fsockopen()</code></p></div><div style="display:contents" dir="auto"><p id="f3a8db55-6aee-82ba-9408-01f3283257b9" class="">打开网络连接，可手动构造HTTP等协议请求</p></div><div style="display:contents" dir="auto"><p id="ef88db55-6aee-8219-81dc-81ec9a2d4fb1" class="">用户控制主机名和端口时，可让服务器连接内网服务</p></div><div style="display:contents" dir="auto"><pre id="1cc8db55-6aee-82c0-acf9-0195a6f8314d" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+$host = $_GET[&#x27;host&#x27;];
+$port = $_GET[&#x27;port&#x27;];
+$fp = fsockopen($host, $port); // 连接攻击者指定的内网主机和端口
+?&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="2b08db55-6aee-8201-9499-01106ca2e513" class="">5、<code>stream_socket_client()</code></p></div><div style="display:contents" dir="auto"><p id="7898db55-6aee-8263-b316-811c54c4d2d0" class="">创建网络流套接字连接，支持多种协议</p></div><div style="display:contents" dir="auto"><p id="54e8db55-6aee-8284-ab37-814449ae9643" class="">与<code>fsockopen()</code>类似</p></div><div style="display:contents" dir="auto"><pre id="9b98db55-6aee-83ed-8bf9-81c354df26c4" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+$socket = stream_socket_client(&quot;tcp://{$_GET[&#x27;host&#x27;]}:{$_GET[&#x27;port&#x27;]}&quot;);
+?&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="22d8db55-6aee-82a3-b1e7-0182d7034543" class="">6、框架/库中的HTTP客户端</p></div><div style="display:contents" dir="auto"><p id="21c8db55-6aee-8397-a1dc-8192ef0addd7" class="">许多 PHP 框架（如 Laravel、Symfony）或第三方库（如 Guzzle）提供的 HTTP 客户端，若未正确过滤用户输入的 URL，同样会导致 SSRF：</p></div><div style="display:contents" dir="auto"><pre id="9198db55-6aee-8296-8d61-011967e03a72" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+// Guzzle 示例（未过滤URL）
+$client = new GuzzleHttp\Client();
+$response = $client-&gt;get($_GET[&#x27;url&#x27;]); // 风险：用户可控URL
+?&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bd08db55-6aee-83c2-90ea-81838be15e14" class="toggle"><li><details open=""><summary>redis未授权访问漏洞</summary><div style="display:contents" dir="auto"><p id="88e8db55-6aee-8372-837a-01ce7a7cb7ad" class="">redis时告诉缓存型数据库（类似还有mongdb），主要用户缓存一些频繁使用的数据来缓解数据库压力。</p></div><div style="display:contents" dir="auto"><p id="40d8db55-6aee-82d3-8ac9-81c533793d1e" class=""><mark class="highlight-red">redis通过内存储存数据，数据库通过磁盘存储。</mark></p></div><div style="display:contents" dir="auto"><ul id="0c38db55-6aee-83bf-93ca-01ae0c4aa94a" class="toggle"><li><details open=""><summary>redis安装</summary><div style="display:contents" dir="auto"><pre id="8e48db55-6aee-8232-856f-81898cd69d6e" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">1、安装 redis 依赖
+Redis 是基于 C 语言编写的，因此首先需要安装 Redis 所需要的 gcc 依赖
+yum install -y gcc tcl
+
+2、将我们下载的 redis-6.2.13.tar.gz 上传到服务器上，然后解压，我直接上传到了 /root 目录下面
+tar -xzf redis-6.2.13.tar.gz
+
+3、进入 redis 目录，运行编译命令进行编译安装
+cd redis-6.2.13
+make &amp;&amp; make install
+默认的安装路径是在 /usr/local/bin 目录下，查看目录下的内容确保安装成功
+
+4、可以直接启动 redis 了
+redis-server
+redis-server redis.conf # 指定配置文件启动，配置文件默认位置在我们解压的目录中，cd /root/redis-6.2.13 目录中
+5、停止 redis 进程
+ps -ef | grep redis
+kill -9 pid 即可
+
+6、修改配置文件
+#先备份配置文件
+cp redis.conf redis.conf.bak
+vim redis.conf
+修改如下两个配置
+#允许访问的地址，默认是 127.0.0.1，会导致只能在本地访问。修改为 0.0.0.0 则可以在任意 IP 访问，生产环境不要设置为 0.0.0.0
+bind 0.0.0.0
+#守护进程，修改为 yes 后即可后台运行
+daemonize yes
+#设置后访问 Redis 必须输入密码
+#注意：这个密码不用配置，要的就是没有密码直接可以连接 redis 服务，这就是未授权访问漏洞
+#requirepass 123456
+
+7、启动 redis
+redis-server redis.conf
+查看是否运行成功
+ps -ef | grep redis
+
+8、为了方便控制 redis，我们可以把 redis 添加为服务，就可以通过 systemctl 来控制 redis 了
+第二部分
+一、首先，新建一个系统服务文件
+vim /etc/systemd/system/redis.service
+二、写入如下内容
+[Unit]
+Description=redis-server
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/usr/local/bin/redis-server/root/redis-6.2.13/redis.conf #配置文件所在路径
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+#三、重载系统服务
+systemctl daemon-reload
+#四、需要重启主机
+reboot
+第三部分
+
+9、然后可以用下面这组命令来操作 redis
+#启动
+systemctl start redis
+#停止
+systemctl stop redis
+#重启
+systemctl restart redis
+#查看状态
+systemctl status redis
+#最后设置 redis 开机自启
+systemctl enable redis
+
+10、测试连接 redis 服务端，安装完 redis 之后，默认会安装一个本地的客户端 redis-cli，可以通过这个客户端连接操作服务端
+redis-cli #直接回车就能连接本地的 redis 数据库服务端，默认是没有密码的
+redis-cli -h 远程 ip 地址 #可连接远程 redis 服务端</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2d48db55-6aee-8214-8a0a-019bf5014620" class="toggle"><li><details open=""><summary>redis基本操作</summary><div style="display:contents" dir="auto"><p id="c608db55-6aee-830b-8de4-8151e9a84df5" class="">redis默认端口为6379</p></div><div style="display:contents" dir="auto"><pre id="5398db55-6aee-833e-8d61-81a682a2bce7" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">添加数据：set key value
+获取数据：get key
+删除数据：del key
+查看有哪些key：key *
+清空所有数据：flusha11 # (慎用)</code></pre></div><div style="display:contents" dir="auto"><p id="c738db55-6aee-8327-85a9-8131172cb5d2" class="">redis配置操作</p></div><div style="display:contents" dir="auto"><pre id="14b8db55-6aee-83a6-8366-01e4416a6e9e" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">config set dir /home/test                # 设置工作目录
+config set dbfilename redis.rdb          # 设置备份备份文件名
+config get dir                           # 检查工作目录是否设置成功
+config get dbfilename                    # 检查备份文件名是否设置成功
+save                                     # 进行一次备份操作</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="5998db55-6aee-82c7-9e17-8154e133684c" class="">redis安装后默认绑定<mark class="highlight-red">0.0.0.0:6379</mark>（允许所有网络访问），并且默认未启用认证机制（requirepass未配置），运行身份可能为root。</p></div><div style="display:contents" dir="auto"><p id="21b8db55-6aee-82d5-8409-81980784e1ed" class="">如果管理员未修改默认配置，攻击者可以通过redis-cli或其他工具直接连接redis服务器，执行set，config，slaveof等命令，进行篡改，写入，窃取数据。（可以实现反弹shell，webshell等操作）</p></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,914 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Agent</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="7158db55-6aee-83c0-80be-01ae003c133e" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/solid_blue.png" style="object-position:center 40%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">💄</span></div><h1 class="page-title" dir="auto">Agent</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="3418db55-6aee-82bf-9179-8123817f2273" class=""><strong>AI Agent是一个能够自主感知环境、进行思考规划，并采取行动来完成复杂目标的智能实体。核心是让大预言模型（LLM）根据任务需求，选择并调用工具，完成单靠模型自身无法解决复杂问题。</strong></p></div><div style="display:contents" dir="auto"><ul id="b1c8db55-6aee-82b9-a974-814063101ff5" class="toggle"><li><details open=""><summary>以电商商品回答为例</summary><div style="display:contents" dir="ltr"><figure id="22d8db55-6aee-8308-958b-8150e6396df7" class="image"><a href="Agent/Snipaste_2026-05-04_16-09-24.png"><img style="width:666.0267944335938px" src="Agent/Snipaste_2026-05-04_16-09-24.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6228db55-6aee-8243-bab8-818bcf06eda9" class="toggle"><li><details open=""><summary>Agent与普通Chain区别</summary><div style="display:contents" dir="ltr"><figure id="65f8db55-6aee-8244-bd81-81b531405856" class="image"><a href="Agent/Snipaste_2026-05-04_16-10-40.png"><img style="width:1226px" src="Agent/Snipaste_2026-05-04_16-10-40.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="4ef8db55-6aee-83a0-a9c1-01cbb7f06a61"/></div><div style="display:contents" dir="auto"><h1 id="3bc8db55-6aee-828b-9c7e-816411cca210" class="">基础流程</h1></div><div style="display:contents" dir="auto"><p id="7ea8db55-6aee-83e0-8f73-813e5dd261ef" class="">创建智能体</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="5a98db55-6aee-8313-9d40-01b6c7227fe3" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">agent = create_agent(
+    # llm
+    model=ChatTongyi(model=&quot;qwen3-max&quot;, api_key=os.getenv(&quot;API_KEY&quot;)),
+    # for tools list
+    tools=[get_weather],
+    # role set
+    system_prompt=&quot;你是一个聊天助手，可以回答用户问题。&quot;
+) # &lt;langgraph.graph.state.CompiledStateGraph object at 0x0000019011F2F110&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="b5f8db55-6aee-8207-8b59-81b9fddbdf48" class="">其中tools是自定义的工具（功能）</p></div><div style="display:contents" dir="auto"><pre id="caa8db55-6aee-8381-96c3-810ff720abf4" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.tools import tool
+@tool(description=&quot;查询天气&quot;)
+def get_weather() -&gt; str:
+    return &quot;晴天&quot;
+</code></pre></div><div style="display:contents" dir="auto"><p id="0108db55-6aee-83bd-bb9f-012c2c5af7e2" class="">输出</p></div><div style="display:contents" dir="auto"><pre id="4358db55-6aee-83a7-84ed-01c20104647f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">res = agent.invoke(
+    {
+        &quot;messages&quot;: [
+            {
+                &quot;role&quot;: &quot;user&quot;,
+                &quot;content&quot;: &quot;明天乌鲁木齐天气如何？&quot;
+            }
+        ]
+    }
+)
+
+parser = StrOutputParser()
+
+for msg in res[&quot;messages&quot;]:
+    print(f&quot;{type(msg)}: {parser.invoke(msg)}&quot;)</code></pre></div><div style="display:contents" dir="auto"><hr id="1268db55-6aee-834c-a702-81166d7ff240"/></div><div style="display:contents" dir="auto"><h1 id="9cd8db55-6aee-82ef-a43f-8159f291c478" class="">流式输出</h1></div><div style="display:contents" dir="auto"><pre id="3e38db55-6aee-82ae-9b8b-8150269bdd28" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 修正你之前的代码并实现流式
+from langchain.agents import create_agent
+from langchain_community.chat_models.tongyi import ChatTongyi
+from langchain_core.tools import tool
+from langchain_core.messages import HumanMessage
+import os
+
+@tool
+def get_weather(city: str) -&gt; str:
+    return f&quot;{city} 天气晴朗&quot;
+
+agent = create_agent(
+    model=ChatTongyi(model=&quot;qwen3-max&quot;, api_key=os.getenv(&quot;API_KEY&quot;)),
+    tools=[get_weather],
+    system_prompt=&quot;你是一个助手&quot;
+)
+
+# 流式调用 Agent
+for chunk in agent.stream(
+    {&quot;messages&quot;: [HumanMessage(content=&quot;乌鲁木齐天气如何？&quot;)]}
+):
+    # chunk 是一个字典，可能包含多个消息流的更新
+    if &quot;messages&quot; in chunk:
+        for msg in chunk[&quot;messages&quot;]:
+            if hasattr(msg, &quot;content&quot;) and msg.content:
+                print(msg.content, end=&quot;&quot;, flush=True)</code></pre></div><div style="display:contents" dir="auto"><blockquote id="3d28db55-6aee-83b9-b5f7-01c2c22b0541" class="">Agent 的 <code>stream</code> 会返回多个事件（工具调用、思考过程、最终回答）。你需要提取最终的消息内容实时输出</blockquote></div><div style="display:contents" dir="auto"><hr id="83b8db55-6aee-826d-b570-0150abb42c64"/></div><div style="display:contents" dir="auto"><h1 id="d638db55-6aee-838c-a3f6-811653e5ed6d" class="">ReAct</h1></div><div style="display:contents" dir="auto"><p id="2af8db55-6aee-8342-b1ae-8188cc1b8c81" class="">Agent ReAct(Reasoning+Acting)是大模型智能体的核心思考与行动与行动框架，是让Agent像人一样【思考问题 → 制定策略 → 执行行动 → 验证结果】</p></div><div style="display:contents" dir="ltr"><figure id="34e8db55-6aee-83d5-a852-817479c3a9f1" class="image"><a href="Agent/Snipaste_2026-05-04_17-59-27.png"><img style="width:675px" src="Agent/Snipaste_2026-05-04_17-59-27.png"/></a></figure></div><div style="display:contents" dir="auto"><ul id="c8e8db55-6aee-82a6-9bd1-818ee740307e" class="toggle"><li><details open=""><summary>案例(重复思考 行动 观察)</summary><div style="display:contents" dir="auto"><pre id="e988db55-6aee-83ec-bf24-812999a2c065" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">@tool(description=&quot;获取体重，返回值是整数，单位千克&quot;)
+def get_weight() -&gt; int:
+    return 90
+
+@tool(description=&quot;获取身高，返回值是整数，单位厘米&quot;)
+def get_height() -&gt; int:
+    return 172
+
+agent = create_agent(
+    model=ChatTongyi(model=&quot;qwen3-max&quot;),
+    system_prompt=&quot;你是严格遵循ReAct框架的智能体，必须按「思考→行动→观察→再思考」的流程解决问题，且**每轮仅能思考并调用1个工具**，禁止单次调用多个工具。并告知我你的思考过程，工具的调用原因，按思考、行动、观察三个结构告知我&quot;,
+    tools=[get_weight, get_height],
+)
+
+for chunk in agent.stream(
+    {&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;计算我的BMI&quot;}]},
+    stream_mode=&quot;values&quot;,
+):
+    latest_message = chunk[&quot;messages&quot;][-1]
+    if latest_message.content:
+        print(latest_message.content.strip())
+    try:
+        if latest_message.tool_calls:
+            print(f&quot;Calling tools: {{tc[&#x27;name&#x27;] for tc in latest_message.tool_calls}}&quot;)
+    except AttributeError:
+        pass</code></pre></div><div style="display:contents" dir="auto"><p id="aa98db55-6aee-82a6-a416-012fe264648a" class="">输出思考过程:</p></div><div style="display:contents" dir="auto"><pre id="0278db55-6aee-82d0-8a60-01456d81dda9" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">计算我的BMI
+**思考**：计算BMI需要体重（千克）和身高（厘米）两个数据。根据公式 BMI = 体重(kg) / (身高(m))²，需先获取这两个数值。由于工具调用限制，本轮只能先获取其中一个数据。优先获取体重，因为它是公式的分子部分。
+
+**行动**：调用获取体重的工具。
+Calling tools: {tc[&#x27;name&#x27;] for tc in latest_message.tool_calls}
+90
+**观察**：获取到体重为90千克。
+
+**思考**：已获得体重数据，下一步需要获取身高数据（厘米），才能将身高转换为米并计算BMI。根据工具调用规则，本轮需单独调用获取身高的工具。
+
+**行动**：调用获取身高的工具。
+Calling tools: {tc[&#x27;name&#x27;] for tc in latest_message.tool_calls}
+172
+**观察**：获取到身高为172厘米。
+
+**思考**：现在已获得计算BMI所需的全部数据：体重90千克，身高172厘米。接下来需要将身高转换为米（172厘米=1.72米），然后代入公式 BMI = 90 / (1.72)² 计算结果。由于工具调用已完成，现在可直接进行数学运算得出最终BMI值。
+
+**行动**：无需调用工具，直接计算并返回结果。
+
+**计算过程**：  
+1.72米的平方 = 1.72 × 1.72 = 2.9584  
+BMI = 90 / 2.9584 ≈ 30.42  
+
+**结论**：您的BMI约为30.4，属于肥胖范围（根据WHO标准：BMI≥30为肥胖）。</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="f728db55-6aee-83ea-b869-013bebfb1106"/></div><div style="display:contents" dir="auto"><h1 id="f998db55-6aee-82f7-81e7-8118d7935af5" class="">Middleware中间件</h1></div><div style="display:contents" dir="auto"><p id="7548db55-6aee-83c9-a377-81fa9118d92b" class="">中间件的作用是对智能体的每一步工作进行控制和自定义的执行。</p></div><div style="display:contents" dir="auto"><p id="7888db55-6aee-831a-9949-81027e9bc6c9" class="">作用场景：</p></div><div style="display:contents" dir="auto"><ul id="bf48db55-6aee-831a-8b19-01a9e422180d" class="bulleted-list"><li style="list-style-type:disc">日志记录，分析，调试</li></ul></div><div style="display:contents" dir="auto"><ul id="ecc8db55-6aee-82b1-b210-81adaab4d328" class="bulleted-list"><li style="list-style-type:disc">转换提示词，工具选择</li></ul></div><div style="display:contents" dir="auto"><ul id="6688db55-6aee-8291-91b8-01cc0099695e" class="bulleted-list"><li style="list-style-type:disc">重试，备用，提前终止等逻辑控制</li></ul></div><div style="display:contents" dir="auto"><ul id="9698db55-6aee-82d5-9584-0140af187dcd" class="bulleted-list"><li style="list-style-type:disc">安全防护，个人身份检测等</li></ul></div><div style="display:contents" dir="auto"><ul id="0c88db55-6aee-82bb-9504-01799f39a77b" class="toggle"><li><details open=""><summary>有无中间件对比</summary><div style="display:contents" dir="auto"><div id="1bd8db55-6aee-8240-84b6-016984d0be8b" class="column-list"><div style="display:contents" dir="auto"><div id="3f78db55-6aee-82b5-b056-81e499d4dd3a" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="8058db55-6aee-82df-9935-011194d73d7f" class="image"><a href="Agent/Snipaste_2026-05-04_18-07-49.png"><img style="width:586.997802734375px" src="Agent/Snipaste_2026-05-04_18-07-49.png"/></a></figure></div></div></div><div style="display:contents" dir="auto"><div id="d378db55-6aee-831b-aa9b-81b5aaeadc9c" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="9f08db55-6aee-82be-9f07-81fbb496f467" class="image"><a href="Agent/Snipaste_2026-05-04_18-08-06.png"><img style="width:302.0089416503906px" src="Agent/Snipaste_2026-05-04_18-08-06.png"/></a></figure></div></div></div></div></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="7d98db55-6aee-82bf-baa7-018b62373752" class="">LangChain中内置了一些基础的中间件，中间件通过Hooks钩子来实现拦截，自定义中间件可以简单的使用装饰器来定义</p></div><div style="display:contents" dir="auto"><p id="97b8db55-6aee-8241-81f4-81d0fd303316" class="">节点式钩子：</p></div><div style="display:contents" dir="auto"><ul id="91b8db55-6aee-8253-ae34-0162f86b4f49" class="bulleted-list"><li style="list-style-type:disc">before_agent: agent执行之前拦截</li></ul></div><div style="display:contents" dir="auto"><ul id="8258db55-6aee-821a-bf5a-8116043310a8" class="bulleted-list"><li style="list-style-type:disc">after_agent: agent执行后拦截</li></ul></div><div style="display:contents" dir="auto"><ul id="0a58db55-6aee-8266-9590-01ce122edb87" class="bulleted-list"><li style="list-style-type:disc">before_model: 模型执行前拦截</li></ul></div><div style="display:contents" dir="auto"><ul id="60d8db55-6aee-83a7-9e8d-81bab51c8a19" class="bulleted-list"><li style="list-style-type:disc">after_model: 模型执行后拦截</li></ul></div><div style="display:contents" dir="auto"><p id="a638db55-6aee-82c0-99f3-01640f1a39ea" class="">针对工具和模型的包装式钩子：</p></div><div style="display:contents" dir="auto"><ul id="bec8db55-6aee-83a0-9c11-8132932f8914" class="bulleted-list"><li style="list-style-type:disc">wrap_model_call: 每个模型调用时候拦截</li></ul></div><div style="display:contents" dir="auto"><ul id="3e58db55-6aee-83a1-a058-01278a3690bb" class="bulleted-list"><li style="list-style-type:disc">wrap_tool_call: 每个工具调用时候拦截</li></ul></div><div style="display:contents" dir="auto"><ul id="35d8db55-6aee-83cb-b1b6-016512344c15" class="toggle"><li><details open=""><summary>简单案例</summary><div style="display:contents" dir="auto"><p id="3d28db55-6aee-83c6-8a43-81366483b104" class="">节点式钩子</p></div><div style="display:contents" dir="auto"><pre id="e688db55-6aee-8214-a00d-01b638e03f73" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class NodeHooksMiddleware:
+    &quot;&quot;&quot;节点式钩子：在 Agent 执行的关键阶段前后触发&quot;&quot;&quot;
+
+    async def before_agent(self, state):
+        &quot;&quot;&quot;Agent 开始执行前调用（可修改初始状态）&quot;&quot;&quot;
+        print(f&quot;[before_agent] 用户输入: {state.messages[-1].content}&quot;)
+        # 可修改 state，例如添加系统提示
+        state.messages.insert(0, SystemMessage(&quot;你是一个乐于助人的助手&quot;))
+        return state
+
+    async def after_agent(self, state):
+        &quot;&quot;&quot;Agent 执行结束后调用（可修改最终响应）&quot;&quot;&quot;
+        print(f&quot;[after_agent] 最终答案: {state.output}&quot;)
+        # 可对输出做后处理，例如添加签名
+        state.output += &quot;\n\n—— 由 AI 助手生成&quot;
+        return state
+
+    async def before_model(self, state):
+        &quot;&quot;&quot;每次调用大模型前触发（可修改发给模型的提示词）&quot;&quot;&quot;
+        print(&quot;[before_model] 即将调用 LLM...&quot;)
+        # 可动态调整温度、max_tokens 等参数
+        return state
+
+    async def after_model(self, state):
+        &quot;&quot;&quot;每次调用大模型后触发（可修改模型响应）&quot;&quot;&quot;
+        print(f&quot;[after_model] 模型原始回复: {state.model_response}&quot;)
+        # 可对模型回复做过滤或缓存
+        return state
+
+# 挂载到 Agent（伪代码）
+agent = create_agent(
+    model=...,
+    tools=[...],
+    middleware=[NodeHooksMiddleware()],
+)</code></pre></div><div style="display:contents" dir="auto"><p id="8f88db55-6aee-8254-8640-812cdf7f0bc1" class="">包装式钩子</p></div><div style="display:contents" dir="auto"><pre id="5418db55-6aee-82fc-96e4-8156a598c9ef" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from functools import wraps
+
+def wrap_model_call(func):
+    &quot;&quot;&quot;装饰器：拦截每次 model.invoke() 调用&quot;&quot;&quot;
+    @wraps(func)
+    def wrapper(messages, **kwargs):
+        print(f&quot;[wrap_model_call] 原始提示词: {messages}&quot;)
+        # 可修改提示词或添加 RAG 上下文
+        modified_messages = [
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;请用繁体中文回答&quot;},
+            *messages
+        ]
+        response = func(modified_messages, **kwargs)
+        print(f&quot;[wrap_model_call] 模型返回: {response}&quot;)
+        # 可缓存或修改响应
+        return response
+    return wrapper
+
+def wrap_tool_call(func):
+    &quot;&quot;&quot;装饰器：拦截每次 tool 调用&quot;&quot;&quot;
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f&quot;[wrap_tool_call] 调用工具: {func.__name__}, 参数: {args}, {kwargs}&quot;)
+        # 安全检查、参数校验、限流等
+        if func.__name__ == &quot;delete_file&quot;:
+            raise PermissionError(&quot;禁止删除文件&quot;)
+        result = func(*args, **kwargs)
+        print(f&quot;[wrap_tool_call] 工具返回: {result}&quot;)
+        # 后处理，如格式化输出、记录审计日志
+        return result
+    return wrapper
+
+# 使用时手动包装（或在中间件里自动应用）
+get_weight = wrap_tool_call(get_weight)
+get_height = wrap_tool_call(get_height)
+
+# 模型包装示例（针对 ChatTongyi）
+original_model = ChatTongyi(model=&quot;qwen3-max&quot;)
+wrapped_model = wrap_model_call(original_model.invoke)
+agent = create_agent(model=wrapped_model, tools=[get_weight, get_height])</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f318db55-6aee-828a-b49a-015bd7342a4a" class="toggle"><li><details open=""><summary><strong>两种钩子的区别</strong></summary><div style="display:contents" dir="auto"><ul id="1338db55-6aee-836f-8d24-0110bfffee43" class="bulleted-list"><li style="list-style-type:disc"><strong>节点式钩子</strong>：关注 <strong>业务流程</strong>（agent 开始/结束、model 调用前后），通常可以访问完整的 <code>state</code> 对象，适合做状态修改、日志、权限验证。</li></ul></div><div style="display:contents" dir="auto"><ul id="2108db55-6aee-83b1-94c9-01328f1260b9" class="bulleted-list"><li style="list-style-type:disc"><strong>包装式钩子</strong>：关注 <strong>具体函数调用</strong>（model 的 invoke、tool 的执行），粒度更细，适合做参数校验、重试、缓存、性能监控。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="20d8db55-6aee-8333-b59d-810c5592b4cd"/></div><div style="display:contents" dir="ltr"><figure id="5aa8db55-6aee-8375-8314-01ca5731abd5" class="link-to-page"><a href="Agent/Agent%E6%99%BA%E8%83%BD%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A1%88%E4%BE%8B%205aa8db556aee8375831401ca5731abd5.html"><span class="icon">🎾</span>Agent智能体项目案例</a></figure></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

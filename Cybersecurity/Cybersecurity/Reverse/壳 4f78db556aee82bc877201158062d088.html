@@ -1,0 +1,762 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>壳</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="4f78db55-6aee-82bc-8772-01158062d088" class="page sans"><header><h1 class="page-title" dir="auto">壳</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="4fb8db55-6aee-838a-9130-01048192d440" class="toggle"><li><details open=""><summary>基础了解</summary><div style="display:contents" dir="auto"><p id="7fc8db55-6aee-82cb-9144-8140672afb97" class="">加壳的目的：</p></div><div style="display:contents" dir="auto"><p id="27d8db55-6aee-83a3-a28b-01ac5df7e306" class="">1，保护软件程序代码不被逆向（加密壳，病毒比较喜欢用）</p></div><div style="display:contents" dir="auto"><p id="4668db55-6aee-82f1-b116-01da302d8f89" class="">2，减小程序文件体积（压缩壳）</p></div><div style="display:contents" dir="auto"><p id="b378db55-6aee-82fc-b279-81c68c981e5d" class="">
+</p></div><div style="display:contents" dir="auto"><p id="67d8db55-6aee-823e-ae76-8122ebd52882" class="">一般加壳软件会将原始程序数据（代码，导入表，资源）加密，嵌入到外壳程序内部。当程序运行时，外壳程序在内存中对已经加密的数据解密，并引导执行原始程序。原始程序的入口点称 <mark class="highlight-red">OEP</mark>。</p></div><div style="display:contents" dir="auto"><p id="6008db55-6aee-8212-a498-01c9ae6991be" class="">
+</p></div><div style="display:contents" dir="auto"><p id="d738db55-6aee-8216-9785-010ae9682964" class="">脱壳方法：</p></div><div style="display:contents" dir="auto"><p id="7308db55-6aee-83db-ab04-0173db07de72" class="">1，自动脱壳机（不推荐）</p></div><div style="display:contents" dir="auto"><p id="fba8db55-6aee-82de-97e4-81fcecd05e75" class="">2，手动脱壳（万能，过程繁琐）</p></div><div style="display:contents" dir="auto"><p id="3ee8db55-6aee-839e-8e84-81ad307b74ed" class="">最直接的脱壳：</p></div><div style="display:contents" dir="auto"><p id="98a8db55-6aee-8346-b764-017f340cecc8" class="">找到 <mark class="highlight-red">OEP （原始程序入口点：未加壳的程序的真正入口点，手动脱壳的目标）</mark></p></div><div style="display:contents" dir="auto"><p id="93e8db55-6aee-82e5-a448-814ac87c36bc" class="">对应的<mark class="highlight-teal">EP（程序的入口点）</mark></p></div><div style="display:contents" dir="auto"><p id="7748db55-6aee-8310-8c1f-81cb880ea76d" class="">（CTF中大部分加壳强度并不是很大，我们可以直接dump内存中的可执行文件，即可执行文件静态分析，若要进行调试，则最好找到 OEP 或者 main 函数地址后设置硬件断点进行调试）</p></div><div style="display:contents" dir="auto"><p id="9c38db55-6aee-834d-a7de-81a5987467a2" class="">
+</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="8508db55-6aee-8292-b326-01c962857304" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 手动脱壳：
+1. 打开 x64dbg，加载 `Dll1.dll`（或附加到加载该 DLL 的进程）。  
+2. 在反汇编窗口中，搜索 UPX 特征码（如 `55 48 8B 0D ? ? ? ?`）。  
+3. 找到 UPX 解压循环的关键指令（如 `jmp`、`call`），设置断点。  
+4. 运行程序，等待断点触发，观察寄存器变化，定位 OEP（原始入口点）。  
+5. 右键点击内存区域 → `Memory` → `Dump`，将 DLL 内存数据保存为 `dumped.dll`。  
+6. 使用 ImportREC64 修复导入表：  
+   - 选择目标进程，点击 `AutoSearch` 扫描 IAT。  
+   - 点击 `Get Imports` → `Fix Dump`，生成修复后的 DLL。</code></pre></div><div style="display:contents" dir="auto"><hr id="eaf8db55-6aee-8225-b1f4-0119f8e06ec5"/></div><div style="display:contents" dir="auto"><hr id="cb68db55-6aee-82aa-9061-81f2ef180e88"/></div><div style="display:contents" dir="auto"><p id="3e78db55-6aee-83a0-b4f8-81a10dfa4bf0" class="">在入口点设置硬件断点</p></div><div style="display:contents" dir="auto"><p id="ee78db55-6aee-8311-93fa-017ff76430d5" class="">普通软件断点会修改原始代码数据为断点指令的数据，在程序启动阶段，OEP 处的数据为加密后的数据，此时修改成断点指令，壳会对断点指令数据修改，变成其他非法指令，因此必须使<mark class="highlight-red">用不会修改代码数据的硬件断点</mark>。</p></div><div style="display:contents" dir="auto"><p id="64d8db55-6aee-82d5-a106-0189fda57cb4" class="">硬件断点设置方法：</p></div><div style="display:contents" dir="auto"><p id="4d28db55-6aee-82eb-8c57-01dbf246d6e1" class="">1，先设置成普通断点</p></div><div style="display:contents" dir="auto"><p id="33d8db55-6aee-8395-8b9e-0136a47058d8" class="">2，再右键断点处选择 【Edit Breakpoint】</p></div><div style="display:contents" dir="auto"><p id="dd28db55-6aee-830e-abdd-015e7b513722" class="">3，选择 Hardware</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b9f8db55-6aee-8394-b314-014a9581ef64" class="toggle"><li><details open=""><summary>断点</summary><div style="display:contents" dir="auto"><ul id="ab48db55-6aee-8207-970e-8196f1bcf79d" class="toggle"><li><details open=""><summary>普通断点</summary><div style="display:contents" dir="auto"><p id="8198db55-6aee-8360-8612-01b1ca308b80" class="">在一般调试器下，在原来的代码的基础上，将原来的代码改为0xcc（也有可能是其他值，只要能正常触发异常就行，这样调试器就可以让程序断下来。）</p></div><div style="display:contents" dir="auto"><p id="d4e8db55-6aee-82c0-adf4-01d4602f10f6" class="">只要关闭值为0xcc的进程，就可以恢复。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b7a8db55-6aee-8211-964c-81dde369dfda" class="toggle"><li><details open=""><summary>内存断点</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js" integrity="sha512-namzGTZvHaug0jeipHRN2pMepMiJj+EbrloktVFlMYGnA0EwZhbdLeENjBYLCgoghVbZGinIz/FFYHmB0o3wLw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="a258db55-6aee-836c-b7bc-813ebaed744b" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">BOOL VirtualProtect(  
+  LPVOID lpAddress,  // lpAddress，要改变属性的内存起始地址。
+  DWORD dwSize,  // dwSize，要改变属性的内存区域大小。
+  DWORD flNewProtect,  // flNewProtect，内存新的属性类型，设置为PAGE_EXECUTE_READWRITE（0x40）时该内存页为可读可写可执行。
+  PDWORD lpflOldProtect  // pflOldProtect，内存原始属性类型保存地址。
+);</code></pre></div><div style="display:contents" dir="auto"><p id="bef8db55-6aee-829c-8eea-01ec95bbce08" class="">可以改变某个分页的属性，读，写，执行。</p></div><div style="display:contents" dir="auto"><p id="d728db55-6aee-838f-94e9-81b07c239705" class="">如：访问断点，可以将某个分页的属性设置为不可读，那么程序一旦去读取这块内存，就会引发异常，从而被调试器断下来。</p></div><div style="display:contents" dir="auto"><p id="2738db55-6aee-828a-9c84-017a5f4feb97" class="">但有一个缺点：就是设定断点是有范围的，，如：我们需要访问0x10000时断下来，但是由于下断点是下在一个分页上的，就会导致问题，如果分页是0x1000，那么访问0x10000~0x11000这个范围都会被断下来。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6778db55-6aee-8223-b21a-81297a26a9e9" class="toggle"><li><details open=""><summary>硬件断点</summary><div style="display:contents" dir="auto"><p id="10d8db55-6aee-8333-ae8c-81816cd173ef" class="">cpu有 特定的调试寄存器，其中使用4个调试寄存器（DR0，DR1，DR2，DR3）来设定地址，以及DR7设定状态。</p></div><div style="display:contents" dir="auto"><p id="0f18db55-6aee-820e-bd72-01b7421119e0" class="">硬件断点也有访问，写入，执行三种，相比于内存断点，硬件断点可以更精确的下断点，可以在某一个地址下，而不是一整块内存。</p></div><div style="display:contents" dir="auto"><p id="b958db55-6aee-8396-aa12-81e6ef45b15b" class="">缺点显而易见，就是硬件限制只有四个调试寄存器可以使用，所以硬件断点最多只能有四个。</p></div><div style="display:contents" dir="auto"><hr id="a648db55-6aee-8223-80aa-81f99d9e433a"/></div><div style="display:contents" dir="auto"><p id="b608db55-6aee-82ec-b423-81ed2be18825" class="">1、访问断点：对内存地址进行<mark class="highlight-teal">读操作</mark>，或<mark class="highlight-teal">写操作</mark>时。比如追踪程序对特定内存区域的使用情况时使用，当你知道程序在某处读取或修改某个局部变量的值时，就可以在此设置访问断点，方便观察程序的，寄存器的，其他变量的状态。</p></div><div style="display:contents" dir="auto"><p id="e578db55-6aee-826f-8cd0-81be0a7767e7" class="">2、执行断点：只有当程序执行到<mark class="highlight-teal">设置断点的内存地址</mark>处的指令时，才中断。通常用于分析程序的关键代码部分。比如在调试一个复杂的函数时，可以在函数的入口处设置执行断点，这样在调试的时候，会从内部的第一条指令处中断，这样就可以一步一步观察每条指令的效果。</p></div><div style="display:contents" dir="auto"><p id="7348db55-6aee-824b-ba75-012d8d14ebdd" class="">3、写入断点：仅当程序对设置断点内存进行<mark class="highlight-teal">写操作</mark>时触发。在关注程序在那些地方修改了特定的内存区域时使用（缓冲区，一个数据结构中的特定字段），例如当你怀疑程序存在缓冲区溢出漏洞时，可能在缓冲区的内存地址处设置写入断点，一旦代码往该缓冲区写入超出范围的数据，调试器选择断点类型和设置断点位置。</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5098db55-6aee-8244-b4f2-01d9989eeec4" class="toggle"><li><details open=""><summary>手动脱UPX壳</summary><div style="display:contents" dir="auto"><p id="43d8db55-6aee-8357-b649-81a53a8b30b2" class="">upx的十六进制：55 50 58</p></div><div style="display:contents" dir="auto"><ul id="3f18db55-6aee-82bf-90f7-018151c4f324" class="toggle"><li><details open=""><summary>1、单步跟踪法：</summary><div style="display:contents" dir="auto"><p id="e938db55-6aee-836f-ab69-81c5c33cf046" class="">—&gt;对应UPX之类的这种压缩壳有效，不破坏原来的代码才行。</p></div><div style="display:contents" dir="auto"><p id="d698db55-6aee-8237-95b5-81adf1ec3de5" class="">基本操作就是不要往回跳，一直往下走，遇到不明白的Call也不需要进去，只需要观察这个Call有无实际作用，没有就不进去。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5a38db55-6aee-8282-afa3-01e39549bd6c" class="toggle"><li><details open=""><summary>2、API定位法：</summary><div style="display:contents" dir="auto"><p id="dcf8db55-6aee-830e-8fc8-81f496d2278f" class="">需要经验，需要对于厂商的编译器有所了解，知道OEP附近调用了什么API，</p></div><div style="display:contents" dir="auto"><p id="19e8db55-6aee-83dc-82c6-8129afba6cd3" class="">例如：VC6写的程序，只需要定位 GetVersion 这个API即可，然后翻一下上下文就行。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6cf8db55-6aee-83e0-a997-017b25ccce63" class="toggle"><li><details open=""><summary>3、ESP定律法：</summary><div style="display:contents" dir="auto"><p id="e398db55-6aee-8208-93f1-81afaf7ad972" class="">一般压缩壳都会有pushad，</p></div><div style="display:contents" dir="auto"><p id="0398db55-6aee-8246-866c-01a6154f4f4d" class="">开始运行的时候，一些壳要先保证原来的栈环境不被破坏，于是我们可以找有没有pushad这个指令，有的话我们直接找popad即可，</p></div><div style="display:contents" dir="auto"><p id="c8b8db55-6aee-830b-b043-81ea0714391d" class="">这样在附近有一个大跳，一般就是跳到OEP了（如果没有popad，那么可以根据pushad完之后，在当前esp下断点）</p></div><div style="display:contents" dir="auto"><p id="edc8db55-6aee-837f-8215-81ee1db39d04" class="">为什么在pushad完下断点？</p></div><div style="display:contents" dir="auto"><p id="c888db55-6aee-8214-b79c-81d44fc44a9f" class="">因为保存的栈结构在运行壳程序后，是不会再动用的，所以一旦程序去访问了pushad进来的栈帧结构，就可以认为要恢复栈结构了，就是要准备跳到代码段了。</p></div><div style="display:contents" dir="auto"><p id="3138db55-6aee-8223-9c67-817f0dba656a" class="">为什么要下硬件断点？</p></div><div style="display:contents" dir="auto"><p id="4398db55-6aee-8261-93ec-01a731bd6c79" class="">首先要明白什么时候断下，是在访问这个栈帧的时候把它断下，所以我们只能下内存访问断点，或硬件断点，只有这两类的断点是可以下访问断点的。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="71c8db55-6aee-83db-b19d-010536842c2e" class="toggle"><li><details open=""><summary>4、暂停定位法：</summary><div style="display:contents" dir="auto"><p id="bec8db55-6aee-82a7-bb9c-01ee22258066" class="">OEP不好找，暂停之后慢慢栈回溯</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="37e8db55-6aee-83b3-a1e5-81e3eae1fb33"/></div><div style="display:contents" dir="auto"><ul id="26d8db55-6aee-83fe-b68d-81880a94a030" class="toggle"><li><details open=""><summary>Dump &amp;&amp; 修复导入表</summary><div style="display:contents" dir="auto"><p id="03c8db55-6aee-839f-a0b0-81c10aa78aaf" class="">Dump是将运行中的程序，通过压缩变换重新获得exe的一个过程</p></div><div style="display:contents" dir="auto"><p id="1478db55-6aee-8272-b17c-0183b4087f8d" class="">脱壳完成会导致导入表失效：</p></div><div style="display:contents" dir="auto"><p id="4318db55-6aee-83fd-add1-81be57f383d6" class="">具体可能是因为壳在运行的时候，抹除掉了导入表的INT表，导致dump下来的程序没有办法启动，这时候就需要修复导入表：</p></div><div style="display:contents" dir="auto"><p id="df38db55-6aee-82a4-9337-01699f9f4dd4" class="">首先先运行到OEP，然后点击插件Scylla，将内存dump下来</p></div><div style="display:contents" dir="auto"><p id="02a8db55-6aee-8377-b4df-0166b8b16dbf" class="">（主要OEP是程序入口点，里面的数据都是未初始化的，如果在别的地方dump，生成的exe就和原来的不一样，那么有些防守方会去检测这个点，例如：在程序刚开始跑的时候就去检测一下全局变量，你要是发现被改掉了，那么我就直接退出进程，甚至直接给你改程序逻辑，让那些只会F5的逆向手懵逼）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="abc8db55-6aee-82f5-a6f0-8170cd4d7664"/></div><div style="display:contents" dir="auto"><ul id="4298db55-6aee-8309-a050-01585626e94d" class="toggle"><li><details open=""><summary>buuctf中re的新年快乐为例</summary><div style="display:contents" dir="auto"><h2 id="0508db55-6aee-83c5-94eb-81ff8d7fc874" class="">1</h2></div><div style="display:contents" dir="auto"><p id="ccd8db55-6aee-8387-a370-816559f6eaf9" class="">首先要找到OEP去壳后的程序起点。这里常用的有三个方法。</p></div><div style="display:contents" dir="auto"><p id="c7c8db55-6aee-824f-8058-81c5c2822b29" class="">这里有三个方法：</p></div><div style="display:contents" dir="auto"><p id="50c8db55-6aee-8232-b9db-8170d686ecbb" class=""><strong>1.直接找跨度大的跳转。</strong></p></div><div style="display:contents" dir="auto"><p id="e148db55-6aee-8208-bee7-81f7878267b2" class="">这里比较简单</p></div><div style="display:contents" dir="ltr"><figure id="3fe8db55-6aee-837c-93d9-8183e8fac9db" class="image"><a href="%E5%A3%B3/0da47b32c220d90e320ce6084bd5d357.png"><img style="width:426.9754638671875px" src="%E5%A3%B3/0da47b32c220d90e320ce6084bd5d357.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="c558db55-6aee-83cb-9f12-8153afb949df" class="">直接就可以看到E9开头的跳转，但是很多壳以这种方式是找不到的。</p></div><div style="display:contents" dir="auto"><p id="ac58db55-6aee-8385-9d12-81a3215e5e9c" class=""><strong>2.根据ESP定律设置硬件断点。</strong></p></div><div style="display:contents" dir="auto"><p id="08f8db55-6aee-82b7-9f4e-01938d2f3643" class="">由于壳段代码需要保存当前的状态，所以会出现pushad（64位可以看到很多push 寄存器）。这时候F8运行然后在栈顶设置硬件断点。再F9运行程序就会断在恢复原状态popad的位置。</p></div><div style="display:contents" dir="ltr"><figure id="63a8db55-6aee-8389-8666-01d07671de31" class="image"><a href="%E5%A3%B3/142d40ebe865c1e453d8aa996a2c2ce9.png"><img style="width:427.2879638671875px" src="%E5%A3%B3/142d40ebe865c1e453d8aa996a2c2ce9.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="78e8db55-6aee-83c8-853d-81e169d85a36" class="image"><a href="%E5%A3%B3/75e2d80ea02be949f33ebbc78d698650.png"><img style="width:427.2879638671875px" src="%E5%A3%B3/75e2d80ea02be949f33ebbc78d698650.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="cb28db55-6aee-83c8-a739-815590a251d2" class="">最后断在E9那里运行过去就会找到OEP。</p></div><div style="display:contents" dir="auto"><p id="5ca8db55-6aee-83b7-8ad4-81e91797b57c" class=""><strong>3.通过内存断点找到OEP。</strong></p></div><div style="display:contents" dir="auto"><p id="c2f8db55-6aee-82e1-b9a2-81435ca964e4" class="">内存断点是通过修改页的属性来将程序断下来。这种方法由于你修改了页的属性在壳运行的时候你会收到很多异常。需要通过调试越过这些异常最后到达OEP。</p></div><div style="display:contents" dir="ltr"><figure id="a828db55-6aee-83e1-a5b8-817e5209e496" class="image"><a href="%E5%A3%B3/9b06e2b5616577a4332afc8172289165.png"><img style="width:257.96875px" src="%E5%A3%B3/9b06e2b5616577a4332afc8172289165.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="c778db55-6aee-832e-b031-815c2131662a" class="">
+</p></div><div style="display:contents" dir="auto"><hr id="8118db55-6aee-8288-87aa-010217f0d2b5"/></div><div style="display:contents" dir="auto"><h2 id="c2c8db55-6aee-83ea-b402-01ca520815cf" class="">2</h2></div><div style="display:contents" dir="auto"><p id="e758db55-6aee-8360-bfcd-01b14cf6b05c" class="">将找到的OEP和下面的程序dump下来。这里使用x64dbg自带的scylla。</p></div><div style="display:contents" dir="ltr"><figure id="7828db55-6aee-8269-b419-01473efad640" class="image"><a href="%E5%A3%B3/819c73b3087c4a0b2f18a8ab06365c5e.png"><img style="width:427.2879638671875px" src="%E5%A3%B3/819c73b3087c4a0b2f18a8ab06365c5e.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="a5f8db55-6aee-83e1-b988-0138dec14510" class="">dump下来的程序仍然无法正常打开，原因是没有修改IAT表。IAT表类似linux中的PLT表。</p></div><div style="display:contents" dir="auto"><p id="dbf8db55-6aee-822f-8565-01fd03cebdb4" class="">windows的PE加载器运用动态链接的方式，将dll中的API位置填补到正确位置。</p></div><div style="display:contents" dir="auto"><p id="ad78db55-6aee-8301-9ca9-013f1c58593c" class="">然后脱壳后的程序并不是正常打开，这就导致了IAT未被正确填补需要手动或者利用工具填补IAT表。</p></div><div style="display:contents" dir="auto"><hr id="3168db55-6aee-8346-bb94-81926751d187"/></div><div style="display:contents" dir="auto"><h2 id="c9a8db55-6aee-826d-bb81-811e47d4e7a9" class="">3</h2></div><div style="display:contents" dir="auto"><p id="7a28db55-6aee-82ee-b9d8-81e1b8f83a0c" class="">用scylla将IAT表填补完整</p></div><div style="display:contents" dir="ltr"><figure id="d138db55-6aee-83b5-8b40-01109ac7ff19" class="image"><a href="%E5%A3%B3/be258ef56fad11cd7b6fe91c09b1c0d7.png"><img style="width:427.2879638671875px" src="%E5%A3%B3/be258ef56fad11cd7b6fe91c09b1c0d7.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="58c8db55-6aee-8228-a4f8-81e8f2d492f1" class="">fix dump。完成脱壳</p></div><div style="display:contents" dir="ltr"><figure id="0758db55-6aee-83a9-b519-016fd4092d7b" class="image"><a href="%E5%A3%B3/fc2f022406197e4149b9300c6c9d90b4.png"><img style="width:427.2544860839844px" src="%E5%A3%B3/fc2f022406197e4149b9300c6c9d90b4.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="5478db55-6aee-8374-b86c-816182cc5192" class="">
+</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e2f8db55-6aee-82e0-a59e-0196bbb37f43" class="toggle"><li><details open=""><summary>手动脱ASPack壳</summary><div style="display:contents" dir="auto"><ul id="74b8db55-6aee-8375-8937-010350135aa2" class="toggle"><li><details open=""><summary>ASPack壳</summary><div style="display:contents" dir="auto"><p id="e9d8db55-6aee-83bb-8403-8197f0523eed" class="">通过代码优化何数据压缩减小EXE，DLL文件体积。具有反调试，反汇编，增加逆向工程难度。</p></div><div style="display:contents" dir="auto"><ol type="1" id="e018db55-6aee-8347-89ab-0176e6ca9a4d" class="numbered-list" start="1"><li><strong>压缩机制</strong><div style="display:contents" dir="auto"><ul id="6ca8db55-6aee-82a3-abb7-81665a667e09" class="bulleted-list"><li style="list-style-type:disc"><strong>代码重组</strong>：将程序代码重新排列，移除冗余数据。</li></ul></div><div style="display:contents" dir="auto"><ul id="2428db55-6aee-8254-9ca0-0189e520b74d" class="bulleted-list"><li style="list-style-type:disc"><strong>数据压缩</strong>：使用自定义算法压缩资源、字符串等数据。</li></ul></div><div style="display:contents" dir="auto"><ul id="9448db55-6aee-8313-bd2d-818ca4053f40" class="bulleted-list"><li style="list-style-type:disc"><strong>运行时解压</strong>：程序启动时，压缩数据在内存中动态解压执行。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3998db55-6aee-83b2-8639-813368325386" class="numbered-list" start="2"><li><strong>保护机制</strong><div style="display:contents" dir="auto"><ul id="5838db55-6aee-82cc-83ab-81a228a71b3d" class="bulleted-list"><li style="list-style-type:disc"><strong>入口点混淆</strong>：修改程序入口点（OEP, Original Entry Point），指向解压代码。</li></ul></div><div style="display:contents" dir="auto"><ul id="e838db55-6aee-83b0-9af6-81a32efeae91" class="bulleted-list"><li style="list-style-type:disc"><strong>反调试检测</strong>：包含简单的反调试逻辑（如检查 <code>IsDebuggerPresent</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="10c8db55-6aee-83f0-9a53-8155cadedabd" class="bulleted-list"><li style="list-style-type:disc"><strong>控制流混淆</strong>：通过跳转和分支指令扰乱静态分析工具的控制流图。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><hr id="d638db55-6aee-83fb-9be2-0158fce0ccbb"/></div><div style="display:contents" dir="auto"><ol type="1" id="0368db55-6aee-83d6-bcb3-019188da473f" class="numbered-list" start="1"><li><strong>文件特征</strong><div style="display:contents" dir="auto"><ul id="deb8db55-6aee-83e7-8f60-81f1b28e18a7" class="bulleted-list"><li style="list-style-type:disc">PE 头中的 <code>SizeOfImage</code> 显著减小。</li></ul></div><div style="display:contents" dir="auto"><ul id="0e28db55-6aee-835e-857c-014cff8891b9" class="bulleted-list"><li style="list-style-type:disc">可能包含 <code>.aspack</code> 或 <code>.adata</code> 节（非标准节名）。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="59a8db55-6aee-8211-a060-01958f33a5f2" class="numbered-list" start="2"><li><strong>运行时特征</strong><div style="display:contents" dir="auto"><ul id="8808db55-6aee-8297-9f44-0166da414cd2" class="bulleted-list"><li style="list-style-type:disc">程序启动时内存占用会突然增加（解压过程）。</li></ul></div><div style="display:contents" dir="auto"><ul id="38f8db55-6aee-83f1-b7e2-81653dcb3a45" class="bulleted-list"><li style="list-style-type:disc">入口点附近有密集的内存操作指令（MOV、XOR、CALL）。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="d2b8db55-6aee-82cd-a59e-8123bfb9cd6d" class="numbered-list" start="3"><li><strong>静态分析特征</strong><div style="display:contents" dir="auto"><ul id="1828db55-6aee-823f-a1b9-81f2df391ee3" class="bulleted-list"><li style="list-style-type:disc">IDA Pro 等工具难以正确识别函数边界。</li></ul></div><div style="display:contents" dir="auto"><ul id="e928db55-6aee-8389-99af-0134109b5271" class="bulleted-list"><li style="list-style-type:disc">字符串和导入表被加密，动态解析。</li></ul></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="b6a8db55-6aee-8239-9a04-81ee852f0e87"/></div><div style="display:contents" dir="auto"><ul id="7d28db55-6aee-82fb-84ac-013bc13f3425" class="toggle"><li><details open=""><summary>ESP定律：</summary><div style="display:contents" dir="auto"><p id="ebe8db55-6aee-8204-ab60-01f9b966fc95" class="">1、在程序入口点下断点</p></div><div style="display:contents" dir="auto"><p id="b728db55-6aee-835d-99a8-014ee18625b6" class="">2、执行到ESP寄存器值稳定（不再变化）</p></div><div style="display:contents" dir="auto"><p id="6808db55-6aee-8321-8a39-819cb46d35a8" class="">3、在ESP地址下硬件断点（右键ESP→“Hardware breakpoint on write”）</p></div><div style="display:contents" dir="auto"><p id="3328db55-6aee-8349-ba17-8113bd406f54" class="">4、继续执行直到触发断点，此时接近OEP</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4408db55-6aee-8213-a071-01dccfec8433" class="toggle"><li><details open=""><summary>单步跟踪法：</summary><div style="display:contents" dir="auto"><p id="7598db55-6aee-8271-94b5-01b89c17b007" class="">—&gt;对应UPX之类的这种压缩壳有效，不破坏原来的代码才行。</p></div><div style="display:contents" dir="auto"><p id="bbf8db55-6aee-83cd-91ec-01d5a23b8e8e" class="">基本操作就是不要往回跳，一直往下走，遇到不明白的Call也不需要进去，只需要观察这个Call有无实际作用，没有就不进去。</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="1e68db55-6aee-8392-b23f-817aafd362b6" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

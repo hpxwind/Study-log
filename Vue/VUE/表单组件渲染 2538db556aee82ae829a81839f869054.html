@@ -1,0 +1,1078 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>表单组件渲染</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2538db55-6aee-82ae-829a-81839f869054" class="page mono"><header><h1 class="page-title" dir="auto">表单组件渲染</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="e828db55-6aee-827b-8739-81803562ad03" class="">在 Vue 中，表单组件绑定的核心是 <code>v-model</code> 指令，它实现了表单元素与组件数据之间的<strong>双向绑定</strong>：当表单元素的值变化时，绑定的数据会自动更新；反之，当数据变化时，表单元素的值也会同步更新。<code>v-model</code> 本质是语法糖，简化了 <code>v-bind:value</code>（绑定值）和 <code>v-on:input</code>（监听输入事件）的组合写法。</p></div><div style="display:contents" dir="auto"><p id="c3a8db55-6aee-83d5-bfbc-0197280ebfe7" class="">v-model的核心是根据元素类型确定绑定值的类型</p></div><div style="display:contents" dir="auto"><hr id="e718db55-6aee-8358-bfd7-0128e394c0e5"/></div><div style="display:contents" dir="auto"><ul id="0838db55-6aee-8249-b929-817de6e2bf0d" class="toggle"><li><details open=""><summary>1、输入文本(input[type=”text”], textarea)</summary><div style="display:contents" dir="auto"><ul id="9b38db55-6aee-821a-98f1-81392d84513e" class="bulleted-list"><li style="list-style-type:disc"><strong>绑定值类型</strong>：字符串（<code>String</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="e7f8db55-6aee-83c9-94af-81a4b68a40eb" class="bulleted-list"><li style="list-style-type:disc"><strong>原理</strong>：监听 <code>input</code> 事件，将输入框的 <code>value</code> 与数据同步。</li></ul></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="1f28db55-6aee-8228-a586-013b2605a195" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 单行文本 --&gt;
+    &lt;input type=&quot;text&quot; v-model=&quot;username&quot; placeholder=&quot;请输入用户名&quot;&gt;
+    &lt;p&gt;用户名：{{ username }}&lt;/p&gt;
+
+    &lt;!-- 多行文本（textarea） --&gt;
+    &lt;textarea v-model=&quot;desc&quot; placeholder=&quot;请输入描述&quot;&gt;&lt;/textarea&gt;
+    &lt;p&gt;描述：{{ desc }}&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      username: &#x27;&#x27;, // 初始为空字符串
+      desc: &#x27;&#x27;
+    }
+  }
+}
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="ed08db55-6aee-821f-97f6-01b82d51b488" class=""><strong>注意</strong>：<code>textarea</code> 无需使用 <code>v-text</code> 或插值表达式，<code>v-model</code> 会自动同步内容。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e298db55-6aee-8200-933d-01ebc5ffa5f5" class="toggle"><li><details open=""><summary>2、复选框(input[type=”checkbox”])</summary><div style="display:contents" dir="auto"><ul id="2868db55-6aee-83ef-9607-01f52de618f5" class="bulleted-list"><li style="list-style-type:disc"><strong>单个复选框</strong>：绑定到布尔值（<code>Boolean</code>），表示 “选中” 状态。</li></ul></div><div style="display:contents" dir="auto"><ul id="cfb8db55-6aee-82fa-bc26-810905869e37" class="bulleted-list"><li style="list-style-type:disc"><strong>多个复选框组</strong>：绑定到数组（<code>Array</code>），数组元素为选中项的 <code>value</code>。</li></ul></div><div style="display:contents" dir="auto"><p id="6fa8db55-6aee-822c-9626-81950170d7ca" class="">单个复选框</p></div><div style="display:contents" dir="auto"><pre id="9098db55-6aee-83ee-a98c-81f0558a1bd9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;input type=&quot;checkbox&quot; v-model=&quot;isAgree&quot; id=&quot;agree&quot;&gt;
+    &lt;label for=&quot;agree&quot;&gt;同意协议&lt;/label&gt;
+    &lt;p&gt;是否同意：{{ isAgree ? &#x27;是&#x27; : &#x27;否&#x27; }}&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      isAgree: false // 初始未选中
+    }
+  }
+}
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="cd48db55-6aee-83cc-b64a-81f97b783b00" class="">多个复选框</p></div><div style="display:contents" dir="auto"><pre id="da78db55-6aee-83cd-9b44-017185a9a33e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;p&gt;选择爱好（可多选）：&lt;/p&gt;
+    &lt;input type=&quot;checkbox&quot; v-model=&quot;hobbies&quot; value=&quot;reading&quot; id=&quot;read&quot;&gt;
+    &lt;label for=&quot;read&quot;&gt;阅读&lt;/label&gt;
+
+    &lt;input type=&quot;checkbox&quot; v-model=&quot;hobbies&quot; value=&quot;coding&quot; id=&quot;code&quot;&gt;
+    &lt;label for=&quot;code&quot;&gt;编程&lt;/label&gt;
+
+    &lt;input type=&quot;checkbox&quot; v-model=&quot;hobbies&quot; value=&quot;sports&quot; id=&quot;sport&quot;&gt;
+    &lt;label for=&quot;sport&quot;&gt;运动&lt;/label&gt;
+
+    &lt;p&gt;选中的爱好：{{ hobbies }}&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      hobbies: [] // 初始为空数组，选中项的value会被添加到数组
+    }
+  }
+}
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="6888db55-6aee-825f-b9a5-81cb6a674b83" class="">多个复选框必须绑定到同一个数组，且每个复选框需设置 <code>value</code>（表示选中时存入数组的值）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ef68db55-6aee-837c-84df-810c6521d884" class="toggle"><li><details open=""><summary>3、单选按钮(input[type=”radio”])</summary><div style="display:contents" dir="auto"><ul id="ecb8db55-6aee-825d-ad99-812535210175" class="bulleted-list"><li style="list-style-type:disc"><strong>绑定值类型</strong>：字符串 / 数值（<code>String</code>/<code>Number</code>），表示选中项的 <code>value</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="64f8db55-6aee-8392-8222-01189c2a8887" class="bulleted-list"><li style="list-style-type:disc"><strong>用法</strong>：多个单选按钮绑定到同一个变量，通过 <code>value</code> 区分选项。</li></ul></div><div style="display:contents" dir="auto"><pre id="5968db55-6aee-82bd-9ae4-01782bae264e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;p&gt;选择性别：&lt;/p&gt;
+    &lt;input type=&quot;radio&quot; v-model=&quot;gender&quot; value=&quot;male&quot; id=&quot;male&quot;&gt;
+    &lt;label for=&quot;male&quot;&gt;男&lt;/label&gt;
+
+    &lt;input type=&quot;radio&quot; v-model=&quot;gender&quot; value=&quot;female&quot; id=&quot;female&quot;&gt;
+    &lt;label for=&quot;female&quot;&gt;女&lt;/label&gt;
+
+    &lt;p&gt;选中的性别：{{ gender }}&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      gender: &#x27;&#x27; // 初始为空，选中后会被赋值为对应value
+    }
+  }
+}
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2208db55-6aee-8228-849d-81dac79131df" class="toggle"><li><details open=""><summary>4、下拉选择器(select+option)</summary><div style="display:contents" dir="auto"><p id="d378db55-6aee-824d-a215-812ffa6554ed" class="">下拉选择器分<strong>单选</strong>和<strong>多选</strong>（添加 <code>multiple</code> 属性），绑定值类型不同：</p></div><div style="display:contents" dir="auto"><ul id="79f8db55-6aee-83be-b7c9-81e67fa9891e" class="bulleted-list"><li style="list-style-type:disc"><strong>单选</strong>：绑定到字符串 / 数值（<code>String</code>/<code>Number</code>），值为选中项的 <code>value</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="c518db55-6aee-828c-8fa1-8137eaf409a6" class="bulleted-list"><li style="list-style-type:disc"><strong>多选</strong>：绑定到数组（<code>Array</code>），数组元素为选中项的 <code>value</code>（按住 Ctrl 键多选）。</li></ul></div><div style="display:contents" dir="auto"><p id="dd88db55-6aee-832c-9d30-8188881ec616" class="">单选下拉</p></div><div style="display:contents" dir="auto"><pre id="0228db55-6aee-8391-906e-810e2536b391" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;select v-model=&quot;city&quot;&gt;
+      &lt;option value=&quot;&quot;&gt;请选择城市&lt;/option&gt;
+      &lt;option value=&quot;beijing&quot;&gt;北京&lt;/option&gt;
+      &lt;option value=&quot;shanghai&quot;&gt;上海&lt;/option&gt;
+      &lt;option value=&quot;guangzhou&quot;&gt;广州&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;p&gt;选中的城市：{{ city }}&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      city: &#x27;&#x27; // 初始为空
+    }
+  }
+}
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="5028db55-6aee-834b-b200-01333a39ab0a" class="">多选下拉(multiple)</p></div><div style="display:contents" dir="auto"><pre id="bee8db55-6aee-825c-a0e4-01df53570b03" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;select v-model=&quot;cities&quot; multiple size=&quot;3&quot;&gt;
+      &lt;option value=&quot;beijing&quot;&gt;北京&lt;/option&gt;
+      &lt;option value=&quot;shanghai&quot;&gt;上海&lt;/option&gt;
+      &lt;option value=&quot;guangzhou&quot;&gt;广州&lt;/option&gt;
+      &lt;option value=&quot;shenzhen&quot;&gt;深圳&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;p&gt;选中的城市：{{ cities }}&lt;/p&gt;
+    &lt;p&gt;提示：按住Ctrl键可多选&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      cities: [] // 初始为空数组
+    }
+  }
+}
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="a7d8db55-6aee-8206-bcfb-81ac895329ad" class=""><code>size</code> 属性用于设置下拉框可见选项数量，<code>multiple</code> 开启多选模式。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="54b8db55-6aee-83d4-a284-81cd713b65b0" class="toggle"><li><details open=""><summary>v-model修饰符</summary><div style="display:contents" dir="auto"><p id="b968db55-6aee-83e6-9649-01e4627a1558" class="">1、.lazy：失去焦点后同步数据</p></div><div style="display:contents" dir="auto"><p id="2578db55-6aee-83c9-ab2b-819dc1f7eddc" class="">默认情况下，<code>v-model</code> 会在 <code>input</code> 事件触发时同步数据（实时更新）。<code>.lazy</code> 修饰符会将同步时机改为 <code>change</code> 事件（失去焦点或按下回车时）。</p></div><div style="display:contents" dir="auto"><pre id="9ad8db55-6aee-8282-b5e2-81c9cd18c8b0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;input type=&quot;text&quot; v-model.lazy=&quot;username&quot;&gt;
+&lt;p&gt;用户名（失去焦点后更新）：{{ username }}&lt;/p&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="5248db55-6aee-8366-94a4-81bca0725618" class="">2、.number：自动转为数字类型</p></div><div style="display:contents" dir="auto"><p id="48a8db55-6aee-828e-9f85-01da5dc03310" class="">默认情况下，表单输入的值会被当作字符串处理。<code>.number</code> 修饰符会自动将输入值转为数字（若无法转换，仍为字符串）。</p></div><div style="display:contents" dir="auto"><pre id="d458db55-6aee-83da-93de-0152a7a068d5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;input type=&quot;number&quot; v-model.number=&quot;age&quot;&gt;
+&lt;p&gt;年龄（数字类型）：{{ age }}，类型：{{ typeof age }}&lt;/p&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="55c8db55-6aee-82bb-8cb4-01f148fddeac" class="">3、.trim：自动去除手尾空格</p></div><div style="display:contents" dir="auto"><p id="05c8db55-6aee-8325-a14b-8134238e838e" class=""><code>.trim</code> 修饰符会自动过滤输入值的首尾空格（中间空格保留）。</p></div><div style="display:contents" dir="auto"><pre id="69e8db55-6aee-8395-9cbf-817a188b8f8f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;input type=&quot;text&quot; v-model.trim=&quot;username&quot;&gt;
+&lt;p&gt;用户名（去空格后）：&quot;{{ username }}&quot;&lt;/p&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5098db55-6aee-82a7-a58c-811dd51153ad" class="toggle"><li><details open=""><summary>自定义表单组件v-model绑定</summary><div style="display:contents" dir="auto"><p id="2a18db55-6aee-8340-b80e-0158844d9b91" class="">在自定义组件中使用 <code>v-model</code> 时，需要明确<strong>值的传递</strong>和<strong>事件的触发</strong>规则：</p></div><div style="display:contents" dir="auto"><ul id="5588db55-6aee-839e-930c-017f2af89a26" class="bulleted-list"><li style="list-style-type:disc">默认情况下，组件的 <code>v-model</code> 会将 <code>value</code> 作为 prop，将 <code>input</code> 作为事件（即 <code>v-model</code> 等价于 <code>:value=&quot;xxx&quot; @input=&quot;xxx = $event&quot;</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="2a88db55-6aee-82a7-bf32-0154068a5408" class="bulleted-list"><li style="list-style-type:disc">可通过组件的 <code>model</code> 选项自定义 prop 名称和事件名称。</li></ul></div><div style="display:contents" dir="auto"><pre id="b7f8db55-6aee-8204-8d18-81512595ce79" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 父组件 --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;custom-checkbox v-model=&quot;isChecked&quot;&gt;&lt;/custom-checkbox&gt;
+    &lt;p&gt;是否选中：{{ isChecked }}&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import CustomCheckbox from &#x27;./CustomCheckbox.vue&#x27;;
+export default {
+  components: { CustomCheckbox },
+  data() { return { isChecked: false }; }
+}
+&lt;/script&gt;
+
+
+&lt;!-- 子组件 CustomCheckbox.vue --&gt;
+&lt;template&gt;
+  &lt;label&gt;
+    &lt;!-- 绑定内部选中状态 --&gt;
+    &lt;input 
+      type=&quot;checkbox&quot; 
+      :checked=&quot;checked&quot; 
+      @change=&quot;$emit(&#x27;change&#x27;, $event.target.checked)&quot;
+    &gt;
+    自定义复选框
+  &lt;/label&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  // 自定义v-model的prop和事件（默认是value和input）
+  model: {
+    prop: &#x27;checked&#x27;, // 自定义prop名称
+    event: &#x27;change&#x27;  // 自定义事件名称
+  },
+  props: {
+    checked: { type: Boolean, default: false }
+  }
+}
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="dcc8db55-6aee-83a3-91b3-8142ca1f869c" class=""><strong>原理</strong>：</p></div><div style="display:contents" dir="auto"><ul id="b028db55-6aee-8359-a62c-01544b9e2203" class="bulleted-list"><li style="list-style-type:disc">父组件通过 <code>v-model=&quot;isChecked&quot;</code> 绑定数据，等价于 <code>:checked=&quot;isChecked&quot; @change=&quot;isChecked = $event&quot;</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="3338db55-6aee-825b-bc04-01d8ad5af5cd" class="bulleted-list"><li style="list-style-type:disc">子组件接收 <code>checked</code> prop 作为选中状态，当复选框状态变化时，通过 <code>$emit(&#x27;change&#x27;, 新值)</code> 通知父组件更新数据。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="abb8db55-6aee-83e2-b728-010694a98ecf" class="toggle"><li><details open=""><summary>核心原理总结</summary><div style="display:contents" dir="auto"><p id="0c68db55-6aee-8284-b33a-01118c17b064" class=""><strong>双向绑定本质</strong>：<code>v-model</code> 是 <code>v-bind:value</code> 和 <code>v-on:input</code> 的语法糖，例如：</p></div><div style="display:contents" dir="auto"><pre id="da58db55-6aee-8372-a42a-016417500e30" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 等价于 --&gt;
+&lt;input v-model=&quot;username&quot;&gt;
+&lt;input :value=&quot;username&quot; @input=&quot;username = $event.target.value&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="7d98db55-6aee-8252-ac11-813632432951" class=""><strong>值类型适配</strong>：<code>v-model</code> 会根据表单元素类型自动适配绑定值的类型（字符串、布尔值、数组等），简化开发。</p></div><div style="display:contents" dir="auto"><p id="0138db55-6aee-8271-9cf0-8190bf2f3b44" class=""><strong>灵活性</strong>：通过修饰符（<code>.lazy</code>/<code>.number</code>/<code>.trim</code>）可处理特殊场景，通过自定义组件的 <code>model</code> 选项可扩展 <code>v-model</code> 功能。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5338db55-6aee-83eb-a10e-014567c991c2" class="toggle"><li><details open=""><summary>注意事项</summary><div style="display:contents" dir="auto"><ul id="4478db55-6aee-830a-9004-016b4b88c489" class="bulleted-list"><li style="list-style-type:disc"><strong>复选框组忘记用数组</strong>：多个复选框必须绑定到数组，否则只会生效最后一个复选框。</li></ul></div><div style="display:contents" dir="auto"><ul id="6a48db55-6aee-8292-8a76-81a643a69492" class="bulleted-list"><li style="list-style-type:disc"><strong>单选按钮未设置 </strong><code><strong>value</strong></code>：多个单选按钮需通过 <code>value</code> 区分选项，否则无法正确绑定。</li></ul></div><div style="display:contents" dir="auto"><ul id="2f48db55-6aee-8281-b3e2-8195e6173d94" class="bulleted-list"><li style="list-style-type:disc"><strong>自定义组件未触发事件</strong>：子组件需通过 <code>$emit</code> 触发对应事件（默认 <code>input</code>），否则父组件数据不会更新。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8208db55-6aee-83a4-9279-010ae1655a2f" class="toggle"><li><details open=""><summary>购物车功能实现</summary><div style="display:contents" dir="auto"><pre id="a648db55-6aee-83f1-974f-01a4d46ab91f" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Vue购物车&lt;/title&gt;
+  &lt;script src=&quot;./node_modules/vue2/dist/vue.js&quot;&gt;&lt;/script&gt;
+  &lt;style&gt;
+    li {
+      list-style: none;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot; class=&quot;container&quot;&gt;
+    &lt;h2&gt;购物车&lt;/h2&gt;
+    &lt;div&gt;
+      &lt;ul&gt;
+        &lt;!-- 全选功能 --&gt;
+        &lt;div class=&quot;select-all&quot;&gt;
+          &lt;input type=&quot;checkbox&quot; v-model=&quot;isChecked&quot; @change=&quot;handleSelectAll&quot;&gt; 全选
+        &lt;/div&gt;
+        
+        &lt;!-- 商品列表 --&gt;
+        &lt;li v-for=&quot;(item, index) in products&quot; :key=&quot;item.name&quot;&gt;
+          &lt;input 
+            type=&quot;checkbox&quot; 
+            v-model=&quot;item.selected&quot; 
+            @change=&quot;handleSelectOne&quot;
+          &gt;
+          
+          &lt;div class=&quot;product-info&quot;&gt;
+            &lt;span class=&quot;product-name&quot;&gt;商品名称: {{item.name}}&lt;/span&gt;
+            &lt;span class=&quot;product-price&quot;&gt;价格: ¥{{item.price}}&lt;/span&gt;
+            &lt;span style=&quot;margin-left: 10px; color: #7f8c8d;&quot;&gt;(库存: {{item.count}})&lt;/span&gt;
+          &lt;/div&gt;
+          
+          &lt;!-- 数量控制 --&gt;
+          &lt;div class=&quot;quantity-control&quot;&gt;
+            &lt;button 
+              class=&quot;quantity-btn&quot;
+              :disabled=&quot;item.currentNum === 0&quot; 
+              @click=&quot;handleDec(index)&quot;
+            &gt;-&lt;/button&gt;
+            &lt;span&gt;{{item.currentNum}}&lt;/span&gt;
+            &lt;button 
+              class=&quot;quantity-btn&quot;
+              :disabled=&quot;item.currentNum &gt;= item.count&quot; 
+              @click=&quot;handleAdd(index)&quot;
+            &gt;+&lt;/button&gt;
+          &lt;/div&gt;
+          
+          &lt;!-- 删除按钮 --&gt;
+          &lt;button class=&quot;delete-btn&quot; @click=&quot;handleDelete(index)&quot;&gt;删除&lt;/button&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+      
+      &lt;!-- 总金额 --&gt;
+      &lt;div class=&quot;total-section&quot;&gt;
+        总金额: ¥{{sumValue.toFixed(2)}}
+      &lt;/div&gt;
+      
+      &lt;!-- 购物车已选商品 --&gt;
+      &lt;div class=&quot;cart-section&quot;&gt;
+        &lt;h3&gt;已选商品&lt;/h3&gt;
+        &lt;div v-if=&quot;selectedProducts.length === 0&quot; class=&quot;empty-cart&quot;&gt;
+          购物车为空
+        &lt;/div&gt;
+        &lt;div v-for=&quot;(item, index) in selectedProducts&quot; :key=&quot;index&quot; class=&quot;cart-item&quot;&gt;
+          {{item.name}} - 数量: {{item.currentNum}} - 小计: ¥{{(item.price * item.currentNum).toFixed(2)}}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    new Vue({
+      el: &quot;#app&quot;,
+      data: {
+        products: [
+          { name: &quot;iphone&quot;, price: 4000, count: 7, currentNum: 0, selected: false },
+          { name: &quot;ipad&quot;, price: 5000, count: 4, currentNum: 0, selected: false },
+          { name: &quot;ipod&quot;, price: 2000, count: 8, currentNum: 0, selected: false },
+          { name: &quot;imac&quot;, price: 3000, count: 4, currentNum: 0, selected: false },
+        ],
+        isChecked: false, // 全选状态
+      },
+      computed: {
+        // 计算总金额
+        sumValue() {
+          return this.products.reduce((pre, cur) =&gt; {
+            // 只计算选中商品的金额
+            return pre + (cur.selected ? cur.price * cur.currentNum : 0);
+          }, 0);
+        },
+        // 获取已选中的商品
+        selectedProducts() {
+          return this.products.filter(item =&gt; item.selected &amp;&amp; item.currentNum &gt; 0);
+        }
+      },
+      methods: {
+        // 增加数量
+        handleAdd(index) {
+          this.products[index].currentNum++;
+          // 数量大于0时自动选中该商品
+          this.products[index].selected = true;
+          // 检查是否需要更新全选状态
+          this.checkAllSelected();
+        },
+        // 减少数量
+        handleDec(index) {
+          if (this.products[index].currentNum &gt; 0) {
+            this.products[index].currentNum--;
+            // 如果数量变为0，取消选中状态
+            if (this.products[index].currentNum === 0) {
+              this.products[index].selected = false;
+            }
+            // 检查是否需要更新全选状态
+            this.checkAllSelected();
+          }
+        },
+        // 删除商品
+        handleDelete(index) {
+          this.products.splice(index, 1);
+          // 检查是否需要更新全选状态
+          this.checkAllSelected();
+        },
+        // 全选/取消全选
+        handleSelectAll() {
+          if(this.isChecked) {
+            // 全选时, 没有数量的商品设置为1
+            this.products.forEach(item =&gt; {
+              if (item.currentNum ===0 &amp;&amp; item.count &gt; 0) {
+                item.currentNum = 1;
+              }
+              item.selected = item.currentNum &gt; 0;
+            })
+          } else {
+            // 取消全选
+            this.products.forEach(item =&gt; {
+              item.selected = false;
+            })
+          }
+        },
+        // 单个商品选择变化时检查是否全选
+        handleSelectOne() {
+          this.checkAllSelected();
+        },
+        // 检查是否所有可选商品都被选中
+        checkAllSelected() {
+          // 过滤出有数量的商品
+          const hasQuantity = this.products.filter(item =&gt; item.currentNum &gt; 0);
+          // 如果没有有数量的商品，全选框不勾选
+          if (hasQuantity.length === 0) {
+            this.isChecked = false;
+            return;
+          }
+          // 检查所有有数量的商品是否都被选中
+          this.isChecked = hasQuantity.every(item =&gt; item.selected);
+        }
+      }
+    })
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="0f58db55-6aee-8272-bd5e-0175acbd4276" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,1463 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Express模块</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5278db55-6aee-8234-85c7-017bb33310f3" class="page serif"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/nationalMuseumOfAsianArt_gardenSceneMelonsEggPlantsFlowersAndTwoWeasels.jpg" style="object-position:center 50%"/><h1 class="page-title" dir="auto">Express模块</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="3058db55-6aee-8374-babd-01ea86c444b0" class="toggle"><li><details open=""><summary>路由规则</summary><div style="display:contents" dir="auto"><p id="a318db55-6aee-8252-b999-81a59bbbb331" class="">路由匹配支持<strong>特殊字符和正则表达式风格的模式</strong>，用于灵活匹配不同的 URL 路径。你提供的这 5 个路由规则，分别使用了不同的特殊符号（<code>\?</code>、<code>:</code>、<code>+</code>、<code>*</code>、<code>()</code>+<code>?</code>），各自对应不同的匹配逻辑。</p></div><div style="display:contents" dir="auto"><hr id="0418db55-6aee-839c-945e-815c7f3209e8"/></div><div style="display:contents" dir="auto"><ul id="1ee8db55-6aee-8250-820e-0134b1fceb67" class="toggle"><li><details open=""><summary>1、<strong>app.get(&quot;/ab?cd&quot;, (req, res) =&gt; { ... })</strong></summary><div style="display:contents" dir="auto"><p id="5318db55-6aee-831f-a8fd-01b1f0d93730" class=""><strong>规则：匹配「</strong><code><strong>a</strong></code><strong> 开头，</strong><code><strong>b</strong></code><strong> 可选，结尾是 </strong><code><strong>cd</strong></code><strong>」的路径</strong></p></div><div style="display:contents" dir="auto"><ul id="2f18db55-6aee-8385-a98e-81d0927c8a8f" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/acd</code>（<code>b</code> 出现 0 次）</li></ul></div><div style="display:contents" dir="auto"><ul id="cab8db55-6aee-836d-9256-81c96ba587ba" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/abcd</code>（<code>b</code> 出现 1 次）</li></ul></div><div style="display:contents" dir="auto"><ul id="1148db55-6aee-821a-be0a-81943886af65" class="bulleted-list"><li style="list-style-type:disc">❌ <code>http://localhost:3000/abbcd</code>（<code>b</code> 出现 2 次，超出 <code>?</code> 的 “0 或 1 次” 范围）</li></ul></div><div style="display:contents" dir="auto"><ul id="f268db55-6aee-83d8-84d7-81063877254a" class="bulleted-list"><li style="list-style-type:disc">❌ <code>http://localhost:3000/abxcd</code>（<code>b</code> 后多了 <code>x</code>，破坏 <code>cd</code> 结尾规则）</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="94f8db55-6aee-8242-9f1d-81174f0d5fc0" class="toggle"><li><details open=""><summary>2、<strong>app.get(&quot;/ab/:id&quot;, (req, res) =&gt; { ... })</strong></summary><div style="display:contents" dir="auto"><p id="8fc8db55-6aee-834b-9246-011956b88fbe" class=""><strong>规则：匹配「</strong><code><strong>/ab/</strong></code><strong> 固定前缀 + 动态参数」的路径</strong></p></div><div style="display:contents" dir="auto"><ul id="c358db55-6aee-825b-98dc-018cc20d5fa9" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/ab/123</code>（<code>id=123</code>，数字参数）</li></ul></div><div style="display:contents" dir="auto"><ul id="e5f8db55-6aee-828a-bb24-01b6182b7a41" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/ab/user456</code>（<code>id=user456</code>，字符串参数）</li></ul></div><div style="display:contents" dir="auto"><ul id="6d68db55-6aee-822b-a1b9-8158ec84eb07" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/ab/abc-def</code>（<code>id=abc-def</code>，含特殊字符参数）</li></ul></div><div style="display:contents" dir="auto"><ul id="d378db55-6aee-8334-be46-815d38dbd559" class="bulleted-list"><li style="list-style-type:disc">❌ <code>http://localhost:3000/ab/123/456</code>（<code>/ab/123/456</code> 中 <code>123</code> 是 <code>id</code>，但后面多了 <code>/456</code>，路径层级不匹配）</li></ul></div><div style="display:contents" dir="auto"><ul id="c438db55-6aee-823d-9798-81cdb0af8d4d" class="bulleted-list"><li style="list-style-type:disc">❌ <code>http://localhost:3000/ab?id=123</code>（<code>?id=123</code> 是查询参数，路径核心是 <code>/ab</code>，无 <code>:id</code> 部分）</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5098db55-6aee-827e-90a7-01c0e2552a17" class="toggle"><li><details open=""><summary>3、<strong>app.get(&quot;/ab+cd&quot;, (req, res) =&gt; { ... })</strong></summary><div style="display:contents" dir="auto"><p id="9f08db55-6aee-83f2-8938-819562b53114" class=""><strong>规则：匹配「</strong><code><strong>a</strong></code><strong> 开头，</strong><code><strong>b</strong></code><strong> 出现 1 次及以上，结尾是 </strong><code><strong>cd</strong></code><strong>」的路径</strong></p></div><div style="display:contents" dir="auto"><ul id="f708db55-6aee-82db-862b-01e77fe17b88" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/abcd</code>（<code>b</code> 出现 1 次）</li></ul></div><div style="display:contents" dir="auto"><ul id="b7b8db55-6aee-8206-ba57-01da4616c680" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/abbcd</code>（<code>b</code> 出现 2 次）</li></ul></div><div style="display:contents" dir="auto"><ul id="6888db55-6aee-828e-a958-0125511a21af" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/abbbcd</code>（<code>b</code> 出现 3 次）</li></ul></div><div style="display:contents" dir="auto"><ul id="d628db55-6aee-830a-bb19-812119bfe49c" class="bulleted-list"><li style="list-style-type:disc">❌ <code>http://localhost:3000/acd</code>（<code>b</code> 出现 0 次，不满足 <code>b+</code> 的 “1 次及以上”）</li></ul></div><div style="display:contents" dir="auto"><ul id="49d8db55-6aee-83bf-8a99-8160d2363630" class="bulleted-list"><li style="list-style-type:disc">❌ <code>http://localhost:3000/abxcd</code>（<code>b</code> 后多了 <code>x</code>，破坏 <code>cd</code> 结尾规则）</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="16a8db55-6aee-821c-bf2f-81108edf9310" class="toggle"><li><details open=""><summary>4、<strong>app.get(&quot;/ab*cd&quot;, (req, res) =&gt; { ... })</strong></summary><div style="display:contents" dir="auto"><p id="c318db55-6aee-832c-b7a8-0101f9038897" class=""><strong>规则：匹配「</strong><code><strong>ab</strong></code><strong> 开头、</strong><code><strong>cd</strong></code><strong> 结尾，中间可包含任意内容」的路径</strong></p></div><div style="display:contents" dir="auto"><ul id="7548db55-6aee-83fe-9ed5-016b3d73480b" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/abcd</code>（中间无内容，<code>ab</code> + `` + <code>cd</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="f608db55-6aee-83db-a4f9-013fbeaf1170" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/ab123cd</code>（中间是数字，<code>ab</code> + <code>123</code> + <code>cd</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="4858db55-6aee-8358-80d3-01cb5fa774e8" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/ab/ef/gcd</code>（中间包含 <code>/</code>，<code>ab</code> + <code>/ef/g</code> + <code>cd</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="0108db55-6aee-82bb-bdf5-81f3f493bc6d" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/ab-x+y=zcd</code>（中间是特殊符号，<code>ab</code> + <code>x+y=z</code> + <code>cd</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="6d78db55-6aee-83fd-9218-018405cfaab2" class="bulleted-list"><li style="list-style-type:disc">❌ <code>http://localhost:3000/ab123</code>（缺少 <code>cd</code> 结尾）</li></ul></div><div style="display:contents" dir="auto"><ul id="97f8db55-6aee-82e0-b5fe-01fb82e20727" class="bulleted-list"><li style="list-style-type:disc">❌ <code>http://localhost:3000/123cd</code>（缺少 <code>ab</code> 开头）</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d3b8db55-6aee-8298-aaca-01d0f1aa6000" class="toggle"><li><details open=""><summary>5、<strong>app.get(&quot;/ab(cd)?&quot;, (req, res) =&gt; { ... })</strong></summary><div style="display:contents" dir="auto"><p id="d308db55-6aee-821d-9a70-01597b665f53" class=""><strong>规则：匹配「</strong><code><strong>ab</strong></code><strong> 开头，</strong><code><strong>cd</strong></code><strong> 作为整体可选」的路径</strong></p></div><div style="display:contents" dir="auto"><ul id="0c68db55-6aee-82c4-8446-018164460856" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/ab</code>（分组 <code>cd</code> 出现 0 次）</li></ul></div><div style="display:contents" dir="auto"><ul id="8dd8db55-6aee-8240-8689-8176c0a0ac3e" class="bulleted-list"><li style="list-style-type:disc">✅ <code>http://localhost:3000/abcd</code>（分组 <code>cd</code> 出现 1 次）</li></ul></div><div style="display:contents" dir="auto"><ul id="d928db55-6aee-8244-8902-81fdec0e42f7" class="bulleted-list"><li style="list-style-type:disc">❌ <code>http://localhost:3000/abbcd</code>（分组 <code>cd</code> 未完整出现，多了 <code>b</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="a108db55-6aee-821f-99dc-014f6be7ec62" class="bulleted-list"><li style="list-style-type:disc">❌ <code>http://localhost:3000/abx</code>（分组 <code>cd</code> 未出现，且多了 <code>x</code>）</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="6978db55-6aee-83bb-923b-81921ba290ee" class="">核心差异：</p></div><div style="display:contents" dir="ltr"><table id="1c18db55-6aee-8321-af91-01677cf45bfc" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="b388db55-6aee-827f-9c70-018f9358cfde"><th id="[B@Z" class="simple-table-header-color simple-table-header"><strong>路由规则</strong></th><th id="dAHN" class="simple-table-header-color simple-table-header"><strong>特殊符号作用</strong></th><th id="woCp" class="simple-table-header-color simple-table-header"><strong>匹配逻辑</strong></th><th id="T&lt;wG" class="simple-table-header-color simple-table-header"><strong>典型匹配 URL</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="5f88db55-6aee-82c0-8ebf-016c7d66440a"><td id="[B@Z" class=""><code>/ab?cd</code></td><td id="dAHN" class=""><code>?</code> 匹配前面字符 0/1 次</td><td id="woCp" class="">匹配 <code>acd</code> 或 <code>abcd</code></td><td id="T&lt;wG" class=""><code>/acd</code>、<code>/abcd</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="88d8db55-6aee-83e8-8ac1-8151b3383901"><td id="[B@Z" class=""><code>/ab/:id</code></td><td id="dAHN" class=""><code>:</code> 动态参数（非 <code>/</code> 字符）</td><td id="woCp" class="">匹配 <code>/ab/xxx</code>（xxx 为动态值）</td><td id="T&lt;wG" class=""><code>/ab/123</code>、<code>/ab/user</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6aa8db55-6aee-830a-9d42-0113bdafc208"><td id="[B@Z" class=""><code>/ab+cd</code></td><td id="dAHN" class=""><code>+</code> 匹配前面字符 1+ 次</td><td id="woCp" class="">匹配 <code>abcd</code>、<code>abbcd</code> 等</td><td id="T&lt;wG" class=""><code>/abcd</code>、<code>/abbbcd</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="d188db55-6aee-83e3-9394-81ea0219e45f"><td id="[B@Z" class=""><code>/ab*cd</code></td><td id="dAHN" class=""><code>*</code> 匹配任意中间内容 0+ 次</td><td id="woCp" class="">匹配 <code>ab</code> 开头 + 任意内容 + <code>cd</code></td><td id="T&lt;wG" class=""><code>/abcd</code>、<code>/ab/ef/cd</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6b38db55-6aee-83e1-aac0-0140270fe903"><td id="[B@Z" class=""><code>/ab(cd)?</code></td><td id="dAHN" class=""><code>()</code> 分组 + <code>?</code> 可选</td><td id="woCp" class="">匹配 <code>/ab</code> 或 <code>/abcd</code></td><td id="T&lt;wG" class=""><code>/ab</code>、<code>/abcd</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3148db55-6aee-82ae-842f-81ef91cd337b" class="toggle"><li><details open=""><summary>中间件</summary><div style="display:contents" dir="auto"><p id="ab78db55-6aee-82ce-a23e-011a08900ffa" class="">中间件本质是一个函数</p></div><div style="display:contents" dir="auto"><ul id="a9e8db55-6aee-82cd-b812-81028d91db8c" class="toggle"><li><details open=""><summary>这个函数具有的特征</summary><div style="display:contents" dir="auto"><ol type="1" id="2318db55-6aee-836a-8359-81c07488ef12" class="numbered-list" start="1"><li><strong>参数固定</strong>：接受三个核心参数（或四个，错误处理中间件）<div style="display:contents" dir="auto"><ul id="6bb8db55-6aee-8287-8aaa-01e5d8a05a09" class="bulleted-list"><li style="list-style-type:disc"><code>req</code>（Request）：请求对象，包含客户端发送的所有信息（如 URL、参数、请求体等）</li></ul></div><div style="display:contents" dir="auto"><ul id="fcc8db55-6aee-8215-92ee-8168ba93b7bc" class="bulleted-list"><li style="list-style-type:disc"><code>res</code>（Response）：响应对象，用于向客户端返回数据（如设置响应头、发送响应体等）</li></ul></div><div style="display:contents" dir="auto"><ul id="b998db55-6aee-8340-9c7c-811f686712e7" class="bulleted-list"><li style="list-style-type:disc"><code>next</code>：回调函数，调用后会将请求传递给「下一个中间件」或「路由处理函数」</li></ul></div><div style="display:contents" dir="auto"><ul id="8c18db55-6aee-83ef-8c75-0154de1889ed" class="bulleted-list"><li style="list-style-type:disc">错误处理中间件多一个 <code>err</code> 参数：<code>(err, req, res, next)</code></li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6ce8db55-6aee-831e-a83d-81004038b221" class="numbered-list" start="2"><li><strong>功能定位</strong>：<div style="display:contents" dir="auto"><ul id="bea8db55-6aee-83c0-a84c-019527429800" class="bulleted-list"><li style="list-style-type:disc">执行任意代码（如日志记录、权限验证、数据转换）</li></ul></div><div style="display:contents" dir="auto"><ul id="f818db55-6aee-838c-a551-8103d62e6e19" class="bulleted-list"><li style="list-style-type:disc">修改请求 / 响应对象（如添加自定义属性、解析请求体）</li></ul></div><div style="display:contents" dir="auto"><ul id="c418db55-6aee-8314-9f19-01751d2e4d0b" class="bulleted-list"><li style="list-style-type:disc">终止请求 - 响应循环（如直接返回错误响应）</li></ul></div><div style="display:contents" dir="auto"><ul id="a798db55-6aee-8346-8edf-01684270c6c6" class="bulleted-list"><li style="list-style-type:disc">调用下一个中间件（通过 <code>next()</code>）</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="c278db55-6aee-82dc-8ada-817e7a432202" class="numbered-list" start="3"><li><strong>执行时机</strong>：在请求到达路由处理函数之前，或在路由处理函数之后、响应发送之前。</li></ol></div><div style="display:contents" dir="auto"><p id="4088db55-6aee-833a-80fd-01f5cf647ee0" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f4a8db55-6aee-8319-a4db-81cf0882098a" class="toggle"><li><details open=""><summary>中间件工作流程（管道模型）</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4e48db55-6aee-8360-88b6-013e582eb5dd" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">客户端请求 → 中间件1 → 中间件2 → ... → 路由处理函数 → 响应客户端
+       ↑                                        ↓
+       └────────────────────────────────────────┘
+                （若中间件调用 next()）</code></pre></div><div style="display:contents" dir="auto"><ul id="b248db55-6aee-8373-8f4d-01c72e21801a" class="bulleted-list"><li style="list-style-type:disc"><strong>关键规则</strong>：<div style="display:contents" dir="auto"><ul id="07c8db55-6aee-82c2-bd84-01b99510c59a" class="bulleted-list"><li style="list-style-type:circle">中间件按「定义顺序」执行（先定义的先执行）</li></ul></div><div style="display:contents" dir="auto"><ul id="54d8db55-6aee-8279-b9ae-016bb09e20a4" class="bulleted-list"><li style="list-style-type:circle">若中间件未调用 <code>next()</code> 且未发送响应，请求会「挂起」（客户端一直等待）</li></ul></div><div style="display:contents" dir="auto"><ul id="c4b8db55-6aee-826c-ba8f-014aa698136e" class="bulleted-list"><li style="list-style-type:circle">若中间件发送了响应（如 <code>res.send()</code>），则终止流程，后续中间件和路由不会执行</li></ul></div></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ac88db55-6aee-8341-9d23-01d9a686fe36" class="toggle"><li><details open=""><summary>应用级中间件（Application-Level Middleware）</summary><div style="display:contents" dir="auto"><p id="6c88db55-6aee-8368-b9d5-01e163233c1a" class="">绑定到 Express 应用实例（<code>app</code>），作用于全局或指定路径的所有请求。</p></div><div style="display:contents" dir="auto"><pre id="2758db55-6aee-8299-92d5-01047bebfe5c" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const express = require(&#x27;express&#x27;);
+const app = express();
+
+// 1. 无路径：所有请求都会经过
+app.use((req, res, next) =&gt; {
+  console.log(&#x27;时间:&#x27;, Date.now()); // 记录请求时间
+  next(); // 传递给下一个中间件
+});
+
+// 2. 有路径：仅 /user 开头的请求会经过
+app.use(&#x27;/user&#x27;, (req, res, next) =&gt; {
+  console.log(&#x27;访问用户相关接口&#x27;);
+  next();
+});
+
+// 3. 特定 HTTP 方法：仅 POST 请求且路径为 /login 时执行
+app.post(&#x27;/login&#x27;, (req, res, next) =&gt; {
+  console.log(&#x27;处理登录请求&#x27;);
+  next();
+});</code></pre></div><div style="display:contents" dir="auto"><p id="2088db55-6aee-82bc-a10b-01955bdf053c" class=""><strong>典型场景</strong>：全局日志、跨域处理、请求体解析、全局权限验证。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="dc18db55-6aee-82a9-9323-01e802481bc3" class="toggle"><li><details open=""><summary>路由级中间件（Router-Level Middleware）</summary><div style="display:contents" dir="auto"><p id="7c28db55-6aee-832b-9602-8168371520c5" class="">绑定到路由实例（<code>express.Router()</code>），仅作用于该路由负责的路径，用于拆分模块化路由逻辑。</p></div><div style="display:contents" dir="auto"><pre id="c398db55-6aee-82a4-a398-0146335dbb69" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 创建路由实例
+const userRouter = express.Router();
+
+// 路由级中间件：仅作用于 userRouter 处理的请求
+userRouter.use((req, res, next) =&gt; {
+  console.log(&#x27;用户路由中间件&#x27;);
+  next();
+});
+
+// 路由级中间件：仅作用于 userRouter 的 GET /:id 路由
+userRouter.get(&#x27;/:id&#x27;, (req, res, next) =&gt; {
+  console.log(&#x27;检查用户 ID 格式&#x27;);
+  if (!isNaN(req.params.id)) {
+    next(); // ID 有效，继续
+  } else {
+    res.status(400).send(&#x27;无效 ID&#x27;); // 终止流程
+  }
+});
+
+// 路由处理函数
+userRouter.get(&#x27;/:id&#x27;, (req, res) =&gt; {
+  res.send(`用户 ID: ${req.params.id}`);
+});
+
+// 将路由实例挂载到应用
+app.use(&#x27;/user&#x27;, userRouter); // 所有 /user/* 请求会经过 userRouter 中间件</code></pre></div><div style="display:contents" dir="auto"><p id="1518db55-6aee-8382-9f1f-8177864d5b31" class=""><strong>典型场景</strong>：某类路由的专用验证（如用户路由验证用户权限）、业务逻辑预处理。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="72e8db55-6aee-8322-a912-014fe833fde4" class="toggle"><li><details open=""><summary>错误处理中间件（Error-handling Middleware）</summary><div style="display:contents" dir="auto"><p id="daa8db55-6aee-8377-9494-010290892e3f" class="">专门处理请求流程中抛出的错误，<strong>必须有 4 个参数</strong>（<code>err, req, res, next</code>），否则会被视为普通中间件。</p></div><div style="display:contents" dir="auto"><p id="61f8db55-6aee-8322-b569-01dd8ceb4c3f" class=""><mark class="highlight-pink">注意放在最后</mark></p></div><div style="display:contents" dir="auto"><pre id="5b18db55-6aee-824e-9294-01f28a048c3d" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 错误处理中间件（需放在所有路由和中间件之后）
+app.use((err, req, res, next) =&gt; {
+  console.error(&#x27;错误:&#x27;, err.stack); // 打印错误堆栈
+  // 根据错误类型返回响应
+  if (err.type === &#x27;validation&#x27;) {
+    res.status(400).send(`验证错误: ${err.message}`);
+  } else {
+    res.status(500).send(&#x27;服务器内部错误&#x27;);
+  }
+});
+
+// 触发错误的示例路由
+app.get(&#x27;/error&#x27;, (req, res, next) =&gt; {
+  const err = new Error(&#x27;自定义错误&#x27;);
+  err.type = &#x27;custom&#x27;;
+  next(err); // 传递错误给错误处理中间件
+});</code></pre></div><div style="display:contents" dir="auto"><p id="5c18db55-6aee-83fa-b972-81e16c17f7d3" class=""><strong>关键特性</strong>：</p></div><div style="display:contents" dir="auto"><ul id="9628db55-6aee-839e-a036-8113dbe9cac8" class="bulleted-list"><li style="list-style-type:disc">需放在所有路由和中间件的最后，确保捕获所有错误</li></ul></div><div style="display:contents" dir="auto"><ul id="cee8db55-6aee-83ed-869a-013437983409" class="bulleted-list"><li style="list-style-type:disc">若调用 <code>next(err)</code>，Express 会跳过普通中间件，直接执行错误处理中间件</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="86e8db55-6aee-82ea-a34e-8135113a517e" class="toggle"><li><details open=""><summary>内置中间件（Built-in Middleware）</summary><div style="display:contents" dir="auto"><p id="e008db55-6aee-822d-9787-01771055023c" class="">Express 自带的中间件，无需额外安装，用于处理常见任务。</p></div><div style="display:contents" dir="auto"><p id="0f48db55-6aee-82c2-8c9a-81e3c52263f7" class="">常用内置中间件：</p></div><div style="display:contents" dir="auto"><p id="1b48db55-6aee-8212-9fb8-0175c80650a6" class="">1、<code>express.static(root, [options])</code>：托管静态资源（如 HTML、CSS、图片）</p></div><div style="display:contents" dir="auto"><pre id="86c8db55-6aee-83c3-a3fc-01a4df7f9888" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">app.use(express.static(&#x27;public&#x27;)); // 访问 /index.html 会返回 public/index.html</code></pre></div><div style="display:contents" dir="auto"><p id="1268db55-6aee-830e-9e1d-81150b9208a4" class="">2、<code>express.json([options])</code>：解析 JSON 格式的请求体（<code>Content-Type: application/json</code>）</p></div><div style="display:contents" dir="auto"><pre id="d418db55-6aee-8256-b78b-016fdf98bc78" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">app.use(express.json()); // 解析后的数据存放在 req.body</code></pre></div><div style="display:contents" dir="auto"><p id="3358db55-6aee-83a4-8594-012287b9dcf8" class="">3、<code>express.urlencoded([options])</code>：解析 URL 编码的请求体（<code>Content-Type: application/x-www-form-urlencoded</code>）</p></div><div style="display:contents" dir="auto"><pre id="eb08db55-6aee-83e3-bee8-81c9be850e4a" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">app.use(express.urlencoded({ extended: true })); // extended: true 支持嵌套对象</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8088db55-6aee-835e-8b03-015435e5c37f" class="toggle"><li><details open=""><summary>第三方中间件（Third-party Middleware）</summary><div style="display:contents" dir="auto"><p id="f6c8db55-6aee-83bc-9dec-8150c814d2bd" class="">由社区开发的中间件，需通过 <code>npm</code> 安装，扩展 Express 功能。</p></div><div style="display:contents" dir="auto"><p id="f7b8db55-6aee-8324-bb14-011c8060e2ab" class="">常用第三方中间件：</p></div><div style="display:contents" dir="auto"><p id="2238db55-6aee-8267-bd97-81cadcbdf92b" class="">1、<code>morgan</code>：HTTP 请求日志记录</p></div><div style="display:contents" dir="auto"><pre id="1068db55-6aee-83b4-b4ee-81f99250c1f0" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const morgan = require(&#x27;morgan&#x27;);
+app.use(morgan(&#x27;combined&#x27;)); // 输出详细日志</code></pre></div><div style="display:contents" dir="auto"><p id="5ee8db55-6aee-82e9-b907-814e4192be90" class="">2、<code>cors</code>：处理跨域资源共享（CORS）</p></div><div style="display:contents" dir="auto"><pre id="2648db55-6aee-8376-a610-812bed1783e0" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const cors = require(&#x27;cors&#x27;);
+app.use(cors()); // 允许所有跨域请求</code></pre></div><div style="display:contents" dir="auto"><p id="c918db55-6aee-821c-a6dc-01cd09cfa9af" class="">3、<code>cors</code>：处理跨域资源共享（CORS）</p></div><div style="display:contents" dir="auto"><pre id="1678db55-6aee-8270-98c9-0198c533f8e9" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const cors = require(&#x27;cors&#x27;);
+app.use(cors()); // 允许所有跨域请求</code></pre></div><div style="display:contents" dir="auto"><p id="0068db55-6aee-8216-98ee-8168d81999b1" class="">4、<code>helmet</code>：设置 HTTP 头增强安全性</p></div><div style="display:contents" dir="auto"><pre id="aac8db55-6aee-832c-af35-815a141d6cbf" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const helmet = require(&#x27;helmet&#x27;);
+app.use(helmet()); // 自动添加安全相关的响应头</code></pre></div><div style="display:contents" dir="auto"><p id="3d88db55-6aee-8229-9492-814c543a9a2a" class="">5、<code>multer</code>：处理 <code>multipart/form-data</code> 类型的请求（用于文件上传）</p></div><div style="display:contents" dir="auto"><pre id="f478db55-6aee-82e6-b201-01897b8ddcde" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const multer = require(&#x27;multer&#x27;);
+const upload = multer({ dest: &#x27;uploads/&#x27; });
+app.post(&#x27;/upload&#x27;, upload.single(&#x27;file&#x27;), (req, res) =&gt; {
+  res.send(&#x27;文件上传成功&#x27;);
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7d78db55-6aee-821b-aa91-81c4e330a6b5" class="toggle"><li><details open=""><summary>核心用法与技巧</summary><div style="display:contents" dir="auto"><ul id="2318db55-6aee-8352-89a7-013833de8ae7" class="toggle"><li><details open=""><summary>1、数据传递：req与res.locals</summary><div style="display:contents" dir="auto"><p id="9598db55-6aee-8393-b752-01783ee99c52" class="">中间件之间共享数据的两种方式：</p></div><div style="display:contents" dir="auto"><p id="2b68db55-6aee-8274-9042-81f523cbf12f" class=""><code>req</code> 对象：在整个请求生命周期内有效，所有中间件和路由都可访问</p></div><div style="display:contents" dir="auto"><pre id="a878db55-6aee-82aa-9edf-816f7606c103" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 中间件1：设置数据
+app.use((req, res, next) =&gt; {
+  req.user = { id: 1, name: &#x27;张三&#x27; };
+  next();
+});
+
+// 路由：读取数据
+app.get(&#x27;/&#x27;, (req, res) =&gt; {
+  res.send(`当前用户: ${req.user.name}`);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="a388db55-6aee-82bd-8e50-011dff80850b" class=""><code>res.locals</code>：仅在视图渲染时有效（若使用模板引擎），不会污染 <code>req</code> 对象</p></div><div style="display:contents" dir="auto"><pre id="e848db55-6aee-82b5-8bb2-81fda4dfa257" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">app.use((req, res, next) =&gt; {
+  res.locals.title = &#x27;我的网站&#x27;; // 模板中可直接使用 {{ title }}
+  next();
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0538db55-6aee-8360-9ba0-817a3d059aef" class="toggle"><li><details open=""><summary>2、条件分支：控制请求流向</summary><div style="display:contents" dir="auto"><p id="97f8db55-6aee-83e2-9fff-012ddbc7d1c7" class="">通过中间件的条件判断，决定请求走不同的处理流程：</p></div><div style="display:contents" dir="auto"><pre id="4498db55-6aee-8283-b235-8157fdba36d1" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">app.use((req, res, next) =&gt; {
+  if (req.method === &#x27;GET&#x27;) {
+    console.log(&#x27;处理 GET 请求&#x27;);
+    next(); // 继续执行后续中间件
+  } else if (req.method === &#x27;POST&#x27;) {
+    console.log(&#x27;验证 POST 数据&#x27;);
+    if (req.body.token) {
+      next(); // 验证通过
+    } else {
+      res.status(403).send(&#x27;缺少 token&#x27;); // 终止流程
+    }
+  } else {
+    next(&#x27;不支持的请求方法&#x27;); // 传递错误给错误处理中间件
+  }
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c318db55-6aee-83df-a4cc-01934ac66e3c" class="toggle"><li><details open=""><summary>3、异步中间件：处理异步操作</summary><div style="display:contents" dir="auto"><p id="4028db55-6aee-82cf-b39a-8111bd16c9ed" class="">中间件支持异步逻辑（如数据库查询），需注意正确处理 <code>next()</code> 调用：</p></div><div style="display:contents" dir="auto"><pre id="0ee8db55-6aee-838c-8807-01943d8a302e" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 异步中间件（使用 async/await）
+app.use(async (req, res, next) =&gt; {
+  try {
+    const user = await db.getUser(req.params.id); // 异步查询数据库
+    req.user = user;
+    next(); // 成功：传递给下一个中间件
+  } catch (err) {
+    next(err); // 失败：传递错误给错误处理中间件
+  }
+});</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6a88db55-6aee-8318-9efc-015b25b0ce30" class="toggle"><li><details open=""><summary>logger(’dev’)</summary><div style="display:contents" dir="auto"><p id="ee68db55-6aee-838d-a500-01af8e9b4cc9" class="">logger是morgan中间件，专门用来记录http请求日志</p></div><div style="display:contents" dir="auto"><p id="de78db55-6aee-8369-8431-012e256b5768" class="">‘dev’是Morgan提供的预定义格式之一，会显示：</p></div><div style="display:contents" dir="auto"><ul id="d438db55-6aee-8374-b335-8139192e032d" class="bulleted-list"><li style="list-style-type:disc">HTTP 方法 (GET, POST 等)</li></ul></div><div style="display:contents" dir="auto"><ul id="21c8db55-6aee-8293-a91b-81651dbeb435" class="bulleted-list"><li style="list-style-type:disc">请求路径</li></ul></div><div style="display:contents" dir="auto"><ul id="6388db55-6aee-828c-811d-8144db0ac88b" class="bulleted-list"><li style="list-style-type:disc">状态码 (200, 404, 500 等)</li></ul></div><div style="display:contents" dir="auto"><ul id="9fd8db55-6aee-82e5-8f98-01685e220704" class="bulleted-list"><li style="list-style-type:disc">响应时间</li></ul></div><div style="display:contents" dir="auto"><ul id="5028db55-6aee-834c-be3b-019d8f60e19f" class="bulleted-list"><li style="list-style-type:disc">内容长度</li></ul></div><div style="display:contents" dir="auto"><p id="7978db55-6aee-836f-b6a7-8103ae438d21" class="">如：</p></div><div style="display:contents" dir="auto"><pre id="4458db55-6aee-83f0-9cd8-01dbb36362fd" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">app.use(logger(&#x27;dev&#x27;));
+GET /users 200 15ms - 200</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1d38db55-6aee-837d-96f1-01101ed0f2b2" class="toggle"><li><details open=""><summary>express.urlencoded({ extended: false })</summary><div style="display:contents" dir="auto"><ol type="1" id="cc38db55-6aee-83ef-9bbb-81a77db6e655" class="numbered-list" start="1"><li><strong>注册中间件</strong>：使用 <code>app.use()</code> 注册 <code>express.urlencoded</code> 中间件</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b108db55-6aee-8228-ab83-81a7fb03a337" class="numbered-list" start="2"><li><strong>解析表单数据</strong>：解析 Content-Type 为 <code>application/x-www-form-urlencoded</code> 的请求体数据</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="48d8db55-6aee-8237-8311-01f7f7e6a965" class="numbered-list" start="3"><li><strong>设置解析选项</strong>：通过 <code>{ extended: false }</code> 配置解析方式</li></ol></div><div style="display:contents" dir="auto"><hr id="5e08db55-6aee-8247-8721-8167489b2f86"/></div><div style="display:contents" dir="auto"><ul id="e608db55-6aee-82b8-a1dd-81e41ee39759" class="bulleted-list"><li style="list-style-type:disc"><strong>功能</strong>：当客户端通过 HTML 表单提交数据时，数据会以 URL 编码格式发送，此中间件会将这些数据解析并添加到 <code>req.body</code> 对象中</li></ul></div><div style="display:contents" dir="auto"><ul id="d2f8db55-6aee-82e3-83db-01e9dfd7c59c" class="bulleted-list"><li style="list-style-type:disc"><strong>extended: false</strong>：使用 querystring 库解析 URL 编码的数据，只支持字符串和数组类型的数据</li></ul></div><div style="display:contents" dir="auto"><ul id="d8a8db55-6aee-8312-b510-813ce429dcda" class="bulleted-list"><li style="list-style-type:disc"><strong>extended: true</strong>：使用 qs 库解析，支持嵌套对象</li></ul></div><div style="display:contents" dir="auto"><p id="a228db55-6aee-8349-bcd2-814efb09229c" class="">当客户端提交如下表单数据时：</p></div><div style="display:contents" dir="auto"><pre id="7de8db55-6aee-82ec-965d-811d8fd8e628" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">&lt;form method=&quot;POST&quot; action=&quot;/users&quot;&gt;
+  &lt;input type=&quot;text&quot; name=&quot;username&quot; value=&quot;张三&quot;&gt;
+  &lt;input type=&quot;text&quot; name=&quot;email&quot; value=&quot;zhangsan@example.com&quot;&gt;
+  &lt;input type=&quot;submit&quot;&gt;
+&lt;/form&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="e948db55-6aee-8246-97f2-0133e37c9269" class="">中间件会将数据解析为：</p></div><div style="display:contents" dir="auto"><pre id="5208db55-6aee-8308-9cbb-011ef6ed68d7" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">req.body = {
+  username: &#x27;张三&#x27;,
+  email: &#x27;zhangsan@example.com&#x27;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="4ab8db55-6aee-827f-aafc-01d4c08987e9" class="">这样在后续的路由处理函数中就可以直接通过 <code>req.body.username</code> 和 <code>req.body.email</code> 访问表单数据了。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6cf8db55-6aee-8359-b782-81e794018032" class="toggle"><li><details open=""><summary>express.json()</summary><div style="display:contents" dir="auto"><ol type="1" id="e658db55-6aee-8272-81d3-811d94587e1d" class="numbered-list" start="1"><li><strong>注册中间件</strong>：使用 <code>app.use()</code> 方法注册解析 JSON 数据的中间件</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6158db55-6aee-8361-876e-0150a4a84a69" class="numbered-list" start="2"><li><strong>解析 JSON 请求体</strong>：专门用于解析 Content-Type 为 <code>application/json</code> 的请求体数据</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="7558db55-6aee-8391-9885-81f7e26c8983" class="numbered-list" start="3"><li><strong>自动转换数据</strong>：将原始的 JSON 字符串请求体解析为 JavaScript 对象</li></ol></div><div style="display:contents" dir="auto"><h2 id="b958db55-6aee-829a-a9ec-01dc3ce4548c" class=""><strong>详细说明</strong></h2></div><div style="display:contents" dir="auto"><ul id="0398db55-6aee-8356-b065-81b6152e2bd0" class="bulleted-list"><li style="list-style-type:disc">express.json() 是 Express 内置的中间件函数</li></ul></div><div style="display:contents" dir="auto"><ul id="6188db55-6aee-8304-9402-81c6e4492113" class="bulleted-list"><li style="list-style-type:disc">当客户端发送 JSON 格式的请求体时，此中间件会自动解析并将其转换为 JavaScript 对象</li></ul></div><div style="display:contents" dir="auto"><ul id="6248db55-6aee-8362-a039-015b5f15bd3a" class="bulleted-list"><li style="list-style-type:disc">解析后的数据会被存储在 req.body 对象中</li></ul></div><div style="display:contents" dir="auto"><ul id="2768db55-6aee-8216-8857-811fa1015456" class="bulleted-list"><li style="list-style-type:disc">默认情况下，它只解析最多 100kb 的 JSON 数据</li></ul></div><div style="display:contents" dir="auto"><p id="fcc8db55-6aee-83a1-b68b-010f0c40441b" class="">客户端发送以下POST请求时</p></div><div style="display:contents" dir="auto"><pre id="e638db55-6aee-8280-b29e-01abddd37550" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">POST /api/users
+Content-Type: application/json
+
+{
+  &quot;name&quot;: &quot;John&quot;,
+  &quot;age&quot;: 30,
+  &quot;email&quot;: &quot;john@example.com&quot;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="0098db55-6aee-83cb-b31d-0170dbe990ba" class="">经过这个中间件处理后，可以在路由处理函数中通过 req.body 访问数据：</p></div><div style="display:contents" dir="auto"><pre id="3428db55-6aee-82b0-aaf3-01889ff26782" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">console.log(req.body.name);  // 输出: John
+console.log(req.body.age);   // 输出: 30
+console.log(req.body.email); // 输出: john@example.com</code></pre></div><div style="display:contents" dir="auto"><p id="11b8db55-6aee-8219-9468-01ff2c30b34e" class="">这对于构建 RESTful API 和处理 AJAX 请求非常重要，因为这些场景通常使用 JSON 格式传输数据。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5238db55-6aee-82c8-bab3-8196d10cb4d8" class="toggle"><li><details open=""><summary>cookieParser()</summary><div style="display:contents" dir="auto"><ol type="1" id="3948db55-6aee-8332-a925-01a0c6586a0e" class="numbered-list" start="1"><li><strong>注册中间件</strong>：使用 <code>app.use()</code> 方法注册 Cookie 解析中间件</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6108db55-6aee-827b-b560-01a944aeac3e" class="numbered-list" start="2"><li><strong>解析 Cookie 数据</strong>：解析客户端发送的 Cookie 请求头中的数据</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b5c8db55-6aee-8241-9965-01d18811facb" class="numbered-list" start="3"><li><strong>提供访问接口</strong>：将解析后的 Cookie 数据存储在 <code>req.cookies</code> 对象中</li></ol></div><div style="display:contents" dir="auto"><h2 id="8848db55-6aee-83a9-b67b-010ffb7a23bf" class=""><strong>详细说明</strong></h2></div><div style="display:contents" dir="auto"><ul id="2ac8db55-6aee-83c2-aff8-01070ae01bd3" class="bulleted-list"><li style="list-style-type:disc">cookieParser() 是一个第三方中间件函数，需要通过 <code>npm install cookie-parser</code> 安装</li></ul></div><div style="display:contents" dir="auto"><ul id="4218db55-6aee-8272-964c-01e575aee79b" class="bulleted-list"><li style="list-style-type:disc">自动解析 HTTP 请求头中的 <code>Cookie</code> 字段</li></ul></div><div style="display:contents" dir="auto"><ul id="43c8db55-6aee-8204-ad62-018e86f23dae" class="bulleted-list"><li style="list-style-type:disc">将解析后的 Cookie 键值对存储在 req.cookies 对象中</li></ul></div><div style="display:contents" dir="auto"><ul id="9218db55-6aee-8317-ba41-014d11feea12" class="bulleted-list"><li style="list-style-type:disc">支持签名 Cookie（需要提供密钥参数）</li></ul></div><div style="display:contents" dir="auto"><p id="1e88db55-6aee-8325-a07a-01e13a2c6849" class="">当客户端发送带有Cookie的请求时候</p></div><div style="display:contents" dir="auto"><pre id="8e78db55-6aee-83d2-bd65-01eb02629fd9" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">GET /users
+Cookie: sessionId=abc123; username=john; theme=dark</code></pre></div><div style="display:contents" dir="auto"><p id="ff08db55-6aee-8241-9a53-81e4d2837e05" class="">经过这个中间处理后，可以在路由处理函数中通过req.cokies访问Cookie数据</p></div><div style="display:contents" dir="auto"><pre id="3888db55-6aee-8348-8b26-81b764a841fa" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">console.log(req.cookies.sessionId); // 输出: abc123
+console.log(req.cookies.username);  // 输出: john
+console.log(req.cookies.theme);     // 输出: dark</code></pre></div><div style="display:contents" dir="auto"><h2 id="2d58db55-6aee-82e9-b974-815096e4af29" class=""><strong>带签名的 Cookie 支持</strong></h2></div><div style="display:contents" dir="auto"><p id="be48db55-6aee-838b-bbf5-81ec3a4c5542" class="">如果需要解析签名 Cookie，可以提供密钥：</p></div><div style="display:contents" dir="auto"><pre id="9f18db55-6aee-83fb-9441-01b2e096ee2d" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">app.use(cookieParser(&#x27;your-secret-key&#x27;));</code></pre></div><div style="display:contents" dir="auto"><p id="01e8db55-6aee-836d-864b-81cd687d6a94" class="">签名 Cookie 会被解析到 <code>req.signedCookies</code> 对象中。</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f228db55-6aee-8358-8bd3-01a01673e4b2" class="toggle"><li><details open=""><summary>接收客户端</summary><div style="display:contents" dir="auto"><ul id="4658db55-6aee-8323-8bee-0105e5ae0625" class="toggle"><li><details open=""><summary>1、URL路径参数（动态路由参数）</summary><div style="display:contents" dir="auto"><p id="db28db55-6aee-8217-9b97-017054bbf823" class="">参数位置：URL路径中，以 :参数名 形式定义（如 /user/:id）</p></div><div style="display:contents" dir="auto"><p id="01f8db55-6aee-82c3-87c0-013ec70dd4f6" class="">使用场景：传递资源标识（如用户 ID、商品 ID），属于 URL 的一部分。</p></div><div style="display:contents" dir="auto"><p id="a328db55-6aee-836b-aecd-01b4a4d84857" class="">获取方法：req.params</p></div><div style="display:contents" dir="auto"><p id="cce8db55-6aee-82d5-a49e-8102debdbc3e" class=""><code>req.params</code> 是一个对象，包含 URL 路径中动态参数的键值对。</p></div><div style="display:contents" dir="auto"><pre id="c688db55-6aee-82a5-aced-81661409d86b" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const express = require(&#x27;express&#x27;);
+const app = express();
+
+// 定义带动态参数的路由
+app.get(&#x27;/user/:id&#x27;, (req, res) =&gt; {
+  // 获取路径参数
+  console.log(req.params); // { id: &#x27;123&#x27; }（当访问 /user/123 时）
+  res.send(`用户 ID: ${req.params.id}`);
+});
+
+// 多参数示例
+app.get(&#x27;/post/:postId/comment/:commentId&#x27;, (req, res) =&gt; {
+  console.log(req.params); // { postId: &#x27;456&#x27;, commentId: &#x27;789&#x27; }（访问 /post/456/comment/789 时）
+  res.send(`文章 ID: ${req.params.postId}, 评论 ID: ${req.params.commentId}`);
+});
+
+app.listen(3000);</code></pre></div><div style="display:contents" dir="auto"><h3 id="4af8db55-6aee-8296-bf5f-01d76de65887" class=""><strong>特点：</strong></h3></div><div style="display:contents" dir="auto"><ul id="5a78db55-6aee-8284-824d-01a5e8be9f1a" class="bulleted-list"><li style="list-style-type:disc">参数名与路由定义中的 <code>:参数名</code> 完全一致。</li></ul></div><div style="display:contents" dir="auto"><ul id="f618db55-6aee-8267-8166-818c0895c8ea" class="bulleted-list"><li style="list-style-type:disc">参数值均为字符串类型（如需数字需手动转换，如 <code>Number(req.params.id)</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="d018db55-6aee-83fd-88bf-01c7cd36509c" class="bulleted-list"><li style="list-style-type:disc">只能匹配单一路径片段（不会跨 <code>/</code> 匹配，如 <code>/user/123/profile</code> 中 <code>id</code> 仅为 <code>123</code>）。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0438db55-6aee-83d3-a0c8-81581da39769" class="toggle"><li><details open=""><summary>2、查询字符串参数（Query Parameters）</summary><div style="display:contents" dir="auto"><p id="6488db55-6aee-82f3-bddb-018aa3f2acd5" class="">参数位置：URL中 ? 后面的键值对（如：/search?keyword=js&amp;page=1）</p></div><div style="display:contents" dir="auto"><p id="8cc8db55-6aee-83cc-abb8-013d92e71855" class="">适用场景：传递筛选条件，分页信息，搜索关键词等非核心路径参数</p></div><div style="display:contents" dir="auto"><p id="31c8db55-6aee-82f4-add8-01e4e3e16516" class="">获取方法：req.query</p></div><div style="display:contents" dir="auto"><p id="9fb8db55-6aee-824b-9726-81ca59db71b5" class=""><code>req.query</code> 是一个对象，自动解析 URL 中的查询字符串为键值对。</p></div><div style="display:contents" dir="auto"><pre id="5b38db55-6aee-83ae-a8e2-81805648a52f" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">app.get(&#x27;/search&#x27;, (req, res) =&gt; {
+  // 获取查询参数
+  console.log(req.query); // { keyword: &#x27;js&#x27;, page: &#x27;1&#x27; }（访问 /search?keyword=js&amp;page=1 时）
+  
+  // 提取单个参数
+  const keyword = req.query.keyword; // &#x27;js&#x27;
+  const page = parseInt(req.query.page) || 1; // 转换为数字（默认1）
+  
+  res.send(`搜索关键词: ${keyword}, 页码: ${page}`);
+});
+
+// 特殊情况：参数值为数组
+// 访问 /tags?tag=html&amp;tag=css 时
+app.get(&#x27;/tags&#x27;, (req, res) =&gt; {
+  console.log(req.query.tag); // [&#x27;html&#x27;, &#x27;css&#x27;]
+  res.send(`标签: ${req.query.tag.join(&#x27;, &#x27;)}`);
+});</code></pre></div><div style="display:contents" dir="auto"><h3 id="2498db55-6aee-8386-be07-015723f3dce1" class=""><strong>特点：</strong></h3></div><div style="display:contents" dir="auto"><ul id="7378db55-6aee-8334-b5b2-814d523c1a7e" class="bulleted-list"><li style="list-style-type:disc">自动解析 <code>?</code> 后的键值对，支持 <code>&amp;</code> 分隔多个参数。</li></ul></div><div style="display:contents" dir="auto"><ul id="8478db55-6aee-83b7-b565-01515bb0ea75" class="bulleted-list"><li style="list-style-type:disc">参数值均为字符串（需手动转换为数字、布尔等类型）。</li></ul></div><div style="display:contents" dir="auto"><ul id="8ba8db55-6aee-8272-816a-81cb3ea34751" class="bulleted-list"><li style="list-style-type:disc">支持数组形式（如 <code>?tag=1&amp;tag=2</code> 解析为 <code>{ tag: [&#x27;1&#x27;, &#x27;2&#x27;] }</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="e158db55-6aee-8248-bca7-81e17866645a" class="bulleted-list"><li style="list-style-type:disc">不会影响路由匹配（同一路由不同查询参数会匹配同一处理函数）。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bdb8db55-6aee-83a5-ad0d-0169e23b9b0b" class="toggle"><li><details open=""><summary>3、请求体参数（Request Body）</summary><div style="display:contents" dir="auto"><p id="54f8db55-6aee-8205-a252-815b6504b7d6" class=""><strong>参数位置</strong>：HTTP 请求体中（常用于 POST、PUT 等方法）。<strong>适用场景</strong>：传递大量数据（如表单提交、JSON 数据）。</p></div><div style="display:contents" dir="auto"><h3 id="0698db55-6aee-83df-a721-015a3ddfb33a" class=""><strong>获取方法：</strong><mark class="highlight-pink"><strong>需配合中间件解析</strong></mark><strong>，解析后通过 </strong><code><strong>req.body</strong></code><strong> 获取</strong></h3></div><div style="display:contents" dir="auto"><p id="d9c8db55-6aee-8220-8d74-812bc44b1eb8" class="">Express 不会自动解析请求体，需根据请求体格式使用对应的中间件：</p></div><div style="display:contents" dir="auto"><ul id="20c8db55-6aee-83fa-9302-81b2759a4d72" class="toggle"><li><details open=""><summary>1、JSON格式请求体（Content-Type： application/json）</summary><div style="display:contents" dir="auto"><p id="2dd8db55-6aee-825f-b0ab-811d00432d1c" class="">使用内置中间件 <code>express.json()</code> 解析：</p></div><div style="display:contents" dir="auto"><pre id="4d68db55-6aee-821d-9266-818fa90878b8" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 启用 JSON 解析中间件（必须放在路由之前）
+app.use(express.json());
+
+app.post(&#x27;/api/user&#x27;, (req, res) =&gt; {
+  // 解析后的 JSON 数据在 req.body 中
+  console.log(req.body); // { name: &#x27;张三&#x27;, age: 18 }（当请求体为 JSON 时）
+  
+  const { name, age } = req.body;
+  res.send(`创建用户: ${name}, 年龄: ${age}`);
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cf28db55-6aee-8390-913b-01cca198d518" class="toggle"><li><details open=""><summary>2、表单格式请求体（Content-Type: application/x-www-form-urlencoded）</summary><div style="display:contents" dir="auto"><p id="e9d8db55-6aee-82fb-b447-81d8854cb67c" class="">使用内置中间件 <code>express.urlencoded()</code> 解析：</p></div><div style="display:contents" dir="auto"><pre id="5388db55-6aee-83eb-adc5-01eb6cfe7b44" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 启用表单解析中间件（extended: true 支持嵌套对象）
+app.use(express.urlencoded({ extended: true }));
+
+app.post(&#x27;/login&#x27;, (req, res) =&gt; {
+  // 解析后的表单数据在 req.body 中
+  console.log(req.body); // { username: &#x27;admin&#x27;, password: &#x27;123&#x27; }（表单提交时）
+  
+  const { username, password } = req.body;
+  res.send(`登录用户: ${username}`);
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2758db55-6aee-83cd-85b9-81aefd576d0f" class="toggle"><li><details open=""><summary>3、多部分表单数据（Content-Type: multipart/form-data）</summary><div style="display:contents" dir="auto"><p id="b068db55-6aee-8254-9b37-012c806ac5be" class="">用于文件上传，需使用第三方中间件 <code>multer</code> 解析：</p></div><div style="display:contents" dir="auto"><pre id="2388db55-6aee-82ab-9663-81633811a836" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">npm install multer  # 安装 multer</code></pre></div><div style="display:contents" dir="auto"><pre id="4d78db55-6aee-83ca-9925-813a19de932b" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const multer = require(&#x27;multer&#x27;);
+// 配置上传目录（默认存储为临时文件）
+const upload = multer({ dest: &#x27;uploads/&#x27; });
+
+// 解析单文件上传（字段名为 &#x27;avatar&#x27;）
+app.post(&#x27;/upload&#x27;, upload.single(&#x27;avatar&#x27;), (req, res) =&gt; {
+  // 文件信息在 req.file 中
+  console.log(req.file); // 包含文件名、路径、大小等信息
+  // 其他表单字段在 req.body 中
+  console.log(req.body); // 非文件字段
+  res.send(&#x27;文件上传成功&#x27;);
+});
+
+// 解析多文件上传（字段名为 &#x27;photos&#x27;，最多3个文件）
+app.post(&#x27;/uploads&#x27;, upload.array(&#x27;photos&#x27;, 3), (req, res) =&gt; {
+  console.log(req.files); // 数组形式的文件信息
+  res.send(&#x27;多文件上传成功&#x27;);
+});</code></pre></div><div style="display:contents" dir="auto"><h3 id="d1d8db55-6aee-8247-b3f5-01143aca4a9b" class=""><strong>特点：</strong></h3></div><div style="display:contents" dir="auto"><ul id="c3b8db55-6aee-8300-8334-01f185ab1bc8" class="bulleted-list"><li style="list-style-type:disc">必须通过中间件解析后才能通过 <code>req.body</code> 获取（否则为 <code>undefined</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="9e88db55-6aee-839c-83fc-0137afc82323" class="bulleted-list"><li style="list-style-type:disc">不同 <code>Content-Type</code> 需对应不同中间件（JSON、表单、多部分表单分开处理）。</li></ul></div><div style="display:contents" dir="auto"><ul id="7f38db55-6aee-8263-95e9-012941385897" class="bulleted-list"><li style="list-style-type:disc">适用于 POST、PUT、PATCH 等可包含请求体的 HTTP 方法。</li></ul></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c0a8db55-6aee-837d-a10f-81967f266be2" class="toggle"><li><details open=""><summary>4、HTTP请求头参数（Headers）</summary><div style="display:contents" dir="auto"><p id="7cd8db55-6aee-831d-8494-81916482c8fe" class=""><strong>参数位置</strong>：HTTP 请求头中（如 <code>Authorization</code>、<code>Content-Type</code> 等）。<strong>适用场景</strong>：传递认证信息、客户端类型、数据格式等元数据。</p></div><div style="display:contents" dir="auto"><h3 id="fd38db55-6aee-83f2-8a23-01cf849042a0" class=""><strong>获取方法：</strong><code><strong>req.headers</strong></code></h3></div><div style="display:contents" dir="auto"><p id="80f8db55-6aee-83cc-a9bf-81fe8ed94dc1" class=""><code>req.headers</code> 是一个对象，包含所有请求头的键值对（键名自动转为小写）。</p></div><div style="display:contents" dir="auto"><pre id="0878db55-6aee-82bb-b609-81ec48776d12" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">app.get(&#x27;/api/data&#x27;, (req, res) =&gt; {
+  // 获取所有请求头
+  console.log(req.headers);
+  
+  // 提取单个请求头（键名小写）
+  const auth = req.headers.authorization; // 获取认证令牌
+  const userAgent = req.headers[&#x27;user-agent&#x27;]; // 获取客户端信息
+  const contentType = req.headers[&#x27;content-type&#x27;]; // 获取内容类型
+  
+  res.send(`Authorization: ${auth || &#x27;无&#x27;}, User-Agent: ${userAgent}`);
+});</code></pre></div><div style="display:contents" dir="auto"><h3 id="c7f8db55-6aee-8248-b1d6-0158054a59f0" class=""><strong>特点：</strong></h3></div><div style="display:contents" dir="auto"><ul id="4238db55-6aee-831b-a38f-018c22be609d" class="bulleted-list"><li style="list-style-type:disc">请求头键名在 <code>req.headers</code> 中自动转为小写（如 <code>Authorization</code> → <code>authorization</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="5508db55-6aee-82eb-8a8e-81529d66045a" class="bulleted-list"><li style="list-style-type:disc">常见用途：验证 JWT 令牌（<code>Authorization: Bearer &lt;token&gt;</code>）、跨域请求处理等。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="dbf8db55-6aee-83e4-85f1-0191e421c752" class="toggle"><li><details open=""><summary>5、Cookie与Session参数</summary><div style="display:contents" dir="auto"><p id="2028db55-6aee-839a-a739-01eed8a3b511" class=""><strong>参数位置</strong>：请求头中的 <code>Cookie</code> 字段（客户端存储的键值对）。<strong>适用场景</strong>：身份认证、会话管理（如记住登录状态）。</p></div><div style="display:contents" dir="auto"><h3 id="5ac8db55-6aee-8265-8adb-81a74fe480f0" class=""><strong>获取方法：</strong></h3></div><div style="display:contents" dir="auto"><p id="68d8db55-6aee-82d8-ba23-01e3e0871402" class="">需使用第三方中间件 <code>cookie-parser</code> 解析 Cookie：</p></div><div style="display:contents" dir="auto"><pre id="9468db55-6aee-83f3-83e0-01612e1b3a8e" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">npm install cookie-parser  # 安装</code></pre></div><div style="display:contents" dir="auto"><pre id="ffc8db55-6aee-8263-aa85-01e8e14f83ac" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const cookieParser = require(&#x27;cookie-parser&#x27;);
+app.use(cookieParser()); // 启用 Cookie 解析
+
+app.get(&#x27;/profile&#x27;, (req, res) =&gt; {
+  // 获取 Cookie
+  console.log(req.cookies); // 普通 Cookie 对象
+  console.log(req.signedCookies); // 签名 Cookie（需配置密钥）
+  
+  const userId = req.cookies.userId; // 提取单个 Cookie
+  res.send(`当前用户 ID（从 Cookie 获取）: ${userId || &#x27;未登录&#x27;}`);
+});</code></pre></div><div style="display:contents" dir="auto"><h3 id="c578db55-6aee-8294-bd34-8103c7d7af80" class=""><strong>扩展：Session</strong></h3></div><div style="display:contents" dir="auto"><p id="0838db55-6aee-831f-9bd5-81ee2c281ef0" class="">Session 数据存储在服务器，客户端通过 Cookie 中的 Session ID 关联。需使用 <code>express-session</code> 中间件：</p></div><div style="display:contents" dir="auto"><pre id="9fb8db55-6aee-838f-bb15-8145380ebca6" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">npm install express-session  # 安装</code></pre></div><div style="display:contents" dir="auto"><pre id="6a68db55-6aee-8226-acea-8185f89d19c6" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const session = require(&#x27;express-session&#x27;);
+app.use(session({
+  secret: &#x27;secret-key&#x27;, // 用于签名 Session ID 的密钥
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.get(&#x27;/cart&#x27;, (req, res) =&gt; {
+  // Session 数据存储在 req.session 中
+  req.session.cart = req.session.cart || []; // 初始化购物车
+  res.send(`购物车商品数: ${req.session.cart.length}`);
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="71b8db55-6aee-82a7-9e3e-8114682486f1" class="toggle"><li><details open=""><summary>综合实例</summary><div style="display:contents" dir="auto"><pre id="fec8db55-6aee-83aa-b5a7-014f1595f976" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const express = require(&#x27;express&#x27;);
+const cookieParser = require(&#x27;cookie-parser&#x27;);
+const app = express();
+
+// 中间件配置（必须在路由前）
+app.use(express.json()); // 解析 JSON 请求体
+app.use(express.urlencoded({ extended: true })); // 解析表单请求体
+app.use(cookieParser()); // 解析 Cookie
+
+// 综合获取各类参数的路由
+app.post(&#x27;/order/:orderId&#x27;, (req, res) =&gt; {
+  const data = {
+    // 路径参数
+    orderId: req.params.orderId,
+    // 查询参数
+    source: req.query.source,
+    // 请求体参数（JSON 或表单）
+    product: req.body.product,
+    quantity: req.body.quantity,
+    // 请求头参数
+    userAgent: req.headers[&#x27;user-agent&#x27;],
+    // Cookie 参数
+    userId: req.cookies.userId
+  };
+  res.json(data);
+});
+
+app.listen(3000, () =&gt; console.log(&#x27;服务器启动&#x27;));</code></pre></div><div style="display:contents" dir="auto"><p id="31a8db55-6aee-824d-b2c2-016067d0a263" class="">当发送请求：<code>POST /order/1001?source=app</code>请求体（JSON）：<code>{ &quot;product&quot;: &quot;手机&quot;, &quot;quantity&quot;: 1 }</code>请求头：<code>User-Agent: Postman, Cookie: userId=123</code></p></div><div style="display:contents" dir="auto"><p id="8ff8db55-6aee-8343-a3d0-019e64c5909b" class="">响应结果：</p></div><div style="display:contents" dir="auto"><pre id="f4d8db55-6aee-83ff-852a-0133ae57843b" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;orderId&quot;: &quot;1001&quot;,
+  &quot;source&quot;: &quot;app&quot;,
+  &quot;product&quot;: &quot;手机&quot;,
+  &quot;quantity&quot;: 1,
+  &quot;userAgent&quot;: &quot;Postman&quot;,
+  &quot;userId&quot;: &quot;123&quot;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b7c8db55-6aee-8236-bcc9-814035dad923" class="toggle"><li><details open=""><summary>注意</summary><div style="display:contents" dir="auto"><ol type="1" id="6388db55-6aee-83da-9ad6-810944fe0794" class="numbered-list" start="1"><li><strong>中间件顺序</strong>：解析请求体的中间件（<code>express.json()</code>、<code>express.urlencoded()</code>）必须放在路由之前，否则 <code>req.body</code> 为 <code>undefined</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="55f8db55-6aee-83bd-92c7-81af3504e51c" class="numbered-list" start="2"><li><strong>参数类型转换</strong>：所有参数默认均为字符串类型，需根据需求手动转换（如 <code>Number(req.query.page)</code>）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a988db55-6aee-831f-a682-017aaed7a063" class="numbered-list" start="3"><li><strong>参数验证</strong>：客户端传递的参数可能不完整或格式错误，需验证后再使用（可借助 <code>joi</code>、<code>express-validator</code> 等库）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3498db55-6aee-83bf-bba2-01401a451408" class="numbered-list" start="4"><li><strong>安全性</strong>：<div style="display:contents" dir="auto"><ul id="5b58db55-6aee-835b-84a5-01af35bd8254" class="bulleted-list"><li style="list-style-type:disc">避免直接使用用户输入的参数拼接 SQL（防注入）。</li></ul></div><div style="display:contents" dir="auto"><ul id="69c8db55-6aee-8229-958d-81126dd1e4f0" class="bulleted-list"><li style="list-style-type:disc">敏感参数（如密码）需加密处理。</li></ul></div><div style="display:contents" dir="auto"><ul id="8968db55-6aee-82a2-9fff-81c70b981e13" class="bulleted-list"><li style="list-style-type:disc">解析多部分表单时，限制文件大小和类型（防止恶意上传）。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="7dc8db55-6aee-8352-be7b-8101558e2b7e" class="numbered-list" start="5"><li><strong>路由匹配优先级</strong>：带静态路径的路由（如 <code>/user/profile</code>）比带动态参数的路由（如 <code>/user/:id</code>）优先级高，定义时需注意顺序。</li></ol></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c708db55-6aee-82da-a830-01d4276b3a63" class="toggle"><li><details open=""><summary>静态资源绑定</summary><div style="display:contents" dir="auto"><p id="0248db55-6aee-8380-a52c-01047110c75a" class="">静态资源（HTML、CSS、JS、图片等）的托管是通过内置的 <code>express.static</code> 中间件实现的。它能让客户端直接访问服务器上的静态文件，无需编写额外路由。</p></div><div style="display:contents" dir="auto"><ul id="1668db55-6aee-827e-905b-01bf463e800c" class="toggle"><li><details open=""><summary>基本原理</summary><div style="display:contents" dir="auto"><p id="87e8db55-6aee-82bb-b85c-817d6305f072" class=""><code>express.static(root)</code> 中间件会将 <code>root</code> 参数指定的目录作为静态资源根目录，客户端请求的路径会相对于该目录查找文件。</p></div><div style="display:contents" dir="auto"><p id="2408db55-6aee-8398-a355-81530bfc67b0" class="">例如：</p></div><div style="display:contents" dir="auto"><ul id="8bf8db55-6aee-83d8-bb54-81b7be083afa" class="bulleted-list"><li style="list-style-type:disc">服务器端目录结构：<code>public/index.html</code></li></ul></div><div style="display:contents" dir="auto"><ul id="f528db55-6aee-8381-acbb-814a8c0d0718" class="bulleted-list"><li style="list-style-type:disc">托管：<code>app.use(express.static(&#x27;public&#x27;))</code></li></ul></div><div style="display:contents" dir="auto"><ul id="3448db55-6aee-82f7-ba77-815ef38845d7" class="bulleted-list"><li style="list-style-type:disc">客户端访问：<code>http://localhost:3000/index.html</code> → 实际返回 <code>public/index.html</code></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8b38db55-6aee-822b-9600-01b339bd41cf" class="toggle"><li><details open=""><summary>核心用法 express.static(path)</summary><div style="display:contents" dir="auto"><pre id="a048db55-6aee-82ec-a6c4-018c7ea116a1" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const express = require(&#x27;express&#x27;);
+const app = express();
+
+// 托管静态资源目录（public 目录下的文件可直接访问）
+app.use(express.static(&#x27;public&#x27;));
+
+// 可选：添加虚拟路径前缀（访问时需加前缀）
+// app.use(&#x27;/static&#x27;, express.static(&#x27;public&#x27;)); 
+// 此时访问 public/index.html 需用 http://localhost:3000/static/index.html
+
+app.listen(3000, () =&gt; {
+  console.log(&#x27;服务器运行在 http://localhost:3000&#x27;);
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2c38db55-6aee-82da-8a76-817fbf8851e7" class="toggle"><li><details open=""><summary>多目录托管</summary><div style="display:contents" dir="auto"><p id="6748db55-6aee-8318-a17b-018a155d44d0" class="">可同时托管多个静态目录，Express 会按顺序查找文件：</p></div><div style="display:contents" dir="auto"><pre id="be78db55-6aee-836d-ba84-012b860422f1" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 先查 public 目录，找不到再查 assets 目录
+app.use(express.static(&#x27;public&#x27;));
+app.use(express.static(&#x27;assets&#x27;));</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c4a8db55-6aee-836e-8a1d-013b2f0e5ff5" class="toggle"><li><details open=""><summary>路径规则</summary><div style="display:contents" dir="auto"><ul id="42f8db55-6aee-820c-a76d-0108f353c04e" class="bulleted-list"><li style="list-style-type:disc">客户端请求路径是「相对静态目录的路径」，无需包含静态目录名。</li></ul></div><div style="display:contents" dir="auto"><ul id="daa8db55-6aee-831f-8957-01dd7fe9cfa7" class="bulleted-list"><li style="list-style-type:disc">支持目录索引：若请求目录（如 <code>/pages/</code>），会自动查找该目录下的 <code>index.html</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="d998db55-6aee-8357-a90e-81103bd78b19" class="bulleted-list"><li style="list-style-type:disc">忽略文件名大小写（Windows 系统），但建议保持路径大小写一致。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d058db55-6aee-8361-9b42-814ef8e491d5" class="toggle"><li><details open=""><summary>完整案例：登录页面+首页</summary><div style="display:contents" dir="auto"><p id="3828db55-6aee-8278-9da0-0130a7bf5e03" class="">目录结构</p></div><div style="display:contents" dir="auto"><pre id="a578db55-6aee-8208-a06f-01fe149c9b88" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">project/
+├── app.js          # 服务器代码
+└── public/         # 静态资源根目录
+├── css/        # CSS 样式目录
+│   ├── login.css    # 登录页样式
+│   └── home.css     # 首页样式
+├── login.html  # 登录页面
+└── home.html   # 首页</code></pre></div><div style="display:contents" dir="auto"><ul id="8628db55-6aee-8210-af3c-0199f9d811fc" class="toggle"><li><details open=""><summary>app.js</summary><div style="display:contents" dir="auto"><p id="4ac8db55-6aee-82fd-aa88-8117786f0c37" class="">实现功能：</p></div><div style="display:contents" dir="auto"><ul id="de38db55-6aee-8299-9ffe-81f0ae3b3b59" class="bulleted-list"><li style="list-style-type:disc">托管 <code>public</code> 目录为静态资源</li></ul></div><div style="display:contents" dir="auto"><ul id="e768db55-6aee-822a-b96f-0166db45f6fe" class="bulleted-list"><li style="list-style-type:disc">处理登录请求（验证用户名密码）</li></ul></div><div style="display:contents" dir="auto"><ul id="3668db55-6aee-8201-bd67-01d5443329e1" class="bulleted-list"><li style="list-style-type:disc">登录成功后跳转到 <code>home.html</code></li></ul></div><div style="display:contents" dir="auto"><pre id="0288db55-6aee-8284-b835-8139ed3e59f2" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const express = require(&#x27;express&#x27;);
+const path = require(&#x27;path&#x27;);
+const app = express();
+
+// 解析表单请求体（用于处理登录表单提交）
+app.use(express.urlencoded({ extended: true }));
+
+// 托管 public 目录为静态资源
+// 客户端可直接访问 http://localhost:3000/login.html、http://localhost:3000/css/login.css 等
+app.use(express.static(path.join(__dirname, &#x27;public&#x27;)));
+
+// 处理登录请求（POST 方法）
+app.post(&#x27;/login&#x27;, (req, res) =&gt; {
+  const { username, password } = req.body;
+  
+  // 简单验证（实际项目中会查询数据库）
+  if (username === &#x27;admin&#x27; &amp;&amp; password === &#x27;123456&#x27;) {
+    // 登录成功，跳转到 home.html
+    res.redirect(&#x27;/home.html&#x27;);
+  } else {
+    // 登录失败，返回登录页并提示错误
+    res.send(`
+      &lt;script&gt;
+        alert(&#x27;用户名或密码错误&#x27;);
+        window.location.href = &#x27;/login.html&#x27;;
+      &lt;/script&gt;
+    `);
+  }
+});
+
+app.listen(3000, () =&gt; {
+  console.log(&#x27;服务器运行在 http://localhost:3000&#x27;);
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6b08db55-6aee-8331-bd28-8193f8b00977" class="toggle"><li><details open=""><summary>public/login.html</summary><div style="display:contents" dir="auto"><p id="11b8db55-6aee-8383-88cb-01609cb3cd1e" class="">注意 CSS 路径的引用（相对静态资源根目录）：</p></div><div style="display:contents" dir="auto"><pre id="75b8db55-6aee-820c-accd-815f36bf4b06" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;登录&lt;/title&gt;
+  &lt;!-- 引用 CSS：路径相对于 public 目录（静态根目录） --&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/login.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;login-container&quot;&gt;
+    &lt;h1&gt;登录&lt;/h1&gt;
+    &lt;!-- 表单提交到 /login 接口 --&gt;
+    &lt;form action=&quot;/login&quot; method=&quot;post&quot;&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;用户名：&lt;/label&gt;
+        &lt;input type=&quot;text&quot; name=&quot;username&quot; required&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;密码：&lt;/label&gt;
+        &lt;input type=&quot;password&quot; name=&quot;password&quot; required&gt;
+      &lt;/div&gt;
+      &lt;button type=&quot;submit&quot;&gt;登录&lt;/button&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f7f8db55-6aee-82f1-81fc-0166de835ca2" class="toggle"><li><details open=""><summary>public/css/login.css</summary><div style="display:contents" dir="auto"><pre id="8cb8db55-6aee-8389-abf5-81068faebd76" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">/* 登录页样式 */
+body {
+  margin: 0;
+  padding: 20px;
+  background-color: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+.login-container {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+h1 {
+  text-align: center;
+  color: #1677ff;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #1677ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #0958d9;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e148db55-6aee-8239-ab1b-81c5d0b3774b" class="toggle"><li><details open=""><summary>public/home.html</summary><div style="display:contents" dir="auto"><pre id="5108db55-6aee-832f-89d9-81aa403345a7" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;首页&lt;/title&gt;
+  &lt;!-- 引用首页 CSS --&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/home.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;home-container&quot;&gt;
+    &lt;h1&gt;欢迎回来！&lt;/h1&gt;
+    &lt;p&gt;这是登录后的首页&lt;/p&gt;
+    &lt;a href=&quot;/login.html&quot;&gt;退出登录&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2d38db55-6aee-832e-9956-016b334c0db4" class="toggle"><li><details open=""><summary>public/css/home.css</summary><div style="display:contents" dir="auto"><pre id="1d18db55-6aee-827b-8ddb-811099aef88c" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">/* 首页样式 */
+body {
+  margin: 0;
+  padding: 20px;
+  background-color: #e6f7ff;
+  font-family: sans-serif;
+}
+
+.home-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+h1 {
+  color: #0050b3;
+}
+
+p {
+  font-size: 18px;
+  color: #333;
+}
+
+a {
+  display: inline-block;
+  margin-top: 20px;
+  color: #1677ff;
+  text-decoration: none;
+  border: 1px solid #1677ff;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+a:hover {
+  background-color: #1677ff;
+  color: white;
+}</code></pre></div></details></li></ul></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cd38db55-6aee-82a8-a067-018360da5a23" class="toggle"><li><details open=""><summary>服务端渲染 SSR</summary><div style="display:contents" dir="auto"><p id="7808db55-6aee-838f-959c-815890026919" class="">服务端渲染，后端嵌套模板，后端渲染模板 SSR（后端把页面1组装）</p></div><div style="display:contents" dir="auto"><p id="c2a8db55-6aee-829c-957f-8126407bb4db" class="">1、做好静态页面，动态效果</p></div><div style="display:contents" dir="auto"><p id="c568db55-6aee-8205-bd1d-81ad2f7081b1" class="">2、把前端代码提供给后端，后端把静态html以及里面的假数据给删掉，通过模板进行动态生成html的内容</p></div><div style="display:contents" dir="auto"><hr id="e748db55-6aee-8253-ba45-015e8a8de5de"/></div><div style="display:contents" dir="auto"><p id="ada8db55-6aee-834e-9442-012519a4f0e0" class="">EJS（Embedded JavaScript）是一种简洁高效的模板引擎，常与 Express 框架配合使用，用于动态生成 HTML 页面。它允许在 HTML 中嵌入 JavaScript 代码，实现数据与视图的结合，非常适合服务端渲染（SSR）场景。</p></div><div style="display:contents" dir="auto"><hr id="61e8db55-6aee-83de-8157-8126364ec624"/></div><div style="display:contents" dir="auto"><ul id="e828db55-6aee-82d5-8308-012e00c5e3a5" class="toggle"><li><details open=""><summary><strong>EJS 与 Express 结合的核心价值</strong></summary><div style="display:contents" dir="auto"><ul id="1968db55-6aee-829f-98c1-01434ad791f5" class="bulleted-list"><li style="list-style-type:disc"><strong>动态页面生成</strong>：通过模板引擎将后端数据（如数据库查询结果）注入 HTML，生成动态内容。</li></ul></div><div style="display:contents" dir="auto"><ul id="e5a8db55-6aee-82b7-a142-0173b7f17ba3" class="bulleted-list"><li style="list-style-type:disc"><strong>代码复用</strong>：通过模板继承、包含（include）功能，复用公共组件（如导航栏、页脚）。</li></ul></div><div style="display:contents" dir="auto"><ul id="def8db55-6aee-82b7-90cf-01d03f00a67c" class="bulleted-list"><li style="list-style-type:disc"><strong>简化开发</strong>：语法接近 HTML 和原生 JavaScript，学习成本低，适合快速开发。</li></ul></div><div style="display:contents" dir="auto"><p id="7d68db55-6aee-824a-9dd3-013bfc298df2" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7088db55-6aee-82b9-9deb-81e6249a8364" class="toggle"><li><details open=""><summary>安装与配置</summary><div style="display:contents" dir="auto"><pre id="4818db55-6aee-8357-b630-8193133896ce" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">npm install express ejs  # 安装 Express 和 EJS</code></pre></div><div style="display:contents" dir="auto"><p id="fbf8db55-6aee-8246-a8d3-01da5f613c24" class="">在 Express 中指定视图引擎为 EJS，并设置模板文件存放目录（默认是 <code>views</code> 文件夹）：</p></div><div style="display:contents" dir="auto"><pre id="1cf8db55-6aee-835b-933f-01144b4c1a0b" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const express = require(&#x27;express&#x27;);
+const app = express();
+
+// 配置 EJS 为视图引擎
+app.set(&#x27;view engine&#x27;, &#x27;ejs&#x27;);
+
+// 可选：自定义模板文件目录（默认是项目根目录下的 views 文件夹）
+// app.set(&#x27;views&#x27;, &#x27;./templates&#x27;); 
+
+app.listen(3000, () =&gt; {
+  console.log(&#x27;服务器运行在 http://localhost:3000&#x27;);
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e808db55-6aee-8353-8a70-81edbadd7e25" class="toggle"><li><details open=""><summary>创建ejs模板文件</summary><div style="display:contents" dir="auto"><p id="97c8db55-6aee-8239-b327-813178dc9cc5" class="">在项目根目录下创建 <code>views</code> 文件夹，并新建 EJS 模板（文件名以 <code>.ejs</code> 结尾）：</p></div><div style="display:contents" dir="auto"><p id="4b68db55-6aee-8261-9361-814c8683591a" class=""><strong>示例：</strong><code><strong>views/index.ejs</strong></code></p></div><div style="display:contents" dir="auto"><pre id="d9c8db55-6aee-837e-98f8-01f1b6a106c8" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt; &lt;!-- 嵌入变量 --&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;&lt;%= message %&gt;&lt;/h1&gt;
+  
+  &lt;!-- 嵌入 JavaScript 逻辑 --&gt;
+  &lt;% if (user) { %&gt;
+    &lt;p&gt;欢迎，&lt;%= user.name %&gt;！&lt;/p&gt;
+  &lt;% } else { %&gt;
+    &lt;p&gt;请登录&lt;/p&gt;
+  &lt;% } %&gt;
+  
+  &lt;!-- 循环渲染列表 --&gt;
+  &lt;ul&gt;
+    &lt;% items.forEach(item =&gt; { %&gt;
+      &lt;li&gt;&lt;%= item %&gt;&lt;/li&gt;
+    &lt;% }) %&gt;
+  &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5458db55-6aee-8356-801c-01eb9d725140" class="toggle"><li><details open=""><summary>在express路由中渲染模板</summary><div style="display:contents" dir="auto"><p id="5378db55-6aee-83de-9442-016eeed6bc44" class="">使用 <code>res.render(templateName, data)</code> 方法渲染 EJS 模板，第一个参数是模板文件名（不含 <code>.ejs</code> 后缀），第二个参数是传递给模板的数据：</p></div><div style="display:contents" dir="auto"><pre id="b998db55-6aee-8320-b43c-818d6f664783" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">app.get(&#x27;/&#x27;, (req, res) =&gt; {
+  // 准备要传递给模板的数据
+  const data = {
+    title: &#x27;EJS 示例&#x27;,
+    message: &#x27;Hello EJS!&#x27;,
+    user: { name: &#x27;张三&#x27; },
+    items: [&#x27;苹果&#x27;, &#x27;香蕉&#x27;, &#x27;橙子&#x27;]
+  };
+  
+  // 渲染 views/index.ejs 模板，并传递数据
+  res.render(&#x27;index&#x27;, data);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="9398db55-6aee-837d-abc4-0140daa1bf50" class="">访问效果</p></div><div style="display:contents" dir="auto"><p id="e4c8db55-6aee-833b-9366-01f6867fb14b" class="">启动服务器后访问 <code>http://localhost:3000</code>，EJS 会自动将数据注入模板，生成最终的 HTML 页面并返回给客户端。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c988db55-6aee-8229-bd82-0172cbdd21a3" class="toggle"><li><details open=""><summary>ejs核心语法</summary><div style="display:contents" dir="auto"><p id="4da8db55-6aee-8277-9006-013fc6fc1b36" class="">EJS 的语法简洁，主要通过 <code>&lt;% ... %&gt;</code> 标签嵌入 JavaScript 代码，常用标签如下：</p></div><div style="display:contents" dir="ltr"><table id="b348db55-6aee-836f-becf-81d65c29e25e" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="1518db55-6aee-82d3-b921-814d514a5034"><th id="`@iD" class="simple-table-header-color simple-table-header"><strong>标签语法</strong></th><th id="sXHf" class="simple-table-header-color simple-table-header"><strong>作用</strong></th><th id="NGn{" class="simple-table-header-color simple-table-header"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="d978db55-6aee-834f-89b9-016567ea612a"><td id="`@iD" class=""><code>&lt;%= 变量 %&gt;</code></td><td id="sXHf" class="">输出变量值（自动转义 HTML 特殊字符）</td><td id="NGn{" class=""><code>&lt;%= user.name %&gt;</code> → 输出用户名称</td></tr></div><div style="display:contents" dir="ltr"><tr id="0738db55-6aee-8297-85ac-81ed749392a3"><td id="`@iD" class=""><code>&lt;%- 变量 %&gt;</code></td><td id="sXHf" class="">输出变量值（不转义，适合插入 HTML）</td><td id="NGn{" class=""><code>&lt;%- htmlContent %&gt;</code> → 插入原始 HTML</td></tr></div><div style="display:contents" dir="ltr"><tr id="71e8db55-6aee-833f-9cab-01c2ca22f62a"><td id="`@iD" class=""><code>&lt;% 代码 %&gt;</code></td><td id="sXHf" class="">执行 JavaScript 代码（无输出）</td><td id="NGn{" class=""><code>&lt;% if (flag) { %&gt; ... &lt;% } %&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="12e8db55-6aee-839a-970a-81ce228009fc"><td id="`@iD" class=""><code>&lt;%# 注释 %&gt;</code></td><td id="sXHf" class="">EJS 注释（不会输出到 HTML 中）</td><td id="NGn{" class=""><code>&lt;%# 这是一条注释 %&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="aa38db55-6aee-8310-aa23-8144e38f0e08"><td id="`@iD" class=""><code>-%&gt;</code></td><td id="sXHf" class="">去除标签后的换行（美化输出格式）</td><td id="NGn{" class=""><code>&lt;% for (let i=0; i&lt;3; i++) { -%&gt;</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="27a8db55-6aee-83a5-b573-017243517c74" class="toggle"><li><details open=""><summary>ejs高级特性（express结合）</summary><div style="display:contents" dir="auto"><ul id="9638db55-6aee-8201-bf51-013ce1961a1d" class="toggle"><li><details open=""><summary>1、模板包含（include）</summary><div style="display:contents" dir="auto"><p id="48f8db55-6aee-8275-a504-010dbb424a99" class="">复用公共组件（如导航栏、页脚），通过 <code>&lt;%- include(&#x27;路径&#x27;) %&gt;</code> 引入其他 EJS 模板：</p></div><div style="display:contents" dir="auto"><p id="86b8db55-6aee-83e8-99ea-81ef19d9ebcd" class="">步骤：</p></div><div style="display:contents" dir="auto"><p id="4ae8db55-6aee-83ef-8b7a-81bad486b48d" class="">1、创建公共组件 <code>views/partials/header.ejs</code>：</p></div><div style="display:contents" dir="auto"><pre id="b878db55-6aee-8274-84b0-0148e1e741e1" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">&lt;header&gt;
+  &lt;h2&gt;网站导航&lt;/h2&gt;
+  &lt;nav&gt;
+    &lt;a href=&quot;/&quot;&gt;首页&lt;/a&gt;
+    &lt;a href=&quot;/about&quot;&gt;关于&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="63b8db55-6aee-82d8-92b1-017cf622edc9" class="">2、在主模板中引入：</p></div><div style="display:contents" dir="auto"><pre id="92c8db55-6aee-8362-afa5-01c43c50f423" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">&lt;!-- views/index.ejs --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;%- include(&#x27;partials/header&#x27;) %&gt; &lt;!-- 引入公共头部 --&gt;
+  &lt;main&gt;
+    &lt;!-- 页面主体内容 --&gt;
+  &lt;/main&gt;
+  &lt;%- include(&#x27;partials/footer&#x27;) %&gt; &lt;!-- 引入公共底部 --&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="5b48db55-6aee-8244-8b4c-01727811ec09" class="">• 路径规则：相对于当前模板文件的位置，或相对于 <code>views</code> 目录。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b128db55-6aee-82d3-9e4e-01c2603c3ba8" class="toggle"><li><details open=""><summary>2、模板继承（Loyouts）</summary><div style="display:contents" dir="auto"><p id="8488db55-6aee-8266-9a7e-0148e6635eb4" class="">EJS 本身不直接支持模板继承，但可通过 <code>include</code> 模拟，或使用第三方库 <code>ejs-mate</code> 实现：</p></div><div style="display:contents" dir="auto"><p id="97f8db55-6aee-82d3-bf31-81375fd7a471" class=""><strong>使用 </strong><code><strong>ejs-mate</strong></code><strong> 实现继承：</strong><br/>1、安装：<code>npm install ejs-mate</code></p></div><div style="display:contents" dir="auto"><p id="5108db55-6aee-831e-937b-8122c3ffb6cc" class="">2、配置express</p></div><div style="display:contents" dir="auto"><pre id="6b98db55-6aee-83c7-90a7-8104f37c8eae" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const ejsMate = require(&#x27;ejs-mate&#x27;);
+app.engine(&#x27;ejs&#x27;, ejsMate); // 使用 ejs-mate 引擎
+app.set(&#x27;view engine&#x27;, &#x27;ejs&#x27;);</code></pre></div><div style="display:contents" dir="auto"><p id="6388db55-6aee-8245-bcb3-0164342a9725" class="">3、创建父模板 <code>views/layouts/main.ejs</code>：</p></div><div style="display:contents" dir="auto"><pre id="dbe8db55-6aee-8251-92be-0110d4cfa8e4" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;header&gt;公共头部&lt;/header&gt;
+  &lt;main&gt;
+    &lt;%= body %&gt; &lt;!-- 子模板内容会插入这里 --&gt;
+  &lt;/main&gt;
+  &lt;footer&gt;公共底部&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="7398db55-6aee-822c-8022-812d56c8b04d" class="">4、创建子模板 <code>views/index.ejs</code>（继承父模板）：</p></div><div style="display:contents" dir="auto"><pre id="e298db55-6aee-82ba-b28d-019e3280cc6d" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">&lt;% layout(&#x27;layouts/main&#x27;) %&gt; &lt;!-- 指定继承的父模板 --&gt;
+&lt;h1&gt;首页内容&lt;/h1&gt; &lt;!-- 这部分会替换父模板中的 &lt;%= body %&gt; --&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0ff8db55-6aee-82e1-b29a-01175452270a" class="toggle"><li><details open=""><summary>3、向模板传递函数</summary><div style="display:contents" dir="auto"><p id="9f08db55-6aee-82d8-8500-81d86cbdd244" class="">除了数据，还可以传递函数给 EJS 模板，实现更灵活的逻辑：</p></div><div style="display:contents" dir="auto"><pre id="2c78db55-6aee-8261-b9e5-0164577af3b2" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 路由中传递函数
+app.get(&#x27;/func&#x27;, (req, res) =&gt; {
+  res.render(&#x27;func&#x27;, {
+    formatDate: (date) =&gt; {
+      return new Date(date).toLocaleString();
+    }
+  });
+});</code></pre></div><div style="display:contents" dir="auto"><pre id="c1f8db55-6aee-82d7-b02d-81c8e26effe6" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">&lt;!-- views/func.ejs --&gt;
+&lt;p&gt;&lt;%= formatDate(&#x27;2023-01-01&#x27;) %&gt;&lt;/p&gt; &lt;!-- 调用函数格式化日期 --&gt;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9568db55-6aee-831e-b5d0-81cc0b446f50" class="toggle"><li><details open=""><summary>实战案例：用户列表页面</summary><div style="display:contents" dir="auto"><p id="7878db55-6aee-83ae-be54-01b8a2d4c803" class="">实现一个展示用户列表的页面，包含公共导航栏，支持动态渲染数据。</p></div><div style="display:contents" dir="auto"><p id="df58db55-6aee-8265-8dca-818b5578ba3d" class="">结构：</p></div><div style="display:contents" dir="auto"><pre id="a5a8db55-6aee-83de-aa9c-01c0051f843a" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">project/
+├── app.js          # 入口文件
+└── views/
+    ├── partials/   # 公共组件
+    │   ├── header.ejs
+    │   └── footer.ejs
+    └── users.ejs   # 用户列表模板</code></pre></div><div style="display:contents" dir="auto"><ul id="09d8db55-6aee-82c5-87f1-81966a1e33e9" class="toggle"><li><details open=""><summary>app.js</summary><div style="display:contents" dir="auto"><pre id="bbb8db55-6aee-831c-9f73-818cb4594f00" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const express = require(&#x27;express&#x27;);
+const app = express();
+
+app.set(&#x27;view engine&#x27;, &#x27;ejs&#x27;);
+
+// 模拟用户数据
+const users = [
+  { id: 1, name: &#x27;张三&#x27;, age: 20 },
+  { id: 2, name: &#x27;李四&#x27;, age: 22 },
+  { id: 3, name: &#x27;王五&#x27;, age: 25 }
+];
+
+app.get(&#x27;/users&#x27;, (req, res) =&gt; {
+  res.render(&#x27;users&#x27;, { 
+    title: &#x27;用户列表&#x27;, 
+    users: users 
+  });
+});
+
+app.listen(3000);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5138db55-6aee-8213-9352-01923077a92f" class="toggle"><li><details open=""><summary>views/partials/header.ejs</summary><div style="display:contents" dir="auto"><pre id="ca78db55-6aee-83a7-bd9c-8124f637ed14" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">&lt;header style=&quot;background: #f5f5f5; padding: 10px;&quot;&gt;
+  &lt;h1&gt;用户管理系统&lt;/h1&gt;
+  &lt;a href=&quot;/users&quot; style=&quot;margin-right: 10px;&quot;&gt;用户列表&lt;/a&gt;
+&lt;/header&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e898db55-6aee-829a-a23b-01ea0f93d38a" class="toggle"><li><details open=""><summary>views/users.ejs</summary><div style="display:contents" dir="auto"><pre id="ba48db55-6aee-8375-a8c5-01e66a212342" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+  &lt;style&gt;
+    table { border-collapse: collapse; width: 500px; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;%- include(&#x27;partials/header&#x27;) %&gt; &lt;!-- 引入头部 --&gt;
+  
+  &lt;h2&gt;用户列表（共 &lt;%= users.length %&gt; 人）&lt;/h2&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;ID&lt;/th&gt;
+      &lt;th&gt;姓名&lt;/th&gt;
+      &lt;th&gt;年龄&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;% users.forEach(user =&gt; { %&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;%= user.id %&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;%= user.name %&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;%= user.age %&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;% }) %&gt;
+  &lt;/table&gt;
+  
+  &lt;%- include(&#x27;partials/footer&#x27;) %&gt; &lt;!-- 引入底部 --&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b1b8db55-6aee-83c9-889a-81e292d6a1e4" class="toggle"><li><details open=""><summary>注意</summary><div style="display:contents" dir="auto"><h3 id="3e98db55-6aee-824e-af75-81706840cbe0" class=""><strong>优势</strong></h3></div><div style="display:contents" dir="auto"><ol type="1" id="5ff8db55-6aee-834b-adc6-811bdaa345c0" class="numbered-list" start="1"><li><strong>简单易学</strong>：语法接近 HTML 和原生 JS，开发者上手快。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="f208db55-6aee-8299-8677-0100cb6bcbe2" class="numbered-list" start="2"><li><strong>性能较好</strong>：渲染速度快，适合中小型应用。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="8bb8db55-6aee-833e-80af-81be88313384" class="numbered-list" start="3"><li><strong>灵活性高</strong>：支持直接嵌入 JS 代码，无需学习复杂指令。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="96f8db55-6aee-83c9-8d44-01d53b8eec4f" class="numbered-list" start="4"><li><strong>与 Express 无缝集成</strong>：只需简单配置即可使用。</li></ol></div><div style="display:contents" dir="auto"><h3 id="1ab8db55-6aee-833f-9e33-81bd2d473834" class=""><strong>注意事项</strong></h3></div><div style="display:contents" dir="auto"><ol type="1" id="2a68db55-6aee-8298-ac1c-0105c79b02d2" class="numbered-list" start="1"><li><strong>安全问题</strong>：使用 <code>&lt;%- %&gt;</code> 输出用户输入内容时，需手动过滤 HTML 特殊字符（防止 XSS 攻击），例如：<div style="display:contents" dir="auto"><pre id="6d08db55-6aee-82fd-a327-01b786e74d9a" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 路由中对用户输入进行转义
+const escapeHtml = (str) =&gt; str.replace(/[&amp;&lt;&gt;&quot;&#x27;]/g, char =&gt; ({
+  &#x27;&amp;&#x27;: &#x27;&amp;amp;&#x27;, &#x27;&lt;&#x27;: &#x27;&amp;lt;&#x27;, &#x27;&gt;&#x27;: &#x27;&amp;gt;&#x27;, &#x27;&quot;&#x27;: &#x27;&amp;quot;&#x27;, &quot;&#x27;&quot;: &#x27;&amp;#39;&#x27;
+})[char]);
+
+// 传递转义后的数据给模板
+res.render(&#x27;page&#x27;, { userInput: escapeHtml(req.query.input) });</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="5768db55-6aee-836f-b771-81ddd791d14b" class="numbered-list" start="2"><li><strong>模板缓存</strong>：在生产环境中，Express 会自动缓存 EJS 模板（提高性能），开发时可通过 <code>app.disable(&#x27;view cache&#x27;)</code> 禁用缓存，避免重启服务器。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="df08db55-6aee-82d4-83f6-015ad4a64567" class="numbered-list" start="3"><li><strong>复杂场景局限</strong>：对于大型应用，EJS 的模板继承能力较弱，可考虑使用 Pug（ Jade ）或配合 <code>ejs-mate</code> 等扩展。</li></ol></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f138db55-6aee-821d-b90b-810786dca763" class="toggle"><li><details open=""><summary>客户端渲染 BSR</summary><div style="display:contents" dir="auto"><p id="c288db55-6aee-82f1-8e63-0101a491b3b3" class="">前后端分离，BSR（前端中组装页面）</p></div><div style="display:contents" dir="auto"><p id="b0f8db55-6aee-82d3-8492-0169bae71b95" class="">1、做好静态页面，动态效果</p></div><div style="display:contents" dir="auto"><p id="7128db55-6aee-830a-81c7-01a252f1059d" class="">2、json模拟，ajax动态创建页面</p></div><div style="display:contents" dir="auto"><p id="ca08db55-6aee-82b3-947a-012df2b244fd" class="">3、真实接口数据，前后端联调</p></div><div style="display:contents" dir="auto"><p id="3d78db55-6aee-828e-b490-014de8ea2fc7" class="">4、把前端提供给后端静态资源文件夹</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a318db55-6aee-83a1-a649-01dc9ad11436" class="toggle"><li><details open=""><summary>生成器</summary><div style="display:contents" dir="auto"><ul id="bc58db55-6aee-82e3-9416-817fb80d997e" class="toggle"><li><details open=""><summary>安装与初始化</summary><div style="display:contents" dir="auto"><pre id="5768db55-6aee-8285-8992-81d27d56354b" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all"># 全局安装 Express 生成器
+npm install -g express-generator</code></pre></div><div style="display:contents" dir="auto"><pre id="4978db55-6aee-8393-8a7f-8182969e46c9" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all"># 生成名为 myapp 的项目（默认使用 Jade 模板引擎，现在已更名为 Pug）
+express myapp
+
+# 生成指定模板引擎的项目（推荐使用 EJS，更接近 HTML）
+express --view=ejs myapp
+
+# 生成不含视图引擎的项目（纯 API 服务）
+express --no-view myapp</code></pre></div><div style="display:contents" dir="auto"><pre id="c878db55-6aee-8381-bec0-0127b665dbdf" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all"># 进入项目目录
+cd myapp
+
+# 安装依赖（package.json 中已声明的依赖）
+npm install
+
+# 启动开发服务器（默认端口 3000）
+npm start
+
+# 或使用 nodemon 实现热更新（需先安装：npm install -g nodemon）
+nodemon</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5948db55-6aee-834e-b12c-81642f1ae5a3" class="toggle"><li><details open=""><summary>生成的项目结构</summary><div style="display:contents" dir="auto"><pre id="c798db55-6aee-83e2-a7ed-81fdffc62c65" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">myapp/
+├── app.js               # 应用入口文件（核心配置）
+├── bin/
+│   └── www              # 服务器启动脚本（处理端口、启动逻辑）
+├── package.json         # 项目依赖和脚本配置
+├── public/              # 静态资源目录（自动托管）
+│   ├── images/          # 图片资源
+│   ├── javascripts/     # 客户端 JS
+│   └── stylesheets/     # 样式表（默认有 style.css）
+├── routes/              # 路由模块目录
+│   ├── index.js         # 首页路由
+│   └── users.js         # 用户相关路由
+└── views/               # 视图模板目录（EJS 模板）
+    ├── error.ejs        # 错误页模板
+    ├── index.ejs        # 首页模板
+    └── layout.ejs       # 布局模板（可选）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e238db55-6aee-8398-829d-011d13bef66e" class="toggle"><li><details open=""><summary>app.js： 项目核心配置文件，包含 Express 应用的初始化、中间件配置、路由挂载等</summary><div style="display:contents" dir="auto"><p id="1e88db55-6aee-8319-a7ac-81b7abde97db" class="">项目核心配置文件，包含 Express 应用的初始化、中间件配置、路由挂载等：</p></div><div style="display:contents" dir="auto"><pre id="afa8db55-6aee-839c-9960-819990bc6d11" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">var createError = require(&#x27;http-errors&#x27;);
+var express = require(&#x27;express&#x27;);
+var path = require(&#x27;path&#x27;);
+var cookieParser = require(&#x27;cookie-parser&#x27;);
+var logger = require(&#x27;morgan&#x27;);
+
+// 引入路由模块
+var indexRouter = require(&#x27;./routes/index&#x27;);
+var usersRouter = require(&#x27;./routes/users&#x27;);
+
+// 创建 Express 应用
+var app = express();
+
+// 配置视图引擎（EJS）
+app.set(&#x27;views&#x27;, path.join(__dirname, &#x27;views&#x27;));
+app.set(&#x27;view engine&#x27;, &#x27;ejs&#x27;);
+
+// 注册中间件
+app.use(logger(&#x27;dev&#x27;)); // 日志中间件（开发环境）
+app.use(express.json()); // 解析 JSON 请求体
+app.use(express.urlencoded({ extended: false })); // 解析表单请求体
+app.use(cookieParser()); // 解析 Cookie
+app.use(express.static(path.join(__dirname, &#x27;public&#x27;))); // 托管静态资源
+
+// 挂载路由
+app.use(&#x27;/&#x27;, indexRouter); // 根路径路由
+app.use(&#x27;/users&#x27;, usersRouter); // /users 路径路由
+
+// 捕获 404 错误并转发到错误处理器
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// 错误处理中间件
+app.use(function(err, req, res, next) {
+  // 设置 locals，仅在开发环境提供错误信息
+  res.locals.message = err.message;
+  res.locals.error = req.app.get(&#x27;env&#x27;) === &#x27;development&#x27; ? err : {};
+
+  // 渲染错误页
+  res.status(err.status || 500);
+  res.render(&#x27;error&#x27;);
+});
+
+module.exports = app;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6cd8db55-6aee-8380-b92e-01fef065c528" class="toggle"><li><details open=""><summary>bin/www： 服务器启动脚本，负责设置端口、创建 HTTP 服务器、处理启动错误等</summary><div style="display:contents" dir="auto"><p id="82d8db55-6aee-8315-9916-01426f419896" class="">服务器启动脚本，负责设置端口、创建 HTTP 服务器、处理启动错误等</p></div><div style="display:contents" dir="auto"><pre id="32b8db55-6aee-8252-a9b0-81af7a4707ba" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">var app = require(&#x27;../app&#x27;);
+var debug = require(&#x27;debug&#x27;)(&#x27;myapp:server&#x27;);
+var http = require(&#x27;http&#x27;);
+
+// 设置端口（优先使用环境变量，默认 3000）
+var port = normalizePort(process.env.PORT || &#x27;3000&#x27;);
+app.set(&#x27;port&#x27;, port);
+
+// 创建 HTTP 服务器
+var server = http.createServer(app);
+
+// 启动服务器监听端口
+server.listen(port);
+server.on(&#x27;error&#x27;, onError);
+server.on(&#x27;listening&#x27;, onListening);
+
+// 端口格式化函数
+function normalizePort(val) { ... }
+
+// 错误处理函数（如端口被占用）
+function onError(error) { ... }
+
+// 监听成功回调
+function onListening() { ... }</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b3c8db55-6aee-83d6-939b-0124eba2c6b9" class="toggle"><li><details open=""><summary>routes/目录： 存放路由模块，分离路由逻辑</summary><div style="display:contents" dir="auto"><ul id="2c18db55-6aee-8224-9ae7-815c0b26d01f" class="toggle"><li><details open=""><summary>routes/index.js 处理根路径（/）的请求</summary><div style="display:contents" dir="auto"><pre id="0a78db55-6aee-8397-a5dc-013bfe65c28f" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">var express = require(&#x27;express&#x27;);
+var router = express.Router();
+
+// GET 首页
+router.get(&#x27;/&#x27;, function(req, res, next) {
+  res.render(&#x27;index&#x27;, { title: &#x27;Express&#x27; }); // 渲染 index.ejs 模板
+});
+
+module.exports = router;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3388db55-6aee-827a-ab44-8108a8f39941" class="toggle"><li><details open=""><summary>routes/users.js 处理 /users 相关请求</summary><div style="display:contents" dir="auto"><pre id="91e8db55-6aee-8315-8045-81fcdf85aebd" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">var express = require(&#x27;express&#x27;);
+var router = express.Router();
+
+// GET 用户列表
+router.get(&#x27;/&#x27;, function(req, res, next) {
+  res.send(&#x27;用户列表页面&#x27;);
+});
+
+// GET 单个用户（动态参数）
+router.get(&#x27;/:id&#x27;, function(req, res) {
+  res.send(`用户 ID: ${req.params.id}`);
+});
+
+module.exports = router;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f1e8db55-6aee-8349-9e9b-819034899bb4" class="toggle"><li><details open=""><summary>views/目录 存放 EJS 模板文件</summary><div style="display:contents" dir="auto"><ul id="ce08db55-6aee-82ec-a272-017f4d065f5b" class="bulleted-list"><li style="list-style-type:disc"><code>index.ejs</code>：首页模板，通过 <code>res.render(&#x27;index&#x27;, { title: &#x27;Express&#x27; })</code> 渲染。</li></ul></div><div style="display:contents" dir="auto"><ul id="1dc8db55-6aee-8341-91c0-81af4bdbdf1a" class="bulleted-list"><li style="list-style-type:disc"><code>error.ejs</code>：错误页模板，显示 404 或 500 错误信息。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0518db55-6aee-8207-a25d-018671771039" class="toggle"><li><details open=""><summary>public/目录 静态资源目录，通过 express.static 托管，可直接访问其中的文件</summary><div style="display:contents" dir="auto"><p id="3938db55-6aee-83a7-8585-81b827b9cf0d" class="">例如：<code>public/stylesheets/style.css</code> 可通过 <code>http://localhost:3000/stylesheets/style.css</code> 访问。</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d9d8db55-6aee-82d8-af67-8109a46e9cb5" class="toggle"><li><details open=""><summary>核心配置</summary><div style="display:contents" dir="auto"><p id="71c8db55-6aee-8220-82a5-81a4c1e448bb" class="">Express 生成器自动配置了多个实用功能，无需手动设置：</p></div><div style="display:contents" dir="auto"><ol type="1" id="8fc8db55-6aee-829f-bcff-81f75d9093ea" class="numbered-list" start="1"><li><strong>中间件预设</strong>已集成常用中间件：<div style="display:contents" dir="auto"><ul id="1318db55-6aee-825d-a6b2-019109ea0aeb" class="bulleted-list"><li style="list-style-type:disc"><code>morgan</code>：HTTP 请求日志（开发环境下打印请求信息）。</li></ul></div><div style="display:contents" dir="auto"><ul id="9008db55-6aee-8255-8c48-81f4da2ef4cb" class="bulleted-list"><li style="list-style-type:disc"><code>cookie-parser</code>：解析 Cookie 数据（<code>req.cookies</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="c028db55-6aee-82e6-adb0-01dd76e524d2" class="bulleted-list"><li style="list-style-type:disc"><code>express.json()</code> 和 <code>express.urlencoded()</code>：解析请求体（<code>req.body</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="a028db55-6aee-837d-92fc-015417d1b48a" class="bulleted-list"><li style="list-style-type:disc"><code>express.static</code>：托管静态资源。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="be88db55-6aee-835e-bb2a-8197639f6e69" class="numbered-list" start="2"><li><strong>视图引擎配置</strong>自动设置视图目录（<code>views</code>）和模板引擎（如 EJS），可直接使用 <code>res.render()</code> 渲染模板。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3478db55-6aee-8279-b1b0-0152ad8b48c2" class="numbered-list" start="3"><li><strong>错误处理</strong>预设 404 错误捕获和全局错误处理中间件，开发环境下会显示详细错误堆栈。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="82d8db55-6aee-829b-9e02-813227b9bc15" class="numbered-list" start="4"><li><strong>启动脚本</strong><code>package.json</code> 中预设了启动脚本：<div style="display:contents" dir="auto"><pre id="2a58db55-6aee-8337-a8d4-012794a73528" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">&quot;scripts&quot;: {
+  &quot;start&quot;: &quot;node ./bin/www&quot;,
+  &quot;dev&quot;: &quot;nodemon ./bin/www&quot;  // 手动添加热更新脚本
+}</code></pre></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ad48db55-6aee-83ac-a6fb-815f2d4bc1ce" class="toggle"><li><details open=""><summary>自定义扩展</summary><div style="display:contents" dir="auto"><p id="26f8db55-6aee-83c9-950c-015b64b970db" class="">生成的项目是基础骨架，可根据需求扩展：</p></div><div style="display:contents" dir="auto"><ul id="3d08db55-6aee-827a-b49c-8110a2ba2187" class="toggle"><li><details open=""><summary>1、添加路由</summary><div style="display:contents" dir="auto"><p id="f8c8db55-6aee-820e-b01f-810cd5cbadfa" class="">新建路由文件（如 <code>routes/posts.js</code>），定义路由后在 <code>app.js</code> 中挂载：</p></div><div style="display:contents" dir="auto"><pre id="1f78db55-6aee-828c-bc00-81a8bb4774db" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 引入新路由
+var postsRouter = require(&#x27;./routes/posts&#x27;);
+// 挂载路由
+app.use(&#x27;/posts&#x27;, postsRouter);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7ab8db55-6aee-834b-9e0e-01d16b9da821" class="toggle"><li><details open=""><summary>2、更换模板引擎</summary><div style="display:contents" dir="auto"><p id="e378db55-6aee-8294-8e5d-8122f25e5fb4" class="">若生成时未指定，可手动修改视图引擎（如改为 Pug）：</p></div><div style="display:contents" dir="auto"><pre id="7b88db55-6aee-82cc-b7ad-81421e66d2c4" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">app.set(&#x27;view engine&#x27;, &#x27;pug&#x27;); // 需先安装：npm install pug</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8bb8db55-6aee-8344-b203-816fce77da24" class="toggle"><li><details open=""><summary>3、添加数据库连接</summary><div style="display:contents" dir="auto"><p id="9f28db55-6aee-83b4-b36a-01823fcdc27a" class="">在 <code>app.js</code> 中引入数据库模块（如 Mongoose）并连接：</p></div><div style="display:contents" dir="auto"><pre id="e3f8db55-6aee-82e3-94e5-01dbf1a977dd" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">var mongoose = require(&#x27;mongoose&#x27;);
+mongoose.connect(&#x27;mongodb://localhost:27017/myapp&#x27;)
+  .then(() =&gt; console.log(&#x27;MongoDB 连接成功&#x27;))
+  .catch(err =&gt; console.error(&#x27;连接失败&#x27;, err));</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9968db55-6aee-8259-b38d-0139b07e3ebf" class="toggle"><li><details open=""><summary>4、添加跨域支持</summary><div style="display:contents" dir="auto"><p id="f0a8db55-6aee-83d3-8469-018bbfb13a8d" class="">安装 <code>cors</code> 中间件并配置：</p></div><div style="display:contents" dir="auto"><pre id="28e8db55-6aee-828a-a9b0-81a3ef2c0d9b" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">npm install cors</code></pre></div><div style="display:contents" dir="auto"><pre id="f3a8db55-6aee-8375-83de-01ad1e47b070" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">var cors = require(&#x27;cors&#x27;);
+app.use(cors()); // 允许所有跨域请求</code></pre></div></details></li></ul></div></details></li></ul></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

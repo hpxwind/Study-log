@@ -1,0 +1,1200 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>数据生成</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3698db55-6aee-80d5-ba2e-d66a4135a33c" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/usda_cherries.png" style="object-position:center 48%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🎖️</span></div><h1 class="page-title" dir="auto">数据生成</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="3698db55-6aee-80cd-baf2-f878032c1ec0" class="">使用代码生成合成配方，物品，方块，战利品列表等json配置文件。</p></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-80b5-aab1-cad738ca0970" class="">需要将原先的json文件全部转换为.java的provider，最后用Generator统一生成</p></div><div style="display:contents" dir="auto"><h1 id="3698db55-6aee-8024-9fac-d8d12c800a6c" class="">配置文件编写</h1></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-80a2-a055-d4983c29c441" class="">在com.hpxwind.tutorial.datagen下编写</p></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8097-9468-d70beab533e4" class="toggle"><li><details open=""><summary>方块战利品表生成类(ModBlockLootTablesProvider.java)</summary><div style="display:contents" dir="auto"><ul id="3698db55-6aee-80e0-83c7-ec60714c75a2" class="toggle"><li><details open=""><summary>ModBlockLootTablesProvider.java</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3698db55-6aee-80c1-bdec-cb11ed44a7a1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpxwind.tutorial.datagen;
+
+import com.hpxwind.tutorial.block.ModBlocks;
+import com.hpxwind.tutorial.item.ModItems;
+import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
+public class ModBlockLootTablesProvider extends BlockLootSubProvider {
+
+    public ModBlockLootTablesProvider() {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    }
+
+    @Override
+    protected void generate() {
+        dropSelf(ModBlocks.ICE_ETHER_BLOCK.get());
+        dropSelf(ModBlocks.RAW_ICE_ETHER_BLOCK.get());
+        add(ModBlocks.ICE_ETHER_ORE.get(),
+                block -&gt; createCopperOreDrops(ModBlocks.ICE_ETHER_ORE.get(), ModItems.RAW_ICE_ETHER.get()));
+    }
+
+    protected LootTable.Builder createCopperOreDrops(Block pBlock, Item item) {
+        return createSilkTouchDispatchTable(
+                pBlock,
+                this.applyExplosionDecay(pBlock, LootItem.lootTableItem(item)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 5.0F)))
+                        .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
+    }
+
+    @Override
+    protected @NotNull Iterable&lt;Block&gt; getKnownBlocks(){
+        return ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
+    }
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-80e3-bedf-e5c5920e48bb" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3698db55-6aee-801c-aa25-eeda445d148b"/></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80f0-bb2e-c4888e93c42a" class="numbered-list" start="1"><li>extends BlockLootSubProvider:继承战利品表的工具</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80c6-a40d-e7e6addd228f" class="numbered-list" start="2"><li>构造方法<div style="display:contents" dir="auto"><pre id="3698db55-6aee-80c2-8745-f862a61e1dd6" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public ModBlockLootTablesProvider() {
+    super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-803f-86d8-ee70bdb6e96f" class="">告诉 Minecraft：<mark class="highlight-orange"><mark class="highlight-purple_background">(固定格式)</mark></mark></p></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-80ae-9b1c-fe82287584fb" class="bulleted-list"><li style="list-style-type:disc">我们<strong>不使用特殊功能标记</strong>（Set.of()）</li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-803f-b1ee-f69a554cbbf8" class="bulleted-list"><li style="list-style-type:disc">使用<strong>全部正式版注册功能</strong>（1.20.1 固定写法）</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-808e-b4c3-d106543e6c94" class="numbered-list" start="3"><li>generate():掉落规则<div style="display:contents" dir="auto"><pre id="3698db55-6aee-80cf-932c-d0093ac5ea90" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Override
+protected void generate() {
+    dropSelf(ModBlocks.ICE_ETHER_BLOCK.get());
+    dropSelf(ModBlocks.RAW_ICE_ETHER_BLOCK.get());
+
+    add(ModBlocks.ICE_ETHER_ORE.get(),
+            block -&gt; createCopperOreDrops(
+                ModBlocks.ICE_ETHER_ORE.get(),
+                ModItems.RAW_ICE_ETHER.get()
+            )
+    );
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8033-a815-ecb67d0e2933" class="numbered-list" start="1"><li>dropSelf(ModBlocks.ICE_ETHER_BLOCK.get());挖掉这个方块，掉落它自己</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-809f-b60d-ee933403f1d1" class="numbered-list" start="2"><li>add(ModBlocks.ICE_ETHER_ORE.get(), ...);给这个矿石<strong>自定义复杂掉落规则</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8053-b406-da88b81329fd" class="numbered-list" start="3"><li>block -&gt; createCopperDrops(矿石, 掉落物)</li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80ef-99ad-e4e315efad7f" class="numbered-list" start="4"><li>自定义矿石掉落规则<div style="display:contents" dir="auto"><pre id="3698db55-6aee-80d4-bd50-d68cb6ea9701" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">protected LootTable.Builder createCopperOreDrops(Block pBlock, Item item) {
+    return createSilkTouchDispatchTable(
+            pBlock,
+            this.applyExplosionDecay(pBlock,
+                    LootItem.lootTableItem(item)
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 5.0F)))
+                            .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+            )
+    );
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80d1-bf16-d6f108b3050d" class="numbered-list" start="1"><li><code>createSilkTouchDispatchTable</code><strong>精准采集附魔时，掉落矿石本身；否则掉落物品</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-805a-8ff8-d12c43a9e2d6" class="numbered-list" start="2"><li><code>applyExplosionDecay</code><strong>被爆炸破坏时不掉落</strong>（和原版矿石一致）</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80fc-b358-d28fd4384ed9" class="numbered-list" start="3"><li><code>LootItem.lootTableItem(item)</code><strong>掉落的物品是：RAW_ICE_ETHER（你的自定义物品）</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80ae-a072-c751594bd73e" class="numbered-list" start="4"><li><code>SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 5.0F))</code><strong>每次掉落 2~5 个</strong>（随机数量）</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80b4-877c-f4684c43a90e" class="numbered-list" start="5"><li><code>ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE</code><strong>时运附魔可以增加掉落数量</strong></li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80e7-97a3-e2cbc22d3a4f" class="numbered-list" start="5"><li>getKnownBlocks()<div style="display:contents" dir="auto"><p id="3698db55-6aee-8022-a230-e5e9a7f94363" class="">告诉 Forge：只给我自己的方块生成战利品表</p></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-805a-a52b-d3ce1cabd58c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Override
+protected @NotNull Iterable&lt;Block&gt; getKnownBlocks(){
+    return ModBlocks.BLOCKS.getEntries().stream()
+            .map(RegistryObject::get)::iterator;
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80fb-8322-d38695237440" class="numbered-list" start="1"><li><code>ModBlocks.BLOCKS</code>：你自己定义的<strong>所有方块集合</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8099-baf0-c2fcfe0427aa" class="numbered-list" start="2"><li><code>getEntries()</code>：拿到<strong>全部你注册的方块</strong><div style="display:contents" dir="auto"><ul id="3698db55-6aee-80d2-911f-ed25f3a7b642" class="bulleted-list"><li style="list-style-type:disc">ICE_ETHER_BLOCK</li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8084-8de1-d3f919e794f1" class="bulleted-list"><li style="list-style-type:disc">RAW_ICE_ETHER_BLOCK</li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8045-8ee3-e5ec22cdf2a5" class="bulleted-list"><li style="list-style-type:disc">ICE_ETHER_ORE</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8089-be52-d0d50061da1e" class="numbered-list" start="3"><li><code>stream()</code>把一堆方块变成<strong>可处理的数据流</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8088-bbd3-f0fae8aa7008" class="numbered-list" start="4"><li><code>.map(RegistryObject::get)</code> 从 RegistryObject 取出真正的 Block</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80a0-a06c-ea1f903f0e54" class="numbered-list" start="5"><li><code>::iterator</code> 转换为迭代器（MC需要的格式）</li></ol></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8095-bf81-ed977a587d41" class="toggle"><li><details open=""><summary>方块生成模型,状态,模型(ModBlockStateProvider.java)</summary><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8082-8c97-fa36529d8397" class="toggle"><li><details open=""><summary>ModBlockStateProvider.java</summary><div style="display:contents" dir="auto"><pre id="3698db55-6aee-807a-8e76-c579ef3fa7b0" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpxwind.tutorial.datagen;
+
+import com.hpxwind.tutorial.TutorialMod;
+import com.hpxwind.tutorial.block.ModBlocks;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
+import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
+
+public class ModBlockStateProvider extends BlockStateProvider {
+    public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
+        super(output, TutorialMod.MOD_ID, exFileHelper);
+
+    }
+
+    @Override
+    protected void registerStatesAndModels() {
+        simpleBlockWithItem(ModBlocks.ICE_ETHER_BLOCK.get(), cubeAll(ModBlocks.ICE_ETHER_BLOCK.get()));
+        simpleBlockWithItem(ModBlocks.RAW_ICE_ETHER_BLOCK.get(), cubeAll(ModBlocks.RAW_ICE_ETHER_BLOCK.get()));
+        simpleBlockWithItem(ModBlocks.ICE_ETHER_ORE.get(), cubeAll(ModBlocks.ICE_ETHER_ORE.get()));
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3698db55-6aee-808c-a553-e7ce74509a31"/></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-804f-961f-d521dad4ac5a" class="">生成文件包括:</p></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-80e3-a819-caab648bbf65" class="bulleted-list"><li style="list-style-type:disc"><code>blockstate/xxx.json</code>（方块状态）</li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-80f7-a968-d3830281abd5" class="bulleted-list"><li style="list-style-type:disc"><code>models/block/xxx.json</code>（方块模型）</li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-801b-a56f-c5c2ba130d0d" class="bulleted-list"><li style="list-style-type:disc"><code>models/item/xxx.json</code>（物品模型）</li></ul></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80e3-8521-d73e5e11d6ed" class="numbered-list" start="1"><li>extends BlockStateProvider: 继承方块状态与模型生成器</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80db-93c9-e635fbf46334" class="numbered-list" start="2"><li>构造方法ModBlockStateProvider()<div style="display:contents" dir="auto"><pre id="3698db55-6aee-803d-ace4-dae2908fe103" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
+    super(output, TutorialMod.MOD_ID, exFileHelper);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-80b0-a4af-f555b9c1075c" class="">告诉生成器 <mark class="highlight-yellow"><mark class="highlight-teal_background">(固定写法)</mark></mark>：</p></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80e7-abe2-f8bd88830f0e" class="numbered-list" start="1"><li>文件输出到哪里</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80db-b5b6-e9d4bed082ab" class="numbered-list" start="2"><li>你的模组 ID：<code>tutorial_mod</code></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8052-8829-dee2daa42187" class="numbered-list" start="3"><li>使用材质帮助器</li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-808c-96b4-c0633edac7c9" class="numbered-list" start="3"><li>注册方块模型<div style="display:contents" dir="auto"><pre id="3698db55-6aee-80ba-af86-f1e08183447c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Override
+protected void registerStatesAndModels() {
+    simpleBlockWithItem(
+		    ModBlocks.ICE_ETHER_BLOCK.get(), // 要生成的方块
+		    cubeAll(ModBlocks.ICE_ETHER_BLOCK.get())); // 6面相同的立方体模型
+    simpleBlockWithItem(ModBlocks.RAW_ICE_ETHER_BLOCK.get(), cubeAll(ModBlocks.RAW_ICE_ETHER_BLOCK.get()));
+    simpleBlockWithItem(ModBlocks.ICE_ETHER_ORE.get(), cubeAll(ModBlocks.ICE_ETHER_ORE.get()));
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80ec-b173-e0fe815354a7" class="numbered-list" start="1"><li>simpleBlockWithItem(方块, 模型):生成一个完整的、最简单的立方体方块 + 对应的物品模型。<div style="display:contents" dir="auto"><blockquote id="3698db55-6aee-8064-be53-ffc0461874fc" class="">给这个方块创建模型<br/>并且给它的物品形式也创建模型<br/>让它能在背包里正常显示</blockquote></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-801e-b601-c044c8b544b8" class="">它会自动生成 3 个文件：</p></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-806a-a284-e147cf576cca" class="numbered-list" start="1"><li><code>blockstate/ice_ether_block.json</code></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8064-9392-fbabcf7dc210" class="numbered-list" start="2"><li><code>models/block/ice_ether_block.json</code></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8090-a46f-fe9327449b45" class="numbered-list" start="3"><li><code>models/item/ice_ether_block.json</code></li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8070-942b-dc5df24e4987" class="numbered-list" start="2"><li>cubeAll(方块):生成一个 6 面都用同一张贴图的立方体方块。</li></ol></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8071-a4e8-dac4fcbfa832" class="toggle"><li><details open=""><summary>方块标签生成类(ModBlockTagsProvider.java)</summary><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8020-909e-dbaed7d55f5a" class="toggle"><li><details open=""><summary>ModBlockTagsProvider.java</summary><div style="display:contents" dir="auto"><pre id="3698db55-6aee-80fb-89b5-f9b7be08eed1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpxwind.tutorial.datagen;
+
+import com.hpxwind.tutorial.TutorialMod;
+import com.hpxwind.tutorial.block.ModBlocks;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
+import net.minecraft.tags.BlockTags;
+import net.minecraftforge.common.data.BlockTagsProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
+
+import javax.annotation.Nullable;
+import java.util.concurrent.CompletableFuture;
+
+public class ModBlockTagsProvider extends BlockTagsProvider {
+    public ModBlockTagsProvider(PackOutput output,
+                                CompletableFuture&lt;HolderLookup.Provider&gt; lookupProvider,
+                                @Nullable ExistingFileHelper existingFileHelper) {
+        super(output, lookupProvider, TutorialMod.MOD_ID, existingFileHelper);
+    }
+    @Override
+    protected void addTags(HolderLookup.Provider pProvider) {
+        tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(ModBlocks.RAW_ICE_ETHER_BLOCK.get())
+                .add(ModBlocks.ICE_ETHER_ORE.get());
+        tag(BlockTags.NEEDS_STONE_TOOL)
+                .add(ModBlocks.ICE_ETHER_ORE.get());
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3698db55-6aee-8095-bd9f-edda325bfdb4"/></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-807c-a41a-dac028728ea6" class="">给方块设置 “挖掘规则”：用什么挖？需要什么等级的工具？</p></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8074-b551-fe61cf129dce" class="numbered-list" start="1"><li>extends BlockTagsProvider: 继承方块标签生成器</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-806e-9fca-c8dfb56c3e3a" class="numbered-list" start="2"><li>构造方法<mark class="highlight-yellow"><mark class="highlight-teal_background">（固定格式）</mark></mark><div style="display:contents" dir="auto"><pre id="3698db55-6aee-8046-86ef-ccc6140cafb9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public ModBlockTagsProvider(PackOutput output,
+                             CompletableFuture&lt;HolderLookup.Provider&gt; lookupProvider,
+                             @Nullable ExistingFileHelper existingFileHelper) {
+    super(output, lookupProvider, TutorialMod.MOD_ID, existingFileHelper);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-8031-8c02-d6dd6d764795" class="">告诉生成器：<div class="indented"><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8082-95ca-f4b29ef5ce60" class="numbered-list" start="1"><li>输出到哪</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8075-bd08-caedcb12d572" class="numbered-list" start="2"><li>你的模组 ID</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8090-8602-f799771305fd" class="numbered-list" start="3"><li>辅助查找文件</li></ol></div></div></p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-806a-91ab-ff38257e0e06" class="numbered-list" start="3"><li>设置标签<div style="display:contents" dir="auto"><pre id="3698db55-6aee-806d-a016-e60bf1a68edc" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Override
+protected void addTags(HolderLookup.Provider pProvider) {
+    tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .add(ModBlocks.RAW_ICE_ETHER_BLOCK.get())
+            .add(ModBlocks.ICE_ETHER_ORE.get());
+
+    tag(BlockTags.NEEDS_STONE_TOOL)
+            .add(ModBlocks.ICE_ETHER_ORE.get());
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8026-b482-f8e47f5c913a" class="numbered-list" start="1"><li>tag(BlockTags.MINEABLE_WITH_PICKAXE):这些方块必须用【稿子】挖，并添加了两个方块：<code>RAW_ICE_ETHER_BLOCK</code>（粗冰以太块），<code>ICE_ETHER_ORE</code>（冰以太矿石）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-801b-a22b-dab10883b2db" class="numbered-list" start="2"><li>tag(BlockTags.NEEDS_STONE_TOOL):这个方块至少需要【石稿】才能挖掉.<div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80e4-b136-c06ab49ed292" class="numbered-list" start="1"><li><code>NEEDS_WOODEN_TOOL</code> 木稿</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8003-9dea-d3d1cee3fff2" class="numbered-list" start="2"><li><code>NEEDS_STONE_TOOL</code> <strong>石稿</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8086-854c-e70d5f755283" class="numbered-list" start="3"><li><code>NEEDS_IRON_TOOL</code> 铁稿</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80d5-b8f8-d5b8d81b3de0" class="numbered-list" start="4"><li><code>NEEDS_DIAMOND_TOOL</code> 钻石稿</li></ol></div></li></ol></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8027-a222-d39757ac45a8" class="toggle"><li><details open=""><summary>英语语言文件生成类(ModEnUsLangProvider.java)</summary><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8089-a83b-d64fd2c5f4bd" class="toggle"><li><details open=""><summary>ModEnUsLangProvider.java</summary><div style="display:contents" dir="auto"><pre id="3698db55-6aee-807e-bd17-d88fcb36cec7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpxwind.tutorial.datagen;
+
+import com.hpxwind.tutorial.TutorialMod;
+import com.hpxwind.tutorial.block.ModBlocks;
+import com.hpxwind.tutorial.item.ModItems;
+import net.minecraft.data.PackOutput;
+import net.minecraftforge.common.data.LanguageProvider;
+
+public class ModEnUsLangProvider extends LanguageProvider {
+    public ModEnUsLangProvider(PackOutput output) {
+        super(output, TutorialMod.MOD_ID, &quot;en_us&quot;);
+    }
+
+    @Override
+    protected void addTranslations() {
+        add(ModItems.ICE_ETHER.get(), &quot;Ice Ether&quot;);
+        add(ModItems.RAW_ICE_ETHER.get(), &quot;Raw Ice Ether&quot;);
+        add(ModItems.CARDBOARD.get(), &quot;Cardboard&quot;);
+
+        add(ModBlocks.ICE_ETHER_BLOCK.get(), &quot;Ice Ether Block&quot;);
+        add(ModBlocks.RAW_ICE_ETHER_BLOCK.get(), &quot;Raw Ice Ether Block&quot;);
+        add(ModBlocks.ICE_ETHER_ORE.get(), &quot;Ice Ether Ore&quot;);
+
+        add(&quot;itemGroup.tutorial_tab&quot;, &quot;Tutorial Tab&quot;);
+        add(&quot;itemGroup.material&quot;, &quot;Material&quot;);
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3698db55-6aee-8063-8ba3-d5b9ce440a3a"/></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-80fe-a2a7-c382f5c72ba0" class="">当游戏语言是英文时，我的方块 / 物品叫什么名字。</p></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80a5-857d-e39b1b28b04c" class="numbered-list" start="1"><li>extends LanguageProvider: 继承<strong>生成语言文件</strong>的父类</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8052-8cce-d01b496db993" class="numbered-list" start="2"><li>构造函数<mark class="highlight-yellow"><mark class="highlight-teal_background">（固定格式）</mark></mark><div style="display:contents" dir="auto"><pre id="3698db55-6aee-8001-bec8-c7980c500ed9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public ModEnUsLangProvider(PackOutput output) {
+    super(output, TutorialMod.MOD_ID, &quot;en_us&quot;);
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-808b-a319-f5cceadfcedf" class="numbered-list" start="1"><li><code>output</code> → 文件输出到哪</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80aa-a924-c3ca6a16a98e" class="numbered-list" start="2"><li><code>TutorialMod.MOD_ID</code> → 你的模组 ID</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80f0-96fd-fa94c6cc954e" class="numbered-list" start="3"><li><code><strong>en_us</strong></code> → <strong>英文（美国）</strong></li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80cd-9a82-f54894e47856" class="numbered-list" start="3"><li>添加翻译<div style="display:contents" dir="auto"><pre id="3698db55-6aee-80ad-931d-ca00aa4638ff" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Override
+protected void addTranslations() {
+    // 物品翻译
+    add(ModItems.ICE_ETHER.get(), &quot;Ice Ether&quot;);
+    add(ModItems.RAW_ICE_ETHER.get(), &quot;Raw Ice Ether&quot;);
+    add(ModItems.CARDBOARD.get(), &quot;Cardboard&quot;);
+
+    // 方块翻译
+    add(ModBlocks.ICE_ETHER_BLOCK.get(), &quot;Ice Ether Block&quot;);
+    add(ModBlocks.RAW_ICE_ETHER_BLOCK.get(), &quot;Raw Ice Ether Block&quot;);
+    add(ModBlocks.ICE_ETHER_ORE.get(), &quot;Ice Ether Ore&quot;);
+
+    // 创造模式标签页翻译
+    add(&quot;itemGroup.tutorial_tab&quot;, &quot;Tutorial Tab&quot;);
+    add(&quot;itemGroup.material&quot;, &quot;Material&quot;);
+}</code></pre></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-804a-a1dc-e5f0ce9161d5" class="toggle"><li><details open=""><summary>纯物品的模型生成(ModItemModelsProvider.java)</summary><div style="display:contents" dir="auto"><ul id="3698db55-6aee-80bb-af2e-d49d86e20a2b" class="toggle"><li><details open=""><summary>ModItemModelsProvider.java</summary><div style="display:contents" dir="auto"><pre id="3698db55-6aee-80fd-b10d-dca2177af7f9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpxwind.tutorial.datagen;
+
+import com.hpxwind.tutorial.TutorialMod;
+import com.hpxwind.tutorial.item.ModItems;
+import net.minecraft.data.PackOutput;
+import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
+
+public class ModItemModelsProvider extends ItemModelProvider {
+    public ModItemModelsProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+        super(output, TutorialMod.MOD_ID, existingFileHelper);
+    }
+
+    @Override
+    protected void registerModels() {
+        basicItem(ModItems.ICE_ETHER.get());
+        basicItem(ModItems.RAW_ICE_ETHER.get());
+//        basicItem(ModItems.CARDBOARD.get());
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3698db55-6aee-8099-a84c-f17e467e9e8d"/></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-80b2-a747-fbe0364cfb0d" class="">给普通物品生成 JSON 模型文件，让它们在游戏里正常显示为 2D 图标，不会变成紫黑块。</p></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80ce-b6e9-c034b071024e" class="numbered-list" start="1"><li>extends ItemModelProvider: 继承物品模型生成器</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80e4-9a25-d8a96a564be5" class="numbered-list" start="2"><li>构造方法<mark class="highlight-yellow"><mark class="highlight-teal_background">（固定格式）</mark></mark><div style="display:contents" dir="auto"><pre id="3698db55-6aee-800e-9457-fa662924da5e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class ModItemModelsProvider extends ItemModelProvider {
+    public ModItemModelsProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+        super(output, TutorialMod.MOD_ID, existingFileHelper);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-806e-97b4-d99d72750934" class="numbered-list" start="1"><li>文件输出位置</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-803c-921a-f66614bf2c43" class="numbered-list" start="2"><li>你的模组 ID：<code>tutorial_mod</code></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8043-b7dd-cc309efc2f4a" class="numbered-list" start="3"><li>材质帮助器</li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8015-af87-e0ad7a033d3f" class="numbered-list" start="3"><li>核心注册方法<div style="display:contents" dir="auto"><pre id="3698db55-6aee-80b9-a254-e5e7f4babd58" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Override
+protected void registerModels() {
+    basicItem(ModItems.ICE_ETHER.get());
+    basicItem(ModItems.RAW_ICE_ETHER.get());
+//        basicItem(ModItems.CARDBOARD.get());
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8027-b195-dcb4b07c5443" class="numbered-list" start="1"><li>basicItem(物品):生成一个最标准、最普通的物品模型.生成assets/tutorial_mod/models/item/xxx.json→这个 JSON 告诉游戏：这是一个<strong>2D 物品图标</strong>，使用物品贴图渲染，就像铁锭、钻石一样。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80a5-89f8-f66f0b58c2de" class="numbered-list" start="2"><li>basicItem(ModItems.ICE_ETHER.get());生成<div style="display:contents" dir="auto"><p id="3698db55-6aee-803e-a40a-c40a74a935b6" class="">models/item/ice_ether.json→自动寻找贴图textures/item/ice_ether.png</p></div></li></ol></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-80b5-b904-cb704d83dad5" class="toggle"><li><details open=""><summary>物品标签生成类(ModItemTagsProvider.java)</summary><div style="display:contents" dir="auto"><ul id="3698db55-6aee-802c-a073-c13452b2710b" class="toggle"><li><details open=""><summary>ModItemTagsProvider.java</summary><div style="display:contents" dir="auto"><pre id="3698db55-6aee-8045-9d45-dbcb091772bb" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpxwind.tutorial.datagen;
+
+import com.hpxwind.tutorial.TutorialMod;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.data.BlockTagsProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.concurrent.CompletableFuture;
+
+public class ModItemTagsProvider extends ItemTagsProvider {
+    public ModItemTagsProvider(
+            PackOutput pOutput,
+            CompletableFuture&lt;HolderLookup.Provider&gt; pLookupProvider,
+            BlockTagsProvider blockTagsProvider, CompletableFuture&lt;TagLookup&lt;Block&gt;&gt; pBlockTags,
+            @Nullable ExistingFileHelper existingFileHelper) {
+        super(pOutput, pLookupProvider, pBlockTags, TutorialMod.MOD_ID, existingFileHelper);
+    }
+
+    @Override
+    protected void addTags(HolderLookup.Provider pProvider) {
+
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3698db55-6aee-80ab-ae25-f474e9fe44ff"/></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-80be-9c9a-f5c81332a082" class="">给物品打 “标签”，让游戏知道这个物品属于哪一类、能干嘛、不能干嘛。比如：</p></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-802f-81ab-dcb18d25cf5e" class="bulleted-list"><li style="list-style-type:disc">这个物品是<strong>矿物</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8073-a576-f23d0b019456" class="bulleted-list"><li style="list-style-type:disc">这个物品<strong>能被熔炉烧</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8012-9b73-c87be937c1f3" class="bulleted-list"><li style="list-style-type:disc">这个物品<strong>能堆叠</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8039-ad6f-f0542fe8e7bc" class="bulleted-list"><li style="list-style-type:disc">这个物品属于<strong>建筑方块</strong></li></ul></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80ee-ae2b-f48a93455514" class="numbered-list" start="1"><li>extends ItemTagsProvider: 继承物品标签专用生成器</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-801f-bdbc-d61be6d51aac" class="numbered-list" start="2"><li>构造方法<mark class="highlight-yellow"><mark class="highlight-teal_background">（固定格式）</mark></mark><div style="display:contents" dir="auto"><pre id="3698db55-6aee-80f9-87ee-d46dcf6ac590" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public ModItemTagsProvider(
+        PackOutput pOutput,
+        CompletableFuture&lt;HolderLookup.Provider&gt; pLookupProvider,
+        BlockTagsProvider blockTagsProvider, CompletableFuture&lt;TagLookup&lt;Block&gt;&gt; pBlockTags,
+        @Nullable ExistingFileHelper existingFileHelper) {
+    super(pOutput, pLookupProvider, pBlockTags, TutorialMod.MOD_ID, existingFileHelper);
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8059-a599-c919dfe6ef24" class="numbered-list" start="1"><li>告诉生成器<strong>输出位置</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8090-b966-ed4ee70fe1d9" class="numbered-list" start="2"><li>绑定<strong>你的模组 ID</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8073-b185-ded9a896fee9" class="numbered-list" start="3"><li>关联<strong>方块标签</strong>（因为很多物品标签和方块是对应的）</li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8099-b864-ee1af55c3e4b" class="numbered-list" start="3"><li>添加物品标签<div style="display:contents" dir="auto"><pre id="3698db55-6aee-80ae-80ff-e18ef1b81905" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Override
+protected void addTags(HolderLookup.Provider pProvider) {
+    // 现在这里是空的
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-8093-860b-e8b781c194f3" class="">这个标签可以干什么？</p></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-800b-a3c5-c610138af7d4" class="numbered-list" start="1"><li>让物品能放入熔炉（燃料）<code>tag(ItemsTags.COMPOSTABLE).add(你的物品.get());</code></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8070-b730-f86373f72cb1" class="numbered-list" start="2"><li>让物品属于 “矿石物品” 分类<code>tag(ItemTags.BEACON_BASE_BLOCKS).add(你的方块物品.get());</code></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8043-9593-dcb41f8c37b9" class="numbered-list" start="3"><li>让物品属于 “矿物” 分类<code>tag(ItemTags.RAW_MATERIALS).add(ModItems.RAW_ICE_ETHER.get());</code></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8057-a47e-dc8398abf6ad" class="numbered-list" start="4"><li>让物品能当燃料<code>tag(ItemTags.FURNACE_MINECART_FUEL).add(你的物品.get());</code></li></ol></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-80f6-a41d-e2b8fc12a7ee" class="toggle"><li><details open=""><summary>loot表生成工厂(ModLootTableProvider.java)</summary><div style="display:contents" dir="auto"><ul id="3698db55-6aee-80e4-bbdf-fb151b88f948" class="toggle"><li><details open=""><summary>ModLootTableProvider.java</summary><div style="display:contents" dir="auto"><pre id="3698db55-6aee-807c-aa7c-e3b1b11f58c1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpxwind.tutorial.datagen;
+
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+
+import java.util.List;
+import java.util.Set;
+
+public class ModLootTableProvider {
+    public static LootTableProvider create(PackOutput packOutput) {
+        return new LootTableProvider(packOutput, Set.of(), List.of(
+                new LootTableProvider.SubProviderEntry(ModBlockLootTablesProvider::new, LootContextParamSets.BLOCK)
+        ));
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3698db55-6aee-8092-beea-dc9b3c68d8cf"/></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-80e1-b584-ebe33df7173c" class="">它是一个 “创建器”，负责把 <code>ModBlockLootTablesProvider</code> 交给游戏，让游戏知道要生成方块掉落表。<br/>它<strong>自己不生成文件</strong>，只是<strong>组装并传递</strong>真正的战利品生成器。</p></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8017-801e-eea476ca779b" class="numbered-list" start="1"><li>public class ModLootTableProvider {: 定义类，普通工具类</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80f2-9a3c-f003a5dec27b" class="numbered-list" start="2"><li>public static LootTableProvider create(PackOutput packOutput) {<div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8038-99d2-fb4718a21024" class="numbered-list" start="1"><li><strong>static</strong>：可以直接调用，不需要 new 对象</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8074-8d48-fd9fc40dbd1b" class="numbered-list" start="2"><li><strong>PackOutput</strong>：文件输出位置</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-806f-a1db-cd37306395c4" class="numbered-list" start="3"><li><strong>返回 LootTableProvider</strong>：返回 MC 官方的战利品生成器</li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80f1-881e-d1d33ebf7726" class="numbered-list" start="3"><li>核心<div style="display:contents" dir="auto"><pre id="3698db55-6aee-8085-b5bd-e574731e3d08" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">return new LootTableProvider(
+    packOutput,        // 输出到哪
+    Set.of(),          // 空的（不需要额外参数）
+    List.of(           // 子提供者列表：你要加载哪些战利品表
+        // 重点在这里！
+        new LootTableProvider.SubProviderEntry(
+            ModBlockLootTablesProvider::new,   // 你的方块战利品类
+            LootContextParamSets.BLOCK         // 类型：方块战利品
+        )
+    )
+);</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8096-9a67-c204b587d02c" class="numbered-list" start="1"><li>ModBlockLootTablesProvider::new:把你写的方块掉落表类，注册进去。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80b7-a43a-da4ddf466179" class="numbered-list" start="2"><li>LootContextParamSets.BLOCK:这是【方块】的战利品表。其他类型还有<code>ENTITY</code> → 怪物掉落 <code>CHEST</code> → 箱子战利品 <code>FISHING</code> → 钓鱼</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8012-8f35-e5fe41e1c3ad" class="numbered-list" start="3"><li>这个类在整个架构中的位置:是一个中间连接器</li></ol></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-80cd-b20e-d1a2e2044c53" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">ModDataGenerator
+   ↓ (调用)
+ModLootTableProvider
+   ↓ (创建)
+LootTableProvider
+   ↓ (使用)
+ModBlockLootTablesProvider  ← 真正写掉落规则的类</code></pre></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-8047-a258-dd8563db889b" class="">在主类中使用: 生成器，你去用这个 create 出来的战利品表生成器。</p></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-8097-926a-d25bc600a703" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">generator.addProvider(event.includeServer(), ModLootTableProvider.create(packOutput));</code></pre></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8014-8f7e-d1f1d7557a60" class="toggle"><li><details open=""><summary>配方生成类(ModRecipesProvider.java)</summary><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8085-acbf-c8c2eca5282c" class="toggle"><li><details open=""><summary>ModRecipesProvider.java</summary><div style="display:contents" dir="auto"><pre id="3698db55-6aee-8098-ae96-e46c71ac593d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpxwind.tutorial.datagen;
+
+import com.hpxwind.tutorial.TutorialMod;
+import com.hpxwind.tutorial.block.ModBlocks;
+import com.hpxwind.tutorial.item.ModItems;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.recipes.*;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+
+import java.util.List;
+import java.util.function.Consumer;
+
+public class ModRecipesProvider extends RecipeProvider implements IConditionBuilder {
+    public ModRecipesProvider(PackOutput pOutput) {
+        super(pOutput);
+    }
+
+    public static final List&lt;ItemLike&gt;  ICE_ETHER = List.of(ModItems.RAW_ICE_ETHER.get(), ModBlocks.ICE_ETHER_ORE.get());
+
+    protected static void oreSmelting(Consumer&lt;FinishedRecipe&gt; pFinishedRecipeConsumer, List&lt;ItemLike&gt; pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTIme, String pGroup) {
+        oreCooking(pFinishedRecipeConsumer, RecipeSerializer.SMELTING_RECIPE, pIngredients, pCategory, pResult, pExperience, pCookingTIme, pGroup, &quot;_from_smelting&quot;);
+    }
+
+    protected static void oreBlasting(Consumer&lt;FinishedRecipe&gt; pFinishedRecipeConsumer, List&lt;ItemLike&gt; pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTime, String pGroup) {
+        oreCooking(pFinishedRecipeConsumer, RecipeSerializer.BLASTING_RECIPE, pIngredients, pCategory, pResult, pExperience, pCookingTime, pGroup, &quot;_from_blasting&quot;);
+    }
+
+    protected static void oreCooking(Consumer&lt;FinishedRecipe&gt; pFinishedRecipeConsumer, RecipeSerializer&lt;? extends AbstractCookingRecipe&gt; pCookingSerializer, List&lt;ItemLike&gt; pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTime, String pGroup, String pRecipeName) {
+        for(ItemLike itemlike : pIngredients) {
+            SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike),pCategory,pResult,pExperience,pCookingTime,pCookingSerializer)
+                    .group(pGroup)
+                    .unlockedBy(getHasName(itemlike), has(itemlike))
+                    .save(pFinishedRecipeConsumer,  TutorialMod.MOD_ID + &quot;:&quot; + getItemName(pResult) + pRecipeName + &quot;_&quot; + getItemName(itemlike));
+        }
+
+    }
+
+    @Override
+    protected void buildRecipes(Consumer&lt;FinishedRecipe&gt; pWriter) {
+        oreSmelting(pWriter, ICE_ETHER, RecipeCategory.MISC, ModItems.ICE_ETHER.get(), 0.25F, 200, &quot;ice_ether&quot;);
+        oreBlasting(pWriter, ICE_ETHER, RecipeCategory.MISC, ModItems.ICE_ETHER.get(), 0.25F, 200, &quot;ice_ether&quot;);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ICE_ETHER_BLOCK.get())
+                .pattern(&quot;###&quot;)
+                .pattern(&quot;###&quot;)
+                .pattern(&quot;###&quot;)
+                .define(&#x27;#&#x27;, ModItems.ICE_ETHER.get())
+                .unlockedBy(getHasName(ModItems.ICE_ETHER.get()), has(ModItems.ICE_ETHER.get()))
+                .save(pWriter);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ICE_ETHER.get(), 9)
+                .requires(ModBlocks.ICE_ETHER_BLOCK.get())
+                .unlockedBy(getHasName(ModBlocks.ICE_ETHER_BLOCK.get()), has(ModBlocks.ICE_ETHER_BLOCK.get()))
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, Items.SUGAR, 3)
+                .pattern(&quot;###&quot;)
+                .define(&#x27;#&#x27;, Items.BEETROOT)
+                .unlockedBy(getHasName(Items.BEETROOT), has(Items.BEETROOT))
+                .save(pWriter, TutorialMod.MOD_ID + &quot;:&quot; + &quot;sugar_from_beetroot&quot;);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ICE_ETHER_ORE.get())
+                .requires(ModItems.RAW_ICE_ETHER.get())
+                .requires(Blocks.STONE)
+                .unlockedBy(getHasName(ModItems.RAW_ICE_ETHER.get()), has(ModItems.RAW_ICE_ETHER.get()))
+                .unlockedBy(getHasName(Blocks.STONE), has(Blocks.STONE))
+                .save(pWriter);
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3698db55-6aee-809f-a051-f1cf224e70d1"/></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-80e3-9e0b-e44222333327" class="">给游戏添加所有合成表、熔炉烧炼、合成、无序合成等配方。</p></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80e0-82fd-c6745c2c8b55" class="numbered-list" start="1"><li>extends RecipeProvider implements IConditionBuilder: 继承配方生成器，和允许添加解锁条件。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8033-8f1a-d5ae3fac242b" class="numbered-list" start="2"><li>构造方法：<mark class="highlight-yellow"><mark class="highlight-teal_background">(固定格式)</mark></mark><div style="display:contents" dir="auto"><pre id="3698db55-6aee-8023-af22-d6cee56aa1a5" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public ModRecipesProvider(PackOutput pOutput) {
+    super(pOutput);
+}</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8036-9e88-c3260d6484a6" class="numbered-list" start="3"><li>定义可烧炼的矿石列表<div style="display:contents" dir="auto"><pre id="3698db55-6aee-80d2-b2c1-d8febc2ae1d6" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static final List&lt;ItemLike&gt; ICE_ETHER = List.of(
+        ModItems.RAW_ICE_ETHER.get(),
+        ModBlocks.ICE_ETHER_ORE.get()
+);</code></pre></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-8047-b89f-cf834e664fa6" class="">这两个东西都可以扔进熔炉烧</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-802a-875b-cc58e477d95b" class="numbered-list" start="4"><li><code>oreSmelting(),oreBlasting(...),oreCooking(...)</code>三个工具方法：这三个方法是<strong>原版通用模板 作用是快速生成熔炉、高炉烧矿配方。只需要修改第三个的sava()方法中，添加</strong><code>TutorialMod.MOD_ID + &quot;:&quot;+</code><div style="display:contents" dir="auto"><p id="3698db55-6aee-80b9-88f6-e75760cb12be" class="">作用是： 自动生成烧炼配方 自动解锁条件 自动设置经验时间 自动保存JSON</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8067-af75-edfcc1a29cf4" class="numbered-list" start="5"><li>buildRecipes()：配方方法 <mark class="highlight-purple_background">指令参考手动配方写法，名字几乎一致</mark><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-807e-9705-ecfb2b8fa313" class="numbered-list" start="1"><li>熔炉 + 高炉 烧矿<div style="display:contents" dir="auto"><pre id="3698db55-6aee-8028-9cd1-f70d6bee1963" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">oreSmelting(pWriter, ICE_ETHER, RecipeCategory.MISC,
+        ModItems.ICE_ETHER.get(), 0.25F, 200, &quot;ice_ether&quot;);
+
+oreBlasting(pWriter, ICE_ETHER, RecipeCategory.MISC,
+        ModItems.ICE_ETHER.get(), 0.25F, 200, &quot;ice_ether&quot;);</code></pre></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-8081-9f9c-c5d27e9b6330" class="">翻译：</p></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-804c-9b71-c5b0fbac719e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">原料：**粗冰以太、冰以太矿石**
+烧出：**冰以太锭**
+经验：**0.25**
+时间：**200 刻（10 秒）**
+高炉时间一样（原版设置）</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8057-b8ef-d6d64da6258e" class="numbered-list" start="2"><li>有序合成 → 冰以太块<div style="display:contents" dir="auto"><pre id="3698db55-6aee-8004-9149-f24762aa1281" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ICE_ETHER_BLOCK.get())
+        .pattern(&quot;###&quot;)
+        .pattern(&quot;###&quot;)
+        .pattern(&quot;###&quot;)
+        .define(&#x27;#&#x27;, ModItems.ICE_ETHER.get())
+        .unlockedBy(getHasName(ModItems.ICE_ETHER.get()), has(ModItems.ICE_ETHER.get())) // 解锁配方
+        .save(pWriter);</code></pre></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-802c-9949-ec0ed4575e68" class="">3x3 格子全部放 <strong>冰以太锭</strong></p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8086-a52b-cda08892b9dd" class="numbered-list" start="3"><li>无序合成 → 块拆分为9个锭<div style="display:contents" dir="auto"><pre id="3698db55-6aee-803a-aa75-f3dffb86d9e7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ICE_ETHER.get(), 9)
+        .requires(ModBlocks.ICE_ETHER_BLOCK.get())
+        .unlockedBy(getHasName(ModBlocks.ICE_ETHER_BLOCK.get()), has(ModBlocks.ICE_ETHER_BLOCK.get()))
+        .save(pWriter);</code></pre></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-8075-a012-df2f9f6e7298" class="">放入<strong>1个冰以太块 </strong>→ 得到<strong>9个冰以太锭</strong></p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80ac-9232-d286bbf2da74" class="numbered-list" start="4"><li>自定义有序合成 → 甜菜→糖<div style="display:contents" dir="auto"><pre id="3698db55-6aee-80c0-93a5-e0a38658c39b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, Items.SUGAR, 3)
+        .pattern(&quot;###&quot;)
+        .define(&#x27;#&#x27;, Items.BEETROOT)
+        .unlockedBy(getHasName(Items.BEETROOT), has(Items.BEETROOT))
+        .save(pWriter, TutorialMod.MOD_ID + &quot;:&quot; + &quot;sugar_from_beetroot&quot;);</code></pre></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-8090-a40c-dc03837f0525" class="">1x3格子放甜菜 → 合成<strong>3个糖</strong></p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-805e-98d8-f09cf0b6bde1" class="numbered-list" start="5"><li>无序合成 → 冰以太矿石<div style="display:contents" dir="auto"><pre id="3698db55-6aee-804a-a753-d324a35f980e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ICE_ETHER_ORE.get())
+        .requires(ModItems.RAW_ICE_ETHER.get())
+        .requires(Blocks.STONE)
+        .unlockedBy(...)
+        .save(pWriter);</code></pre></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-8022-9b99-d782b0621ad7" class=""><strong>粗冰以太+石头 </strong>→ 合成<strong>冰以太矿石</strong></p></div></li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8035-8052-f2a299f763bc" class="numbered-list" start="6"><li>生成的文件<div style="display:contents" dir="auto"><pre id="3698db55-6aee-8044-872f-c447ead8abe8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">data/tutorial_mod/recipes/
+├── ice_ether.json
+├── ice_ether_block.json
+├── ice_ether_ore.json
+├── sugar_from_beetroot.json
+└── ...</code></pre></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-800c-b1d2-f73aff2f4428" class="">在com.hpxwind.tutorial下编写Generator文件</p></div><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8034-aa0d-e616cecfae30" class="toggle"><li><details open=""><summary>数据生成的总入口(ModDataGenerator.java)</summary><div style="display:contents" dir="auto"><ul id="3698db55-6aee-8099-bdcc-c7eddf445556" class="toggle"><li><details open=""><summary>ModDataGenerator.java</summary><div style="display:contents" dir="auto"><pre id="3698db55-6aee-80c4-98d9-f435a46a6d92" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpxwind.tutorial;
+
+import com.google.common.eventbus.Subscribe;
+import com.hpxwind.tutorial.datagen.*;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraftforge.common.data.BlockTagsProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+
+@Mod.EventBusSubscriber(modid = TutorialMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+public class ModDataGenerator {
+    @SubscribeEvent
+    public static void gatherData(GatherDataEvent event) {
+        DataGenerator generator = event.getGenerator();
+        PackOutput packOutput = generator.getPackOutput();
+        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        CompletableFuture&lt;HolderLookup.Provider&gt; lookupProvider = event.getLookupProvider();
+
+        generator.addProvider(event.includeServer(), new ModRecipesProvider(packOutput));
+        generator.addProvider(event.includeServer(), new LootTableProvider(packOutput, Set.of(), List.of(
+                new LootTableProvider.SubProviderEntry(ModBlockLootTablesProvider::new, LootContextParamSets.BLOCK)
+        )));
+
+        BlockTagsProvider blockTagsProvider = generator.addProvider(event.includeServer(),
+                new ModBlockTagsProvider(packOutput, lookupProvider, existingFileHelper));
+
+        generator.addProvider(event.includeServer(), new ModItemTagsProvider(packOutput, lookupProvider, blockTagsProvider, blockTagsProvider.contentsGetter(), existingFileHelper));
+
+        generator.addProvider(event.includeServer(), new ModBlockStateProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ModItemModelsProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ModEnUsLangProvider(packOutput));
+        generator.addProvider(event.includeServer(), new ModZhCnLangProvider(packOutput));
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3698db55-6aee-8071-8148-e7bd41b74473"/></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-8062-a1fb-ddb8e84f62e3" class="">这是 Forge 数据生成的入口类。<br/>它的作用：把你写的所有生成器（配方、模型、语言等）全部注册，运行 runData 时一次性生成所有 JSON 文件。</p></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80c4-823c-f72161997395" class="numbered-list" start="1"><li><code>@Mod.EventBusSubscriber(modid = TutorialMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)</code> <mark class="highlight-orange"><mark class="highlight-purple_background">类注释，监听mod总线事件，</mark></mark>只有加了这个，<code>runData</code> 时才会触发这个类</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8097-9465-d721ed64cb01" class="numbered-list" start="2"><li>核心方法：gatherData:当 Forge 开始收集数据时，执行这个方法<div style="display:contents" dir="auto"><pre id="3698db55-6aee-8097-9f3f-d45b8b60319f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@SubscribeEvent
+public static void gatherData(GatherDataEvent event) {</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-805c-b392-ec2b55c55f74" class="numbered-list" start="3"><li>取出需要的工具<mark class="highlight-yellow"><mark class="highlight-teal_background">（固定四件套）:</mark></mark><div style="display:contents" dir="auto"><p id="3698db55-6aee-8067-92dd-f5e318f8d2d6" class="">所有生成器都需要这 4 个工具，<strong>统一在这里拿一次</strong>。</p></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-80bd-9df0-d372b594c4a8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">DataGenerator generator = event.getGenerator();              // 生成器
+PackOutput packOutput = generator.getPackOutput();          // 文件输出位置
+ExistingFileHelper existingFileHelper = event.getExistingFileHelper(); // 材质帮助器
+CompletableFuture&lt;HolderLookup.Provider&gt; lookupProvider = event.getLookupProvider(); // 注册表帮助器</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-80ca-bd49-d5f9ab6a9639" class="numbered-list" start="4"><li>开始注册所有生成器<div style="display:contents" dir="auto"><p id="3698db55-6aee-804d-9d65-fa30753d9a5c" class="">下面每一行，都是<strong>注册一个你写的 datagen 类</strong></p></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-804c-8769-cfd0352997e4" class="numbered-list" start="1"><li>配方生成器 生成：合成表、熔炉烧炼、无序合成<div style="display:contents" dir="auto"><p id="3698db55-6aee-80e4-9a79-fe86438f7856" class="">文件位置：<code>data/tutorial_mod/recipes/...</code></p></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-806d-86fd-d98e25b163ff" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">generator.addProvider(event.includeServer(), new ModRecipesProvider(packOutput));</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-808c-b8c1-c40b4681a6cf" class="numbered-list" start="2"><li>方块战利品表生成器 生成：方块掉落 JSON<div style="display:contents" dir="auto"><p id="3698db55-6aee-80ff-a22b-c031e3fed195" class="">文件位置：<code>data/tutorial_mod/loot_tables/blocks/...</code></p></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-80e7-84fb-d696fa7b795b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">generator.addProvider(event.includeServer(), new LootTableProvider(packOutput, Set.of(), List.of(
+        new LootTableProvider.SubProviderEntry(ModBlockLootTablesProvider::new, LootContextParamSets.BLOCK)
+)));</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8040-ba75-d4a459b49c33" class="numbered-list" start="3"><li>方块标签生成器 生成：方块标签（必须用稿子挖、石稿等级）<div style="display:contents" dir="auto"><p id="3698db55-6aee-803a-9410-db443ab7d4f3" class="">文件位置：<code>data/tutorial_mod/tags/blocks/...</code></p></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-8026-be87-f0ef7e973dce" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">BlockTagsProvider blockTagsProvider = generator.addProvider(event.includeServer(),
+        new ModBlockTagsProvider(packOutput, lookupProvider, existingFileHelper));</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-8021-b05f-ec42f2b84192" class="numbered-list" start="4"><li>物品标签生成器 生成：物品标签<div style="display:contents" dir="auto"><p id="3698db55-6aee-806a-86b0-e85d01c4bfc0" class="">文件位置：<code>data/tutorial_mod/tags/items/...</code></p></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-8042-906a-f721fffe6ac1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">generator.addProvider(event.includeServer(), new ModItemTagsProvider(...));</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80da-8166-cc8864147707" class="numbered-list" start="5"><li>方块状态&amp;模型生成器 生成：方块模型、方块状态、物品模型<div style="display:contents" dir="auto"><p id="3698db55-6aee-805d-9cd7-da31fc5dc314" class="">文件位置：<code>assets/tutorial_mod/blockstates/…</code></p></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-802e-9969-dec0f1e20eac" class="">文件位置：<code>assets/tutorial_mod/models/block/…</code></p></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-80dd-a847-f0d2b0dbd02d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">generator.addProvider(event.includeServer(), new ModBlockStateProvider(packOutput, existingFileHelper));</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-80d9-a0cd-d597bae9f7c2" class="numbered-list" start="6"><li>普通物品模型生成器 生成：纯物品（锭、材料）的模型<div style="display:contents" dir="auto"><p id="3698db55-6aee-8025-9f20-cb5186d55203" class="">文件位置：<code>assets/tutorial_mod/models/item/...</code></p></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-80ea-b8ef-ce78496eed9a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">generator.addProvider(event.includeServer(), new ModItemModelsProvider(packOutput, existingFileHelper));</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3698db55-6aee-804c-8289-e030b3a0a470" class="numbered-list" start="7"><li>英文语言文件(中文语言文件略) 生成：英文名称<div style="display:contents" dir="auto"><p id="3698db55-6aee-80c4-8ee9-ee76cacdcf7f" class="">文件位置：<code>assets/tutorial_mod/lang/en_us.json</code></p></div><div style="display:contents" dir="auto"><pre id="3698db55-6aee-801d-a1f2-fb091c7c7833" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">generator.addProvider(event.includeServer(), new ModEnUsLangProvider(packOutput));</code></pre></div></li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-8074-9bbc-c2292c56442c" class="block-color-purple_background numbered-list" start="5"><li>event.includeServer():这些数据属于 “服务器数据”，在服务端运行。只有<strong>模型、纹理</strong>是客户端</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3698db55-6aee-809a-9c23-f85426a55efc" class="numbered-list" start="6"><li>整个过程流程图<div style="display:contents" dir="auto"><pre id="3698db55-6aee-8051-9eba-ccb22adfb322" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">运行 runData
+   ↓
+触发 ModDataGenerator
+   ↓
+依次启动所有生成器：
+   配方 → 战利品表 → 标签 → 方块模型 → 物品模型 → 语言
+   ↓
+生成所有 JSON 文件
+   ↓
+完成！</code></pre></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-8023-accd-f2cc872fa801" class="">最后运行runData就靠它生成所有JSON文件</p></div><div style="display:contents" dir="auto"><blockquote id="3698db55-6aee-8096-a38c-fc038fdeb82e" class="block-color-purple_background">需要删除原先创建的手动注册json文件，除了材质文件，和resources.assets.tutorial_mod.models.item.material下的文件，因为runData这个文件夹生成的位置是错误的，需要删除，而保留手动生成的。</blockquote></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

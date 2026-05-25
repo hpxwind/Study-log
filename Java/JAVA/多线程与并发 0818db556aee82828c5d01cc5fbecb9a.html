@@ -1,0 +1,1554 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>多线程与并发</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="0818db55-6aee-8282-8c5d-01cc5fbecb9a" class="page serif"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/met_william_morris_1875.jpg" style="object-position:center 0%"/><h1 class="page-title" dir="auto">多线程与并发</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="ltr"><figure id="9da8db55-6aee-8399-b324-81f2305b0c71" class="link-to-page"><a href="%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%B9%B6%E5%8F%91/%E7%BB%83%E4%B9%A0%209da8db556aee8399b32481f2305b0c71.html"><span class="icon">🥌</span>练习</a></figure></div><div style="display:contents" dir="auto"><hr id="1218db55-6aee-8291-96d2-01a81ef6a105"/></div><div style="display:contents" dir="auto"><p id="8698db55-6aee-8216-812b-81b25f01421d" class="">使用多线程可以让程序充分利用CPU的资源，提高CPU的使用效率，从而解决高并发所带来的负载均衡问题，</p></div><div style="display:contents" dir="auto"><p id="9878db55-6aee-8234-89cd-81289c752dc4" class="">优点：</p></div><div style="display:contents" dir="auto"><ul id="71a8db55-6aee-82ba-ba3a-81d276741626" class="bulleted-list"><li style="list-style-type:disc">资源得到合理利用</li></ul></div><div style="display:contents" dir="auto"><ul id="1f18db55-6aee-8336-ba44-01cb6afcee61" class="bulleted-list"><li style="list-style-type:disc">程序设计更加简洁</li></ul></div><div style="display:contents" dir="auto"><ul id="7f48db55-6aee-83b3-a8bc-017e779a2769" class="bulleted-list"><li style="list-style-type:disc">程序响应速度更快，运行效率更高</li></ul></div><div style="display:contents" dir="auto"><p id="db28db55-6aee-8363-9fee-016b3fe350d8" class="">缺点：</p></div><div style="display:contents" dir="auto"><ul id="1e18db55-6aee-8322-94e4-8106258f6585" class="bulleted-list"><li style="list-style-type:disc">需要更多的内存空间来支持多线程</li></ul></div><div style="display:contents" dir="auto"><ul id="83d8db55-6aee-83aa-9487-81c01902081e" class="bulleted-list"><li style="list-style-type:disc">多线程并发访问的情况可能会影响数据的准确性</li></ul></div><div style="display:contents" dir="auto"><ul id="6e48db55-6aee-82f8-b35f-817015bd93b6" class="bulleted-list"><li style="list-style-type:disc">数据被多线程共享，可能会出现死锁的情况</li></ul></div><div style="display:contents" dir="auto"><p id="a588db55-6aee-82c5-9538-01ae5e6ea586" class="">应该将程序设计的更加合理有效，避免多线程的缺点，充分发挥多线程的优点，从而提高程序的性能</p></div><div style="display:contents" dir="auto"><h1 id="3138db55-6aee-83ce-a7bd-017360bacc70" class="">进程和线程</h1></div><div style="display:contents" dir="auto"><p id="1018db55-6aee-83b2-9cb2-018eb6778703" class="">什么是进程？</p></div><div style="display:contents" dir="auto"><p id="94f8db55-6aee-83a8-9f07-81cc5589a8d3" class="">进程是计算机正在运行的一个独立的应用程序，进程是一个动态的概念。</p></div><div style="display:contents" dir="auto"><p id="3088db55-6aee-821e-bf1a-01bcef28dcd9" class="">什么是线程？</p></div><div style="display:contents" dir="auto"><p id="9f78db55-6aee-82dc-a914-010dca65e049" class="">线程是组成进程的基本单位，一个进程中包含一个或多个线程，线程可以完成特定的功能。</p></div><div style="display:contents" dir="auto"><blockquote id="9178db55-6aee-8315-921a-8179eb57776f" class="">进程和线程都是应用程序在执行过程中的概念，动态，如果应用程序没有执行，则不存在进程和1线程</blockquote></div><div style="display:contents" dir="auto"><blockquote id="a0d8db55-6aee-8222-8d05-81ff344f1402" class="">应用程序是静态的概念，进程和线程都是动态的概念，有创建就销毁，存在也是暂时的，不是永久的</blockquote></div><div style="display:contents" dir="auto"><blockquote id="b2c8db55-6aee-83ec-ae04-81fd8a2a9a83" class="">进程和线程的区别？<br/>进程在运行时拥有独立的内存空间，每个进程所占用的内存都是独立的，互不干扰。<br/>多个线程时共享空间的，但是每个线程的执行时相对独立的，只不过公用内存空间。<br/>线程必须依赖进程才能执行，单独的线程是无法执行的，由进程来控制多个线程的执行。</blockquote></div><div style="display:contents" dir="auto"><blockquote id="65a8db55-6aee-83ee-948d-01581b976eb5" class="">多线程：一个进程中，多个线程同时执行。<br/>单核CPU，多线程并不是真正的同时执行，而是多个线程交替占用CPU，执行自己的业务。</blockquote></div><div style="display:contents" dir="auto"><h1 id="3aa8db55-6aee-8279-a673-01da68a32995" class="">Java中线程的使用</h1></div><div style="display:contents" dir="auto"><h2 id="0068db55-6aee-83aa-b929-813809383f66" class="">1.继承Thread类</h2></div><div style="display:contents" dir="auto"><p id="4b68db55-6aee-83f6-b830-01755d4fa449" class="">Thread 类是Java提供的线程的父类</p></div><div style="display:contents" dir="auto"><p id="b7e8db55-6aee-8394-99dc-01d7a45dcbfa" class="">Exception 是Java提供的异常的父类</p></div><div style="display:contents" dir="auto"><p id="44d8db55-6aee-8301-9499-817ba8831f41" class="">实现程序的扩展，基于JDK基础类开发者可以扩展出其他的相关类</p></div><div style="display:contents" dir="auto"><p id="b078db55-6aee-82be-9c94-8151bf453a02" class=""><mark class="highlight-yellow_background">对修改封闭（不能修改JDK源码），对扩展开放（自定义类，通过继承的形式融入到JDK中）</mark></p></div><div style="display:contents" dir="auto"><p id="b8c8db55-6aee-82f4-bc0a-016363b688e9" class="">线程一定跟任务绑定，一个线程必须要执行一个任务，一个空的线程没有意义，一个空的任务也没有意义，一定是线程+任务绑定在一起。</p></div><div style="display:contents" dir="auto"><p id="a138db55-6aee-83ff-b53f-018a3f748ffa" class="">Thread 类是JDK线程父类，Runnable 是JDK定义任务的接口，<mark class="highlight-orange_background">具体写在run方法中（重写即可）</mark></p></div><div style="display:contents" dir="auto"><ul id="ddc8db55-6aee-82af-b1d4-01706289d99c" class="bulleted-list"><li style="list-style-type:disc">创建Thread对象的时候，从<mark class="highlight-orange_background">外部</mark>传入一个Runnable对象（创建线程的时候，需要绑定一个任务）</li></ul></div><div style="display:contents" dir="auto"><ul id="4398db55-6aee-8382-807a-8104f1945cb4" class="bulleted-list"><li style="list-style-type:disc">当线程执行的时候，会调用线程的run方法</li></ul></div><div style="display:contents" dir="auto"><ul id="3ea8db55-6aee-823a-a376-81992e148405" class="bulleted-list"><li style="list-style-type:disc">如果创建线程对象的时候，传入了任务，则会执行任务，否则线程什么都不做</li></ul></div><div style="display:contents" dir="auto"><p id="4598db55-6aee-823e-89f7-81df1cb887d8" class="">使用线程</p></div><div style="display:contents" dir="auto"><ul id="6ba8db55-6aee-8212-acbf-817625f80cc1" class="bulleted-list"><li style="list-style-type:disc">创建线程对象</li></ul></div><div style="display:contents" dir="auto"><ul id="5b58db55-6aee-832a-a5bf-81cc298ccf3b" class="bulleted-list"><li style="list-style-type:disc">调用线程对象的<mark class="highlight-yellow_background">start方法</mark>来启动线程</li></ul></div><div style="display:contents" dir="auto"><p id="a008db55-6aee-8225-8d84-012747eec9d7" class="">线程是需要争夺CPU资源的，当拿到资源后才能执行任务</p></div><div style="display:contents" dir="auto"><blockquote id="c118db55-6aee-8294-a3f2-01d1f4f787ad" class=""><mark class="highlight-yellow_background">如果使用run则是将任务交割主线程（main）执行，并没有开启新的线程，如果使用run来执行多个线程，结果是按顺序执行。</mark></blockquote></div><div style="display:contents" dir="auto"><blockquote id="6798db55-6aee-8273-a4cd-0129dc84c72b" class=""><mark class="highlight-yellow_background">如果使用start则是真正的启动线程，多个线程交替争夺cpu资源，结果是交替的。</mark></blockquote></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="8b78db55-6aee-82ea-9236-013b892e98d9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class myThread extends Thread{
+    @Override
+    public void run() { // 重构run方法发布任务
+        for (int i = 0; i &lt; 100; i++) {
+            System.out.println(i+&quot;========&quot;);
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="1d88db55-6aee-82ee-8a11-0123658c5aca" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        // 创建线程对象
+        myThread myThread = new myThread();
+        // 启动线程
+        myThread2 myThread2 = new myThread2();
+        myThread.run();
+        myThread2.run();
+
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><h2 id="2338db55-6aee-82d3-bd44-0136fbd512cd" class="">2.实现Runnable接口(实际开发)</h2></div><div style="display:contents" dir="auto"><p id="5438db55-6aee-8358-a1e8-01ceee804979" class="">上面像是的线程和任务的耦合度过高，不利于程序的扩展，所以开发中不推荐使用</p></div><div style="display:contents" dir="auto"><p id="7938db55-6aee-8385-91cb-01c0810ad65a" class="">实现解耦合</p></div><div style="display:contents" dir="auto"><blockquote id="0e58db55-6aee-8209-a915-8145af858f55" class=""><strong>解耦合</strong>指的是将<strong>任务的定义</strong>和<strong>任务的执行</strong>分离开来，让它们各自独立变化，降低模块间的依赖关系。</blockquote></div><div style="display:contents" dir="auto"><p id="cce8db55-6aee-8245-b6e3-811a5e49df6f" class="">用于任务定义的myRunnable</p></div><div style="display:contents" dir="auto"><pre id="8898db55-6aee-83ae-80de-81fddc24ab23" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class myRunnable  implements Runnable{ // 实现一个myRunnable
+    @Override
+    public void run() { // 处理数据
+        for (int i = 0; i &lt; 100; i++) {
+            System.out.println(&quot;~~~~~~~&quot; + i + &quot;~~~~~~~&quot;);
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="ad68db55-6aee-8399-8f5b-01d02d684f38" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        myRunnable myRunnable = new myRunnable();
+        Thread thread = new Thread(myRunnable);
+        thread.start();
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><ul id="d8f8db55-6aee-82ad-891a-81d5f7a1d6b4" class="toggle"><li><details open=""><summary>例如</summary><div style="display:contents" dir="auto"><p id="5618db55-6aee-82dc-b0b9-013462b61944" class="">没有解耦合</p></div><div style="display:contents" dir="auto"><pre id="cc98db55-6aee-83b2-8ea2-818797762fb4" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 一个全能厨师，既会做菜又要自己开饭店
+class Chef extends Thread {
+    public void run() {
+        买菜();
+        洗菜();
+        切菜();
+        炒菜();
+        上菜();
+    }
+}
+// 问题：这个厨师一辈子只能在自己饭店干活</code></pre></div><div style="display:contents" dir="auto"><p id="7e78db55-6aee-8261-b5de-0171dd97d858" class="">解耦合后</p></div><div style="display:contents" dir="auto"><pre id="8768db55-6aee-8240-99d6-01279cb34fbb" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 1. 菜谱（只管“做什么”）
+class 鱼香肉丝菜谱 implements Runnable {
+    public void run() {
+        准备肉丝();
+        准备木耳胡萝卜();
+        调鱼香汁();
+        炒菜();
+    }
+}
+
+// 2. 执行者（决定“怎么做”）
+class 饭店 {
+    public void 接单(Runnable 菜谱) {
+        // 可以有很多选择：
+        
+        // 选择1：让大厨老王做
+        老王.做菜(菜谱);
+        
+        // 选择2：让学徒做
+        学徒.做菜(菜谱);
+        
+        // 选择3：外卖机器人做
+        机器人.做菜(菜谱);
+        
+        // 选择4：明天再做
+        计划表.安排明天做(菜谱);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="2908db55-6aee-8305-8f0c-81ebba3786f5" class="">另一种形式</p></div><div style="display:contents" dir="auto"><pre id="75b8db55-6aee-8349-acfd-81d906439aca" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class myThread extends Thread{
+
+    private Runnable target; // 传递进来
+
+    public myThread(Runnable target) {
+        this.target = target;
+    }
+
+    @Override
+    public void run() {
+        if (target == null) {
+            System.out.println(&quot;没有指定任务任务&quot;);
+        } else {
+            target.run();
+        }
+    }
+}
+</code></pre></div><div style="display:contents" dir="auto"><ul id="d728db55-6aee-827b-96e3-01421bb7f49d" class="toggle"><li><details open=""><summary>例如</summary><div style="display:contents" dir="auto"><pre id="6718db55-6aee-8316-9f17-01d26e88c117" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 剧本接口（定义剧情）
+interface 剧本 {
+    void 表演();
+}
+
+// 替身演员（不自己编剧情，只演别人给的剧本）
+class 替身演员 extends Thread {
+    private 剧本 手上的剧本;  // 拿到的剧本
+    
+    public 替身演员(剧本 要演的剧本) {
+        this.手上的剧本 = 要演的剧本;
+    }
+    
+    @Override
+    public void 表演() {
+        if (手上的剧本 == null) {
+            System.out.println(&quot;没剧本，我不会即兴表演&quot;);
+        } else {
+            手上的剧本.表演();  // 按照剧本演
+        }
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h1 id="70a8db55-6aee-82fe-9138-01d31c6c131b" class="">线程的状态</h1></div><div style="display:contents" dir="auto"><p id="0678db55-6aee-825d-ab00-814ede47e374" class="">线程一共有5种状态，在特定的情况下，线程可以在不同的状态之间切换</p></div><div style="display:contents" dir="auto"><ul id="2308db55-6aee-8342-b20c-81471a7ad022" class="bulleted-list"><li style="list-style-type:disc">创建状态：实例化了一个新的线程对象，还未启动</li></ul></div><div style="display:contents" dir="auto"><ul id="5c88db55-6aee-83f3-890f-014feafe67d6" class="bulleted-list"><li style="list-style-type:disc">就绪状态：创建好的线程对象调用了start()方法完成启动，进入线程池等待抢占CPU资源</li></ul></div><div style="display:contents" dir="auto"><ul id="7fd8db55-6aee-836a-924b-81481cd5991b" class="bulleted-list"><li style="list-style-type:disc">运行状态：线程对象获取了CPU资源，在规定的时间内执行任务</li></ul></div><div style="display:contents" dir="auto"><ul id="5028db55-6aee-83db-8cc4-013ea2eddf3d" class="bulleted-list"><li style="list-style-type:disc">阻塞状态：正在运行的线程暂时执行任务，释放所占用的CPU资源</li></ul></div><div style="display:contents" dir="auto"><ul id="6bc8db55-6aee-83f8-a027-0183c86884b8" class="bulleted-list"><li style="list-style-type:disc">终止状态：线程运行完成或因为异常导致线程终止运行</li></ul></div><div style="display:contents" dir="auto"><h1 id="7e18db55-6aee-82f5-9173-81a7bf7f23e6" class="">lambda表达式</h1></div><div style="display:contents" dir="auto"><p id="6938db55-6aee-8329-809d-810caf75d23c" class="">函数式编程，将方法的实现作为参数进行传递</p></div><div style="display:contents" dir="auto"><p id="07b8db55-6aee-829f-814b-0162b03ad1ca" class="">可以简化开发</p></div><div style="display:contents" dir="auto"><ol type="1" id="3738db55-6aee-825d-9c6a-01ff0efc375c" class="numbered-list" start="1"><li>通过实现Runnable接口的形式来完成线程的使用，这样需要一个外部类来实现它。</li></ol></div><div style="display:contents" dir="auto"><pre id="3548db55-6aee-8211-a0cb-01dc3aecd354" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class myThread2 extends Thread{
+    @Override
+    public void run() {
+        for (int i = 0; i &lt; 100; i++) {
+            System.out.println(i + &quot;++++++++&quot;);
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="a428db55-6aee-83a4-ba50-0165018bf414" class="numbered-list" start="2"><li>使用<mark class="highlight-orange_background">内部类</mark>来实现</li></ol></div><div style="display:contents" dir="auto"><pre id="b6f8db55-6aee-8299-86c2-01819be51f92" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        myRunnable myRunnable = new myRunnable();
+        Thread thread = new Thread(myRunnable);
+        thread.start();
+    }
+
+    static class myRunnable implements  Runnable {
+        @Override
+        public void run() {
+            for (int i = 0; i &lt; 100; i++) {
+                System.out.println(&quot;------&quot; + i + &quot;------&quot;);
+            }
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="81b8db55-6aee-8265-b92a-010578593395" class="numbered-list" start="3"><li>使用<mark class="highlight-orange_background">匿名内部类</mark>进一步进行简化</li></ol></div><div style="display:contents" dir="auto"><pre id="93b8db55-6aee-83b9-8ce7-816e21077f16" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        myRunnable myRunnable = new myRunnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i &lt; 100; i++) {
+                    System.out.println(&quot;------&quot; + i + &quot;------&quot;);
+                }
+            }
+        };
+        Thread thread = new Thread(myRunnable);
+        thread.start();
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="b548db55-6aee-83ce-8501-019c2dfeb152" class="numbered-list" start="4"><li>函数式编程，使用lambda表达式继续简化传递</li></ol></div><div style="display:contents" dir="auto"><p id="a748db55-6aee-823c-8e24-81de848efd1a" class="">将<mark class="highlight-orange_background"><strong>接口作为参数</strong></mark>传递的场景下，可以使用lambda表达式简化</p></div><div style="display:contents" dir="auto"><pre id="cf88db55-6aee-82af-9a84-013f65457fdb" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        Thread thread  = new Thread(() -&gt; {
+            for (int i = 0; i &lt; 100; i++) {
+                System.out.println(&quot;-----&quot; + i + &quot;-----&quot;);
+            }
+        })start();
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="ac78db55-6aee-834b-950b-01f7b99d0908"/></div><div style="display:contents" dir="auto"><h1 id="0c58db55-6aee-8209-a16d-01de59a5bb8f" class="">线程调度</h1></div><div style="display:contents" dir="auto"><h2 id="eb58db55-6aee-8344-964f-8136eb85d27a" class="">线程休眠</h2></div><div style="display:contents" dir="auto"><p id="fda8db55-6aee-83f8-ad6e-0103eb4cd1e1" class="">休眠是指让当前线程暂停执行，从运行状态进入阻塞状态，从而将CPU资源让给其他线程使用的一种调度方式，通过sleep方法实现(暂时的状态)。</p></div><div style="display:contents" dir="auto"><pre id="e698db55-6aee-82fa-88d1-01663f45aeda" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static void sleep(Duration duration) throws InterruptedException</code></pre></div><div style="display:contents" dir="auto"><pre id="16f8db55-6aee-82d3-93df-811a0f015ff9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        Thread thread  = new Thread(() -&gt; {
+            for (int i = 0; i &lt; 100; i++) {
+                if ( i==5) { // i == 5 时候休眠3秒钟
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                System.out.println(&quot;---------------------&quot; + i + &quot;-----------------&quot;);
+            }
+        });
+        thread.start();
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="df68db55-6aee-8223-920b-017f142f975c" class="">对于继承了Thread类的方法，可以直接调用sleep方法，因为Thread作为父类中有sleep方法</p></div><div style="display:contents" dir="auto"><pre id="ecc8db55-6aee-829e-80c4-017ada538c7b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">sleep(3000);</code></pre></div><div style="display:contents" dir="auto"><p id="7278db55-6aee-8246-8111-01549b48f27d" class="">而如果是使用lambda参数接口，不可以直接调用，只能类调用（sleep是静态方法）</p></div><div style="display:contents" dir="auto"><pre id="bf88db55-6aee-8260-98e3-01502ed35dbf" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Thread.sleep(3000);</code></pre></div><div style="display:contents" dir="auto"><h1 id="d9b8db55-6aee-8289-9c3d-817e9077179c" class="">线程合并</h1></div><div style="display:contents" dir="auto"><p id="63e8db55-6aee-83b0-b8e4-01a24a754eae" class="">合并是指将指定的某个线程加入到当前线程中，合并为一个线程</p></div><div style="display:contents" dir="auto"><p id="e308db55-6aee-83e3-902d-01d2f9b69491" class="">由两个线程交替执行变为一个线程中两个子线程顺序执行，一个线程执行完毕之后再来执行第二个线程，通过join方法来实现合并。</p></div><div style="display:contents" dir="auto"><p id="c358db55-6aee-824b-9318-81dcee7fc3e7" class="">线程甲和线程乙，线程甲再执行到某个时间点的时候，调用线程乙的join()方法，则表示<mark class="highlight-yellow_background">从当前时间节点开始cpu资源被线程</mark><mark class="highlight-yellow_background"><strong>乙独占</strong></mark>，线程甲进入阻塞状态，直到线程乙执行完毕，线程甲继续获取cpu资源执行自己的任务。</p></div><div style="display:contents" dir="auto"><blockquote id="4be8db55-6aee-821c-9992-01970f5326db" class="">谁调用join，将谁合并到对方的线程中</blockquote></div><div style="display:contents" dir="auto"><pre id="3da8db55-6aee-8385-adad-816b7b693882" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        joinRunnable joinRunnable  = new joinRunnable();
+        Thread thread  = new Thread(joinRunnable);
+        thread.start();
+
+        for (int i = 0; i &lt; 100; i++) {
+            if ( i == 10) { // 10之前可能是交替的，之后先执行joinRunnable线程内的方法
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println(&quot;---------------------&quot; + i + &quot;-----------------&quot;);
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="ecb8db55-6aee-83ca-857a-01a7a2ec836c" class="">线程休眠不是设调用sleep就让谁休眠，二十看在哪里调用的，在那个线程中调用sleep方法就让那个方法休眠</p></div><div style="display:contents" dir="auto"><pre id="5c58db55-6aee-82a9-ae20-01021a1b28f5" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        Thread thread  = new Thread(() -&gt; {
+            for (int i = 0; i &lt; 100; i++) {
+                System.out.println(&quot;---------------------&quot; + i + &quot;-----------------&quot;);
+            }
+        });
+        thread.start();
+
+        try {
+            thread.sleep(5000); // 在主线程中调用，所以主线程先休眠
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i &lt; 100; i++) {
+            System.out.println(&quot;XXXXXXXXXXXXXXXXX&quot; + i + &quot;XXXXXXXXXXXXXX&quot;);
+        }
+    }
+}
+
+结果先输出
+&quot;---------------------&quot; + i + &quot;-----------------&quot;
+后输出
+&quot;XXXXXXXXXXXXXXXXX&quot; + i + &quot;XXXXXXXXXXXXXX&quot;</code></pre></div><div style="display:contents" dir="auto"><h2 id="8fa8db55-6aee-838d-ac90-81d3d805b6b5" class="">join() 方法重载</h2></div><div style="display:contents" dir="auto"><p id="3518db55-6aee-83cc-82d3-017fad4dc8d0" class=""><code>join(long millis)</code> </p></div><div style="display:contents" dir="auto"><p id="7d08db55-6aee-82b7-b756-01386b3b8da3" class="">区别？</p></div><div style="display:contents" dir="auto"><p id="06b8db55-6aee-82bc-9f89-810e920d7270" class="">通过join()合并，会一直占用线程，直到线程结束</p></div><div style="display:contents" dir="auto"><p id="7a78db55-6aee-8356-b989-010a31ea7ad5" class="">同各国join(long millis)合并，会根据参数时间来占用，到时间就释放cpu资源，回到争夺cpu资源状态</p></div><div style="display:contents" dir="auto"><h1 id="e308db55-6aee-8319-882e-8110e3fc15e9" class="">线程同步</h1></div><div style="display:contents" dir="auto"><p id="ded8db55-6aee-83c1-82b2-8187bf9390e3" class="">多线程同时访问同一个资源，可能会导致数据不准确的情况出现，所以需要通过线程同步来解决</p></div><div style="display:contents" dir="auto"><pre id="1288db55-6aee-83f4-9330-8145347d7b21" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Account implements Runnable{
+    private  static int num;
+
+    @Override
+    public void run () {
+        num ++;
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(Thread.currentThread().getName() + &quot;是当前的第&quot; + num + &quot;位访客&quot;);
+    }
+}
+加入线程1先抢到cpu资源，这时侯执行num++, num变为1，然后线程1休眠
+1休眠后，2获得资源，num++,num变为2，然后2休眠，
+之后1先醒过来，执行输出，此时输出num=2
+随后2醒过来，执行输出，结果仍然是num=2
+| 如果没有休眠，结果也有可能是错误的，因为cpu资源不一定什么时候交换，可能num++后就交换，导致结果错误</code></pre></div><div style="display:contents" dir="auto"><pre id="3c08db55-6aee-82f9-8d88-81291169b705" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        Account account = new Account();
+        Thread t1 = new Thread(account, &quot;线程1&quot;);
+        Thread t2 = new Thread(account, &quot;线程2&quot;);
+        t1.start();
+        t2.start();
+    }
+}
+结果：
+线程2是当前的第2位访客
+线程1是当前的第2位访客
+或
+线程1是当前的第2位访客
+线程2是当前的第2位访客</code></pre></div><div style="display:contents" dir="auto"><hr id="abd8db55-6aee-8321-b39a-810a4115916c"/></div><div style="display:contents" dir="auto"><p id="04d8db55-6aee-83f1-b7e7-81e0fe68cbf4" class="">同步和异步的区别</p></div><div style="display:contents" dir="auto"><blockquote id="e4f8db55-6aee-8357-8a4c-818522378d5e" class="">同步，指多个线程一个接一个的执行，要排队<br/>异步，指多个线程同时执行</blockquote></div><div style="display:contents" dir="auto"><p id="8328db55-6aee-8389-a0ea-816ed03a1642" class="">通过给目标方法加锁（加关键字<code>synchronized</code>）</p></div><div style="display:contents" dir="auto"><p id="fe88db55-6aee-8364-bfb3-81137221e5bd" class="">synchronized 可以修饰实例方法，也可以修饰静态方法，两者使用上有区别</p></div><div style="display:contents" dir="auto"><pre id="fe88db55-6aee-82a3-8790-015e31a51baa" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main{
+    public static void main(String[] args) {
+        for (int i = 0; i &lt; 5; i++) {
+            Thread thread = new Thread(() -&gt; {
+                Main.test();
+            });
+            thread.start();
+        }
+    }
+
+    public synchronized static  void test() {
+        System.out.println(&quot;start...&quot;);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(&quot;end...&quot;);
+    }
+}
+
+现在是排队的
+如果是
+Main main = new main();
+main.test()
+这样定义的
+public synchronized static void test(){} 不排队 （因为实例化了多份静态test()）
+但是
+public synchronized void test(){} 排队（实例化后只有一份）</code></pre></div><div style="display:contents" dir="auto"><p id="3488db55-6aee-838a-8524-0174348e31d1" class="">关键在于synchronized 锁的是什么</p></div><div style="display:contents" dir="auto"><p id="fd88db55-6aee-83dd-bef4-81d8b88d9b90" class="">判断多个线程是否会实现同步，<mark class="highlight-red"><mark class="highlight-pink_background">看锁定的资源再内存中有几份</mark></mark>，如果只有一份，多线程肯定要排队，如果有多份，则多线程不需要排队，就不会实现同步</p></div><div style="display:contents" dir="auto"><p id="0118db55-6aee-83a9-9b95-017dcc62b483" class="">synchronized 还可以修饰代码块，会为代码块加上锁，从而实现同步</p></div><div style="display:contents" dir="auto"><p id="74d8db55-6aee-8327-aada-814dbaa693ad" class="">包装类常量池有一个可用范围 -128~127，在此区间内常量池可用，同一个数值可以给多个线程使用，超出返回则失效，此时需要单独在堆中创建对应的数据，不是一个对象而是多个对象。</p></div><div style="display:contents" dir="auto"><h1 id="3708db55-6aee-829e-b9b7-81e727191923" class="">线程安全的单例模式</h1></div><div style="display:contents" dir="auto"><p id="6548db55-6aee-8370-94f3-0155207440a0" class="">单例模式，其核心思想是一个类只有一个实例对象</p></div><div style="display:contents" dir="auto"><p id="bce8db55-6aee-82a5-ad8f-01d0c5c90cad" class="">如何实现单例模式</p></div><div style="display:contents" dir="auto"><ol type="1" id="c908db55-6aee-8219-9420-812f3ba3e610" class="numbered-list" start="1"><li>禁止通过构造器来创建对象，如何实现？</li></ol></div><div style="display:contents" dir="auto"><p id="d0b8db55-6aee-831c-94e2-81196b683ca7" class="">如何禁止外部调用构造器，把构造器私有化（封装）</p></div><div style="display:contents" dir="auto"><pre id="e6b8db55-6aee-8210-a8ff-012f290d8a5c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Account {
+	private static Account account;
+	
+	private Account() {
+		System.out.println(&quot;创建了Account对象&quot;);
+	}
+	public synchronized static Account getInstance() {
+		if (account == null) {
+			account = new Account();
+		}
+		return account;
+	}
+}</code></pre></div><div style="display:contents" dir="auto"><blockquote id="9b98db55-6aee-835e-9943-8129c50f91f8" class="">为什么加synchronized ，因为需要确保<mark class="highlight-pink_background">多线程环境下只创建一个实例</mark></blockquote></div><div style="display:contents" dir="auto"><h1 id="5518db55-6aee-83bb-ae0f-817c1dcda659" class="">死锁</h1></div><div style="display:contents" dir="auto"><p id="9de8db55-6aee-8340-9457-813585f30c34" class="">死锁：多个线程因为争夺同一个资源而形成的一种互斥的状态，导致每个线程都无法继续进行，程序一直处于卡顿状态。</p></div><div style="display:contents" dir="auto"><blockquote id="3278db55-6aee-831b-bc10-01ef2e3b197f" class="">例如<br/>A 拿一根筷子1，试图获取筷子2<br/>B 拿一根筷子2，试图获取筷子1<br/>两者谁都不愿意舍弃自己的筷子，导致无法下一步</blockquote></div><div style="display:contents" dir="auto"><p id="5d78db55-6aee-8367-a17d-8195957b173a" class="">程序模拟</p></div><div style="display:contents" dir="auto"><pre id="ccc8db55-6aee-828b-bf72-81b1fcb8f1d9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class DeadLockRunnable implements Runnable {
+	public int num;
+	private static Data data1 = new Data();
+	private static Data data2 = new Data();
+	
+	@Override
+	public void run() {
+		if (num == 1) {
+			System.out.printlne(Thread.currentThread().getName() + &quot;获取1，等待2&quot;);
+			synchronized (data1) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				synchronized (data2) {
+					System.out.printlne(Thread.currentThread().getName() + &quot;获得2，用餐完毕&quot;);
+				}
+			}
+		}
+		
+		if (num == 2) {
+			System.out.printlne(Thread.currentThread().getName() + &quot;获取2，等待1&quot;);
+			synchronized (data2) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				synchronized (data1) {
+					System.out.printlne(Thread.currentThread().getName() + &quot;获得1，用餐完毕&quot;);
+				}
+			}
+		}
+	}
+}</code></pre></div><div style="display:contents" dir="auto"><h1 id="4ab8db55-6aee-8228-a7bf-816ed273caa1" class="">重入锁</h1></div><div style="display:contents" dir="auto"><p id="5cd8db55-6aee-8356-b480-01fcbe0b8b12" class="">ReentrantLock 是对 synchronized的升级，synchronized 是通过JVM实现，ReentrantLock是通过JDK实现（用方法调用的形式来使用）</p></div><div style="display:contents" dir="auto"><p id="7dc8db55-6aee-82e9-9bf9-8140dbe733f6" class="">重入锁的特点是可以重复上锁</p></div><div style="display:contents" dir="auto"><p id="0eb8db55-6aee-8352-b874-81cab973752c" class="">synchronized 是<mark class="highlight-yellow_background">自动上锁，自动解锁</mark>，ReentrantLock是<mark class="highlight-yellow_background">手动上锁，手动解锁</mark></p></div><div style="display:contents" dir="auto"><pre id="0a38db55-6aee-8350-9947-01d251f4bf99" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.concurrent.locks.ReentrantLock;
+
+public class Account implements Runnable{
+    private  static int num;
+    private ReentrantLock reentrantLock  = new ReentrantLock();
+
+    @Override
+    public void run () {
+        reentrantLock.lock();
+        reentrantLock.lock();
+        num ++;
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(Thread.currentThread().getName() + &quot;是当前的第&quot; + num + &quot;位访客&quot;);
+        reentrantLock.unlock();
+        reentrantLock.unlock(); // 上面锁几次，下面就要开锁几次，否则还是锁者的状态
+    }
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="8208db55-6aee-837a-a472-014515a6dfc7" class="">ReentrantLock 具有<mark class="highlight-orange_background">限时性</mark>，指可以判断某个线程在一定时间内能否可以拿到锁（<code>tryLock(long timeout, TimeUnit unit)</code>）</p></div><div style="display:contents" dir="auto"><pre id="b788db55-6aee-83b1-bd74-8190cc06c21c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class TiemLock  implements Runnable{
+    private ReentrantLock reentrantLock = new ReentrantLock();
+
+    @Override
+    public void run() {
+        try {
+            if (reentrantLock.tryLock(3, TimeUnit.SECONDS)) {
+                System.out.println(Thread.currentThread().getName() + &quot;获取到了锁&quot;);
+                Thread.sleep(4000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally  {
+		        if (reentrantLock.isHeldByCurrentThread())
+	            reentrantLock.unlock();
+        }
+    }
+}
+// isHeldByCurrentThread() 锁是否是当前线程所拥有的</code></pre></div><div style="display:contents" dir="auto"><blockquote id="dc98db55-6aee-8394-b12e-817a5b92f9f8" class="">ReentrantLock 比 synchronized 更加灵活</blockquote></div><div style="display:contents" dir="auto"><h1 id="91b8db55-6aee-826c-bff9-81cc00cd83ca" class="">生产者消费模式</h1></div><div style="display:contents" dir="auto"><p id="6be8db55-6aee-82f1-a3ff-01e194799096" class="">多线程协作模式，用于解决两个或多个线程之间数据生产于消费的同步问题。<br/>该模式通过一个共享缓冲区（“队列”）来解耦生产者和消费者，生产者负责生成数据并放入缓冲区，消费者从缓冲区取出数据并进行处理。</p></div><div style="display:contents" dir="auto"><p id="4988db55-6aee-83f8-a83b-8135cfc130ec" class="">当缓冲区满时生产者等待，缓冲区空时消费者等待。</p></div><div style="display:contents" dir="auto"><blockquote id="53d8db55-6aee-835e-924f-8157cddab3b2" class="">需要确保生产者和消费者对缓冲区的互斥访问，以及条件等待（满则等、空则等）。</blockquote></div><div style="display:contents" dir="auto"><p id="2978db55-6aee-82cd-a42e-81802fba9145" class="">如何实现？</p></div><div style="display:contents" dir="auto"><ol type="1" id="46e8db55-6aee-82a2-a240-81ad50e57d6b" class="numbered-list" start="1"><li><strong>使用 </strong><code><strong>synchronized</strong></code><strong> + </strong><code><strong>wait()</strong></code><strong> / </strong><code><strong>notifyAll()</strong></code></li></ol></div><div style="display:contents" dir="auto"><p id="c758db55-6aee-82da-95db-01a9315338d9" class="">生产者满时调用<code>wait()</code> ，消费者空时调用<code>wait()</code>  生产/消费后调用<code>notifyAll()</code> 唤醒所有等待线程</p></div><div style="display:contents" dir="auto"><ul id="d378db55-6aee-8334-bc4c-01fabdf29c6b" class="toggle"><li><details open=""><summary>代码示例</summary><div style="display:contents" dir="auto"><pre id="5e38db55-6aee-83df-b69d-01d1a26248bb" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class ProducerConsumerLock {
+    private static final int CAPACITY = 5;
+    private final Queue&lt;Integer&gt; buffer = new LinkedList&lt;&gt;();
+    private final ReentrantLock lock = new ReentrantLock();
+    private final Condition notFull = lock.newCondition();
+    private final Condition notEmpty = lock.newCondition();
+
+    class Producer implements Runnable {
+        @Override
+        public void run() {
+            int value = 0;
+            while (true) {
+                lock.lock();
+                try {
+                    while (buffer.size() == CAPACITY) {
+                        notFull.await();
+                    }
+                    buffer.offer(value);
+                    System.out.println(&quot;Produced: &quot; + value);
+                    value++;
+                    notEmpty.signal(); // 唤醒一个消费者
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                } finally {
+                    lock.unlock();
+                }
+                try { Thread.sleep(500); } catch (InterruptedException e) { break; }
+            }
+        }
+    }
+
+    class Consumer implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                lock.lock();
+                try {
+                    while (buffer.isEmpty()) {
+                        notEmpty.await();
+                    }
+                    int value = buffer.poll();
+                    System.out.println(&quot;Consumed: &quot; + value);
+                    notFull.signal(); // 唤醒一个生产者
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                } finally {
+                    lock.unlock();
+                }
+                try { Thread.sleep(1000); } catch (InterruptedException e) { break; }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ProducerConsumerLock demo = new ProducerConsumerLock();
+        Thread producer = new Thread(demo.new Producer());
+        Thread consumer = new Thread(demo.new Consumer());
+        producer.start();
+        consumer.start();
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4af8db55-6aee-83be-a466-0198675ef876" class="toggle"><li><details open=""><summary>注意</summary><div style="display:contents" dir="auto"><ul id="6f08db55-6aee-8251-8257-812eb9940040" class="bulleted-list"><li style="list-style-type:disc">必须使用 <code>while</code> 循环检查条件，而非 <code>if</code>，避免虚假唤醒（spurious wakeup）。</li></ul></div><div style="display:contents" dir="auto"><ul id="9678db55-6aee-82de-be93-01e40d005a48" class="bulleted-list"><li style="list-style-type:disc"><code>notifyAll()</code> 会唤醒所有等待线程，可能造成性能浪费，但比 <code>notify()</code> 更安全（避免只唤醒同类线程导致死锁）。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="c618db55-6aee-830c-962a-815432457fea"/></div><div style="display:contents" dir="auto"><ol type="1" id="46d8db55-6aee-836c-861c-812d6802fb73" class="numbered-list" start="2"><li><strong>使用 </strong><code><strong>ReentrantLock</strong></code><strong> + </strong><code><strong>Condition</strong></code></li></ol></div><div style="display:contents" dir="auto"><p id="5998db55-6aee-82f6-aeb8-8148e642109f" class=""><code>Lock</code> 接口提供了更灵活的锁机制，<code>Condition</code> 可以分别管理生产者等待和消费者等待</p></div><div style="display:contents" dir="auto"><p id="84e8db55-6aee-822b-8338-01c0eee239df" class=""><strong>优势</strong>：可以精确唤醒生产者或消费者，避免 <code>notifyAll()</code> 带来的性能损耗。</p></div><div style="display:contents" dir="auto"><ul id="5d38db55-6aee-83fc-980e-01816d1fdbea" class="toggle"><li><details open=""><summary>代码示例</summary><div style="display:contents" dir="auto"><pre id="53b8db55-6aee-83ca-a5e5-012212bfd720" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">```java
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class ProducerConsumerLock {
+    private static final int CAPACITY = 5;
+    private final Queue&lt;Integer&gt; buffer = new LinkedList&lt;&gt;();
+    private final ReentrantLock lock = new ReentrantLock();
+    private final Condition notFull = lock.newCondition();
+    private final Condition notEmpty = lock.newCondition();
+
+    class Producer implements Runnable {
+        @Override
+        public void run() {
+            int value = 0;
+            while (true) {
+                lock.lock();
+                try {
+                    while (buffer.size() == CAPACITY) {
+                        notFull.await();
+                    }
+                    buffer.offer(value);
+                    System.out.println(&quot;Produced: &quot; + value);
+                    value++;
+                    notEmpty.signal(); // 唤醒一个消费者
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                } finally {
+                    lock.unlock();
+                }
+                try { Thread.sleep(500); } catch (InterruptedException e) { break; }
+            }
+        }
+    }
+
+    class Consumer implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                lock.lock();
+                try {
+                    while (buffer.isEmpty()) {
+                        notEmpty.await();
+                    }
+                    int value = buffer.poll();
+                    System.out.println(&quot;Consumed: &quot; + value);
+                    notFull.signal(); // 唤醒一个生产者
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                } finally {
+                    lock.unlock();
+                }
+                try { Thread.sleep(1000); } catch (InterruptedException e) { break; }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ProducerConsumerLock demo = new ProducerConsumerLock();
+        Thread producer = new Thread(demo.new Producer());
+        Thread consumer = new Thread(demo.new Consumer());
+        producer.start();
+        consumer.start();
+    }
+}
+```</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="10f8db55-6aee-830f-9d1a-01744cf520c6"/></div><div style="display:contents" dir="auto"><hr id="2248db55-6aee-8215-afd0-81b687e1a176"/></div><div style="display:contents" dir="auto"><h1 id="8798db55-6aee-8293-bf49-810ab0731301" class="">Sleep和Wait的区别</h1></div><div style="display:contents" dir="auto"><p id="69e8db55-6aee-8378-8284-815771875c3b" class="">sleep和wait的功能类似，都是让线程暂停执行任务</p></div><div style="display:contents" dir="auto"><p id="3008db55-6aee-8215-9ebe-8174d2762770" class="">sleep是 Thread类 提供的方法，wait是Object类提供的方法</p></div><div style="display:contents" dir="auto"><p id="fd98db55-6aee-82c1-a81d-81f4f4ace7d3" class="">sleep是直接作用于<mark class="highlight-yellow_background">线程对象本身</mark>，wait作用于线程正在<mark class="highlight-yellow_background">访问的资源</mark></p></div><div style="display:contents" dir="auto"><blockquote id="d418db55-6aee-83a9-a3ec-01d1db375784" class="">调用A对象的wait：让当前正在访问A对象的线程休眠，同时它有一个前提，当线程必须拥有A对象，所以wait方法<mark class="highlight-pink_background">只能在同步(synchronized)方法或同步代</mark>码块中调用，否则会有异常</blockquote></div><div style="display:contents" dir="auto"><blockquote id="f348db55-6aee-824d-9fc7-01d3199b6c27" class="">wait会释放锁，sleep不会释放锁</blockquote></div><div style="display:contents" dir="auto"><pre id="2148db55-6aee-82de-9494-814c415e2b2e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.concurrent.TimeUnit;
+
+public class Main{
+    public static void main(String[] args) {
+
+        A a = new A();
+        new Thread(() -&gt; {
+            for (int i = 0; i &lt; 10; i++) {
+                a.test(i);
+            }
+        }).start();
+    }
+}
+
+class A {
+    public synchronized void test(int i) {
+        if ( i ==5) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(i + &quot;-1111111111111111&quot;);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><blockquote id="d858db55-6aee-83a0-9a20-01459df4bf02" class="">i == 5，调用A的wait方法，会让正在访问A的线程休眠，并且永久不会解除阻塞。</blockquote></div><div style="display:contents" dir="auto"><p id="5d78db55-6aee-82da-9972-011c90f710ef" class="">如何让线程解除阻塞？</p></div><div style="display:contents" dir="auto"><ol type="1" id="7708db55-6aee-8384-bcfd-0108276088a5" class="numbered-list" start="1"><li>指定wait的时间，<code>wait(long millis) </code>，millis之后会自动解除阻塞，类似sleep<div style="display:contents" dir="auto"><p id="d6f8db55-6aee-8219-8c3f-813c8d8919df" class="">wait → object</p></div><div style="display:contents" dir="auto"><p id="70c8db55-6aee-8232-8140-017e7dd94a70" class="">A → object</p></div><div style="display:contents" dir="auto"><p id="2a08db55-6aee-82f0-b20e-0115fb221b0c" class="">所以A中有wait</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1c38db55-6aee-83c9-b049-01d8e7910b20" class="numbered-list" start="2"><li>通过notify方法唤醒线程<div style="display:contents" dir="auto"><pre id="a838db55-6aee-83a3-a2c6-81a3f724f699" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public synchronized void test2() { // 解除阻塞
+    this.notify();
+}</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-82af-92e2-81abe79c6c40" class="">Synchronized锁定的是谁</h1></div><div style="display:contents" dir="auto"><blockquote id="53c8db55-6aee-8368-bc4b-81bf1a01876d" class="">如果修饰非静态方法，则锁的是方法的调用者</blockquote></div><div style="display:contents" dir="auto"><p id="0418db55-6aee-8239-872e-01eda2e964a9" class="">当 <code>synchronized</code> 修饰静态方法和实例方法时，它们使用的锁是不同的：</p></div><div style="display:contents" dir="auto"><ul id="7bf8db55-6aee-829d-b988-813d94b97324" class="bulleted-list"><li style="list-style-type:disc"><strong>静态方法</strong>：锁的是类的 <code>Class</code> 对象（全局唯一）。</li></ul></div><div style="display:contents" dir="auto"><ul id="cee8db55-6aee-830f-b96f-81220112a954" class="bulleted-list"><li style="list-style-type:disc"><strong>实例方法</strong>：锁的是当前实例对象（每个实例有自己的锁）。</li></ul></div><div style="display:contents" dir="auto"><p id="bc58db55-6aee-82e8-9950-8122bda2a777" class="">因此，<strong>静态同步方法与实例同步方法不会互相阻塞</strong>，因为锁的对象不同。下面通过一个简单例子演示这一点</p></div><div style="display:contents" dir="auto"><ul id="ff08db55-6aee-82f5-aa99-015acda2f4e2" class="toggle"><li><details open=""><summary>例子</summary><div style="display:contents" dir="auto"><pre id="e428db55-6aee-83a5-bd60-01447826283e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class SyncDemo {
+
+    // 静态同步方法，锁住 SyncDemo.class
+    public static synchronized void staticMethod() {
+        System.out.println(Thread.currentThread().getName() + &quot; 进入静态方法&quot;);
+        try {
+            Thread.sleep(2000); // 模拟耗时操作
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread().getName() + &quot; 离开静态方法&quot;);
+    }
+
+    // 实例同步方法，锁住当前对象 this
+    public synchronized void instanceMethod() {
+        System.out.println(Thread.currentThread().getName() + &quot; 进入实例方法&quot;);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread().getName() + &quot; 离开实例方法&quot;);
+    }
+
+    public static void main(String[] args) {
+        SyncDemo obj = new SyncDemo();
+
+        // 线程1：调用静态方法
+        Thread t1 = new Thread(() -&gt; {
+            SyncDemo.staticMethod();
+        }, &quot;Thread-1&quot;);
+
+        // 线程2：调用同一个对象的实例方法
+        Thread t2 = new Thread(() -&gt; {
+            obj.instanceMethod();
+        }, &quot;Thread-2&quot;);
+
+        t1.start();
+        t2.start();
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="2be8db55-6aee-83ee-a648-818adb5cdb47" class="">解释：</p></div><div style="display:contents" dir="auto"><ul id="1638db55-6aee-83e3-907d-8138b3433f1d" class="bulleted-list"><li style="list-style-type:disc"><code>staticMethod()</code> 使用类锁（<code>SyncDemo.class</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="8998db55-6aee-8396-8836-81523817daca" class="bulleted-list"><li style="list-style-type:disc"><code>instanceMethod()</code> 使用对象锁（<code>obj</code> 实例）。</li></ul></div><div style="display:contents" dir="auto"><ul id="f578db55-6aee-8351-a05c-015e23470224" class="bulleted-list"><li style="list-style-type:disc">两个锁互不干扰，因此线程1和线程2可以并发执行各自的方法。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="8a98db55-6aee-83fb-8480-814587e086c2"/></div><div style="display:contents" dir="auto"><p id="eeb8db55-6aee-83b9-a08e-01b8485adec6" class="">首先判断方法<mark class="highlight-yellow_background">是否添加了synchronized关键：</mark></p></div><div style="display:contents" dir="auto"><p id="6d58db55-6aee-82d4-88fb-8107f8b39fd8" class="">如果没有添加，则不需要考虑线程同步的问题，</p></div><div style="display:contents" dir="auto"><p id="a818db55-6aee-836f-a4c9-818510c7e522" class="">如果添加了，则需要考虑线程同步的问题。</p></div><div style="display:contents" dir="auto"><p id="1ec8db55-6aee-83ab-be8b-81b5ddf845e4" class="">看当前<mark class="highlight-yellow_background">锁定的资源在内存中有几份：</mark></p></div><div style="display:contents" dir="auto"><p id="cc28db55-6aee-82a9-ac56-81a743ce771a" class="">如果只有一份，则多个线程会同步，</p></div><div style="display:contents" dir="auto"><p id="32e8db55-6aee-82d7-ada8-8144414e9d8b" class="">如果有多份，则多个线程不需要同步。</p></div><div style="display:contents" dir="auto"><h1 id="0ed8db55-6aee-83c4-9a6d-817565ad3ed4" class="">ConcurrentModificationException并发修改异常</h1></div><div style="display:contents" dir="auto"><p id="8e08db55-6aee-82d7-ac9e-01f624659e2f" class="">并发中多个线程对同一个资源进行修改, 如下代码可能会报错：</p></div><div style="display:contents" dir="auto"><pre id="0bf8db55-6aee-8302-9854-81ef41cf408f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) {
+        List&lt;String&gt; list = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; 10; i++) {
+            new Thread(()-&gt; {
+                try {
+                    TimeUnit.MILLISECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                list.add(&quot;a&quot;);
+                System.out.println(list);
+            }).start();
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="51d8db55-6aee-82bd-89fc-81784d519134" class="">ArrayList是线程不安全的集合，当多个线程同时操作集合时，会出现数据不准确的情况。</p></div><div style="display:contents" dir="auto"><p id="56f8db55-6aee-82f4-8799-0165c165cfdc" class="">如何解决？</p></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-82ea-a4e5-81ae5d54934d" class="numbered-list" start="1"><li>将ArrayList替换成线程安全的集合Vector<div style="display:contents" dir="auto"><pre id="db38db55-6aee-8234-9055-81966d31cab7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;String&gt; list = new vector&lt;&gt;();</code></pre></div><div style="display:contents" dir="auto"><p id="3308db55-6aee-8226-b7e1-81c4d4638e7f" class="">但是效率比较低</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="be18db55-6aee-82b1-8be4-01f613b2af38" class="numbered-list" start="2"><li>Collections.suychronizedList<div style="display:contents" dir="auto"><pre id="9638db55-6aee-835d-8c7d-0106268e53a6" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;String&gt; list = new Collections.suychronizedList(new ArrayList&lt;&gt;());</code></pre></div><div style="display:contents" dir="auto"><p id="bfc8db55-6aee-82d0-b5ef-81a4408b1455" class="">比vector效率稍微高一点</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2b08db55-6aee-82e1-b976-8178e3fe248e" class="numbered-list" start="3"><li>JUC工具类CopyOnWriteArrayList<div style="display:contents" dir="auto"><p id="bb28db55-6aee-83db-ae11-8193b4fa8d38" class="">java.util.concurrent包</p></div><div style="display:contents" dir="auto"><pre id="3bb8db55-6aee-83a3-a492-818a125a7aa7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;String&gt; list = new CopyOnWriteArrayList&lt;&gt;();</code></pre></div><div style="display:contents" dir="auto"><p id="8bd8db55-6aee-83be-9bc9-014c1f7ed784" class="">CopyOnWrite写时赋值，当我们往一个容器中添加元素的时候，不直接往当前容器中添加，而是当前容器进行赋值，向新容器中添加元素，添加完成之后，再将原容器的引用指向新容器。</p></div><div style="display:contents" dir="auto"><pre id="e438db55-6aee-8289-a00f-01c57ddd720b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public boolean add(E e) {
+	final ReentrantLock lock = this.lock;
+	lock.lock();
+	try {
+		Object[] elements = getArray();
+		int len = elements.length;
+		Object[] newElements = Arrays.copyOf(elements, len+1);
+		newElements[len] = e;
+		return true;
+	} finally {
+		lock.unlock();
+	}
+}</code></pre></div><div style="display:contents" dir="auto"><p id="0148db55-6aee-8281-9f32-0154ae035289" class="">可以对CopyWrite容器进行并发的读，而不需要加锁，因为当前容器不会添加任何元素，添加元素都是针对复制出来的新集合进行操作，所以CopyOnWrite容器也是一种读写分离的死想，读和写操作的 是不同的容器。</p></div></li></ol></div><div style="display:contents" dir="auto"><hr id="9208db55-6aee-8207-8fb3-814845781d76"/></div><div style="display:contents" dir="auto"><hr id="9638db55-6aee-8265-b862-016ae7ba0d90"/></div><div style="display:contents" dir="auto"><hr id="a988db55-6aee-83c0-ae2f-01152ec03dc2"/></div><div style="display:contents" dir="auto"><hr id="1978db55-6aee-83bf-ae00-810239ad4d70"/></div><div style="display:contents" dir="auto"><hr id="d188db55-6aee-8326-8f48-811542fa3a60"/></div><div style="display:contents" dir="auto"><hr id="1ad8db55-6aee-829c-97c8-015a46c72ce4"/></div><div style="display:contents" dir="auto"><h1 id="1d88db55-6aee-8241-a0da-01f722f2e5e5" class="">JUC并发编程工具包</h1></div><div style="display:contents" dir="auto"><h1 id="2f48db55-6aee-83b3-a265-017dc1f41351" class="">CountDownLatch</h1></div><div style="display:contents" dir="auto"><p id="6738db55-6aee-823c-80b3-01b72560dda8" class="">减法计数器，JUC的工具类，可以用来倒计时，当两个线程同时执行时候，如果我们要确保一个线程优先执行。设置一个计数器，当计数器清零的时候再执行另一个。</p></div><div style="display:contents" dir="auto"><pre id="6ef8db55-6aee-82a4-a90b-0141bf553cb9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.concurrent.CountDownLatch;
+public class Main {
+    public static void main(String[] args) {
+		    // 计数器为100，即为执行100次计数
+        CountDownLatch countDownLatch = new CountDownLatch(100); 
+        new Thread(() -&gt; {
+            for (int i = 0; i &lt; 100; i++) {
+                System.out.println(&quot;thread-----&quot; + i);
+                countDownLatch.countDown();
+            }
+        }).start();
+
+        try {
+            // 计数器等待，计数器才会起作用
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (int i = 0; i &lt; 100; i++) {
+            System.out.println(&quot;main+++++&quot; + i);
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><blockquote id="4f38db55-6aee-8251-b1dd-0171cf567e9e" class="">如果计数器上的计数小于实际次数，再计数内是正常的，之后就是交替争夺cpu资源状态</blockquote></div><div style="display:contents" dir="auto"><blockquote id="5ce8db55-6aee-82f7-98b0-014763fc1f61" class="">如果i计数器上的计数大于实际次数，导致计数无法减为0，实际次数执行完毕后，程序阻塞</blockquote></div><div style="display:contents" dir="auto"><hr id="8648db55-6aee-8339-9788-813fb7a0a0bd"/></div><div style="display:contents" dir="auto"><h1 id="9278db55-6aee-82ec-b359-019e1e705fb1" class="">CyclicBarrier</h1></div><div style="display:contents" dir="auto"><p id="3af8db55-6aee-83df-aaf0-818bc6e3d9f6" class="">加法计数器，从0开始加，与 CountDownLatch 相反</p></div><div style="display:contents" dir="auto"><p id="6038db55-6aee-82ea-afae-01bc20606309" class="">当调回线程执行指定次数后，执行第二个参数的方法（第二个参数为函数）</p></div><div style="display:contents" dir="auto"><pre id="dd68db55-6aee-8220-b1df-01903af2d2d0" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.concurrent.*;
+public class Main {
+    public static void main(String[] args) {
+		    // 指定线程执行10次之后执行第二个lambda方法
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(10, ()-&gt; {
+            System.out.println(&quot;放行&quot;);
+        });
+
+        for (int i = 0; i &lt; 10; i++) {
+            final int temp = i;
+            new Thread(() -&gt; {
+                System.out.println(&quot;--&gt;&quot; + temp);
+
+                try {
+                    cyclicBarrier.await();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                } catch (BrokenBarrierException e) {
+                    throw new RuntimeException(e);
+                }
+            }).start();
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="8df8db55-6aee-83b2-8b87-013d16a7a60a"/></div><div style="display:contents" dir="auto"><h1 id="adc8db55-6aee-8244-ac9e-01f70437a0c9" class="">Semaphore</h1></div><div style="display:contents" dir="auto"><p id="2d68db55-6aee-83f6-926b-01df47759436" class="">计数信号量，实际开发中主要用来完成限流操作，即限制可以访问某些资源的线程数量。</p></div><div style="display:contents" dir="auto"><ul id="0f58db55-6aee-831e-8206-01a07f38cb5e" class="bulleted-list"><li style="list-style-type:disc">初始化</li></ul></div><div style="display:contents" dir="auto"><ul id="64e8db55-6aee-8301-939b-81bd63dce9ce" class="bulleted-list"><li style="list-style-type:disc">获得许可</li></ul></div><div style="display:contents" dir="auto"><ul id="1fa8db55-6aee-826b-9e19-018da04cca41" class="bulleted-list"><li style="list-style-type:disc">释放</li></ul></div><div style="display:contents" dir="auto"><pre id="1558db55-6aee-8324-8d0c-81f2748865f2" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.concurrent.*;
+public class Main {
+    public static void main(String[] args) {
+        // 每次只许可5个人
+        Semaphore semaphore = new Semaphore(5);
+        for (int i = 0; i &lt; 15; i++) {
+            new Thread(() -&gt; {
+                try {
+                    // 确认请求
+                    semaphore.acquire();
+                    System.out.println(Thread.currentThread().getName() + &quot;进店购物&quot;);
+                    TimeUnit.SECONDS.sleep(2);
+                    System.out.println(Thread.currentThread().getName() + &quot;出店&quot;);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                } finally {
+                    // 释放资源
+                    semaphore.release();
+                }
+            },String.valueOf(i)).start();
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><blockquote id="a158db55-6aee-8209-843b-811d743d4dd2" class="">可以小于5个但最多只能同时许可5个</blockquote></div><div style="display:contents" dir="auto"><hr id="ef38db55-6aee-8212-b4af-018cd9d9f80e"/></div><div style="display:contents" dir="auto"><h1 id="db48db55-6aee-8226-bde6-010806bf5607" class="">读写锁</h1></div><div style="display:contents" dir="auto"><p id="cbe8db55-6aee-8367-be70-01e16e1857b3" class="">接口 ReadWriteLock， 实现类 ReentranReadWriteLock，可以多线程同时读，但是同一时间只能有一个进程操作。</p></div><div style="display:contents" dir="auto"><p id="ff88db55-6aee-8254-9d72-8158b0608e74" class="">读写锁功能也是为了实现线程同步，只不过粒度更精细，可以分贝给读和写操作设置不同的锁机制。</p></div><div style="display:contents" dir="auto"><pre id="82b8db55-6aee-8251-af1e-81a224dafb38" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        Cache cache = new Cache();
+        for (int i = 0; i &lt; 5; i++) {
+            final int temp = i;
+            new Thread(() -&gt; {
+                cache.write(temp, String.valueOf(temp));
+            }).start();
+        }
+
+        for (int i = 0; i &lt; 5; i++) {
+            final int temp = i;
+            new Thread(() -&gt; {
+                cache.read(temp);
+            }).start();
+        }
+    }
+}
+
+class Cache {
+    private Map&lt;Integer, String&gt; map= new  HashMap&lt;&gt; ();
+    ReadWriteLock lock = new ReentrantReadWriteLock();
+
+
+    // 写操作
+    public void write(Integer key, String value) {
+        lock.writeLock().lock(); // 添加写锁
+        System.out.println(key + &quot;--开始写入&quot;);
+        map.put(key, value);
+        System.out.println(key + &quot;--写入完毕&quot;);
+        lock.writeLock().unlock(); // 写完解除锁
+    }
+
+    // 读操作
+    public void read( Integer key) {
+        lock.readLock().lock(); // 读锁
+        System.out.println(key + &quot;开始读取&quot;);
+        map.get(key);
+        System.out.println(key + &quot;读取结束&quot;);
+        lock.readLock().unlock(); // 解除
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="d8f8db55-6aee-8355-b260-81ee1e3356df"/></div><div style="display:contents" dir="auto"><h1 id="7318db55-6aee-83cd-94ce-012cf7dc09b9" class="">线程池</h1></div><div style="display:contents" dir="auto"><p id="2308db55-6aee-8374-9ae7-01fa5495fc76" class="">线程池是一种缓冲机制，预先创建好一定数量的线程对象，存入缓冲池，需要用的时候直接从缓冲池中取出来，用完之后不销毁，还回到线程池中，供下一次任务使用。</p></div><div style="display:contents" dir="auto"><blockquote id="6188db55-6aee-8370-9c79-01f160c5b0c3" class="">优点：可以提高线程的利用率，提高响应速度，便于统一管理线程对象，可以控制最大并发量</blockquote></div><div style="display:contents" dir="auto"><p id="82f8db55-6aee-8383-9909-01b38188cf6b" class="">工作流程：</p></div><div style="display:contents" dir="auto"><ul id="8058db55-6aee-837d-98a5-01213c3c0d3f" class="bulleted-list"><li style="list-style-type:disc">初始化线程池，创建默认数量的线程对象</li></ul></div><div style="display:contents" dir="auto"><ul id="99c8db55-6aee-82d7-9ae6-818c1a3291f0" class="bulleted-list"><li style="list-style-type:disc">当任务过多的时候，额外补充线程数量</li></ul></div><div style="display:contents" dir="auto"><ul id="2468db55-6aee-8386-b382-81329b58310c" class="bulleted-list"><li style="list-style-type:disc">任务趋于正常时候，额外补充的线程会自动销毁</li></ul></div><div style="display:contents" dir="auto"><p id="2e38db55-6aee-836c-a2b4-81dbb41ef942" class="">初始化线程数量</p></div><div style="display:contents" dir="auto"><p id="ceb8db55-6aee-82d0-80e2-81366b04425f" class="">最大线程数量（任务过多的时候开启，任务少的时候销毁）</p></div><div style="display:contents" dir="auto"><p id="f178db55-6aee-82fd-9d11-8155b566726c" class="">线程池的实现有三种方式（这三种局限性很大，实际开发中不会用）</p></div><div style="display:contents" dir="auto"><pre id="16e8db55-6aee-83a0-9476-81f070f64747" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+    // 单例线程池，只有一个线程对象
+//        ExecutorService executorService  = Executors.newSingleThreadExecutor();
+//        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        for (int i = 0; i &lt; 100; i++) {
+            final int temp = i;
+            executorService.execute(() -&gt; {
+                System.out.println(Thread.currentThread().getName() + &quot;-----&quot; + temp);
+            });
+        }
+        executorService.shutdown();
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><blockquote id="b458db55-6aee-83f6-8759-0111bc8efbdd" class="">实际开发中使用自定义线程池</blockquote></div><div style="display:contents" dir="auto"><pre id="b1e8db55-6aee-83e0-90f0-81ba17047ff9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">newSingleThreadExecutor()方法: 
+public static ExecutorService newSingleThreadExecutor(ThreadFactory threadFactory) {
+    return new AutoShutdownDelegatedExecutorService
+        (new ThreadPoolExecutor(1, 1,
+                                0L, TimeUnit.MILLISECONDS,
+                                new LinkedBlockingQueue&lt;Runnable&gt;(),
+                                threadFactory));
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="08d8db55-6aee-83cf-a5aa-81c472af0dfd" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">newFixedThreadPool(10)方法:
+public ThreadPoolExecutor(int corePoolSize,
+                          int maximumPoolSize,
+                          long keepAliveTime,
+                          TimeUnit unit,
+                          BlockingQueue&lt;Runnable&gt; workQueue) {
+    this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
+         Executors.defaultThreadFactory(), defaultHandler);
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="a298db55-6aee-8219-80f5-816f56269261" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">newCachedThreadPool()方法:
+public ThreadPoolExecutor(int corePoolSize,
+                          int maximumPoolSize,
+                          long keepAliveTime,
+                          TimeUnit unit,
+                          BlockingQueue&lt;Runnable&gt; workQueue) {
+    this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
+         Executors.defaultThreadFactory(), defaultHandler);
+}</code></pre></div><div style="display:contents" dir="auto"><blockquote id="a838db55-6aee-83e7-9d57-01ebe8732d00" class="">ThreadPoolExecutor 是线程池的原生类</blockquote></div><div style="display:contents" dir="auto"><p id="2518db55-6aee-836b-992a-0125345d157b" class="">核心参数：</p></div><div style="display:contents" dir="auto"><ul id="9318db55-6aee-825f-9714-01357f2cacc7" class="bulleted-list"><li style="list-style-type:disc">corePoolSize：核心池大小</li></ul></div><div style="display:contents" dir="auto"><ul id="9698db55-6aee-8279-b22b-016a1f5f9193" class="bulleted-list"><li style="list-style-type:disc">maximumPoolSize：线程池最大线程数</li></ul></div><div style="display:contents" dir="auto"><ul id="e348db55-6aee-826b-adb9-014985b1000b" class="bulleted-list"><li style="list-style-type:disc">keepAliveTime：闲居线程的存活时间</li></ul></div><div style="display:contents" dir="auto"><ul id="3ea8db55-6aee-8358-acea-813328adf868" class="bulleted-list"><li style="list-style-type:disc">unit：时间单位</li></ul></div><div style="display:contents" dir="auto"><ul id="8848db55-6aee-836c-8eee-011c6f2ed0c8" class="bulleted-list"><li style="list-style-type:disc">workQueue：阻塞队列</li></ul></div><div style="display:contents" dir="auto"><ul id="2b18db55-6aee-82b4-9c28-01d7a5a8fac7" class="bulleted-list"><li style="list-style-type:disc">threadFactory：线程工厂</li></ul></div><div style="display:contents" dir="auto"><ul id="39f8db55-6aee-8348-8427-016adec7d8ba" class="bulleted-list"><li style="list-style-type:disc">handler：线程拒绝策略</li></ul></div><div style="display:contents" dir="auto"><hr id="b3a8db55-6aee-8314-8101-016388c39a90"/></div><div style="display:contents" dir="auto"><h1 id="8378db55-6aee-8333-98ab-01f8d9d6d261" class="">ForkJoin框架</h1></div><div style="display:contents" dir="auto"><p id="8c28db55-6aee-8261-ba4e-81659ce11713" class="">多线程并发处理框架（JDK1.7 之后），本质上是对线程池的一种补充，</p></div><div style="display:contents" dir="auto"><p id="c788db55-6aee-839a-9c56-0127ce280174" class="">核心思想是将一个大型任务拆分成多个小任务，小任务处理后结果合并汇总成总结果。</p></div><div style="display:contents" dir="auto"><blockquote id="a2f8db55-6aee-8357-8619-8109554e65cd" class="">本质：多个任务 + 多个线程</blockquote></div><div style="display:contents" dir="auto"><ul id="3658db55-6aee-83b3-8d51-01a20ea3567e" class="bulleted-list"><li style="list-style-type:disc">ForkJoinTask 表示任务</li></ul></div><div style="display:contents" dir="auto"><ul id="f968db55-6aee-823b-9c89-8188a840a868" class="bulleted-list"><li style="list-style-type:disc">ForkJoinPool 表示线程（线程池的一种扩展）</li></ul></div><div style="display:contents" dir="auto"><hr id="a618db55-6aee-834d-982d-81786bf86fca"/></div><div style="display:contents" dir="auto"><h2 id="22e8db55-6aee-8393-8162-01d01640985c" class="">递归</h2></div><div style="display:contents" dir="auto"><p id="4388db55-6aee-8204-8ab8-01859b7077c4" class="">什么是递归？ 函数直接或间接调用函数本身。递推公式</p></div><div style="display:contents" dir="auto"><figure id="cdd8db55-6aee-82d0-821c-010c9c15bc18" class="equation"><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo>=</mo><mi>f</mi><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>+</mo><mn>1</mn><mo separator="true">,</mo><mi>f</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">f(n) = f(n-1) + 1,f(1)=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></span></div></figure></div><div style="display:contents" dir="auto"><p id="a758db55-6aee-8320-8e66-013cdd2e6f0c" class="">递归需要满足三个条件：</p></div><div style="display:contents" dir="auto"><ol type="1" id="9298db55-6aee-8280-bcd7-016c5d6b9ef0" class="numbered-list" start="1"><li>一个父问题可以拆分为若干个子问题，并且若干个子问题的结果汇总起来就是父问题的结果</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="d0c8db55-6aee-8341-a383-01ce8d4fa0f3" class="numbered-list" start="2"><li>父亲问题和子问题，解题思路完全一致，只是数据规模不同</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="54e8db55-6aee-8318-877d-01fe9d2e5318" class="numbered-list" start="3"><li>存在终止条件</li></ol></div><div style="display:contents" dir="auto"><hr id="3ce8db55-6aee-833a-a8e6-8178bb4e9c7c"/></div><div style="display:contents" dir="auto"><ol type="1" id="4e48db55-6aee-82f1-b462-0187abd18a3e" class="numbered-list" start="1"><li>创建一个ForkJoinTask任务，ForkJoinTask是一个抽象类，需要创建一个类来继承ForkJoinTask子子RecursiveTask，实现抽象方法compute，拆分的逻辑就写在compute方法中。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ca68db55-6aee-833f-aa3d-018a38f82257" class="numbered-list" start="2"><li>任务要通过ForkJoinPool来执行，将任务直接放入ForkJoinPool中，直接获取结果即可。</li></ol></div><div style="display:contents" dir="auto"><p id="8378db55-6aee-8261-9d6c-814fc27f4fa5" class="">比如：计算0 ~ 20亿数字相加之和 (框架使用)</p></div><div style="display:contents" dir="auto"><pre id="68e8db55-6aee-8232-985f-8111cc52706a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.concurrent.RecursiveTask;
+
+public class ForkJoinDemo extends RecursiveTask&lt;Long&gt; {
+    private final long start;
+    private final long end;
+    private static final long THRESHOLD = 1_000_000L;
+
+    public ForkJoinDemo(long start, long end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    @Override
+    protected Long compute() {
+        if (end - start &lt;= THRESHOLD) {
+            long sum = 0L;
+            for (long i = start; i &lt; end; i++) {
+                sum += i;
+            }
+            return sum;
+        } else {
+            long mid = (start + end) &gt;&gt;&gt; 1; // 使用无符号右移防止溢出
+            ForkJoinDemo left = new ForkJoinDemo(start, mid);
+            ForkJoinDemo right = new ForkJoinDemo(mid, end); // 左闭右开，mid 交给右任务
+            left.fork();// 将左子任务异步提交到线程池
+            return right.compute() + left.join();// 当前线程直接执行右子任务，然后等待左子任务结果
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="bdb8db55-6aee-83e8-8b47-019a33ea8816" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        Long  sum = 0L;
+        Long startTime = System.currentTimeMillis();
+//        for (int i = 0; i &lt; 20_0000_0000L; i++) {
+//            sum += i;
+//        }
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        ForkJoinTask&lt;Long&gt; task = new ForkJoinDemo(0L, 20_0000_0000L);
+        forkJoinPool.execute(task); // 结果比直接使用for快百倍
+        try {
+            sum = task.get();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        Long endTime = System.currentTimeMillis();
+        System.out.println(sum + &quot;总耗时 = &quot; + (endTime - startTime) + &quot;mm&quot;);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><h1 id="2a18db55-6aee-822f-989a-0167d1fef680" class="">Volatile关键字</h1></div><div style="display:contents" dir="auto"><p id="1b58db55-6aee-83a5-9938-814105e95aa7" class="">是一种由Java虚拟机提供的<mark class="highlight-pink_background">轻量级同步机制，</mark>保证共享变量的<mark class="highlight-pink_background">可见性</mark>和<mark class="highlight-pink_background">有序性，但不保证原子性</mark></p></div><div style="display:contents" dir="auto"><p id="4a88db55-6aee-8372-bd1f-81edbd815dee" class="">当一个线程修改了 <code>volatile</code> 变量的值，新值会<mark class="highlight-red"><strong>立即被写回主内存</strong></mark>，其他线程读取该变量时，会<mark class="highlight-red"><strong>从主内存重新读取</strong></mark>，而不是使用自己工作内存中的缓存副本。</p></div><div style="display:contents" dir="auto"><blockquote id="5ac8db55-6aee-82ca-91e5-817abca8225e" class="">Java内存模型（JMM）规定，每个线程都由自己的工作内存（可以视作cpu缓存），线程对变量的操作必须是先在自己的工作内存中进行，然后再刷新到主内存。<br/>普通变量再不同线程之间可能由于缓存不一致而大致数据不一致。</blockquote></div><div style="display:contents" dir="auto"><p id="2108db55-6aee-83b9-8a1d-8177dfb7836b" class="">单例模式的写法(双重检查锁（Double-Checked Locking）单例模式)</p></div><div style="display:contents" dir="auto"><pre id="b818db55-6aee-82dc-85fc-81c649a572eb" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class SingletonDemo {
+    private volatile static SingletonDemo instance;
+    public SingletonDemo() {
+        System.out.println(&quot;创建了一个SingletonDemo对象&quot;);
+    }
+    public static SingletonDemo getInstance() {
+        if (instance == null) {
+            synchronized (SingletonDemo.class) {
+                if (instance == null) {
+                    instance = new SingletonDemo();
+                }
+            }
+        }
+        return instance;
+    }
+}
+
+instance = new Singleton(); 实际包含三个步骤：
+1. 分配内存空间
+2. 初始化对象（调用构造器）
+3. 将内存地址赋值给 instance 引用</code></pre></div><div style="display:contents" dir="auto"><p id="97b8db55-6aee-83f0-981b-810b6f8c6b61" class="">volatile关键字的作用是可以使内存中的<mark class="highlight-orange_background">数据对线程可见</mark></p></div><div style="display:contents" dir="auto"><p id="9bf8db55-6aee-8211-8e60-0111ab778615" class="">Java内存模型JMM （Java Memory Model）</p></div><div style="display:contents" dir="auto"><p id="dd78db55-6aee-83db-9ab2-81bfd7ebb31f" class="">一个线程在访问内存数据的时候，其实不是拿到数据本身，而是将数据复制保存到工作内存中，相当于使用的是一个副本，对工作内存中的数据进行修改，修改完成之后再保存到主内存中，主内存对线程不可见。</p></div><div style="display:contents" dir="auto"><pre id="d9e8db55-6aee-82db-a528-0111619b7cbb" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">1. 禁止优化：不要以为这个值没变就不去读它。
+2. 直接读内存：每次使用这个变量，都必须去主内存里取最新值，不能用缓存里的旧值。
+3. 顺序保证：它告诉编译器，这行代码的操作顺序绝对不能乱（不能为了效率把读写顺序打乱，这在多线程里很重要）。</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

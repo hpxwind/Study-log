@@ -1,0 +1,914 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Ajax</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6dd8db55-6aee-833d-a53e-017f4a795d66" class="page mono"><header><h1 class="page-title" dir="auto">Ajax</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="a538db55-6aee-8230-b3fb-014d7e99ce53" class=""><em>ajax === async javascript and xml（异步的 JavaScript 和 XML）</em></p></div><div style="display:contents" dir="auto"><ul id="a118db55-6aee-8352-85d7-0199d0ac78d2" class="toggle"><li><details open=""><summary>node.js相关安装</summary><div style="display:contents" dir="auto"><p id="f0c8db55-6aee-83ba-8aa3-81fe2e870af3" class="">官网：<a href="https://nodejs.org/"><span style="border-bottom:0.05em solid">https://nodejs.org/</span></a></p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3208db55-6aee-82df-9c65-81b563ffe26f" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">node -v
+npm -v
+npm install json-server -g # -g标识全局安装</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d948db55-6aee-83fd-929d-81ec168b10d3" class="toggle"><li><details open=""><summary>ajax 状态码</summary><div style="display:contents" dir="auto"><p id="33d8db55-6aee-8394-9f8c-010041f4a02b" class=""><mark class="highlight-blue">xhr.readyState</mark></p></div><div style="display:contents" dir="auto"><hr id="99c8db55-6aee-82ca-a725-81d24ac71465"/></div><div style="display:contents" dir="auto"><p id="af08db55-6aee-83a7-bf25-01d0fcd3c54b" class="">readyState === 0: 未初始化完成，open还还未执行</p></div><div style="display:contents" dir="auto"><p id="1db8db55-6aee-83da-bb0a-01fbe14f0049" class="">readyState === 1: 配置信息完成，open执行完之后</p></div><div style="display:contents" dir="auto"><p id="fb58db55-6aee-8230-a861-01edfa162d43" class="">readyState === 2: send方法执行完毕</p></div><div style="display:contents" dir="auto"><p id="cb28db55-6aee-8366-a54b-01fb10a8feb6" class="">readyState === 3: 正在解析响应内容</p></div><div style="display:contents" dir="auto"><p id="cef8db55-6aee-8201-925a-81fb56243cde" class="">readyState === 4: 标识响应内容解析完毕，可以在客户端使用</p></div><div style="display:contents" dir="auto"><p id="8bd8db55-6aee-8369-bc3b-0101e1c4a193" class=""><mark class="highlight-blue">xhr.onreadystatechange</mark>事件会检测到 2，3，4种状态</p></div><div style="display:contents" dir="auto"><p id="a008db55-6aee-8270-89a4-815ce8c9a3c2" class=""><mark class="highlight-blue">xhr.onload</mark>事件只会检测4状态</p></div><div style="display:contents" dir="auto"><hr id="5eb8db55-6aee-8386-9ade-81e02219eb06"/></div><div style="display:contents" dir="auto"><p id="0588db55-6aee-828b-88a4-8177e31c6050" class=""><mark class="highlight-blue">xhr.status</mark> 为资源状态码 如：200，300，404，505</p></div><div style="display:contents" dir="auto"><p id="e108db55-6aee-836a-b630-0152af425f66" class=""><mark class="highlight-blue">xhr.statusText</mark> 输出状态码描述 如：OK</p></div><div style="display:contents" dir="auto"><p id="f748db55-6aee-8223-854c-816f0896b925" class=""><mark class="highlight-blue">xhr.responseText </mark>接收返回的响应，输出为文本</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aa98db55-6aee-83d1-acff-81b57a9b2349" class="toggle"><li><details open=""><summary>请求方式</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="68b8db55-6aee-830c-9580-81081c48a9b7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// ajax -&gt; get post
+// get 获取数据
+// post 提交数据
+// put 更新
+// delete 删除
+// patch 部分修改
+
+xhr.open(&#x27;GET&#x27;, &#x27;http://localhost:3000/users&#x27;)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a128db55-6aee-838f-a58e-819ac0e066b0" class="toggle"><li><details open=""><summary>封装</summary><div style="display:contents" dir="auto"><p id="3ba8db55-6aee-834e-85a3-81a97472260b" class="">将ajax打包成一个方法，使用时候直接调用即可，打包如下有注释</p></div><div style="display:contents" dir="auto"><pre id="a8d8db55-6aee-83cd-9c81-01707601a350" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/**
+ * 基础AJAX封装函数
+ * @param {Object} options - 请求配置选项
+ * @param {string} options.url - 请求的URL地址（必填）
+ * @param {string} [options.method=&#x27;GET&#x27;] - 请求方法，如&#x27;GET&#x27;、&#x27;POST&#x27;、&#x27;PUT&#x27;等
+ * @param {Object} [options.data] - 发送的数据（POST/PUT等方法使用）
+ * @param {Object} [options.params] - URL查询参数（GET方法使用）
+ * @param {Object} [options.headers] - 请求头设置
+ * @param {number} [options.timeout=5000] - 超时时间（毫秒）
+ * @returns {Promise} - 返回Promise对象，成功时返回响应数据，失败时返回错误信息
+ */
+function ajax(options) {
+    // 返回Promise，方便使用then/catch和async/await
+    return new Promise((resolve, reject) =&gt; {
+        // 1. 处理默认参数
+        const {
+            url,
+            method = &#x27;GET&#x27;,
+            data = null,
+            params = null,
+            headers = {},
+            timeout = 5000
+        } = options;
+
+        // 2. 处理URL和查询参数（GET请求的参数拼接）
+        let fullUrl = url;
+        if (params) {
+            // 将参数对象转为查询字符串（key=value&amp;key2=value2）
+            const paramsArray = [];
+            for (const key in params) {
+                // 编码特殊字符，避免URL解析错误
+                paramsArray.push(`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
+            }
+            const paramsString = paramsArray.join(&#x27;&amp;&#x27;);
+            // 处理URL中已有?的情况
+            fullUrl += (fullUrl.includes(&#x27;?&#x27;) ? &#x27;&amp;&#x27; : &#x27;?&#x27;) + paramsString;
+        }
+
+        // 3. 创建XMLHttpRequest对象
+        const xhr = new XMLHttpRequest();
+
+        // 4. 初始化请求（method, url, async）
+        xhr.open(method.toUpperCase(), fullUrl, true);
+
+        // 5. 设置请求头
+        // 默认设置Content-Type，用户传入的headers会覆盖默认值
+        const defaultHeaders = {
+            &#x27;Content-Type&#x27;: &#x27;application/json&#x27;
+        };
+        const requestHeaders = { ...defaultHeaders, ...headers };
+        for (const key in requestHeaders) {
+            xhr.setRequestHeader(key, requestHeaders[key]);
+        }
+
+        // 6. 设置超时处理
+        xhr.timeout = timeout;
+        xhr.ontimeout = () =&gt; {
+            reject(new Error(`请求超时（${timeout}ms）`));
+        };
+
+        // 7. 处理响应
+        // HTTP状态码错误（如404, 500）- 仍在 onload 中处理
+        // 如：服务器返回404，这是HTTP层面的&quot;成功&quot;响应，但内容不存在
+        xhr.onload = () =&gt; {
+            // 状态码在200-299之间表示请求成功
+            if (/^2\d{2}$/.test(xhr.status)) {
+                try {
+                    // 尝试解析JSON响应
+                    const responseData = JSON.parse(xhr.responseText);
+                    resolve(responseData);
+                } catch (e) {
+                    // 如果不是JSON格式，直接返回文本
+                    resolve(xhr.responseText);
+                }
+            } else {
+                // 非成功状态码，返回错误信息
+                reject(new Error(`请求失败，状态码：${xhr.status}，信息：${xhr.statusText}`));
+            }
+        };
+
+        // 8. 处理网络错误
+        // 当网络层面错误发生时，浏览器会自动调用这个函数
+        xhr.onerror = () =&gt; {
+            reject(new Error(&#x27;网络错误，请检查网络连接&#x27;));
+        };
+
+        // 9. 处理请求数据
+        let sendData = null;
+        if (data) {
+            const contentType = requestHeaders[&#x27;Content-Type&#x27;];
+            if (contentType.includes(&#x27;application/json&#x27;)) {
+                // JSON格式：将对象转为JSON字符串
+                sendData = JSON.stringify(data);
+            } else if (contentType.includes(&#x27;application/x-www-form-urlencoded&#x27;)) {
+                // 表单格式：转为key=value&amp;key2=value2
+                const dataArray = [];
+                for (const key in data) {
+                    dataArray.push(`${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`);
+                }
+                sendData = dataArray.join(&#x27;&amp;&#x27;);
+            } else {
+                // 其他格式（如FormData）直接发送
+                sendData = data;
+            }
+        }
+
+        // 10. 发送请求
+        xhr.send(sendData);
+    });
+}
+
+// ------------------------------
+// 使用示例
+// ------------------------------
+
+// 1. 发送GET请求（带查询参数）
+// ajax({
+//     url: &#x27;http://localhost:3000/users&#x27;,
+//     method: &#x27;GET&#x27;,
+//     params: { page: 1, limit: 10 }, // 会拼接到URL：?page=1&amp;limit=10
+//     timeout: 8000
+// })
+// .then(data =&gt; {
+//     console.log(&#x27;GET请求成功：&#x27;, data);
+// })
+// .catch(error =&gt; {
+//     console.error(&#x27;GET请求失败：&#x27;, error.message);
+// });
+
+// 2. 发送POST请求（JSON格式数据）
+// ajax({
+//     url: &#x27;http://localhost:3000/users&#x27;,
+//     method: &#x27;POST&#x27;,
+//     data: { name: &#x27;张三&#x27;, age: 25 },
+//     headers: {
+//         &#x27;Authorization&#x27;: &#x27;Bearer token123&#x27; // 自定义请求头
+//     }
+// })
+// .then(data =&gt; {
+//     console.log(&#x27;POST请求成功：&#x27;, data);
+// })
+// .catch(error =&gt; {
+//     console.error(&#x27;POST请求失败：&#x27;, error.message);
+// });
+
+// // 3. 发送表单格式的POST请求
+// ajax({
+//     url: &#x27;http://localhost:3000/login&#x27;,
+//     method: &#x27;POST&#x27;,
+//     data: { username: &#x27;admin&#x27;, password: &#x27;123456&#x27; },
+//     headers: {
+//         &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27; // 覆盖默认的JSON类型
+//     }
+// })
+// .then(data =&gt; {
+//     console.log(&#x27;登录成功：&#x27;, data);
+// })
+// .catch(error =&gt; {
+//     console.error(&#x27;登录失败：&#x27;, error.message);
+// });
+    </code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3578db55-6aee-83b4-9533-014f522914fb" class="">
+</p></div><div style="display:contents" dir="auto"><p id="5708db55-6aee-8261-8954-816fe9b37faa" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

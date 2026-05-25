@@ -1,0 +1,802 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Misc</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c978db55-6aee-82b0-8ec7-014c00c930a3" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/met_vincent_van_gogh_oleanders.jpg" style="object-position:center 0%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Misc/misc_file_txt_15870.webp"/></div><h1 class="page-title" dir="auto">Misc</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="ltr"><figure id="84f8db55-6aee-8285-8737-018495461c5f" class="link-to-page"><a href="Misc/MiscWriteUp%2084f8db556aee82858737018495461c5f.html"><span class="icon">📝</span>MiscWriteUp</a></figure></div><div style="display:contents" dir="auto"><ul id="b788db55-6aee-82f2-9b8b-81e5a13500d6" class="toggle"><li><details open=""><summary>隐写术</summary><div style="display:contents" dir="auto"><ul id="a8b8db55-6aee-8305-8199-81006c17a306" class="toggle"><li><details open=""><summary>文件附加</summary><div style="display:contents" dir="auto"><p id="32b8db55-6aee-8374-a621-01d29e730640" class="">大部分文件有其固定的文件结构，常见的图片格式如PNG，JPG等都是由一系列特定的数据块组成的。</p></div><div style="display:contents" dir="auto"><p id="e158db55-6aee-832f-8bfb-012afa9d23e8" class="">以PNG格式为例： 由<code>IHDR（文件头数据块）、PLTE（调色板数据块）、IDAT（图像数据块）、IEND（图像结束数据）</code> 四种标准数据块和一些辅助数据块组成。<code>IHDR、IDAT、IEND</code> 为必须部分，每个数据块由<code>Length（长度）、Chunk Type Code（数据块类型码）、Chunk Data（数据块数据）和CRC（循环冗余校验码）</code>四部分组成。</p></div><div style="display:contents" dir="auto"><hr id="c8d8db55-6aee-8236-ad7d-8175390e6393"/></div><div style="display:contents" dir="auto"><p id="7b88db55-6aee-8323-8132-812183b0c679" class="">一般，固定格式的文件都有固定格式的开头，有些文件还有固定的结尾，<mark class="highlight-purple">而相应格式的查看器一般都只解析从者一文件头到这一文件尾之间的内容。</mark></p></div><div style="display:contents" dir="auto"><ul id="56f8db55-6aee-82d1-8a5b-01b36d77f7e6" class="toggle"><li><details open=""><summary>常见文件头</summary><div style="display:contents" dir="auto"><p id="f5d8db55-6aee-82f6-bc9f-81be38345537" class="">JPEG (jpg)，                 文件头：FFD8FF　　　　　　　　文件尾：FF D9　<br/>PNG (png)，                  文件头：89504E47　　　　　　　文件尾：AE 42 60 82<br/>GIF (gif)，                  文件头：47494638　　　　　　　文件尾：00 3B      </p></div><div style="display:contents" dir="auto"><p id="0cd8db55-6aee-834a-bd44-0194ef4952c1" class="">ZIP Archive (zip)，          文件头：504B0304　　　　　　　文件尾：50 4B</p></div><div style="display:contents" dir="auto"><p id="f928db55-6aee-82bb-9916-81837e0276cd" class="">TIFF (tif)，                 文件头：49492A00　　　　　　　　　   <br/>Windows Bitmap (bmp)，      文件头：424D　　　　　　　　　　　　　　　　　　　　　<br/>CAD (dwg)，                 文件头：41433130　　　　　　　　　　　　　　　　　　　　<br/>Adobe Photoshop (psd)，     文件头：38425053　　　　　　　　　　　　　　　　　　　<br/>Rich Text Format (rtf)，    文件头：7B5C727466　　　　　　　　　　　　　　　　　　　<br/>XML (xml)，                 文件头：3C3F786D6C　　　　　　　　　　　　　　<br/>HTML (html)，                文件头：68746D6C3E<br/>Email [thorough only] (eml)，文件头：44656C69766572792D646174653A<br/>Outlook Express (dbx)，      文件头：CFAD12FEC5FD746F<br/>Outlook (pst)，              文件头：2142444E<br/>MS Word/Excel (xls.or.doc)，文件头：D0CF11E0<br/>MS Access (mdb)，            文件头：5374616E64617264204A<br/>WordPerfect (wpd)，          文件头：FF575043<br/>Adobe Acrobat (pdf)，       文件头：255044462D312E<br/>Quicken (qdf)，              文件头：AC9EBD8F<br/>Windows Password (pwl)，    文件头：E3828596</p></div><div style="display:contents" dir="auto"><p id="9e68db55-6aee-826b-a151-01240202dadf" class="">RAR Archive (rar)，         文件头：52617221<br/>Wave (wav)，               文件头：57415645<br/>AVI (avi)，                 文件头：41564920<br/>Real Audio (ram)，           文件头：2E7261FD<br/>Real Media (rm)，          文件头：2E524D46<br/>MPEG (mpg)，                文件头：000001BA<br/>MPEG (mpg)，               文件头：000001B3<br/>Quicktime (mov)，           文件头：6D6F6F76<br/>Windows Media (asf)，       文件头：3026B2758E66CF11<br/>MIDI (mid)，                文件头：4D546864</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1978db55-6aee-8360-99a6-81135be0bf98" class="toggle"><li><details open=""><summary>工具</summary><div style="display:contents" dir="auto"><p id="e1a8db55-6aee-8356-bfa1-81bb79b5c740" class="">1、直接利用十六进制编辑器修改</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="1fd8db55-6aee-8347-8d89-01b0e7851397" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">copy /b 1.png + 2.png 3.png # 将2.png追加到1.png后面，输出到3.png中</code></pre></div><div style="display:contents" dir="auto"><p id="8a98db55-6aee-8383-9b17-81fe90f9bfae" class="">010Editor二进制/十六进编辑器查看（结合常见文件头）</p></div><div style="display:contents" dir="ltr"><figure id="cc78db55-6aee-82b1-8dc2-01dcdd204db1" class="image"><a href="Misc/Snipaste_2025-07-15_20-19-27.png"><img style="width:653.984375px" src="Misc/Snipaste_2025-07-15_20-19-27.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="a9d8db55-6aee-83e8-9972-014ac91d75e9" class="">2、使用kali-Linux中<code>file</code>指令可以查看文件是否有追加，可以使用Binwalk分离图片</p></div><div style="display:contents" dir="ltr"><figure id="a458db55-6aee-8256-9ffe-018178e3875f"><div class="source">https://github.com/ReFirmLabs/binwalk</div></figure></div><div style="display:contents" dir="ltr"><figure id="0728db55-6aee-82d0-9c5b-81b170df3098"><div class="source">https://github.com/ReFirmLabs/binwalk</div></figure></div><div style="display:contents" dir="ltr"><figure id="c358db55-6aee-8302-9d29-0152b2c54f8d" class="image"><a href="Misc/Snipaste_2025-07-15_20-21-46.png"><img style="width:653.984375px" src="Misc/Snipaste_2025-07-15_20-21-46.png"/></a></figure></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8708db55-6aee-8293-9c1d-81c86670b428" class="toggle"><li><details open=""><summary>LSB</summary><div style="display:contents" dir="auto"><p id="47d8db55-6aee-8247-88ce-8118f2ce0775" class="">LSB：Least Significant Bit（最低有效位）。大多数PNG图像中，每个像素都由R、G、B三原色组成（有的图片还包括A通道：表示透明度），每种颜色一般用8位数据表示（0x00~0xFF），<mark class="highlight-purple">简单的小幅度修改人眼难以分辨。</mark></p></div><div style="display:contents" dir="auto"><p id="c328db55-6aee-8297-8e6d-81c14f265abc" class=""><mark class="highlight-purple">例如</mark>RGB(255,0,0)与RGB(254,0,0)仅差一位，就可以隐藏一位信息，而一个RGB通道由三原色组成，就可以隐藏三位信息。</p></div><div style="display:contents" dir="auto"><ul id="fdb8db55-6aee-83b7-a4ff-812c4d66d160" class="toggle"><li><details open=""><summary>工具</summary><div style="display:contents" dir="auto"><p id="7428db55-6aee-83b3-8a01-01122e4c9dd9" class="">检测LSB隐写痕迹的常用工具是Stegsolve，它还可以查看不同的通道，对图片进行XOR对比操作。</p></div><div style="display:contents" dir="ltr"><figure id="5098db55-6aee-83cb-a3a4-8104ad5f173e" class="image"><a href="Misc/Snipaste_2025-07-15_20-30-59.png"><img style="width:625.9921875px" src="Misc/Snipaste_2025-07-15_20-30-59.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="6bf8db55-6aee-820a-a8c6-81362e95e072" class="">对于PNG和BMP图片中的LSB等常见的隐写方式，也可以通过zsteg工具进行自动化识别和提取。</p></div><div style="display:contents" dir="ltr"><figure id="fcc8db55-6aee-8388-be63-01f1017a9625"><div class="source">https://github.com/zed-0xff/zsteg</div></figure></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c228db55-6aee-83d9-975b-811ff50124ba" class="toggle"><li><details open=""><summary>盲水印</summary><div style="display:contents" dir="auto"><p id="4d08db55-6aee-83e7-9758-819886f84b14" class="">平时听到得到音乐就是一段在时域上不断震动的波，</p></div><div style="display:contents" dir="auto"><p id="70c8db55-6aee-83d9-bc6e-01b55cb223dd" class="">一段乐谱就可以看作一段音乐在频域中的表示。</p></div><div style="display:contents" dir="auto"><p id="2478db55-6aee-83ea-88ca-01905f8473b5" class="">同理，图片是在空间域上的信号表示，而<strong>图像灰度变化强烈的情况，也可以视为图像的频率。</strong></p></div><div style="display:contents" dir="auto"><p id="12f8db55-6aee-8231-8072-815d10154fc9" class="">要把时域或空域中表示的信号转换到频域中，要用到<mark class="highlight-red">傅里叶变换，</mark>一般使用的是二维快速傅里叶变换算法（FFT2D）</p></div><div style="display:contents" dir="ltr"><figure id="1b68db55-6aee-8281-bba8-018b4b75d302" class="image"><a href="Misc/Snipaste_2025-07-15_20-40-54.png"><img style="width:653.96875px" src="Misc/Snipaste_2025-07-15_20-40-54.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="87e8db55-6aee-83ac-a70f-816d0c250951" class="">得到图片的频域图片后，将水印编码后随机分布到各频率，然后与原图的频域进行叠加，将叠加水印的频谱进行傅里叶变换，即可得到添加了盲水印的图片。</p></div><div style="display:contents" dir="auto"><p id="f518db55-6aee-82c8-850e-814038f71b87" class=""><strong>这种操作相当于往原来的图片信号中加入了噪声，这些噪声遍布全图，在空域中不容易对图片造成破坏。</strong></p></div><div style="display:contents" dir="auto"><p id="e938db55-6aee-821b-a059-814edd3b6bb9" class="">要提取水印，只需要把原图和带水印的图在频域中相减，然后根据原来的水印编码方式进行编码，即可提取出水印：</p></div><div style="display:contents" dir="ltr"><figure id="1338db55-6aee-83fe-8e66-01704f2f21db" class="image"><a href="Misc/Snipaste_2025-07-15_20-44-43.png"><img style="width:653.9921875px" src="Misc/Snipaste_2025-07-15_20-44-43.png"/></a></figure></div><div style="display:contents" dir="auto"><ul id="63b8db55-6aee-835c-b5f7-01c4fed0dd8f" class="toggle"><li><details open=""><summary>工具</summary><div style="display:contents" dir="auto"><p id="5cf8db55-6aee-8205-85ea-0199a12f7ac8" class="">如果某一题中可以获取两张几乎相同的图片，且进行空域上的变换（XOR等）和提取像素点之间的差异都无法获取有效信息时，就要考虑是否位盲水印的可能性。</p></div><div style="display:contents" dir="ltr"><figure id="d6f8db55-6aee-823a-a378-01c1ae4d9c06"><div class="source">https://github.com/chishaxie/BlindWaterMark</div></figure></div><div style="display:contents" dir="ltr"><figure id="4648db55-6aee-836b-8df6-011ad6ee7e99"><div class="source">https://github.com/guofei9987/blind_watermark</div></figure></div><div style="display:contents" dir="ltr"><figure id="ffb8db55-6aee-83b0-8ad4-81a9bea8fb7a"><div class="source">https://github.com/ww23/BlindWatermark</div></figure></div></details></li></ul></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e768db55-6aee-82fe-8fc2-816038b9ec5b" class="toggle"><li><details open=""><summary>压缩包分析</summary><div style="display:contents" dir="auto"><ul id="55b8db55-6aee-83d8-b85f-019d5d5716f1" class="toggle"><li><details open=""><summary>zip &amp; rar</summary><div style="display:contents" dir="auto"><p id="5fb8db55-6aee-83be-ac09-811a8063866e" class="">ZIP（Deflate）一般由<code>数据区（Local file header ， File data ， Data descriptor）、核心目录区（Central directory）、核心目录结束区（End of central directory）</code></p></div><div style="display:contents" dir="auto"><p id="ab38db55-6aee-8281-95d4-81e8aad64fa2" class="">组成。</p></div><div style="display:contents" dir="auto"><p id="6388db55-6aee-8290-97bd-01ee437f4a5f" class="">数据区 与 核心目录区每个文件都有一条记录</p></div><div style="display:contents" dir="auto"><p id="ab58db55-6aee-8302-aeb2-010f8a0db452" class="">数据区的签名为<code>50 4B 03 04</code> </p></div><div style="display:contents" dir="auto"><p id="7728db55-6aee-8336-b6e8-81843328fe8d" class="">核心目录区签名为<code>50 4B 01 02</code></p></div><div style="display:contents" dir="auto"><p id="f0d8db55-6aee-83e4-8438-0149e571d729" class="">核心目录结束区一个压缩文件中只有一个</p></div><div style="display:contents" dir="auto"><p id="34b8db55-6aee-8390-ab43-8111ae1278e5" class="">签名为<code>50 4B 05 06</code> </p></div><div style="display:contents" dir="auto"><p id="6488db55-6aee-823a-b033-81f3220106d7" class="">如果确属核心目录结束区，打开压缩文件会显示<mark class="highlight-blue"><strong>“不可预料的压缩文件末端”</strong></mark></p></div><div style="display:contents" dir="auto"><hr id="a2f8db55-6aee-8387-8396-0137a55489c1"/></div><div style="display:contents" dir="auto"><p id="6288db55-6aee-830b-82df-8125eba738c2" class="">数据区中的一条文件记录包括：</p></div><div style="display:contents" dir="ltr"><figure id="c2f8db55-6aee-824a-9256-010ebae036ab" class="image"><a href="Misc/Snipaste_2025-07-15_23-11-29.png"><img style="width:624px" src="Misc/Snipaste_2025-07-15_23-11-29.png"/></a></figure></div><div style="display:contents" dir="auto"><hr id="42f8db55-6aee-839c-a4a2-016704098507"/></div><div style="display:contents" dir="auto"><p id="e418db55-6aee-8308-961a-01007462450c" class="">核心目录区的一条记录中包含数据区除了文件数据之外的大部分内容，还有一些额外内容，</p></div><div style="display:contents" dir="auto"><p id="6628db55-6aee-83ee-88d2-8146c8ce29d2" class="">最重要的是：数据区相应文件记录的偏移<mark class="highlight-blue">（Relative offset of local header）. 如果将核心目录区中某一条记录删除，尽管数据仍然存在，但压缩工具中不可见（索引丢失）</mark></p></div><div style="display:contents" dir="auto"><hr id="d968db55-6aee-82e9-8034-816b54f4c2e2"/></div><div style="display:contents" dir="auto"><hr id="c788db55-6aee-82df-b13e-81a6751391ca"/></div><div style="display:contents" dir="auto"><hr id="44b8db55-6aee-8239-a63b-8153fb6ef937"/></div><div style="display:contents" dir="auto"><p id="f488db55-6aee-82ea-b272-810741f23852" class="">RAR：专有存档文件格式</p></div><div style="display:contents" dir="auto"><p id="2468db55-6aee-825a-95d9-8136892d88d9" class="">RAR4签名：<code>526172211A0700</code> —&gt;十六进制：<code>Rar！</code> </p></div><div style="display:contents" dir="auto"><p id="8ab8db55-6aee-82fc-a7c4-01beb224e13b" class="">RAR5签名：<code>526172211A070100</code> —&gt;十六进制：<code>Rar！</code></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5c68db55-6aee-83ee-afbe-01328deab260" class="toggle"><li><details open=""><summary>暴力破解</summary><div style="display:contents" dir="auto"><p id="7258db55-6aee-83cf-8a09-8167d6a555aa" class="">如果密码比较简单</p></div><div style="display:contents" dir="auto"><p id="33f8db55-6aee-8265-b888-81577769d4f7" class="">Windows爆破工具：ARCHPR</p></div><div style="display:contents" dir="auto"><p id="d078db55-6aee-82ea-83b7-8199fc3e3a8e" class="">Linux爆破工具：fcrackzip，RarCrack</p></div><div style="display:contents" dir="auto"><hr id="3778db55-6aee-8394-a210-811d8a2acc2e"/></div><div style="display:contents" dir="auto"><p id="b918db55-6aee-83b0-b24b-81e32917f3b2" class="">生成RAR/ZIP压缩吧时，会保存源文件的CRC32 Hash用作校验。</p></div><div style="display:contents" dir="auto"><p id="8f48db55-6aee-82c2-9ec2-010e85b8562f" class=""><mark class="highlight-purple">如果解压密码很复杂，但文件大小很小</mark>，可以通过爆破CRC32的方式获取文件内容</p></div><div style="display:contents" dir="auto"><p id="7f88db55-6aee-8387-bdbf-01cd9c8ea29f" class="">工具：zip-crc-cracker，crc32</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0b68db55-6aee-83db-a969-01a8a0e1aeb0" class="toggle"><li><details open=""><summary>伪加密</summary><div style="display:contents" dir="auto"><p id="29f8db55-6aee-82cf-ab69-01535df1b581" class="">在 ZIP 文件中，每个文件的数据区与核心目录区都有<mark class="highlight-purple"><strong>通用标记位（Flags）</strong></mark></p></div><div style="display:contents" dir="auto"><p id="c188db55-6aee-82ac-9299-01da64a71c2c" class="">核心目录区通用标记位距离核心目录区头<code>50 4B 01 02</code> 偏移8字节，其本身占两个字节，最低位表示该文件是否被加密。</p></div><div style="display:contents" dir="auto"><p id="cdd8db55-6aee-83cf-84ea-819e72731508" class="">将最低为改为 1，改解压文件会提示输入密码，但实际未设置密码，所以输入什么都是错误的。</p></div><div style="display:contents" dir="ltr"><figure id="0ef8db55-6aee-8376-a009-818a7f1ecbd4" class="image"><a href="Misc/Snipaste_2025-07-15_23-27-04.png"><img style="width:653.984375px" src="Misc/Snipaste_2025-07-15_23-27-04.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="eb88db55-6aee-8282-891f-011d48037dfd" class="">类似的文件头处的通用标记位距离文件头<code>50 4B 03 04</code> 的偏移为6字节，其本身占2字节，最低位表示这个文件是否加密。1 为加密。</p></div><div style="display:contents" dir="auto"><hr id="6648db55-6aee-8250-b392-81345c087340"/></div><div style="display:contents" dir="auto"><hr id="75d8db55-6aee-82d8-b3f6-0185b6b3bc3b"/></div><div style="display:contents" dir="auto"><p id="5498db55-6aee-8368-bf7a-01916bad8d53" class="">RAR中也有类似的，RAR4中表加密的文件快中HeadFlags（距离文件头3字节位置），从低位起3bit。</p></div><div style="display:contents" dir="auto"><p id="2798db55-6aee-82c0-83a5-01c5727d6e86" class="">注意修改标志位后，文件块头本身的CRC（HEAD_CRC）会发生变化，需要重新计算。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1d48db55-6aee-83fb-9c22-81bc38aacceb" class="toggle"><li><details open=""><summary>ZIP的明文攻击</summary><div style="display:contents" dir="auto"><p id="1408db55-6aee-830c-b586-81856accd26e" class="">ZIP的加密算法下，设置的密码被转换成3个4字节的key，再用这个key加密所有文件。<mark class="highlight-purple"><strong>所以只需要知道被压缩文件中的一系列连续的明文字节（或一整个明文文件），就可以恢复3个key，从而解密文件。</strong></mark></p></div><div style="display:contents" dir="auto"><hr id="bd58db55-6aee-831b-be11-01c337202878"/></div><div style="display:contents" dir="auto"><p id="e2a8db55-6aee-83d9-957a-019cda42635b" class="">再此之前，</p></div><div style="display:contents" dir="auto"><p id="0458db55-6aee-8298-8374-01f6d5e6822d" class="">1、需要确定加密ZIP使用的压缩工具版本与算法，010Editor查看，在<mark class="highlight-purple">核心目录区的通用标志位</mark>找到相关信息，或是查看文件属性，使用zipinfo（linux）命令查看,</p></div><div style="display:contents" dir="auto"><p id="32f8db55-6aee-83b1-a6b7-01291fa5a2e9" class=""> 4-5 个字节记录了解压缩文件所需的最低支持的 ZIP 规范版本</p></div><div style="display:contents" dir="auto"><p id="67d8db55-6aee-82af-96c3-81e185db4395" class=""> 6-7 个字节记录通用标志位</p></div><div style="display:contents" dir="auto"><p id="7128db55-6aee-83ad-8a1d-01e16f65d273" class=""> 8-9 个字节记录压缩包所用到的压缩方式</p></div><div style="display:contents" dir="auto"><p id="6f18db55-6aee-82d7-9c73-81fae197dbc2" class="">2、之后需要将已知明文以同样方式进行压缩，但不加入任何密码。对于完整明文的情况，如果方法正确的话，最终压缩后的大小应该差<mark class="highlight-purple"><strong>12个字节</strong></mark></p></div><div style="display:contents" dir="auto"><p id="1ff8db55-6aee-8318-9806-81fbeaec25e3" class="">Windows工具：ARCHPR中选择明文攻击</p></div><div style="display:contents" dir="ltr"><figure id="4bb8db55-6aee-83f6-b31e-812b5514fa90" class="image"><a href="Misc/Snipaste_2025-07-15_23-40-15.png"><img style="width:653.984375px" src="Misc/Snipaste_2025-07-15_23-40-15.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="c908db55-6aee-8260-a787-8103d5eb045c" class="">对于不完整的明文文件，使用工具：</p></div><div style="display:contents" dir="ltr"><figure id="24f8db55-6aee-8292-b2f4-818f5f1250a6"><div class="source">https://github.com/kimci86/bkcrack</div></figure></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="df78db55-6aee-834f-96e2-81edb8971991" class="toggle"><li><details open=""><summary>流量分析</summary><div style="display:contents" dir="auto"><p id="4f68db55-6aee-82aa-8e0f-818ce81b6d6d" class="">Wireshark和Tshark支持多种协议的分析，也支持流量抓取功能。</p></div><div style="display:contents" dir="auto"><ul id="34d8db55-6aee-8311-ae69-81260a4daf69" class="toggle"><li><details open=""><summary>Wireshark</summary><div style="display:contents" dir="auto"><p id="6d58db55-6aee-8209-bcec-81b78a160e65" class="">“统计”菜单中存在许多对于分析非常有用的功能。</p></div><div style="display:contents" dir="auto"><p id="4f68db55-6aee-8398-916a-81b474ec1934" class="">1、“协议分析”（Protocol Hierarchy）可以查看流量包中各层次，各协议的占比。</p></div><div style="display:contents" dir="ltr"><figure id="3268db55-6aee-832d-8fe3-81ffb7d0d6f7" class="image"><a href="Misc/Snipaste_2025-07-16_11-53-45.png"><img style="width:681.984375px" src="Misc/Snipaste_2025-07-16_11-53-45.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="a4c8db55-6aee-8201-94af-81dd66f0a0d4" class="">2、”会话“（Conversations）可以在链路层（以太网，802.11），网络层（IP），传输层（TCP，UDP）上分别查看流量包中的各种不同的单个通信会话。（CTF中一般使用局域网进行部署于抓取）会话功能可以帮我们定位流量位置。</p></div><div style="display:contents" dir="ltr"><figure id="ef28db55-6aee-82a6-ba1c-01e2400d27d6" class="image"><a href="Misc/Snipaste_2025-07-16_12-42-42.png"><img style="width:681.984375px" src="Misc/Snipaste_2025-07-16_12-42-42.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="6d68db55-6aee-839f-b63c-81d8f0c1507b" class="">3、过滤</p></div><div style="display:contents" dir="auto"><ul id="19f8db55-6aee-8209-9f6a-818f33c24ae6" class="toggle"><li><details open=""><summary>协议过滤</summary><div style="display:contents" dir="auto"><p id="9228db55-6aee-826a-84ab-8142302ff018" class="">
+</p></div><div style="display:contents" dir="auto"><pre id="f9b8db55-6aee-82c6-8ffd-817a453f14f6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">http        // 仅显示HTTP协议包
+dns         // 仅显示DNS协议包
+tcp         // 仅显示TCP协议包</code></pre></div><div style="display:contents" dir="auto"><p id="6d88db55-6aee-83f2-b243-01b1079e204e" class="">IP地址过滤</p></div><div style="display:contents" dir="auto"><pre id="0838db55-6aee-83aa-a7f7-81b99dc9629a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ip.src == 192.168.1.1          // 源IP为192.168.1.1
+ip.dst == 192.168.1.100        // 目标IP为192.168.1.100
+ip.addr == 192.168.1.0/24      // IP在192.168.1.0/24网段</code></pre></div><div style="display:contents" dir="auto"><p id="eac8db55-6aee-82d6-9095-01ef450383eb" class="">端口过滤</p></div><div style="display:contents" dir="auto"><pre id="4118db55-6aee-832b-a733-013814a0a6b6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">tcp.port == 80                // TCP端口80（HTTP）
+udp.port == 53                // UDP端口53（DNS）
+tcp.srcport == 443            // TCP源端口443（HTTPS）</code></pre></div><div style="display:contents" dir="auto"><p id="4458db55-6aee-831b-ad57-016b3c4c8bff" class="">逻辑运算符</p></div><div style="display:contents" dir="auto"><pre id="87f8db55-6aee-82f1-ba47-81dffdedb9ad" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">and / &amp;&amp;                      // 与关系
+or  / ||                      // 或关系
+not / !                       // 非关系</code></pre></div><div style="display:contents" dir="auto"><pre id="a698db55-6aee-8227-bdf7-019ed68f7876" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">http &amp;&amp; ip.src == 192.168.1.1        // 源IP为192.168.1.1的HTTP包
+dns || icmp                          // DNS或ICMP包
+not tcp.port == 22                   // 非SSH（22端口）的TCP包</code></pre></div><div style="display:contents" dir="auto"><p id="b2b8db55-6aee-82fe-a77f-819e636c7649" class="">HTTP过滤</p></div><div style="display:contents" dir="auto"><pre id="4f48db55-6aee-8392-9e70-81238a8856d5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">http.request.method == &quot;POST&quot;        // POST请求
+http.host == &quot;example.com&quot;           // 主机名为example.com
+http.content_type == &quot;application/json&quot;  // JSON格式请求
+http.response.code == 404            // HTTP 404响应</code></pre></div><div style="display:contents" dir="auto"><p id="c1b8db55-6aee-8328-8a29-01b59a160a23" class="">DNS过滤</p></div><div style="display:contents" dir="auto"><pre id="cf78db55-6aee-83d9-b8ff-010e4a36cc23" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">dns.qry.name == &quot;google.com&quot;         // 查询google.com的DNS请求
+dns.resp.type == 1                   // A记录（IP地址）响应</code></pre></div><div style="display:contents" dir="auto"><p id="4e18db55-6aee-82e2-af30-019b939e4eac" class="">TCP/UDP过滤</p></div><div style="display:contents" dir="auto"><pre id="fd88db55-6aee-8333-b64d-81876dab4d29" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">tcp.flags.syn == 1                   // SYN包（TCP连接建立）
+tcp.flags.fin == 1                   // FIN包（TCP连接关闭）
+tcp.window_size &lt; 1024               // 窗口大小小于1024的TCP包
+udp.length &gt; 512                     // UDP包长度大于512字节</code></pre></div><div style="display:contents" dir="auto"><p id="41c8db55-6aee-82fd-bfbc-01f05890b81d" class="">字段包含过滤</p></div><div style="display:contents" dir="auto"><pre id="64d8db55-6aee-8345-a121-01ef328a6fdf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">http contains &quot;password&quot;             // HTTP包中包含&quot;password&quot;字符串
+data.data matches &quot;.*[0-9]{4}.*&quot;     // 数据字段匹配正则表达式（包含4位数字）</code></pre></div><div style="display:contents" dir="auto"><p id="20b8db55-6aee-8278-afc2-0104ae547e1e" class="">比较运算符</p></div><div style="display:contents" dir="auto"><pre id="9fc8db55-6aee-82a4-a968-81d522e45f4e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">==, !=, &gt;, &lt;, &gt;=, &lt;=                // 等于、不等于、大于等</code></pre></div><div style="display:contents" dir="auto"><pre id="aea8db55-6aee-82c0-a390-01db0f874ec4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">frame.time &gt; &quot;2023-01-01 12:00:00&quot;  // 时间在2023年1月1日中午12点之后的包
+ip.len &gt;= 1500                      // IP包长度大于等于1500字节</code></pre></div><div style="display:contents" dir="auto"><hr id="ff18db55-6aee-834e-8550-814f66225451"/></div><div style="display:contents" dir="auto"><p id="94f8db55-6aee-82e7-8129-01635f4b924d" class="">查找特定IP的HTTP请求：</p></div><div style="display:contents" dir="auto"><pre id="5cb8db55-6aee-83ac-86ec-818d4d5db795" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ip.addr == 192.168.1.1 &amp;&amp; http      // 192.168.1.1的所有HTTP通信</code></pre></div><div style="display:contents" dir="auto"><p id="8788db55-6aee-8383-962a-815a01b8cc7c" class="">过滤SSH会话</p></div><div style="display:contents" dir="auto"><pre id="bf28db55-6aee-8225-9cb2-81cc4f072cf5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">tcp.port == 22 &amp;&amp; ip.src == 10.0.0.5  // 源IP为10.0.0.5的SSH流量</code></pre></div><div style="display:contents" dir="auto"><p id="b3b8db55-6aee-8294-ae95-819867b6273a" class="">分析DNS查询</p></div><div style="display:contents" dir="auto"><pre id="8f18db55-6aee-83c8-bc59-81787a1e7daa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">dns.qry.type == 1 || dns.qry.type == 28  // A记录（1）或AAAA记录（28）的DNS查询</code></pre></div><div style="display:contents" dir="auto"><p id="68d8db55-6aee-8219-a49e-01a0165f4220" class="">找出大流量TCP连接</p></div><div style="display:contents" dir="auto"><pre id="1bc8db55-6aee-83ce-b535-0124b946d316" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">tcp.stream &gt; 1000 &amp;&amp; ip.len &gt; 1000  // 流ID大于1000且包长度大于1000的TCP流</code></pre></div><div style="display:contents" dir="auto"><p id="ef48db55-6aee-8328-a2c3-81d4e21676d2" class="">选择一个流量包：“作为过滤器应用”s</p></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="b298db55-6aee-8358-abc2-8147d8694e99" class="">4、追踪流功能</p></div><div style="display:contents" dir="auto"><p id="7848db55-6aee-8343-b848-010f695a677c" class="">TCP协议是基于连接的，但在网络上传输的数据本身是一个一个独立的数据包。</p></div><div style="display:contents" dir="auto"><p id="1c88db55-6aee-82f9-9b68-8180f491db48" class="">追踪流可以获取一个TCP会话中的连续数据流。</p></div><div style="display:contents" dir="auto"><p id="9da8db55-6aee-8314-ac84-013d20e84eaf" class="">→右键选中一个tcp数据包，选择追踪流→tcp，就可以获取这个TCP会话中的字节流。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="34c8db55-6aee-8321-9dcd-8135c047ff8a" class="toggle"><li><details open=""><summary>USB流量分析</summary><div style="display:contents" dir="auto"><p id="b6f8db55-6aee-82f4-b877-016067bb7503" class="">USB鼠标和键盘流量特征：</p></div><div style="display:contents" dir="auto"><p id="eaf8db55-6aee-8282-90d7-81a5e13885c1" class="">1、都是从某个地址发往host</p></div><div style="display:contents" dir="auto"><p id="e808db55-6aee-8238-afab-812f9a6e6534" class="">2、协议类型为USB</p></div><div style="display:contents" dir="auto"><p id="4328db55-6aee-8324-9df0-01beee1da7f7" class="">3、信息为“URB_INTERRUPT in”</p></div><div style="display:contents" dir="auto"><p id="2918db55-6aee-834b-afd3-01b120fa1def" class="">4、如下图数据部分Leftover Capture Data字段：<mark class="highlight-purple">鼠标为四字节，键盘为八字节</mark></p></div><div style="display:contents" dir="ltr"><figure id="0138db55-6aee-824f-9629-01ac2d92e259" class="image"><a href="Misc/Snipaste_2025-07-16_13-30-38.png"><img style="width:653.9921875px" src="Misc/Snipaste_2025-07-16_13-30-38.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="5b68db55-6aee-8357-a838-0141a8c65977" class="">其中：</p></div><div style="display:contents" dir="auto"><p id="9528db55-6aee-83da-bc98-01b4225424a5" class="">键盘流量则记录了键盘按的按键等信息。</p></div><div style="display:contents" dir="auto"><p id="0a18db55-6aee-83fe-8c26-81a4c28eedd2" class="">
+</p></div><div style="display:contents" dir="auto"><ul id="b9e8db55-6aee-82e0-8406-813bcd5d4f6c" class="toggle"><li><details open=""><summary>鼠标流量分析</summary><div style="display:contents" dir="auto"><p id="9928db55-6aee-8200-a169-81317f3cb31e" class="">鼠标流量中记录了鼠标的移动方向，是否点击等信息；</p></div><div style="display:contents" dir="auto"><p id="b9d8db55-6aee-8270-9f10-01fc17858278" class="">Leftover Capture Data：中</p></div><div style="display:contents" dir="auto"><p id="6878db55-6aee-8335-a921-012ed4b2af92" class="">1、第一个字节表示按键按下：<div class="indented"><div style="display:contents" dir="auto"><p id="ecc8db55-6aee-8303-9a9d-01ef6714aa27" class="">0x00表示没有按键</p></div><div style="display:contents" dir="auto"><p id="5f98db55-6aee-83ef-8f4f-81fe3c4f988e" class="">0x01表示按下了左键</p></div><div style="display:contents" dir="auto"><p id="8be8db55-6aee-827c-9e15-817ec7ae113a" class="">0x02表示按下了右键</p></div></div></p></div><div style="display:contents" dir="auto"><p id="6f98db55-6aee-83e4-8ab1-810c444c3819" class="">2、第二个字节表示鼠标右移的偏移，最高为符号位<div class="indented"><div style="display:contents" dir="auto"><p id="42a8db55-6aee-8393-8adf-81c40f48ab6f" class="">值为正表示向<code>右</code>移动了n个像素</p></div><div style="display:contents" dir="auto"><p id="8018db55-6aee-821c-b194-81f20e0241c2" class="">值为负表示向<code>左</code>移动了n个像素</p></div></div></p></div><div style="display:contents" dir="auto"><p id="bf58db55-6aee-82eb-a91b-019fa0c44ee8" class="">3、第三个表示上下偏移，最高为符号位，同上为正上移，为负下移</p></div><div style="display:contents" dir="auto"><pre id="97e8db55-6aee-8377-ae4e-01e7483917ec" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">00 02 00 00
+01 00 00 00 
+// 第一行表示鼠标右移了两个像素点，没有其他操作
+// 第二行表示鼠标点击了左键，没有其他操作</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e0f8db55-6aee-831b-a5ec-817e8252710b" class="toggle"><li><details open=""><summary>键盘流量分析</summary><div style="display:contents" dir="auto"><p id="86d8db55-6aee-8245-9f07-8197acc42288" class="">键盘中Leftover Capture Data：八个字节中</p></div><div style="display:contents" dir="auto"><p id="8d78db55-6aee-822e-b960-01220d3be9f7" class="">1、第一个字节为<strong>控制信息</strong><div class="indented"><div style="display:contents" dir="auto"><p id="4748db55-6aee-83dc-b187-016a5eefce1b" class="">含有8个bit，表示控制键信息：</p></div><div style="display:contents" dir="ltr"><figure id="ac88db55-6aee-8279-ad68-016d0197f573" class="image"><a href="Misc/Snipaste_2025-07-16_13-42-35.png"><img style="width:601.9921875px" src="Misc/Snipaste_2025-07-16_13-42-35.png"/></a></figure></div></div></p></div><div style="display:contents" dir="auto"><p id="01f8db55-6aee-8267-b965-81fac036b87d" class="">2、第二个字节为保留信息（没用）</p></div><div style="display:contents" dir="auto"><p id="7488db55-6aee-8341-a46b-01775ec54f12" class="">3、第三个字节为<strong>点击按键信息</strong><div class="indented"><div style="display:contents" dir="auto"><p id="9428db55-6aee-824a-b423-81f549cdacb8" class="">值为USB协议为文档中，改键对应的值</p></div></div></p></div><div style="display:contents" dir="auto"><p id="3878db55-6aee-83bc-ab5d-01a94a814596" class="">4、第四到第八位额外信息（没用）（一般为0）</p></div><div style="display:contents" dir="auto"><pre id="10f8db55-6aee-830e-af7b-010b9abb24a3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">00 00 16 00 00 00 00 00 // 输入一个小写s键(没有按下shift)
+02 00 16 00 00 00 00 00 // 输入一个大写S键(按下shift不放)</code></pre></div><div style="display:contents" dir="auto"><p id="2248db55-6aee-83bf-8605-01ace230c9a1" class="">
+</p></div></details></li></ul></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9a28db55-6aee-8371-991c-01198c4485d6" class="toggle"><li><details open=""><summary>内存取整技术</summary><div style="display:contents" dir="auto"><p id="e1f8db55-6aee-82ce-a3c5-8105a54edb3e" class="">一般会有一个完整的内存镜像或一个核心转存文件，分析内存中正在执行的进程等信息，解出自己需要的内容。内存取整经常与其他取整配合。</p></div><div style="display:contents" dir="auto"><p id="c6b8db55-6aee-830b-bb52-0136937ebd32" class="">常用框架<mark class="highlight-purple">Volatility：</mark></p></div><div style="display:contents" dir="ltr"><figure id="9458db55-6aee-8319-a438-81e48887c9dc"><div class="source">https://github.com/volatilityfoundation/volatility</div></figure></div><div style="display:contents" dir="auto"><p id="5978db55-6aee-83de-8532-01ff0c5436d6" class="">Volatility3:</p></div><div style="display:contents" dir="ltr"><figure id="5838db55-6aee-8274-96f0-0172c6c5dd6a"><div class="source">https://github.com/volatilityfoundation/volatility3</div></figure></div><div style="display:contents" dir="auto"><p id="b698db55-6aee-8326-ab5a-018913dbf2d1" class="">可以先使用binwalk，foremost，strings等工具先进性分析。</p></div><div style="display:contents" dir="auto"><p id="1868db55-6aee-8239-b0ee-018be42c8b24" class="">需要注意的是：</p></div><div style="display:contents" dir="auto"><p id="58c8db55-6aee-830c-9e8a-8107736a4cf8" class="">1、物理内存以4KB分页，提取出来的文件很有可能不完整，只能粗略分析。</p></div><div style="display:contents" dir="auto"><p id="f198db55-6aee-827f-a9d7-013e855628d6" class="">2、Windows下的字符串默认为UTF-16LE编码，strings提取的时候需要注意参数。</p></div><div style="display:contents" dir="auto"><ul id="5ea8db55-6aee-829a-8120-818e19069817" class="toggle"><li><details open=""><summary>Volatility</summary><div style="display:contents" dir="auto"><p id="20b8db55-6aee-82e2-b736-010e0adb0e19" class="">支持windows和Linux平台下的镜像</p></div><div style="display:contents" dir="auto"><p id="1a68db55-6aee-8388-9d21-01858b30628c" class="">文档：<a href="https://github.com/volatilityfoundation/volatility/wiki/">https://github.com/volatilityfoundation/volatility/wiki/</a></p></div><div style="display:contents" dir="auto"><p id="e8b8db55-6aee-8394-bcd0-01f98e1d4c15" class="">1、可以先使用imageinfo功能查看镜像的基本信息，其中最重要的就是判断内存镜像是在那种操作系统下获取的。</p></div><div style="display:contents" dir="ltr"><figure id="8808db55-6aee-8267-844f-819f23deb4f8" class="image"><a href="Misc/Snipaste_2025-07-16_18-10-21.png"><img style="width:654px" src="Misc/Snipaste_2025-07-16_18-10-21.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="f998db55-6aee-83b1-8d8b-01c1b254a7a8" class="">2、首先需要获取的是计算机在这一刻运行了那些进程。</p></div><div style="display:contents" dir="auto"><p id="85d8db55-6aee-8281-9bd6-0129e2464dbb" class="">Volatility提供了众多的分析进程的命令：pstree，psscan，pslist等，这些命令强度与输出形式不一，还有psxview功能来综合这些进程分析方法</p></div><div style="display:contents" dir="ltr"><figure id="5058db55-6aee-830e-8a26-01a6c41c8e2d" class="image"><a href="Misc/Snipaste_2025-07-16_18-22-03.png"><img style="width:654px" src="Misc/Snipaste_2025-07-16_18-22-03.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="8188db55-6aee-838f-a32f-813b2bc5090d" class="">3、如果某些进程或文件可疑，volatility提供了Dump相关数据的命令。使用dumpfile，procdump，dumofiles和memdump命令，可以指定导出某一个进程或者某一个offset的数据，导出之后可以继续进行二进制分析。</p></div><div style="display:contents" dir="ltr"><figure id="cb38db55-6aee-82f2-a087-010057f6386e" class="image"><a href="Misc/Snipaste_2025-07-16_18-24-42.png"><img style="width:654px" src="Misc/Snipaste_2025-07-16_18-24-42.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="e648db55-6aee-83c7-9f66-81a4d41e7aa3" class="">4、进程的PEB会保存自己的命令行信息，内存中也有一些结构体保存了全局的命令行历史信息，使用从cmdline，cmdscan和consoles命令可以提取出相应的内容。</p></div><div style="display:contents" dir="ltr"><figure id="2a38db55-6aee-835e-b45c-014c647faa1f" class="image"><a href="Misc/Snipaste_2025-07-16_18-27-02.png"><img style="width:654px" src="Misc/Snipaste_2025-07-16_18-27-02.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="4a78db55-6aee-82bd-b254-81238abeaa41" class="">5、sockets和sockscan命令可以扫描内存中存在的网络套接字信息，connections与connscan可以扫描网络连接信息。</p></div><div style="display:contents" dir="ltr"><figure id="2398db55-6aee-83ba-9556-81076bf4e0f7" class="image"><a href="Misc/Snipaste_2025-07-16_18-28-26.png"><img style="width:654px" src="Misc/Snipaste_2025-07-16_18-28-26.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="6cf8db55-6aee-82c8-8aa0-0177a5476618" class="">6、使用hivelist和后hivescan命令可以列举出内存中含有的Registry Hive的信息，然后使用hivedump命令可以将某个hive进行提取，利用printkey命令可以提取出具体的注册表键值。</p></div><div style="display:contents" dir="ltr"><figure id="6fb8db55-6aee-828f-8ce0-8182e4dd0885" class="image"><a href="Misc/Snipaste_2025-07-16_18-30-13.png"><img style="width:654px" src="Misc/Snipaste_2025-07-16_18-30-13.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="9db8db55-6aee-8229-89a5-8103f42825af" class="">7、hashdump命令可以获取系统中用户登录密码的NTLM Hash。如果安装了volatility的mimikatz插件，还可以使用mimikatz命令尝试提取明文密码。</p></div><div style="display:contents" dir="ltr"><figure id="9a78db55-6aee-839f-b109-01b84d5ed6e4" class="image"><a href="Misc/Snipaste_2025-07-16_18-31-50.png"><img style="width:654px" src="Misc/Snipaste_2025-07-16_18-31-50.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="3c48db55-6aee-8288-bdd6-011feed7e802" class="">8、一些第三方插件</p></div><div style="display:contents" dir="ltr"><figure id="7198db55-6aee-824e-abf5-810d29bcb4eb"><div class="source">https://github.com/elceef/bitlocker</div></figure></div><div style="display:contents" dir="ltr"><figure id="7208db55-6aee-83df-80ba-01254c4aae43"><div class="source">https://github.com/volatilityfoundation/community</div></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aa58db55-6aee-82f8-8860-81cbf7518b0d" class="toggle"><li><details open=""><summary>磁盘镜像取整</summary><div style="display:contents" dir="auto"><p id="23b8db55-6aee-837c-af6c-815da9a70082" class="">文件系统：是操作系统中负责管理持久数据的子系统，它的功能是把用户的文件存放到磁盘硬件中。</p></div><div style="display:contents" dir="auto"><p id="c718db55-6aee-8313-b50b-815505285877" class="">文件系统的基本数单位是文件，</p></div><div style="display:contents" dir="auto"><p id="89f8db55-6aee-83cc-8a71-815877a85340" class="">目的是对磁盘上的文件进行组织和管理，由于组织和管理的方式不同，就产生了不同的文件系统。</p></div><div style="display:contents" dir="ltr"><figure id="f778db55-6aee-8316-8ee9-01c985269572" class="image"><a href="Misc/Snipaste_2025-07-16_18-52-37.png"><img style="width:654px" src="Misc/Snipaste_2025-07-16_18-52-37.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="9198db55-6aee-83dc-b9c9-81a931f9d98b" class="">WIndows系统：FAT16，FAT32，NTFS</p></div><div style="display:contents" dir="auto"><p id="ef68db55-6aee-8207-9a44-01e8167477b7" class="">Linux系统：Ext2，Ext3，Ext4</p></div><div style="display:contents" dir="auto"><hr id="7ea8db55-6aee-82cb-aebb-018ca997e221"/></div><div style="display:contents" dir="auto"><ul id="74d8db55-6aee-8313-97a8-01bb535496e3" class="toggle"><li><details open=""><summary>FAT16</summary><div style="display:contents" dir="auto"><p id="67d8db55-6aee-82f0-84a8-81469fc5fe16" class="">FAT（File Allocation Table），是文件分配表。即用这张表来记录文件所在位置。</p></div><div style="display:contents" dir="auto"><p id="f1a8db55-6aee-835d-a725-011f151da444" class="">FAT文件系统中，有两个数据单位，<mark class="highlight-purple">扇区和簇</mark></p></div><div style="display:contents" dir="auto"><p id="f5a8db55-6aee-8221-8266-81b34769022d" class="">扇区：一般为512字节</p></div><div style="display:contents" dir="auto"><p id="9278db55-6aee-82d7-8954-01ddd3a3c581" class="">簇：由若干个扇区组成，是存取数据的最小单位。</p></div><div style="display:contents" dir="auto"><p id="e628db55-6aee-83e4-bdb0-018066072be6" class="">只要文件按照正确顺序去读取簇，就可以获取文件内容</p></div><div style="display:contents" dir="auto"><hr id="8288db55-6aee-82f8-b1da-81d35bb3b9b0"/></div><div style="display:contents" dir="auto"><p id="cd58db55-6aee-82fd-9f0a-81a6f83888f8" class="">用16bit表示一个簇。</p></div><div style="display:contents" dir="auto"><p id="6b68db55-6aee-8364-9a16-817098e3ae0a" class="">基本结构：DBR扇区，FAT表1，FAT表2，根目录和数据区。</p></div><div style="display:contents" dir="ltr"><figure id="af98db55-6aee-82d7-bebd-01815e6d8a4c" class="image"><a href="Misc/Snipaste_2025-07-16_18-57-34.png"><img style="width:654px" src="Misc/Snipaste_2025-07-16_18-57-34.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="f9c8db55-6aee-83fe-bfe1-01f223cac699" class="">1、DBR扇区是第一个扇区（偏移为0），包括一个引导程序 和 称为BPB的本分区参数记录，记录着本分区的起始扇区，结束扇区，文件系统等。</p></div><div style="display:contents" dir="ltr"><figure id="bfd8db55-6aee-8366-b5cb-0157d6213150" class="image"><a href="Misc/Snipaste_2025-07-16_19-01-07.png"><img style="width:626px" src="Misc/Snipaste_2025-07-16_19-01-07.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="cdf8db55-6aee-82df-962a-81c53433adb6" class="">2、FAT表1和FAT表2</p></div><div style="display:contents" dir="auto"><p id="a9e8db55-6aee-8374-9c47-81a6130a4950" class="">是<mark class="highlight-purple">保存簇状态</mark>的地方。第0~1个字节表示第0个簇，第2~3个字节表示第1个簇。</p></div><div style="display:contents" dir="auto"><p id="d628db55-6aee-8266-b507-815c523fbe43" class="">其中FAT2是FAT1的备份。</p></div><div style="display:contents" dir="ltr"><figure id="fd48db55-6aee-83cc-99df-0121f396551a" class="image"><a href="Misc/Snipaste_2025-07-16_19-03-41.png"><img style="width:626px" src="Misc/Snipaste_2025-07-16_19-03-41.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="45b8db55-6aee-838c-a3d6-81c065bcbee2" class="">0x200h开始为FAT表1，</p></div><div style="display:contents" dir="auto"><p id="5248db55-6aee-835c-901f-816b544a3288" class="">首先从<mark class="highlight-purple">目录</mark>信息中读取得知它的第一个簇号为0x08</p></div><div style="display:contents" dir="auto"><p id="aff8db55-6aee-822e-8a46-815709da4b65" class="">此时读200h+8h*2=210h处信息，得到09 00（小端序：9h）为下一个簇号，</p></div><div style="display:contents" dir="auto"><p id="05f8db55-6aee-839b-9fb7-012161136b48" class="">此时读200h+9h*2=212h处信息，以此类推。。。。</p></div><div style="display:contents" dir="auto"><p id="41b8db55-6aee-83bb-b8cf-01f932c2c34e" class="">最后得到该文件8h，9h，Ah，Bh四个簇组成，依次读取即可。</p></div><div style="display:contents" dir="auto"><p id="3118db55-6aee-833a-9030-81ed554208ef" class="">3、根目录</p></div><div style="display:contents" dir="auto"><p id="1a18db55-6aee-837f-91a8-010461a8c319" class="">用来记录具体文件/文件夹的相关信息，每个文件/文件夹用32字节表示。包含信息如下：</p></div><div style="display:contents" dir="ltr"><figure id="80c8db55-6aee-828f-9188-813119820a30" class="image"><a href="Misc/Snipaste_2025-07-16_19-08-10.png"><img style="width:626px" src="Misc/Snipaste_2025-07-16_19-08-10.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="5618db55-6aee-8211-802c-01a03bd0e69b" class="image"><a href="Misc/Snipaste_2025-07-16_19-10-10.png"><img style="width:626px" src="Misc/Snipaste_2025-07-16_19-10-10.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1e98db55-6aee-82c0-bc87-01f6175a356a" class="toggle"><li><details open=""><summary>Ext</summary><div style="display:contents" dir="auto"><p id="b2c8db55-6aee-8216-b6a8-0123febf6046" class=""><mark class="highlight-purple">Ext：LInux扩展文件系统<br/>Ext2：文件索引式文件系统</mark></p></div><div style="display:contents" dir="auto"><p id="a938db55-6aee-83d9-8125-8132eb592f68" class="">Ext3/Ext4：日志式文件系统</p></div><div style="display:contents" dir="ltr"><figure id="5c88db55-6aee-8381-8a28-81261ca5662e" class="image"><a href="Misc/Snipaste_2025-07-16_19-14-08.png"><img style="width:626px" src="Misc/Snipaste_2025-07-16_19-14-08.png"/></a></figure></div><div style="display:contents" dir="auto"><hr id="56f8db55-6aee-8289-93cf-01829f6d019b"/></div><div style="display:contents" dir="auto"><p id="3ea8db55-6aee-83e3-af31-81793fa7ebc3" class="">一个文件有唯一的索引节点号与之对应，但是一个索引节点号，却可以有多个文件名与之对应，因此<mark class="highlight-purple"><strong>同一个文件可以通过不同路径访问</strong></mark>，即<mark class="highlight-purple"><strong>软连接和硬链接。</strong></mark></p></div><div style="display:contents" dir="ltr"><figure id="47d8db55-6aee-828c-85ec-0143efbe3951" class="image"><a href="Misc/Snipaste_2025-07-16_19-18-35.png"><img style="width:626px" src="Misc/Snipaste_2025-07-16_19-18-35.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="65d8db55-6aee-836f-bdfc-01edf1e14c88" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2dc8db55-6aee-838e-9242-813451c14bf1" class="toggle"><li><details open=""><summary>VMDK与硬盘镜像取证</summary><div style="display:contents" dir="ltr"><figure id="bed8db55-6aee-838a-85e0-81ddd1afe642" class="image"><a href="Misc/Snipaste_2025-07-16_19-23-38.png"><img style="width:626px" src="Misc/Snipaste_2025-07-16_19-23-38.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="e2e8db55-6aee-8319-8e81-01e9f8f74024" class="image"><a href="Misc/Snipaste_2025-07-16_19-23-59.png"><img style="width:626px" src="Misc/Snipaste_2025-07-16_19-23-59.png"/></a></figure></div></details></li></ul></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5528db55-6aee-825c-84a3-01e2c3e04332" class="toggle"><li><details open=""><summary>DctSvd</summary><div style="display:contents" dir="auto"><p id="4418db55-6aee-82cd-bb8c-81417bd239e2" class="">Dct（离散余弦变换）：</p></div><div style="display:contents" dir="auto"><p id="8e88db55-6aee-82d7-9553-81de16a8a330" class="">将图像从<mark class="highlight-pink">空间域</mark>转换到<mark class="highlight-pink">频域</mark>，把图像的像素值分解为不同频率的预先分量。</p></div><div style="display:contents" dir="auto"><p id="b6e8db55-6aee-830b-ad72-815fb9fd0ad5" class="">低频分量：对应图像的整体轮廓（人眼敏感）；</p></div><div style="display:contents" dir="auto"><p id="2e18db55-6aee-83d7-9eb1-81335c0b5e10" class="">高频分量：对应细节和噪声。</p></div><div style="display:contents" dir="auto"><hr id="2d98db55-6aee-8376-87cd-0142a1ce11d6"/></div><div style="display:contents" dir="auto"><p id="bbf8db55-6aee-839c-9565-01d0bab01e90" class="">在图像处理中：</p></div><div style="display:contents" dir="auto"><p id="2128db55-6aee-83bf-81aa-013857b76bac" class="">分块DCT：将图片分割为8x8或16x16的子块，逐个进行DCT。</p></div><div style="display:contents" dir="auto"><p id="5018db55-6aee-8337-bfc5-815aa3628279" class="">频域修改：在频域中修改系数（嵌入水印），可逆。</p></div><div style="display:contents" dir="auto"><hr id="1578db55-6aee-83b8-8ff5-014f0df0ffdf"/></div><div style="display:contents" dir="auto"><hr id="d458db55-6aee-8397-aeff-811a247a5a12"/></div><div style="display:contents" dir="auto"><p id="3708db55-6aee-82b7-856c-01d8ea6734eb" class="">Svd（奇异值分解）</p></div><div style="display:contents" dir="auto"><p id="4b68db55-6aee-8241-a53f-0146be2fc07a" class="">对矩阵（如灰度图像的像素矩阵<code>A</code>）进行分解：<code>A = UΣV^T</code><div class="indented"><div style="display:contents" dir="auto"><p id="ef68db55-6aee-8322-8e0d-81a52f2e039f" class=""><code>U</code>和<code>V</code>：正交矩阵（左 / 右奇异向量，反映图像的结构特征）。</p></div><div style="display:contents" dir="auto"><p id="eac8db55-6aee-83df-b5ba-811c3b8c7878" class=""><code>Σ</code>：对角矩阵（奇异值，按从大到小排列，反映对应奇异向量的重要性）。</p></div></div></p></div><div style="display:contents" dir="auto"><hr id="3f58db55-6aee-8372-960c-8157a5f0157d"/></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-831d-8a70-817cf0cc4d6e" class="">在图像处理中：</p></div><div style="display:contents" dir="auto"><p id="7318db55-6aee-8291-babb-818b43bcad05" class="">图像压缩：保留前k个最大奇异值（能量主要集中在前几个），近似还原图像。</p></div><div style="display:contents" dir="auto"><p id="afb8db55-6aee-8372-a14e-014bd8e3c996" class="">水印嵌入：修改奇异值（调整参数），利用其稳定性。</p></div><div style="display:contents" dir="auto"><hr id="0778db55-6aee-83e7-9557-814e7071ad54"/></div><div style="display:contents" dir="auto"><p id="c408db55-6aee-83b8-a71f-81a96c47e92a" class="">两者结合使用：</p></div><div style="display:contents" dir="auto"><p id="bd28db55-6aee-82c1-916f-012e9de8a207" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="21e8db55-6aee-82fb-a601-81770f56f846" class="toggle"><li><details open=""><summary>工具与技巧</summary><div style="display:contents" dir="auto"><ul id="a398db55-6aee-8398-b03e-815e1ab04106" class="toggle"><li><details open=""><summary>图片改高度（十六进制编译器打开直接修改）</summary><div style="display:contents" dir="auto"><p id="43d8db55-6aee-82ad-975f-8104152cf49f" class="">PNG：</p></div><div style="display:contents" dir="ltr"><figure id="0a48db55-6aee-821b-91e4-81ec38319b9c" class="image"><a href="Misc/Snipaste_2025-07-15_22-59-07.png"><img style="width:653.984375px" src="Misc/Snipaste_2025-07-15_22-59-07.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0288db55-6aee-8202-8311-811cdef3384e" class="toggle"><li><details open=""><summary>Binwalk</summary><div style="display:contents" dir="auto"><p id="dde8db55-6aee-823e-a764-81b7c8a596b0" class="">1、检测文件</p></div><div style="display:contents" dir="auto"><pre id="bc88db55-6aee-83ff-b5a7-81fdac272ebe" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">binwalk 123.png</code></pre></div><div style="display:contents" dir="auto"><p id="3fc8db55-6aee-82d7-9253-81141e49fcea" class="">2、提取文件</p></div><div style="display:contents" dir="auto"><pre id="9788db55-6aee-838b-8ed1-814a3f81422f" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">binwalk -e 123.png # 提取
+binwalk -eM file.jpg # 递归提取
+binwalk -e -D=&#x27;*&#x27; file.jpg # 强制提取
+binwalk -e --directory=/path/to/extract file.jpg # 指定目录提取</code></pre></div><div style="display:contents" dir="auto"><p id="1d58db55-6aee-8343-9aeb-81665f9e9c4b" class="">3、查看文件类型</p></div><div style="display:contents" dir="auto"><pre id="9778db55-6aee-82b6-8170-01887e3a6444" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">file 123x
+binwalk 123x</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5708db55-6aee-8368-b81e-81a870d769c1" class="toggle"><li><details open=""><summary>dd</summary><div style="display:contents" dir="ltr"><table id="6058db55-6aee-82ee-aaff-010ae366d187" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="0c48db55-6aee-8387-bf06-017fc7ca0583"><th id="]h|L" class="simple-table-header-color simple-table-header"><strong>参数</strong></th><th id="Kjs?" class="simple-table-header-color simple-table-header"><strong>作用</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="07a8db55-6aee-82ea-b4df-01c366a40940"><td id="]h|L" class=""><code>bs</code></td><td id="Kjs?" class="">指定块大小（Bytes / 块），例如 <code>bs=1M</code> 表示 1MB / 块</td></tr></div><div style="display:contents" dir="ltr"><tr id="3618db55-6aee-83ac-9480-01440090b310"><td id="]h|L" class=""><code>count</code></td><td id="Kjs?" class="">复制的块数量，例如 <code>count=10</code> 表示复制 10 个块</td></tr></div><div style="display:contents" dir="ltr"><tr id="f578db55-6aee-82e7-8b20-01e03d4fe401"><td id="]h|L" class=""><code>skip</code></td><td id="Kjs?" class="">输入文件开头跳过的块数量（用于提取文件中间部分）</td></tr></div><div style="display:contents" dir="ltr"><tr id="8af8db55-6aee-829c-9c6c-81f927b9af84"><td id="]h|L" class=""><code>seek</code></td><td id="Kjs?" class="">输出文件开头跳过的块数量（用于写入文件中间位置）</td></tr></div><div style="display:contents" dir="ltr"><tr id="ac18db55-6aee-832c-a4f5-014db01e1d01"><td id="]h|L" class=""><code>conv=</code></td><td id="Kjs?" class="">转换选项，例如 <code>conv=notrunc</code> 不截断输出文件</td></tr></div><div style="display:contents" dir="ltr"><tr id="4028db55-6aee-8362-bd49-01c46413f87e"><td id="]h|L" class=""><code>status=</code></td><td id="Kjs?" class="">显示复制状态，例如 <code>status=progress</code> 显示进度条</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3a38db55-6aee-83ee-bbc2-0187e26f6e6c" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 从 file.jpg 中提取第 158792 字节开始的 100000 字节数据
+dd if=file.jpg of=extracted_part bs=1 skip=158792 count=100000
+# 将 /dev/sdb 磁盘备份为 image.img
+dd if=/dev/sdb of=image.img bs=4M status=progress
+# 将 Ubuntu.iso 写入 U 盘 /dev/sdc（小心：会擦除 U 盘所有数据！）
+sudo dd if=Ubuntu.iso of=/dev/sdc bs=4M status=progress oflag=sync
+---------------
+# 提取文件并直接解压
+dd if=file.jpg of=extracted.gz bs=1 skip=158792 | gunzip -c &gt; extracted_file
+# 尝试修复 /dev/sda 磁盘的前 100 个扇区
+dd if=/dev/sda of=/dev/null bs=512 count=100 iflag=sync</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35d8db55-6aee-82f5-84ec-0132c50dcf40" class="toggle"><li><details open=""><summary>bkcrack</summary><div style="display:contents" dir="auto"><pre id="eb38db55-6aee-836f-ace7-01770b76ba08" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">echo 89504E470D0A1A0A0000000D49484452 | xxd -r -ps &gt; png_header
+xxd -r -ps：将16进制数转换成ASCII文本</code></pre></div><div style="display:contents" dir="auto"><pre id="b708db55-6aee-83bb-8f61-015b869254be" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">time bkcrack -C file.zip -c flag.png -p png_header -o 0 &gt; 1.log&amp;
+-----------------
+time：加上time参数查看计算爆破时间
+-C：选择加密压缩包
+-c：选择压缩包的密文部分
+-p：选择的明文文件
+-o：指定的明文在压缩包内目标文件的偏移量
+&gt; 1.log：并将结果存入1.log
+-----------------
+获得三段密钥92802c24 9955f8d6 65c652b8</code></pre></div><div style="display:contents" dir="auto"><pre id="9b58db55-6aee-82d7-a066-01f88d29c123" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">
+bkcrack -C file.zip -c flag.png -k 92802c24 9955f8d6 65c652b8 -d 1.png
+利用三段密钥，把flag.png文件取出来：
+-k：输入三段密钥
+-d：输出</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e018db55-6aee-82db-a74f-81e06d3777aa" class="toggle"><li><details open=""><summary>zsteg</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js" integrity="sha512-namzGTZvHaug0jeipHRN2pMepMiJj+EbrloktVFlMYGnA0EwZhbdLeENjBYLCgoghVbZGinIz/FFYHmB0o3wLw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="ff48db55-6aee-83d2-95af-017cb1411c93" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">zsteg -a 1.bmp // 全部扫描，可能会报错，栈溢出
+zsteg --msb 1.bmp // --msb 最高有效位排在第一位
+zsteg -o xY 1.bmp // 改变扫描顺序。 -o 是设置行列的读取顺序</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="5af8db55-6aee-83a1-8dd4-015b5ad8d366" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

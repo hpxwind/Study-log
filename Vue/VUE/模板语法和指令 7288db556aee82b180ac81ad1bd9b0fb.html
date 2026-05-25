@@ -1,0 +1,966 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>模板语法和指令</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="7288db55-6aee-82b1-80ac-81ad1bd9b0fb" class="page mono"><header><h1 class="page-title" dir="auto">模板语法和指令</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="c8b8db55-6aee-8297-a8b0-015f8e41a20b" class="toggle"><li><details open=""><summary>文本插值（{{}}）</summary><div style="display:contents" dir="auto"><p id="58c8db55-6aee-828d-a154-819cfbb0ba56" class="">用于将数据渲染到模板中，支持简单表达式：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="66a8db55-6aee-834b-ae59-81ea762d24f3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- Vue2 和 Vue3 通用 --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 直接渲染数据 --&gt;
+    &lt;p&gt;{{ message }}&lt;/p&gt;
+    
+    &lt;!-- 简单表达式（运算、三元等） --&gt;
+    &lt;p&gt;{{ count + 1 }}&lt;/p&gt;
+    &lt;p&gt;{{ isActive ? &#x27;激活&#x27; : &#x27;未激活&#x27; }}&lt;/p&gt;
+    
+    &lt;!-- 不支持流控制语句（if/for等） --&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bcc8db55-6aee-83c2-938c-812cbfa0ec2e" class="toggle"><li><details open=""><summary>v-bind 绑定属性</summary><div style="display:contents" dir="auto"><p id="88f8db55-6aee-8227-8dd4-817ec627e1fd" class="">用于动态绑定 HTML 属性、组件 props 等，可简写为 <code>:</code>：</p></div><div style="display:contents" dir="auto"><pre id="1478db55-6aee-8329-b7db-81fcda7ebc60" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- Vue2 和 Vue3 通用 --&gt;
+&lt;template&gt;
+  &lt;!-- 绑定 HTML 属性 --&gt;
+  &lt;img :src=&quot;imageUrl&quot; :alt=&quot;imageAlt&quot;&gt;
+  
+  &lt;!-- 绑定 class（对象/数组语法） --&gt;
+  &lt;div :class=&quot;{ active: isActive, &#x27;text-danger&#x27;: hasError }&quot;&gt;&lt;/div&gt;
+  &lt;div :class=&quot;[activeClass, errorClass]&quot;&gt;&lt;/div&gt;
+  
+  &lt;!-- 绑定 style（对象/数组语法） --&gt;
+  &lt;div :style=&quot;{ color: textColor, fontSize: &#x27;16px&#x27; }&quot;&gt;&lt;/div&gt;
+  &lt;div :style=&quot;[baseStyles, overrideStyles]&quot;&gt;&lt;/div&gt;
+  
+  &lt;!-- 绑定 props 到子组件 --&gt;
+  &lt;ChildComponent :user=&quot;currentUser&quot; :is-admin=&quot;isAdmin&quot; /&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b9e8db55-6aee-8382-9caa-01db81a83af9" class="toggle"><li><details open=""><summary>v-on 绑定事件</summary><div style="display:contents" dir="auto"><p id="3138db55-6aee-82ed-8110-016e69112481" class="">用于绑定 DOM 事件或组件自定义事件，可简写为 <code>@</code>，支持事件修饰符</p></div><div style="display:contents" dir="auto"><pre id="ce18db55-6aee-82e5-9316-018a56d1c621" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- Vue2 和 Vue3 通用 --&gt;
+&lt;template&gt;
+  &lt;!-- 绑定 DOM 事件 --&gt;
+  &lt;button @click=&quot;handleClick&quot;&gt;点击&lt;/button&gt;
+  &lt;input @input=&quot;handleInput&quot; @keyup.enter=&quot;handleEnter&quot;&gt;
+  
+  &lt;!-- 绑定自定义事件（子组件触发） --&gt;
+  &lt;ChildComponent @custom-event=&quot;handleCustomEvent&quot; /&gt;
+  
+  &lt;!-- 事件修饰符（.stop/.prevent/.self等） --&gt;
+  &lt;button @click.stop=&quot;handleClick&quot;&gt;阻止冒泡&lt;/button&gt;
+  &lt;form @submit.prevent=&quot;handleSubmit&quot;&gt;阻止默认提交&lt;/form&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="dda8db55-6aee-8293-a0ed-0120a3b6d059" class="toggle"><li><details open=""><summary>v-for 循环</summary><div style="display:contents" dir="auto"><p id="3ad8db55-6aee-822a-bec7-818db16b5000" class="">用于遍历数组 / 对象渲染列表，基础用法一致</p></div><div style="display:contents" dir="auto"><pre id="4af8db55-6aee-826c-936f-01aaa4c0d2e4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- Vue2 和 Vue3 通用 --&gt;
+&lt;template&gt;
+  &lt;!-- 遍历数组 --&gt;
+  &lt;ul&gt;
+    &lt;li v-for=&quot;(item, index) in list&quot; :key=&quot;index&quot;&gt;
+      {{ index }}: {{ item.name }}
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;!-- 遍历对象 --&gt;
+  &lt;div v-for=&quot;(value, key, index) in user&quot; :key=&quot;key&quot;&gt;
+    {{ index }}. {{ key }}: {{ value }}
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9ba8db55-6aee-820f-a44d-818352635617" class="toggle"><li><details open=""><summary>vue3新增/调整的模板语法</summary><div style="display:contents" dir="auto"><p id="d078db55-6aee-83f3-bea9-0116e83c9531" class=""><strong>Vue3 增强内容</strong>：<div class="indented"><div style="display:contents" dir="auto"><p id="f9c8db55-6aee-83e9-a3fa-8146e4266296" class="">多根节点（Fragments）消除冗余包裹。</p></div><div style="display:contents" dir="auto"><p id="0858db55-6aee-8311-9dcb-81b60bcc85c8" class=""><code>v-model</code> 语法统一，支持多双向绑定。</p></div><div style="display:contents" dir="auto"><p id="8f78db55-6aee-82a6-b1b9-81267b320755" class="">移除 <code>v-on.native</code>，事件处理更直观。</p></div><div style="display:contents" dir="auto"><p id="2928db55-6aee-8243-8c77-8160d303d188" class="">支持可选链、空值合并等现代语法。</p></div><div style="display:contents" dir="auto"><p id="ffa8db55-6aee-83e6-beb8-81bef6a5aced" class=""><code>v-if</code> 与 <code>v-for</code> 优先级调整，更符合逻辑。</p></div></div></p></div><div style="display:contents" dir="auto"><hr id="8c98db55-6aee-83d1-be72-01b18a49074e"/></div><div style="display:contents" dir="auto"><ul id="9df8db55-6aee-83e7-96e5-01201a0a258d" class="toggle"><li><details open=""><summary>1、支持多根节点</summary><div style="display:contents" dir="auto"><p id="4338db55-6aee-82ad-93a3-81cda9ac610a" class="">Vue2 要求模板必须有<strong>唯一根节点</strong>（否则会报错）；Vue3 支持多根节点（无需额外包裹 <code>div</code>）：</p></div><div style="display:contents" dir="auto"><pre id="c948db55-6aee-82e7-a108-01dffa8da9b7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- Vue2（错误：必须有唯一根节点） --&gt;
+&lt;template&gt;
+  &lt;p&gt;节点1&lt;/p&gt;
+  &lt;p&gt;节点2&lt;/p&gt; &lt;!-- 报错：Multiple root elements found in template --&gt;
+&lt;/template&gt;
+
+&lt;!-- Vue2（正确：用 div 包裹） --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;p&gt;节点1&lt;/p&gt;
+    &lt;p&gt;节点2&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;!-- Vue3（正确：支持多根节点） --&gt;
+&lt;template&gt;
+  &lt;p&gt;节点1&lt;/p&gt;
+  &lt;p&gt;节点2&lt;/p&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0858db55-6aee-83b9-92dd-81de9c9eab52" class="toggle"><li><details open=""><summary>2、v-model 语法调整</summary><div style="display:contents" dir="auto"><p id="b128db55-6aee-82b8-85ef-01016e54c9cf" class="">Vue2 中 <code>v-model</code> 与 <code>.sync</code> 修饰符并存，容易混淆；Vue3 统一了语法</p></div><div style="display:contents" dir="ltr"><table id="ef48db55-6aee-83af-8b7d-81e4135de82b" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5678db55-6aee-828d-910c-81807055ceb0"><th id=":Lcx" class="simple-table-header-color simple-table-header"><strong>场景</strong></th><th id="{RG:" class="simple-table-header-color simple-table-header"><strong>Vue2 用法</strong></th><th id="`zAL" class="simple-table-header-color simple-table-header"><strong>Vue3 用法</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="9898db55-6aee-8213-8b7c-810224a18696"><td id=":Lcx" class="">原生表单元素</td><td id="{RG:" class=""><code>&lt;input v-model=&quot;value&quot;&gt;</code></td><td id="`zAL" class="">完全一致（语法不变）</td></tr></div><div style="display:contents" dir="ltr"><tr id="c408db55-6aee-8352-b9b1-819f3fe74273"><td id=":Lcx" class="">自定义组件双向绑定</td><td id="{RG:" class=""><code>&lt;Child :value.sync=&quot;parentValue&quot;&gt;</code> 或 <code>&lt;Child v-model=&quot;parentValue&quot;&gt;</code>（需子组件配合）</td><td id="`zAL" class=""><code>&lt;Child v-model:value=&quot;parentValue&quot;&gt;</code>（统一用 <code>v-model:prop</code> 形式）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="2ca8db55-6aee-82df-af6c-8143bf6c33e3" class="">自定义组件实例：</p></div><div style="display:contents" dir="auto"><pre id="11b8db55-6aee-8266-99cb-810653079c36" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- Vue2：.sync 修饰符 --&gt;
+&lt;ChildComponent :title.sync=&quot;pageTitle&quot; /&gt;
+&lt;!-- 等价于：&lt;ChildComponent :title=&quot;pageTitle&quot; @update:title=&quot;pageTitle = $event&quot; /&gt; --&gt;
+
+&lt;!-- Vue3：统一用 v-model:prop --&gt;
+&lt;ChildComponent v-model:title=&quot;pageTitle&quot; /&gt;
+&lt;!-- 等价于：&lt;ChildComponent :title=&quot;pageTitle&quot; @update:title=&quot;pageTitle = $event&quot; /&gt; --&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="a6e8db55-6aee-83bf-b248-017fccb1ca6f" class="">Vue3 中，<code>v-model</code> 可同时绑定多个属性（多双向绑定）：</p></div><div style="display:contents" dir="auto"><pre id="80c8db55-6aee-8353-bd79-8195c232b05d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- Vue3 支持多 v-model --&gt;
+&lt;FormComponent 
+  v-model:username=&quot;user.name&quot; 
+  v-model:email=&quot;user.email&quot; 
+/&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a978db55-6aee-829c-8cb7-016a45c984b9" class="toggle"><li><details open=""><summary>3、v-if 与 v-for 优先级变化</summary><div style="display:contents" dir="auto"><ul id="e368db55-6aee-838e-b323-818eadd8cdb7" class="bulleted-list"><li style="list-style-type:disc">Vue2：<code>v-for</code> 优先级高于 <code>v-if</code>（遍历后再判断）。</li></ul></div><div style="display:contents" dir="auto"><ul id="5d48db55-6aee-82aa-a9f3-01c08352dbf5" class="bulleted-list"><li style="list-style-type:disc">Vue3：<code>v-if</code> 优先级高于 <code>v-for</code>（先判断再遍历，更符合逻辑）。</li></ul></div><div style="display:contents" dir="auto"><p id="c7a8db55-6aee-8203-b30f-015764345558" class=""><strong>注意：</strong> 不建议在同一元素上同时使用 <code>v-if</code> 和 <code>v-for</code>（可读性差），Vue3 会报警告。推荐在父元素用 <code>v-if</code> 控制，或用计算属性过滤列表。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="eb58db55-6aee-82aa-aa0d-811a90c5b182" class="toggle"><li><details open=""><summary>4、移除v-on.native 修饰符</summary><div style="display:contents" dir="auto"><p id="aa48db55-6aee-83c7-8b46-81028adee51f" class="">Vue2 中，给自定义组件绑定原生事件需用 <code>.native</code> 修饰符；Vue3 中，自定义组件的事件默认会被当作原生事件处理，若需监听组件内部的自定义事件，由子组件通过 <code>emits</code> 声明：</p></div><div style="display:contents" dir="auto"><pre id="d0b8db55-6aee-82bc-a749-01e6c17602bf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- Vue2：监听自定义组件的原生事件 --&gt;
+&lt;ChildComponent @click.native=&quot;handleClick&quot; /&gt;
+
+&lt;!-- Vue3：无需 .native，默认监听原生事件 --&gt;
+&lt;ChildComponent @click=&quot;handleClick&quot; /&gt;
+
+&lt;!-- Vue3：子组件声明自定义事件后，父组件可监听 --&gt;
+&lt;!-- 子组件 --&gt;
+&lt;script&gt;
+export default {
+  emits: [&#x27;custom-event&#x27;] // 声明自定义事件
+}
+&lt;/script&gt;
+&lt;!-- 父组件 --&gt;
+&lt;ChildComponent @custom-event=&quot;handleCustom&quot; /&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8ca8db55-6aee-836b-b84f-81fdc1c915a8" class="toggle"><li><details open=""><summary>5、支持动态指令参数的复杂表达式</summary><div style="display:contents" dir="auto"><p id="3438db55-6aee-8368-a65d-013a3e5844a1" class="">Vue2 中动态指令参数（如 <code>v-bind:[key]</code>）只能是简单表达式；Vue3 支持更复杂的表达式：</p></div><div style="display:contents" dir="auto"><pre id="aec8db55-6aee-8394-9e93-016a5c6b4d93" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- Vue3 支持 --&gt;
+&lt;template&gt;
+  &lt;!-- 动态参数可包含运算 --&gt;
+  &lt;button @[`click${postfix}`]=&quot;handleClick&quot;&gt;点击&lt;/button&gt;
+  
+  &lt;!-- 动态参数可调用方法 --&gt;
+  &lt;div :[getAttrName()]=&quot;value&quot;&gt;&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return { postfix: &#x27;Me&#x27;, value: &#x27;test&#x27; }
+  },
+  methods: {
+    getAttrName() {
+      return &#x27;data-id&#x27;;
+    }
+  }
+}
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7428db55-6aee-82b0-bed2-810c68f56067" class="toggle"><li><details open=""><summary>6、支持模板中的可选链（?.）和空值合并（??）</summary><div style="display:contents" dir="auto"><p id="34d8db55-6aee-83dd-ac17-011af89538e8" class="">Vue3 模板中默认支持 JavaScript 的可选链（<code>?.</code>）和空值合并（<code>??</code>）运算符，无需额外配置：</p></div><div style="display:contents" dir="auto"><pre id="4748db55-6aee-8208-8582-819a85bf44e1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- Vue3 支持 --&gt;
+&lt;template&gt;
+  &lt;!-- 可选链：安全访问嵌套属性 --&gt;
+  &lt;p&gt;{{ user?.address?.city }}&lt;/p&gt;
+  
+  &lt;!-- 空值合并：默认值只在左侧为 null/undefined 时生效 --&gt;
+  &lt;p&gt;{{ username ?? &#x27;未知用户&#x27; }}&lt;/p&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6c08db55-6aee-82bf-85a2-8122a467ac00" class="toggle"><li><details open=""><summary>v-for支持解构</summary><div style="display:contents" dir="auto"><p id="7c98db55-6aee-83a4-8002-01fd5dfda763" class="">Vue3 中 <code>v-for</code> 可直接解构遍历的对象 / 数组，简化代码：</p></div><div style="display:contents" dir="auto"><pre id="4418db55-6aee-8349-9638-818c4180948b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- Vue3 支持 --&gt;
+&lt;template&gt;
+  &lt;div v-for=&quot;({ name, age }, index) in users&quot; :key=&quot;index&quot;&gt;
+    {{ name }} - {{ age }}
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="c1d8db55-6aee-8344-8f8b-8117c6e46ad8"/></div><div style="display:contents" dir="auto"><p id="f6d8db55-6aee-82a3-9ae2-010a6c8977b8" class="">Vue 2 和 Vue 3 中的指令（Directive）是带有 <code>v-</code> 前缀的特殊属性，用于在模板中操作 DOM、绑定数据或监听事件</p></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-8313-b2e5-814c7243af1e" class="toggle"><li><details open=""><summary>指令</summary><div style="display:contents" dir="auto"><p id="33d8db55-6aee-8299-9e45-81993e601fa9" class="">以 <code>v-</code> 开头的特殊属性，用于控制 DOM 行为：</p></div><div style="display:contents" dir="ltr"><table id="7a78db55-6aee-83c1-bf7f-0144d88d114f" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="e058db55-6aee-832d-958b-01e4aac8c368"><th id="\LyC" class="simple-table-header-color simple-table-header"><strong>指令</strong></th><th id="KGIH" class="simple-table-header-color simple-table-header"><strong>作用</strong></th><th id="Nps]" class="simple-table-header-color simple-table-header"><strong>Vue2/Vue3 一致性</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="5f28db55-6aee-8399-b07c-01ba7493dc80"><td id="\LyC" class=""><code>v-text</code></td><td id="KGIH" class="">渲染文本（类似 <code>{{ }}</code>）</td><td id="Nps]" class="">完全一致</td></tr></div><div style="display:contents" dir="ltr"><tr id="b8f8db55-6aee-829c-8d7e-81621f6e31a2"><td id="\LyC" class=""><code>v-html</code></td><td id="KGIH" class="">渲染 HTML（注意 XSS 风险）</td><td id="Nps]" class="">完全一致</td></tr></div><div style="display:contents" dir="ltr"><tr id="9e08db55-6aee-821c-b09a-810eb96b505c"><td id="\LyC" class=""><code>v-show</code></td><td id="KGIH" class="">基于条件显示元素（CSS 切换）</td><td id="Nps]" class="">完全一致</td></tr></div><div style="display:contents" dir="ltr"><tr id="6f28db55-6aee-837f-9fe5-01a89086c811"><td id="\LyC" class=""><code>v-if</code>/<code>v-else</code>/<code>v-else-if</code></td><td id="KGIH" class="">基于条件渲染元素（DOM 增删）</td><td id="Nps]" class="">完全一致</td></tr></div><div style="display:contents" dir="ltr"><tr id="cea8db55-6aee-83a6-9c57-81666d0d251f"><td id="\LyC" class=""><code>v-for</code></td><td id="KGIH" class="">循环渲染列表</td><td id="Nps]" class="">基础用法一致，优先级有差异（见下文）</td></tr></div><div style="display:contents" dir="ltr"><tr id="6e28db55-6aee-83af-afe2-81a3a7736812"><td id="\LyC" class=""><code>v-bind</code></td><td id="KGIH" class="">绑定属性（可简写为 <code>:</code>）</td><td id="Nps]" class="">完全一致</td></tr></div><div style="display:contents" dir="ltr"><tr id="9df8db55-6aee-8264-bc5c-01f413e271aa"><td id="\LyC" class=""><code>v-on</code></td><td id="KGIH" class="">绑定事件（可简写为 <code>@</code>）</td><td id="Nps]" class="">基础用法一致，修饰符有调整（见下文）</td></tr></div><div style="display:contents" dir="ltr"><tr id="5168db55-6aee-8208-a9ee-0129df4c6cb9"><td id="\LyC" class=""><code>v-model</code></td><td id="KGIH" class="">双向数据绑定</td><td id="Nps]" class="">基础用法一致，自定义组件用法有调整</td></tr></div><div style="display:contents" dir="ltr"><tr id="b618db55-6aee-83e1-a06c-01d4002a3bb8"><td id="\LyC" class=""><code>v-pre</code></td><td id="KGIH" class="">跳过编译（直接显示原始内容）</td><td id="Nps]" class="">完全一致</td></tr></div><div style="display:contents" dir="ltr"><tr id="ecd8db55-6aee-8255-95cf-0193b8f8798d"><td id="\LyC" class=""><code>v-cloak</code></td><td id="KGIH" class="">防止未编译模板闪烁</td><td id="Nps]" class="">完全一致</td></tr></div><div style="display:contents" dir="ltr"><tr id="f658db55-6aee-82b4-8a37-815f0ec77f1b"><td id="\LyC" class=""><code>v-once</code></td><td id="KGIH" class="">只渲染一次（后续不更新）</td><td id="Nps]" class="">完全一致</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ff58db55-6aee-8325-bfe2-81b28ad004c5" class="toggle"><li><details open=""><summary>自定义指令（2/3通用）</summary><div style="display:contents" dir="auto"><p id="c1f8db55-6aee-8233-ae47-01409bc24394" class=""><strong>作用</strong>：封装 DOM 操作逻辑，让模板更简洁，逻辑更复用。</p></div><div style="display:contents" dir="auto"><p id="c688db55-6aee-83c8-b0f3-81c12ba1ff9a" class=""><strong>使用场景</strong>：聚焦输入框、格式化日期、权限控制、滚动监听、拖拽等。</p></div><div style="display:contents" dir="auto"><p id="e788db55-6aee-8337-adf5-8104d06c9c1d" class=""><strong>形式</strong>：<mark class="highlight-orange">以 </mark><mark class="highlight-orange"><code>v-</code></mark><mark class="highlight-orange"> 为前缀的自定义属性</mark>（如 <code>v-focus</code>、<code>v-permission</code>）。</p></div><div style="display:contents" dir="auto"><hr id="2318db55-6aee-8333-a98d-81352d2bbf01"/></div><div style="display:contents" dir="auto"><p id="5208db55-6aee-82f8-82c0-0171487a373c" class="">
+</p></div><div style="display:contents" dir="auto"><p id="4658db55-6aee-8264-80b2-81c071e41cb6" class="">Vue2:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="41c8db55-6aee-82b4-909d-0163771e34c3" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">// main.js
+import Vue from &#x27;vue&#x27;;
+import App from &#x27;./App.vue&#x27;;
+
+// 注册全局指令 v-focus
+Vue.directive(&#x27;focus&#x27;, {
+  // 元素插入 DOM 时自动聚焦
+  inserted(el, binding) {
+    // 根据绑定值决定是否聚焦（如 v-focus=&quot;true&quot; 才聚焦）
+    if (binding.value) {
+      el.focus();
+    }
+  },
+  // 当指令绑定值更新时
+  update(el, binding) {
+    if (binding.value &amp;&amp; !binding.oldValue) {
+      el.focus(); // 从 false 变为 true 时聚焦
+    } else if (!binding.value &amp;&amp; binding.oldValue) {
+      el.blur(); // 从 true 变为 false 时失焦
+    }
+  }
+});
+
+new Vue({
+  render: h =&gt; h(App)
+}).$mount(&#x27;#app&#x27;);</code></pre></div><div style="display:contents" dir="auto"><p id="3f18db55-6aee-82d8-b24c-816584955910" class="">局部注册：</p></div><div style="display:contents" dir="auto"><pre id="8b78db55-6aee-832f-9e9f-811540e8180f" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">&lt;!-- MyComponent.vue --&gt;
+&lt;template&gt;
+  &lt;input v-focus=&quot;isFocused&quot; type=&quot;text&quot;&gt;
+  &lt;button @click=&quot;isFocused = !isFocused&quot;&gt;切换聚焦&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return { isFocused: true };
+  },
+  // 局部注册指令
+  directives: {
+    focus: {
+      inserted(el, binding) {
+        if (binding.value) el.focus();
+      },
+      update(el, binding) {
+        if (binding.value) el.focus();
+        else el.blur();
+      }
+    }
+  }
+};
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="f6f8db55-6aee-83bd-85cb-01a31223f4b0" class="">使用：</p></div><div style="display:contents" dir="auto"><pre id="6e58db55-6aee-823b-94aa-01f9c5cdc95a" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 在模板中使用 --&gt;
+&lt;input v-focus=&quot;true&quot; type=&quot;text&quot;&gt; &lt;!-- 初始聚焦 --&gt;
+&lt;input v-focus=&quot;false&quot; type=&quot;text&quot;&gt; &lt;!-- 初始不聚焦 --&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="dde8db55-6aee-8341-9a56-019ff8a59364"/></div><div style="display:contents" dir="auto"><p id="11f8db55-6aee-8351-abe8-812e119e5471" class="">Vue3:</p></div><div style="display:contents" dir="auto"><pre id="d668db55-6aee-8238-be91-01ba62d0814f" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">// main.js
+import { createApp } from &#x27;vue&#x27;;
+import App from &#x27;./App.vue&#x27;;
+
+const app = createApp(App);
+
+// 注册全局指令 v-focus
+app.directive(&#x27;focus&#x27;, {
+  // 元素插入 DOM 时（替代 Vue 2 的 inserted）
+  mounted(el, binding) {
+    if (binding.value) el.focus();
+  },
+  // 元素更新时（替代 Vue 2 的 update + componentUpdated）
+  updated(el, binding) {
+    if (binding.value !== binding.oldValue) {
+      binding.value ? el.focus() : el.blur();
+    }
+  }
+});
+
+app.mount(&#x27;#app&#x27;);</code></pre></div><div style="display:contents" dir="auto"><p id="14e8db55-6aee-822a-b3d0-014f7c429c65" class="">局部注册：</p></div><div style="display:contents" dir="auto"><pre id="33c8db55-6aee-82e7-b026-816a9d6f8c99" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">&lt;!-- MyComponent.vue --&gt;
+&lt;template&gt;
+  &lt;input v-focus=&quot;isFocused&quot; type=&quot;text&quot;&gt;
+  &lt;button @click=&quot;isFocused = !isFocused&quot;&gt;切换聚焦&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from &#x27;vue&#x27;;
+
+const isFocused = ref(true);
+
+// 局部注册指令（在 &lt;script setup&gt; 中需用 defineDirective）
+const vFocus = {
+  mounted(el, binding) {
+    if (binding.value) el.focus();
+  },
+  updated(el, binding) {
+    if (binding.value !== binding.oldValue) {
+      binding.value ? el.focus() : el.blur();
+    }
+  }
+};
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="2448db55-6aee-8396-acc0-810ac4a8fa13" class="">简化写法：（仅需一个钩子）</p></div><div style="display:contents" dir="auto"><p id="9fe8db55-6aee-831d-8f3d-0121482909eb" class="">如果指令逻辑简单，可直接传递一个函数（在 <code>mounted</code> 和 <code>updated</code> 时触发）：</p></div><div style="display:contents" dir="auto"><pre id="2f68db55-6aee-8372-8d96-815511b0ec24" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">// Vue 3 简化版 v-focus
+app.directive(&#x27;focus&#x27;, (el, binding) =&gt; {
+  binding.value ? el.focus() : el.blur();
+});</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

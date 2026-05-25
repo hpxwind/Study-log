@@ -1,0 +1,777 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Vue-cli</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5d08db55-6aee-83b7-89e5-81766b37181b" class="page sans"><header><h1 class="page-title" dir="auto">Vue-cli</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="ff88db55-6aee-82ef-b7ab-818b6ccf1969" class="">Vue CLI（Vue 命令行工具）是 Vue.js 官方提供的脚手架工具，用于快速搭建 Vue 项目、配置开发环境、打包部署等，极大简化了 Vue 项目的开发流程。</p></div><div style="display:contents" dir="auto"><hr id="d1c8db55-6aee-8343-860b-8111f11ab594"/></div><div style="display:contents" dir="auto"><ul id="5548db55-6aee-8387-b8de-81d58159daee" class="toggle"><li><details open=""><summary>安装与卸载</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="24b8db55-6aee-838b-ad9f-016cac72d149" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all"># npm 安装
+npm install -g @vue/cli
+
+# yarn 安装（需先安装 yarn：npm install -g yarn）
+yarn global add @vue/cli
+
+如果使用vue init webpack hello  
+的化
+需要安装全局插件（专门用于启动vue init）</code></pre></div><div style="display:contents" dir="auto"><p id="a508db55-6aee-8383-8098-81878a4066d1" class="">安装后验证：</p></div><div style="display:contents" dir="auto"><pre id="3378db55-6aee-8328-8173-81e86fe6f040" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">vue --version  # 或 vue -V（大写 V）</code></pre></div><div style="display:contents" dir="auto"><p id="a1f8db55-6aee-832c-8750-8145580c42bd" class="">卸载：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="b1e8db55-6aee-82c7-9f67-01bc9a4536a3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm uninstall -g @vue/cli
+npm uninstall -g vue-cli</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8388db55-6aee-8260-a2c8-8111762b71f5" class="toggle"><li><details open=""><summary>创建新项目（vue create）</summary><div style="display:contents" dir="auto"><p id="f4a8db55-6aee-8296-b4b6-81bd3f3f0e05" class="">交互式命令创建项目，可以自定义配置：</p></div><div style="display:contents" dir="auto"><pre id="0b78db55-6aee-83be-89ce-811df7dc525f" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">vue create my-vue-project  # my-vue-project 为项目名</code></pre></div><div style="display:contents" dir="auto"><p id="7678db55-6aee-8247-8b9b-018c998be533" class=""><strong>选择配置方式</strong>：<div class="indented"><div style="display:contents" dir="auto"><ul id="d618db55-6aee-8297-b6b5-8147c329979a" class="bulleted-list"><li style="list-style-type:disc"><code>Default ([Vue 3] babel, eslint)</code>：默认配置（Vue 3 + Babel + ESLint）。</li></ul></div><div style="display:contents" dir="auto"><ul id="71c8db55-6aee-82e2-a04a-8129ec5d34a5" class="bulleted-list"><li style="list-style-type:disc"><code>Default ([Vue 2] babel, eslint)</code>：默认 Vue 2 配置。</li></ul></div><div style="display:contents" dir="auto"><ul id="2a18db55-6aee-83e8-bf0a-81489a0f7e30" class="bulleted-list"><li style="list-style-type:disc"><code>Manually select features</code>：手动选择功能（推荐自定义）。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="daa8db55-6aee-8396-a163-815a230ab441" class=""><strong>手动选择功能（常用选项）</strong>：<div class="indented"><div style="display:contents" dir="auto"><ul id="6678db55-6aee-82d7-8df3-01584ad6e5e3" class="bulleted-list"><li style="list-style-type:disc"><code>Babel</code>：转译 ES6+ 语法到 ES5（兼容旧浏览器）。</li></ul></div><div style="display:contents" dir="auto"><ul id="3bc8db55-6aee-82e7-9fb7-01278c4cf4af" class="bulleted-list"><li style="list-style-type:disc"><code>TypeScript</code>：支持 TypeScript 类型检查。</li></ul></div><div style="display:contents" dir="auto"><ul id="5128db55-6aee-8311-8b15-8188df8d70b0" class="bulleted-list"><li style="list-style-type:disc"><code>Router</code>：Vue 路由（管理页面跳转）。</li></ul></div><div style="display:contents" dir="auto"><ul id="07a8db55-6aee-8322-ba6c-8129aa075630" class="bulleted-list"><li style="list-style-type:disc"><code>Vuex</code>/<code>Pinia</code>：状态管理（Vuex 是旧版，Pinia 是 Vue 3 推荐）。</li></ul></div><div style="display:contents" dir="auto"><ul id="1f98db55-6aee-82db-8036-01183bcc5c8a" class="bulleted-list"><li style="list-style-type:disc"><code>CSS Pre-processors</code>：CSS 预处理器（Less/Sass/Stylus）。</li></ul></div><div style="display:contents" dir="auto"><ul id="1d78db55-6aee-83d2-9ca8-812846e6e4d2" class="bulleted-list"><li style="list-style-type:disc"><code>Linter / Formatter</code>：代码规范检查（ESLint）。</li></ul></div><div style="display:contents" dir="auto"><ul id="67b8db55-6aee-826e-bdd6-812306ca1f42" class="bulleted-list"><li style="list-style-type:disc"><code>Unit Testing</code>/<code>E2E Testing</code>：测试工具（Jest/Cypress 等）。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="7a78db55-6aee-82f0-9aa0-8100591fc79b" class=""><strong>后续配置</strong>：<div class="indented"><div style="display:contents" dir="auto"><ul id="7f38db55-6aee-8207-a043-819f0f7423b7" class="bulleted-list"><li style="list-style-type:disc">选择 Vue 版本（Vue 2 或 Vue 3）。</li></ul></div><div style="display:contents" dir="auto"><ul id="8358db55-6aee-83f0-9580-01afaa0b2f38" class="bulleted-list"><li style="list-style-type:disc">是否使用历史模式路由（<code>history mode</code>，需后端配合）。</li></ul></div><div style="display:contents" dir="auto"><ul id="6b88db55-6aee-8314-88de-813ac379bb09" class="bulleted-list"><li style="list-style-type:disc">选择 CSS 预处理器（如 <code>Sass/SCSS</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="22a8db55-6aee-8335-bcd5-01f88dbfa4c7" class="bulleted-list"><li style="list-style-type:disc">选择 ESLint 规则（如 <code>ESLint + Prettier</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="2f48db55-6aee-8226-ac51-817a4f23a9b2" class="bulleted-list"><li style="list-style-type:disc">配置文件存放位置（单独文件或 package.json 中）。</li></ul></div><div style="display:contents" dir="auto"><ul id="3a58db55-6aee-820f-b25d-01943d6e7654" class="bulleted-list"><li style="list-style-type:disc">是否保存配置为预设（方便下次复用）。</li></ul></div></div></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c258db55-6aee-8338-b1bc-01810336ed72" class="toggle"><li><details open=""><summary>启动开发服务（serve）</summary><div style="display:contents" dir="auto"><pre id="63b8db55-6aee-8210-8784-0134685da051" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">cd my-vue-project
+npm run serve  # 或 yarn serve</code></pre></div><div style="display:contents" dir="auto"><p id="23f8db55-6aee-82e0-9cfa-017d1e0080d5" class="">默认地址：<code>http://localhost:8080</code>，修改代码会自动刷新页面</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0f18db55-6aee-83a1-b9c3-0107b4c30c49" class="toggle"><li><details open=""><summary>打包生产环境（build）</summary><div style="display:contents" dir="auto"><p id="8028db55-6aee-82c0-8a6b-815f6e577c36" class="">将项目打包为可部署的静态文件（HTML/CSS/JS）</p></div><div style="display:contents" dir="auto"><pre id="5328db55-6aee-826b-b568-81a4baeda32a" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">npm run build  # 或 yarn build</code></pre></div><div style="display:contents" dir="auto"><p id="c508db55-6aee-821d-a10b-8109ee83d152" class="">打包后文件生成在 <code>dist</code> 目录，可直接部署到服务器（需注意路径配置）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-837e-8ce7-01e9d63daa29" class="toggle"><li><details open=""><summary>配置项目（vue.config.js）</summary><div style="display:contents" dir="auto"><p id="72f8db55-6aee-82f9-96a5-016b69f834de" class="">项目根目录下的 <code>vue.config.js</code> 是核心配置文件，用于自定义构建、开发服务器等选项，常用配置：</p></div><div style="display:contents" dir="auto"><pre id="6328db55-6aee-835a-84bf-01cf212a7c27" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">module.exports = {
+  publicPath: &#x27;./&#x27;,  // 部署路径（默认 &#x27;/&#x27;，子目录部署需改为 &#x27;./&#x27;）
+  outputDir: &#x27;dist&#x27;, // 打包输出目录
+  devServer: {       // 开发服务器配置
+    port: 8081,      // 端口号
+    open: true,      // 自动打开浏览器
+    proxy: {         // 接口代理（解决跨域）
+      &#x27;/api&#x27;: {
+        target: &#x27;http://localhost:3000&#x27;, // 后端接口地址
+        changeOrigin: true,
+        pathRewrite: { &#x27;^/api&#x27;: &#x27;&#x27; }
+      }
+    }
+  },
+  css: {             // CSS 配置
+    loaderOptions: { // 预处理器配置（如 Sass 全局变量）
+      sass: {
+        additionalData: `@import &quot;@/styles/variables.scss&quot;;`
+      }
+    }
+  }
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2e48db55-6aee-83b3-bedd-8192190724ce" class="toggle"><li><details open=""><summary>安装插件（vue add）</summary><div style="display:contents" dir="auto"><p id="fd18db55-6aee-82d3-bfe2-01822146bd65" class="">通过官方插件扩展项目功能（如 Vue Router、Vuex 等）</p></div><div style="display:contents" dir="auto"><pre id="9ee8db55-6aee-8208-9374-813682bcd3ba" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">vue add router  # 安装 Vue Router
+vue add vuex    # 安装 Vuex（Vue 2）
+vue add pinia   # 安装 Pinia（Vue 3）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9dc8db55-6aee-8263-a6f3-81f693ab4016" class="toggle"><li><details open=""><summary>检查项目依赖（vue inspect）</summary><div style="display:contents" dir="auto"><p id="d798db55-6aee-828b-a9ae-01c33cd8b5f0" class="">查看 Webpack 配置（Vue CLI 基于 Webpack 封装）</p></div><div style="display:contents" dir="auto"><pre id="ef28db55-6aee-82ae-b41e-018f1433f727" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">vue inspect &gt; webpack.config.js  # 将配置输出到文件</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="c308db55-6aee-8262-bd2d-8160e1cb8f7d" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

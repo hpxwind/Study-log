@@ -1,0 +1,1106 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>布局方式</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="fdd8db55-6aee-82a5-8c67-81486e5b9dd1" class="page sans"><header><h1 class="page-title" dir="auto">布局方式</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="2df8db55-6aee-82bf-b4b2-015ab6e73247" class="toggle"><li><details open=""><summary>定位属性</summary><div style="display:contents" dir="auto"><p id="3428db55-6aee-83c6-842b-81263a4b7cbb" class="">定位属性用于控制元素在文档中的位置。</p></div><div style="display:contents" dir="auto"><p id="2408db55-6aee-83e9-8805-814dfc59981c" class="">有<code>&lt;position&gt;, &lt;top&gt;, &lt;right&gt;, &lt;bottom&gt;, &lt;left&gt;, &lt;z-index&gt;</code> 等属性。</p></div><div style="display:contents" dir="auto"><p id="4418db55-6aee-82b8-a33a-8168511c2d66" class="">position：定位类型</p></div><div style="display:contents" dir="auto"><p id="c468db55-6aee-82d3-9dcd-815238961fe6" class="">可以将行内元素转为块级元素</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4d88db55-6aee-8392-8a1c-812773bb71f8" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">position属性决定元素的定位方式，取值：
+1、static：（静态定位）按照正常的文档流排列，即从上到下，从左到右。&lt;top&gt;, &lt;right&gt;, &lt;bottom&gt;, &lt;left&gt;, &lt;z-index&gt;属性对static无效
+.element {
+  position: relative;
+  top: 10px; /* 元素向下偏移10px */
+  left: 20px; /* 元素向右偏移20px */
+}
+-----------------------------------------------
+2、relative：（相对定位）按照静态定位的方式排列，再根据top，right，bottom，left属性值相对于自身原来的位置进行偏移。
+.element {
+  position: relative;
+  top: 10px; /* 元素向下偏移10px */
+  left: 20px; /* 元素向右偏移20px */
+}
+---------------------------------------------
+3、absolute：（绝对定位）元素脱离文档流，不再占据原来的空间。它相对于最近的已经定位的祖先元素（即position值不是static的祖先元素）进行定位。如果没有，就相对于初始包含块（浏览器窗口）进行定位。
+&lt;div class=&quot;parent&quot;&gt;
+  &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+.parent {
+  position: relative; /* 给父元素设置相对定位，以便子元素相对于它定位 */
+  width: 300px;
+  height: 300px;
+  background-color: lightgray;
+}
+.child {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  width: 100px;
+  height: 100px;
+  background-color: lightblue;
+}
+--------------------------------------------------
+4、fixed：（固定定位）元素脱离文档流，相对于浏览器窗口进行定位，这意味着即使页面滚动，元素的位置也不会改变，通常用于导航栏，返回顶部按钮等。
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+---------------------------------------------------------
+5、sticky：（粘性定位）：元素在正常文档流中，初始时表现为相对定位，当页面滚动到一定程度，达到指定的top，right，bottom或left阈值时，元素变为固定定位，固定在指定位置。
+.sticky-element {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3478db55-6aee-83d3-9997-0133fbf67778" class="">top，right，bottom，left：位置偏移量</p></div><div style="display:contents" dir="auto"><pre id="09c8db55-6aee-82cd-9d8e-81d27289db10" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">top：定义元素的上边缘到包含块上边缘的距离。
+right：定义元素的右边缘到包含块右边缘的距离。
+bottom：定义元素的下边缘到包含块下边缘的距离。
+left：定义元素的左边缘到包含块左边缘的距离。</code></pre></div><div style="display:contents" dir="auto"><p id="f8f8db55-6aee-83fe-8eb7-01d49e372aac" class="">z-index：层叠顺序，层级</p></div><div style="display:contents" dir="auto"><pre id="9878db55-6aee-832a-8f09-8117dfa51492" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">z-index：属性用于控制定位元素在垂直于页面方向（z轴）上的层叠顺序，取值为整数，数值越大，元素越在上方显示。
+1、对于 position 取值为 relative、absolute 或 fixed 的元素，可以通过 z-index 来调整它们之间的层叠关系。
+2、如果两个元素的 z-index 值相同，那么它们的层叠顺序取决于在 HTML 文档中出现的先后顺序，后出现的元素会覆盖先出现的元素。
+兄弟关系
+&lt;div class=&quot;box1&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;box2&quot;&gt;&lt;/div&gt;
+.box1 {
+  position: absolute;
+  z-index: 1;
+  background-color: red;
+}
+.box2 {
+  position: absolute;
+  z-index: 2;
+  background-color: blue;
+}
+在这个例子中，.box2 会显示在 .box1 的上方。
+-------------------------------------------------
+父子关系
+&lt;div calss=&quot;box1&quot;&gt;
+	&lt;div calss=&quot;box2&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+.box1 {
+  position: absolute;
+  z-index: 1;
+  background-color: red;
+}
+.box2 {
+  position: absolute;
+  background-color: blue;
+}
+这个例子中，box1不会显示在box2上面
+想要实现这个功能：设置box2: z-index:-1;即可</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2878db55-6aee-8320-bfe0-01d427a73117" class="toggle"><li><details open=""><summary>flex布局（弹性盒）</summary><div style="display:contents" dir="auto"><pre id="84b8db55-6aee-831b-a21b-8153f78b86a7" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">Flex 容器（Flex Container）
+	应用 display: flex 或 display: inline-flex 的父元素。
+	控制子元素的排列方向、对齐方式和空间分配。
+1、子元素默认横向排列
+2、行内元素，会变成块级元素
+3、子元素使用margin: auto;自动中心居中</code></pre></div><div style="display:contents" dir="auto"><pre id="ab98db55-6aee-83eb-bad6-819b6d085c8e" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">1. display 将元素转换为 Flex 容器。
+.container {
+  display: flex; /* 或 inline-flex flex（块级）或 inline-flex（内联级）。*/
+}
+
+2. flex-direction 定义主轴方向。
+.container {
+  flex-direction: column; /* 垂直排列 row（默认）、row-reverse、column、column-reverse。*/
+}
+
+3. flex-wrap 控制子元素溢出时是否换行。
+.container {
+  flex-wrap: wrap; /* 自动换行 nowrap（默认）、wrap、wrap-reverse。*/
+}
+
+4. justify-content 定义子元素在主轴上的对齐方式。
+.container {
+  justify-content: center; /* 水平居中 flex-start（默认）、flex-end、center、space-between、space-around、space-evenly。*/
+}
+
+5. align-items 定义子元素在交叉轴上的对齐方式。
+.container {
+  align-items: center; /* 垂直居中 stretch（默认）、flex-start、flex-end、center、baseline。*/
+}
+
+6. align-content 多行元素在交叉轴上的对齐方式（需配合 flex-wrap: wrap）。
+.container {
+  align-content: flex-start; /* stretch（默认）、flex-start、flex-end、center、space-between、space-around。*/v
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="0848db55-6aee-8288-a0fe-015125eed104" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">1. flex-basis 定义元素在主轴上的初始大小。
+.item {
+  flex-basis: 100px; /* 初始宽度/高度 长度值（如 200px）或百分比（如 50%），默认 auto。*/
+}
+
+2. flex-grow 定义元素在剩余空间中的扩展比例。
+.item {
+  flex-grow: 1; /* 平均分配剩余空间 数字（默认 0）。*/
+}
+
+3. flex-shrink 定义元素在空间不足时的收缩比例。
+.item {
+  flex-shrink: 0; /* 不收缩 数字（默认 1）。*/
+}
+
+4. flex flex-grow、flex-shrink、flex-basis 的组合。
+.item {
+  flex: 1; /* 等价于 flex: 1 1 0 */
+  flex: 0 0 auto; /* 保持原有大小 */
+}
+
+5. order 控制元素的排列顺序（数值越小越靠前）。
+.item {
+  order: -1; /* 排在最前 整数（默认 0）。*/
+}
+
+6. align-self 覆盖容器的 align-items，单独控制元素在交叉轴上的对齐。
+.item {
+  align-self: flex-end; /* 单独底部对齐 auto（默认）、flex-start、flex-end、center、stretch。*/
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="df98db55-6aee-8260-99ad-814ba495555f" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">常用：
+1. 水平垂直居中
+.container { 
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center;     /* 垂直居中 */
+}
+
+2. 等高列布局
+.container {
+  display: flex;
+}
+.item {
+  flex: 1; /* 所有列等宽且等高 */
+}
+
+3. 圣杯布局（两侧固定，中间自适应）
+.container {
+  display: flex;
+}
+.left, .right {
+  flex: 0 0 200px; /* 固定宽度 */
+}
+.middle {
+  flex: 1; /* 自适应剩余空间 */
+}
+
+4. 导航栏
+nav {
+  display: flex;
+  justify-content: space-between; /* 左右对齐 */
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d048db55-6aee-83f7-9c4b-8124ad393951" class="toggle"><li><details open=""><summary>两栏布局和三栏布局</summary><div style="display:contents" dir="auto"><p id="67e8db55-6aee-8234-a215-81bafa3371cd" class="">实现左边，右边有一栏是固定大小的，无论浏览器窗口这么变化，其大小都是固定的，</p></div><div style="display:contents" dir="auto"><p id="78d8db55-6aee-83bd-a999-0185b764f710" class="">主要使用<code>calc()</code> 函数，实现对宽度，高度的计算百分比，然后再减去固定的宽度。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="8758db55-6aee-83ab-8d31-81fab93b0e4f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style&gt;
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .box1 {
+            width: 200px;
+            height: 100%;
+            background-color: red;
+            float: left;
+        }
+
+        .box2 {
+            height: 100%;
+            width: calc(100% - 400px);
+            background-color: green;
+            /* margin-left: 200px; */
+            float: left;
+
+        }
+        .box3 {
+            height: 100%;
+            width: 200px;
+            background-color: blue;
+            float: left;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;box1&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;box2&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;box3&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="09f8db55-6aee-8308-a1f2-018a25ff4d04" class="toggle"><li><details open=""><summary>多列布局</summary><div style="display:contents" dir="auto"><p id="c4e8db55-6aee-82c5-835c-811850c7aadc" class="">多列布局以<code>column-</code> 为前缀，主要用于控制列数，列宽，列间距，列分割线等。</p></div><div style="display:contents" dir="auto"><pre id="1c28db55-6aee-825f-8f7f-811cd4047c17" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">1、column-count 指定内容分成的列数（整数）。
+同时设置列宽和列数，浏览器会根据空间自动调整（优先满足列宽，再分配列数）
+
+2、column-width 指定列的理想宽度
+
+3、column-gap 设置列与列之间的间距（默认为1em）
+
+4、column-rule 设置列之间的分割线（类似边框）
+column-rule-width 线宽
+column-rule-style 线型
+column-rule-color 显色
+column-rule: 2px dashed #f00;
+
+5、column-span 指定元素是否跨越多列（仅对块级元素有效）
+none：不跨列
+all：跨越多列 独占一行
+
+6、break-inside 控制列内部是否允许分页/分栏（避免内容被截断）
+auto：默认，允许截断
+avoid：避免再元素内部截断</code></pre></div><div style="display:contents" dir="auto"><pre id="e0a8db55-6aee-82ed-a116-8190f7ac7a8f" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.container {
+  columns: 3 250px; /* 最多3列，每列至少250px */
+  column-gap: 30px; /* 列间距30px */
+  column-rule: 1px solid #ddd; /* 列间灰色实线 */
+}
+
+.container h2 {
+  column-span: all; /* 标题跨所有列 */
+  text-align: center;
+}
+
+.container .card {
+  break-inside: avoid; /* 卡片不被跨列截断 */
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+&lt;div class=&quot;container&quot;&gt;
+  &lt;h2&gt;多列布局示例&lt;/h2&gt;
+  &lt;div class=&quot;card&quot;&gt;卡片1：内容不会被截断...&lt;/div&gt;
+  &lt;div class=&quot;card&quot;&gt;卡片2：内容不会被截断...&lt;/div&gt;
+  &lt;!-- 更多内容 --&gt;
+&lt;/div&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fd18db55-6aee-8249-a1b9-81ef578e77d3" class="toggle"><li><details open=""><summary>响应式布局</summary><div style="display:contents" dir="auto"><p id="3648db55-6aee-8327-9dd3-01b7f28aba05" class="">响应式布局（Responsive Layout）<strong>通过一套代码让网站在不同屏幕尺寸（如手机、平板、电脑、电视等）上自动调整布局、内容和交互方式</strong>，从而提供一致且优质的用户体验。</p></div><div style="display:contents" dir="auto"><p id="b4d8db55-6aee-82ae-a278-018bda3aba23" class=""><strong>即：</strong><mark class="highlight-red"><strong>一套代码，适配所有设备</strong></mark><mark class="highlight-red">。</mark></p></div><div style="display:contents" dir="auto"><ul id="ed38db55-6aee-8323-bc9e-01faad115501" class="toggle"><li><details open=""><summary>流体网格（Fluid Grids）</summary><div style="display:contents" dir="auto"><p id="edd8db55-6aee-82e6-bb84-01509689fbbc" class="">不适用固定像素宽度，采用相对单位（%，rem，vw/vh），元素随屏幕尺寸成比例缩放。</p></div><div style="display:contents" dir="auto"><p id="7dd8db55-6aee-821e-a19f-018bb563b1d1" class="">本质将页面看作一个网格系统，每个元素的宽度按其父容器的百分比计算。</p></div><div style="display:contents" dir="auto"><pre id="8d18db55-6aee-83a8-beee-81f522ac4931" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">.container { width: 100%; max-width: 1200px; } /* 容器最大宽度限制，避免大屏过宽 */
+.box { width: 50%; float: left; } /* 两个元素并排，各占50%宽度 */</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2fc8db55-6aee-830b-a68c-818bba2b8197" class="toggle"><li><details open=""><summary>弹性媒体（Flexible Media）</summary><div style="display:contents" dir="auto"><p id="85d8db55-6aee-82a1-ba50-818492d065f6" class="">图片，视频，图标等媒体元素随屏幕尺寸自动调整大小。</p></div><div style="display:contents" dir="auto"><p id="9d78db55-6aee-8394-add6-8133875e01f2" class="">实现方式：</p></div><div style="display:contents" dir="auto"><p id="6408db55-6aee-839a-a05c-810bc0c462d3" class="">1、<code>max-width: 100%</code> 确保媒体元素最大宽度不超过父容器，自动缩小适应。</p></div><div style="display:contents" dir="auto"><pre id="ea28db55-6aee-82ee-992a-018354fa3028" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">img, video, iframe { max-width: 100%; height: auto; } /* 高度自动，避免拉伸变形 */</code></pre></div><div style="display:contents" dir="auto"><p id="0338db55-6aee-8302-a62a-81afb0b3a5c1" class="">2、<code>picture</code> 元素或<code>srcset</code>属性：为不同屏幕尺寸提供不同分辨率的图片（优化加载速度）</p></div><div style="display:contents" dir="auto"><pre id="74d8db55-6aee-8315-9e1f-81ec4373e26f" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">&lt;picture&gt;
+  &lt;source srcset=&quot;large.jpg&quot; media=&quot;(min-width: 800px)&quot;&gt; &lt;!-- 大屏用大图 --&gt;
+  &lt;source srcset=&quot;small.jpg&quot; media=&quot;(max-width: 799px)&quot;&gt; &lt;!-- 小屏用小图 --&gt;
+  &lt;img src=&quot;fallback.jpg&quot; alt=&quot;示例图&quot;&gt; &lt;!-- 兼容不支持的浏览器 --&gt;
+&lt;/picture&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5f88db55-6aee-82b7-96bc-81c6502d0252" class="toggle"><li><details open=""><summary>媒体查询（Media Queries）</summary><div style="display:contents" dir="auto"><p id="64e8db55-6aee-830f-81ca-819aefe8f786" class="">允许根据设备的屏幕宽度、分辨率、方向（横屏 / 竖屏）等条件，为不同场景编写特定的 CSS 样式。</p></div><div style="display:contents" dir="auto"><p id="9528db55-6aee-83eb-979b-01360e73ade8" class="">解决流体网格无法处理的 “结构性调整”。</p></div><div style="display:contents" dir="auto"><pre id="4828db55-6aee-82fb-86c7-81907114465c" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">/* 当屏幕宽度≥768px时应用的样式 */
+@media (min-width: 768px) {
+  .nav { display: flex; justify-content: space-between; }
+}
+
+/* 当屏幕宽度&lt;768px时应用的样式 */
+@media (max-width: 767px) {
+  .nav { flex-direction: column; } /* 导航栏从横向变为纵向 */
+  .sidebar { display: none; } /* 小屏隐藏侧边栏 */
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="06f8db55-6aee-823c-8597-81e230083052" class="toggle"><li><details open=""><summary>横屏检测</summary><div style="display:contents" dir="auto"><pre id="76d8db55-6aee-8237-a9dd-016b6485aacb" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">PC客户端或大屏幕设备：1028px到更大
+@media only screen and (min-width:1029px){}
+竖屏:
+@media screen and (orientation:portrait) and(max-width:720px){对应样式}
+横屏:
+@media screen and (orientation:landscape) {对应样式}</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3878db55-6aee-8201-83b7-8109bee1850b" class="toggle"><li><details open=""><summary>rem布局（响应式）</summary><div style="display:contents" dir="auto"><ul id="fe48db55-6aee-8246-a957-01b0d5314a27" class="bulleted-list"><li style="list-style-type:disc"><code>em</code>：相对于父元素字体大小（如父元素 <code>font-size: 16px</code>，则 <code>1em = 16px</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="a058db55-6aee-8204-9e7b-81f48d20bdc5" class="bulleted-list"><li style="list-style-type:disc"><code>rem</code>：相对于根元素（<code>&lt;html&gt;</code>）字体大小，适合响应式布局。</li></ul></div><div style="display:contents" dir="auto"><pre id="4c48db55-6aee-82a4-9057-01467e0fce50" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;!-- 关键：禁止缩放，确保viewport宽度等于设备宽度 --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;&gt;
+    &lt;title&gt;自适应宽度的区域&lt;/title&gt;
+    &lt;style&gt;
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 100px;
+        }
+
+        .box {
+            /* 设计稿宽度750px → 750/100=7.5rem（占满整行） */
+            width: 7.5rem;
+            height: 1rem; /* 高度也用rem，保持比例 */
+            background-color: aquamarine;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;box&quot;&gt;
+        DSAH
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        // fontSize = 当前设备的css布局宽度/物理分辨率（设计稿的宽度） * 基准font-size
+        document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 100 + &#x27;px&#x27;;
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+    </code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ba98db55-6aee-8262-b3a7-01f1e879703b" class="toggle"><li><details open=""><summary>grid布局（网格）</summary><div style="display:contents" dir="auto"><ul id="6bc8db55-6aee-8274-8b94-017ee6bb2611" class="toggle"><li><details open=""><summary>术语</summary><div style="display:contents" dir="auto"><pre id="3e08db55-6aee-8378-bf0c-01c1cb6b1762" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">1、网格容器（Grid Container）：所有子元素会受其布局规则约束
+display:grid 
+display:inline-grid
+2、网格项目（Grid Item）：容器的直接子元素
+3、轨道（Track）：网格中的行或列
+grid-template-rows
+grid-template-columns
+4、单元格（Cell）：行与列交叉形成的最小单位（类似于表格的单元格）
+5、网格线（Grid Line）：分隔轨道（包括外边缘线），有水平和垂直两种，编号从1开始
+6、网格区域（Grid Area）：由多个相邻单元格组成的矩形区域，
+grid-area
+7、间距（Gap）：轨道之间的间距
+gap（row-gap/column-gap）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ba88db55-6aee-83de-ba22-01c4d5ddebc3" class="toggle"><li><details open=""><summary>关键属性</summary><div style="display:contents" dir="auto"><pre id="18f8db55-6aee-8337-b68c-8177d2d1e507" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">1、grid-template-columns/grid-template-rows: 定义列/行的轨道尺寸，支持多种单位：
+固定值（px/cm）：grid-template-columns: 200px 200px（两列各 200px）。
+百分比（%）：grid-template-rows: 10% 80% 10%（三行占容器高度的 10%/80%/10%）。
+分数单位（fr）：分配剩余空间，grid-template-columns: 1fr 2fr（两列比例 1:2）。
+关键字（auto）：自动适应内容或剩余空间，grid-template-columns: auto 1fr auto（中间列占剩余空间）。
+重复函数（repeat()）：简化重复定义，grid-template-columns: repeat(3, 1fr)（3 列各占 1/3）。
+
+2、grid-template-areas: 通过命名区域定义布局，配合项目的grid-area属性
+.container {
+  grid-template-areas: 
+    &quot;header header&quot;
+    &quot;sidebar main&quot;
+    &quot;footer footer&quot;;
+}
+.header { grid-area: header; } /* 占据第一行两列 */
+.sidebar { grid-area: sidebar; } /* 占据第二行第一列 */
+justify-items/align-items：控制项目在单元格内的水平 / 垂直对齐（默认stretch拉伸填满）。
+justify-content/align-content：当网格总尺寸小于容器时，控制整个网格在容器内的水平 / 垂直对齐。
+gap：设置行与列之间的间距（row-gap+column-gap的简写），如gap: 20px（行和列间距都是 20px）。
+
+3、grid-colum/grid-row: 通过网格线定位项目，格式为 起始线/结束线
+.item {
+  grid-column: 1 / 3; /* 从第1根垂直网格线到第3根（跨2列） */
+  grid-row: 2 / 4; /* 从第2根水平网格线到第4根（跨2行） */
+}
+grid-area：直接指定项目所在的命名区域（配合容器的grid-template-areas）。
+justify-self/align-self：单独设置某个项目在单元格内的水平 / 垂直对齐（覆盖容器的justify-items/align-items）。</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1f88db55-6aee-82b6-b534-01be2775a504" class="toggle"><li><details open=""><summary>vh &amp; vw单位</summary><div style="display:contents" dir="auto"><p id="cc88db55-6aee-82d5-bfd4-8130033a2244" class="">100vh === 视口的高度</p></div><div style="display:contents" dir="auto"><p id="4ea8db55-6aee-8255-b2ce-81a2bad4b712" class="">100vw === 视口的宽度</p></div><div style="display:contents" dir="auto"><hr id="b928db55-6aee-828b-9c4f-01c05e2e6f42"/></div><div style="display:contents" dir="auto"><p id="7998db55-6aee-8368-b54e-01b657d9a841" class="">100%与100vh，100vw关系？</p></div><div style="display:contents" dir="ltr"><table id="8f28db55-6aee-830f-9c43-019379649b16" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="1188db55-6aee-83da-9bd3-814a07ef87cc"><th id="mvs&lt;" class="simple-table-header-color simple-table-header"><strong>单位</strong></th><th id="{pEt" class="simple-table-header-color simple-table-header" style="width:367px"><strong>计算基准（参考对象）</strong></th><th id="^^\;" class="simple-table-header-color simple-table-header" style="width:289px"><strong>含义</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="fb78db55-6aee-828c-a2b0-81d9a29b65f1"><td id="mvs&lt;" class=""><code>100%</code></td><td id="{pEt" class="" style="width:367px"><strong>父元素的对应属性值</strong>（如宽度参考父元素宽度，高度参考父元素高度）</td><td id="^^\;" class="" style="width:289px">占父元素尺寸的 100%</td></tr></div><div style="display:contents" dir="ltr"><tr id="f318db55-6aee-825f-9498-01a09cfcd8b9"><td id="mvs&lt;" class=""><code>100vh</code></td><td id="{pEt" class="" style="width:367px"><strong>视口（浏览器可见区域）的高度</strong></td><td id="^^\;" class="" style="width:289px">1vh = 视口高度的 1%，100vh = 视口全高</td></tr></div><div style="display:contents" dir="ltr"><tr id="d598db55-6aee-8281-8d86-81f954dbf724"><td id="mvs&lt;" class=""><code>100vw</code></td><td id="{pEt" class="" style="width:367px"><strong>视口（浏览器可见区域）的宽度</strong></td><td id="^^\;" class="" style="width:289px">1vw = 视口宽度的 1%，100vw = 视口全宽</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f758db55-6aee-8276-98ae-01c095528708" class="toggle"><li><details open=""><summary>单位转换</summary><div style="display:contents" dir="auto"><p id="1768db55-6aee-82e7-96b7-01a1a7e5b733" class="">375px = 100vw</p></div><div style="display:contents" dir="auto"><p id="ecd8db55-6aee-8292-bad5-0115b53463ee" class="">1px = 100/375 * 100 vw = 26.67vw</p></div><div style="display:contents" dir="auto"><hr id="b7c8db55-6aee-8249-8b1a-01061ac2b9e8"/></div><div style="display:contents" dir="auto"><p id="4a68db55-6aee-83c3-a464-815b852358a7" class="">html: font-size16px</p></div><div style="display:contents" dir="auto"><p id="4e68db55-6aee-8266-819e-01105d47b053" class="">fontSize = 当前设备的css布局宽度/物理分辨率（设计稿的宽度） * 基准font-size</p></div><div style="display:contents" dir="auto"><p id="2c08db55-6aee-8262-b1ec-814ec988f87a" class="">clientWidth / 750 * 16</p></div><div style="display:contents" dir="auto"><p id="c608db55-6aee-826f-b31d-81d6aa0378f5" class="">
+</p></div><div style="display:contents" dir="auto"><p id="e3f8db55-6aee-837b-8f31-81fd08af1072" class="">在iPhone4 : 320px == 100vw</p></div><div style="display:contents" dir="auto"><p id="93f8db55-6aee-822e-99f8-813905498c78" class="">                         16px == 5vw</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d958db55-6aee-828b-a78b-819d4ce47194" class="toggle"><li><details open=""><summary>table-cell</summary><div style="display:contents" dir="auto"><pre id="91f8db55-6aee-83ca-929e-012b1b58a329" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.content {
+  padding: 20px;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="0678db55-6aee-8363-8bdc-81522f513046" class=""><code>display: table-cell;</code>，它将元素的行为模拟成 HTML 表格中的 <code>&lt;td&gt;</code>（单元格）。</p></div><div style="display:contents" dir="auto"><ol type="1" id="7f78db55-6aee-83f2-b019-81ac062b0d4c" class="numbered-list" start="1"><li><strong>垂直居中</strong>：<code>vertical-align: middle;</code> 是实现垂直居中的关键。在普通块级元素（如 <code>div</code>）中，<code>vertical-align</code> 通常无效，但一旦元素变为 <code>table-cell</code>，该属性就会生效，使其内部内容（文本或内联元素）在垂直方向上居中。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="d778db55-6aee-83f3-81ac-01729c6ec2a2" class="numbered-list" start="2"><li><strong>水平居中</strong>：<code>text-align: center;</code> 负责水平居中。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0168db55-6aee-83d0-b255-0137473029dc" class="numbered-list" start="3"><li><strong>依赖父容器</strong>：<code>table-cell</code> 元素必须位于一个 <code>display: table;</code> 的父容器中才能完美工作。如果缺少父级 <code>table</code> 或 <code>table-row</code>，浏览器会隐式生成匿名表格结构，但为了兼容性，通常需要配合如下结构：</li></ol></div></details></li></ul></div><div style="display:contents" dir="ltr"><table id="b858db55-6aee-83a6-91a5-81ab5c84c472" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5378db55-6aee-826c-87d6-81f7b908a2e6"><th id="eTJV" class="simple-table-header-color simple-table-header"><strong>布局类型</strong></th><th id="@&gt;sL" class="simple-table-header-color simple-table-header"><strong>核心特点</strong></th><th id="\D_x" class="simple-table-header-color simple-table-header"><strong>与网格布局的核心区别</strong></th><th id="zJIE" class="simple-table-header-color simple-table-header"><strong>适用场景</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="e4c8db55-6aee-8266-b840-019c2fa651b9"><td id="eTJV" class="">弹性盒布局（Flexbox）</td><td id="@&gt;sL" class="">一维布局（行或列），专注于 “主轴” 与 “交叉轴”</td><td id="\D_x" class="">仅能控制单方向排列（行或列），无法同时定义行和列</td><td id="zJIE" class="">导航栏、卡片列表、表单元素对齐等一维排列</td></tr></div><div style="display:contents" dir="ltr"><tr id="3178db55-6aee-82b9-8e9e-01ff0a1a61e5"><td id="eTJV" class="">流式布局（Normal Flow）</td><td id="@&gt;sL" class="">文档默认布局（块级元素换行，行内元素并排）</td><td id="\D_x" class="">无精确控制能力，依赖<code>margin</code>/<code>padding</code>调整位置</td><td id="zJIE" class="">简单文本、图片排列，无复杂布局需求</td></tr></div><div style="display:contents" dir="ltr"><tr id="98b8db55-6aee-825c-a000-813f34696f7b"><td id="eTJV" class="">浮动（Float）</td><td id="@&gt;sL" class="">使元素脱离文档流，向左 / 右浮动</td><td id="\D_x" class="">仅能实现 “环绕” 效果，无法控制垂直方向排列</td><td id="zJIE" class="">图文混排（如新闻中的图片环绕文字）</td></tr></div><div style="display:contents" dir="ltr"><tr id="0c38db55-6aee-8288-9ddd-011b59836f8b"><td id="eTJV" class="">定位（Position）</td><td id="@&gt;sL" class="">元素脱离文档流，通过<code>top</code>/<code>left</code>等绝对定位</td><td id="\D_x" class="">不参与正常布局流，无法与其他元素协同排列</td><td id="zJIE" class="">悬浮菜单、广告弹窗等需要 “悬浮” 的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="40c8db55-6aee-838c-b215-8105075f5d38"><td id="eTJV" class="">表格布局（Table）</td><td id="@&gt;sL" class="">基于表格的行 / 列结构</td><td id="\D_x" class="">语义化差（非表格内容用表格标签），灵活性低</td><td id="zJIE" class="">纯数据表格（如 Excel 式数据展示）</td></tr></div></tbody></table></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

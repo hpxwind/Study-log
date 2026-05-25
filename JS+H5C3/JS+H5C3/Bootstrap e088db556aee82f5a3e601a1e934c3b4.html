@@ -1,0 +1,917 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Bootstrap</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e088db55-6aee-82f5-a3e6-01a1e934c3b4" class="page mono"><header><h1 class="page-title" dir="auto">Bootstrap</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="5558db55-6aee-82e1-a567-81e058498495" class="">Bootstrap 是全球最流行的<strong>前端开源框架</strong>之一，由 Twitter 团队于 2011 年推出，核心目标是帮助开发者快速构建<strong>响应式、美观且兼容多设备</strong>的网页或 Web 应用。它封装了大量经过优化的 CSS 样式、JavaScript 交互组件和布局工具，让开发者无需从零编写基础代码，专注于业务逻辑实现。</p></div><div style="display:contents" dir="auto"><hr id="5f98db55-6aee-827a-af64-018942373143"/></div><div style="display:contents" dir="auto"><p id="0f58db55-6aee-830b-93f6-817cb523fafe" class=""><mark class="highlight-blue">官网：</mark><mark class="highlight-blue"><a href="https://getbootstrap.com/docs/5.3/content/reboot/">Reboot · Bootstrap v5.3</a></mark></p></div><div style="display:contents" dir="auto"><ul id="8558db55-6aee-8310-a3a2-01dc69884318" class="toggle"><li><details open=""><summary>核心特点（需知道）</summary><div style="display:contents" dir="auto"><ol type="1" id="5d98db55-6aee-8247-8117-810be01e5844" class="numbered-list" start="1"><li><strong>响应式设计（Responsive）</strong>基于 “移动优先”（Mobile-First）理念，通过 <strong>栅格系统</strong> 和 <strong>响应式工具类</strong>，自动适配手机、平板、电脑等不同屏幕尺寸，无需为不同设备单独开发页面。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="cb68db55-6aee-83f8-95da-816031826987" class="numbered-list" start="2"><li><strong>开箱即用（Out-of-the-Box）</strong>内置大量预设组件（如按钮、导航栏、卡片、表单等）和样式，直接通过添加特定类名即可使用，极大缩短开发周期。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ce78db55-6aee-8281-af0a-8151d14e8af4" class="numbered-list" start="3"><li><strong>兼容性强</strong>兼容主流浏览器（Chrome、Firefox、Safari、Edge 等），解决了不同浏览器间的样式和脚本兼容性问题，开发者无需手动编写浏览器前缀（如 <code>webkit-</code>、<code>moz-</code>）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="9338db55-6aee-8280-b004-814f830fad1e" class="numbered-list" start="4"><li><strong>可定制化</strong>支持通过官方工具（<a href="https://getbootstrap.com/docs/5.3/customize/">Bootstrap 定制器</a>）或 SCSS 变量修改默认样式（如颜色、字体、间距），满足项目的个性化设计需求。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1668db55-6aee-839c-b488-013c7cfa00f7" class="numbered-list" start="5"><li><strong>轻量且高效</strong>核心文件（CSS + JS）经过压缩后体积小（Bootstrap 5 压缩后 CSS 约 20KB，JS 约 15KB），加载速度快；同时提供 “按需引入” 功能，避免冗余代码。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="56e8db55-6aee-8381-85f9-019c320531b0" class="toggle"><li><details open=""><summary>版本选择（很重要）</summary><div style="display:contents" dir="ltr"><table id="ba98db55-6aee-8368-96d5-01c1621dd559" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="b5d8db55-6aee-8382-82e9-81d6e0dc4177"><th id="E:NM" class="simple-table-header-color simple-table-header"><strong>版本</strong></th><th id="s&gt;wV" class="simple-table-header-color simple-table-header"><strong>发布时间</strong></th><th id="&lt;uh\" class="simple-table-header-color simple-table-header" style="width:311px"><strong>核心差异</strong></th><th id="LPY[" class="simple-table-header-color simple-table-header" style="width:305px"><strong>适用场景</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="6bd8db55-6aee-8260-9a55-819bd02fe3dc"><td id="E:NM" class=""><strong>Bootstrap 5</strong></td><td id="s&gt;wV" class="">2021 年</td><td id="&lt;uh\" class="" style="width:311px">1. 移除 jQuery 依赖（原生 JS 实现交互）2. 新增网格系统优化（支持 12 列 + 自动列）3. 增强响应式工具（如 <code>xxl</code> 断点）4. 支持 CSS 变量（自定义属性）</td><td id="LPY[" class="" style="width:305px"><strong>推荐新项目使用</strong>，尤其是追求轻量、现代的开发场景（如 Vue/React 项目中引入）</td></tr></div><div style="display:contents" dir="ltr"><tr id="5728db55-6aee-8340-b8b7-01646f928b7f"><td id="E:NM" class=""><strong>Bootstrap 4</strong></td><td id="s&gt;wV" class="">2018 年</td><td id="&lt;uh\" class="" style="width:311px">1. 依赖 jQuery 和 Popper.js（弹窗定位）2. 引入 “移动优先” 理念3. 支持 Flexbox 布局</td><td id="LPY[" class="" style="width:305px">旧项目维护，或团队熟悉 jQuery 生态的场景</td></tr></div><div style="display:contents" dir="ltr"><tr id="0ea8db55-6aee-82cb-964e-01b0af2224e3"><td id="E:NM" class=""><strong>Bootstrap 3</strong></td><td id="s&gt;wV" class="">2013 年</td><td id="&lt;uh\" class="" style="width:311px">1. 基于 “桌面优先” 理念2. 依赖 jQuery3. 不支持 Flexbox 和 CSS 变量</td><td id="LPY[" class="" style="width:305px">仅用于极旧项目维护，<strong>不推荐新项目使用</strong></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="6eb8db55-6aee-8311-aab1-81da5a27f190" class="">注意：本文以 <strong>Bootstrap 5</strong>（最新稳定版）为例讲解，其是目前生态最活跃、功能最完善的版本。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8e18db55-6aee-828e-adde-81418658d41d" class="toggle"><li><details open=""><summary>引入</summary><div style="display:contents" dir="auto"><p id="8478db55-6aee-8347-b664-01f22053c2cd" class="">使用 Bootstrap 有两种核心方式：<strong>CDN 引入</strong>（快速上手）和 <strong>本地下载</strong>（定制化开发）。</p></div><div style="display:contents" dir="auto"><p id="c518db55-6aee-839d-990d-019f68732dbb" class="">1、CDN：</p></div><div style="display:contents" dir="auto"><p id="7ef8db55-6aee-8291-8635-01797236b925" class="">无需下载文件，直接通过 CDN 链接引入 Bootstrap 的 CSS 和 JS 文件，适用于快速原型开发或小型项目。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b08db55-6aee-8257-96f8-815468277b53" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;!-- 1. 视口设置：开启响应式（必须） --&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Bootstrap 5 基础模板&lt;/title&gt;
+  
+  &lt;!-- 2. 引入 Bootstrap CSS（核心样式） --&gt;
+  &lt;link href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+  
+  &lt;!-- （可选）引入 Bootstrap 图标库（内置 2000+ 图标） --&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;!-- 页面内容（示例：一个按钮） --&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;Bootstrap 按钮&lt;/button&gt;
+
+  &lt;!-- 3. 引入 Bootstrap JS（交互组件依赖，如模态框、下拉菜单） --&gt;
+  &lt;!-- 注意：Bootstrap 5 无需 jQuery，但部分组件依赖 Popper.js（已包含在下方链接中） --&gt;
+  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div><div style="display:contents" dir="auto"><ul id="1348db55-6aee-83b6-9d84-01c563eb3c71" class="bulleted-list"><li style="list-style-type:disc"><strong>视口 meta 标签</strong>：<code>&lt;meta name=&quot;viewport&quot; ...&gt;</code> 是响应式的 “开关”，必须添加，否则 Bootstrap 无法识别设备屏幕尺寸。</li></ul></div><div style="display:contents" dir="auto"><ul id="bcd8db55-6aee-83e9-99cb-81d470146c5f" class="bulleted-list"><li style="list-style-type:disc"><code><strong>bootstrap.bundle.min.js</strong></code>：包含了 Popper.js（用于弹窗、下拉菜单的定位），无需单独引入；若只需基础样式（无交互），可省略 JS 引入。</li></ul></div><div style="display:contents" dir="auto"><p id="b1e8db55-6aee-83d8-bc02-814c969c5076" class="">2、本地下载：</p></div><div style="display:contents" dir="auto"><p id="0458db55-6aee-8372-9612-0122369d2c81" class="">去官网</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7ed8db55-6aee-8355-9c37-813360fea537" class="toggle"><li><details open=""><summary>1、栅格系统（Grid System）：响应式布局的核心</summary><div style="display:contents" dir="auto"><p id="6e38db55-6aee-8378-9da5-814d8a4e0d4a" class="">栅格系统是 Bootstrap 实现响应式的 “骨架”，基于 <strong>12 列网格</strong> 和 <strong>5 个响应式断点</strong>，让页面元素在不同屏幕上自动排列。</p></div><div style="display:contents" dir="auto"><ul id="f288db55-6aee-828b-9f0e-8108282a150e" class="bulleted-list"><li style="list-style-type:disc"><strong>容器（Container）</strong>：栅格系统的外层包裹元素，用于控制内容的宽度和间距，分两种：<div style="display:contents" dir="auto"><ul id="da08db55-6aee-8208-9199-012722d2d601" class="bulleted-list"><li style="list-style-type:circle"><code>.container</code>：固定宽度（不同断点下宽度不同，如电脑端约 1140px）；</li></ul></div><div style="display:contents" dir="auto"><ul id="7018db55-6aee-8345-a2bb-0135a3c030eb" class="bulleted-list"><li style="list-style-type:circle"><code>.container-fluid</code>：100% 宽度（占满父容器，无固定宽度）。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="9a88db55-6aee-826f-9eef-01e86a0533b6" class="bulleted-list"><li style="list-style-type:disc"><strong>行（Row）</strong>：栅格的 “行”，必须包裹在容器内，用于包裹 “列”，且会清除浮动（避免列换行错乱）。</li></ul></div><div style="display:contents" dir="auto"><ul id="2ec8db55-6aee-833a-9d12-01ea49905852" class="bulleted-list"><li style="list-style-type:disc"><strong>列（Column）</strong>：栅格的 “列”，必须包裹在行内，通过类名控制列的宽度和响应式行为。</li></ul></div><div style="display:contents" dir="auto"><hr id="1368db55-6aee-82ed-bf9b-81924a9a61bc"/></div><div style="display:contents" dir="auto"><ul id="4298db55-6aee-83aa-8cb7-816f7fd69624" class="toggle"><li><details open=""><summary>响应式断点</summary><div style="display:contents" dir="ltr"><table id="00c8db55-6aee-83ea-9bc9-819a69aa4f0e" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="81f8db55-6aee-826b-b87c-0111a0323c1f"><th id="&lt;QpT" class="simple-table-header-color simple-table-header"><strong>断点前缀</strong></th><th id="OH}e" class="simple-table-header-color simple-table-header" style="width:284px"><strong>屏幕宽度范围</strong></th><th id="s;wd" class="simple-table-header-color simple-table-header" style="width:541.3828125px"><strong>设备类型</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="d798db55-6aee-825d-ba26-01e6662b4089"><td id="&lt;QpT" class=""><code>col-</code></td><td id="OH}e" class="" style="width:284px">&lt;576px</td><td id="s;wd" class="" style="width:541.3828125px">超小屏幕（手机竖屏）</td></tr></div><div style="display:contents" dir="ltr"><tr id="6048db55-6aee-83ae-abd9-81ccca25b9a8"><td id="&lt;QpT" class=""><code>col-sm-</code></td><td id="OH}e" class="" style="width:284px">≥576px</td><td id="s;wd" class="" style="width:541.3828125px">小屏幕（手机横屏、平板竖屏）</td></tr></div><div style="display:contents" dir="ltr"><tr id="e948db55-6aee-8298-abff-017d47417635"><td id="&lt;QpT" class=""><code>col-md-</code></td><td id="OH}e" class="" style="width:284px">≥768px</td><td id="s;wd" class="" style="width:541.3828125px">中等屏幕（平板横屏、小电脑）</td></tr></div><div style="display:contents" dir="ltr"><tr id="0248db55-6aee-836e-aadb-0154544ae8c7"><td id="&lt;QpT" class=""><code>col-lg-</code></td><td id="OH}e" class="" style="width:284px">≥992px</td><td id="s;wd" class="" style="width:541.3828125px">大屏幕（电脑）</td></tr></div><div style="display:contents" dir="ltr"><tr id="7558db55-6aee-83d9-a420-015c0814ae06"><td id="&lt;QpT" class=""><code>col-xl-</code></td><td id="OH}e" class="" style="width:284px">≥1200px</td><td id="s;wd" class="" style="width:541.3828125px">超大屏幕（大电脑）</td></tr></div><div style="display:contents" dir="ltr"><tr id="6408db55-6aee-82ce-bd81-814440870a09"><td id="&lt;QpT" class=""><code>col-xxl-</code></td><td id="OH}e" class="" style="width:284px">≥1400px</td><td id="s;wd" class="" style="width:541.3828125px">特超大屏幕（超大显示器）</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9c68db55-6aee-82b2-9e9d-017fe39836f9" class="toggle"><li><details open=""><summary>列的使用规则：</summary><div style="display:contents" dir="auto"><ul id="2fd8db55-6aee-83a5-bed5-012bfafa9f00" class="bulleted-list"><li style="list-style-type:disc">列的宽度通过 “前缀 + 数字” 控制，数字范围 1-12（如 <code>col-md-6</code> 表示中等屏幕下占 6 列，即 50% 宽度）；</li></ul></div><div style="display:contents" dir="auto"><ul id="5e88db55-6aee-83da-815d-8199011e2fd6" class="bulleted-list"><li style="list-style-type:disc">一行中列的总数字之和建议 ≤12，超过则自动换行；</li></ul></div><div style="display:contents" dir="auto"><ul id="8338db55-6aee-8338-8432-81b499771359" class="bulleted-list"><li style="list-style-type:disc">可给同一列添加多个断点类，实现 “不同屏幕下不同宽度”（如 <code>col-sm-6 col-md-4</code> 表示小屏幕占 6 列，中等屏幕占 4 列）。</li></ul></div><div style="display:contents" dir="auto"><pre id="7e68db55-6aee-829f-81ea-81a0db24c303" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 容器：固定宽度 --&gt;
+&lt;div class=&quot;container mt-3&quot;&gt; &lt;!-- mt-3：margin-top 为 3 个单位（Bootstrap 间距工具） --&gt;
+  &lt;!-- 行 --&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;!-- 列 1：超小屏占 12 列（全屏），小屏及以上占 6 列（半屏），中等屏及以上占 4 列（1/3 屏） --&gt;
+    &lt;div class=&quot;col-12 col-sm-6 col-md-4 mb-3&quot;&gt; &lt;!-- mb-3：margin-bottom 3 个单位 --&gt;
+      &lt;div class=&quot;card&quot;&gt; &lt;!-- 卡片组件（下文讲解） --&gt;
+        &lt;div class=&quot;card-body&quot;&gt;
+          &lt;h5 class=&quot;card-title&quot;&gt;卡片 1&lt;/h5&gt;
+          &lt;p class=&quot;card-text&quot;&gt;超小屏全屏，小屏半屏，中屏及以上 1/3 屏&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- 列 2：与列 1 规则相同 --&gt;
+    &lt;div class=&quot;col-12 col-sm-6 col-md-4 mb-3&quot;&gt;
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;div class=&quot;card-body&quot;&gt;
+          &lt;h5 class=&quot;card-title&quot;&gt;卡片 2&lt;/h5&gt;
+          &lt;p class=&quot;card-text&quot;&gt;超小屏全屏，小屏半屏，中屏及以上 1/3 屏&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- 列 3：超小屏全屏，小屏及以上占 12 列（全屏），中等屏及以上占 4 列（1/3 屏） --&gt;
+    &lt;div class=&quot;col-12 col-sm-12 col-md-4 mb-3&quot;&gt;
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;div class=&quot;card-body&quot;&gt;
+          &lt;h5 class=&quot;card-title&quot;&gt;卡片 3&lt;/h5&gt;
+          &lt;p class=&quot;card-text&quot;&gt;超小屏全屏，小屏全屏，中屏及以上 1/3 屏&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8a28db55-6aee-831e-a071-0135b6c1040a" class="toggle"><li><details open=""><summary>栅格系统进阶：列偏移、排序、嵌套</summary><div style="display:contents" dir="auto"><ul id="54c8db55-6aee-821f-a1a7-816e3ddb3797" class="bulleted-list"><li style="list-style-type:disc"><strong>列偏移</strong>：通过 <code>offset-*</code> 类让列向右偏移（如 <code>offset-md-2</code> 表示中等屏幕下偏移 2 列）；</li></ul></div><div style="display:contents" dir="auto"><ul id="3c18db55-6aee-8202-8f45-810eff4058df" class="bulleted-list"><li style="list-style-type:disc"><strong>列排序</strong>：通过 <code>order-*</code> 类调整列的显示顺序（如 <code>order-md-1</code> 表示中等屏幕下列的顺序为 1）；</li></ul></div><div style="display:contents" dir="auto"><ul id="1848db55-6aee-83af-ad5f-01fbfee7a6bc" class="bulleted-list"><li style="list-style-type:disc"><strong>列嵌套</strong>：在列中嵌套新的 “行” 和 “列”，实现更复杂的布局（如在 <code>col-md-6</code> 中嵌套 <code>row</code> 和 <code>col-6</code>）。</li></ul></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="78d8db55-6aee-835d-a823-01bd21e8a227" class="toggle"><li><details open=""><summary>2、响应式工具类：控制元素显示/隐藏</summary><div style="display:contents" dir="auto"><p id="89f8db55-6aee-83fb-b972-012c1f051bb3" class="">Bootstrap 提供了一套工具类，用于在不同屏幕尺寸下控制元素的 <strong>显示（display）</strong>、<strong>隐藏（hidden）</strong> 或 <strong>对齐方式</strong>，无需手动写 CSS 媒体查询。</p></div><div style="display:contents" dir="auto"><ul id="bfe8db55-6aee-82ce-855d-012158b17487" class="toggle"><li><details open=""><summary>常用显示/隐藏工具类</summary><div style="display:contents" dir="ltr"><table id="9278db55-6aee-822e-8c82-0105ab8e2461" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="4518db55-6aee-837f-a397-01b95b6054ee"><th id="\rUA" class="simple-table-header-color simple-table-header" style="width:330px"><strong>类名</strong></th><th id="&lt;spT" class="simple-table-header-color simple-table-header" style="width:679.65625px"><strong>作用（以 </strong><code><strong>md</strong></code><strong> 断点为例）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="7978db55-6aee-8278-9a6f-8159c6130489"><td id="\rUA" class="" style="width:330px"><code>d-none</code></td><td id="&lt;spT" class="" style="width:679.65625px">所有屏幕下隐藏</td></tr></div><div style="display:contents" dir="ltr"><tr id="5d58db55-6aee-83ca-a814-8151b2233a08"><td id="\rUA" class="" style="width:330px"><code>d-md-none</code></td><td id="&lt;spT" class="" style="width:679.65625px">中等屏幕及以上隐藏，以下显示</td></tr></div><div style="display:contents" dir="ltr"><tr id="9b68db55-6aee-8357-b73f-01331b37109e"><td id="\rUA" class="" style="width:330px"><code>d-md-block</code></td><td id="&lt;spT" class="" style="width:679.65625px">中等屏幕及以上显示，以下隐藏</td></tr></div><div style="display:contents" dir="ltr"><tr id="e8c8db55-6aee-83be-a5cb-810ea524d51b"><td id="\rUA" class="" style="width:330px"><code>d-md-flex</code></td><td id="&lt;spT" class="" style="width:679.65625px">中等屏幕及以上使用 Flex 布局</td></tr></div><div style="display:contents" dir="ltr"><tr id="3018db55-6aee-83bc-88a6-01f4feab3515"><td id="\rUA" class="" style="width:330px"><code>d-md-inline</code></td><td id="&lt;spT" class="" style="width:679.65625px">中等屏幕及以上为行内元素</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="ef98db55-6aee-82a3-a566-014ff62d5471" class="">案例：不同屏幕下显示不同内容：</p></div><div style="display:contents" dir="auto"><pre id="6b08db55-6aee-83f1-ae1b-010b25b158f1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 手机端显示（&lt;768px），电脑端隐藏（≥768px） --&gt;
+&lt;div class=&quot;d-block d-md-none&quot;&gt;
+  欢迎访问手机版网站！
+&lt;/div&gt;
+
+&lt;!-- 电脑端显示（≥768px），手机端隐藏（&lt;768px） --&gt;
+&lt;div class=&quot;d-none d-md-block&quot;&gt;
+  欢迎访问电脑版网站！
+&lt;/div&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0458db55-6aee-82a3-ab98-010f87fe003d" class="toggle"><li><details open=""><summary>间距工具类（Margin/Padding）</summary><div style="display:contents" dir="auto"><p id="ed08db55-6aee-820c-9082-016c203b8b20" class="">通过 <code>m-*</code>（margin）和 <code>p-*</code>（padding）控制元素间距，<code>*</code> 代表 0-5 的数字（数字越大，间距越大），同时支持方向控制（如 <code>mt-3</code> 表示 <code>margin-top: 1rem</code>，<code>px-2</code> 表示 <code>padding-left</code> 和 <code>padding-right: 0.5rem</code>）。</p></div><div style="display:contents" dir="ltr"><table id="5158db55-6aee-8222-a0d1-8139f3e1487b" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="eae8db55-6aee-83d5-b647-01f4f0d054dd"><th id="R&lt;rO" class="simple-table-header-color simple-table-header" style="width:158px"><strong>类名前缀</strong></th><th id="dm~j" class="simple-table-header-color simple-table-header" style="width:189px"><strong>方向</strong></th><th id="h:vp" class="simple-table-header-color simple-table-header" style="width:213px"><strong>示例</strong></th><th id="r&gt;hP" class="simple-table-header-color simple-table-header" style="width:277.1080627441406px"><strong>含义</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="5798db55-6aee-8234-a1ca-01f4af590234"><td id="R&lt;rO" class="" style="width:158px"><code>m-</code></td><td id="dm~j" class="" style="width:189px">所有方向</td><td id="h:vp" class="" style="width:213px"><code>m-3</code></td><td id="r&gt;hP" class="" style="width:277.1080627441406px">四个方向 margin 为 3 单位</td></tr></div><div style="display:contents" dir="ltr"><tr id="75d8db55-6aee-82d9-b6e9-01379be3bbd2"><td id="R&lt;rO" class="" style="width:158px"><code>mt-</code></td><td id="dm~j" class="" style="width:189px">上</td><td id="h:vp" class="" style="width:213px"><code>mt-2</code></td><td id="r&gt;hP" class="" style="width:277.1080627441406px">上 margin 为 2 单位</td></tr></div><div style="display:contents" dir="ltr"><tr id="1598db55-6aee-82f1-bc96-014d4c1ad38d"><td id="R&lt;rO" class="" style="width:158px"><code>mb-</code></td><td id="dm~j" class="" style="width:189px">下</td><td id="h:vp" class="" style="width:213px"><code>mb-4</code></td><td id="r&gt;hP" class="" style="width:277.1080627441406px">下 margin 为 4 单位</td></tr></div><div style="display:contents" dir="ltr"><tr id="d008db55-6aee-8256-92ca-8108df538f54"><td id="R&lt;rO" class="" style="width:158px"><code>ms-</code></td><td id="dm~j" class="" style="width:189px">左（start）</td><td id="h:vp" class="" style="width:213px"><code>ms-1</code></td><td id="r&gt;hP" class="" style="width:277.1080627441406px">左 margin 为 1 单位</td></tr></div><div style="display:contents" dir="ltr"><tr id="9268db55-6aee-8226-810e-8148819a01b2"><td id="R&lt;rO" class="" style="width:158px"><code>me-</code></td><td id="dm~j" class="" style="width:189px">右（end）</td><td id="h:vp" class="" style="width:213px"><code>me-5</code></td><td id="r&gt;hP" class="" style="width:277.1080627441406px">右 margin 为 5 单位</td></tr></div><div style="display:contents" dir="ltr"><tr id="3bf8db55-6aee-82e5-aff2-01eed690c48d"><td id="R&lt;rO" class="" style="width:158px"><code>p-</code></td><td id="dm~j" class="" style="width:189px">所有方向</td><td id="h:vp" class="" style="width:213px"><code>p-3</code></td><td id="r&gt;hP" class="" style="width:277.1080627441406px">四个方向 padding 为 3 单位</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="b0e8db55-6aee-82c1-aae4-01da077f9e0a" class="">
+</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b4c8db55-6aee-837d-8c58-81c4fe5ff617" class="toggle"><li><details open=""><summary>3、常用组件：开箱即用的UI元素</summary><div style="display:contents" dir="auto"><p id="2fc8db55-6aee-8342-a4ad-017466b323ef" class="">通过 <code>btn</code> 基础类 + 主题类控制按钮样式，支持不同状态（默认、激活、禁用）和尺寸。</p></div><div style="display:contents" dir="ltr"><table id="3568db55-6aee-8250-8007-817848089831" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="b608db55-6aee-8354-b797-01f4ae9cf06c"><th id="OOmN" class="simple-table-header-color simple-table-header" style="width:138px"><strong>主题类</strong></th><th id="|NH@" class="simple-table-header-color simple-table-header" style="width:147.43359375px"><strong>样式效果</strong></th><th id="CZOI" class="simple-table-header-color simple-table-header" style="width:552px"><strong>示例代码</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="bae8db55-6aee-8369-9d7f-010e9e4dabf5"><td id="OOmN" class="" style="width:138px"><code>btn-primary</code></td><td id="|NH@" class="" style="width:147.43359375px">主色调（默认蓝）</td><td id="CZOI" class="" style="width:552px"><code>&lt;button class=&quot;btn btn-primary&quot;&gt;主按钮&lt;/button&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b068db55-6aee-82a7-a382-0129ecd09586"><td id="OOmN" class="" style="width:138px"><code>btn-secondary</code></td><td id="|NH@" class="" style="width:147.43359375px">次要色调（灰）</td><td id="CZOI" class="" style="width:552px"><code>&lt;button class=&quot;btn btn-secondary&quot;&gt;次要按钮&lt;/button&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="12b8db55-6aee-8391-8540-01a01ad9c489"><td id="OOmN" class="" style="width:138px"><code>btn-success</code></td><td id="|NH@" class="" style="width:147.43359375px">成功色（绿）</td><td id="CZOI" class="" style="width:552px"><code>&lt;button class=&quot;btn btn-success&quot;&gt;成功按钮&lt;/button&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="10a8db55-6aee-82e4-ad9a-815b9de73d01"><td id="OOmN" class="" style="width:138px"><code>btn-danger</code></td><td id="|NH@" class="" style="width:147.43359375px">危险色（红）</td><td id="CZOI" class="" style="width:552px"><code>&lt;button class=&quot;btn btn-danger&quot;&gt;删除按钮&lt;/button&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="9048db55-6aee-8384-bf92-81887a6ec4c8"><td id="OOmN" class="" style="width:138px"><code>btn-outline-*</code></td><td id="|NH@" class="" style="width:147.43359375px">边框样式</td><td id="CZOI" class="" style="width:552px"><code>&lt;button class=&quot;btn btn-outline-primary&quot;&gt;边框按钮&lt;/button&gt;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="e358db55-6aee-8242-af85-011b70617639" class="">尺寸控制：<code>btn-sm</code>（小）、<code>btn-lg</code>（大）、<code>btn-block</code>（全屏宽度）。</p></div><div style="display:contents" dir="auto"><hr id="09b8db55-6aee-8277-bcd8-01cc1168c4ef"/></div><div style="display:contents" dir="auto"><ul id="fe48db55-6aee-83e6-a7ed-81164baa7b66" class="toggle"><li><details open=""><summary>1、卡片（Cards）</summary><div style="display:contents" dir="auto"><p id="0638db55-6aee-8274-b259-816639b75ec5" class="">用于展示结构化内容（如文章、商品信息），包含标题、内容、图片、按钮等元素，支持自定义阴影和边框。</p></div><div style="display:contents" dir="auto"><pre id="7638db55-6aee-8269-9f54-8141e6afe225" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;card&quot; style=&quot;width: 18rem;&quot;&gt; &lt;!-- 固定宽度 --&gt;
+  &lt;!-- 卡片图片 --&gt;
+  &lt;img src=&quot;https://picsum.photos/200/150&quot; class=&quot;card-img-top&quot; alt=&quot;示例图片&quot;&gt;
+  &lt;!-- 卡片内容 --&gt;
+  &lt;div class=&quot;card-body&quot;&gt;
+    &lt;h5 class=&quot;card-title&quot;&gt;卡片标题&lt;/h5&gt;
+    &lt;h6 class=&quot;card-subtitle mb-2 text-muted&quot;&gt;卡片副标题&lt;/h6&gt;
+    &lt;p class=&quot;card-text&quot;&gt;这是一张 Bootstrap 卡片，用于展示图文内容，支持自定义样式。&lt;/p&gt;
+    &lt;!-- 卡片链接 --&gt;
+    &lt;a href=&quot;#&quot; class=&quot;card-link&quot;&gt;查看详情&lt;/a&gt;
+    &lt;a href=&quot;#&quot; class=&quot;card-link&quot;&gt;收藏&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="1f78db55-6aee-82fb-9772-01400bf91885" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="59a8db55-6aee-8246-b5f4-01cd39d9341d" class="toggle"><li><details open=""><summary>2、导航栏（Navbar）</summary><div style="display:contents" dir="auto"><p id="d818db55-6aee-82c1-826e-8170a22bb852" class="">响应式导航组件，在电脑端显示横向菜单，手机端折叠为 “汉堡按钮”（点击展开菜单），是网站顶部导航的常用方案。</p></div><div style="display:contents" dir="auto"><pre id="56e8db55-6aee-8221-8cf4-015595ff021b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;nav class=&quot;navbar navbar-expand-md navbar-dark bg-primary&quot;&gt; &lt;!-- 深色背景+主色调 --&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;!-- 品牌Logo --&gt;
+    &lt;a class=&quot;navbar-brand&quot; href=&quot;#&quot;&gt;MySite&lt;/a&gt;
+    
+    &lt;!-- 手机端折叠按钮（仅在 &lt;md 屏幕显示） --&gt;
+    &lt;button class=&quot;navbar-toggler&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#navbarNav&quot;&gt;
+      &lt;span class=&quot;navbar-toggler-icon&quot;&gt;&lt;/span&gt;
+    &lt;/button&gt;
+    
+    &lt;!-- 导航菜单（可折叠） --&gt;
+    &lt;div class=&quot;collapse navbar-collapse&quot; id=&quot;navbarNav&quot;&gt;
+      &lt;ul class=&quot;navbar-nav ms-auto&quot;&gt; &lt;!-- ms-auto：右对齐 --&gt;
+        &lt;li class=&quot;nav-item&quot;&gt;
+          &lt;a class=&quot;nav-link active&quot; aria-current=&quot;page&quot; href=&quot;#&quot;&gt;首页&lt;/a&gt; &lt;!-- active：当前页高亮 --&gt;
+        &lt;/li&gt;
+        &lt;li class=&quot;nav-item&quot;&gt;
+          &lt;a class=&quot;nav-link&quot; href=&quot;#&quot;&gt;产品&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class=&quot;nav-item&quot;&gt;
+          &lt;a class=&quot;nav-link&quot; href=&quot;#&quot;&gt;关于我们&lt;/a&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7b08db55-6aee-82fd-b97f-8198b68aad7f" class="toggle"><li><details open=""><summary>3、表单（Forms）</summary><div style="display:contents" dir="auto"><p id="58b8db55-6aee-82c0-9603-019e00fe6d59" class="">Bootstrap 对表单元素（输入框、下拉框、复选框等）进行了样式优化，支持水平布局、验证状态提示等功能。</p></div><div style="display:contents" dir="auto"><pre id="3c68db55-6aee-829f-8dbb-01d72f4d5bb9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;container mt-4&quot;&gt;
+  &lt;form&gt;
+    &lt;!-- 文本输入框 --&gt;
+    &lt;div class=&quot;mb-3&quot;&gt;
+      &lt;label for=&quot;username&quot; class=&quot;form-label&quot;&gt;用户名&lt;/label&gt;
+      &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;username&quot; placeholder=&quot;请输入用户名&quot;&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- 密码输入框 --&gt;
+    &lt;div class=&quot;mb-3&quot;&gt;
+      &lt;label for=&quot;password&quot; class=&quot;form-label&quot;&gt;密码&lt;/label&gt;
+      &lt;input type=&quot;password&quot; class=&quot;form-control&quot; id=&quot;password&quot; placeholder=&quot;请输入密码&quot;&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- 复选框 --&gt;
+    &lt;div class=&quot;mb-3 form-check&quot;&gt;
+      &lt;input type=&quot;checkbox&quot; class=&quot;form-check-input&quot; id=&quot;remember&quot;&gt;
+      &lt;label class=&quot;form-check-label&quot; for=&quot;remember&quot;&gt;记住我&lt;/label&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- 提交按钮 --&gt;
+    &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;登录&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/div&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cc18db55-6aee-836f-aaa1-81b5f2ad3aef" class="toggle"><li><details open=""><summary>4、模态框（Modals）</summary><div style="display:contents" dir="auto"><p id="7078db55-6aee-82de-86c2-01bedeb69c6c" class="">弹出式对话框，用于显示重要信息、表单或交互操作（如确认删除、用户登录），需要通过 JavaScript 或 <code>data-*</code> 属性触发。</p></div><div style="display:contents" dir="auto"><pre id="82c8db55-6aee-83e2-914b-011994e7beba" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;container mt-4&quot;&gt;
+  &lt;!-- 触发按钮：data-bs-toggle=&quot;modal&quot; 表示触发模态框，data-bs-target=&quot;#myModal&quot; 指向模态框ID --&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-bs-toggle=&quot;modal&quot; data-bs-target=&quot;#myModal&quot;&gt;
+    打开模态框
+  &lt;/button&gt;
+
+  &lt;!-- 模态框 --&gt;
+  &lt;div class=&quot;modal fade&quot; id=&quot;myModal&quot; tabindex=&quot;-1&quot; aria-hidden=&quot;true&quot;&gt;
+    &lt;!-- 模态框对话框 --&gt;
+    &lt;div class=&quot;modal-dialog&quot;&gt;
+      &lt;!-- 模态框内容 --&gt;
+      &lt;div class=&quot;modal-content&quot;&gt;
+        &lt;!-- 模态框头部 --&gt;
+        &lt;div class=&quot;modal-header&quot;&gt;
+          &lt;h5 class=&quot;modal-title&quot;&gt;模态框标题&lt;/h5&gt;
+          &lt;!-- 关闭按钮 --&gt;
+          &lt;button type=&quot;button&quot; class=&quot;btn-close&quot; data-bs-dismiss=&quot;modal&quot; aria-label=&quot;Close&quot;&gt;&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;!-- 模态框主体 --&gt;
+        &lt;div class=&quot;modal-body&quot;&gt;
+          这是模态框的内容区域，可以放文本、表单或其他元素。
+        &lt;/div&gt;
+        &lt;!-- 模态框底部 --&gt;
+        &lt;div class=&quot;modal-footer&quot;&gt;
+          &lt;button type=&quot;button&quot; class=&quot;btn btn-secondary&quot; data-bs-dismiss=&quot;modal&quot;&gt;取消&lt;/button&gt;
+          &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;确认&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0598db55-6aee-83c6-b997-01de3c97e7db" class="toggle"><li><details open=""><summary>4、JavaScript插件：实现交互</summary><div style="display:contents" dir="auto"><p id="d258db55-6aee-8298-a6a8-812a1877bc39" class="">Bootstrap 5 的交互组件（如模态框、下拉菜单、轮播图）依赖内置的 JavaScript 插件，无需手动写 JS 逻辑，通过以下两种方式触发：</p></div><div style="display:contents" dir="auto"><ol type="1" id="f658db55-6aee-82e8-a653-8193724eda0f" class="numbered-list" start="1"><li><code><strong>data-*</strong></code><strong> 属性触发</strong>（推荐）：通过添加 <code>data-bs-toggle</code>、<code>data-bs-target</code> 等属性，无需写 JS 代码即可触发交互（如上文模态框示例）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a5b8db55-6aee-82e6-938a-01d0410a025a" class="numbered-list" start="2"><li><strong>JavaScript 代码触发</strong>（灵活控制）：通过 Bootstrap 提供的 API 手动控制组件，适用于需要自定义逻辑的场景。</li></ol></div><div style="display:contents" dir="auto"><pre id="6c88db55-6aee-82b6-a8a5-01a65af2a954" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 按钮 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; id=&quot;openModalBtn&quot;&gt;通过JS打开模态框&lt;/button&gt;
+
+&lt;!-- 模态框（同上，ID为myModal） --&gt;
+&lt;div class=&quot;modal fade&quot; id=&quot;myModal&quot; ...&gt;&lt;/div&gt;
+
+&lt;!-- JS 代码 --&gt;
+&lt;script&gt;
+  // 获取按钮和模态框元素
+  const openModalBtn = document.getElementById(&#x27;openModalBtn&#x27;);
+  const myModal = new bootstrap.Modal(document.getElementById(&#x27;myModal&#x27;)); // 初始化模态框
+
+  // 按钮点击事件：打开模态框
+  openModalBtn.addEventListener(&#x27;click&#x27;, function() {
+    myModal.show(); // 打开模态框
+    // myModal.hide(); // 关闭模态框（可选）
+  });
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="2fa8db55-6aee-82e4-815a-0114e5ba6ff5"/></div><div style="display:contents" dir="ltr"><table id="6238db55-6aee-8303-976f-81eb8401fbb5" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="6dc8db55-6aee-826c-9276-815761af7cc7"><th id="SEDZ" class="simple-table-header-color simple-table-header" style="width:193px"><strong>插件名称</strong></th><th id="nTuV" class="simple-table-header-color simple-table-header" style="width:306.7330627441406px"><strong>功能描述</strong></th><th id="DhoL" class="simple-table-header-color simple-table-header" style="width:393.1692657470703px"><strong>触发属性示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="4cd8db55-6aee-8310-a677-81b9f93e3292"><td id="SEDZ" class="" style="width:193px">Modal</td><td id="nTuV" class="" style="width:306.7330627441406px">模态框</td><td id="DhoL" class="" style="width:393.1692657470703px"><code>data-bs-toggle=&quot;modal&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8de8db55-6aee-82aa-917a-01b07cd4697c"><td id="SEDZ" class="" style="width:193px">Dropdown</td><td id="nTuV" class="" style="width:306.7330627441406px">下拉菜单</td><td id="DhoL" class="" style="width:393.1692657470703px"><code>data-bs-toggle=&quot;dropdown&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="f0f8db55-6aee-8374-b2bd-01c131ef60ac"><td id="SEDZ" class="" style="width:193px">Carousel</td><td id="nTuV" class="" style="width:306.7330627441406px">轮播图</td><td id="DhoL" class="" style="width:393.1692657470703px"><code>data-bs-ride=&quot;carousel&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="20c8db55-6aee-8210-95c7-01cadaaf33b3"><td id="SEDZ" class="" style="width:193px">Collapse</td><td id="nTuV" class="" style="width:306.7330627441406px">折叠面板（如导航栏折叠）</td><td id="DhoL" class="" style="width:393.1692657470703px"><code>data-bs-toggle=&quot;collapse&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="aa68db55-6aee-82d2-9e2c-014407e7ef47"><td id="SEDZ" class="" style="width:193px">Tab</td><td id="nTuV" class="" style="width:306.7330627441406px">选项卡切换</td><td id="DhoL" class="" style="width:393.1692657470703px"><code>data-bs-toggle=&quot;tab&quot;</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5f88db55-6aee-8346-b08f-011bf3079b4d" class="toggle"><li><details open=""><summary>5、Bootstrap与前端框架的结合（vue/react）</summary></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

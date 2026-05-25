@@ -1,0 +1,999 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>泛型</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3a18db55-6aee-8355-bec3-01e6e52ff757" class="page mono"><header><h1 class="page-title" dir="auto">泛型</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="60d8db55-6aee-8385-ac8c-01d46cff1955" class="">泛型（Generic）是 TypeScript 中<strong>类型</strong><mark class="highlight-red"><strong>复用与类型安全</strong></mark><strong>兼顾</strong>的核心特性，本质是 “<mark class="highlight-orange">类型参数化</mark>”—— 允许在定义函数、接口、类时，不预先指定具体类型，而是在<mark class="highlight-orange">使用时动态传入类型</mark>（类似函数的 “参数”，只不过参数是 “类型” 而非 “值”）。</p></div><div style="display:contents" dir="auto"><ol type="1" id="0dd8db55-6aee-82f1-bcbb-81aea5c0140c" class="numbered-list" start="1"><li>避免重复编写多个相似类型的代码（如 <code>string[]</code>、<code>number[]</code> 可统一为 <code>T[]</code>）；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="c608db55-6aee-83f9-9307-813edbb59275" class="numbered-list" start="2"><li>保持类型安全（替代 <code>any</code>，编译时就能检测类型错误，而非运行时）；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b518db55-6aee-83d8-923c-0116007cc8f0" class="numbered-list" start="3"><li>实现 “类型联动”（如函数输入类型与输出类型一致）。</li></ol></div><div style="display:contents" dir="auto"><ul id="bfa8db55-6aee-82b7-ade4-8140bca2bda9" class="toggle"><li><details open=""><summary>应用</summary><div style="display:contents" dir="auto"><ol type="1" id="d948db55-6aee-836b-a068-81ea9621e552" class="numbered-list" start="1"><li><strong>通用工具函数</strong>：如数组处理（<code>getFirst</code>、<code>flatten</code>）、对象合并（<code>merge</code>）、类型转换（<code>transform</code>），避免重复编写 <code>string</code>/<code>number</code>/<code>User</code> 等专属函数；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ed08db55-6aee-83c5-8589-0101872882e0" class="numbered-list" start="2"><li><strong>数据结构封装</strong>：如栈、队列、链表、字典等，支持任意类型数据存储；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="e4d8db55-6aee-8224-b969-012b00b733b5" class="numbered-list" start="3"><li><strong>API 响应封装</strong>：用泛型接口 <code>ApiResponse&lt;T&gt;</code> 统一响应格式，不同接口传入不同 <code>T</code>（如 <code>User</code>、<code>User[]</code>）；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="97a8db55-6aee-8351-8623-81f0454d7383" class="numbered-list" start="4"><li><strong>前端组件封装</strong>：如 React/Vue 的通用组件（表格、弹窗、下拉框），通过泛型指定 props 类型（如 <code>TableProps&lt;T&gt;</code> 接收表格数据类型 <code>T</code>）；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="9b68db55-6aee-82d4-905a-81016518ad63" class="numbered-list" start="5"><li><strong>类型工具库</strong>：如 <code>lodash</code> 的 TypeScript 版本，通过泛型保证函数输入输出的类型一致性。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="53c8db55-6aee-8344-a7a2-816437b5a81a"/></div><div style="display:contents" dir="auto"><ul id="c1a8db55-6aee-8331-9f4f-01ef88bb4583" class="toggle"><li><details open=""><summary>格式</summary><div style="display:contents" dir="auto"><p id="b838db55-6aee-8356-94ee-017d89963281" class="">泛型的核心是<strong>类型参数</strong>（通常用 <code>&lt;T&gt;</code> 表示，<code>T</code> 是 Type 的缩写，也可用 <code>U</code>、<code>V</code> 等大写字母，语义化命名更佳，如 <code>&lt;Item&gt;</code>、<code>&lt;Data&gt;</code>）。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js" integrity="sha512-uOw7XYETzS/DPmmirpP5UCMihSDNMeyTS965J0/456OSPfxn9xEtHHjj5Q/5WefVdqyMfN/afmQnNpZd/tpkcA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js" integrity="sha512-xjGCJ9YxyZBfYTCHsEjkOZMoOse1W3cKMXv1szXrxs68myuXt0YTj3/xKPar6iDMlXzTUSEqwUxprWcyp+plaw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="ff88db55-6aee-8247-851b-01f7c5908657" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 泛型函数：&lt;T&gt; 是类型参数，使用时传入具体类型
+function 函数名&lt;T&gt;(参数: T): T { ... }
+
+// 泛型接口：类型参数可作用于属性/方法
+interface 接口名&lt;T&gt; { ... }
+
+// 泛型类：类型参数可作用于属性/方法/构造函数
+class 类名&lt;T&gt; { ... }</code></pre></div><div style="display:contents" dir="auto"><h3 id="2de8db55-6aee-8253-827e-01ec526c2cda" class=""><strong>关键概念</strong></h3></div><div style="display:contents" dir="auto"><ul id="cc58db55-6aee-83ec-acc2-813b3c298544" class="bulleted-list"><li style="list-style-type:disc"><strong>类型参数（Type Parameter）</strong>：<code>&lt;T&gt;</code> 中的 <code>T</code>，类似 “类型占位符”，使用时指定具体类型（如 <code>string</code>、<code>User</code>）；</li></ul></div><div style="display:contents" dir="auto"><ul id="b368db55-6aee-8321-8aaf-01a99cf1cf85" class="bulleted-list"><li style="list-style-type:disc"><strong>类型实参（Type Argument）</strong>：使用泛型时传入的具体类型（如 <code>func&lt;string&gt;()</code> 中的 <code>string</code>）；</li></ul></div><div style="display:contents" dir="auto"><ul id="f258db55-6aee-822e-80fa-8180298991d1" class="bulleted-list"><li style="list-style-type:disc"><strong>类型推断</strong>：TypeScript 可根据传入的 “值参数” 自动推导类型实参，无需显式声明（如 <code>func(123)</code> 自动推断 <code>T=number</code>）。</li></ul></div><div style="display:contents" dir="auto"><p id="1148db55-6aee-8262-a248-018bbe1bdf9f" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3998db55-6aee-830f-aee5-81cbe003081c" class="toggle"><li><details open=""><summary>泛型函数</summary><div style="display:contents" dir="auto"><p id="ea28db55-6aee-8251-a0c4-814bea2b194b" class="">解决 “<mark class="highlight-orange">同一函数处理不同类型数据，但需保持类型一致</mark>” 的问题（替代 <code>any</code>，兼顾灵活与安全）。</p></div><div style="display:contents" dir="auto"><p id="c7b8db55-6aee-8280-a766-014354ebf23d" class="">例如：处理数组的通用函数</p></div><div style="display:contents" dir="auto"><pre id="f8d8db55-6aee-83b6-b850-018cfd4a8588" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 泛型函数：返回数组第一个元素，输入输出类型一致
+function getFirstElement&lt;T&gt;(arr: T[]): T | undefined {
+  return arr[0];
+}
+
+// 用法1：显式指定类型实参 &lt;string&gt;
+const str = getFirstElement&lt;string&gt;([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]);
+str.toUpperCase(); // 合法：TypeScript 知道 str 是 string
+
+// 用法2：类型推断（推荐）：根据传入的数组类型自动推导 T=number
+const num = getFirstElement([1, 2, 3]);
+num.toFixed(2); // 合法：num 是 number
+
+// 用法3：处理自定义类型数组
+interface User { id: number; name: string }
+const users: User[] = [{ id: 1, name: &quot;张三&quot; }, { id: 2, name: &quot;李四&quot; }];
+const user = getFirstElement(users);
+console.log(user?.name); // 合法：user 是 User 类型</code></pre></div><div style="display:contents" dir="auto"><p id="d7b8db55-6aee-8244-b791-01fc4ecfe19c" class="">例如：多类型参数函数</p></div><div style="display:contents" dir="auto"><p id="79d8db55-6aee-8222-a231-019c2b437bab" class="">当函数需要处理多个不同类型的参数时，可定义多个类型参数（<code>T</code>、<code>U</code>、<code>V</code> 等）</p></div><div style="display:contents" dir="auto"><pre id="2418db55-6aee-8305-8aa0-81d171d2e83b" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 泛型函数：合并两个不同类型的对象，返回交叉类型 T &amp; U
+function merge&lt;T, U&gt;(obj1: T, obj2: U): T &amp; U {
+  return { ...obj1, ...obj2 };
+}
+
+// 类型推断：T=User，U=Contact（复用之前定义的 User/Contact 接口）
+const merged = merge({ id: 1, name: &quot;张三&quot; }, { phone: &quot;13800138000&quot; });
+console.log(merged.id); // 合法（来自 User）
+console.log(merged.phone); // 合法（来自 Contact）</code></pre></div><div style="display:contents" dir="auto"><p id="23a8db55-6aee-83b7-af67-81f85a619691" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6578db55-6aee-8325-b9c7-81cbf33d89e2" class="toggle"><li><details open=""><summary>泛型接口</summary><div style="display:contents" dir="auto"><p id="8648db55-6aee-8281-b5fd-01715419d007" class="">用于定义 “结构固定，但属性 / 方法类型可变” 的接口，常见于配置对象、API 响应、函数类型定义。</p></div><div style="display:contents" dir="auto"><p id="6998db55-6aee-8332-b646-0178fc642345" class="">示例：泛型接口定义对象解构</p></div><div style="display:contents" dir="auto"><pre id="2208db55-6aee-83b8-a04c-81b7c060ad32" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 泛型接口：Data 类型可变，结构固定（有 data 和 message 字段）
+interface ApiResponse&lt;T&gt; {
+  code: number;
+  message: string;
+  data: T; // 泛型字段：根据实际响应动态指定类型
+}
+
+// 用法1：响应数据是 User 类型
+type UserResponse = ApiResponse&lt;User&gt;;
+const userRes: UserResponse = {
+  code: 200,
+  message: &quot;success&quot;,
+  data: { id: 1, name: &quot;张三&quot; }
+};
+
+// 用法2：响应数据是 User[] 类型
+type UserListResponse = ApiResponse&lt;User[]&gt;;
+const userListRes: UserListResponse = {
+  code: 200,
+  message: &quot;success&quot;,
+  data: [{ id: 1, name: &quot;张三&quot; }, { id: 2, name: &quot;李四&quot; }]
+};</code></pre></div><div style="display:contents" dir="auto"><p id="e7c8db55-6aee-8225-899d-013382c4cdc1" class="">例如：泛型接口定义函数类型</p></div><div style="display:contents" dir="auto"><pre id="b1e8db55-6aee-827e-bdaa-01f313a42728" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 泛型接口：定义“输入 T 类型，返回 U 类型”的函数结构
+interface TransformFn&lt;T, U&gt; {
+  (input: T): U;
+}
+
+// 实现接口：将 number 转为 string
+const numberToString: TransformFn&lt;number, string&gt; = (num) =&gt; {
+  return num.toString();
+};
+
+// 实现接口：将 User 转为 { userId: number; userName: string }
+const userTransform: TransformFn&lt;User, { userId: number; userName: string }&gt; = (user) =&gt; {
+  return { userId: user.id, userName: user.name };
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0738db55-6aee-8285-875c-8156861cb9bf" class="toggle"><li><details open=""><summary>泛型类</summary><div style="display:contents" dir="auto"><p id="cd58db55-6aee-82b8-aef8-01bf2aeea64a" class="">用于创建 “属性 / 方法类型可变” 的类，常见于数据结构（如栈、队列、链表）。</p></div><div style="display:contents" dir="auto"><p id="e8b8db55-6aee-826d-b515-81aecd0d78fe" class="">例如：泛型栈实现</p></div><div style="display:contents" dir="auto"><pre id="1f88db55-6aee-8245-94cb-01555e7a0cf4" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">class Stack&lt;T&gt; {
+  private items: T[] = [];
+
+  // 入栈：接收 T 类型值
+  push(item: T): void {
+    this.items.push(item);
+  }
+
+  // 出栈：返回 T 类型值（或 undefined）
+  pop(): T | undefined {
+    return this.items.pop();
+  }
+
+  // 查看栈顶：返回 T 类型值（或 undefined）
+  peek(): T | undefined {
+    return this.items[this.items.length - 1];
+  }
+
+  isEmpty(): boolean {
+    return this.items.length === 0;
+  }
+}
+
+// 用法1：创建 number 类型的栈
+const numberStack = new Stack&lt;number&gt;();
+numberStack.push(1);
+numberStack.push(2);
+const num = numberStack.pop(); // num 是 number 类型
+
+// 用法2：创建 string 类型的栈
+const stringStack = new Stack&lt;string&gt;();
+stringStack.push(&quot;a&quot;);
+stringStack.push(&quot;b&quot;);
+const str = stringStack.peek(); // str 是 string 类型
+
+// 用法3：创建 User 类型的栈
+const userStack = new Stack&lt;User&gt;();
+userStack.push({ id: 1, name: &quot;张三&quot; });
+const user = userStack.peek(); // user 是 User 类型</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="96e8db55-6aee-82c3-bf3d-019ec05ac986"/></div><div style="display:contents" dir="auto"><ul id="d5e8db55-6aee-8389-8d43-81d5c28e83e4" class="toggle"><li><details open=""><summary>泛型约束<strong>（Generic Constraints）</strong></summary><div style="display:contents" dir="auto"><p id="43f8db55-6aee-82fe-b982-8168bf78037e" class="">默认情况下，泛型 <code>T</code> 可以是任意类型，但有时需要<strong>限制泛型的范围</strong>（如要求 <code>T</code> 必须包含某个属性、继承某个接口），避免访问不存在的属性 / 方法。</p></div><div style="display:contents" dir="auto"><pre id="31f8db55-6aee-83de-a671-01ad49b01d7e" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">语法：用 extends 指定约束条件（T extends 约束类型）。</code></pre></div><div style="display:contents" dir="auto"><p id="acd8db55-6aee-8282-a4db-01e7e0896233" class="">例如：约束泛型必须包含某个属性</p></div><div style="display:contents" dir="auto"><pre id="b838db55-6aee-83de-bcf6-015276811f99" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 定义约束接口：必须有 id 属性
+interface HasId {
+  id: number;
+}
+
+// 泛型约束：T 必须继承 HasId（即 T 必须有 id 属性）
+function getId&lt;T extends HasId&gt;(obj: T): number {
+  return obj.id; // 此时可安全访问 id，不会报错
+}
+
+// 合法：User 接口有 id 属性，满足约束
+getId({ id: 1, name: &quot;张三&quot; });
+
+// 合法：直接传入有 id 的对象
+getId({ id: 2 });
+
+// 非法：对象没有 id 属性，不满足约束 → 报错
+// getId({ name: &quot;李四&quot; }); // 报错：Property &#x27;id&#x27; is missing</code></pre></div><div style="display:contents" dir="auto"><p id="0ea8db55-6aee-8301-a0ed-81b23c895a98" class="">例如：约束泛型为对象类型（排除基本类型）</p></div><div style="display:contents" dir="auto"><pre id="5978db55-6aee-8281-ba89-019cfe22f1ce" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 约束 T 为对象类型（object 包含数组、对象，但排除 string/number/boolean 等）
+function getProp&lt;T extends object, K extends keyof T&gt;(obj: T, key: K): T[K] {
+  return obj[key]; // 安全访问 obj 的 key 属性
+}
+
+// 合法：obj 是对象，key 是 obj 的属性
+const user = { id: 1, name: &quot;张三&quot; };
+getProp(user, &quot;name&quot;); // 返回 string 类型
+
+// 合法：数组也是 object，key 是数组的索引（number 类型）
+const arr = [1, 2, 3];
+getProp(arr, 0); // 返回 number 类型
+
+// 非法：obj 是基本类型（string），不满足 T extends object → 报错
+// getProp(&quot;hello&quot;, &quot;length&quot;); // 报错：Type &#x27;string&#x27; does not satisfy the constraint &#x27;object&#x27;</code></pre></div><div style="display:contents" dir="auto"><pre id="e388db55-6aee-83c8-a437-010c51ca927e" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">关键：K extends keyof T 是 “索引类型查询”，
+keyof T 会提取 T 的所有属性名组成联合类型（如 keyof User = &quot;id&quot; | &quot;name&quot;），
+确保 key 是 T 中存在的属性，避免访问不存在的键。</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ebe8db55-6aee-837d-b708-815798ffa3a3" class="toggle"><li><details open=""><summary>默认类型参数（<strong>Default Type Parameters</strong>）</summary><div style="display:contents" dir="auto"><p id="1e68db55-6aee-83ce-ae9f-012e642d494a" class="">可给泛型参数指定默认值，当用户未传入类型实参且 TypeScript 无法推断时，使用默认类型。</p></div><div style="display:contents" dir="auto"><pre id="02b8db55-6aee-8338-be0d-01ab6b7d89ad" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">语法：&lt;T = 默认类型&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="5b18db55-6aee-8266-884a-01e761498c55" class="">例如：带默认类型的泛型函数</p></div><div style="display:contents" dir="auto"><pre id="71d8db55-6aee-8306-8327-81b5729ef10a" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 泛型默认值：T 默认为 string
+function createArray&lt;T = string&gt;(length: number, value: T): T[] {
+  return Array(length).fill(value);
+}
+
+// 用法1：未传入类型，使用默认值 string
+const strArr = createArray(3, &quot;a&quot;); // strArr: string[]
+
+// 用法2：传入类型 number，覆盖默认值
+const numArr = createArray&lt;number&gt;(3, 1); // numArr: number[]
+
+// 用法3：类型推断（无需传入类型）
+const boolArr = createArray(3, true); // boolArr: boolean[]</code></pre></div><div style="display:contents" dir="auto"><p id="1758db55-6aee-8324-88c9-01266b59235d" class="">例如：带默认类型的泛型接口</p></div><div style="display:contents" dir="auto"><pre id="4488db55-6aee-82ef-857c-01c1bfefdde5" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 泛型默认值：Data 默认为 void（无数据）
+interface ApiResponse&lt;T = void&gt; {
+  code: number;
+  message: string;
+  data?: T; // 可选字段，默认无数据
+}
+
+// 用法1：无数据响应（使用默认类型 void）
+const successRes: ApiResponse = {
+  code: 200,
+  message: &quot;操作成功&quot;
+};
+
+// 用法2：有数据响应（指定 T 为 User）
+const userRes: ApiResponse&lt;User&gt; = {
+  code: 200,
+  message: &quot;查询成功&quot;,
+  data: { id: 1, name: &quot;张三&quot; }
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5af8db55-6aee-82fd-a48f-01a8edb9de2d" class="toggle"><li><details open=""><summary>泛型工具类型（<strong>Built-in Generic Utilities</strong>）</summary><div style="display:contents" dir="auto"><p id="c298db55-6aee-828d-93f2-81d41efaefc0" class="">TypeScript 内置了<mark class="highlight-orange">多个常用泛型工具类型</mark>，基于泛型实现 “类型转换”，无需手动编写复杂类型，常见的有：</p></div><div style="display:contents" dir="ltr"><table id="6d48db55-6aee-8295-8af4-011392e26bd0" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="d868db55-6aee-82f9-8352-81a494a4d986"><th id="z[hw" class="simple-table-header-color simple-table-header"><strong>工具类型</strong></th><th id="\qSh" class="simple-table-header-color simple-table-header" style="width:234.2700958251953px"><strong>作用</strong></th><th id="W_cm" class="simple-table-header-color simple-table-header" style="width:267.8169708251953px"><strong>示例</strong></th><th id="aX~;" class="simple-table-header-color simple-table-header"></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="1658db55-6aee-832c-840c-01f9189481f0"><td id="z[hw" class=""><code>Partial&lt;T&gt;</code></td><td id="\qSh" class="" style="width:234.2700958251953px">将 <code>T</code> 所有属性转为可选</td><td id="W_cm" class="" style="width:267.8169708251953px"><code>Partial&lt;User&gt;</code> → <code>{ id?: number; name?: string }</code></td><td id="aX~;" class=""></td></tr></div><div style="display:contents" dir="ltr"><tr id="0408db55-6aee-83e0-8a48-811c4d806b22"><td id="z[hw" class=""><code>Required&lt;T&gt;</code></td><td id="\qSh" class="" style="width:234.2700958251953px">将 <code>T</code> 所有可选属性转为必选</td><td id="W_cm" class="" style="width:267.8169708251953px"><code>Required&lt;Partial&lt;User&gt;&gt;</code> → <code>User</code></td><td id="aX~;" class=""></td></tr></div><div style="display:contents" dir="ltr"><tr id="2178db55-6aee-8359-9f8d-8164e22d6879"><td id="z[hw" class=""><code>Readonly&lt;T&gt;</code></td><td id="\qSh" class="" style="width:234.2700958251953px">将 <code>T</code> 所有属性转为只读</td><td id="W_cm" class="" style="width:267.8169708251953px"><code>Readonly&lt;User&gt;</code> → <code>{ readonly id: number; ... }</code></td><td id="aX~;" class=""></td></tr></div><div style="display:contents" dir="ltr"><tr id="9f88db55-6aee-82e9-b3ec-815ba157bc80"><td id="z[hw" class=""><code>Pick&lt;T, K&gt;</code></td><td id="\qSh" class="" style="width:234.2700958251953px">从 <code>T</code> 中挑选部分属性 <code>K</code>（<code>K</code> 是联合类型）</td><td id="W_cm" class="" style="width:267.8169708251953px"><code>Pick&lt;User, &quot;id&quot;&gt;</code> → <code>{ id: number }</code></td><td id="aX~;" class=""></td></tr></div><div style="display:contents" dir="ltr"><tr id="4c88db55-6aee-832b-aaa6-0118c6cea3d6"><td id="z[hw" class=""><code>Omit&lt;T, K&gt;</code></td><td id="\qSh" class="" style="width:234.2700958251953px">从 <code>T</code> 中排除部分属性 <code>K</code></td><td id="W_cm" class="" style="width:267.8169708251953px"><code>Omit&lt;User, &quot;name&quot;&gt;</code> → <code>{ id: number }</code></td><td id="aX~;" class=""></td></tr></div><div style="display:contents" dir="ltr"><tr id="7478db55-6aee-83d3-8c18-813b5dc8eb2d"><td id="z[hw" class=""><code>Exclude&lt;T, U&gt;</code></td><td id="\qSh" class="" style="width:234.2700958251953px">从 <code>T</code> 中排除能赋值给 <code>U</code> 的类型</td><td id="W_cm" class="" style="width:267.8169708251953px">`Exclude&lt;string</td><td id="aX~;" class="">number, string&gt;<code>→</code>number`</td></tr></div><div style="display:contents" dir="ltr"><tr id="f448db55-6aee-8210-8510-0140910fa467"><td id="z[hw" class=""><code>Extract&lt;T, U&gt;</code></td><td id="\qSh" class="" style="width:234.2700958251953px">从 <code>T</code> 中提取能赋值给 <code>U</code> 的类型</td><td id="W_cm" class="" style="width:267.8169708251953px">`Extract&lt;string</td><td id="aX~;" class="">number, string&gt;<code>→</code>string`</td></tr></div><div style="display:contents" dir="ltr"><tr id="4e28db55-6aee-820c-9e25-81f732be58af"><td id="z[hw" class=""><code>ReturnType&lt;T&gt;</code></td><td id="\qSh" class="" style="width:234.2700958251953px">提取函数 <code>T</code> 的返回值类型</td><td id="W_cm" class="" style="width:267.8169708251953px"><code>ReturnType&lt;() =&gt; string&gt;</code> → <code>string</code></td><td id="aX~;" class=""></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="5ce8db55-6aee-82d0-b32b-017adf7ee418" class="">常用工具类型实战</p></div><div style="display:contents" dir="auto"><pre id="6b58db55-6aee-836e-880a-01998f6dec79" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 基础类型
+interface User {
+  id: number;
+  name: string;
+  age?: number; // 可选属性
+}
+
+// 1. Partial：所有属性可选
+type PartialUser = Partial&lt;User&gt;;
+// 等价于：{ id?: number; name?: string; age?: number }
+
+// 2. Pick：挑选 id 和 name 属性
+type PickUser = Pick&lt;User, &quot;id&quot; | &quot;name&quot;&gt;;
+// 等价于：{ id: number; name: string }
+
+// 3. Omit：排除 age 属性
+type OmitUser = Omit&lt;User, &quot;age&quot;&gt;;
+// 等价于：{ id: number; name: string }
+
+// 4. ReturnType：提取函数返回值类型
+function getUser(): User {
+  return { id: 1, name: &quot;张三&quot; };
+}
+type UserReturnType = ReturnType&lt;typeof getUser&gt;; // 等价于 User
+
+// 5. Readonly：所有属性只读
+type ReadonlyUser = Readonly&lt;User&gt;;
+const user: ReadonlyUser = { id: 1, name: &quot;张三&quot; };
+// user.id = 2; // 报错：Cannot assign to &#x27;id&#x27; because it is a read-only property</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="0f48db55-6aee-83eb-8288-01d9e92b84e2"/></div><div style="display:contents" dir="auto"><ul id="24b8db55-6aee-83de-9083-010effbe4012" class="toggle"><li><details open=""><summary>泛型+交叉/联合类型</summary><div style="display:contents" dir="auto"><p id="a198db55-6aee-8326-b5f7-01d733b5a93a" class="">结合之前学的交叉类型（<code>&amp;</code>）和联合类型（<code>|</code>），实现更灵活的类型组合。</p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8360-862d-81251e665ff4" class="">例如：合并类型</p></div><div style="display:contents" dir="auto"><pre id="7868db55-6aee-831b-ac63-01087d998083" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 泛型函数：合并多个对象，返回交叉类型
+function mergeMulti&lt;T extends object[]&gt;(...objs: T): T[number] {
+  return Object.assign({}, ...objs);
+}
+
+// 合并 User + Contact + Admin，返回 User &amp; Contact &amp; Admin
+const merged = mergeMulti(
+  { id: 1, name: &quot;张三&quot; },
+  { phone: &quot;13800138000&quot; },
+  { role: &quot;admin&quot; }
+);
+console.log(merged.id, merged.phone, merged.role); // 均合法</code></pre></div><div style="display:contents" dir="auto"><p id="9d48db55-6aee-82d2-a5eb-8192e98132f9" class="">例如：泛型+联合类型（多类型可选）</p></div><div style="display:contents" dir="auto"><pre id="d238db55-6aee-8254-938e-01379e1b2f2d" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 泛型约束：T 只能是 string 或 number
+function formatValue&lt;T extends string | number&gt;(value: T): string {
+  if (typeof value === &quot;string&quot;) {
+    return value.toUpperCase();
+  }
+  return value.toFixed(2);
+}
+
+formatValue(&quot;hello&quot;); // 合法：返回 &quot;HELLO&quot;
+formatValue(123.456); // 合法：返回 &quot;123.46&quot;
+// formatValue(true); // 报错：Type &#x27;boolean&#x27; is not assignable to type &#x27;string | number&#x27;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0468db55-6aee-8280-9eba-0118b91d120f" class="toggle"><li><details open=""><summary>条件类型（<strong>Conditional Types</strong>）</summary><div style="display:contents" dir="auto"><p id="2fd8db55-6aee-8305-b063-0196113f8a27" class="">泛型结合条件表达式（<code>T extends U ? X : Y</code>），实现 “类型筛选 / 转换”，是类型编程的核心。</p></div><div style="display:contents" dir="auto"><p id="cf88db55-6aee-82a5-84fa-01d061a6756b" class="">语法：<code>type 类型名&lt;T&gt; = T extends U ? X : Y</code>（若 <code>T</code> 能赋值给 <code>U</code>，则为 <code>X</code> 类型，否则为 <code>Y</code> 类型）。</p></div><div style="display:contents" dir="auto"><p id="8958db55-6aee-8264-9f2d-8199a2ee4139" class="">例如：基础条件类型</p></div><div style="display:contents" dir="auto"><pre id="67b8db55-6aee-83c5-b2fb-814a87603024" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 条件类型：若 T 是 string，返回 number；否则返回 boolean
+type StringToNumber&lt;T&gt; = T extends string ? number : boolean;
+
+type A = StringToNumber&lt;string&gt;; // A: number
+type B = StringToNumber&lt;number&gt;; // B: boolean
+type C = StringToNumber&lt;boolean&gt;; // C: boolean</code></pre></div><div style="display:contents" dir="auto"><p id="2668db55-6aee-8386-b369-814390ddadd6" class="">例如：分布式条件类型（<strong>对联合类型自动分发</strong>）</p></div><div style="display:contents" dir="auto"><p id="84f8db55-6aee-8254-b8f0-01c605104891" class="">当 <code>T</code> 是联合类型时，条件类型会自动对每个成员单独计算，再合并为联合类型。</p></div><div style="display:contents" dir="auto"><pre id="0448db55-6aee-8306-b161-011bc49ff9c2" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 条件类型：提取 T 中 string 类型的成员
+type ExtractString&lt;T&gt; = T extends string ? T : never;
+
+// T 是联合类型 string | number | boolean
+type D = ExtractString&lt;string | number | boolean&gt;; // D: string（只保留 string 成员）
+
+// 等价于：ExtractString&lt;string&gt; | ExtractString&lt;number&gt; | ExtractString&lt;boolean&gt;
+// → string | never | never → string（never 会被联合类型忽略）</code></pre></div><div style="display:contents" dir="auto"><p id="4908db55-6aee-8366-a678-01c0c6596b8a" class="">例如：实现自定义工具类型（模仿Partual）</p></div><div style="display:contents" dir="auto"><pre id="2de8db55-6aee-8229-b9c9-01c1bc095f77" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 自定义 Partial：遍历 T 的所有属性 K，转为可选属性
+type MyPartial&lt;T&gt; = {
+  [K in keyof T]?: T[K];
+};
+
+type PartialUser = MyPartial&lt;User&gt;;
+// 等价于 TypeScript 内置的 Partial&lt;User&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="23c8db55-6aee-82cc-92f9-01d8f84611ed" class="toggle"><li><details open=""><summary>映射类型（<strong>Mapped Types</strong>）</summary><div style="display:contents" dir="auto"><p id="1268db55-6aee-835b-9135-8110de3a36a1" class="">通过遍历泛型类型 <code>T</code> 的属性（<code>[K in keyof T]</code>），批量转换属性类型，是实现工具类型的基础（如 <code>Partial</code>、<code>Readonly</code> 均基于映射类型）。</p></div><div style="display:contents" dir="auto"><p id="38d8db55-6aee-8382-af9e-014d7f2bece1" class="">例如：自定义映射类型（批量修改属性类型）</p></div><div style="display:contents" dir="auto"><pre id="4138db55-6aee-8306-bdec-0117434c361b" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 映射类型：将 T 的所有属性转为 string 类型
+type ToString&lt;T&gt; = {
+  [K in keyof T]: string; // K 遍历 T 的所有属性，属性类型转为 string
+};
+
+interface User {
+  id: number;
+  name: string;
+  age?: number;
+}
+
+type StringUser = ToString&lt;User&gt;;
+// 等价于：{ id: string; name: string; age?: string }</code></pre></div><div style="display:contents" dir="auto"><p id="7628db55-6aee-8367-a3a5-8158a6ba254d" class="">例如：映射类型+条件类型（更灵活的转换）</p></div><div style="display:contents" dir="auto"><pre id="d358db55-6aee-82fd-9820-8135bdef100b" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 映射类型：可选属性保留，必选属性转为只读
+type ReadonlyRequired&lt;T&gt; = {
+  [K in keyof T]-?: T[K] extends Required&lt;T&gt;[K] ? Readonly&lt;T[K]&gt; : T[K];
+  // -?：移除可选修饰符（确保属性存在）
+  // Required&lt;T&gt;[K]：判断属性是否为必选
+};
+
+type ReadonlyUser = ReadonlyRequired&lt;User&gt;;
+// 等价于：{ readonly id: number; readonly name: string; age?: number }</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="aa98db55-6aee-83d9-bffc-0134715f9e3c"/></div><div style="display:contents" dir="auto"><p id="5158db55-6aee-829c-a8e9-81457c321233" class="">泛型 vs any</p></div><div style="display:contents" dir="ltr"><table id="5f58db55-6aee-82fc-83ad-01ae6390fde2" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="ba48db55-6aee-8299-8b70-81897d1c280a"><th id="~|^I" class="simple-table-header-color simple-table-header"><strong>特性</strong></th><th id="A;X_" class="simple-table-header-color simple-table-header"><strong>泛型（Generics）</strong></th><th id="HZul" class="simple-table-header-color simple-table-header"><strong>any（任意类型）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="4068db55-6aee-83df-bbd7-016ad98664d9"><td id="~|^I" class="">类型安全</td><td id="A;X_" class="">编译时检测类型错误，保持类型关联</td><td id="HZul" class="">关闭类型检查，运行时可能报错</td></tr></div><div style="display:contents" dir="ltr"><tr id="0b28db55-6aee-834a-abe9-816e409caf85"><td id="~|^I" class="">类型复用</td><td id="A;X_" class="">一套代码支持多种类型，无需重复编写</td><td id="HZul" class="">需为不同类型编写单独代码（或放弃类型检查）</td></tr></div><div style="display:contents" dir="ltr"><tr id="faf8db55-6aee-8242-92dd-01cb00eb46e5"><td id="~|^I" class="">类型推导</td><td id="A;X_" class="">支持类型推断，无需显式指定类型</td><td id="HZul" class="">无类型推断，返回值始终是 <code>any</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="f648db55-6aee-838b-88c8-0147584742ff"><td id="~|^I" class="">代码可读性</td><td id="A;X_" class="">明确类型约束，代码意图清晰</td><td id="HZul" class="">类型模糊，无法判断变量实际类型</td></tr></div></tbody></table></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

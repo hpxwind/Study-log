@@ -1,0 +1,912 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>对象类型</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9b38db55-6aee-8238-b60b-81d98391c8d5" class="page mono"><header><h1 class="page-title" dir="auto">对象类型</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="c608db55-6aee-8295-b429-81a537f51f3b" class="">TypeScript（TS）的<strong>对象类型</strong>是对 JavaScript 对象的结构化类型约束，核心是明确对象的属性名、属性类型、可选属性、只读属性，以及方法的类型签名</p></div><div style="display:contents" dir="auto"><hr id="1478db55-6aee-82ef-b9a6-8138be44bbf5"/></div><div style="display:contents" dir="auto"><ul id="61b8db55-6aee-832c-b0da-81d544c52f71" class="toggle"><li><details open=""><summary>直接字面量定义（内联类型，适合一次性使用）</summary><div style="display:contents" dir="auto"><p id="0978db55-6aee-82a9-91a6-81396fd27661" class="">直接在变量 / 参数后用 <code>{ 键: 类型, ... }</code> 标注对象结构，简单直观</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3878db55-6aee-8375-848b-01db042c172a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 变量标注
+const user: {
+  name: string; // 必选属性：字符串类型
+  age: number;  // 必选属性：数字类型
+  isAdmin?: boolean; // 可选属性：布尔类型（加 ? 标记）
+  sayHello: () =&gt; string; // 方法：无参数，返回字符串
+} = {
+  name: &quot;张三&quot;,
+  age: 20,
+  sayHello: () =&gt; &quot;Hello!&quot;,
+  // isAdmin 可选，可省略
+};
+
+// 函数参数标注
+function printUser(user: { name: string; age: number }): void {
+  console.log(`${user.name}, ${user.age}岁`);
+}
+printUser({ name: &quot;李四&quot;, age: 25 }); // 合法</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5e08db55-6aee-82f8-a8cc-015dc459f444" class="toggle"><li><details open=""><summary>类型别名（type）：复用对象类型</summary><div style="display:contents" dir="auto"><p id="3b68db55-6aee-824a-b89c-01cf0c45d50f" class="">用 <code>type</code> 定义对象类型的别名，适合多次复用同一结构</p></div><div style="display:contents" dir="auto"><pre id="7fb8db55-6aee-8384-9fdd-816f8f31bf4d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 定义对象类型别名
+type User = {
+  name: string;
+  age: number;
+  isAdmin?: boolean; // 可选属性
+  hobbies: string[]; // 数组属性：字符串数组
+  address: { // 嵌套对象类型
+    province: string;
+    city: string;
+  };
+  // 带参数的方法
+  greet: (msg: string) =&gt; string;
+};
+
+// 使用类型别名
+const user1: User = {
+  name: &quot;王五&quot;,
+  age: 30,
+  hobbies: [&quot;篮球&quot;, &quot;读书&quot;],
+  address: {
+    province: &quot;广东&quot;,
+    city: &quot;深圳&quot;,
+  },
+  greet: (msg) =&gt; `${msg}, 我是${user1.name}`,
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bd08db55-6aee-8302-8f06-014620313b6d" class="toggle"><li><details open=""><summary>接口（interface）：扩展 / 继承对象类型</summary><div style="display:contents" dir="auto"><p id="0018db55-6aee-8383-aba1-01a76829a5fb" class=""><code>interface</code> 专门用于定义对象类型，支持<strong>扩展（extends）</strong> 和<strong>合并</strong>，适合团队协作或需要扩展的场景</p></div><div style="display:contents" dir="auto"><pre id="8e78db55-6aee-83fa-b7e1-011e63e2e6bb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 基础接口
+interface User {
+  name: string;
+  age: number;
+}
+
+// 接口扩展（继承）
+interface AdminUser extends User {
+  role: &quot;admin&quot; | &quot;super_admin&quot;; // 字面量类型：仅限两个值
+  manage: (userId: number) =&gt; void; // 方法：接收数字，无返回值
+}
+
+// 使用扩展后的接口
+const admin: AdminUser = {
+  name: &quot;管理员&quot;,
+  age: 28,
+  role: &quot;admin&quot;,
+  manage: (userId) =&gt; console.log(`管理用户${userId}`),
+};
+
+// 接口合并（TS 特有：同名接口自动合并）
+interface User {
+  email?: string; // 新增可选属性
+}
+// 此时 User 包含：name、age、email
+const user2: User = { name: &quot;赵六&quot;, age: 22, email: &quot;zhaoliu@test.com&quot; };</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5648db55-6aee-8273-be08-81a8d0b205eb" class="toggle"><li><details open=""><summary>可选属性</summary><div style="display:contents" dir="auto"><p id="fd88db55-6aee-83f2-ba36-817008433173" class="">用 <code>?</code> 标记属性为 “可选”，表示该属性可存在也可不存在，类型为 <code>指定类型 | undefined</code></p></div><div style="display:contents" dir="auto"><pre id="1f08db55-6aee-8308-9d6f-816348bb9cb8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">type Product = {
+  id: number;
+  name: string;
+  price: number;
+  desc?: string; // 可选属性：string | undefined
+};
+
+const product1: Product = { id: 1, name: &quot;手机&quot;, price: 2999 }; // 合法（省略 desc）
+const product2: Product = { id: 2, name: &quot;电脑&quot;, price: 5999, desc: &quot;高性能&quot; }; // 合法</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6b08db55-6aee-8310-ab8f-01465292dd84" class="toggle"><li><details open=""><summary>只读属性</summary><div style="display:contents" dir="auto"><p id="3d08db55-6aee-8212-a779-81087c5e7a9f" class="">用 <code>readonly</code> 标记属性为 “只读”，初始化后不可修改，类似常量（<code>const</code>）但仅针对对象属性</p></div><div style="display:contents" dir="auto"><pre id="38e8db55-6aee-8248-87b3-0173277da5cc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">type Config = {
+  readonly appName: string; // 只读属性
+  version: string;
+};
+
+const config: Config = { appName: &quot;TS_APP&quot;, version: &quot;1.0.0&quot; };
+config.version = &quot;1.0.1&quot;; // 合法：普通属性可修改
+// config.appName = &quot;NEW_APP&quot;; // 报错：只读属性不可修改</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a638db55-6aee-83ae-9ecb-81a3a5bd1c6e" class="toggle"><li><details open=""><summary>索引签名：处理动态属性名</summary><div style="display:contents" dir="auto"><ol type="1" id="e4a8db55-6aee-82ed-b972-01ef9a226d0d" class="numbered-list" start="1"><li>字符串索引签名</li></ol></div><div style="display:contents" dir="auto"><pre id="6988db55-6aee-8302-92b7-013d5db6cc2b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 字符串索引：键为 string，值为 number
+type ScoreMap = {
+  [key: string]: number; // 索引签名
+  math: number; // 可显式声明固定属性（需符合索引类型）
+};
+
+const scores: ScoreMap = {
+  math: 90,
+  english: 85, // 动态属性：符合索引签名
+  chinese: 95,
+};
+scores[&quot;history&quot;] = 88; // 合法：动态添加属性</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="1878db55-6aee-83cd-9d83-817064c66c02" class="numbered-list" start="2"><li>数字索引签名</li></ol></div><div style="display:contents" dir="auto"><p id="e0e8db55-6aee-828f-b9eb-814fa733b9ab" class="">适用于属性名为数字的场景（如类数组对象）</p></div><div style="display:contents" dir="auto"><pre id="6b68db55-6aee-83f5-b901-81303d61d4c7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 数字索引：键为 number，值为 string
+type StringArray = {
+  [index: number]: string;
+  length: number; // 固定属性：需符合索引类型（number → string？不，length 是 number，需兼容）
+};
+
+// 正确写法：索引签名可兼容多类型（用联合类型）
+type StringArray = {
+  [index: number]: string;
+  length: number; // 合法：number 是索引值类型的子类型（TS 特殊规则）
+};
+const arr: StringArray = { 0: &quot;a&quot;, 1: &quot;b&quot;, length: 2 };</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b958db55-6aee-82bd-b838-0116009fa33e" class="toggle"><li><details open=""><summary>方法的类型定义</summary><div style="display:contents" dir="auto"><pre id="ec18db55-6aee-834a-9cf3-81b130416bb2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">type Person = {
+  name: string;
+  // 方式1：箭头函数形式（更直观）
+  greet: (msg: string) =&gt; string;
+  // 方式2：方法简写形式（更贴近 JS 写法）
+  walk(distance: number): void;
+};
+
+const person: Person = {
+  name: &quot;小明&quot;,
+  greet: (msg) =&gt; `${msg}, 我是${person.name}`,
+  walk: (distance) =&gt; console.log(`走了${distance}米`),
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="75c8db55-6aee-8387-8e90-8185bb4b74d8" class="toggle"><li><details open=""><summary>交叉类型（&amp;）：合并多个对象类型</summary><div style="display:contents" dir="auto"><p id="a518db55-6aee-823b-9d54-01f79aa776ab" class="">用 <code>&amp;</code> 将多个对象类型合并为一个，包含所有类型的属性（类似 “并集”）</p></div><div style="display:contents" dir="auto"><pre id="fcf8db55-6aee-83e6-9088-81c349fcf864" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">type BasicInfo = { name: string; age: number };
+type ContactInfo = { phone: string; email?: string };
+
+// 交叉类型：同时包含 BasicInfo 和 ContactInfo 的属性
+type UserInfo = BasicInfo &amp; ContactInfo;
+
+const userInfo: UserInfo = {
+  name: &quot;小红&quot;,
+  age: 24,
+  phone: &quot;13800138000&quot;,
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0ce8db55-6aee-8269-a467-81c5481c5155" class="toggle"><li><details open=""><summary>类型断言：覆盖对象类型推断</summary><div style="display:contents" dir="auto"><p id="6548db55-6aee-83c7-ae41-818e647d26b3" class="">当 TS 推断的类型不符合实际，用 <code>as</code> 进行类型断言（仅告诉 TS 类型，不改变运行时）</p></div><div style="display:contents" dir="auto"><pre id="48e8db55-6aee-8219-87fa-812382ce949c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// TS 默认推断为 { name: string; age: number; }
+const obj = { name: &quot;小李&quot;, age: 26 };
+
+// 断言为包含 extra 属性的类型（需确保运行时存在该属性，否则可能报错）
+const extendedObj = obj as { name: string; age: number; extra: string };
+// 注意：仅临时覆盖类型，运行时 extendedObj.extra 为 undefined</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2748db55-6aee-82b1-887e-016642198411" class="toggle"><li><details open=""><summary>可选链（?.）+ 非空断言（!）：处理可选属性</summary><div style="display:contents" dir="auto"><p id="b518db55-6aee-8261-9ccb-811f6c7f9e78" class="">结合 TS 语法糖，安全访问对象的可选 / 嵌套属性</p></div><div style="display:contents" dir="auto"><pre id="0f98db55-6aee-8333-8e47-01f17d694d75" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">type User = {
+  name: string;
+  address?: {
+    city: string;
+  };
+};
+
+const user: User = { name: &quot;小张&quot; };
+
+// 可选链：address 不存在时返回 undefined，不报错
+console.log(user.address?.city); // undefined
+
+// 非空断言：告诉 TS 该属性一定存在（需确保，否则运行时报错）
+const user2: User = { name: &quot;小刘&quot;, address: { city: &quot;北京&quot; } };
+console.log(user2.address!.city); // 北京</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1728db55-6aee-837a-9c7e-81ff7e92d5c9" class="toggle"><li><details open=""><summary>类型守卫：缩小对象类型范围</summary><div style="display:contents" dir="auto"><p id="8c78db55-6aee-82f3-932d-014d19960e8f" class="">通过条件判断缩小对象的类型范围，TS 会自动推导更精确的类型</p></div><div style="display:contents" dir="auto"><pre id="1cb8db55-6aee-8362-8d5f-01092424858c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">type Animal = {
+  type: &quot;cat&quot; | &quot;dog&quot;;
+  name: string;
+  // 猫特有属性
+  meow?: () =&gt; void;
+  // 狗特有属性
+  bark?: () =&gt; void;
+};
+
+function interact(animal: Animal): void {
+  if (animal.type === &quot;cat&quot;) {
+    // TS 推导：animal 是 { type: &quot;cat&quot;, ..., meow?: () =&gt; void }
+    animal.meow?.(); // 安全调用
+  } else {
+    // TS 推导：animal 是 { type: &quot;dog&quot;, ..., bark?: () =&gt; void }
+    animal.bark?.();
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="dbd8db55-6aee-83d0-9b4b-817c84af6252"/></div><div style="display:contents" dir="auto"><p id="0248db55-6aee-839f-8b1b-01c33c1175a3" class=""><strong>type vs interface:</strong></p></div><div style="display:contents" dir="ltr"><table id="8f18db55-6aee-8364-8e5b-01b787daead7" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="8878db55-6aee-8256-96aa-8112ff1e82f6"><th id="uXmp" class="simple-table-header-color simple-table-header" style="width:151.45433044433594px"><strong>特性</strong></th><th id="LDYV" class="simple-table-header-color simple-table-header" style="width:309.9903869628906px"><strong>type（类型别名）</strong></th><th id="ayd=" class="simple-table-header-color simple-table-header" style="width:275.75px"><strong>interface（接口）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="ba68db55-6aee-82fa-9e3c-013f0748b78f"><td id="uXmp" class="" style="width:151.45433044433594px">定义对象类型</td><td id="LDYV" class="" style="width:309.9903869628906px">✅ 支持</td><td id="ayd=" class="" style="width:275.75px">✅ 支持（专为对象设计）</td></tr></div><div style="display:contents" dir="ltr"><tr id="e428db55-6aee-833a-b7b5-814b68298449"><td id="uXmp" class="" style="width:151.45433044433594px">扩展 / 继承</td><td id="LDYV" class="" style="width:309.9903869628906px">用交叉类型（&amp;）</td><td id="ayd=" class="" style="width:275.75px">用 extends 关键字，更直观</td></tr></div><div style="display:contents" dir="ltr"><tr id="13e8db55-6aee-83b4-85e8-01a19acc1d93"><td id="uXmp" class="" style="width:151.45433044433594px">合并同名定义</td><td id="LDYV" class="" style="width:309.9903869628906px">❌ 不支持（会报错）</td><td id="ayd=" class="" style="width:275.75px">✅ 支持（自动合并）</td></tr></div><div style="display:contents" dir="ltr"><tr id="a818db55-6aee-826b-b211-81c0b0176793"><td id="uXmp" class="" style="width:151.45433044433594px">定义非对象类型</td><td id="LDYV" class="" style="width:309.9903869628906px">✅ 支持（如联合类型、字面量类型）</td><td id="ayd=" class="" style="width:275.75px">❌ 仅支持对象 / 函数类型</td></tr></div><div style="display:contents" dir="ltr"><tr id="7e38db55-6aee-8391-8f69-01460b005ded"><td id="uXmp" class="" style="width:151.45433044433594px">映射类型</td><td id="LDYV" class="" style="width:309.9903869628906px">✅ 更常用（如 Partial、Readonly）</td><td id="ayd=" class="" style="width:275.75px">✅ 支持，但不如 type 灵活</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="b888db55-6aee-82dd-b9de-018dcd735049"/></div><div style="display:contents" dir="auto"><p id="eae8db55-6aee-8353-a8a6-81c7004c60e6" class="">误区：</p></div><div style="display:contents" dir="auto"><ol type="1" id="9878db55-6aee-825c-b97c-01ec11d9f7ad" class="numbered-list" start="1"><li><strong>对象字面量的 “多余属性检查”</strong>：直接传递对象字面量时，TS 会严格检查是否有多余属性；但赋值给变量后则不会。</li></ol></div><div style="display:contents" dir="auto"><pre id="2e08db55-6aee-8355-9b17-018bd7eb3906" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">type User = { name: string; age: number };
+// 报错：多余属性 email
+// printUser({ name: &quot;张三&quot;, age: 20, email: &quot;zhangsan@test.com&quot; });
+
+// 合法：先赋值给变量，TS 不检查多余属性
+const user = { name: &quot;张三&quot;, age: 20, email: &quot;zhangsan@test.com&quot; };
+printUser(user);</code></pre></div><div style="display:contents" dir="auto"><p id="1018db55-6aee-8395-983a-01c2843deab0" class="">2. <strong>索引签名与固定属性的兼容性</strong>：固定属性的类型必须兼容索引签名的类型。</p></div><div style="display:contents" dir="auto"><pre id="d978db55-6aee-8248-acf1-0197d003b473" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 报错：name 是 string，索引签名要求值为 number
+// type BadMap = { [key: string]: number; name: string };</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="1e28db55-6aee-830c-9e45-017a70adc186" class="numbered-list" start="3"><li><strong>readonly 仅约束类型，不影响运行时</strong>：编译为 JS 后，<code>readonly</code> 会被移除，运行时仍可修改（仅 TS 编译期检查）。</li></ol></div><div style="display:contents" dir="auto"><p id="6a98db55-6aee-82b1-8d2d-813ba94de8cd" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

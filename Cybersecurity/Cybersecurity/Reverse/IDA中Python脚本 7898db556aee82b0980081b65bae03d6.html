@@ -1,0 +1,1005 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>IDA中Python脚本</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="7898db55-6aee-82b0-9800-81b65bae03d6" class="page sans"><header><h1 class="page-title" dir="auto">IDA中Python脚本</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="a2f8db55-6aee-83af-b69d-01b18340e517" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">Shift + F2
+import idaapi
+import idautils
+import idc
+基础函数
+Python&gt;ea = idc.get_screen_ea()  # 获取此时光标所在位置的地址
+Python&gt;ea = here()               # 同上
+Python&gt;print &quot;0x%x %s&quot; % (ea,ea) # 打印地址
+Python&gt;hex(idc.get_inf_attr(INF_MIN_EA))  # 输出节中起始地址地址
+Python&gt;hex(idc.get_inf_attr(INF_MAX_EA))  # 输出节中结束地址
+Python&gt;idc.get_segm_name(ea)           # 获取所在的区段名称字符串
+.text
+Python&gt;idc.generate_disasm_line(ea,0)  # 获取光标所在行的反汇编指令
+Python&gt;idc.print_insn_mnem(ea)         # 获取助记符 add
+Python&gt;idc.print_operand(ea,0)         # 获取第一个操作数
+Python&gt;idc.print_operand(ea,1)         # 获取第二个操作数</code></pre></div><div style="display:contents" dir="auto"><p id="53c8db55-6aee-824f-8635-8144668df609" class="">用这样一段脚本代码来遍历一下分析的程序有多少区段</p></div><div style="display:contents" dir="auto"><pre id="2e18db55-6aee-83ce-8875-81d600258a3b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">for seg in idautils.Segments():
+print idc.get_segm_name(seg),idc.get_segm_start(seg),idc.get_segm_end(seg)
+.text 4198400 4214784
+.idata 4214784 4215000
+.rdata 4215000 4218880
+.data 4218880 4231168</code></pre></div><div style="display:contents" dir="auto"><p id="ff78db55-6aee-82a5-9232-014de50bf679" class=""><code>idautils.Segments() </code>函数返回的是一个可迭代对象，使用for循环来遍历它，</p></div><div style="display:contents" dir="auto"><p id="4a58db55-6aee-8282-a4a2-817bd9afeb82" class=""><code>idc.get_segm_name(seg)</code>获取迭代对象所在段的名称字符串。</p></div><div style="display:contents" dir="auto"><p id="9908db55-6aee-82d5-abdc-813837db9e50" class=""><code>idc.get_segm_start(seg) </code>和 <code>idc.get_seg_end(seg)</code> 从名字可以看出是获取区段开始和结束位置的地址。</p></div><div style="display:contents" dir="auto"><p id="47a8db55-6aee-8258-b89b-0173bf32f242" class="">如果不想遍历所有的段，只使用一个偏移量来找到下一个段的名称。可以先获取当前段内的一个地址<code>ea = here()</code>, <code>ea</code>可以是当前段内的任何地址，再使用<code>idc.get_next_seg(ea)</code>来找到下一个区段<code>idc.get_next_seg(ea)</code></p></div><div style="display:contents" dir="auto"><p id="c478db55-6aee-8259-b58d-81ef7d1721d9" class="">我们就更应该知道如何遍历所有已知的函数。</p></div><div style="display:contents" dir="auto"><pre id="e728db55-6aee-82b2-8208-01a0d1f01000" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">Python&gt;for func in idautils.Functions(): 
+					print hex(func), idc.get_func_name(func)
+# 遍历已知的函数
+.....
+0x4038e7L _free
+0x403920L _strcpy
+0x403930L _strcat
+0x403a10L _malloc
+0x403a22L __nh_malloc
+0x403a4eL __heap_alloc
+.....</code></pre></div><div style="display:contents" dir="auto"><p id="3358db55-6aee-822a-a77b-01f20c968e8f" class=""><code>idautils.Functions()</code> 返回已知函数信息。该信息包含每个函数的<span style="border-bottom:0.05em solid">起始地址和函数名</span>。</p></div><div style="display:contents" dir="auto"><p id="0b58db55-6aee-83e8-8302-017003444986" class=""><code>idautils.Functions()</code> 返回值传递给一个范围内进行搜索。如果我们想这样做，我们使用<code>idautils.Functions(start_addr, end_addr)</code>得到开始和结束地址。</p></div><div style="display:contents" dir="auto"><p id="ef28db55-6aee-837c-a9d2-81dfaac85af0" class="">要获得函数名，我们使用<code>idc.get_func_name(ea)</code>。<code>ea</code>可以是函数范围内的任何地址。</p></div><div style="display:contents" dir="auto"><p id="51c8db55-6aee-8277-95d1-01ac3a4fdebb" class=""><code>IDAPython</code>包含大量用于处理函数的<code>api</code>。让我们从一个简单的函数开始。这个函数的语义并不重要，但是我们应该在心里记住这些地址。</p></div><div style="display:contents" dir="ltr"><figure id="39e8db55-6aee-8232-b637-81c2161ef292" class="image"><a href="https://img2020.cnblogs.com/blog/1766430/202006/1766430-20200630231258497-53404562.png"><img src="https://img2020.cnblogs.com/blog/1766430/202006/1766430-20200630231258497-53404562.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="6cc8db55-6aee-8303-9ac7-81339c9b25d6" class="">要获得函数的开始和结束，我们可以使<code>idaapi.get_func(ea)</code></p></div><div style="display:contents" dir="auto"><pre id="8f48db55-6aee-8393-8da2-810628d024fc" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">Python&gt;ea = here()
+Python&gt;func = idaapi.get_func(ea)     # 获取地址所在函数的范围
+Python&gt;type(func)
+&lt;class &#x27;ida_funcs.func_t&#x27;&gt;
+Python&gt;print &quot;Start: 0x%x, End 0x%x&quot; % (func.startEA,func.endEA)
+Start: 0x402b6c, End 0x402b6d               # 输出的结果查看上图是正确的</code></pre></div><div style="display:contents" dir="auto"><p id="3d18db55-6aee-83dd-bbb5-81112f1b8c4d" class=""><code>idaapi.get_func(ea)</code> 返回<code>idaapi.func_t</code>类，有时，如何使用返回的类调用函数并不总是很明显。在Python还有一个有用的命令是<code>dir(class)</code>函数可以用来探索类。</p></div><div style="display:contents" dir="auto"><pre id="9278db55-6aee-832c-9b83-8157a76eb111" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">Python&gt;dir(func)   # 以下结果是以我的反汇编程序为例
+[&#x27;__class__&#x27;, &#x27;__del__&#x27;, &#x27;__delattr__&#x27;, &#x27;__dict__&#x27;, &#x27;__doc__&#x27;, &#x27;__eq__&#x27;, &#x27;__format__&#x27;, &#x27;__getattribute__&#x27;, &#x27;__gt__&#x27;, &#x27;__hash__&#x27;, &#x27;__init__&#x27;, &#x27;__lt__&#x27;, &#x27;__module__&#x27;, &#x27;__ne__&#x27;, &#x27;__new__&#x27;, &#x27;__reduce__&#x27;, &#x27;__reduce_ex__&#x27;, &#x27;__repr__&#x27;, &#x27;__setattr__&#x27;, &#x27;__sizeof__&#x27;, &#x27;__str__&#x27;, &#x27;__subclasshook__&#x27;, &#x27;__swig_destroy__&#x27;, &#x27;__weakref__&#x27;, &#x27;_print&#x27;, &#x27;analyzed_sp&#x27;, &#x27;argsize&#x27;, &#x27;clear&#x27;, &#x27;color&#x27;, &#x27;compare&#x27;, &#x27;contains&#x27;, &#x27;does_return&#x27;, &#x27;empty&#x27;, &#x27;endEA&#x27;, &#x27;end_ea&#x27;, &#x27;extend&#x27;, &#x27;flags&#x27;, &#x27;fpd&#x27;, &#x27;frame&#x27;, &#x27;frregs&#x27;, &#x27;frsize&#x27;, &#x27;intersect&#x27;, &#x27;is_far&#x27;, &#x27;llabelqty&#x27;, &#x27;llabels&#x27;, &#x27;overlaps&#x27;, &#x27;owner&#x27;, &#x27;pntqty&#x27;, &#x27;points&#x27;, &#x27;referers&#x27;, &#x27;refqty&#x27;, &#x27;regargqty&#x27;, &#x27;regargs&#x27;, &#x27;regvarqty&#x27;, &#x27;regvars&#x27;, &#x27;size&#x27;, &#x27;startEA&#x27;, &#x27;start_ea&#x27;, &#x27;tailqty&#x27;, &#x27;tails&#x27;, &#x27;this&#x27;, &#x27;thisown&#x27;]</code></pre></div><div style="display:contents" dir="auto"><p id="bf08db55-6aee-83f7-aa0a-0151f6e6867d" class="">从输出中我们可以看到<code>startEA</code>和<code>endEA</code>函数。它们用于访问函数的开始和结束。<br/>这些属性只适用于当前函数。如果我们想要<span style="border-bottom:0.05em solid">访问周围的函数</span>，我们可以使用<code>idc.get_next_func(ea)</code>和<code>idc.get_prev_func(ea)</code>。<br/><code>ea</code>的值只需要是被分析函数边界内的一个地址。关于枚举函数的一个注意是:<br/>        它只在IDA将<strong>代码块</strong>标识为函数时才有效。在代码块被标记为函数之前，它将在函数枚举过程中被跳过。没有标记为函数的代码在图例中被标记为红色(<em>在IDA的GUI的顶部有颜色条</em>)。可以使用函数<code>idc.create_insn(ea)</code>手动修复或自动修复。</p></div><div style="display:contents" dir="auto"><p id="acb8db55-6aee-827b-96bd-01ee580cb4b0" class=""><br/>IDAPython有许多不同的方法来访问相同的数据。<span style="border-bottom:0.05em solid">访问函数边界</span>的常用方法是使用<code>idc.get_func_attr(ea, FUNCATTR_START)</code>和<code>idc.FUNCATTR_END get_func_attr (ea)</code></p></div><div style="display:contents" dir="ltr"><figure id="a6b8db55-6aee-8320-9b6f-01a448d98a26" class="image"><a href="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200630231346567-653200118.png"><img style="width:1072.984375px" src="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200630231346567-653200118.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="c7f8db55-6aee-82a8-8866-81ba88c59cdd" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">ea = here()
+start = idc.get_func_attr(ea, FUNCATTR_START)
+end = idc.get_func_attr(ea, FUNCATTR_END)
+cur_addr = start
+while cur_addr &lt;= end: 
+             print hex(cur_addr), idc.generate_disasm_line(cur_addr, 0)
+             cur_addr = idc.next_head(cur_addr, end)</code></pre></div><div style="display:contents" dir="auto"><p id="03e8db55-6aee-83f8-811c-81b0c93aaf8a" class=""><code>idc.get_func_attr(ea, attr)</code>用于获取函数的开始和结束。然后我们打印当前地址，</p></div><div style="display:contents" dir="auto"><p id="47f8db55-6aee-8239-af9f-017955a50033" class="">并使用<code>idc.generate_disasm_line(ea, 0)</code>进行反汇编。</p></div><div style="display:contents" dir="auto"><p id="0388db55-6aee-837d-a92d-011456c01f11" class="">使用<code>idc.next_head(eax)</code>来开始下一条指令，并一直执行下去，直到这个函数结束。</p></div><div style="display:contents" dir="auto"><p id="b5e8db55-6aee-83d7-ada8-0196fdc94f78" class="">（这种方法的一个缺陷是它依赖于包含在函数开始和结束边界内的指令。如果跳转到一个高于函数末尾的地址，则循环将提前退出。）</p></div><div style="display:contents" dir="auto"><p id="5ef8db55-6aee-8283-8b7c-8165c4b50729" class=""><mark class="highlight-pink">这种类型的跳转在代码转换等混淆技术中非常常见。</mark></p></div><div style="display:contents" dir="auto"><p id="90d8db55-6aee-823d-a391-81ac263db071" class="">由于边界可能不可靠，所以最好调用<code>idautil.funcitems (ea)</code>来遍历函数中的地址。<br/><code>idc.get_func_attr(ea,FUNCATTR_FLAGS)</code>函数，它可以用于检索关于函数的信息，比如它是已知库代码还是函数没有返回值。<br/>一个函数有9个可能的标志。如果要枚举所有函数的所有标志，可以使用以下代码。</p></div><div style="display:contents" dir="auto"><pre id="48f8db55-6aee-8253-a0c3-813cfe53e43b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">Python&gt; for func in idautils.Functions():
+    flags = idc.get_func_attr(func,FUNCATTR_FLAGS)
+    if flags &amp; FUNC_NORET:
+        print hex(func), &quot;FUNC_NORET&quot;
+    if flags &amp; FUNC_FAR:
+        print hex(func), &quot;FUNC_FAR&quot;
+    if flags &amp; FUNC_LIB:
+        print hex(func), &quot;FUNC_LIB&quot;
+    if flags &amp; FUNC_STATIC:
+        print hex(func), &quot;FUNC_STATIC&quot;
+    if flags &amp; FUNC_FRAME:
+        print hex(func), &quot;FUNC_FRAME&quot;
+    if flags &amp; FUNC_USERFAR:
+        print hex(func), &quot;FUNC_USERFAR&quot;
+    if flags &amp; FUNC_HIDDEN:
+        print hex(func), &quot;FUNC_HIDDEN&quot;
+    if flags &amp; FUNC_THUNK:
+        print hex(func), &quot;FUNC_THUNK&quot;
+    if flags &amp; FUNC_LIB:
+        print hex(func), &quot;FUNC_BOTTOMBP&quot;</code></pre></div><div style="display:contents" dir="auto"><p id="3ea8db55-6aee-82f3-a4d4-0112ab7d6cc9" class=""><code>idautil.functions()</code>获取所有已知函数地址的列表<br/>然后使用<code>idc.get_func_attr(ea,FUNCATTR_FLAGS)</code>获取标志。</p></div><div style="display:contents" dir="auto"><p id="f4d8db55-6aee-82aa-8d30-8145caa044bc" class="">通过对返回的值使用逻辑和(&amp;)操作来检查该值。</p></div><div style="display:contents" dir="auto"><pre id="6608db55-6aee-834a-ad47-814fabfa79bb" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">FUNC_NORET
+此标志用于标识不执行返回指令的函数。它内部表示为1。下面是一个不返回值的函数示例。
+
+FUNC_FAR
+除非逆向的软件使用分段的内存，否则很少看见这个标志，它在内部表示为2的整数。
+
+UNC_USERFAR
+这个标记很少被看到，并且几乎没有文档。HexRays将这个标志描述为user has specified far-ness of the function(原文翻译不过来，直接看原词吧)。它的内部值是32。
+
+FUNC_LIB
+此标志用于查找库代码。标识库代码非常有用，因为在进行分析时通常可以忽略这些代码。其内部表示为一个整数值4。下面是它的用法和功能的一个例子
+Python&gt;for func in idautils.Functions():
+ 	flags = idc.get_func_attr(func, FUNCATTR_FLAGS)
+ 	if flags &amp; FUNC_LIB:
+ 		print hex(func), &quot;FUNC_LIB&quot;, idc.get_func_name(func)
+
+FUNC_STATIC
+此标志用于标识已编译为静态函数的函数。
+在C语言中，静态函数默认是全局的。如果作者将函数定义为静态函数，
+则该函数只能被该文件中的其他函数访问。在一定程度上，这可以用来帮助理解源代码是如何构造的。
+
+FUNC_FRAME
+此函数用于标志用了ebp作为栈帧的函数，这个函数有典型的开头，如下：
+.text:1A716697 push ebp
+.text:1A716698 mov ebp, esp
+.text:1A71669A sub esp, 5Ch
+
+FUNC_BOTTOMBP
+与FUNC_FRAM类似，它标识栈底指针指向堆栈指针的函数
+
+FUNC_HIDDEN
+带有FUNC_HIDDEN标标志的函数意味着它们是隐藏的，需要展开才能查看。如果我们访问一个被标记为隐藏的函数的地址，它将自动展开。
+.text:1A710606 Process32Next proc near
+.text:1A710606 jmp ds:__imp_Process32Next
+.text:1A710606 Process32Next endp
+(应该注意的是，一个函数可以有多个标志组成。下面是一个具有多个标记的函数示例。)
+0x1a716697 FUNC_LIB
+0x1a716697 FUNC_FRAME
+0x1a716697 FUNC_HIDDEN
+0x1a716697 FUNC_BOTTOMBP
+有时需要将一段代码或数据定义为一个函数。例如，下面的代码没有被定义为函数
+.text:00407DC1
+.text:00407DC1 mov ebp, esp
+.text:00407DC3 sub esp, 48h
+.text:00407DC6 push ebx
+定义一个功能我们可以使用idc.MakeFunction(start, end)
+Python&gt;idc.MakeFunction(0x00407DC1, 0x00407E90）
+idc.MakeFunction(start, end)是函数的开始地址，第二个是函数的结束地址。
+(在许多情况下，结束地址是不需要的，而IDA会自动识别函数的结束。下面的程序集是执行上述代码的输出。)
+.text:00407DC1 sub_407DC1 proc near
+.text:00407DC1
+.text:00407DC1 SystemInfo= _SYSTEM_INFO ptr -48h
+.text:00407DC1 Buffer = _MEMORY_BASIC_INFORMATION ptr -24h
+.text:00407DC1 flOldProtect= dword ptr -8
+.text:00407DC1 dwSize = dword ptr -4
+.text:00407DC1
+.text:00407DC1 mov ebp, esp
+.text:00407DC3 sub esp, 48h
+.text:00407DC6 push ebx</code></pre></div><div style="display:contents" dir="auto"><ul id="3bc8db55-6aee-8278-9785-014d125150b5" class="toggle"><li><details open=""><summary>查看一个程序的基础信息脚本</summary><div style="display:contents" dir="auto"><pre id="8ad8db55-6aee-83f7-9987-81f9fcdfe42f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import idautils
+# 查看区段
+print (&quot;+++++++++++++++++++++++&quot;)
+for seg in idautils.Segments():
+    print( idc.get_segm_name(seg),idc.get_segm_start(seg),idc.get_segm_end(seg),  &quot;|&quot;)
+# 查看已知库函数信息
+print (&quot;+++++++++++++++++++++++&quot;)
+for func in idautils.Functions():
+    print (hex(func),idc.get_func_name(func))
+
+# 获得光标所在地址的函数指令
+print (&quot;+++++++++++++++++++++++&quot;)
+ea = here()
+start = idc.get_func_attr(ea, FUNCATTR_START)
+end = idc.get_func_attr(ea, FUNCATTR_END)
+cur_addr = start
+while cur_addr &lt;= end: 
+    print (hex(cur_addr), idc.generate_disasm_line(cur_addr, 0) )
+    cur_addr = idc.next_head(cur_addr, end)
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="b3c8db55-6aee-825e-92f8-817968b7b403"/></div><div style="display:contents" dir="auto"><hr id="9bd8db55-6aee-8204-ae59-017f2bb4128c"/></div><div style="display:contents" dir="auto"><hr id="afb8db55-6aee-8260-aa41-014597d733da"/></div><div style="display:contents" dir="auto"><p id="8168db55-6aee-836b-b8e0-014fe3ec6751" class="">有时，当逆向打包代码时，只知道在某个地方动态调试是很有用的。动态调试可以调试调用<code>call</code>和跳转<code>jmp</code>，例如<code>call eax</code> 或者 <code>jmp edi</code>。</p></div><div style="display:contents" dir="auto"><pre id="0d08db55-6aee-8207-bfc1-018d8e181c1b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">python&gt;for func in idautils.Functions():   # 获取已知函数list
+    flags = idc.get_func_attr(func,FUNCATTR_FLAGS)   # 获取函数的标志
+    if flags &amp; FUNC_LIB or flags &amp; FUNC_THUNK:       # 标志是否是FUNC_LIB 或者 FUNC_FLAGS
+        continue
+    dism_addr = list(idautils.FuncItems(func))       # 函数指令地址
+    for line in dism_addr:
+        m = idc.print_insn_mnem(line)
+        if m == &#x27;call&#x27; or m == &#x27;jmp&#x27;:
+            op = idc.get_operand_type(line,0)
+            if op == o_reg:
+                print &quot;0x%x %s&quot; % (line,idc.generate_disasm_line(line,0))</code></pre></div><div style="display:contents" dir="auto"><p id="f648db55-6aee-8200-a89b-0161b80b555a" class=""><code>idautils.Functions()</code>来获得所有已知函数的<code>list</code></p></div><div style="display:contents" dir="auto"><p id="df88db55-6aee-823b-920d-81d8f740178f" class="">对于每个函数，我们通过调用<code>idc.get_func_attr(ea, FUNCATTR_FLAGS)</code>检索函数标志。<br/>如果函数是库代码或<code>thunk</code>函数，则传递该函数。</p></div><div style="display:contents" dir="auto"><p id="00f8db55-6aee-83ef-b748-8185d4b2a1c9" class=""><code>idautil.funcitems()</code>来获取函数中的所有地址。<br/>我们使用<code>for</code>循环遍历<code>list</code>。因为我们只对<code>call</code>和<code>jmp</code>指令感兴趣，所以我们需要通过调用<code>idc.print_insn_mnem()</code>来<span style="border-bottom:0.05em solid">获得助记符</span>。<br/>我们使用一个简单的字符串比较来检查助记符。</p></div><div style="display:contents" dir="auto"><p id="0aa8db55-6aee-82c7-9be3-81eb7671447f" class="">如果助记符是<code>call</code>或<code>jmp</code>，我们通过调用<code>idc.get_operand_type(ea,n)</code>来<span style="border-bottom:0.05em solid">获得操作数类型</span>。</p></div><div style="display:contents" dir="auto"><p id="4f78db55-6aee-8282-b765-818042b7e5fd" class="">这个函数返回一个内部称为<code>op_t.type</code>的整数。此值可用于确定操作数是否是寄存器、内存引用等。然后检查<code>op_t.type</code>是一个寄存器。如果是，则打印该行。</p></div><div style="display:contents" dir="auto"><p id="4418db55-6aee-82a5-9548-01ab9ad8550f" class="">(将<code>idautil.funcitems()</code>的返回值转换成列表是很有用的，因为迭代器没有<code>len()</code>这样的对象。通过将它转换为一个<code>list</code>，我们可以很容易地获得一个函数中的行数或指令数。)</p></div><div style="display:contents" dir="auto"><pre id="8038db55-6aee-82e7-8079-0163c7ab9c81" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">Python&gt;ea = here()
+Python&gt;len(idautils.FuncItems(ea))
+Traceback (most recent call last):
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: object of type &#x27;generator&#x27; has no len()
+Python&gt;len(list(idautils.FuncItems(ea)))
+49</code></pre></div><div style="display:contents" dir="auto"><p id="8188db55-6aee-8316-972a-81cfe3bd94e3" class="">在前面的示例中，我们使用了一个包含函数中所有地址的<code>list</code>。<br/><br/>我们遍历每个实例以访问下一条指令。如果我们只有一个地址而且想要获得下一条指令，该怎么办?</p></div><div style="display:contents" dir="auto"><p id="c548db55-6aee-8320-b6d0-812a02bd12d9" class="">可以使用<code>idc.next_head(ea)</code>移动到下一个指令地址<br/>并使用<code>idc.prev_head(ea)</code>获得前一个指令地址。<br/><br/>这些函数得到的是下一条指令的开始的位置，而不是下一个地址。</p></div><div style="display:contents" dir="auto"><p id="5248db55-6aee-82e5-b3c7-81ccf06e7a09" class="">要获取下一个地址，我们使用<code>idc.next_addr(ea)</code>，</p></div><div style="display:contents" dir="auto"><p id="f1a8db55-6aee-8270-841d-814e813cf50f" class="">要获取前一个地址，我们使用<code>idc.prev_head(ea)</code>。</p></div><div style="display:contents" dir="auto"><pre id="86f8db55-6aee-8372-8ffb-8126079e22a2" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">ea = here()
+print hex(ea),idc.generate_disasm_line(ea,0)
+next_instr = idc.next_head(ea)
+print hex(next_instr),idc.generate_disasm_line(next_instr,0)
+prev_instr = idc.prev_head(ea)
+print hex(prev_instr),idc.generate_disasm_line(prev_instr,0)
+print hex(idc.next_addr(ea))
+print hex(idc.prev_addr(ea))</code></pre></div><div style="display:contents" dir="auto"><p id="d418db55-6aee-8373-b358-81795a5d5994" class="">在动态调试的示例中，IDAPython代码依赖于使用<code>jmp</code>和<code>call</code>的字符串比较<br/><br/>也可以使用<code>idaapi.decode_insn(ea)</code>来解码指令，而不是使用字符串比较,对一条指令进行解码是更加好的方法，因为使用整型指令表示可以更快、更少出错。(不幸的是，整数表示是特定于<code>IDA</code>的,无法方便的移植到其它反汇编工具)</p></div><div style="display:contents" dir="auto"><p id="37d8db55-6aee-83f2-9e2e-8142a639b0fb" class="">下面是使用<code>idaapi.decode_insn(ea)</code>并比较整数表示形式的相同示例。<br/></p></div><div style="display:contents" dir="auto"><pre id="e248db55-6aee-838e-ad28-017b0d94475b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">Python&gt;JMPS = [idaapi.NN_jmp,idaapi.NN_jmpfi,idaapi.NN_jmpni]
+Python&gt;CALLS = [idaapi.NN_call,idaapi.NN_callfi,idaapi.NN_callni]
+# 使用另外一种表示方法来表示上面相同的示例
+for func in idautils.Functions():
+    flags = idc.get_func_attr(func,FUNCATTR_FLAGS)
+    if flags &amp; FUNC_LIB or flags &amp; FUNC_THUNK:  # 忽略库函数和thunk
+        continue
+    dism_addr = list(idautils.FuncItems(func))
+    for line in dism_addr:
+        idaapi.decode_insn(line)
+        if idaapi.cmd.itype in CALLS or idaapi.cmd.itype in JMPS:
+            if idaapi.cmd.Op1.type == o_reg:
+                print &quot;0x%x %s&quot; % (line,idc.generate_disasm_line(line,0))</code></pre></div><div style="display:contents" dir="auto"><p id="3988db55-6aee-820e-ad65-01713cc8090a" class="">输出和前面的示例相同，前两行将<code>jmp</code>和<code>call</code>放入连个<code>lists</code>中,由于我们没有使用助记符字符串的表示形式。</p></div><div style="display:contents" dir="auto"><p id="d838db55-6aee-839b-b7d1-81e72075a0cf" class="">助记符（例如<code>call</code>和<code>jmp</code>）可以有多个值。<br/><br/><code>jmp</code>可以使用<code>idaapi.NN_jmp</code>表示跳转，</p></div><div style="display:contents" dir="auto"><p id="da48db55-6aee-8389-84ac-017eb454d8f0" class=""><code>idaapi.NN_jmpfi</code>表示间接远跳，或者</p></div><div style="display:contents" dir="auto"><p id="c928db55-6aee-8324-b434-8112ee02ec99" class=""><code>idaapi.NN_jmpni</code>表示间接近跳，</p></div><div style="display:contents" dir="auto"><p id="7e38db55-6aee-832c-b903-81c8604a5d17" class=""><code>X86</code>和<code>X64</code>指令类型都以NN开头。<br/><br/>找到这超过1700多个指令类型，我们可以在命令行中执行<code>[name for name in dir(idaapi) if &quot;NN&quot;]</code>，</p></div><div style="display:contents" dir="auto"><p id="f698db55-6aee-82f9-af27-8131ce27d147" class="">或者在IDA的SDK文件allins.hpp中查看它们。</p></div><div style="display:contents" dir="auto"><p id="b478db55-6aee-827d-969a-01300061bbe1" class="">一旦我们在列表中有了指令，我们</p></div><div style="display:contents" dir="auto"><p id="f888db55-6aee-82bf-b343-01e28988ad61" class="">使用<code>idautil . functions()</code>和<code>get_func_attr(ea, FUNCATTR_FLAGS)</code>的组合来获得所有适用的函数，同时忽略库和<code>thunks</code>。</p></div><div style="display:contents" dir="auto"><p id="73c8db55-6aee-83bf-9153-819f3692f034" class="">我们通过调用<code>idautil.funcitems (ea)</code>来获取函数中的每条指令。</p></div><div style="display:contents" dir="auto"><p id="f5e8db55-6aee-83a9-a46c-0191aee010ad" class="">这是调用新引入的函数<code>idaapi.decode_insn(ea)</code>的地方。这个函数找到我们想要解码指令的地址，</p></div><div style="display:contents" dir="auto"><p id="19b8db55-6aee-82c8-9b7a-81be42bde3e1" class="">一旦解码成功，我们可以通过<code>idaapi.cmd</code>访问指令的不同属性。</p></div><div style="display:contents" dir="auto"><pre id="e0e8db55-6aee-8333-b407-0194084e4fb7" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">Python&gt;dir(idaapi.cmd)
+[&#x27;Op1&#x27;, &#x27;Op2&#x27;, &#x27;Op3&#x27;, &#x27;Op4&#x27;, &#x27;Op5&#x27;, &#x27;Op6&#x27;, &#x27;Operands&#x27;, &#x27;__class__&#x27;, &#x27;__del__&#x27;, &#x27;__delattr__&#x27;, &#x27;__dict__&#x27;, &#x27;__doc__&#x27;, &#x27;__format__&#x27;, &#x27;__get_auxpref__&#x27;, &#x27;__get_operand__&#x27;, &#x27;__get_ops__&#x27;, &#x27;__getattribute__&#x27;, &#x27;__getitem__&#x27;, &#x27;__hash__&#x27;, &#x27;__init__&#x27;, &#x27;__iter__&#x27;, &#x27;__module__&#x27;, &#x27;__new__&#x27;, &#x27;__reduce__&#x27;, &#x27;__reduce_ex__&#x27;, &#x27;__repr__&#x27;, &#x27;__set_auxpref__&#x27;, &#x27;__setattr__&#x27;, &#x27;__sizeof__&#x27;, &#x27;__str__&#x27;, &#x27;__subclasshook__&#x27;, &#x27;__swig_destroy__&#x27;, &#x27;__weakref__&#x27;, &#x27;add_cref&#x27;, &#x27;add_dref&#x27;, &#x27;add_off_drefs&#x27;, &#x27;assign&#x27;, &#x27;auxpref&#x27;, &#x27;create_op_data&#x27;, &#x27;create_stkvar&#x27;, &#x27;cs&#x27;, &#x27;ea&#x27;, &#x27;flags&#x27;, &#x27;get_canon_feature&#x27;, &#x27;get_canon_mnem&#x27;, &#x27;get_next_byte&#x27;, &#x27;get_next_dword&#x27;, &#x27;get_next_qword&#x27;, &#x27;get_next_word&#x27;, &#x27;insnpref&#x27;, &#x27;ip&#x27;, &#x27;is_canon_insn&#x27;, &#x27;is_macro&#x27;, &#x27;itype&#x27;, &#x27;ops&#x27;, &#x27;segpref&#x27;, &#x27;size&#x27;, &#x27;this&#x27;, &#x27;thisown&#x27;]</code></pre></div><div style="display:contents" dir="auto"><p id="5108db55-6aee-82c1-9fbf-01d97a1859ad" class="">可以从<code>dir()</code>命令查看到<code>idaapi.cmd</code>有很多的属性，操作数类型通过<code>idaapi.cmd.Op1.type</code>访问。</p></div><div style="display:contents" dir="auto"><p id="1ca8db55-6aee-82cd-8f0c-81fe0e8b3509" class="">请注意，<mark class="highlight-pink">操作数索引从1开始</mark>，不同于IDC中<code>get_operand_type(ea,n)</code>的从0开始。</p></div><div style="display:contents" dir="auto"><ul id="dca8db55-6aee-8267-b1c8-01525802fd5c" class="toggle"><li><details open=""><summary><mark class="highlight-pink"><strong>操作数</strong></mark></summary><div style="display:contents" dir="auto"><p id="d538db55-6aee-8257-b2c4-0119d91db88a" class="">操作数类型是常用的，所以最好遍历所有类型。<br/>如前所述，我们可以使用<code>idc.get_operand_type(ea,n)</code>来获取操作数类型。<code>ea</code>是地址，<code>n</code>是索引。有八种不同类型的操作数类型。</p></div><div style="display:contents" dir="auto"><pre id="09b8db55-6aee-83bb-a811-8130b0005c8c" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">**o_void**
+当一个指令没有任何操作数时返回0。
+Python&gt;ea = here()
+Python&gt;print hex(ea), idc.generate_disasm_line(ea,0)
+0x40142bL retn
+Python&gt;print idc.get_operand_type(ea,0)
+0</code></pre></div><div style="display:contents" dir="ltr"><figure id="2198db55-6aee-8317-9bb9-81e431ffd756" class="image"><a href="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200711182107520-699937848.png"><img style="width:432.9609375px" src="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200711182107520-699937848.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="5068db55-6aee-834b-b848-01fde27fe0d2" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">**o_reg**
+如果操作数是常规寄存器时，它将返回1。
+Python&gt;ea = here()
+Python&gt;print hex(ea), idc.generate_disasm_line(ea,0)
+0x401429L pop     ebx
+Python&gt;print idc.get_operand_type(ea,0) # 操作数是一个寄存器时返回1
+1</code></pre></div><div style="display:contents" dir="ltr"><figure id="5158db55-6aee-8367-9998-81e7040685f4" class="image"><a href="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200711182140466-2089115964.png"><img style="width:432.90625px" src="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200711182140466-2089115964.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="5258db55-6aee-83d6-ae09-0156e3f4b434" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">**o_mem**
+如果操作数是直接内存引用，它将返回2。这种类型对于查找对数据的引用很有用。
+Python&gt;ea = here()
+Python&gt;print hex(ea), idc.generate_disasm_line(ea,0)
+0x401364L cmp     dword_406C80, 0
+Python&gt;print idc.get_operand_type(ea,0)
+2
+</code></pre></div><div style="display:contents" dir="ltr"><figure id="2dc8db55-6aee-8382-a3d9-8123510c6f17" class="image"><a href="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200711182220006-532744168.png"><img style="width:1072.90625px" src="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200711182220006-532744168.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="0738db55-6aee-83ec-b2d4-8123ec7ca27a" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">**o_phrase**
+如果操作数包含基址寄存器和/或标志寄存器，则返回此操作数。这个值在内部表示为3。
+Python&gt;print hex(ea), idc.generate_disasm_line(ea,1)
+0x4013b0L mov     al, [eax+ebx*2]
+Python&gt;print idc.get_operand_type(ea,1)
+3
+</code></pre></div><div style="display:contents" dir="ltr"><figure id="3678db55-6aee-828a-a120-013a8de9ea5c" class="image"><a href="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200711182306274-417465635.png"><img style="width:432.9765625px" src="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200711182306274-417465635.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="0818db55-6aee-83ba-86ff-819712b56848" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">**o_displ**
+如果操作数由寄存器和一个数字偏移时，则返回4。偏移是一个整数值，比如0x18。当一条指令访问一个结构中的值时，通常会出现这种情况。
+Python&gt;print hex(ea), idc.generate_disasm_line(ea,0)
+0x40132dL lea     edx, [esp+28h+Msg]
+Python&gt;print idc.get_operand_type(ea,1)
+4</code></pre></div><div style="display:contents" dir="ltr"><figure id="a218db55-6aee-8381-ae9c-01fcf70f105c" class="image"><a href="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200711182326130-1236129352.png"><img style="width:432.984375px" src="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200711182326130-1236129352.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="ed78db55-6aee-835a-9daf-0120fa120e8b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">**o_imm**
+当操作数是立即数时，返回5
+Python&gt;print hex(ea), idc.generate_disasm_line(ea,0)
+0x401358L add     esp, 1Ch
+Python&gt;print idc.get_operand_type(ea,1)
+5</code></pre></div><div style="display:contents" dir="ltr"><figure id="e7b8db55-6aee-82ea-bcdf-018ef99844ce" class="image"><a href="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200711182345778-1878402882.png"><img style="width:432.984375px" src="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/1766430-20200711182345778-1878402882.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="b388db55-6aee-8257-8bee-812ad5d46c85" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">**o_far**
+这个操作数在逆向x86或者x64时很不常见，用于查找当前远跳地址的操作数，返回6
+
+**o_fear**
+这个操作数在逆向x86或x86_64时不是很常见。用于查找近跳地址的操作数，返回7</code></pre></div><div style="display:contents" dir="auto"><hr id="74a8db55-6aee-824e-986b-81df684f440a"/></div><div style="display:contents" dir="auto"><p id="52f8db55-6aee-836a-a9ce-01e62c46538f" class="">例子：有时，当逆向可执行文件的内存<code>dump</code>时，操作数不能被识别为偏移</p></div><div style="display:contents" dir="auto"><pre id="8f68db55-6aee-83cf-b26d-81fefd4a5dd5" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">seg000:00BC1388 push 0Ch
+seg000:00BC138A push 0BC10B8h
+seg000:00BC138F push [esp+10h+arg_0]
+seg000:00BC1393 call ds:_strnicmp</code></pre></div><div style="display:contents" dir="auto"><p id="0e08db55-6aee-8291-8dcd-01928ab68ab3" class=""><code>push</code>进的第二个数值是内存偏移，如果我们右键点击它，把它变成一个数据类型，我们会看到一个字符串的偏移量。我们完全可以将这个过程自动化。</p></div><div style="display:contents" dir="auto"><pre id="47a8db55-6aee-83db-aaef-8142736d21d7" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 当操作数是立即数时
+min = idc.get_inf_attr(INF_MIN_EA)
+max = idc.get_inf_attr(INF_MAX_EA)
+# 对于每个已知的函数
+for func in idautils.Functions():
+    flags = idc.get_func_attr(func,FUNCATTR_FLAGS)
+    #忽略库函数和thunk
+    if flags &amp; FUNC_LIB or flags &amp; FUNC_THUNK:
+        continue
+    dism_addr = list(idautils.FuncItems(func))
+    for curr_addr in dism_addr:
+        if idc.get_operand_type(curr_addr,0) == 5 and \
+                (min &lt; idc.get_operand_value(curr_addr,0) &lt; max):
+            idc.OpOff(curr_addr,0,0)
+        if idc.get_operand_type(curr_addr,1) == 5 and \
+                (min &lt; idc.get_operand_value(curr_addr,1) &lt; max):
+            idc.op_plain_offset(cur_addr,1,0)</code></pre></div><div style="display:contents" dir="auto"><p id="3098db55-6aee-83e3-b863-01c09735b557" class="">运行以上代码后，我们可以看到以下字符</p></div><div style="display:contents" dir="auto"><pre id="6bf8db55-6aee-83e6-ad2a-01dc35142f9a" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">seg000:00BC1388 push 0Ch
+seg000:00BC138A push offset aNtoskrnl_exe ; &quot;ntoskrnl.exe&quot;
+seg000:00BC138F push [esp+10h+arg_0]
+seg000:00BC1393 call ds:_strnicmp</code></pre></div><div style="display:contents" dir="auto"><p id="ae68db55-6aee-825f-98e1-014e4fa2621e" class="">一开始，我们通过调用<code>idc.get_inf_attr(INF_MIN_EA)</code>和<code>idc.get_inf_attr(INF_MAX_EA)</code>来获得最小和最大地址函数或指令.<br/>检查操作数类型是否为<code>o_imm</code>(5)<br/>找到这个值后，就通过调用<code>idc.get_operand_value(ea,n)</code>来读取该值<br/>如果值在最小和最大地址的范围内，使用<code>idc.op_plain_offset(ea, n, base) </code>将操作数转换为偏移量<br/>第一个参数ea是地址，n是操作数索引，base是基址例子中是以0为基址。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bc18db55-6aee-8379-aee4-014095923174" class="toggle"><li><details open=""><summary>案例一：字符串解密器</summary><div style="display:contents" dir="ltr"><figure id="5798db55-6aee-82ef-9132-81379f268479" class="image"><a href="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/7eac034db1446fc5648dfb58f1fd9f2b.png"><img style="width:1042.9921875px" src="IDA%E4%B8%ADPython%E8%84%9A%E6%9C%AC/7eac034db1446fc5648dfb58f1fd9f2b.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="eae8db55-6aee-83bd-8a3d-01afe29d374d" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from idaapi import get_bytes, patch_bytes
+import idc
+
+start = 0x00009AF2
+end = 0x00009CB2
+size = 0x1E
+
+def decode(addr, len, value):
+    buf = bytearray(get_bytes(addr, len))
+    for _ in range(len): buf[_] ^= value
+    print(bytes(buf))
+    patch_bytes(addr, bytes(buf))
+
+if __name__ == &#x27;__main__&#x27;:
+    for cur in range(start, end, size):
+        name = idc.generate_disasm_line(cur + 8, 0).split(&#x27;(&#x27;)[1].split(&#x27; &#x27;)[0]
+        addr = idc.get_name_ea_simple(name)
+        len = idc.get_operand_value(cur + 0x16, 1) + 1
+        value = idc.get_operand_value(cur + 0xE, 2)
+        decode(addr, len, value)</code></pre></div><div style="display:contents" dir="auto"><ul id="2518db55-6aee-83ea-acf3-817ea03560dd" class="toggle"><li><details open=""><summary>函数学习：</summary><div style="display:contents" dir="auto"><pre id="64f8db55-6aee-820e-bebf-8167484cada5" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">buf = bytearray(get_bytes(addr, len))</code></pre></div><div style="display:contents" dir="auto"><ul id="2e28db55-6aee-83bb-a3b1-81ffaa097368" class="bulleted-list"><li style="list-style-type:disc"><strong>功能</strong>：从 IDA 数据库中读取指定地址的字节数据</li></ul></div><div style="display:contents" dir="auto"><ul id="5b78db55-6aee-839b-8428-81b54893d124" class="bulleted-list"><li style="list-style-type:disc"><strong>参数</strong>：<div style="display:contents" dir="auto"><ul id="3e38db55-6aee-83d0-ba0e-01dcabc9ee51" class="bulleted-list"><li style="list-style-type:circle"><code>addr</code>：起始地址（整数）</li></ul></div><div style="display:contents" dir="auto"><ul id="5bc8db55-6aee-82e5-bcdd-8169f7e68d9c" class="bulleted-list"><li style="list-style-type:circle"><code>len</code>：读取的字节数（整数）</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="4618db55-6aee-8272-af12-81aecc50f12d" class="bulleted-list"><li style="list-style-type:disc"><strong>返回值</strong>：字节序列（Python 3 中为<code>bytes</code>类型）</li></ul></div><div style="display:contents" dir="auto"><ul id="6ce8db55-6aee-8266-8eaf-0123c5e89b2e" class="bulleted-list"><li style="list-style-type:disc"><strong>用途</strong>：获取内存中的加密数据，为后续解密做准备</li></ul></div><div style="display:contents" dir="auto"><ul id="7ec8db55-6aee-83aa-a7be-81f996f64fe2" class="bulleted-list"><li style="list-style-type:disc"><code>bytearray(b&#x27;&#x27;(bytes类型))</code> 用于处理字节序列，因为其支持原地修改。</li></ul></div><div style="display:contents" dir="auto"><pre id="e818db55-6aee-8395-95a3-01073fa05010" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">patch_bytes(addr, bytes(buf))</code></pre></div><div style="display:contents" dir="auto"><ul id="2c08db55-6aee-8354-806a-811d6bd7ff66" class="bulleted-list"><li style="list-style-type:disc"><strong>功能</strong>：修改 IDA 数据库中的字节数据</li></ul></div><div style="display:contents" dir="auto"><ul id="8e08db55-6aee-83af-8270-819f3163f164" class="bulleted-list"><li style="list-style-type:disc"><strong>参数</strong>：<div style="display:contents" dir="auto"><ul id="e968db55-6aee-82ae-bc0c-81bf7bdc78df" class="bulleted-list"><li style="list-style-type:circle"><code>addr</code>：起始地址（整数）</li></ul></div><div style="display:contents" dir="auto"><ul id="3fd8db55-6aee-8370-8034-01ca3f749bcc" class="bulleted-list"><li style="list-style-type:circle"><code>bytes</code>：要写入的字节序列（<code>bytes</code>类型）</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="e838db55-6aee-828c-a470-81a0e4322527" class="bulleted-list"><li style="list-style-type:disc"><strong>返回值</strong>：布尔值（成功返回<code>True</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="ea18db55-6aee-82d9-a806-01581af608bf" class="bulleted-list"><li style="list-style-type:disc"><strong>用途</strong>：将解密后的结果写回原地址，使 IDA 能够正确显示字符串</li></ul></div><div style="display:contents" dir="auto"><pre id="54d8db55-6aee-832a-a699-01e736228df3" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">name = idc.generate_disasm_line(cur + 8, 0).split(&#x27;(&#x27;)[1].split(&#x27; &#x27;)[0]</code></pre></div><div style="display:contents" dir="auto"><ul id="8a98db55-6aee-835c-a6eb-011b27cc824a" class="bulleted-list"><li style="list-style-type:disc"><strong>功能</strong>：获取指定地址的反汇编文本</li></ul></div><div style="display:contents" dir="auto"><ul id="3098db55-6aee-8204-9dcb-01acbe4321db" class="bulleted-list"><li style="list-style-type:disc"><strong>参数</strong>：<div style="display:contents" dir="auto"><ul id="e628db55-6aee-83a7-9026-8113969c4b46" class="bulleted-list"><li style="list-style-type:circle"><code>ea</code>：地址（整数）</li></ul></div><div style="display:contents" dir="auto"><ul id="ad38db55-6aee-83d0-b85f-015dd4525804" class="bulleted-list"><li style="list-style-type:circle"><code>flags</code>：控制输出格式的标志（通常为 0）</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="5b58db55-6aee-828d-9da3-013d6fa4580e" class="bulleted-list"><li style="list-style-type:disc"><strong>返回值</strong>：反汇编字符串（如 <code>&quot;call sub_401000&quot;</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="21d8db55-6aee-8384-a66a-81798022bfe7" class="bulleted-list"><li style="list-style-type:disc"><strong>用途</strong>：提取指令中的函数名或变量名，用于后续查找实际地址</li></ul></div><div style="display:contents" dir="auto"><pre id="d6a8db55-6aee-83f2-99bc-0171da266f67" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">addr = idc.get_name_ea_simple(name)</code></pre></div><div style="display:contents" dir="auto"><ul id="4ce8db55-6aee-8312-97ec-018675b05553" class="bulleted-list"><li style="list-style-type:disc"><strong>功能</strong>：根据符号名查找对应的地址</li></ul></div><div style="display:contents" dir="auto"><ul id="b168db55-6aee-83c4-9bb6-8102b944d8b2" class="bulleted-list"><li style="list-style-type:disc"><strong>参数</strong>：<div style="display:contents" dir="auto"><ul id="8cd8db55-6aee-82d5-a752-81a61c1ab25c" class="bulleted-list"><li style="list-style-type:circle"><code>name</code>：符号名（字符串，如 <code>&quot;sub_401000&quot;</code> 或 <code>&quot;aHelloworld&quot;</code>）</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="d928db55-6aee-83a4-b8ad-01c56eef553c" class="bulleted-list"><li style="list-style-type:disc"><strong>返回值</strong>：地址（整数，若未找到则返回 <code>idc.BADADDR</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="7b88db55-6aee-83f9-9c36-01e9fb5f4224" class="bulleted-list"><li style="list-style-type:disc"><strong>用途</strong>：将符号名转换为实际内存地址，便于读取加密数据</li></ul></div><div style="display:contents" dir="auto"><pre id="82b8db55-6aee-82b5-b82e-81ba933df6ea" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">len = idc.get_operand_value(cur + 0x16, 1) + 1
+value = idc.get_operand_value(cur + 0xE, 2)</code></pre></div><div style="display:contents" dir="auto"><ul id="5698db55-6aee-83d4-96b9-817ca8e6cf7a" class="bulleted-list"><li style="list-style-type:disc"><strong>功能</strong>：获取指令中操作数的值</li></ul></div><div style="display:contents" dir="auto"><ul id="6608db55-6aee-83b5-8510-811013514c19" class="bulleted-list"><li style="list-style-type:disc"><strong>参数</strong>：<div style="display:contents" dir="auto"><ul id="a088db55-6aee-838b-9092-01f0e85f5c51" class="bulleted-list"><li style="list-style-type:circle"><code>ea</code>：指令地址（整数）</li></ul></div><div style="display:contents" dir="auto"><ul id="30a8db55-6aee-83fd-8eed-01b5101ef1c6" class="bulleted-list"><li style="list-style-type:circle"><code>n</code>：操作数序号（从 0 开始）</li></ul></div><div style="display:contents" dir="auto"><ul id="f078db55-6aee-8278-8e6b-81fd3d9adaad" class="bulleted-list"><li style="list-style-type:circle">例如：<code>00401005 8B 45 08           mov     eax, [ebp+8]</code> <div style="display:contents" dir="auto"><pre id="e4b8db55-6aee-830e-8ad9-815250e59e06" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 获取 eax 寄存器的值（第 0 个操作数）
+reg_value = idc.get_operand_value(0x00401005, 0)  # 结果: 0x05 (EAX 的寄存器代码)
+
+# 获取内存地址 [ebp+8] 的值（第 1 个操作数）
+mem_value = idc.get_operand_value(0x00401005, 1)  # 结果: 0x08 (偏移量 8)</code></pre></div></li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="4a78db55-6aee-8264-992d-01da2f41efdd" class="bulleted-list"><li style="list-style-type:disc"><strong>返回值</strong>：操作数值（整数）</li></ul></div><div style="display:contents" dir="auto"><ul id="8e68db55-6aee-825a-b5b3-01cee6a0821e" class="bulleted-list"><li style="list-style-type:disc"><strong>用途</strong>：<div style="display:contents" dir="auto"><ul id="2508db55-6aee-828b-8d7f-816545cd66bf" class="bulleted-list"><li style="list-style-type:circle">提取加密数据的长度（<code>len</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="7fe8db55-6aee-8392-b19b-810cb821ed33" class="bulleted-list"><li style="list-style-type:circle">获取 XOR 解密的密钥（<code>value</code>）</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><pre id="7268db55-6aee-82d4-9332-811b1318dbd4" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">idc.BADADDR 常量
+值：0xFFFFFFFF（32 位）或 0xFFFFFFFFFFFFFFFF（64 位）
+用途：表示无效地址，通常用于错误处理</code></pre></div><div style="display:contents" dir="auto"><p id="b298db55-6aee-82ff-9f6e-816319449fff" class="">
+</p></div></details></li></ul></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

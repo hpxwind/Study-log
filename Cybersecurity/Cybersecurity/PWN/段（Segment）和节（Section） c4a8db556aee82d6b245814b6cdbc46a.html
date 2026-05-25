@@ -1,0 +1,755 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>段（Segment）和节（Section）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c4a8db55-6aee-82d6-b245-814b6cdbc46a" class="page serif"><header><h1 class="page-title" dir="auto">段<strong>（Segment）</strong>和节<strong>（Section）</strong></h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="a6f8db55-6aee-82b3-aac1-81a9acfb1c23" class="">用于组织数据和代码的核心结构，但其作用层级和用途不同。</p></div><div style="display:contents" dir="auto"><p id="c728db55-6aee-83b1-935a-01a94389a687" class="">段主要面向<mark class="highlight-orange">操作系统加载器</mark>，用于<mark class="highlight-orange">内存分配管理</mark></p></div><div style="display:contents" dir="auto"><p id="e908db55-6aee-82f1-bde3-01d462e03ea2" class="">节主要面向<mark class="highlight-orange">编译器和链接器</mark>，用于<mark class="highlight-orange">代码和数据的逻辑划分</mark></p></div><div style="display:contents" dir="auto"><hr id="8fd8db55-6aee-82cb-b2d1-01d070834ac5"/></div><div style="display:contents" dir="auto"><ul id="c428db55-6aee-8246-bbd1-818993070f0a" class="toggle"><li><details open=""><summary>概念相关区别</summary><div style="display:contents" dir="ltr"><table id="4728db55-6aee-83c1-83db-01bd8bff546f" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="c788db55-6aee-8353-b787-81b8726f2c06"><th id="oxds" class="simple-table-header-color simple-table-header"><strong>维度</strong></th><th id="{TCO" class="simple-table-header-color simple-table-header"><strong>段（Segment）</strong></th><th id="dr;\" class="simple-table-header-color simple-table-header"><strong>节（Section）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="8788db55-6aee-8222-96cd-012a92b2888d"><td id="oxds" class=""><strong>定义层面</strong></td><td id="{TCO" class="">面向<strong>操作系统加载器</strong>，描述二进制文件在内存中的布局（如何加载到内存）。</td><td id="dr;\" class="">面向<strong>编译器 / 链接器</strong>，描述二进制文件的逻辑组成（代码、数据、符号表等）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="edc8db55-6aee-8211-9a02-01df554a52d7"><td id="oxds" class=""><strong>粒度</strong></td><td id="{TCO" class="">较粗，一个段可包含多个节（将性质相似的节合并）。</td><td id="dr;\" class="">较细，按功能划分（如代码节、数据节、调试信息节等）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="b9c8db55-6aee-8220-8637-81a4654c9911"><td id="oxds" class=""><strong>核心作用</strong></td><td id="{TCO" class="">告诉操作系统：加载后哪些区域可执行、哪些可读写、哪些只读。</td><td id="dr;\" class="">告诉编译器 / 链接器：代码 / 数据的存储位置、符号信息、重定位信息等。</td></tr></div><div style="display:contents" dir="ltr"><tr id="e828db55-6aee-8282-812c-0199da0d144c"><td id="oxds" class=""><strong>常见格式</strong></td><td id="{TCO" class="">在 ELF（Linux）、PE（Windows）等格式中均存在，结构依赖文件格式。</td><td id="dr;\" class="">同段，依赖文件格式（如 ELF 的 <code>.text</code>、<code>.data</code>，PE 的 <code>.text</code>、<code>.rdata</code>）。</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0288db55-6aee-82fa-922c-0155abd935ab" class="toggle"><li><details open=""><summary>节（Section）<mark class="highlight-blue"><strong>逻辑划分的最小单元</strong></mark></summary><div style="display:contents" dir="auto"><p id="5808db55-6aee-82d5-9205-015d9a8cde91" class="">节是按照<mark class="highlight-orange">功能划分的逻辑单元</mark>，由编译器在编译时生成，链接器在链接时合并或处理。不同类型的节存储不同数据，常见节如下（以 ELF 格式为例）：</p></div><div style="display:contents" dir="auto"><hr id="c728db55-6aee-8250-bc18-81c47d3d06d0"/></div><div style="display:contents" dir="auto"><ul id="a2f8db55-6aee-8360-b6b3-0150991eb79c" class="toggle"><li><details open=""><summary>代码相关节</summary><div style="display:contents" dir="auto"><p id="e6d8db55-6aee-8249-b796-0180154005f5" class=""><code>.text</code> 存放<mark class="highlight-blue"><strong>可执行代码</strong></mark>（如函数体），加载到内存后通常为<mark class="highlight-blue"><strong>只读且可执行</strong></mark>（防止意外修改）。</p></div><div style="display:contents" dir="auto"><p id="d578db55-6aee-837f-a5d1-81aa01153467" class="">例：<code>main</code> 函数、库函数的机器码都存于此。</p></div><div style="display:contents" dir="auto"><p id="bd28db55-6aee-8224-82d4-814b0b11abb3" class=""><code>.plt</code> <mark class="highlight-blue"><strong>过程链接表</strong></mark>，用于动态链接时的函数地址跳转（如调用共享库中的函数时，先通过 <code>.plt</code> 找到实际地址）.</p></div><div style="display:contents" dir="auto"><p id="ccd8db55-6aee-834f-8f2a-01055193e665" class=""><code>.init</code> / <code>.fini</code> 存放<mark class="highlight-blue"><strong>初始化代码</strong></mark>和<mark class="highlight-blue"><strong>终止代码</strong></mark>（程序启动时自动执行初始化，退出时执行清理）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cbe8db55-6aee-838c-af3f-819a327ebf6f" class="toggle"><li><details open=""><summary>数据相关节</summary><div style="display:contents" dir="auto"><p id="1e08db55-6aee-8342-8fe1-814ce6f62b51" class=""><code>.data</code> 存放<mark class="highlight-blue"><strong>已初始化的全局变量和静态变量</strong></mark>（有初始值），加载后为<strong>可读可写</strong></p></div><div style="display:contents" dir="auto"><p id="2888db55-6aee-8288-9753-01db8616e8bd" class="">例：<code>int a = 10;</code>（全局变量）存于此。</p></div><div style="display:contents" dir="auto"><p id="8a98db55-6aee-82df-a726-8110508a85e7" class=""><code>.bss</code> 存放<mark class="highlight-blue"><strong>未初始化的全局变量和静态变量</strong></mark>（初始值为 0 或未定义），仅记录大小，不占用文件磁盘空间（加载到内存时分配零初始化的空间）</p></div><div style="display:contents" dir="auto"><p id="f5a8db55-6aee-83fb-8e68-01b46518d7a7" class="">例：<code>int b;</code>（全局变量）、<code>static int c;</code> 存于此</p></div><div style="display:contents" dir="auto"><p id="fad8db55-6aee-83a1-b3d8-013fc43055a8" class=""><code>.rodata</code> 存放<mark class="highlight-blue"><strong>只读数据</strong></mark>（如字符串常量、const 变量），加载后为<strong>只读</strong>（防止修改）</p></div><div style="display:contents" dir="auto"><p id="8458db55-6aee-83a1-96db-01cb2e69a99b" class="">例：<code>printf(&quot;hello&quot;)</code> 中的 <code>&quot;hello&quot;</code> 字符串存于此\</p></div><div style="display:contents" dir="auto"><p id="8d18db55-6aee-838f-924a-81625cde29f0" class=""><code>.data.rel</code> / <code>.data.rel.local</code> 存放<mark class="highlight-blue"><strong>需要重定位的数据</strong></mark>（如全局变量的地址引用，链接时需修正地址）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b3a8db55-6aee-8320-83bb-815da54bddca" class="toggle"><li><details open=""><summary>符号与调试相关节</summary><div style="display:contents" dir="auto"><p id="21b8db55-6aee-82ec-b317-01d35a0a5e18" class=""><code>.symtab</code> / <code>.dynsym</code> <mark class="highlight-blue"><strong>符号表</strong></mark>，存放变量名、函数名与地址的映射（<code>.symtab</code> 包含所有符号，<code>.dynsym</code> 仅包含动态链接相关符号）。<br/><code>.strtab</code> / <code>.dynstr</code> <mark class="highlight-blue"><strong>字符串表</strong></mark>，存储符号表中用到的字符串（如函数名、变量名），<code>.symtab</code> 仅记录字符串在 <code>.strtab</code> 中的偏移量（节省空间）<br/><code>.debug</code> / <code>.line</code> 存放<mark class="highlight-blue"><strong>调试信息</strong></mark>（如源代码行号与机器码地址的映射），供调试器（如 gdb）使用， release 版本通常会剥离这些节以减小文件体积</p></div><div style="display:contents" dir="auto"><p id="a7d8db55-6aee-8306-8948-81fdd1d967e3" class=""><code>.rel.text</code> / <code>.rela.text</code> <mark class="highlight-blue"><strong>重定位表</strong></mark>，记录 <code>.text</code> 节中需要重定位的位置（如函数调用的地址在链接时需修正为实际地址）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5678db55-6aee-8383-a12b-81d60c51ed49" class="toggle"><li><details open=""><summary>其他节</summary><div style="display:contents" dir="auto"><p id="2a28db55-6aee-83df-a9ff-81b9e9d0dc37" class=""><code>.note</code> 存放<mark class="highlight-blue"><strong>注释信息</strong></mark>（如编译器版本、操作系统信息）。</p></div><div style="display:contents" dir="auto"><p id="4da8db55-6aee-8245-bb17-014aaeea2d79" class=""><code>.shstrtab</code> <mark class="highlight-blue"><strong>节头字符串表</strong></mark>，存储所有节的名称（如 <code>.text</code>、<code>.data</code> 的名字）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="1a88db55-6aee-8307-96a6-0165e5d5ad49" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="88f8db55-6aee-8349-9a5a-8149abf3e081" class="toggle"><li><details open=""><summary>段（Segment）<mark class="highlight-blue"><strong>内存加载的单元</strong></mark></summary><div style="display:contents" dir="auto"><p id="aea8db55-6aee-8209-a793-818bb2396d04" class="">段是<mark class="highlight-blue"><strong>操作系统加载二进制文件到内存时的管理单元</strong></mark>，由链接器根据节的属性（如读写权限、是否可执行）合并生成。</p></div><div style="display:contents" dir="auto"><p id="d478db55-6aee-8218-afb3-812073adf34b" class=""><mark class="highlight-blue">一个段可包含多个节</mark></p></div><div style="display:contents" dir="auto"><p id="a4a8db55-6aee-836b-a144-81e7094f8496" class="">核心是通过 <mark class="highlight-blue">“段头表”</mark> 告诉操作系统：加载后内存区域的权限和大小</p></div><div style="display:contents" dir="auto"><hr id="5da8db55-6aee-8298-99e4-813ae51deb09"/></div><div style="display:contents" dir="auto"><ul id="8928db55-6aee-82a3-a852-8180ab641741" class="toggle"><li><details open=""><summary>LOAD段：<mark class="highlight-blue"><strong>可加载到内存</strong></mark><strong>的段（最核心）</strong></summary><div style="display:contents" dir="auto"><p id="05e8db55-6aee-838a-8075-81d4fad7b0da" class="">ELF 中最多的段类型，包含需要加载到内存的代码和数据，通过权限标志区分：</p></div><div style="display:contents" dir="auto"><ul id="1ae8db55-6aee-83a8-9360-0182cfe2db52" class="bulleted-list"><li style="list-style-type:disc"><strong>代码段（通常权限 </strong><code><strong>R-X</strong></code><strong>）</strong>：包含 <code>.text</code>、<code>.plt</code> 等可执行且只读的节，加载到内存后可执行指令。</li></ul></div><div style="display:contents" dir="auto"><ul id="ee58db55-6aee-8271-a15b-813d3c464f58" class="bulleted-list"><li style="list-style-type:disc"><strong>数据段（通常权限 </strong><code><strong>RW-</strong></code><strong>）</strong>：包含 <code>.data</code>、<code>.bss</code> 等可读可写的节，加载后用于存储变量。</li></ul></div><div style="display:contents" dir="auto"><ul id="8c38db55-6aee-8266-ad2a-81ac2c9e065a" class="bulleted-list"><li style="list-style-type:disc"><strong>只读数据段（通常权限 </strong><code><strong>R--</strong></code><strong>）</strong>：包含 <code>.rodata</code> 等只读数据，加载后不可修改。</li></ul></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="8b78db55-6aee-824e-8ed9-01292db37f01" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">注：.bss 节通常合并到数据段中，加载时由操作系统分配零初始化内存。</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="71c8db55-6aee-823e-8954-015c55c87bd0" class="toggle"><li><details open=""><summary>DYNAMIC段：<strong>动态链接信息</strong></summary><div style="display:contents" dir="auto"><p id="6bb8db55-6aee-83ba-90c3-01426d913a40" class="">包含动态链接所需的元数据（如依赖的共享库路径、动态符号表位置），供动态链接器（如 <code>ld-linux.so</code>）使用。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2d98db55-6aee-8388-b3f5-81fdc2411fa2" class="toggle"><li><details open=""><summary>NOTE段：<strong>辅助信息</strong></summary><div style="display:contents" dir="auto"><p id="b8c8db55-6aee-823d-b557-014a71510145" class="">包含程序的注释信息（如操作系统、编译器信息），与运行无关，仅用于标识</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7c08db55-6aee-82d3-85bd-016609493b05" class="toggle"><li><details open=""><summary>GNU_STACK 段：栈权限信息</summary><div style="display:contents" dir="auto"><p id="9ee8db55-6aee-824b-aa9a-011ea2677e2b" class="">指定程序栈的权限（如是否可执行，现代系统通常设为 <code>RW-</code> 防止栈溢出攻击）</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4a68db55-6aee-82ac-b469-81cd068d98e0" class="toggle"><li><details open=""><summary>节与段的关系</summary><div style="display:contents" dir="auto"><p id="3418db55-6aee-8266-946d-8120b8de4e06" class=""><mark class="highlight-orange"><strong>包含关系</strong></mark>：段是节的 “容器”，一个段可包含多个节（按权限或功能合并）。例：<code>LOAD</code> 段（权限 <code>R-X</code>）可能包含 <code>.text</code>、<code>.plt</code> 节；<code>LOAD</code> 段（权限 <code>RW-</code>）可能包含 <code>.data</code>、<code>.bss</code> 节。</p></div><div style="display:contents" dir="auto"><p id="f4c8db55-6aee-838b-90e7-81c43213ee9e" class=""><mark class="highlight-orange"><strong>映射关系</strong></mark>：ELF 文件通过 “节头表”（Section Header Table）描述节，通过 “段头表”（Program Header Table）描述段，段头表中会记录该段包含哪些节。</p></div><div style="display:contents" dir="auto"><pre id="9808db55-6aee-82f6-ae7e-019417c90cc3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">ELF 文件
+├─ 段头表（描述段）
+│  ├─ LOAD 段（R-X） → 包含 .text、.plt 节
+│  ├─ LOAD 段（RW-） → 包含 .data、.bss 节
+│  └─ DYNAMIC 段 → 包含 .dynamic 节
+└─ 节头表（描述节）
+   ├─ .text 节（代码）
+   ├─ .data 节（已初始化数据）
+   ├─ .bss 节（未初始化数据）
+   └─ ...（其他节）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5fd8db55-6aee-8311-83f6-8109fbf415ba" class="toggle"><li><details open=""><summary>不同文件格式的差异</summary><div style="display:contents" dir="auto"><p id="aca8db55-6aee-8273-aae6-81a5f585e25d" class=""><strong>ELF（Linux/Unix）</strong>：明确区分段（Program Header）和节（Section Header），段用于加载，节用于链接。</p></div><div style="display:contents" dir="auto"><p id="9e18db55-6aee-82dc-8278-018984e4fc1f" class="">
+</p></div><div style="display:contents" dir="auto"><p id="e928db55-6aee-821b-9054-01ea9efc96af" class=""><strong>PE（Windows）</strong>：没有 “节” 的明确定义，而是用 “节（Section）” 同时承担逻辑划分和内存加载的角色（类似 ELF 的 “节”，但加载时直接作为内存块），通过节的属性（如 <code>IMAGE_SCN_MEM_EXECUTE</code>）控制权限。</p></div><div style="display:contents" dir="auto"><p id="d268db55-6aee-8221-b33b-01cbf71190c8" class="">
+</p></div><div style="display:contents" dir="auto"><p id="5688db55-6aee-83cc-b8d3-816fb2df96bd" class=""><strong>Mach-O（macOS/iOS）</strong>：使用 “段（Segment）” 和 “节（Section）”，段是顶级容器，节嵌套在段中（如 <code>__TEXT</code> 段包含 <code>__text</code>、<code>__cstring</code> 节），与 ELF 逻辑类似。</p></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

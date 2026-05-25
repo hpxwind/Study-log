@@ -1,0 +1,794 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>RAG</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="bb28db55-6aee-83ff-ade2-01116360e008" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/texturelabs_metal_126S.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">⛸️</span></div><h1 class="page-title" dir="auto">RAG</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><hr id="3578db55-6aee-8395-a206-813e72677ef1"/></div><div style="display:contents" dir="auto"><h1 id="0d88db55-6aee-83e9-9ded-012a2b9a51d8" class="">RAG简介</h1></div><div style="display:contents" dir="auto"><p id="5978db55-6aee-8390-9367-01ce76ba3f5a" class=""><strong>Retrieval-Augmented Generation</strong></p></div><div style="display:contents" dir="auto"><p id="63c8db55-6aee-83ae-9f2c-017b4b62ce62" class="">模型不是仅凭记忆“硬背”，而是先查阅我们提供的参考资料，再结合自身能力组织答案</p></div><div style="display:contents" dir="auto"><ul id="4938db55-6aee-8324-b9fd-0158e11cfb5b" class="toggle"><li><details open=""><summary>解决三类痛点</summary><div style="display:contents" dir="auto"><ul id="7458db55-6aee-821f-88b5-819cef2975e6" class="bulleted-list"><li style="list-style-type:disc"><strong>实时性问题</strong>：模型训练数据存在截止日期，无法获取最新信息。</li></ul></div><div style="display:contents" dir="auto"><ul id="7a08db55-6aee-83be-b48d-01ca8667165e" class="bulleted-list"><li style="list-style-type:disc"><strong>隐私与合规挑战</strong>：企业敏感数据无法上传给第三方模型进行微调。</li></ul></div><div style="display:contents" dir="auto"><ul id="5a08db55-6aee-83f1-83c2-81976980f811" class="bulleted-list"><li style="list-style-type:disc"><strong>领域知识局限</strong>：通用模型对医疗、法律、工业等垂直领域理解不足，容易产生术语混淆甚至事实性错误。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f0a8db55-6aee-8352-9bda-81103651fef5" class="toggle"><li><details open=""><summary>工作流程 &amp; 标准流程</summary><div style="display:contents" dir="ltr"><figure id="e168db55-6aee-82ab-8e1b-81d41e52c020" class="image"><a href="RAG/Snipaste_2026-04-27_11-32-39.png"><img style="width:666.0044555664062px" src="RAG/Snipaste_2026-04-27_11-32-39.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="0f38db55-6aee-8363-a54f-81b390c9d686" class="">RAG遵循经典的 <strong>&quot;索引 → 检索 → 增强 → 生成&quot;</strong> 四步逻辑</p></div><div style="display:contents" dir="auto"><ol type="1" id="4518db55-6aee-8300-8f6d-011ae0c5e0c8" class="numbered-list" start="1"><li><strong>索引（预处理阶段）</strong>：将你的私有文档（如PDF、Word、网页）切割成小块，通过<strong>嵌入模型（Embedding Model）</strong> 将其转换为数值向量，并存入<strong>向量数据库</strong>，建立语义索引库。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0558db55-6aee-8288-98b1-814f9687bbe3" class="numbered-list" start="2"><li><strong>检索</strong>：用户提问时，将问题也转换为向量，在向量数据库中通过<strong>相似度算法</strong>找到最相关的“K个”文本片段（如Top-3或Top-5）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="7458db55-6aee-82df-bb1c-0184299b969a" class="numbered-list" start="3"><li><strong>增强</strong>：将检索到的相关片段与用户原始问题，按照预设的<strong>提示词模板（Prompt Template）</strong> 组合成一条包含“参考资料”的完整指令。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="7328db55-6aee-821e-ae90-817ed75356d5" class="numbered-list" start="4"><li><strong>生成</strong>：大语言模型接收指令，基于提供的参考资料和自身推理能力生成最终答案。</li></ol></div><div style="display:contents" dir="auto"><p id="b628db55-6aee-833a-919a-012ba2818a98" class="">其主要分为两条线</p></div><div style="display:contents" dir="auto"><ul id="6278db55-6aee-833f-b26a-815b23ba6619" class="bulleted-list"><li style="list-style-type:disc">离线处理：向私有知识库（向量存储）源源不断添加私有知识文档。<div style="display:contents" dir="auto"><ul id="c928db55-6aee-8216-8484-81ee451f8d4e" class="bulleted-list"><li style="list-style-type:circle">向知识库添加来自未来的知识文档（基于模型训练完成时间）</li></ul></div><div style="display:contents" dir="auto"><ul id="eff8db55-6aee-824d-970c-0169c089f513" class="bulleted-list"><li style="list-style-type:circle">向模型添加私有知识文档</li></ul></div><div style="display:contents" dir="auto"><ul id="d1e8db55-6aee-8373-8dca-01c84d43617c" class="bulleted-list"><li style="list-style-type:circle">给出模型参考资料，规避模型幻觉</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="1558db55-6aee-8210-abcc-8181a150888f" class="bulleted-list"><li style="list-style-type:disc">在线处理：用户提问会先基于私有知识库做检索，获取参考资料，同步组装新提示词询问大模型获得结果</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="dfe8db55-6aee-8241-b3ba-0182ae6d183e"/></div><div style="display:contents" dir="auto"><h1 id="f058db55-6aee-833b-8be0-0152effaa6bb" class="">数学与Python知识扩展</h1></div><div style="display:contents" dir="auto"><ul id="6238db55-6aee-8319-ac4d-8157877d3961" class="toggle"><li><details open=""><summary>向量</summary><div style="display:contents" dir="auto"><p id="90f8db55-6aee-83df-91b6-011f74cdb793" class=""><strong>向量 是计算机能够理解、比较和搜索我们人类语言和知识的一种数字化方式</strong></p></div><div style="display:contents" dir="auto"><p id="48d8db55-6aee-828c-b844-8131cc5f1d41" class="">在RAG的语境下，我们处理的是<strong>文本向量（Text Embedding）</strong>。它的核心思想是：通过一个特殊的“<strong>嵌入模型</strong>”，将一个词、一句话甚至一整篇文章，转换成一个由上百甚至上千个小数组成的向量。</p></div><div style="display:contents" dir="auto"><ul id="8c18db55-6aee-83b2-919e-814d45bb9949" class="toggle"><li><details open=""><summary>关键特性</summary><div style="display:contents" dir="auto"><p id="43d8db55-6aee-82ff-bb99-816c8872f832" class="">这个向量不仅仅是随机的数字，它<strong>“嵌入”了文本的语义信息</strong>。</p></div><div style="display:contents" dir="auto"><ul id="46c8db55-6aee-831c-857d-01addb0ed1e5" class="bulleted-list"><li style="list-style-type:disc">语义相似的词汇或句子，它们的向量在数学空间中的<strong>距离非常近</strong>。</li></ul></div><div style="display:contents" dir="auto"><ul id="36c8db55-6aee-83b2-9403-812ff9f6ba03" class="bulleted-list"><li style="list-style-type:disc">语义不同的词汇或句子，它们的向量则<strong>相距甚远</strong>。</li></ul></div><div style="display:contents" dir="auto"><p id="7408db55-6aee-822c-89a9-8135f38b1aff" class=""><strong>举个例子：</strong></p></div><div style="display:contents" dir="auto"><p id="cf78db55-6aee-8290-8b70-01f56aba04e9" class="">想象一个简化到三维的向量空间（现实中通常是数百维）。经过模型转换后：</p></div><div style="display:contents" dir="auto"><ul id="d3d8db55-6aee-8376-bb4e-8137a60a2863" class="bulleted-list"><li style="list-style-type:disc">“国王”这个词的向量可能是 <code>[0.8, 0.2, 0.1]</code></li></ul></div><div style="display:contents" dir="auto"><ul id="1388db55-6aee-8393-a825-814385b58c74" class="bulleted-list"><li style="list-style-type:disc">“王后”这个词的向量可能是 <code>[0.7, 0.3, 0.2]</code></li></ul></div><div style="display:contents" dir="auto"><ul id="2278db55-6aee-825e-8004-011b37f117d9" class="bulleted-list"><li style="list-style-type:disc">“苹果”（水果）这个词的向量可能是 <code>[-0.5, 0.9, -0.1]</code></li></ul></div><div style="display:contents" dir="auto"><ul id="6a68db55-6aee-824c-96c3-019884c72f06" class="bulleted-list"><li style="list-style-type:disc">“橘子”这个词的向量可能是 <code>[-0.4, 0.8, -0.2]</code></li></ul></div><div style="display:contents" dir="auto"><p id="74d8db55-6aee-8287-a4e8-0126a22ac521" class="">你会发现：</p></div><div style="display:contents" dir="auto"><ol type="1" id="9708db55-6aee-83be-bf87-011b177754b7" class="numbered-list" start="1"><li>“国王”和“王后”的向量很接近（语义相近）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="94f8db55-6aee-8223-a3ad-81c52b4afe1b" class="numbered-list" start="2"><li>“苹果”和“橘子”的向量很接近（语义相近）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="cac8db55-6aee-83dc-aba8-011f62574f51" class="numbered-list" start="3"><li>“国王”和“苹果”的向量距离很远（语义无关）。</li></ol></div><div style="display:contents" dir="auto"><p id="12a8db55-6aee-829c-b034-81a404b4d2d2" class="">甚至，向量还能捕捉到关系：<code>“国王”向量 - “男人”向量 + “女人”向量 ≈ “王后”向量</code>。</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c6f8db55-6aee-826c-b716-817c174cb8b3" class="toggle"><li><details open=""><summary>余弦相似度算法</summary><div style="display:contents" dir="auto"><p id="4e58db55-6aee-82e2-9931-01d7476e0cae" class=""><strong>Cosine Similarity 是衡量两个向量之间语义相似读最常用，有效的算法。</strong></p></div><div style="display:contents" dir="auto"><p id="84c8db55-6aee-834d-be1c-81a97f4bbeba" class="">核心思想是忽略路径的绝对长度，只关注他们的方向是否一致。（方向越一致，两个文本的语义越接近）</p></div><div style="display:contents" dir="auto"><ul id="e3d8db55-6aee-833c-b881-01d494c5bb3b" class="toggle"><li><details open=""><summary>理解</summary><div style="display:contents" dir="auto"><h3 id="e488db55-6aee-825d-8f98-81cefb1c4418" class=""><strong>1. 余弦相似度的直观理解</strong></h3></div><div style="display:contents" dir="auto"><p id="84b8db55-6aee-8351-b1b9-813e887cc451" class="">想象有两个向量从原点出发，射向高维空间（例如 768 维空间）中的两个点。</p></div><div style="display:contents" dir="auto"><ul id="2188db55-6aee-8300-b4c9-81861572148e" class="bulleted-list"><li style="list-style-type:disc"><strong>方向完全相同</strong>：夹角为 0°，余弦相似度 = 1 → 语义完全一致（比如“苹果好吃”和“苹果很好吃”）。</li></ul></div><div style="display:contents" dir="auto"><ul id="df88db55-6aee-829c-8b29-015189c993cc" class="bulleted-list"><li style="list-style-type:disc"><strong>方向垂直</strong>：夹角为 90°，余弦相似度 = 0 → 语义毫无关系（比如“苹果好吃”和“明天天气”）。</li></ul></div><div style="display:contents" dir="auto"><ul id="2fb8db55-6aee-8316-a89b-01c65e495cfc" class="bulleted-list"><li style="list-style-type:disc"><strong>方向完全相反</strong>：夹角为 180°，余弦相似度 = -1 → 语义对立（在文本中很少见，例如“好”与“坏”的向量可能呈现这种关系）。</li></ul></div><div style="display:contents" dir="auto"><p id="7b88db55-6aee-8290-a1a3-01dd1c623f88" class=""><strong>核心观点</strong>：只关心方向和夹角，不关心向量的“长短”（即文本的篇幅、数字的绝对大小）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="00a8db55-6aee-82a6-b71c-81fb46675c40" class="toggle"><li><details open=""><summary>公式</summary><div style="display:contents" dir="auto"><p id="a128db55-6aee-82bb-8ea3-814bfcc066a2" class="">给定两个向量 <strong>A</strong> 和 <strong>B</strong>（对应查询向量和文档向量），余弦相似度的公式为：</p></div><div style="display:contents" dir="auto"><figure id="1168db55-6aee-822e-a1bf-01e4814bc2d0" class="equation"><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>cosine_similarity</mtext><mo stretchy="false">(</mo><mi>A</mi><mo separator="true">,</mo><mi>B</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mi>A</mi><mo>⋅</mo><mi>B</mi></mrow><mrow><mi mathvariant="normal">∥</mi><mi>A</mi><mi mathvariant="normal">∥</mi><mi mathvariant="normal">∥</mi><mi>B</mi><mi mathvariant="normal">∥</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>A</mi><mi>i</mi></msub><msub><mi>B</mi><mi>i</mi></msub></mrow><mrow><msqrt><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msubsup><mi>A</mi><mi>i</mi><mn>2</mn></msubsup></mrow></msqrt><mo>⋅</mo><msqrt><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msubsup><mi>B</mi><mi>i</mi><mn>2</mn></msubsup></mrow></msqrt></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{cosine\_similarity}(A, B) = \frac{A \cdot B}{\|A\| \|B\|} = \frac{\sum_{i=1}^{n} A_i B_i}{\sqrt{\sum_{i=1}^{n} A_i^2} \cdot \sqrt{\sum_{i=1}^{n} B_i^2}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.06em;vertical-align:-0.31em;"></span><span class="mord text"><span class="mord">cosine_similarity</span></span><span class="mopen">(</span><span class="mord mathnormal">A</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2963em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">∥</span><span class="mord mathnormal">A</span><span class="mord">∥∥</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord">∥</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.624em;vertical-align:-1.13em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.494em;"><span style="top:-2.1727em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9373em;"><span class="svg-align" style="top:-3.2em;"><span class="pstrut" style="height:3.2em;"></span><span class="mord" style="padding-left:1em;"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8043em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2997em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7959em;"><span style="top:-2.4231em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.0448em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2769em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.8973em;"><span class="pstrut" style="height:3.2em;"></span><span class="hide-tail" style="min-width:1.02em;height:1.28em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.28em" viewBox="0 0 400000 1296" preserveAspectRatio="xMinYMin slice"><path d="M263,681c0.7,0,18,39.7,52,119
+c34,79.3,68.167,158.7,102.5,238c34.3,79.3,51.8,119.3,52.5,120
+c340,-704.7,510.7,-1060.3,512,-1067
+l0 -0
+c4.7,-7.3,11,-11,19,-11
+H40000v40H1012.3
+s-271.3,567,-271.3,567c-38.7,80.7,-84,175,-136,283c-52,108,-89.167,185.3,-111.5,232
+c-22.3,46.7,-33.8,70.3,-34.5,71c-4.7,4.7,-12.3,7,-23,7s-12,-1,-12,-1
+s-109,-253,-109,-253c-72.7,-168,-109.3,-252,-110,-252c-10.7,8,-22,16.7,-34,26
+c-22,17.3,-33.3,26,-34,26s-26,-26,-26,-26s76,-59,76,-59s76,-60,76,-60z
+M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3027em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9373em;"><span class="svg-align" style="top:-3.2em;"><span class="pstrut" style="height:3.2em;"></span><span class="mord" style="padding-left:1em;"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8043em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2997em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7959em;"><span style="top:-2.4231em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.0448em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2769em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.8973em;"><span class="pstrut" style="height:3.2em;"></span><span class="hide-tail" style="min-width:1.02em;height:1.28em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.28em" viewBox="0 0 400000 1296" preserveAspectRatio="xMinYMin slice"><path d="M263,681c0.7,0,18,39.7,52,119
+c34,79.3,68.167,158.7,102.5,238c34.3,79.3,51.8,119.3,52.5,120
+c340,-704.7,510.7,-1060.3,512,-1067
+l0 -0
+c4.7,-7.3,11,-11,19,-11
+H40000v40H1012.3
+s-271.3,567,-271.3,567c-38.7,80.7,-84,175,-136,283c-52,108,-89.167,185.3,-111.5,232
+c-22.3,46.7,-33.8,70.3,-34.5,71c-4.7,4.7,-12.3,7,-23,7s-12,-1,-12,-1
+s-109,-253,-109,-253c-72.7,-168,-109.3,-252,-110,-252c-10.7,8,-22,16.7,-34,26
+c-22,17.3,-33.3,26,-34,26s-26,-26,-26,-26s76,-59,76,-59s76,-60,76,-60z
+M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3027em;"><span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.6897em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8043em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2997em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.13em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure></div><div style="display:contents" dir="auto"><ul id="e678db55-6aee-8254-b365-81037936df7c" class="bulleted-list"><li style="list-style-type:disc"><strong>分子</strong>：点积，表示两向量在对应维度上的乘积之和。</li></ul></div><div style="display:contents" dir="auto"><ul id="09f8db55-6aee-8312-a0d0-0132a4cca37d" class="bulleted-list"><li style="list-style-type:disc"><strong>分母</strong>：两个向量的模长（即 L2 范数）的乘积，作用是<strong>将每个向量归一化为单位向量</strong>，从而消除长度影响。</li></ul></div><div style="display:contents" dir="auto"><p id="e6a8db55-6aee-8257-80fc-0154fa740fe7" class=""><strong>计算步骤示例</strong>（假设 3 维向量，现实中常为 768 或 1536 维）：</p></div><div style="display:contents" dir="ltr"><table id="6138db55-6aee-8309-b871-01181aa64fca" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="f1c8db55-6aee-82c2-b567-813ec3ccd1f1"><th id="&lt;ETH" class="simple-table-header-color simple-table-header" style="width:202.9866180419922px"><strong>维度</strong></th><th id="uDxf" class="simple-table-header-color simple-table-header" style="width:249.99107360839844px"><strong>查询向量 A</strong></th><th id="DU&lt;?" class="simple-table-header-color simple-table-header" style="width:207.99107360839844px"><strong>文档向量 B</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="c2e8db55-6aee-82f7-bdbf-01c46402046b"><td id="&lt;ETH" class="" style="width:202.9866180419922px">1</td><td id="uDxf" class="" style="width:249.99107360839844px">0.5</td><td id="DU&lt;?" class="" style="width:207.99107360839844px">0.4</td></tr></div><div style="display:contents" dir="ltr"><tr id="ba58db55-6aee-8239-8828-01d7d70f3528"><td id="&lt;ETH" class="" style="width:202.9866180419922px">2</td><td id="uDxf" class="" style="width:249.99107360839844px">0.8</td><td id="DU&lt;?" class="" style="width:207.99107360839844px">0.7</td></tr></div><div style="display:contents" dir="ltr"><tr id="52b8db55-6aee-8250-8ff3-818f3e195146"><td id="&lt;ETH" class="" style="width:202.9866180419922px">3</td><td id="uDxf" class="" style="width:249.99107360839844px">0.1</td><td id="DU&lt;?" class="" style="width:207.99107360839844px">0.2</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ol type="1" id="c1c8db55-6aee-832a-a0b4-8124ebcedd2d" class="numbered-list" start="1"><li><strong>计算点积</strong>：0.5×0.4+0.8×0.7+0.1×0.2=0.20+0.56+0.02=0.780.5×0.4+0.8×0.7+0.1×0.2=0.20+0.56+0.02=0.78</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="bc98db55-6aee-83b6-b356-01a06248184c" class="numbered-list" start="2"><li><strong>计算 A 的模</strong>：sqrt(0.5^2+0.8^2+0.1^2)≈0.949</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a5d8db55-6aee-82bf-b9de-019342883078" class="numbered-list" start="3"><li><strong>计算 B 的模</strong>：sqrt(0.4^2+0.7^2+0.2^2)≈0.831</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="f3b8db55-6aee-8248-834d-812c58d78b73" class="numbered-list" start="4"><li><strong>计算余弦相似度</strong>：0.78/(0.949×0.831)≈0.99 → 两个向量几乎平行，语义高度相似。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6e88db55-6aee-8249-a2cf-8136162fd41b" class="toggle"><li><details open=""><summary>为什么 RAG 选择余弦相似度，而不是欧氏距离或曼哈顿距离</summary><div style="display:contents" dir="ltr"><table id="45f8db55-6aee-82ff-a0fa-81725d2ed064" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="e678db55-6aee-8328-b852-8110589c9cd1"><th id="fc|E" class="simple-table-header-color simple-table-header"><strong>比较维度</strong></th><th id="yiCl" class="simple-table-header-color simple-table-header"><strong>余弦相似度</strong></th><th id="}&gt;Ho" class="simple-table-header-color simple-table-header"><strong>欧氏距离</strong></th><th id="C?kG" class="simple-table-header-color simple-table-header"><strong>在 RAG 中的影响</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3c98db55-6aee-83e5-9bc2-816d550748d6"><td id="fc|E" class=""><strong>关注点</strong></td><td id="yiCl" class="">向量方向的差异</td><td id="}&gt;Ho" class="">向量端点之间的绝对距离</td><td id="C?kG" class="">文本向量中，<strong>方向</strong>代表语义主题；<strong>长度</strong>受文本长度、用词强度等因素影响（同一语义的长文档和短文档长度差异大）</td></tr></div><div style="display:contents" dir="ltr"><tr id="40e8db55-6aee-832c-be99-018cb09f460c"><td id="fc|E" class=""><strong>对长度的鲁棒性</strong></td><td id="yiCl" class="">✅ 自动归一化，不受文本长度影响</td><td id="}&gt;Ho" class="">❌ 长文本向量幅度大，即使语义相同也会产生很大欧氏距离</td><td id="C?kG" class="">RAG 中常需要比较短查询（几个词）和长文档段（几百个词），余弦相似度更公平</td></tr></div><div style="display:contents" dir="ltr"><tr id="80b8db55-6aee-8346-854b-81c4f6bda0f1"><td id="fc|E" class=""><strong>值范围</strong></td><td id="yiCl" class="">[-1, 1]，可直接解释为相似程度</td><td id="}&gt;Ho" class="">[0, ∞)，无固定上限，不方便直接做阈值比较</td><td id="C?kG" class="">余弦相似度 0.9 表示非常相似，容易设定检索阈值（例如 <code>score &gt; 0.7</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="a2f8db55-6aee-8200-a0a3-819562f6d74c"><td id="fc|E" class=""><strong>计算效率</strong></td><td id="yiCl" class="">需要计算点积和模，比欧氏距离略多两步，但现代向量索引库已将优化做到几乎无差别</td><td id="}&gt;Ho" class="">计算两个模平方和，稍简单</td><td id="C?kG" class="">差异可忽略，工程上优先选余弦相似度</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="f928db55-6aee-8362-bde3-019ea97f5191" class=""><strong>结论</strong>：在 RAG 中，我们关心的是“用户问题和哪些文档块<strong>意思最接近</strong>”，而不是“哪些文档块的向量<strong>绝对长度最短</strong>”。因此，余弦相似度是天然的选择。<br/><br/></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="63a8db55-6aee-82a5-9ea6-8182a0515699" class="toggle"><li><details open=""><summary>实践中如何应用余弦相似度进行检索</summary><div style="display:contents" dir="auto"><ol type="1" id="1b08db55-6aee-83c6-8423-014bc15069e6" class="numbered-list" start="1"><li><strong>离线索引</strong>：所有文档块向量已存储在向量数据库中，数据库会预先计算每个向量的模长（L2 范数）并存储，避免每次查询时重复计算。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="5788db55-6aee-83a1-9663-810f2c480705" class="numbered-list" start="2"><li><strong>在线查询</strong>：<div style="display:contents" dir="auto"><ul id="2008db55-6aee-825a-bb22-81609b203a00" class="bulleted-list"><li style="list-style-type:disc">用户查询 → 嵌入模型 → 查询向量 q<em>q</em>。</li></ul></div><div style="display:contents" dir="auto"><ul id="7808db55-6aee-82bd-b3a9-01077c47859e" class="bulleted-list"><li style="list-style-type:disc">向量数据库使用相似度搜索算法（如 HNSW、IVF）快速找出与 q<em>q</em> 余弦相似度最高的 Top-K 个文档块向量。</li></ul></div><div style="display:contents" dir="auto"><ul id="56b8db55-6aee-8394-83d2-81f509ae12cd" class="bulleted-list"><li style="list-style-type:disc">实际计算时往往采用 <strong>“余弦距离 = 1 - 余弦相似度”</strong>，距离越小表示越相似，这样符合“最近邻”的直觉。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0238db55-6aee-83be-80d7-818e5762353e" class="numbered-list" start="3"><li><strong>返回结果</strong>：数据库返回相似度分数（通常已转换为 0~1 之间的值，1 表示完全相同）以及对应的原始文本，供大模型生成答案。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="dde8db55-6aee-826f-9394-01fff782b986" class="toggle"><li><details open=""><summary>代码实现（python）</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="4fd8db55-6aee-820f-944f-817f59a3753a" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import numpy as np
+
+def get_dot(vec_a, vec_b):
+    &quot;&quot;&quot;计算两个向量的点积&quot;&quot;&quot;
+    # 维度相同才能计算
+    if len(vec_a) != len(vec_b):
+        raise ValueError(&quot;vec_a and vec_b must have the same length&quot;)
+    dot_sum = 0
+    for a, b in zip(vec_a, vec_b):
+        dot_sum += a * b
+    return dot_sum
+
+
+def get_norm(vec):
+    &quot;&quot;&quot;计算单个向量的模长&quot;&quot;&quot;
+    sum_square = 0
+    for v in vec:
+        sum_square += v**2
+    return np.sqrt(sum_square)
+
+
+def cosine_similarity(vec_a, vec_b):
+    &quot;&quot;&quot;余弦相似度计算&quot;&quot;&quot;
+    res = get_dot(vec_a, vec_b) / (get_norm(vec_a) * get_norm(vec_b))
+    return res
+
+if __name__ == &quot;__main__&quot;:
+    vec_a = np.array([1, 2, 3])
+    vec_b = np.array([4, 5, 6])
+    res = cosine_similarity(vec_a, vec_b)
+    print(res)</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="9758db55-6aee-82ea-bc02-8105357b2f40"/></div><div style="display:contents" dir="auto"><hr id="2708db55-6aee-8375-921c-8131727e49d2"/></div><div style="display:contents" dir="auto"><h1 id="13c8db55-6aee-839f-8c8c-814a61d3120b" class="">LangChain简介</h1></div><div style="display:contents" dir="ltr"><figure id="2398db55-6aee-8368-a683-8156dcbde27a" class="image"><a href="RAG/Snipaste_2026-04-20_23-28-52.png"><img style="width:704.0178833007812px" src="RAG/Snipaste_2026-04-20_23-28-52.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="6568db55-6aee-825b-aea2-81b19493df6a" class=""><strong>LangChain是一个开源的软件开发框架，专为简化基于大型语言模型的应用程序构建而设计。</strong></p></div><div style="display:contents" dir="auto"><p id="fc68db55-6aee-833e-9346-0165c2b02427" class="">是一个编排层，通过提供标准化的接口和模块化的“乐高积木”组件，让开发者能够轻松地将不同的AI模型、数据源和工具连接组合起来</p></div><div style="display:contents" dir="auto"><p id="0128db55-6aee-83a7-b140-8150bda07ba0" class="">解决传统大模型三个问题：</p></div><div style="display:contents" dir="auto"><ol type="1" id="2f08db55-6aee-838b-8252-017d6df39aee" class="numbered-list" start="1"><li>失忆问题：通过内置的<code>Memory</code>模块，管理对话上下文，让模型能够拥有“短期记忆”</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ccd8db55-6aee-8294-94f8-818e5fc5e519" class="numbered-list" start="2"><li>连接孤立数据：通过<code>Document Loaders</code>和<code>Vector Stores</code>等组件，让模型能接入和处理公司内部的实时数据。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1808db55-6aee-8382-b3e2-016b4f8cf402" class="numbered-list" start="3"><li>赋予动手能力：通过<code>Tools</code>和<code>Agents</code>，让模型能够自主调用API、搜索引擎等外部工具来执行任务，而不仅仅是文本问答。</li></ol></div><div style="display:contents" dir="auto"><p id="e928db55-6aee-839a-a4e1-811f01a202a1" class="">安装</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="8df8db55-6aee-83c4-ab05-017d24175008" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">pip install langchain langchain-community langchain-ollama dashscope chromadb</code></pre></div><div style="display:contents" dir="ltr"><figure id="0d58db55-6aee-83af-a6d1-01a6a0cfd37c" class="block-color-pink_background link-to-page"><a href="RAG/LangChain%200d58db556aee83afa6d101a6a0cfd37c.html"><img class="icon" src="RAG/LangChain/ODF.png"/>LangChain</a></figure></div><div style="display:contents" dir="auto"><hr id="e498db55-6aee-835a-994c-011e24d1fe78"/></div><div style="display:contents" dir="auto"><hr id="b188db55-6aee-82d3-bcf1-816032c1be84"/></div><div style="display:contents" dir="auto"><hr id="32b8db55-6aee-82e4-9218-01edcf7f3da3"/></div><div style="display:contents" dir="auto"><hr id="0ce8db55-6aee-8342-b7f3-01cb66cf08ab"/></div><div style="display:contents" dir="ltr"><figure id="3e38db55-6aee-8218-9dfb-01567e0221f9" class="link-to-page"><a href="RAG/RAG%E7%BB%83%E4%B9%A0%E9%A1%B9%E7%9B%AE%203e38db556aee82189dfb01567e0221f9.html"><span class="icon">🎬</span>RAG练习项目</a></figure></div><div style="display:contents" dir="auto"><p id="3b68db55-6aee-835e-8345-015ff33a7ec6" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,789 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>模块，包，commonJS</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="10b8db55-6aee-83b8-af24-012910907158" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/woodcuts_4.jpg" style="object-position:center 60%"/><h1 class="page-title" dir="auto">模块，包，commonJS</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="ff08db55-6aee-835b-a255-81ae13daf618" class="">模块：</p></div><div style="display:contents" dir="auto"><p id="a568db55-6aee-82ba-b2cb-015d69784c36" class="">模块是 <strong>具有独立功能的代码单元</strong>，通常对应一个文件（如 <code>.js</code> 文件）。它通过 “导出” 暴露部分功能，通过 “导入” 使用其他模块的功能，从而实现：</p></div><div style="display:contents" dir="auto"><ul id="4d08db55-6aee-831c-9656-815b309f5e49" class="bulleted-list"><li style="list-style-type:disc">代码拆分（将大程序拆分为小文件）</li></ul></div><div style="display:contents" dir="auto"><ul id="8068db55-6aee-8256-a5fd-81b452d9bc96" class="bulleted-list"><li style="list-style-type:disc">作用域隔离（模块内的变量 / 函数默认不污染全局作用域）</li></ul></div><div style="display:contents" dir="auto"><ul id="8b38db55-6aee-8361-940c-817db3b79631" class="bulleted-list"><li style="list-style-type:disc">复用复用（一个模块可被多个地方处导入使用）</li></ul></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="68f8db55-6aee-82ff-87cd-013e8283ce2d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 模块 A：math.js（负责数学计算）
+const add = (a, b) =&gt; a + b;
+const multiply = (a, b) =&gt; a * b;
+
+// 导出模块内容
+module.exports = { add, multiply };</code></pre></div><div style="display:contents" dir="auto"><pre id="2038db55-6aee-837e-af64-81b092c21a10" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 模块 B：app.js（使用模块 A 的功能）
+// 导入模块 A
+const math = require(&#x27;./math.js&#x27;);
+
+// 使用导入的功能
+console.log(math.add(2, 3)); // 输出 5
+console.log(math.multiply(2, 3)); // 输出 6</code></pre></div><div style="display:contents" dir="auto"><p id="f7f8db55-6aee-821e-9de8-01f7709cca07" class="">包：</p></div><div style="display:contents" dir="auto"><p id="11c8db55-6aee-83a3-a605-818850186405" class="">包是 <strong>一组相关模块的集合</strong>，通常包含多个模块文件、配置文件和说明文档，用于解决特定问题（如 <code>lodash</code> 是处理数组 / 对象的工具包）。</p></div><div style="display:contents" dir="auto"><p id="e8d8db55-6aee-827b-8057-01fb326abe7f" class="">简单说：<strong>包 = 多个模块 + 描述文件（package.json）</strong>。</p></div><div style="display:contents" dir="auto"><pre id="eb38db55-6aee-8264-8531-01e354f25e21" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">lodash/                  # 包目录
+├── package.json         # 包描述文件
+├── index.js             # 入口文件（指定默认导出）
+├── array/               # 数组相关模块
+│   ├── chunk.js
+│   └── filter.js
+└── object/              # 对象相关模块
+    ├── assign.js
+    └── keys.js</code></pre></div><div style="display:contents" dir="auto"><pre id="29c8db55-6aee-831c-9618-818a3449d083" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package.json 内容
+{
+  &quot;name&quot;: &quot;lodash&quot;,        // 包名
+  &quot;version&quot;: &quot;4.17.21&quot;,    // 版本号
+  &quot;main&quot;: &quot;index.js&quot;,      // 入口文件（导入包时默认加载的文件）
+  &quot;dependencies&quot;: {}       // 依赖的其他包
+}</code></pre></div><div style="display:contents" dir="auto"><p id="5388db55-6aee-8273-bc66-818adea48bb0" class="">CommonJS规范</p></div><div style="display:contents" dir="auto"><p id="a1e8db55-6aee-82d8-b1ea-012c049e5824" class="">CommonJS 是 <strong>JavaScript 模块化规范</strong>，主要为了解决 JavaScript 缺乏模块化机制的问题，最初设计用于 Node.js 环境（服务器端），后来也被用于浏览器端（需工具转译）。</p></div><div style="display:contents" dir="auto"><p id="7688db55-6aee-8351-abbb-811b4bb8b87c" class="">核心目标：定义模块的 <strong>导出（暴露）</strong> 和 <strong>导入（使用）</strong> 方式，让代码可以在不同文件间安全复用。</p></div><div style="display:contents" dir="auto"><p id="85e8db55-6aee-83d8-92ed-0199db451eb3" class="">导出对象：</p></div><div style="display:contents" dir="auto"><pre id="8d88db55-6aee-82c0-980d-8156bb8fd6ad" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// user.js
+const name = &quot;张三&quot;;
+const age = 20;
+
+// 导出多个内容（对象形式）
+module.exports = {
+  name,
+  age,
+  sayHello: () =&gt; console.log(&quot;Hello!&quot;)
+};</code></pre></div><div style="display:contents" dir="auto"><p id="bb88db55-6aee-82c6-a7b3-8190db0cf7c4" class="">导出单个对象</p></div><div style="display:contents" dir="auto"><pre id="d258db55-6aee-838b-839d-01501df9db68" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// utils.js
+module.exports = (a, b) =&gt; a + b; // 导出一个函数</code></pre></div><div style="display:contents" dir="auto"><p id="d378db55-6aee-83d2-9589-8140fcb7814e" class="">exports简写</p></div><div style="display:contents" dir="auto"><pre id="3738db55-6aee-82f1-941a-81f01adcb821" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// log.js
+exports.info = (msg) =&gt; console.log(&quot;Info:&quot;, msg);
+exports.error = (msg) =&gt; console.log(&quot;Error:&quot;, msg);
+// 等价于：module.exports.info = ...</code></pre></div><div style="display:contents" dir="auto"><p id="2838db55-6aee-83b8-9e7e-014f7af61cd8" class="">导入对象：</p></div><div style="display:contents" dir="auto"><pre id="0148db55-6aee-829f-8973-817ab67e8672" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 导入 user.js
+const user = require(&#x27;./user.js&#x27;); // 路径可省略 .js
+
+console.log(user.name); // 张三
+user.sayHello(); // Hello!</code></pre></div><div style="display:contents" dir="auto"><p id="55c8db55-6aee-83ad-aee3-018d5bb1a6e0" class="">导入单个：</p></div><div style="display:contents" dir="auto"><pre id="3588db55-6aee-8287-8331-81fa75dc09b3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 导入 utils.js（导出的是一个函数）
+const add = require(&#x27;./utils&#x27;);
+console.log(add(2, 3)); // 5</code></pre></div><div style="display:contents" dir="auto"><p id="3cc8db55-6aee-831f-a736-817285339b57" class="">导入包：</p></div><div style="display:contents" dir="auto"><pre id="2ff8db55-6aee-8289-bac0-01f08e6eb90b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 导入第三方包（npm 安装的 lodash）
+const _ = require(&#x27;lodash&#x27;); // 无需写路径，Node.js 会自动查找 node_modules 目录
+_.chunk([1,2,3,4], 2); // [[1,2], [3,4]]</code></pre></div><div style="display:contents" dir="auto"><h3 id="6018db55-6aee-830a-b275-01b52b0213df" class=""><strong>（3）模块加载规则</strong></h3></div><div style="display:contents" dir="auto"><ul id="6608db55-6aee-82f5-9563-01183a8ca57e" class="bulleted-list"><li style="list-style-type:disc"><strong>相对路径</strong>：导入本地模块时，路径以 <code>./</code>（当前目录）或 <code>../</code>（上级目录）开头，如 <code>require(&#x27;./user&#x27;)</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="bb28db55-6aee-838b-83c1-011bb318a34b" class="bulleted-list"><li style="list-style-type:disc"><strong>绝对路径</strong>：从根目录开始的完整路径，如 <code>require(&#x27;/project/utils&#x27;)</code>（较少使用）。</li></ul></div><div style="display:contents" dir="auto"><ul id="9cf8db55-6aee-83ca-93fc-01b39106fc37" class="bulleted-list"><li style="list-style-type:disc"><strong>包名</strong>：导入第三方包时，直接写包名（如 <code>require(&#x27;lodash&#x27;)</code>），Node.js 会从 <code>node_modules</code> 目录查找。</li></ul></div><div style="display:contents" dir="auto"><ul id="fd88db55-6aee-82f5-b583-81962b5be949" class="bulleted-list"><li style="list-style-type:disc"><strong>自动查找</strong>：如果导入的是目录，Node.js 会自动查找该目录下的 <code>package.json</code> 中的 <code>main</code> 字段指定的入口文件；若没有 <code>package.json</code>，则默认加载 <code>index.js</code>。</li></ul></div><div style="display:contents" dir="auto"><h3 id="b168db55-6aee-8221-bb97-81a541695c5d" class=""><strong>CommonJS 的特点</strong></h3></div><div style="display:contents" dir="auto"><ul id="b8e8db55-6aee-8363-8ad4-816891ee656e" class="bulleted-list"><li style="list-style-type:disc"><strong>同步加载</strong>：<code>require()</code> 是同步执行的（导入完成后才继续执行后续代码），适合服务器端（文件存在本地，加载快）。</li></ul></div><div style="display:contents" dir="auto"><ul id="1d18db55-6aee-82ea-801e-814c8d707f67" class="bulleted-list"><li style="list-style-type:disc"><strong>运行时加载</strong>：模块在代码运行时才被加载和执行。</li></ul></div><div style="display:contents" dir="auto"><ul id="c478db55-6aee-8276-8866-818c130db8d5" class="bulleted-list"><li style="list-style-type:disc"><strong>缓存机制</strong>：模块被第一次 <code>require</code> 后会被缓存，后续导入不会重复执行模块代码（提高性能）。</li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

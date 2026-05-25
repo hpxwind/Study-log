@@ -1,0 +1,757 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>洛谷P1044 [NOIP 2003 普及组] 栈（卡特兰数）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="f878db55-6aee-82e4-8b86-014abc2e7058" class="page sans"><header><h1 class="page-title" dir="auto">洛谷<strong>P1044 [NOIP 2003 普及组] 栈（卡特兰数）</strong></h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="5888db55-6aee-8340-9775-8107184a9eb0" class="toggle"><li><details open=""><summary>题目</summary><div style="display:contents" dir="auto"><h2 id="de68db55-6aee-83d8-97bf-8165b7edac98" class=""><strong>题目背景</strong></h2></div><div style="display:contents" dir="auto"><p id="c558db55-6aee-8305-93c7-01018d1f9a3d" class="">栈是计算机中经典的数据结构，简单的说，栈就是限制在一端进行插入删除操作的线性表。</p></div><div style="display:contents" dir="auto"><p id="10c8db55-6aee-8325-aa95-0176ca80013a" class="">栈有两种最重要的操作，即 pop（从栈顶弹出一个元素）和 push（将一个元素进栈）。</p></div><div style="display:contents" dir="auto"><p id="c598db55-6aee-8299-b9d1-015388eb015f" class="">栈的重要性不言自明，任何一门数据结构的课程都会介绍栈。宁宁同学在复习栈的基本概念时，想到了一个书上没有讲过的问题，而他自己无法给出答案，所以需要你的帮忙。</p></div><div style="display:contents" dir="auto"><h2 id="5118db55-6aee-82bc-bdfc-0180b5e4e9f0" class=""><strong>题目描述</strong></h2></div><div style="display:contents" dir="ltr"><figure id="88e8db55-6aee-8322-8e37-01374b27be40" class="image"><a href="https://cdn.luogu.com.cn/upload/image_hosting/5qxy9fz2.png"><img src="https://cdn.luogu.com.cn/upload/image_hosting/5qxy9fz2.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="48b8db55-6aee-83c5-8b8b-8131fcb7139d" class="">宁宁考虑的是这样一个问题：一个操作数序列，1,2,…,<em>n</em>（图示为 1 到 3 的情况），栈 A 的深度大于 <em>n</em>。</p></div><div style="display:contents" dir="auto"><p id="0428db55-6aee-8362-a1ce-8199dbf94cb5" class="">现在可以进行两种操作，</p></div><div style="display:contents" dir="auto"><ol type="1" id="0168db55-6aee-83c5-8f13-81180381eda9" class="numbered-list" start="1"><li>将一个数，从操作数序列的头端移到栈的头端（对应数据结构栈的 push 操作）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1348db55-6aee-8313-9cab-01f7d0b07401" class="numbered-list" start="2"><li>将一个数，从栈的头端移到输出序列的尾端（对应数据结构栈的 pop 操作）</li></ol></div><div style="display:contents" dir="auto"><p id="1128db55-6aee-831e-8cd3-015eeed6a7c4" class="">使用这两种操作，由一个操作数序列就可以得到一系列的输出序列，下图所示为由 <code>1 2 3</code> 生成序列 <code>2 3 1</code> 的过程。</p></div><div style="display:contents" dir="ltr"><figure id="5778db55-6aee-82e5-8213-01a0e2c6fdec" class="image"><a href="https://cdn.luogu.com.cn/upload/image_hosting/8uwv2pa2.png"><img src="https://cdn.luogu.com.cn/upload/image_hosting/8uwv2pa2.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="30d8db55-6aee-82c3-9100-815491446323" class="">（原始状态如上图所示）</p></div><div style="display:contents" dir="auto"><p id="4228db55-6aee-8239-909c-01437f286ac2" class="">你的程序将对给定的 <em>n</em>，计算并输出由操作数序列 1,2,…,<em>n</em> 经过操作可能得到的输出序列的总数。</p></div><div style="display:contents" dir="auto"><h2 id="0c18db55-6aee-8216-83d7-814772afdd39" class=""><strong>输入格式</strong></h2></div><div style="display:contents" dir="auto"><p id="a378db55-6aee-82b1-acbf-81b2f3430477" class="">输入文件只含一个整数 <em>n</em>（1≤<em>n</em>≤18）。</p></div><div style="display:contents" dir="auto"><h2 id="3418db55-6aee-8346-adfb-813952f47e3e" class=""><strong>输出格式</strong></h2></div><div style="display:contents" dir="auto"><p id="bdb8db55-6aee-8398-9b68-01e287634edd" class="">输出文件只有一行，即可能输出序列的总数目。</p></div><div style="display:contents" dir="auto"><h2 id="d1b8db55-6aee-82e9-86f4-8176ff731674" class=""><strong>输入输出样例</strong></h2></div><div style="display:contents" dir="auto"><p id="7838db55-6aee-8202-8bb3-01a3c55361f8" class=""><strong>输入 #1</strong>复制运行</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5d08db55-6aee-8269-99b8-019f6ca2f513" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3</code></pre></div><div style="display:contents" dir="auto"><p id="c398db55-6aee-831f-839d-014302032557" class=""><strong>输出 #1</strong>复制运行</p></div><div style="display:contents" dir="auto"><pre id="6c18db55-6aee-836f-97cf-01f6cbafc001" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b758db55-6aee-8250-830a-013652c47a2f" class="toggle"><li><details open=""><summary>推理过程</summary><div style="display:contents" dir="auto"><p id="bb38db55-6aee-82ac-b295-012c9197e10d" class="">以</p></div><div style="display:contents" dir="auto"><p id="c5a8db55-6aee-839c-9ada-8123b3de9bad" class=""><strong>数字 1 最后第几个出栈</strong></p></div><div style="display:contents" dir="auto"><p id="aab8db55-6aee-8300-ac06-01cbdd8053c3" class="">划分：假设数字 1 是</p></div><div style="display:contents" dir="auto"><p id="5f48db55-6aee-827e-af73-818031c6c5a9" class=""><strong>第 k 个</strong></p></div><div style="display:contents" dir="auto"><p id="b1a8db55-6aee-8379-86cb-8170c81c4407" class="">弹出栈：</p></div><div style="display:contents" dir="auto"><ol type="1" id="6748db55-6aee-830f-95c8-81526039edac" class="numbered-list" start="1"><li>想要 1 第 k 个弹出：<div style="display:contents" dir="auto"><ul id="bc88db55-6aee-83b4-8a7f-0159c0d6fc8c" class="bulleted-list"><li style="list-style-type:disc">必须先把 <strong>2～k</strong> 这 k−1 个数全部入栈、再合法出栈；</li></ul></div><div style="display:contents" dir="auto"><ul id="4c88db55-6aee-8359-b7a2-81b7c0b7f2a3" class="bulleted-list"><li style="list-style-type:disc">1 才会被暴露到栈顶，执行弹出；</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="9628db55-6aee-83b8-9838-812dd81c6bd7" class="numbered-list" start="2"><li>1 弹出后，剩下还有 <strong>k+1∼n</strong> 共 n−k 个数，继续合法进出栈。</li></ol></div><div style="display:contents" dir="auto"><p id="fdc8db55-6aee-83a4-aec3-812953178ac5" class="">因此：</p></div><div style="display:contents" dir="auto"><ul id="2708db55-6aee-828a-a102-012cfb0287f9" class="bulleted-list"><li style="list-style-type:disc">前半段：k−1 个数的合法方案：f(k−1)</li></ul></div><div style="display:contents" dir="auto"><ul id="97c8db55-6aee-83e7-a6f9-01b8727569da" class="bulleted-list"><li style="list-style-type:disc">后半段：n−k 个数的合法方案：f(n−k)</li></ul></div><div style="display:contents" dir="auto"><ul id="b338db55-6aee-83b2-8db0-81a053fbe1ad" class="bulleted-list"><li style="list-style-type:disc">两者独立，乘法原理：f(k−1)×f(n−k)</li></ul></div><div style="display:contents" dir="auto"><p id="94c8db55-6aee-8394-9011-015c208df1b1" class="">对所有合法的 k 累加，得到</p></div><div style="display:contents" dir="auto"><p id="8858db55-6aee-82e1-a5cf-01b5352ee72b" class=""><strong>卡特兰递推式</strong></p></div><div style="display:contents" dir="auto"><p id="7ae8db55-6aee-82a7-8a64-811bf7b357b3" class="">：f(n)=∑k=1nf(k−1)⋅f(n−k)初始条件：f(0)=1,f(1)=1</p></div><div style="display:contents" dir="auto"><hr id="0ae8db55-6aee-8287-99e8-8178ce37982d"/></div><div style="display:contents" dir="auto"><h2 id="7368db55-6aee-823c-ac7d-01f22a8ab57b" class="">三、举例验证（n=3）</h2></div><div style="display:contents" dir="auto"><p id="a728db55-6aee-8209-96b1-01e715b8be72" class="">f(3)f(2)f(3)=f(0)f(2)+f(1)f(1)+f(2)f(0)=f(0)f(1)+f(1)f(0)=2=1×2+1×1+2×1=5和题目样例一致。</p></div><div style="display:contents" dir="auto"><hr id="7098db55-6aee-8319-b1c3-8108ec8f2604"/></div><div style="display:contents" dir="auto"><h2 id="3e58db55-6aee-82a4-92af-8139b034b966" class="">四、由递推式推导出通项公式</h2></div><div style="display:contents" dir="auto"><p id="9428db55-6aee-8306-a207-81f0657f8249" class="">上面是</p></div><div style="display:contents" dir="auto"><p id="dbc8db55-6aee-825b-a4c3-010304d96104" class=""><strong>递推定义</strong></p></div><div style="display:contents" dir="auto"><p id="b318db55-6aee-832f-ac4c-8128c3369c32" class="">，通过数学推导可得到闭合通项：f(n)=n+11(n2n)=(n+1)!n!(2n)!</p></div><div style="display:contents" dir="auto"><h3 id="8388db55-6aee-8248-9239-813bf2e08339" class="">拆解组合意义（直观理解）</h3></div><div style="display:contents" dir="auto"><p id="6788db55-6aee-8332-9cc4-01f647dd0724" class="">总操作：一共要进行</p></div><div style="display:contents" dir="auto"><ul id="6c58db55-6aee-837a-b04c-81ea06a835dc" class="bulleted-list"><li style="list-style-type:disc">n 次入栈 push</li></ul></div><div style="display:contents" dir="auto"><ul id="e9a8db55-6aee-82b6-9010-0112d9d1d545" class="bulleted-list"><li style="list-style-type:disc">n 次出栈 pop总操作序列共 2n 步，纯随机选 n 步入栈：总情况 C2nn。</li></ul></div><div style="display:contents" dir="auto"><p id="a818db55-6aee-8280-ae1b-01c7fb437804" class="">但存在</p></div><div style="display:contents" dir="auto"><p id="f808db55-6aee-828f-a785-8155b3061c3f" class=""><strong>非法情况</strong></p></div><div style="display:contents" dir="auto"><p id="60d8db55-6aee-83f4-a8e5-017668f6ac06" class="">：任意前缀中，</p></div><div style="display:contents" dir="auto"><p id="2c38db55-6aee-82df-a320-01e61bc3cda4" class=""><strong>出栈次数 &gt; 入栈次数</strong></p></div><div style="display:contents" dir="auto"><p id="c558db55-6aee-82ac-bd55-81a84f0ab03b" class="">（栈空了还要弹出，不合法）。通过</p></div><div style="display:contents" dir="auto"><p id="8938db55-6aee-8284-942e-811995e1cff7" class=""><strong>反射原理</strong></p></div><div style="display:contents" dir="auto"><p id="fa68db55-6aee-82c1-97fa-0145b75331f7" class="">计算非法序列数量：合法数量=总数量−非法数量最终化简得到：f(n)=n+11C2nn</p></div><div style="display:contents" dir="auto"><hr id="58d8db55-6aee-83c8-b20d-01b597dcebff"/></div><div style="display:contents" dir="auto"><h2 id="94e8db55-6aee-8296-91f5-0110716fefc4" class="">五、代码所用简化计算公式推导</h2></div><div style="display:contents" dir="auto"><p id="13f8db55-6aee-83db-9d5c-8102dcc75e55" class="">C2nn=n!⋅n!(2n)!展开约分：C2nn=1⋅2⋯n(n+1)(n+2)⋯(2n)</p></div></details></li></ul></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="e8b8db55-6aee-8332-a884-81a8681d6b31" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.*;
+
+public class Main {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+
+    long catalan = 1;
+    for (int i=1;i&lt;=n; i++) {
+      catalan = catalan * (n + i) / i;
+    }
+    catalan = catalan / (n+1);
+    System.out.println(catalan);
+  }
+}</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

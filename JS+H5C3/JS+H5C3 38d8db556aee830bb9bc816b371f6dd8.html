@@ -1,0 +1,978 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>JS+H5C3</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="38d8db55-6aee-830b-b9bc-816b371f6dd8" class="page serif"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/rijksmuseum_jansz_1649.jpg" style="object-position:center 70%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="JS+H5C3/augmented_reality_computer_developer_coding_programming_icon_134250.webp"/></div><h1 class="page-title" dir="auto">JS+H5C3</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="ltr"><figure id="1368db55-6aee-8324-a6e8-01347baf91d1" class="link-to-page"><a href="JS+H5C3/Algorithm(JavaScript)%201368db556aee8324a6e801347baf91d1.html">Algorithm(JavaScript)</a></figure></div><div style="display:contents" dir="ltr"><figure id="eea8db55-6aee-83de-98b4-8108f36210fe" class="link-to-page"><a href="JS+H5C3/%E7%94%9F%E6%88%90%E5%99%A8%EF%BC%88Generator%EF%BC%89%20eea8db556aee83de98b48108f36210fe.html">生成器（Generator）</a></figure></div><div style="display:contents" dir="ltr"><figure id="0dd8db55-6aee-838d-9344-81fceb6ee104" class="link-to-page"><a href="JS+H5C3/%E5%8E%9F%E7%94%9F%E6%96%B9%E6%B3%95%E4%B8%8E%E6%8A%80%E6%9C%AF%200dd8db556aee838d934481fceb6ee104.html">原生方法与技术</a></figure></div><div style="display:contents" dir="ltr"><figure id="6958db55-6aee-833c-935a-8198c44e8f8d" class="link-to-page"><a href="JS+H5C3/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%206958db556aee833c935a8198c44e8f8d.html">正则表达</a></figure></div><div style="display:contents" dir="auto"><ul id="5a98db55-6aee-82ce-a082-819e8a7d4ec9" class="toggle"><li><details open=""><summary>function与箭头函数的this</summary><div style="display:contents" dir="auto"><p id="7f18db55-6aee-83e0-b499-01489c687c06" class=""><mark class="highlight-red"><strong>function定义事件，其中的this指针指向该事件，</strong></mark></p></div><div style="display:contents" dir="auto"><p id="c1f8db55-6aee-83ad-a4a5-013190420af0" class=""><mark class="highlight-red"><strong>箭头函数定义事件，其中的this指针指向该事件的父级。</strong></mark></p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="4f78db55-6aee-82df-8632-81e12a32de30"/></div><div style="display:contents" dir="ltr"><figure id="8718db55-6aee-8216-be9a-019f8ffd40e7" class="link-to-page"><a href="JS+H5C3/Swiper%208718db556aee8216be9a019f8ffd40e7.html">Swiper</a></figure></div><div style="display:contents" dir="ltr"><figure id="e088db55-6aee-82f5-a3e6-01a1e934c3b4" class="link-to-page"><a href="JS+H5C3/Bootstrap%20e088db556aee82f5a3e601a1e934c3b4.html">Bootstrap</a></figure></div><div style="display:contents" dir="auto"><hr id="d2e8db55-6aee-821f-9bcb-0102a66cd614"/></div><div style="display:contents" dir="ltr"><figure id="3828db55-6aee-83a9-9fe1-013969d56a78" class="link-to-page"><a href="JS+H5C3/API%203828db556aee83a99fe1013969d56a78.html">API</a></figure></div><div style="display:contents" dir="ltr"><figure id="1438db55-6aee-82cd-b45a-01c68c3e1b1f" class="link-to-page"><a href="JS+H5C3/jQuery%201438db556aee82cdb45a01c68c3e1b1f.html">jQuery</a></figure></div><div style="display:contents" dir="ltr"><figure id="6dd8db55-6aee-833d-a53e-017f4a795d66" class="link-to-page"><a href="JS+H5C3/Ajax%206dd8db556aee833da53e017f4a795d66.html">Ajax</a></figure></div><div style="display:contents" dir="ltr"><figure id="f6a8db55-6aee-83ca-9deb-816c0621e40e" class="link-to-page"><a href="JS+H5C3/Jsonp%20f6a8db556aee83ca9deb816c0621e40e.html">Jsonp</a></figure></div><div style="display:contents" dir="auto"><hr id="6318db55-6aee-8258-af08-01aab4be23fb"/></div><div style="display:contents" dir="ltr"><figure id="5c98db55-6aee-83dd-9732-81b10abaac66" class="link-to-page"><a href="JS+H5C3/Sass%205c98db556aee83dd973281b10abaac66.html">Sass</a></figure></div><div style="display:contents" dir="auto"><hr id="b328db55-6aee-8344-825c-81c08c1eb8ba"/></div><div style="display:contents" dir="ltr"><figure id="fb68db55-6aee-822d-bd80-815d001c34f8" class="link-to-page"><a href="JS+H5C3/%E4%B8%80%E4%BA%9B%E7%89%B9%E6%95%88%E7%9A%84%E5%AE%9E%E7%8E%B0%20fb68db556aee822dbd80815d001c34f8.html">一些特效的实现</a></figure></div><div style="display:contents" dir="auto"><hr id="6fd8db55-6aee-838d-8900-0105f92b2a2e"/></div><div style="display:contents" dir="ltr"><figure id="5b98db55-6aee-8224-98db-0195967c5aac" class="link-to-page"><a href="JS+H5C3/HTML%205b98db556aee822498db0195967c5aac.html">HTML</a></figure></div><div style="display:contents" dir="ltr"><figure id="39e8db55-6aee-8214-82f5-019ee583b591" class="link-to-page"><a href="JS+H5C3/DOM%2039e8db556aee821482f5019ee583b591.html">DOM</a></figure></div><div style="display:contents" dir="ltr"><figure id="4918db55-6aee-8246-b3f8-81acc924c566" class="link-to-page"><a href="JS+H5C3/BOM%204918db556aee8246b3f881acc924c566.html">BOM</a></figure></div><div style="display:contents" dir="ltr"><figure id="a678db55-6aee-83a3-adb6-01d2df3db950" class="link-to-page"><a href="JS+H5C3/%E4%BA%8B%E4%BB%B6%20a678db556aee83a3adb601d2df3db950.html">事件</a></figure></div><div style="display:contents" dir="ltr"><figure id="c508db55-6aee-8274-8fd7-8178677bb12c" class="link-to-page"><a href="JS+H5C3/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%20c508db556aee82748fd78178677bb12c.html">面向对象</a></figure></div><div style="display:contents" dir="ltr"><figure id="5118db55-6aee-828b-9918-018560615813" class="link-to-page"><a href="JS+H5C3/%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%205118db556aee828b9918018560615813.html">同步异步</a></figure></div><div style="display:contents" dir="auto"><ul id="18e8db55-6aee-8274-b155-01ee565c13d4" class="toggle"><li><details open=""><summary>将函数作为参数，异步</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="79e8db55-6aee-82f7-8328-81d1956ab899" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">var http = require(&quot;http&quot;)
+var https = require(&quot;https&quot;)
+var url = require(&quot;url&quot;)
+
+
+http.createServer((req, res) =&gt; {
+    var urlPath = url.parse(req.url, true)
+    res.writeHead(200,{
+        &quot;content-type&quot;:&quot;application/json;charset=utf-8&quot;,
+        &quot;access-control-allow-origin&quot;: &quot;*&quot;
+    })
+    switch(urlPath.pathname) {
+        case &quot;/&quot;:
+            httpGet((data)=&gt; {
+                res.end(data)
+            })
+            break
+        default:
+            res.end(JSON.stringify({
+                &quot;code&quot;: 404,
+                &quot;msg&quot;: &quot;not found&quot;
+            }))
+            break
+    }
+}).listen(3000)
+
+function httpGet(cb) {
+    var data = &quot;&quot;
+    https.get(
+        `https://m.maoyan.com/ajax/comingList?ci=387&amp;token=&amp;limit=10&amp;optimus_uuid=DA2B7C808CCE11F0B9E26D6725A20DB73AF8E113BE984579A9181E72E1290954&amp;optimus_risk_level=71&amp;optimus_code=10`,
+        (res) =&gt; { // 异步机制
+            // 接收数据，接收事件
+            res.on(&quot;data&quot;, (chunk)=&gt; {
+                data += chunk
+            })
+            // 所有数据收集完毕，结束事件
+            res.on(&quot;end&quot;, ()=&gt; {
+                console.log(data)
+                cb(data)
+            })
+        }
+    )
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="39f8db55-6aee-82ed-a4f8-8161b96034dd" class="">其中</p></div><div style="display:contents" dir="auto"><pre id="9658db55-6aee-827a-97b3-01dace2d1026" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">httpGet((data)=&gt; { // httpGet调用
+    res.end(data)
+})
+function httpGet(cb) {
+    var data = &quot;&quot;
+    https.get(
+        `https://m.maoyan.com/ajax/comingList?ci=387&amp;token=&amp;limit=10&amp;optimus_uuid=DA2B7C808CCE11F0B9E26D6725A20DB73AF8E113BE984579A9181E72E1290954&amp;optimus_risk_level=71&amp;optimus_code=10`,
+        (res) =&gt; { // 异步机制
+            // 接收数据，接收事件
+            res.on(&quot;data&quot;, (chunk)=&gt; {
+                data += chunk
+            })
+            // 所有数据收集完毕，结束事件
+            res.on(&quot;end&quot;, ()=&gt; {
+                console.log(data)
+                cb(data)
+            })
+        }
+    )
+}</code></pre></div><div style="display:contents" dir="auto"><p id="b508db55-6aee-82fa-b09a-8163b1fc5fff" class="">httpGet((data)⇒{res.end(data)})</p></div><div style="display:contents" dir="auto"><p id="e208db55-6aee-830b-af7d-01308c21a379" class="">首先执行 httpGet 函数，而传递进去的(data)⇒{}函数暂时在httpGet函数中保存为 cb 函数，等待https.get()执行到res,on后，调用cb(data)，返回数据到httpGet调用处，执行后面内容，做到了等待数据加载完璧后，处理的异步操作。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bc58db55-6aee-8229-af06-014867ae5b79" class="toggle"><li><details open=""><summary>模块化语法</summary><div style="display:contents" dir="auto"><p id="e818db55-6aee-829a-b222-011c77e9d64a" class="">1、私密不漏</p></div><div style="display:contents" dir="auto"><p id="e0c8db55-6aee-830f-b45f-8130ddd02465" class="">2、重名不怕</p></div><div style="display:contents" dir="auto"><p id="83a8db55-6aee-821c-817f-819603a90780" class="">3、依赖不乱</p></div><div style="display:contents" dir="auto"><hr id="09c8db55-6aee-830a-b320-010ede233b89"/></div><div style="display:contents" dir="auto"><hr id="fee8db55-6aee-8262-ad76-8143cd827d4e"/></div><div style="display:contents" dir="auto"><p id="e958db55-6aee-822d-933a-017cd57bb7e7" class="">类似分文件编写中导入不同文件</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="cc38db55-6aee-829e-85a6-0180a469973e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">在功能A.js文件中，如果html文件需要调用A.js中的函数，那么需要在A.js在导出函数
+export{ a1, a3, a43, ...}
+如果只导出一个
+export default a2
+-----------
+在html文件中，需要导入
+import {a as aaa, a2, a53 as a5, ...} from &#x27;./..../A.js&#x27;
+其中 as 为重命名符号</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d738db55-6aee-83ce-a799-815528bf3185" class="toggle"><li><details open=""><summary>多库并存解决</summary><div style="display:contents" dir="auto"><p id="1cf8db55-6aee-83ae-a8ce-8127d2fc89f9" class="">当页面引入多个 JavaScript 库（如同时使用 jQuery、Prototype、Zepto 等）时，可能会出现 <strong>全局变量冲突</strong>（最常见的是 <code>$</code> 符号被多个库占用）。解决多库并存的核心是 <strong>隔离各自的全局变量</strong>，确保每个库能独立运行。</p></div><div style="display:contents" dir="auto"><hr id="5c08db55-6aee-8383-8549-813c78e023f7"/></div><div style="display:contents" dir="auto"><p id="b428db55-6aee-82c0-aac6-011e4d0c1f1a" class="">多数库会暴露全局变量（如 jQuery 暴露 <code>$</code> 和 <code>jQuery</code>，Prototype 也可能使用 <code>$</code>），当多个库使用相同的全局变量名时，后引入的库会覆盖先引入的库的变量，导致前者功能失效。如：</p></div><div style="display:contents" dir="auto"><pre id="aec8db55-6aee-82fa-b635-01d3be12db12" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 先引入 jQuery --&gt;
+&lt;script src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  console.log($); // 输出 jQuery 函数（正常）
+&lt;/script&gt;
+
+&lt;!-- 再引入 Prototype（也使用 $ 符号） --&gt;
+&lt;script src=&quot;prototype.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  console.log($); // 输出 Prototype 的 $ 函数（jQuery 的 $ 被覆盖，冲突！）
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="7e38db55-6aee-82cb-b09a-810cef5001e5" class="">解决方案：</p></div><div style="display:contents" dir="auto"><p id="fdb8db55-6aee-8200-bb1b-013451313cd9" class="">jQuery 提供了专门的 API 解决冲突，核心是 <strong>释放 </strong><code><strong>$</strong></code><strong> 符号的控制权</strong>，让其他库可以使用 <code>$</code>，同时保留 <code>jQuery</code> 变量供自身使用。</p></div><div style="display:contents" dir="auto"><ul id="3788db55-6aee-8375-a9ad-014e66030a69" class="toggle"><li><details open=""><summary>1、<code>jQuery.noConflict()</code>释放$使用权</summary><div style="display:contents" dir="auto"><p id="3158db55-6aee-8310-9de0-81f26f471a70" class=""><code>jQuery.noConflict()</code> 会将 <code>$</code> 还原为引入 jQuery 之前的状态（可能是其他库的 <code>$</code> 或 <code>undefined</code>），同时返回 jQuery 自身，方便用自定义变量引用。</p></div><div style="display:contents" dir="auto"><pre id="2dc8db55-6aee-83e4-b5bd-81f536799a4c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;script src=&quot;prototype.js&quot;&gt;&lt;/script&gt; &lt;!-- 先引入其他库 --&gt;
+&lt;script src=&quot;jquery.js&quot;&gt;&lt;/script&gt;     &lt;!-- 后引入 jQuery --&gt;
+
+&lt;script&gt;
+  // 释放 $ 控制权：$ 还原为 Prototype 的 $
+  const $j = jQuery.noConflict(); 
+
+  // 现在：
+  // - $ 指向 Prototype 的功能
+  // - $j 指向 jQuery 的功能（可用 $j 替代 $ 调用 jQuery 方法）
+  console.log($);      // Prototype 的 $ 函数
+  console.log($j);     // jQuery 函数
+  console.log(jQuery); // 仍指向 jQuery（未被覆盖）
+
+  // 使用 jQuery 时用 $j
+  $j(&#x27;div&#x27;).css(&#x27;color&#x27;, &#x27;red&#x27;);
+
+  // 使用 Prototype 时用 $
+  $(&#x27;div&#x27;).addClassName(&#x27;active&#x27;);
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6b48db55-6aee-83ce-9dac-81fb0f8b2492" class="toggle"><li><details open=""><summary>2、彻底释放$和jQuery（自定义变量名）</summary><div style="display:contents" dir="auto"><p id="de68db55-6aee-8313-87b7-01fb17177b9f" class="">若其他库也使用 <code>jQuery</code> 变量（极少见），可通过 <code>jQuery.noConflict(true)</code> 彻底释放 <code>$</code> 和 <code>jQuery</code>，并用自定义变量保存 jQuery。</p></div><div style="display:contents" dir="auto"><pre id="df68db55-6aee-828c-aeae-811ab5e843e2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;script src=&quot;other-lib.js&quot;&gt;&lt;/script&gt; &lt;!-- 假设该库也使用 jQuery 变量 --&gt;
+&lt;script src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  // 彻底释放 $ 和 jQuery，返回 jQuery 自身
+  const myJQ = jQuery.noConflict(true);
+
+  console.log($);      // 其他库的 $
+  console.log(jQuery); // 其他库的 jQuery
+  console.log(myJQ);   // 我们的 jQuery
+
+  // 使用 jQuery 时用 myJQ
+  myJQ(&#x27;div&#x27;).hide();
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0dc8db55-6aee-824a-ad1b-015cef83a988" class="toggle"><li><details open=""><summary>3、立即执行函数（IIFE）内使用$</summary><div style="display:contents" dir="auto"><p id="a388db55-6aee-828e-9043-81d8018673e2" class="">若仅在局部代码中使用 jQuery 的 <code>$</code>，可通过立即执行函数（IIFE）将 <code>jQuery</code> 作为参数传入，在函数内部用 <code>$</code> 指代，不影响全局 <code>$</code>。</p></div><div style="display:contents" dir="auto"><pre id="13c8db55-6aee-8226-8c1f-0127058d59f2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;script src=&quot;prototype.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  // 释放全局 $
+  jQuery.noConflict();
+
+  // 在 IIFE 内部，$ 仅指代 jQuery（不影响外部）
+  (function($) {
+    // 这里的 $ 是 jQuery
+    $(document).ready(function() {
+      $(&#x27;div&#x27;).text(&#x27;用 jQuery 操作&#x27;);
+    });
+  })(jQuery); // 将 jQuery 作为参数传入，函数内用 $ 接收
+
+  // 外部的 $ 仍指向 Prototype
+  console.log($); // Prototype 的 $ 函数
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7cc8db55-6aee-8218-b2e3-817503522603" class="toggle"><li><details open=""><summary>4、结合DOM加载完成事件（ready方法）</summary><div style="display:contents" dir="auto"><p id="8118db55-6aee-8357-bf44-01d1c0582f01" class="">jQuery 的 <code>ready</code> 方法支持传入一个函数，该函数的第一个参数会被自动设置为 <code>jQuery</code>，可在内部用 <code>$</code> 指代。</p></div><div style="display:contents" dir="auto"><pre id="c2f8db55-6aee-82fa-bd5a-01c9cfb42e68" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;script src=&quot;prototype.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  // 释放全局 $
+  jQuery.noConflict();
+
+  // ready 方法的回调中，$ 自动指向 jQuery
+  jQuery(document).ready(function($) {
+    // 这里的 $ 是 jQuery
+    $(&#x27;div&#x27;).css(&#x27;background&#x27;, &#x27;gray&#x27;);
+  });
+
+  // 外部 $ 仍为 Prototype 的 $
+  $(&#x27;div&#x27;).addClassName(&#x27;test&#x27;);
+&lt;/script&gt;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="4368db55-6aee-83f9-b351-015f0bf2fe44"/></div><div style="display:contents" dir="auto"><hr id="e038db55-6aee-8303-b1c1-81b2cef1b1b3"/></div><div style="display:contents" dir="auto"><ul id="a5c8db55-6aee-8289-a053-819076baca2c" class="toggle"><li><details open=""><summary>JSON格式字符串</summary><div style="display:contents" dir="auto"><p id="e888db55-6aee-8345-a57a-81a4fd224483" class="">json只接收6种数据类型</p></div><div style="display:contents" dir="ltr"><table id="1808db55-6aee-833a-a05b-81c7152608cc" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="ace8db55-6aee-8333-a734-0197e1d5a170"><th id="IYwo" class="simple-table-header-color simple-table-header"><strong>类型</strong></th><th id="OwJ:" class="simple-table-header-color simple-table-header" style="width:455px"><strong>说明</strong></th><th id="Kfqg" class="simple-table-header-color simple-table-header" style="width:225.80859375px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3398db55-6aee-83f6-ae95-81cdb761cf2f"><td id="IYwo" class="">字符串</td><td id="OwJ:" class="" style="width:455px">必须用<strong>双引号</strong>包裹（不能用单引号），支持转义字符（<code>\n</code>、<code>\&quot;</code> 等）。</td><td id="Kfqg" class="" style="width:225.80859375px"><code>&quot;name&quot;: &quot;Alice&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="d838db55-6aee-8390-86db-81060f375a6a"><td id="IYwo" class="">数字</td><td id="OwJ:" class="" style="width:455px">整数、浮点数、负数，不支持 <code>NaN</code>、<code>Infinity</code>。</td><td id="Kfqg" class="" style="width:225.80859375px"><code>&quot;age&quot;: 20</code>、<code>&quot;score&quot;: 95.5</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="bf68db55-6aee-8368-8ef6-8178a8ebca8e"><td id="IYwo" class="">布尔值</td><td id="OwJ:" class="" style="width:455px">仅 <code>true</code> 或 <code>false</code>（小写）。</td><td id="Kfqg" class="" style="width:225.80859375px"><code>&quot;isStudent&quot;: true</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="29c8db55-6aee-8283-94ca-0198473bb420"><td id="IYwo" class="">null</td><td id="OwJ:" class="" style="width:455px">表示空值（小写），不能用 <code>undefined</code>。</td><td id="Kfqg" class="" style="width:225.80859375px"><code>&quot;address&quot;: null</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8938db55-6aee-833f-844a-81c6c98803c1"><td id="IYwo" class="">对象（Object）</td><td id="OwJ:" class="" style="width:455px">键值对集合，键必须用双引号包裹，值可以是任意 JSON 类型。</td><td id="Kfqg" class="" style="width:225.80859375px"><code>{&quot;id&quot;: 1, &quot;name&quot;: &quot;Bob&quot;}</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ul id="87a8db55-6aee-82fe-9d29-0156afd9c37f" class="toggle"><li><details open=""><summary><mark class="highlight-default">JSON.parse() &amp; JSON.stringify()</mark></summary><div style="display:contents" dir="auto"><pre id="3838db55-6aee-83a5-9319-01cc174e2972" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">JSON.parse()	用于将一个 JSON 字符串转换为 JavaScript 对象。
+const jsonStr = &#x27;{&quot;name&quot;:&quot;Bob&quot;,&quot;birth&quot;:&quot;2000-01-01&quot;,&quot;scores&quot;:[90,85,95]}&#x27;;
+
+// 基本用法
+const obj = JSON.parse(jsonStr);
+console.log(obj.name); // &quot;Bob&quot;
+console.log(obj.scores[0]); // 90
+
+// 转换日期字符串为Date对象
+const objWithDate = JSON.parse(jsonStr, (key, value) =&gt; {
+  if (key === &quot;birth&quot;) {
+    return new Date(value); // 将&quot;2000-01-01&quot;转为Date对象
+  }
+  return value;
+});
+console.log(objWithDate.birth instanceof Date); // true
+
+----------------------------------------------------------------------
+JSON.stringify()	用于将 JavaScript 值转换为 JSON 字符串。
+const obj = { name: &quot;Alice&quot;, age: 20, isStudent: true };
+
+// 基本用法
+const jsonStr = JSON.stringify(obj);
+console.log(jsonStr); 
+// 输出：{&quot;name&quot;:&quot;Alice&quot;,&quot;age&quot;:20,&quot;isStudent&quot;:true}（严格JSON格式）
+
+// 美化输出（缩进2个空格）
+const prettyJson = JSON.stringify(obj, null, 2);
+console.log(prettyJson);
+/* 输出：
+{
+  &quot;name&quot;: &quot;Alice&quot;,
+  &quot;age&quot;: 20,
+  &quot;isStudent&quot;: true
+}
+*/
+
+// 过滤属性（只保留name）
+const filteredJson = JSON.stringify(obj, [&quot;name&quot;]);
+console.log(filteredJson); // {&quot;name&quot;:&quot;Alice&quot;}</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ea98db55-6aee-821b-a3f6-01f18354d4aa" class="toggle"><li><details open=""><summary><mark class="highlight-default">href=&quot;#&quot;与href=&quot;javascript:void(0)&quot;的区别</mark></summary><div style="display:contents" dir="auto"><pre id="4768db55-6aee-83c5-8892-01e323a6a872" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">	# 包含了一个位置信息，默认的锚是#top 也就是网页的上端。而javascript:void(0), 仅仅表示一个死链接。
+	在页面很长的时候会使用 # 来定位页面的具体位置，格式为：# + id。如果你要定义一个死链接请使用 javascript:void(0) 。
+
+实例
+&lt;a href=&quot;javascript:void(0);&quot;&gt;点我没有反应的!&lt;/a&gt;
+&lt;a href=&quot;#pos&quot;&gt;点我定位到指定位置!&lt;/a&gt;
+&lt;br&gt;
+...
+&lt;br&gt;
+&lt;p id=&quot;pos&quot;&gt;尾部定位点&lt;/p&gt;
+-----------------------------------------------------------------------------------------
+// 阻止链接跳转，URL不会有任何变化
+&lt;a href=&quot;javascript:void(0)&quot; rel=&quot;nofollow ugc&quot;&gt;点击此处&lt;/a&gt;
+
+// 虽然阻止了链接跳转，但URL尾部会多个#，改变了当前URL。（# 主要用于配合 location.hash）
+&lt;a href=&quot;#&quot; rel=&quot;nofollow ugc&quot;&gt;点击此处&lt;/a&gt;
+
+// 同理，# 可以的话，? 也能达到阻止页面跳转的效果，但也相同的改变了URL。（? 主要用于配合 location.search）
+&lt;a href=&quot;?&quot; rel=&quot;nofollow ugc&quot;&gt;点击此处&lt;/a&gt;
+
+// Chrome 中即使 javascript:0; 也没变化，firefox中会变成一个字符串0
+&lt;a href=&quot;javascript:0&quot; rel=&quot;nofollow ugc&quot;&gt;点击此处&lt;/a&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="21f8db55-6aee-8291-b8cc-01b3394b4326" class="toggle"><li><details open=""><summary><mark class="highlight-default">const &amp; let &amp; var区别</mark></summary><div style="display:contents" dir="auto"><p id="cf68db55-6aee-82fc-a323-8107e02ba1d4" class="">1，作用域</p></div><div style="display:contents" dir="auto"><p id="2e58db55-6aee-838a-808c-01a25b7e7441" class="">var声明的变量的作用域只能是全局或者整个函数块</p></div><div style="display:contents" dir="auto"><p id="2298db55-6aee-8210-9529-019e5f126c50" class="">let可以是全局或函数块，也可以是if、while、switch、等{}限定代码块中。</p></div><div style="display:contents" dir="auto"><pre id="c438db55-6aee-82e6-9378-8154b5219d59" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function varTest() {
+  var a = 1;
+  {
+    var a = 2; // 函数块中，同一个变量
+    console.log(a); // 2
+  }
+  console.log(a); // 2
+}
+
+function letTest() {
+  let a = 1;
+	{
+    let a = 2; // 代码块中，新的变量
+    console.log(a); // 2
+	}
+  console.log(a); // 1
+}</code></pre></div><div style="display:contents" dir="auto"><p id="0248db55-6aee-8280-9b33-810ae3c51583" class="">2，重复声明</p></div><div style="display:contents" dir="auto"><p id="9a58db55-6aee-83bc-a90c-01804b489552" class="">var在同一作用域中可以重复声明</p></div><div style="display:contents" dir="auto"><p id="8288db55-6aee-82a3-a061-81008e6f15c3" class="">let不行</p></div><div style="display:contents" dir="auto"><pre id="c2b8db55-6aee-828d-802a-81ae26ee009f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var a = 1;
+var a = 2;
+console.log(a) // 2
+function test() {
+  var a = 3;
+  var a = 4;
+  console.log(a) // 4
+}
+
+if(false) {
+  let a = 1;
+  let a = 2; // SyntaxError: Identifier &#x27;a&#x27; has already been declared
+}</code></pre></div><div style="display:contents" dir="auto"><p id="88c8db55-6aee-8302-a245-81a4a1d70977" class="">3，绑定全局对象</p></div><div style="display:contents" dir="auto"><p id="d9f8db55-6aee-8206-bd92-01ce80c42f7c" class="">var在全局环境中声明会创建一个新的属性，</p></div><div style="display:contents" dir="auto"><p id="6368db55-6aee-82ae-a965-816df8f8e4c8" class="">let不会</p></div><div style="display:contents" dir="auto"><pre id="14b8db55-6aee-8256-a8b8-8170ad110ba4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var foo = &#x27;global&#x27;
+let bar = &#x27;global&#x27;
+console.log(this.foo) // global
+console.log(this.bar) // undefined</code></pre></div><div style="display:contents" dir="auto"><p id="8a18db55-6aee-826d-9a76-0104bcca58d9" class="">let全局环境下声明的全局对象在在<code>[[Scopes]][0]: Script</code>这个变量对象的属性中</p></div><div style="display:contents" dir="ltr"><figure id="b578db55-6aee-8376-a7ad-01ef2cc27b2a" class="image"><a href="JS+H5C3/898684-20200602214601116-916074026.png"><img style="width:403px" src="JS+H5C3/898684-20200602214601116-916074026.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="1088db55-6aee-83c5-8004-01f917ae0631" class="">4，const与let类似，只不过const是只读</p></div></details></li></ul></div><div style="display:contents" dir="ltr"><figure id="dc38db55-6aee-82f5-9c97-0149f7268a75" class="link-to-page"><a href="JS+H5C3/CSS%20dc38db556aee82f59c970149f7268a75.html"><span class="icon">☔</span>CSS</a></figure></div><div style="display:contents" dir="auto"><p id="03f8db55-6aee-8247-8140-81752aa3bc32" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

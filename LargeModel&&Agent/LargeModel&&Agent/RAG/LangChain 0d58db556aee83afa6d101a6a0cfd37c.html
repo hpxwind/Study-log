@@ -1,0 +1,1783 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>LangChain</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="0d58db55-6aee-83af-a6d1-01a6a0cfd37c" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/rijksmuseum_jansz_1641.jpg" style="object-position:center 80%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="LangChain/ODF.png"/></div><h1 class="page-title" dir="auto">LangChain</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><hr id="b538db55-6aee-8348-b467-81382c30490c"/></div><div style="display:contents" dir="auto"><hr id="4468db55-6aee-83d1-ae17-0114657ae5bb"/></div><div style="display:contents" dir="auto"><hr id="2e08db55-6aee-83d0-98ff-01749523c30c"/></div><div style="display:contents" dir="auto"><h1 id="5ba8db55-6aee-838e-98ca-81874eb9cbe4" class="">LangChain调用大语言模型</h1></div><div style="display:contents" dir="auto"><p id="9738db55-6aee-8383-9258-01c792bfe931" class=""><strong>大语言模型（LLM）的</strong><mark class="highlight-red"><strong>核心任务是“接续下文”</strong></mark></p></div><div style="display:contents" dir="auto"><p id="9258db55-6aee-82ef-bd0d-81f1c7793ad5" class="">大预言模型就像一个博学但<mark class="highlight-pink_background"><strong>不带预设立场的文本生成器</strong></mark>，通常没有“角色”的概念，核心是<strong>完成</strong>你给它的文本或指令。采用<strong>一问一答</strong>的交互方式，<mark class="highlight-orange_background">每次调用都是</mark><mark class="highlight-orange_background"><strong>独立的</strong></mark>，模型默认不“记得”之前的对话内容</p></div><div style="display:contents" dir="auto"><ul id="7c38db55-6aee-82a5-87dc-81dd6b8bc4cf" class="toggle"><li><details open=""><summary>1、阿里云千问</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="7a88db55-6aee-8250-ba4e-011b88666e63" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_community.llms.tongyi import Tongyi
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+api_key = os.getenv(&quot;API_KEY&quot;)
+base_url = os.getenv(&quot;BASE_URL&quot;)
+
+model = Tongyi(model=&quot;qwen-max&quot;, api_key=api_key)
+
+user_input = input(&quot;提问:&quot;)
+
+resp = model.invoke(user_input)
+
+print(resp)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="ea98db55-6aee-8394-8450-01d7d93a1538" class="">Api_key在本地根目录下.env环境文件中，通过dotenv 模块可以调用</blockquote></div><div style="display:contents" dir="auto"><ul id="d028db55-6aee-837c-aeba-81f34859db9d" class="toggle"><li><details open=""><summary>2、ollama</summary><div style="display:contents" dir="auto"><pre id="4588db55-6aee-8310-add4-01379ed442e0" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_ollama import OllamaLLM
+
+model = OllamaLLM(model=&quot;qwen3:8b&quot;)
+
+res = model.invoke(input=&quot;你可以干什么&quot;)
+
+print(res)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="19e8db55-6aee-82a3-a02a-81e932a6c7e3"/></div><div style="display:contents" dir="auto"><h2 id="04c8db55-6aee-8223-8add-81c10b748cce" class="">流式输出</h2></div><div style="display:contents" dir="auto"><p id="c9e8db55-6aee-8397-8302-01979bec3349" class="">invoke方法，一次返回所有结果（会有等待结果的过程）</p></div><div style="display:contents" dir="auto"><p id="a4d8db55-6aee-829b-bd1c-814432193386" class="">stream方法，逐段返回结果，流式输出</p></div><div style="display:contents" dir="auto"><pre id="38e8db55-6aee-83b1-88cb-01898611dc19" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_ollama import OllamaLLM
+
+model = OllamaLLM(model=&quot;qwen3:8b&quot;)
+
+res = model.stream(input=&quot;你可以干什么&quot;)
+
+for chunk in res:
+    print(chunk, end=&quot;&quot;, flush=True)</code></pre></div><div style="display:contents" dir="auto"><hr id="ba68db55-6aee-8382-bbab-015ff42bd7e0"/></div><div style="display:contents" dir="auto"><h1 id="a6f8db55-6aee-834f-81eb-018822a4b3f8" class="">LangChain调用聊天模型</h1></div><div style="display:contents" dir="auto"><p id="e9e8db55-6aee-8385-bfa2-8141d43ae8d0" class=""><strong>聊天模型的</strong><mark class="highlight-red"><strong>核心任务是“展开对话”</strong></mark>。</p></div><div style="display:contents" dir="auto"><p id="ad18db55-6aee-83d9-af23-01c0ecad3892" class="">聊天模型就像一个<mark class="highlight-pink_background"><strong>懂得沟通技巧的对话专家</strong></mark>，专门<strong>针对多轮对话场景进行过优化</strong>，核心是与用户进行<strong>交互</strong>。擅长<mark class="highlight-orange_background"><strong>多轮对话</strong></mark><mark class="highlight-orange_background">，</mark>自带<strong>上</strong><mark class="highlight-orange_background"><strong>下文记忆</strong></mark>，能追踪对话历史，实现连贯的交流</p></div><div style="display:contents" dir="auto"><ul id="ee08db55-6aee-832a-b5fc-817d218e684f" class="toggle"><li><details open=""><summary>标准流程</summary><div style="display:contents" dir="auto"><ol type="1" id="d0b8db55-6aee-8315-8309-8155b574ee08" class="numbered-list" start="1"><li>初始化模型<div style="display:contents" dir="auto"><pre id="36b8db55-6aee-83e3-93af-81e437aba9c6" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_openai import ChatOpenAI
+
+model = ChatOpenAI(
+    model=&quot;gpt-4o&quot;,        # 指定要使用的模型名称
+    temperature=0.7,       # 控制生成文本的随机性
+    max_tokens=500,        # 限制单次生成的最大token数
+    timeout=60,            # API请求超时时间
+    max_retries=2,         # 请求失败时的重试次数
+    # api_key=&quot;...&quot;,       # API密钥，建议用环境变量
+    # base_url=&quot;...&quot;,      # 自定义API端点
+)</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="cde8db55-6aee-8285-94cb-01e10dd6b328" class="numbered-list" start="2"><li>构建消息列表<div style="display:contents" dir="auto"><p id="d088db55-6aee-82b7-bf9a-0191c175d827" class="">LangChain通过一系列消息类来封装这些角色，主要包括：</p></div><div style="display:contents" dir="auto"><ul id="1118db55-6aee-822e-8354-81a18aa1e484" class="bulleted-list"><li style="list-style-type:disc"><strong>SystemMessage</strong>: 定义AI的角色和回复规则，设定顶层指示。</li></ul></div><div style="display:contents" dir="auto"><ul id="5388db55-6aee-824a-95d1-81a33b1f1a44" class="bulleted-list"><li style="list-style-type:disc"><strong>HumanMessage</strong>: 代表用户的输入。</li></ul></div><div style="display:contents" dir="auto"><ul id="8848db55-6aee-8271-808a-01ad43eb9fed" class="bulleted-list"><li style="list-style-type:disc"><strong>AIMessage</strong>: 模型生成的回复。</li></ul></div><div style="display:contents" dir="auto"><ul id="a7d8db55-6aee-8262-928a-818d9250fb30" class="bulleted-list"><li style="list-style-type:disc"><code>ToolMessage</code>, <code>FunctionMessage</code>, <code>ChatMessage</code>等：用于更复杂的场景。</li></ul></div><div style="display:contents" dir="auto"><pre id="3298db55-6aee-83f3-85db-81f75103cff4" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+
+messages = [
+    SystemMessage(content=&quot;你是一个精通Python的资深工程师。&quot;),
+    HumanMessage(content=&quot;什么是LangChain？&quot;),
+]
+response = model.invoke(messages)</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="9788db55-6aee-8215-9ba3-016ec33cb49a" class="numbered-list" start="3"><li>执行调用于获取响应（<code>.invoke(), .stream(), .batch()</code>）<div style="display:contents" dir="auto"><p id="1038db55-6aee-82c2-ab45-816d960d4945" class="">同步调用，会等待完整结果后返回</p></div><div style="display:contents" dir="auto"><pre id="e658db55-6aee-82bc-a359-8183b9cc5675" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">response = model.invoke(messages)
+print(response.content)  # 输出: AIMessage 对象</code></pre></div><div style="display:contents" dir="auto"><p id="88d8db55-6aee-835a-87ef-01e4206c5e87" class=""><code>.stream()</code>用于逐步<strong>获取生成的文本块</strong>，能提升用户体验。每个 <code>chunk</code> 包含新生成的一小段文本。</p></div><div style="display:contents" dir="auto"><pre id="bba8db55-6aee-82a3-903d-01a40bae0231" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">for chunk in model.stream(messages):
+    print(chunk.content, end=&quot;&quot;, flush=True)  # 逐字输出</code></pre></div><div style="display:contents" dir="auto"><p id="2df8db55-6aee-82df-a856-81580ce272d1" class=""><code>.batch()</code>高效地<strong>处理多个独立请求</strong>的列表。</p></div><div style="display:contents" dir="auto"><pre id="a8a8db55-6aee-8274-ad8a-0129f99c55d9" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">responses = model.batch([
+    [&quot;你好，讲个笑话&quot;],
+    [&quot;你好，讲个Python面试题&quot;],
+])</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0e08db55-6aee-8317-bdcf-010bf3d9a40c" class="numbered-list" start="4"><li>处理模型的返回<div style="display:contents" dir="auto"><p id="80c8db55-6aee-8345-855c-011b9ff44f12" class="">模型返回的是一个 <code><strong>AIMessage</strong></code> 对象。它不仅包含生成的文本，还包含重要的<strong>元数据</strong>。你需要从中提取 <code>content</code> 和 <code>response_metadata</code>。</p></div><div style="display:contents" dir="auto"><pre id="1fe8db55-6aee-83c8-adbe-01982f531687" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># ... 接收 response 对象，它是一个 AIMessage
+print(f&quot;生成的文本: {response.content}&quot;)
+print(f&quot;Token使用情况: {response.response_metadata[&#x27;token_usage&#x27;]}&quot;)
+print(f&quot;模型名称: {response.response_metadata[&#x27;model_name&#x27;]}&quot;)
+print(f&quot;结束原因: {response.response_metadata[&#x27;finish_reason&#x27;]}&quot;)</code></pre></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d978db55-6aee-835a-a0af-81b35134484e" class="toggle"><li><details open=""><summary>1、阿里云千问</summary><div style="display:contents" dir="auto"><pre id="a768db55-6aee-8314-9695-016f7136dd61" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_community.chat_models.tongyi import ChatTongyi
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+from dotenv import load_dotenv
+import os
+
+from openai.types.vector_store_search_response import Content
+
+load_dotenv()
+
+api_key = os.getenv(&quot;API_KEY&quot;)
+base_url = os.getenv(&quot;BASE_URL&quot;)
+
+
+model = ChatTongyi(model=&quot;qwen3-max&quot;, api_key=api_key)
+
+message = [
+    SystemMessage(content=&quot;你是一个边塞诗人&quot;),
+    HumanMessage(content=&quot;写一首打油诗&quot;),
+    AIMessage(content=&quot;朔风卷地起黄沙，铁甲生寒战马斜。忽见孤鸿掠云过，错认故园杏花发。&quot;),
+    HumanMessage(content=&quot;按照上面风格再来一首&quot;)
+]
+
+res = model.stream(input=message)
+
+for chunk in res:
+    print(chunk.content, end=&quot;&quot;, flush=True)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f658db55-6aee-825a-b03d-81a785381120" class="toggle"><li><details open=""><summary>2、ollama</summary><div style="display:contents" dir="auto"><p id="e7b8db55-6aee-8303-959b-8185d72b0f2b" class="">只需要更换一下包引用的包，其他的不变</p></div><div style="display:contents" dir="auto"><pre id="3138db55-6aee-82a5-8453-015a2bba9af5" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_ollama import ChatOllama
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+
+model = ChatOllama(model=&quot;qwen3:8b&quot;)
+
+message = [
+    SystemMessage(content=&quot;你是一个边塞诗人&quot;),
+    HumanMessage(content=&quot;写一首打油诗&quot;),
+    AIMessage(content=&quot;朔风卷地起黄沙，铁甲生寒战马斜。忽见孤鸿掠云过，错认故园杏花发。&quot;),
+    HumanMessage(content=&quot;按照上面风格再来一首&quot;)
+]
+
+res = model.stream(input=message)
+
+for chunk in res:
+    print(chunk.content, end=&quot;&quot;, flush=True)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="7c08db55-6aee-8384-bbff-81c4a0e932c6"/></div><div style="display:contents" dir="auto"><h2 id="2358db55-6aee-8261-8e68-019c204b8ed1" class="">消息的简写形式</h2></div><div style="display:contents" dir="auto"><pre id="2b18db55-6aee-83c4-891b-814e372bce7c" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">message = [
+    (&quot;system&quot;, &quot;你是一个边塞诗人&quot;),
+    (&quot;human&quot;, &quot;写一首打油诗&quot;),
+    (&quot;ai&quot;, &quot;朔风卷地起黄沙，铁甲生寒战马斜。忽见孤鸿掠云过，错认故园杏花发。&quot;),
+    (&quot;human&quot;, &quot;按照上面风格再来一首&quot;),
+]
+是动态的，需要再运行时，由LangChain内部机制转换为Message类对象。
+由于是动态的，需要转换步骤，所以简写形式支持内部填充{变量}占位，可以再运行时填充具体的值</code></pre></div><div style="display:contents" dir="auto"><blockquote id="cd08db55-6aee-83a8-b7c1-01300d34da5c" class="">而像SystemMessage(content=”内容”) 是静态的，一步到位直接就得到了Message类的类对象</blockquote></div><div style="display:contents" dir="auto"><hr id="e7b8db55-6aee-837b-8689-01b89c05f3a1"/></div><div style="display:contents" dir="auto"><h1 id="68f8db55-6aee-8257-9723-81abd3e4b94b" class="">LangChain调用文本嵌入模型</h1></div><div style="display:contents" dir="auto"><p id="e068db55-6aee-8236-8768-01010db41f55" class="">Embedding Models嵌入模型：将字符串作为输入，返回一个浮点数的列表（向量）。</p></div><div style="display:contents" dir="auto"><p id="29d8db55-6aee-8322-80c8-01c4126462dc" class="">再NLP中，Embedding的作用就是将数据进行文本向量化。</p></div><div style="display:contents" dir="auto"><ul id="6cf8db55-6aee-8266-bebc-013e83401a79" class="toggle"><li><details open=""><summary>1、阿里云</summary><div style="display:contents" dir="auto"><pre id="c298db55-6aee-82ef-a611-0142e35acbf6" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_community.embeddings import DashScopeEmbeddings
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+api_key=os.getenv(&quot;API_KEY&quot;)
+
+# 创建模型
+model = DashScopeEmbeddings(dashscope_api_key=api_key)
+
+# 输出：一个包含1536个浮点数的列表[reference:5]
+print(model.embed_query(&quot;我喜欢米饭&quot;))
+# 输出：一个包含3个向量的列表
+print(model.embed_documents([&quot;我喜欢米&quot;, &quot;我西环米饭&quot;, &quot;晚上吃什么&quot;]))</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="eaf8db55-6aee-8334-a8fd-0137217143d2" class="toggle"><li><details open=""><summary>2、ollama</summary><div style="display:contents" dir="auto"><pre id="0968db55-6aee-82e0-8149-018c643a8923" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_ollama import OllamaEmbeddings
+
+# qwen3-embedding:4b 需要下载到本地
+model = OllamaEmbeddings(model=&quot;qwen3-embedding:4b&quot;)
+
+print(model.embed_query(&quot;我喜欢米饭&quot;))
+print(model.embed_documents([&quot;我喜欢米&quot;, &quot;我西环米饭&quot;, &quot;晚上吃什么&quot;])</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="de78db55-6aee-82d2-8072-81088d31f30b"/></div><div style="display:contents" dir="auto"><h1 id="cb08db55-6aee-8364-b418-0106e9134461" class="">通用prompt(zero-shot)</h1></div><div style="display:contents" dir="auto"><p id="19f8db55-6aee-83e2-beb2-81a952b45f1d" class="">提示词优化再模型应用中非常重要，LangChain提供了PromptTemplate类，用来写出优化提示词</p></div><div style="display:contents" dir="auto"><p id="1a18db55-6aee-8380-8c44-81a5fdd00778" class="">PromptTemplate表示提示词模板，可以构建一个自定义的基础提示词模板，支持变量的注入，最终生成所需的提示词。</p></div><div style="display:contents" dir="auto"><ul id="2848db55-6aee-8257-ac9a-01c51ced2860" class="toggle"><li><details open=""><summary>1、标准写法</summary><div style="display:contents" dir="auto"><pre id="2a38db55-6aee-82ee-809a-812a074e102e" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.prompts import PromptTemplate
+from langchain_community.llms.tongyi import Tongyi
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+api_key = os.getenv(&quot;API_KEY&quot;)
+
+prompt_template = PromptTemplate.from_template(
+    &quot;我的邻居姓{lastname}, 刚生了{gender}, 你帮我起一个名字，简单回答。&quot;
+)
+
+# 调用.format方法注入信息即可
+prompt_text= prompt_template.format(lastname=&quot;何&quot;, gender=&quot;女&quot;)
+# print(prompt_text) # 我的邻居姓何, 刚生了女, 你帮我起一个名字，简单回答。
+
+model = Tongyi(model=&quot;qwen-max&quot;,api_key=api_key)
+res = model.invoke(input=prompt_text)
+
+print(res)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8578db55-6aee-839a-bc0d-01e290f23345" class="toggle"><li><details open=""><summary>2、chain链写法</summary><div style="display:contents" dir="auto"><pre id="7e38db55-6aee-83d0-a7f1-0180d1a4bee6" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.prompts import PromptTemplate
+from langchain_community.llms.tongyi import Tongyi
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+api_key = os.getenv(&quot;API_KEY&quot;)
+
+prompt_template = PromptTemplate.from_template(
+    &quot;我的邻居姓{lastname}, 刚生了{gender}, 你帮我起一个名字，简单回答。&quot;
+)
+model = Tongyi(model=&quot;qwen-max&quot;,api_key=api_key)
+
+# chain链
+chain = prompt_template | model
+res = chain.invoke(input={&quot;lastname&quot;: &quot;张&quot;, &quot;gender&quot;: &quot;女儿&quot;})
+print(res)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="ef88db55-6aee-82cc-a9b8-014015ea24e3" class="">chain链中需要PromptTemplate对象，因此prompt_template 一定要用PromptTemplate.from_template 而不能用字符串</blockquote></div><div style="display:contents" dir="auto"><hr id="0c48db55-6aee-83e1-8abc-0175e4bbbab5"/></div><div style="display:contents" dir="auto"><h1 id="fd38db55-6aee-8210-921b-015259978ffa" class="">FewShot</h1></div><div style="display:contents" dir="auto"><p id="8d38db55-6aee-83ed-a564-01792d03ae40" class="">小样本学习（<strong>Meta-Learning</strong>），是指让模型<strong>仅从极少量标注样本（通常 1~5 个）中学习一个新概念或新任务。</strong></p></div><div style="display:contents" dir="auto"><ul id="4468db55-6aee-8239-8fb1-817b24d9353a" class="toggle"><li><details open=""><summary>1、千问</summary><div style="display:contents" dir="auto"><pre id="92d8db55-6aee-820c-900d-01d940a45e30" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.prompts import PromptTemplate, FewShotPromptTemplate
+from langchain_community.llms.tongyi import Tongyi
+from dotenv import load_dotenv
+import os
+
+# 示例模板
+example_template = PromptTemplate.from_template(&quot;单词:{word}, 反义词:{antonym}&quot;)
+
+# 示例的动态数据注入 要求是list内部套字典
+examples_data = [
+    {&quot;word&quot;: &quot;大&quot;, &quot;antonym&quot;: &quot;小&quot;},
+    {&quot;word&quot;: &quot;上&quot;, &quot;antonym&quot;: &quot;下&quot;}
+]
+
+few_shot_template = FewShotPromptTemplate(
+    # 数据的模板
+    example_prompt=example_template,
+    # 演示数据
+    examples=examples_data,
+    # 之前的提示词
+    prefix=&quot;告诉我单词的反义词，如下示例：&quot;,
+    # 示例之后的提示词
+    suffix=&quot;基于前面的示例告诉我，{input_word}的反义词是？&quot;,
+    # 声明再前缀或后缀中所注入的变量名
+    input_variables=[&#x27;input_word&#x27;],
+)
+
+prompt_text = few_shot_template.invoke(input={&quot;input_word&quot;: &quot;冲刺&quot;}).to_string()
+# print(prompt_text)
+
+load_dotenv()
+
+api_key = os.getenv(&quot;API_KEY&quot;)
+
+model = Tongyi(model=&#x27;qwen-max&#x27;, api_key=api_key)
+
+resp  = model.invoke(input=prompt_text)
+print(resp)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="2238db55-6aee-8274-84a9-01e66def1d41"/></div><div style="display:contents" dir="auto"><h1 id="5168db55-6aee-83c6-8f94-01c5e50f089f" class="">format和invoke方法</h1></div><div style="display:contents" dir="ltr"><figure id="2b38db55-6aee-832e-bc76-01f56d635d61" class="image"><a href="LangChain/Snipaste_2026-04-28_18-32-42.png"><img style="width:704.0067138671875px" src="LangChain/Snipaste_2026-04-28_18-32-42.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="1778db55-6aee-8352-a487-812b9028df06" class="">PromptTemplate、FewShotPromptTemplate、ChatPromptTemplate 都拥有format和invoke这两类方法。</p></div><div style="display:contents" dir="ltr"><table id="f408db55-6aee-83d6-8021-01cf0bd696af" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="f968db55-6aee-8282-af77-81d7c3e83200"><th id="=;|x" class="simple-table-header-color simple-table-header" style="width:187.828125px"><strong>特性</strong></th><th id="NYvH" class="simple-table-header-color simple-table-header" style="width:233.24331665039062px"><code><strong>format()</strong></code></th><th id="ijnn" class="simple-table-header-color simple-table-header" style="width:277.22991943359375px"><code><strong>invoke()</strong></code></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3bb8db55-6aee-83ae-90b4-01a1bff0f7b0"><td id="=;|x" class="" style="width:187.828125px"><strong>返回值</strong></td><td id="NYvH" class="" style="width:233.24331665039062px"><code>str</code></td><td id="ijnn" class="" style="width:277.22991943359375px"><code>PromptValue</code>（可转字符串/消息）</td></tr></div><div style="display:contents" dir="ltr"><tr id="dd48db55-6aee-8203-a935-0116b982bda0"><td id="=;|x" class="" style="width:187.828125px"><strong>输入参数</strong></td><td id="NYvH" class="" style="width:233.24331665039062px"><code>**kwargs</code> 或 <code>input</code> 关键字</td><td id="ijnn" class="" style="width:277.22991943359375px">字典 <code>input</code> + 可选 <code>config</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="d1d8db55-6aee-83c6-ab13-812e7428b385"><td id="=;|x" class="" style="width:187.828125px"><strong>支持异步</strong></td><td id="NYvH" class="" style="width:233.24331665039062px">❌</td><td id="ijnn" class="" style="width:277.22991943359375px">✅ (<code>ainvoke</code>)</td></tr></div><div style="display:contents" dir="ltr"><tr id="4ea8db55-6aee-834f-94df-816537e75107"><td id="=;|x" class="" style="width:187.828125px"><strong>支持流式</strong></td><td id="NYvH" class="" style="width:233.24331665039062px">❌</td><td id="ijnn" class="" style="width:277.22991943359375px">✅ (<code>stream</code>)</td></tr></div><div style="display:contents" dir="ltr"><tr id="c3e8db55-6aee-8325-933c-01ece6a2390b"><td id="=;|x" class="" style="width:187.828125px"><strong>LCEL 管道兼容</strong></td><td id="NYvH" class="" style="width:233.24331665039062px">❌</td><td id="ijnn" class="" style="width:277.22991943359375px">✅ (可与 <code>|</code> 连接其他组件)</td></tr></div><div style="display:contents" dir="ltr"><tr id="8338db55-6aee-836f-af5d-0172d4274e05"><td id="=;|x" class="" style="width:187.828125px"><strong>回调/元数据支持</strong></td><td id="NYvH" class="" style="width:233.24331665039062px">❌</td><td id="ijnn" class="" style="width:277.22991943359375px">✅ (通过 <code>config</code>)</td></tr></div><div style="display:contents" dir="ltr"><tr id="34f8db55-6aee-82f9-8ded-01ddd028d3c1"><td id="=;|x" class="" style="width:187.828125px"><strong>设计定位</strong></td><td id="NYvH" class="" style="width:233.24331665039062px">旧版简单方法</td><td id="ijnn" class="" style="width:277.22991943359375px">新版统一 <code>Runnable</code> 接口</td></tr></div><div style="display:contents" dir="ltr"><tr id="5398db55-6aee-82d1-8919-81e71d48770e"><td id="=;|x" class="" style="width:187.828125px"><strong>典型使用场景</strong></td><td id="NYvH" class="" style="width:233.24331665039062px">独立脚本、快速验证</td><td id="ijnn" class="" style="width:277.22991943359375px">生产管道、复杂链、异步处理</td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><figure id="4b48db55-6aee-82c0-80cd-81d7434d87a3" class="image"><a href="LangChain/Snipaste_2026-04-28_19-43-15.png"><img style="width:703.984375px" src="LangChain/Snipaste_2026-04-28_19-43-15.png"/></a></figure></div><div style="display:contents" dir="auto"><hr id="1c18db55-6aee-83e0-9b53-81cf835a5901"/></div><div style="display:contents" dir="auto"><h1 id="3de8db55-6aee-83cf-9e35-81d7e39b7f61" class="">ChatPromptTemplate</h1></div><div style="display:contents" dir="auto"><p id="d9f8db55-6aee-826b-85f4-01e1284ff7a1" class=""><code>ChatPromptTemplate</code> 是 LangChain 中专门用于<strong>构建聊天模型提示词</strong>的模板类.</p></div><div style="display:contents" dir="auto"><p id="b008db55-6aee-8340-b65f-019314da4725" class="">它会生成一个结构化的<strong>消息列表，</strong>每条消息包含角色 <code>role</code> 和内容 <code>content</code>，更贴近聊天模型的 API 要求.</p></div><div style="display:contents" dir="auto"><blockquote id="1c48db55-6aee-826c-aded-016bf1efaae9" class="">与文本语模型不同，聊天模型（如 gpt-3.5-turbo、qwen-turbo）接收一个<strong>消息数组</strong>，每条消息标记不同的发言者角色</blockquote></div><div style="display:contents" dir="auto"><ul id="79d8db55-6aee-831a-80b2-01121af0fd01" class="toggle"><li><details open=""><summary>基本用法</summary><div style="display:contents" dir="auto"><p id="d8a8db55-6aee-83bd-ad37-810ed8d7acbf" class="">1. 创建ChatPromptTemplate的三种方式<div class="indented"><div style="display:contents" dir="auto"><pre id="83a8db55-6aee-828c-9c4f-81ce5814abf0" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.prompts import ChatPromptTemplate
+
+# 方式一：从模板字符串创建（推荐）
+prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;你是一个{role}助手，请用{language}回答。&quot;),
+    (&quot;human&quot;, &quot;{user_input}&quot;)
+])
+
+# 方式二：使用 Message 对象（更显式）
+from langchain_core.messages import SystemMessage, HumanMessage
+
+prompt = ChatPromptTemplate.from_messages([
+    SystemMessage(content=&quot;你是一个{role}助手，请用{language}回答。&quot;),
+    HumanMessage(content=&quot;{user_input}&quot;)
+])
+
+# 方式三：使用模板字符串 + 角色名称（同上，语法糖）
+prompt = ChatPromptTemplate.from_template(
+    &quot;system:\n你是一个{role}助手，请用{language}回答。\n\nhuman:\n{user_input}&quot;
+)</code></pre></div></div></p></div><div style="display:contents" dir="auto"><ol type="1" id="e5e8db55-6aee-8249-b7b4-810ad8b827ab" class="numbered-list" start="2"><li>格式化生成消息列表<div style="display:contents" dir="auto"><pre id="9478db55-6aee-821d-baa6-81a23dcb82b1" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">messages = prompt.invoke({
+    &quot;role&quot;: &quot;专业&quot;,
+    &quot;language&quot;: &quot;中文&quot;,
+    &quot;user_input&quot;: &quot;什么是 Few-shot？&quot;
+})
+
+print(type(messages))          # &lt;class &#x27;langchain_core.prompt_values.ChatPromptValue&#x27;&gt;
+print(messages.to_messages())  # 返回消息对象列表
+print(messages.to_string())    # 转为字符串（每个消息前加角色名）</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="74b8db55-6aee-83c5-b3e4-81245735acee" class="numbered-list" start="3"><li>输出示例<div style="display:contents" dir="auto"><p id="a678db55-6aee-8221-8f15-01097ecf155a" class="">输出示例（<code>to_messages()</code>）:</p></div><div style="display:contents" dir="auto"><pre id="8048db55-6aee-83fe-9d5d-016bf796abf5" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">[
+    SystemMessage(content=&quot;你是一个专业助手，请用中文回答。&quot;, additional_kwargs={}),
+    HumanMessage(content=&quot;什么是 Few-shot？&quot;, additional_kwargs={})
+]</code></pre></div><div style="display:contents" dir="auto"><p id="3ac8db55-6aee-8304-91be-0124b7abc319" class=""><code>ChatPromptValue</code> 可以直接传给模型的 <code>invoke</code> 方法:</p></div><div style="display:contents" dir="auto"><pre id="e988db55-6aee-8303-b568-81f1310eee24" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_community.llms.tongyi import Tongyi
+
+model = Tongyi(model=&quot;qwen-max&quot;, api_key=your_key)
+response = model.invoke(messages)   # 自动识别并转换为模型所需格式</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><p id="3468db55-6aee-83d0-82ee-81a1889dbb91" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="56a8db55-6aee-8304-8fe1-01abd09c60b5" class="toggle"><li><details open=""><summary>与PromptTemplate的区别对比</summary><div style="display:contents" dir="ltr"><table id="b7f8db55-6aee-82ca-bbd2-81de989806ed" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="2768db55-6aee-8268-9f03-01b648942758"><th id="segW" class="simple-table-header-color simple-table-header"><strong>特性</strong></th><th id="b[:D" class="simple-table-header-color simple-table-header"><code><strong>PromptTemplate</strong></code></th><th id="[XC&lt;" class="simple-table-header-color simple-table-header"><code><strong>ChatPromptTemplate</strong></code></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="8288db55-6aee-8241-a49e-81dfb757b908"><td id="segW" class=""><strong>输出类型</strong></td><td id="b[:D" class="">字符串 (<code>str</code>)</td><td id="[XC&lt;" class="">消息列表 (<code>List[BaseMessage]</code>)</td></tr></div><div style="display:contents" dir="ltr"><tr id="0648db55-6aee-832d-b709-81a0a3f81699"><td id="segW" class=""><strong>结构化角色</strong></td><td id="b[:D" class="">无（纯文本）</td><td id="[XC&lt;" class="">有（system/human/ai）</td></tr></div><div style="display:contents" dir="ltr"><tr id="1128db55-6aee-825c-8328-013ae36b56c4"><td id="segW" class=""><strong>适用模型</strong></td><td id="b[:D" class="">文本补全模型（旧）</td><td id="[XC&lt;" class="">聊天模型（新）</td></tr></div><div style="display:contents" dir="ltr"><tr id="4a88db55-6aee-8233-bef4-018d9586bfc4"><td id="segW" class=""><strong>典型场景</strong></td><td id="b[:D" class="">简单的翻译、分类、生成</td><td id="[XC&lt;" class="">多轮对话、角色扮演、few-shot</td></tr></div><div style="display:contents" dir="ltr"><tr id="cc88db55-6aee-82c5-b928-01d60c02e423"><td id="segW" class=""><strong>API 兼容性</strong></td><td id="b[:D" class="">OpenAI <code>completion</code> 接口</td><td id="[XC&lt;" class="">OpenAI <code>chat.completion</code> 接口</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c6f8db55-6aee-823e-a94a-816aa37f2d4c" class="toggle"><li><details open=""><summary>代码示例</summary><div style="display:contents" dir="auto"><pre id="4228db55-6aee-8227-8f26-01fe095c88f1" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_community.chat_models.tongyi import ChatTongyi
+from dotenv import load_dotenv
+import os
+
+from websockets.cli import print_incoming_messages
+
+chat_prompt_template = ChatPromptTemplate.from_messages(
+    [
+        (&#x27;system&#x27;, &#x27;你是一个田园诗人&#x27;),
+        MessagesPlaceholder(&quot;history&quot;),
+        (&#x27;human&#x27;, &#x27;请来一首诗&#x27;)
+    ]
+)
+
+history_data = [
+    (&#x27;human&#x27;, &quot;你来写一个唐诗&quot;),
+    (&#x27;ai&#x27;, &#x27;窗前lalala&#x27;),
+    (&#x27;human&#x27;, &#x27;好诗，再来一个&#x27;),
+    (&#x27;ai&#x27;, &#x27;锄禾yiyiyi&#x27;)
+]
+
+# prompt模板转换，
+# 生成的是一个对象 &lt;class &#x27;langchain_core.prompt_values.ChatPromptValue&#x27;&gt;
+prompt_text = chat_prompt_template.invoke({
+    &quot;history&quot;: history_data,
+}).to_string()
+
+load_dotenv()
+
+api_key = os.getenv(&quot;API_KEY&quot;)
+model = ChatTongyi(model=&quot;qwen3-max&quot;, api_key=api_key)
+
+resp = model.invoke(prompt_text)
+
+print(resp.content, type(resp))# &lt;class &#x27;langchain_core.messages.ai.AIMessage&#x27;&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="1b88db55-6aee-83ba-b675-8179480a5771" class="">最终返回的类型为 &lt;class &#x27;langchain_core.messages.ai.AIMessage&#x27;&gt;<br/>其实就是之前示例中的 AIMessage</blockquote></div><div style="display:contents" dir="auto"><hr id="46e8db55-6aee-8248-bb0b-8182950de8a2"/></div><div style="display:contents" dir="auto"><h1 id="b5f8db55-6aee-8255-95cd-815a57e4b04b" class="">Chain链（LCEL链）</h1></div><div style="display:contents" dir="auto"><p id="80a8db55-6aee-8373-8dcf-8150a97245ed" class=""><mark class="highlight-red">将组件串联，上一个组件的输出作为下一个组件的输入</mark></p></div><div style="display:contents" dir="auto"><p id="66b8db55-6aee-8343-8779-818f6d5ca739" class="">是LangChain链（尤其是 | 管道链）的核心工作原理</p></div><div style="display:contents" dir="auto"><blockquote id="0218db55-6aee-826b-bf0c-01029b9a9f84" class="">实现数据的自动化流转于组件的协同工作</blockquote></div><div style="display:contents" dir="auto"><pre id="d088db55-6aee-829c-bd83-81272ab8bbbb" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">chain = prompt_template | model</code></pre></div><div style="display:contents" dir="auto"><p id="08c8db55-6aee-830c-812d-815ee560a54f" class=""><mark class="highlight-red"><mark class="highlight-pink_background">1.核心前提：即Runnable子类对象才能入链。</mark></mark></p></div><div style="display:contents" dir="auto"><p id="9c28db55-6aee-83d9-bd9f-81c803b82c8a" class="">2.形成的链式RunnableSerializable对象(Runnable接口子类)</p></div><div style="display:contents" dir="auto"><p id="3ac8db55-6aee-82c5-af64-8117d0848221" class="">3.可以通过链调用invoke或stream出发整个链条执行</p></div><div style="display:contents" dir="auto"><ul id="f808db55-6aee-831f-a915-8186e78f2e2c" class="toggle"><li><details open=""><summary>代码示例</summary><div style="display:contents" dir="auto"><pre id="eaa8db55-6aee-8279-b3b7-812f9cafd6eb" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_community.chat_models.tongyi import ChatTongyi
+from dotenv import load_dotenv
+import os
+from langchain_core.runnables import RunnableSerializable
+
+chat_prompt_template = ChatPromptTemplate.from_messages(
+    [
+        (&#x27;system&#x27;, &#x27;你是一个田园诗人&#x27;),
+        MessagesPlaceholder(&quot;history&quot;),
+        (&#x27;human&#x27;, &#x27;请来一首诗&#x27;)
+    ]
+)
+
+history_data = [
+    (&#x27;human&#x27;, &quot;你来写一个唐诗&quot;),
+    (&#x27;ai&#x27;, &#x27;窗前lalala&#x27;),
+    (&#x27;human&#x27;, &#x27;好诗，再来一个&#x27;),
+    (&#x27;ai&#x27;, &#x27;锄禾yiyiyi&#x27;)
+]
+
+prompt_text = chat_prompt_template.invoke({
+    &quot;history&quot;: history_data,
+}).to_string()
+
+load_dotenv()
+
+api_key = os.getenv(&quot;API_KEY&quot;)
+model = ChatTongyi(model=&quot;qwen3-max&quot;, api_key=api_key)
+
+chain: RunnableSerializable = chat_prompt_template | model
+# print(type(chain)) # &lt;class &#x27;langchain_core.runnables.base.RunnableSequence&#x27;&gt;
+
+# Runnable接口，invoke执行
+res = chain.invoke({&quot;history&quot;: history_data})
+print(res.content)
+
+# Runnable接口，stream执行
+for chunk in chain.stream({&quot;history&quot;: history_data}):
+    print(chunk.content, end=&quot;&quot;, flush=True)
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="bbf8db55-6aee-82d4-97a4-81d8ced87f9b"/></div><div style="display:contents" dir="auto"><h1 id="6bc8db55-6aee-824e-9599-81e76ee5ed46" class="">Python中或运算的重写</h1></div><div style="display:contents" dir="auto"><p id="aa18db55-6aee-8371-9f7f-81ab8e9103c4" class="">只需自行实现类的<code>__or__</code> 方法,即可对 <code>|</code> 符号的功能进行重写.</p></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8384-afb0-810777b558d5" class="toggle"><li><details open=""><summary>实现代码</summary><div style="display:contents" dir="auto"><pre id="07e8db55-6aee-8381-8ebc-8136af849865" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class Test(object):
+    def __init__(self, name):
+        self.name = name
+
+    def __or__(self, other):
+        return MySequence(self, other)
+
+    def __str__(self):
+        return self.name
+
+
+class MySequence(object):
+    def __init__(self, *args):
+        self.sequence = []
+        for arg in args:
+            self.sequence.append(arg)
+
+    def __or__(self, other):
+        self.sequence.append(other)
+        return self
+
+    def run(self):
+        for i in  self.sequence:
+            print(i)
+
+
+
+if __name__ == &#x27;__main__&#x27;:
+    a= Test(&#x27;a&#x27;)
+    b= Test(&#x27;b&#x27;)
+    c= Test(&#x27;c&#x27;)
+
+    d = a | b | c
+    print(d, type(d))
+    d.run()
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="9ff8db55-6aee-8273-8a4d-0136259f2ed8"/></div><div style="display:contents" dir="auto"><h1 id="0dc8db55-6aee-8357-ad4e-8115df71dab6" class="">Runnable接口</h1></div><div style="display:contents" dir="auto"><p id="a7c8db55-6aee-835a-932c-01ce639cfd05" class="">在 LangChain 中，<code>Runnable</code> 是一个核心接口（协议），它定义了 <strong>“一个可以被执行、组合、流式处理的对象”</strong> 的标准行为。</p></div><div style="display:contents" dir="auto"><p id="dbd8db55-6aee-824e-aafd-8130b3682b96" class="">任何实现了 <code>Runnable</code> 的组件，都拥有统一的方法集。</p></div><div style="display:contents" dir="auto"><ul id="a2f8db55-6aee-838d-926e-0163b4d4073f" class="toggle"><li><details open=""><summary>解决的问题</summary><div style="display:contents" dir="auto"><p id="4288db55-6aee-8260-9091-81b82432dc10" class="">在传统编程中，如果一个库包含<strong>多种不同的对象</strong>（如提示模板、模型、解析器、检索器），你要调用它们，得记住各自的方法名：(每个组件的调用方式不同，组合起来代码冗长且难以复用。)</p></div><div style="display:contents" dir="auto"><pre id="36c8db55-6aee-83c9-a3ab-01bd39bbc0a7" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">prompt_text = template.format(input=...)
+response = model.generate(prompt_text)
+output = parser.parse(response)</code></pre></div><div style="display:contents" dir="auto"><p id="c408db55-6aee-82a8-986c-01a2ce8afe29" class=""><code><strong>Runnable</strong></code><strong> 解决的就是这个问题</strong>：它让所有这些组件都提供 <strong>相同的方法名</strong>（<code>invoke</code>、<code>stream</code>、<code>batch</code> 等），并且允许它们通过管道 <code>|</code> 直接串联。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0ce8db55-6aee-8236-b2cb-81e8f3b8ef96" class="toggle"><li><details open=""><summary>Runnable定义的方法</summary><div style="display:contents" dir="ltr"><table id="6938db55-6aee-83a1-8675-01810513362f" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="2038db55-6aee-826b-8889-0125d1872b08"><th id="P?m`" class="simple-table-header-color simple-table-header"><strong>方法</strong></th><th id="l{ho" class="simple-table-header-color simple-table-header"><strong>作用</strong></th><th id="a^}b" class="simple-table-header-color simple-table-header"><strong>输入</strong></th><th id="ZnCb" class="simple-table-header-color simple-table-header"><strong>输出</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="4838db55-6aee-820a-9c2a-81c74754e6b1"><td id="P?m`" class=""><code>invoke(input, config=None)</code></td><td id="l{ho" class="">同步执行，获取最终结果</td><td id="a^}b" class="">任意 Python 对象</td><td id="ZnCb" class="">任意 Python 对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="94c8db55-6aee-83b0-a3d6-010e5ba83215"><td id="P?m`" class=""><code>ainvoke(input, config=None)</code></td><td id="l{ho" class="">异步执行</td><td id="a^}b" class="">同上</td><td id="ZnCb" class=""><code>Awaitable[输出]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c2e8db55-6aee-8207-98e9-8186dfd25a53"><td id="P?m`" class=""><code>stream(input, config=None)</code></td><td id="l{ho" class="">同步流式输出（如逐 token）</td><td id="a^}b" class="">同上</td><td id="ZnCb" class="">生成器 <code>Iterator[输出]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7c28db55-6aee-8379-82aa-01aad83be8c8"><td id="P?m`" class=""><code>astream(...)</code></td><td id="l{ho" class="">异步流式输出</td><td id="a^}b" class="">同上</td><td id="ZnCb" class="">异步生成器</td></tr></div><div style="display:contents" dir="ltr"><tr id="0a88db55-6aee-821a-8491-0182b324e502"><td id="P?m`" class=""><code>batch(inputs, config=None)</code></td><td id="l{ho" class="">批量执行（多个输入）</td><td id="a^}b" class=""><code>List[输入]</code></td><td id="ZnCb" class=""><code>List[输出]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="0828db55-6aee-8344-b282-0110904b9a0d"><td id="P?m`" class=""><code>abatch(...)</code></td><td id="l{ho" class="">异步批量</td><td id="a^}b" class="">同上</td><td id="ZnCb" class=""><code>Awaitable[List[输出]]</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="9a68db55-6aee-8395-9acc-01aa27236dbe" class=""><strong>无论输入输出是什么，方法签名完全统一</strong></p></div><div style="display:contents" dir="auto"><p id="b6d8db55-6aee-824f-a8eb-01099943703a" class="">因此你可以把一个 <code>Runnable</code> 的输出直接喂给另一个 <code>Runnable</code> 的输入，只要类型兼容（通常是可序列化的字典或字符串）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="dbc8db55-6aee-8309-b611-01dc200282c3" class="toggle"><li><details open=""><summary>Runnable的典型实现者</summary><div style="display:contents" dir="auto"><p id="48b8db55-6aee-8215-8e41-81346bf3df68" class="">LangChain 中几乎所有核心组件都实现了 <code>Runnable</code>：</p></div><div style="display:contents" dir="ltr"><table id="2d28db55-6aee-82f8-a2f0-0123110566f5" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="da78db55-6aee-821e-a396-0174e21b73bb"><th id="Qle=" class="simple-table-header-color simple-table-header"><strong>组件类</strong></th><th id="Ckj|" class="simple-table-header-color simple-table-header"><strong>输入</strong></th><th id="G`&lt;P" class="simple-table-header-color simple-table-header"><strong>输出</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="bef8db55-6aee-8256-b44a-81fc35f95de8"><td id="Qle=" class=""><code>PromptTemplate</code> / <code>ChatPromptTemplate</code></td><td id="Ckj|" class="">字典（变量名→值）</td><td id="G`&lt;P" class=""><code>PromptValue</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="87c8db55-6aee-830f-a00d-01c535017197"><td id="Qle=" class="">模型 (<code>BaseLLM</code>, <code>BaseChatModel</code>)</td><td id="Ckj|" class=""><code>PromptValue</code> 或 <code>str</code> / <code>List[Message]</code></td><td id="G`&lt;P" class=""><code>LLMResult</code> 或 <code>BaseMessage</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5b98db55-6aee-83ad-80eb-01ccb1b07806"><td id="Qle=" class="">输出解析器 (<code>BaseOutputParser</code>)</td><td id="Ckj|" class="">模型输出（字符串或消息）</td><td id="G`&lt;P" class="">解析后的结构化数据</td></tr></div><div style="display:contents" dir="ltr"><tr id="fd18db55-6aee-8281-8b69-8186c397cfc6"><td id="Qle=" class="">检索器 (<code>BaseRetriever</code>)</td><td id="Ckj|" class="">字符串查询</td><td id="G`&lt;P" class=""><code>List[Document]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8868db55-6aee-83e1-bdbd-019f7af31a35"><td id="Qle=" class="">工具 (<code>BaseTool</code>)</td><td id="Ckj|" class="">参数字典</td><td id="G`&lt;P" class="">字符串结果</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="f6a8db55-6aee-8232-91e3-0153fdf24002" class="">此外，LangChain 还提供了很多 <strong>内置的 </strong><code><strong>Runnable</strong></code><strong> 工具</strong> 来辅助构造链：</p></div><div style="display:contents" dir="auto"><ul id="9b18db55-6aee-8392-87ce-01aff29dbc0d" class="bulleted-list"><li style="list-style-type:disc"><code>RunnableLambda</code>：把任意普通函数包装成 <code>Runnable</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="d6b8db55-6aee-82b8-90fb-811a80e0b50a" class="bulleted-list"><li style="list-style-type:disc"><code>RunnableParallel</code>：并行执行多个子链，并将结果合并为字典。</li></ul></div><div style="display:contents" dir="auto"><ul id="2d98db55-6aee-83ad-bf5a-8153b6636620" class="bulleted-list"><li style="list-style-type:disc"><code>RunnableBranch</code>：条件路由，根据输入选择执行哪个子链。</li></ul></div><div style="display:contents" dir="auto"><ul id="ae78db55-6aee-824d-90f3-8137740191c1" class="bulleted-list"><li style="list-style-type:disc"><code>RunnablePassthrough</code>：透传输入，常用于调试或旁路。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="ede8db55-6aee-83e9-b378-81d3c5207ace"/></div><div style="display:contents" dir="auto"><h1 id="05f8db55-6aee-8352-9be2-0159e39b2779" class="">StrOutputParser字符串输出解析器</h1></div><div style="display:contents" dir="auto"><p id="9b98db55-6aee-83ae-ae64-810412b3bac6" class=""><strong>从模型的原始输出中提取出字符串文本</strong></p></div><div style="display:contents" dir="auto"><ul id="e818db55-6aee-83ad-a41c-818f256c5413" class="toggle"><li><details open=""><summary>解决的问题</summary><div style="display:contents" dir="auto"><p id="dc78db55-6aee-8376-864c-0188a87e4c91" class="">不同大模型返回的数据结构（不同的<mark class="highlight-pink_background">AIMessage</mark>）各不相同：</p></div><div style="display:contents" dir="ltr"><table id="b158db55-6aee-83cf-abbd-01f2da5e76db" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="ad98db55-6aee-82cc-b5d2-01ebcb63b131"><th id="Fctv" class="simple-table-header-color simple-table-header"><strong>模型类型</strong></th><th id=":oT~" class="simple-table-header-color simple-table-header"><strong>返回对象示例</strong></th><th id="[:_v" class="simple-table-header-color simple-table-header"><strong>包含内容</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="0a28db55-6aee-834d-8f98-81b484364484"><td id="Fctv" class="">OpenAI Chat API</td><td id=":oT~" class=""><code>AIMessage(content=&quot;你好&quot;, additional_kwargs={...})</code></td><td id="[:_v" class="">消息对象，内容在 <code>.content</code> 中</td></tr></div><div style="display:contents" dir="ltr"><tr id="f828db55-6aee-82a0-b896-01fd9b2164a1"><td id="Fctv" class="">通义千问 (Tongyi)</td><td id=":oT~" class=""><code>AIMessage(content=&quot;你好&quot;, response_metadata={...})</code></td><td id="[:_v" class="">同上</td></tr></div><div style="display:contents" dir="ltr"><tr id="4d48db55-6aee-832a-a379-0142e53ccc95"><td id="Fctv" class="">文本补全模型 (旧)</td><td id=":oT~" class=""><code>Generation(text=&quot;你好&quot;)</code></td><td id="[:_v" class="">文本在 <code>.text</code> 中</td></tr></div><div style="display:contents" dir="ltr"><tr id="71a8db55-6aee-82af-a4a4-81e2d1909b35"><td id="Fctv" class="">某些流式输出</td><td id=":oT~" class="">逐块生成 <code>AIMessageChunk(content=&quot;你&quot;)</code></td><td id="[:_v" class="">内容也是 <code>content</code> 字段</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="68c8db55-6aee-839b-a39c-01d2eef49521" class="">而后续大多数任务需要的只是数据结构中的一个content字符串，</p></div><div style="display:contents" dir="auto"><p id="13c8db55-6aee-82cc-8d6b-01cb2a8ad9b9" class="">StrOutputParser负责提取这个content字段</p></div><div style="display:contents" dir="auto"><pre id="3388db55-6aee-83b4-bf1d-81d76131f8b0" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.output_parsers import StrOutputParser
+from langchain_community.llms.tongyi import Tongyi
+from langchain_core.prompts import ChatPromptTemplate
+
+model = Tongyi(model=&quot;qwen-max&quot;, api_key=&quot;your-key&quot;)
+prompt = ChatPromptTemplate.from_template(&quot;讲一个关于{topic}的笑话&quot;)
+
+# 不使用解析器
+chain_raw = prompt | model
+result_raw = chain_raw.invoke({&quot;topic&quot;: &quot;程序员&quot;})
+print(type(result_raw))      # &lt;class &#x27;langchain_core.messages.AIMessage&#x27;&gt;
+print(result_raw.content)    # 需要手动取 content
+
+# 使用 StrOutputParser
+chain = prompt | model | StrOutputParser()
+result = chain.invoke({&quot;topic&quot;: &quot;程序员&quot;})
+print(type(result))          # &lt;class &#x27;str&#x27;&gt;
+print(result)                # 直接打印字符串</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4ec8db55-6aee-827b-ba31-013bae430507" class="toggle"><li><details open=""><summary>再LCEL链中的位置</summary><div style="display:contents" dir="auto"><p id="c028db55-6aee-839f-b198-81f4a651d554" class="">在典型的 LCEL 链中，结构通常是：</p></div><div style="display:contents" dir="auto"><pre id="2b28db55-6aee-826d-92ea-0105da6f5113" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.output_parsers import StrOutputParser
+parser = StrOutputParser()
+
+提示模板 -&gt; 模型 -&gt; 输出解析器(parser) -&gt; 模型 -&gt; ...</code></pre></div><div style="display:contents" dir="auto"><p id="f228db55-6aee-82ac-9457-01b561e9263f" class="">如果在模型之间使用链而没有输出解析器会产生错误</p></div><div style="display:contents" dir="auto"><pre id="f648db55-6aee-8209-85a5-814251972258" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">Invalid input type &lt; ... ai.AIMessage&gt;  Must be a PromptValue, str, or list of BaseMessage.</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="c528db55-6aee-82fb-b177-019e7b8c2de7" class="">StrOutputRarser 也是 Runnable 组件</blockquote></div><div style="display:contents" dir="auto"><hr id="b788db55-6aee-8254-9f00-819e0567b3c6"/></div><div style="display:contents" dir="auto"><h1 id="ceb8db55-6aee-8325-a16b-81fc2abfecdf" class="">JsonOutputParser和多模型执行链</h1></div><div style="display:contents" dir="auto"><p id="7ec8db55-6aee-8281-8ed9-817297678346" class="">多模型输入和输出要求：</p></div><div style="display:contents" dir="auto"><pre id="18a8db55-6aee-8391-b00b-012f4537c118" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">invoke | stream 初始输入-&gt;提示模板-&gt;模型-&gt;数据处理-&gt;提示词模板-&gt;模型-&gt;解析-&gt;结果</code></pre></div><div style="display:contents" dir="auto"><p id="b2f8db55-6aee-826d-a2f4-818f18bdb5b0" class="">因此我们需要完成</p></div><div style="display:contents" dir="auto"><pre id="e118db55-6aee-8365-9969-01f91bb9bcfc" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">模型输出的AIMessage-&gt;转为字典-&gt;注入第二个提示词模板(PromptValue对象)</code></pre></div><div style="display:contents" dir="auto"><p id="6328db55-6aee-82a1-93b5-81ec075e8467" class="">也就是说需要JsonOutputParser 将AIMessage转换为Dict(JSON)</p></div><div style="display:contents" dir="auto"><ul id="1e08db55-6aee-8266-b4fd-81e01b6afdef" class="toggle"><li><details open=""><summary>案例说明</summary><div style="display:contents" dir="auto"><pre id="6268db55-6aee-83cb-876c-011be4700529" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 1. 准备工作：导入必要的库并初始化模型
+from langchain_core.output_parsers import JsonOutputParser
+from langchain_core.prompts import PromptTemplate
+from langchain_core.runnables import RunnableParallel, RunnablePassthrough
+from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
+import json
+
+# 初始化模型
+model_a = ChatOpenAI(model=&quot;gpt-3.5-turbo&quot;, temperature=0) # 分析模型
+model_b = ChatOpenAI(model=&quot;gpt-3.5-turbo&quot;, temperature=0) # 翻译模型
+model_c = ChatGoogleGenerativeAI(model=&quot;gemini-pro&quot;)       # 生成模型
+
+# --- 分析阶段，生成结构化数据 ---
+# 定义输出解析器和提示词模版
+parser = JsonOutputParser()
+analysis_prompt = PromptTemplate(
+    template=&quot;&quot;&quot;从以下用户反馈中，提取情绪 (sentiment: &#x27;positive&#x27;/&#x27;negative&#x27;)
+和关键信息 (keywords)。必须以 JSON 格式输出。
+{format_instructions}
+用户反馈：{feedback}
+&quot;&quot;&quot;,
+    input_variables=[&quot;feedback&quot;],
+    partial_variables={&quot;format_instructions&quot;: parser.get_format_instructions()}
+)
+# 构建分析链: 分析提示词 -&gt; GPT模型 -&gt; JSON解析器
+analysis_chain = analysis_prompt | model_a | parser
+
+# --- 多模型执行链 ---
+# 定义并行执行的分支
+parallel_chain = RunnableParallel(
+    # 翻译分支：获取 analysis 结果中的 keywords，进行翻译
+    translation=(
+        RunnablePassthrough()  # 获取输入
+        | (lambda x: x.get(&#x27;keywords&#x27;, &#x27;&#x27;))  # 提取 keywords
+        | (lambda x: f&quot;Translate &#x27;{x}&#x27; into English.&quot;)  # 构造提示
+        | model_b  # 调用翻译模型
+    ),
+    # 标语生成分支：获取 analysis 结果中的 sentiment
+    slogan=(
+        RunnablePassthrough()
+        | (lambda x: f&quot;Sentiment is {x.get(&#x27;sentiment&#x27;)}. Generate a thank you slogan.&quot;)
+        | model_c  # 调用标语模型
+    )
+)
+# 构建主链: 分析链 -&gt; 并行并行链
+main_chain = analysis_chain | parallel_chain
+
+# --- 执行与观察 ---
+if __name__ == &quot;__main__&quot;:
+    result = main_chain.invoke({
+        &quot;feedback&quot;: &quot;这个软件太棒了，操作简单，功能强大！&quot;
+    })
+    print(json.dumps(result, indent=4, ensure_ascii=False))</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="7778db55-6aee-82ac-bbd5-81909b7bb8c6"/></div><div style="display:contents" dir="auto"><h1 id="8688db55-6aee-8295-b6b2-81002eadec50" class="">自定义函数加入链</h1></div><div style="display:contents" dir="auto"><p id="56f8db55-6aee-83b9-9431-01fe70f694fe" class=""><strong>自定义函数入链</strong> 指的是通过 <code>RunnableLambda</code> 将一个普通的 Python 函数,转换为 LangChain 的 <code>Runnable</code> 对象，然后将其无缝地插入到由管道符 <code>|</code> 构建的执行链中。</p></div><div style="display:contents" dir="auto"><ul id="f758db55-6aee-830a-b9ac-01bf45550c2c" class="toggle"><li><details open=""><summary>示例代码</summary><div style="display:contents" dir="auto"><pre id="2fc8db55-6aee-827d-be4d-01692a8ba30f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import PromptTemplate
+from langchain_community.chat_models.tongyi import ChatTongyi
+from dotenv import load_dotenv
+import os
+
+from langchain_core.runnables import RunnableLambda
+
+# apikey 和ai模型
+load_dotenv()
+api_key = os.getenv(&quot;API_KEY&quot;)
+model = ChatTongyi(model=&quot;qwen3-max&quot;, api_key=api_key)
+
+# 两个模板和解析器
+str_parser = StrOutputParser()
+first_prompt = PromptTemplate.from_template(
+    &quot;我的邻居姓：{lastname}，刚生了{gender}，帮忙起个名字，仅告诉我名字。&quot;
+)
+second_prompt = PromptTemplate.from_template(
+    &quot;姓名：{name}, 请帮我问解析含义。&quot;
+)
+
+#自定义函数
+func = RunnableLambda(lambda ai_msg: {&quot;name&quot;: ai_msg.content})
+
+# 链
+chain = first_prompt | model | func | second_prompt | model | str_parser
+
+# 运行输出
+for chunk in chain.stream({&quot;lastname&quot;: &quot;何&quot;, &quot;gender&quot;: &quot;男&quot;}):
+    print(chunk, end=&quot;&quot;, flush=True)
+
+</code></pre></div><div style="display:contents" dir="auto"><pre id="b9b8db55-6aee-820f-bc4b-816426ff8a7e" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">lambda ai_msg: {&quot;name&quot;: ai_msg.content}
+ai_msg：这是 `first_prompt | model` 的输出结果。
+    - `model = ChatTongyi(...)` 是一个聊天模型，调用后返回 `AIMessage` 类型的对象（通常包含 `content` 属性，即模型生成的文本）。
+    - 因为链中 `first_prompt` 将用户输入（`lastname`, `gender`）格式化为提示词字符串，然后将该字符串传给 `model`，模型返回一个 `AIMessage` 实例，其中 `content` 字段就是起好的名字（例如 `“何泽宇”`）。
+返回值：`{&quot;name&quot;: ai_msg.content}`
+    - 该 lambda 将模型输出的文本提取出来，并放入一个字典中，键为 `&quot;name&quot;`。
+    - 这个字典将作为下一个步骤 `second_prompt` 的输入。因为 `second_prompt` 模板中有变量 `{name}`，所以必须传入一个包含 `name` 键的字典。</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="aeb8db55-6aee-8247-8e14-0141e94b8a34"/></div><div style="display:contents" dir="auto"><hr id="9418db55-6aee-82c1-8277-01b9112beb7a"/></div><div style="display:contents" dir="auto"><h1 id="47e8db55-6aee-8399-90d5-015a3599c31f" class="">Memory临时记忆</h1></div><div style="display:contents" dir="auto"><p id="f628db55-6aee-831d-ac05-813dcdc7625e" class="">如果想要封装历史记录，除了自行维护历史消息外，也可以借助LangChain内置的历史记录附加功能。</p></div><div style="display:contents" dir="auto"><p id="6d38db55-6aee-821a-8990-014c8c4369d0" class="">LangChain提供了History功能，帮助模型在有历史记忆的情况下回答。</p></div><div style="display:contents" dir="auto"><ul id="75f8db55-6aee-827a-8604-01f986f4f810" class="bulleted-list"><li style="list-style-type:disc">基于RunnableWithMessageHistory在原有链的基础上创建带有历史记录功能的新链（新Runnable实例）</li></ul></div><div style="display:contents" dir="auto"><ul id="f1c8db55-6aee-82d7-ae9f-01f5d46f1022" class="bulleted-list"><li style="list-style-type:disc">基于InMemoryChatMessageHistory为历史记录提供内存储存（临时用）</li></ul></div><div style="display:contents" dir="auto"><ul id="0028db55-6aee-831e-9602-81cd86b2e5ba" class="toggle"><li><details open=""><summary>实例</summary><div style="display:contents" dir="auto"><pre id="a9e8db55-6aee-82b0-ae22-01ac00f6d10c" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_community.chat_models.tongyi import ChatTongyi
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_core.chat_history import InMemoryChatMessageHistory
+from dotenv import load_dotenv
+import os
+load_dotenv()
+str_parser = StrOutputParser()
+
+model = ChatTongyi(model=&quot;qwen3-max&quot;, api_key=os.getenv(&quot;API_KEY&quot;))
+prompt = PromptTemplate.from_template(
+    &quot;你需要根据会话历史回应用户问题。对话历史：{chat_history}，用户提问：{input}，请回答&quot;
+)
+
+# 用于存储历史会话
+store = {}
+# 实现通过会话id获取InMemoryChatMessageHistory类对象
+def get_history(session_id):
+    # 如果会话中不存在历史记录，就添加记录
+    if session_id not in store:
+        store[session_id] = InMemoryChatMessageHistory()
+    return store[session_id]
+
+# 用于显示历史对话记录，方便观察
+def print_history(full_prompt):
+    print(&quot;=&quot;*20, full_prompt, &quot;=&quot;*20)
+    return full_prompt
+
+base_chain = prompt | print_history | model | str_parser
+
+# 创建新的链，对原来的链增强功能，自动附加历史消息
+conversation_chain=RunnableWithMessageHistory(
+    # 增强的原有chain
+    base_chain,
+    # 通过会话id获取InMemoryChatMessageHistory类对象
+    get_history,
+    # 表示用户输入在模板中的占位符
+    input_messages_key=&quot;input&quot;,
+    # 表示用户输入在模板中的占位符
+    history_messages_key=&quot;chat_history&quot;,
+)
+
+if __name__ == &quot;__main__&quot;:
+    # 固定格式，添加LangChain配置，为当前程序配置所属的session_id
+    session_config = {
+        &quot;configurable&quot;: {
+            &quot;session_id&quot;: &quot;user_001&quot;
+        }
+    }
+    res = conversation_chain.invoke({&quot;input&quot;: &quot;小明有两个猫&quot;}, session_config)
+    print(&quot;1:&quot;,res)
+    res = conversation_chain.invoke({&quot;input&quot;: &quot;小明有四个狗&quot;}, session_config)
+    print(&quot;2:&quot;, res)
+    res = conversation_chain.invoke({&quot;input&quot;: &quot;小明有几个宠物&quot;}, session_config)
+    print(&quot;3:&quot;, res)</code></pre></div><div style="display:contents" dir="auto"><p id="3118db55-6aee-83b0-8c8e-01cc9df01d0e" class="">结果</p></div><div style="display:contents" dir="auto"><pre id="7f68db55-6aee-8226-ab47-8118da763fd1" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">1: 小明有两只猫。
+2: 小明有四只狗。
+3: 小明有两只猫和四只狗，一共有六只宠物。</code></pre></div><div style="display:contents" dir="auto"><pre id="3a08db55-6aee-82da-8109-014d1fcb3394" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">==================== text=&#x27;你需要根据会话历史回应用户问题。对话历史：[]，用户提问：小明有两个猫，请回答&#x27; ====================
+1: 小明有两只猫。
+==================== text=&quot;你需要根据会话历史回应用户问题。对话历史：[HumanMessage(content=&#x27;小明有两个猫&#x27;, additional_kwargs={}, response_metadata={}), AIMessage(content=&#x27;小明有两只猫。&#x27;, additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])]，用户提问：小明有四个狗，请回答&quot; ====================
+2: 小明有四只狗。
+==================== text=&quot;你需要根据会话历史回应用户问题。对话历史：[HumanMessage(content=&#x27;小明有两个猫&#x27;, additional_kwargs={}, response_metadata={}), AIMessage(content=&#x27;小明有两只猫。&#x27;, additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[]), HumanMessage(content=&#x27;小明有四个狗&#x27;, additional_kwargs={}, response_metadata={}), AIMessage(content=&#x27;小明有四只狗。&#x27;, additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])]，用户提问：小明有几个宠物，请回答&quot; ====================
+3: 小明有两只猫和四只狗，一共有六只宠物。</code></pre></div><div style="display:contents" dir="auto"><hr id="e198db55-6aee-83f5-8498-01129428f16c"/></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fd88db55-6aee-821e-8d7e-01c70fe9a94c" class="toggle"><li><details open=""><summary>实例运行流程</summary><div style="display:contents" dir="auto"><h2 id="3ac8db55-6aee-8202-b295-816d3da5b22c" class="">1.初始化</h2></div><div style="display:contents" dir="auto"><pre id="4bb8db55-6aee-820b-a41b-01b4a4d8134f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">store = {}  # 空字典，用于存储不同会话的消息历史对象
+model = ChatTongyi(model=&quot;qwen3-max&quot;, ...)  # 通义千问大模型
+str_parser = StrOutputParser()  # 提取模型输出中的文本内容
+prompt = PromptTemplate.from_template(&quot;...对话历史：{chat_history}，用户提问：{input}，请回答&quot;)
+base_chain = prompt | model | str_parser</code></pre></div><div style="display:contents" dir="auto"><p id="5718db55-6aee-832d-a418-81c30e5ed4f6" class=""><code>base_chain</code> 是一个普通的处理链：</p></div><div style="display:contents" dir="auto"><ul id="5578db55-6aee-824a-9fe9-0170409cabbf" class="bulleted-list"><li style="list-style-type:disc"><strong>输入</strong>：一个字典，必须包含 <code>&quot;input&quot;</code> 和 <code>&quot;chat_history&quot;</code> 两个键。</li></ul></div><div style="display:contents" dir="auto"><ul id="6a28db55-6aee-8317-acc6-01b369de206a" class="bulleted-list"><li style="list-style-type:disc"><strong>输出</strong>：模型生成的回答文本（字符串）。</li></ul></div><div style="display:contents" dir="auto"><h2 id="fe48db55-6aee-82d3-b1ff-01da3dee7d2c" class="">2.增强链RunnableWithMessageHistory的作用</h2></div><div style="display:contents" dir="auto"><pre id="4e58db55-6aee-82fd-a862-01d68d8194af" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">conversation_chain = RunnableWithMessageHistory(
+    base_chain,
+    get_history,
+    input_messages_key=&quot;input&quot;,
+    history_messages_key=&quot;chat_history&quot;,
+)</code></pre></div><div style="display:contents" dir="auto"><p id="87d8db55-6aee-820e-b13d-8135d56e4d58" class="">这个包装器为 <code>base_chain</code> 增加了<strong>自动管理会话历史</strong>的功能。它的内部执行逻辑大致如下：</p></div><div style="display:contents" dir="auto"><ol type="1" id="e238db55-6aee-832c-bb42-819f5e1b82f4" class="numbered-list" start="1"><li>从传入的 <code>config</code> 中提取 <code>session_id</code>（例如 <code>&quot;user_001&quot;</code>）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="38c8db55-6aee-8230-bc56-81992ce1c172" class="numbered-list" start="2"><li>调用 <code>get_history(session_id)</code> 获取该会话对应的 <code>InMemoryChatMessageHistory</code> 对象。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3348db55-6aee-829c-b6ad-810a4cd1f94f" class="numbered-list" start="3"><li>从该历史对象中读取已有的消息列表（初始为空）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="8538db55-6aee-8328-ac11-0146e78d8bee" class="numbered-list" start="4"><li>将用户当前输入（例如 <code>{&quot;input&quot;: &quot;小明有两个猫&quot;}</code>）与历史消息列表合并，构造一个新的字典作为 <code>base_chain</code> 的输入：<div style="display:contents" dir="auto"><ul id="c0e8db55-6aee-838a-b932-016b3d74abfa" class="bulleted-list"><li style="list-style-type:disc">新字典包含 <code>&quot;input&quot;</code>（原样保留用户输入）和 <code>&quot;chat_history&quot;</code>（消息历史列表）。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ae38db55-6aee-837a-a6b3-81b4e10d01d6" class="numbered-list" start="5"><li>执行 <code>base_chain.invoke(新字典)</code>，获得模型回答。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6c28db55-6aee-8364-adad-011fdb08459c" class="numbered-list" start="6"><li>将<strong>用户本轮输入</strong>和<strong>模型本轮输出</strong>作为两条新消息，追加到历史对象中。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6c88db55-6aee-82af-9aa3-011184acb6fd" class="numbered-list" start="7"><li>返回模型回答。</li></ol></div><div style="display:contents" dir="auto"><h2 id="5438db55-6aee-82e1-8509-01a6c6eb2f39" class="">3.三次调用流程</h2></div><div style="display:contents" dir="auto"><h3 id="e328db55-6aee-8353-8fa0-81273a8ec2fb" class=""><strong>第 1 次调用：</strong><code><strong>conversation_chain.invoke({&quot;input&quot;: &quot;小明有两个猫&quot;}, session_config)</strong></code></h3></div><div style="display:contents" dir="ltr"><table id="9f28db55-6aee-8319-9f91-01d345a4eb47" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="1218db55-6aee-83a9-bff4-0163ad913f88"><th id="tI;t" class="simple-table-header-color simple-table-header"><strong>步骤</strong></th><th id="N?x&gt;" class="simple-table-header-color simple-table-header" style="width:759.9910888671875px"><strong>说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="0668db55-6aee-8397-baa8-81cb041f8994"><td id="tI;t" class=""><strong>1. 获取历史</strong></td><td id="N?x&gt;" class="" style="width:759.9910888671875px"><code>get_history(&quot;user_001&quot;)</code> 发现 <code>store</code> 中没有该 session_id，创建一个空的 <code>InMemoryChatMessageHistory</code> 对象，存入 <code>store[&quot;user_001&quot;]</code> 并返回。此时历史消息列表为 <code>[]</code>。</td></tr></div><div style="display:contents" dir="ltr"><tr id="8d38db55-6aee-820c-ab49-018c522bed76"><td id="tI;t" class=""><strong>2. 构造 base_chain 输入</strong></td><td id="N?x&gt;" class="" style="width:759.9910888671875px">由于历史为空，<code>chat_history = []</code>。新字典为：<code>{&quot;input&quot;: &quot;小明有两个猫&quot;, &quot;chat_history&quot;: []}</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="fc58db55-6aee-8205-873d-0151227ab970"><td id="tI;t" class=""><strong>3. 渲染提示词模板</strong></td><td id="N?x&gt;" class="" style="width:759.9910888671875px"><code>prompt</code> 将 <code>{chat_history}</code> 替换为 <code>[]</code>（Python 列表的字符串形式 <code>&quot;[]&quot;</code>），<code>{input}</code> 替换为 <code>&quot;小明有两个猫&quot;</code>，生成最终提示词：“你需要根据会话历史回应用户问题。对话历史：[]，用户提问：小明有两个猫，请回答”</td></tr></div><div style="display:contents" dir="ltr"><tr id="9ed8db55-6aee-8334-9fd0-01ecda972e73"><td id="tI;t" class=""><strong>4. 调用模型</strong></td><td id="N?x&gt;" class="" style="width:759.9910888671875px">模型看到历史为空，直接回答问题。可能的回答：<code>“好的，小明有两只猫。”</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="98b8db55-6aee-83b8-81af-812e73850c15"><td id="tI;t" class=""><strong>5. 解析输出</strong></td><td id="N?x&gt;" class="" style="width:759.9910888671875px"><code>StrOutputParser</code> 提取模型返回的文本内容（去掉 AIMessage 包装）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="e928db55-6aee-8226-8120-81ee204ee5d5"><td id="tI;t" class=""><strong>6. 保存历史</strong></td><td id="N?x&gt;" class="" style="width:759.9910888671875px">向历史对象中添加两条消息：- HumanMessage(content=&quot;小明有两个猫&quot;)- AIMessage(content=&quot;好的，小明有两只猫。&quot;)</td></tr></div><div style="display:contents" dir="ltr"><tr id="99e8db55-6aee-820c-aecf-01df04f9f2d7"><td id="tI;t" class=""><strong>7. 返回结果</strong></td><td id="N?x&gt;" class="" style="width:759.9910888671875px">打印 <code>1: 好的，小明有两只猫。</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="8a78db55-6aee-831a-863f-01b9db62a866" class=""><strong>此时历史对象中的消息列表</strong>：</p></div><div style="display:contents" dir="auto"><pre id="fbe8db55-6aee-830b-a39d-81beafdb1e28" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[
+    HumanMessage(content=&quot;小明有两个猫&quot;),
+    AIMessage(content=&quot;好的，小明有两只猫。&quot;)
+]</code></pre></div><div style="display:contents" dir="auto"><h3 id="1db8db55-6aee-83ba-835e-01703b59682a" class=""><strong>第 2 次调用：</strong><code><strong>{&quot;input&quot;: &quot;小明有四个狗&quot;}</strong></code></h3></div><div style="display:contents" dir="ltr"><table id="d188db55-6aee-83fd-95b2-811dc7c478d1" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5b58db55-6aee-821b-8cdc-819f7993edb4"><th id="u;V{" class="simple-table-header-color simple-table-header"><strong>步骤</strong></th><th id="~_lZ" class="simple-table-header-color simple-table-header" style="width:608px"><strong>说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="b1e8db55-6aee-837c-bee9-8175f7fc8e25"><td id="u;V{" class=""><strong>1. 获取历史</strong></td><td id="~_lZ" class="" style="width:608px"><code>get_history(&quot;user_001&quot;)</code> 直接返回之前创建的历史对象（已有两条消息）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="3708db55-6aee-8319-bc26-818ef856bcac"><td id="u;V{" class=""><strong>2. 构造 base_chain 输入</strong></td><td id="~_lZ" class="" style="width:608px"><code>chat_history</code> 现在是包含两条消息的列表。新字典：<code>{&quot;input&quot;: &quot;小明有四个狗&quot;, &quot;chat_history&quot;: [HumanMessage(...), AIMessage(...)]}</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2858db55-6aee-822c-a633-81999ff7e413"><td id="u;V{" class=""><strong>3. 渲染提示词模板</strong></td><td id="~_lZ" class="" style="width:608px"><code>{chat_history}</code> 被替换为列表的字符串表示，例如：<code>&quot;[HumanMessage(content=&#x27;小明有两个猫&#x27;), AIMessage(content=&#x27;好的，小明有两只猫。&#x27;)]&quot;{input}</code> → <code>&quot;小明有四个狗&quot;</code>完整提示词中会包含这两个历史消息。</td></tr></div><div style="display:contents" dir="ltr"><tr id="6c78db55-6aee-8247-9d5d-011b657574a1"><td id="u;V{" class=""><strong>4. 调用模型</strong></td><td id="~_lZ" class="" style="width:608px">模型读取历史，知道之前说过小明有两只猫，现在又说有四只狗。模型可能会合理回应：<code>“明白了，现在小明有四只狗。”</code>（通常不会主动冲突，除非要求总结）</td></tr></div><div style="display:contents" dir="ltr"><tr id="1aa8db55-6aee-8207-9a4f-011c1cc88e92"><td id="u;V{" class=""><strong>5. 解析输出</strong></td><td id="~_lZ" class="" style="width:608px">提取文本。</td></tr></div><div style="display:contents" dir="ltr"><tr id="e968db55-6aee-835e-85c6-81810a5827f9"><td id="u;V{" class=""><strong>6. 保存历史</strong></td><td id="~_lZ" class="" style="width:608px">追加本轮用户消息和模型回答。此时历史列表变为 4 条消息。</td></tr></div><div style="display:contents" dir="ltr"><tr id="e598db55-6aee-83ed-83d0-8102c7efd525"><td id="u;V{" class=""><strong>7. 返回结果</strong></td><td id="~_lZ" class="" style="width:608px">打印 <code>2: 明白了，现在小明有四只狗。</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h3 id="4778db55-6aee-8362-9fe7-01bb56c26d2b" class=""><strong>第 3 次调用：</strong><code><strong>{&quot;input&quot;: &quot;小明有几个宠物&quot;}</strong></code></h3></div><div style="display:contents" dir="ltr"><table id="2138db55-6aee-8375-ab81-018acba09aa6" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="1c98db55-6aee-82d1-87e7-817c591d341e"><th id="au;l" class="simple-table-header-color simple-table-header"><strong>步骤</strong></th><th id="ateD" class="simple-table-header-color simple-table-header" style="width:522px"><strong>说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="4858db55-6aee-8261-8b79-8146b5d52224"><td id="au;l" class=""><strong>1. 获取历史</strong></td><td id="ateD" class="" style="width:522px">继续使用同一个历史对象，其中已包含前两轮的四条消息。</td></tr></div><div style="display:contents" dir="ltr"><tr id="f0b8db55-6aee-8362-9aa5-817e6cf5c99b"><td id="au;l" class=""><strong>2. 构造输入</strong></td><td id="ateD" class="" style="width:522px"><code>chat_history</code> 包含 4 条消息（猫2条+狗2条）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="a598db55-6aee-82f4-9334-01158b70f1b2"><td id="au;l" class=""><strong>3. 渲染提示词</strong></td><td id="ateD" class="" style="width:522px">模型获得完整对话历史：用户说过有两只猫、四只狗，现在问有几个宠物。</td></tr></div><div style="display:contents" dir="ltr"><tr id="7238db55-6aee-838c-85ce-81818c1ebddd"><td id="au;l" class=""><strong>4. 模型推理</strong></td><td id="ateD" class="" style="width:522px">模型综合历史信息，回答：<code>“小明一共有6只宠物，分别是2只猫和4只狗。”</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ec18db55-6aee-83ea-8baa-81a9fab791b9"><td id="au;l" class=""><strong>5. 返回结果</strong></td><td id="ateD" class="" style="width:522px">打印 <code>3: 小明一共有6只宠物，分别是2只猫和4只狗。</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="fb18db55-6aee-82a8-8f90-81110138eb9d" class="">InMemoryChatMessageHistory 是将记忆存储在内存中，一旦程序推出，记忆就会丢失<br/>InMemoryChatMessageHistory 继承自BaseChatMessageHistory</blockquote></div><div style="display:contents" dir="auto"><hr id="8848db55-6aee-83a5-9673-015d36f92fde"/></div><div style="display:contents" dir="auto"><h1 id="da68db55-6aee-8266-a7b5-0187b0c5fceb" class="">Memory长期记忆</h1></div><div style="display:contents" dir="auto"><p id="6098db55-6aee-8354-916d-0100491a7782" class="">官方注释中给出了<mark class="highlight-pink_background">基于文件</mark>的历史消息存储示例代码，因此我们可以实现一个基于Json格式和本地文件的会话数据保存。</p></div><div style="display:contents" dir="auto"><p id="a308db55-6aee-8223-af0e-0182513a4d4a" class="">长期记忆通过 FileChatMessageHistory 类实现，其核心思路：</p></div><div style="display:contents" dir="auto"><ul id="a988db55-6aee-829b-bb7e-01183aeb10bd" class="bulleted-list"><li style="list-style-type:disc">基于文件存储会话记录，以session_id为文件名，不同session_id有不同文件存储消息</li></ul></div><div style="display:contents" dir="auto"><ul id="fcc8db55-6aee-8219-ab15-81b83ba6062a" class="bulleted-list"><li style="list-style-type:disc">继承BaseChatMessageHistory实现如下三个方法：<div style="display:contents" dir="auto"><ul id="ee18db55-6aee-820c-839b-01b124254ff4" class="bulleted-list"><li style="list-style-type:circle">add_messages: 同步模式，添加消息</li></ul></div><div style="display:contents" dir="auto"><ul id="2438db55-6aee-8325-9263-81668223e486" class="bulleted-list"><li style="list-style-type:circle">messages: 同步模式，获取消息</li></ul></div><div style="display:contents" dir="auto"><ul id="b4b8db55-6aee-8345-b893-8183e8e6a157" class="bulleted-list"><li style="list-style-type:circle">clear: 同步模式，清除消息</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="a378db55-6aee-83bd-ad37-813cf281975f" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><pre id="e8b8db55-6aee-834d-bd07-81fe037bef8c" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_core.messages import BaseMessage, message_to_dict, messages_from_dict
+from langchain_community.chat_models.tongyi import ChatTongyi
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_core.chat_history import InMemoryChatMessageHistory
+from dotenv import load_dotenv
+import os, json
+load_dotenv()
+str_parser = StrOutputParser()
+
+# message_to_dict: 单个消息对象（BaseMessage类实例） -&gt; 字典
+# messages_from_dict: [字典, 字典 ...] -&gt; [消息, 消息 ...]
+# AIMessage, HumanMessage, SystemMessage 都是BaseMessage的子类
+
+
+class FileChatMessageHistory(BaseChatMessageHistory):
+
+    def __init__(self, session_id, storage_path):
+        # 会话id
+        self.session_id = session_id
+        # 不同会话id的存储文件，所在的文件夹路径
+        self.storage_path = storage_path
+        # 完整路径
+        self.file_path = os.path.join(self.storage_path, self.session_id)
+
+        # 确保文件夹是存在的
+        os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
+
+    def add_messages(self, messages) -&gt; None:
+        # Sequence 序列， 类似list，tuple
+        all_messages = list(self.messages)
+        all_messages.extend(messages)
+
+        # 将数据同步写入到本地文件中
+        # 类对象写入文件 -&gt; 一堆二进制
+        # 为了方便，可以将BaseMessage消息转为字典（借助json模块以json字符串写入文件）
+        # 官方message_to_dict: 单个消息对象（BaseMessage类实例） -&gt; 字典
+        # new_messages = []
+        # for message in all_messages:
+        #   d = message_to_dict(message)
+        #   new_messages.append(d)
+
+        new_messages = [message_to_dict(message) for message in all_messages]
+        # 将数据写入文件
+        with open(self.file_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+            json.dump(new_messages, f)
+
+
+    @property
+    def messages(self) -&gt; list[BaseMessage]:
+        try:
+            with open(self.file_path, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+                message_data = json.load(f) # 返回值就是: list[字典]
+                return messages_from_dict(message_data)
+        except FileNotFoundError:
+            return []
+
+    def clear(self) -&gt; None:
+        with open(self.file_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+            json.dump([], f)
+
+
+model = ChatTongyi(model=&quot;qwen3-max&quot;, api_key=os.getenv(&quot;API_KEY&quot;))
+prompt = PromptTemplate.from_template(
+    &quot;你需要根据会话历史回应用户问题。对话历史：{chat_history}，用户提问：{input}，请回答&quot;
+)
+
+# 实现通过会话id获取InMemoryChatMessageHistory类对象
+def get_history(session_id):
+    return FileChatMessageHistory(session_id, &quot;./chat_history&quot;)
+
+# 用于显示历史对话记录，方便观察
+def print_history(full_prompt):
+    print(&quot;=&quot;*20, full_prompt, &quot;=&quot;*20)
+    return full_prompt
+
+
+base_chain = prompt | print_history | model | str_parser
+
+# 创建新的链，对原来的链增强功能，自动附加历史消息
+conversation_chain=RunnableWithMessageHistory(
+    # 增强的原有chain
+    base_chain,
+    # 通过会话id获取InMemoryChatMessageHistory类对象
+    get_history,
+    # 表示用户输入在模板中的占位符
+    input_messages_key=&quot;input&quot;,
+    # 表示用户输入在模板中的占位符
+    history_messages_key=&quot;chat_history&quot;,
+)
+
+if __name__ == &quot;__main__&quot;:
+    # 固定格式，添加LangChain配置，为当前程序配置所属的session_id
+    session_config = {
+        &quot;configurable&quot;: {
+            &quot;session_id&quot;: &quot;user_001&quot;
+        }
+    }
+    # res = conversation_chain.invoke({&quot;input&quot;: &quot;小明有两个猫&quot;}, session_config)
+    # print(&quot;1:&quot;,res)
+    # res = conversation_chain.invoke({&quot;input&quot;: &quot;小明有四个狗&quot;}, session_config)
+    # print(&quot;2:&quot;, res)
+    res = conversation_chain.invoke({&quot;input&quot;: &quot;小明有几个宠物&quot;}, session_config)
+    print(&quot;3:&quot;, res)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="7618db55-6aee-839e-b439-0147ed40a468" class="">本质就是创建一个本地文件，将对话记录保存在里面（而不是进程内存中）</blockquote></div><div style="display:contents" dir="auto"><hr id="15e8db55-6aee-821c-85d7-0112d07b179a"/></div><div style="display:contents" dir="auto"><hr id="e028db55-6aee-8385-be00-81605e0cbb7c"/></div><div style="display:contents" dir="auto"><h1 id="a678db55-6aee-82c1-bb29-81656760d83f" class="">文档加载器:CSVLoader</h1></div><div style="display:contents" dir="auto"><ul id="2798db55-6aee-8335-a0ca-01e2f3fdd3db" class="toggle"><li><details open=""><summary>Document loaders文档加载器</summary><div style="display:contents" dir="auto"><p id="e378db55-6aee-83e7-85de-81a362dabc4a" class="">文档加载器提供了一套标准接口，用于将不同来源（CSV,PDF,JSON）的数据读取为LangChain的文档格式，这确保了无论数据来源如何，都能对其进行一致性处理。</p></div><div style="display:contents" dir="auto"><p id="d698db55-6aee-829c-934d-018a5058edb1" class="">文档加载器（内置或自行实现）需实现BaseLoader接口。</p></div><div style="display:contents" dir="auto"><p id="5cf8db55-6aee-83e6-afca-81fd8f2f4c49" class=""><mark class="highlight-red"><mark class="highlight-orange_background">Class Document</mark></mark><mark class="highlight-orange_background">,</mark>是LangChain内文档的统一载体，所有文案加载器最终返回此类的实例。</p></div><div style="display:contents" dir="auto"><p id="cb18db55-6aee-839e-a56e-01593cc784e7" class="">一个基础的Document类实例，基于如下代码创建：</p></div><div style="display:contents" dir="auto"><pre id="3908db55-6aee-82d2-8d83-81cf67bf5924" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.documents import Document
+document = Document(
+	page_content = &quot;Hello,world!&quot;,
+	metadata={&quot;source&quot;:&quot;http://example.com&quot;}
+)</code></pre></div><div style="display:contents" dir="auto"><p id="9e68db55-6aee-827a-a961-814030d35275" class="">如上可以看到，Document类其核心记录了:</p></div><div style="display:contents" dir="auto"><ul id="2358db55-6aee-8279-856d-01b217318951" class="bulleted-list"><li style="list-style-type:disc">page_content: 文档内容</li></ul></div><div style="display:contents" dir="auto"><ul id="e9d8db55-6aee-8317-82e1-01ece3d1799e" class="bulleted-list"><li style="list-style-type:disc">metadata: 文档元数据（字典）</li></ul></div><div style="display:contents" dir="auto"><p id="4b08db55-6aee-82a1-9de6-01930d2c3845" class="">不同文档加载器可能定义了不同的参数，但是其实现了统一的接口（方法）：</p></div><div style="display:contents" dir="auto"><ul id="a658db55-6aee-830e-a22b-81d541219be7" class="bulleted-list"><li style="list-style-type:disc">load():一次性加载全部文档</li></ul></div><div style="display:contents" dir="auto"><ul id="6be8db55-6aee-831e-a9b1-81ac4b1d6ae3" class="bulleted-list"><li style="list-style-type:disc">lazy_load():延迟流式传输文档，对大型数据集很有用，避免内存溢出</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="d788db55-6aee-83bc-a5b5-81b2937b3ae3" class=""><code>CSVLoader</code> 是 LangChain 用来加载 CSV 文件的工具。它的核心逻辑很简单：<strong>将 CSV 文件里的每一行数据，都转换为 LangChain 框架中的一个 </strong><code><strong>Document</strong></code><strong> 对象</strong></p></div><div style="display:contents" dir="auto"><ul id="0578db55-6aee-82db-bc39-8184829f83eb" class="toggle"><li><details open=""><summary><code>CSVLoader()</code>参数：</summary><div style="display:contents" dir="ltr"><table id="4358db55-6aee-82d1-a765-81fd64ed3643" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="88d8db55-6aee-8351-bd89-818807c99856"><th id="^YFh" class="simple-table-header-color simple-table-header"><strong>参数名</strong></th><th id=":ZzX" class="simple-table-header-color simple-table-header" style="width:127px"><strong>类型</strong></th><th id="pADN" class="simple-table-header-color simple-table-header" style="width:479px"><strong>作用</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="dd68db55-6aee-8319-a89c-0147e1c07d71"><td id="^YFh" class=""><code>file_path</code></td><td id=":ZzX" class="" style="width:127px"><code>Union[str, Path]</code></td><td id="pADN" class="" style="width:479px"><strong>文件路径</strong>：CSV文件的绝对或相对路径。</td></tr></div><div style="display:contents" dir="ltr"><tr id="3c48db55-6aee-8232-a1c4-8148df70c57b"><td id="^YFh" class=""><code>source_column</code></td><td id=":ZzX" class="" style="width:127px"><code>Optional[str]</code></td><td id="pADN" class="" style="width:479px"><strong>指定来源列</strong>：指定某一列的值替换文档的 <code>source</code> 元数据。</td></tr></div><div style="display:contents" dir="ltr"><tr id="f0a8db55-6aee-8227-8a08-01327f5df663"><td id="^YFh" class=""><code>metadata_columns</code></td><td id=":ZzX" class="" style="width:127px"><code>Sequence[str]</code></td><td id="pADN" class="" style="width:479px"><strong>提取元数据</strong>：从CSV中选取特定列，作为 <code>metadata</code> 信息存储。</td></tr></div><div style="display:contents" dir="ltr"><tr id="2b78db55-6aee-8372-8c4f-81dc5fb1ca4a"><td id="^YFh" class=""><code>csv_args</code></td><td id=":ZzX" class="" style="width:127px"><code>Optional[Dict]</code></td><td id="pADN" class="" style="width:479px"><strong>自定义解析</strong>：一个传递给Python标准库 <code>csv.DictReader</code> 的参数字典，用于控制分隔符、引号等。</td></tr></div><div style="display:contents" dir="ltr"><tr id="48b8db55-6aee-827c-87da-8155013f8710"><td id="^YFh" class=""><code>encoding</code></td><td id=":ZzX" class="" style="width:127px"><code>Optional[str]</code></td><td id="pADN" class="" style="width:479px"><strong>手动设置编码</strong>：当文件为非UTF-8编码（如 <code>gbk</code>）时手动指定。</td></tr></div><div style="display:contents" dir="ltr"><tr id="8468db55-6aee-83f5-a146-01d4cf5c1b70"><td id="^YFh" class=""><code>autodetect_encoding</code></td><td id=":ZzX" class="" style="width:127px"><code>bool</code></td><td id="pADN" class="" style="width:479px"><strong>自动检测编码</strong>：当设为 <code>True</code> 时，<code>CSVLoader</code> 会尝试自动检测文件编码。</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6d58db55-6aee-823e-a9ed-81057ce99242" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><p id="a828db55-6aee-8386-a4b7-01213aae3c85" class=""><strong>sales_report.txt</strong></p></div><div style="display:contents" dir="auto"><pre id="ecc8db55-6aee-82d8-8e54-8105f399f582" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">transaction_id|&quot;amount&quot;|currency|region|upload_date
+T001|&quot;1299.00&quot;|USD|North|2024-05-21
+T002|&quot;2450.50&quot;|EUR|South|2024-05-22
+T003|&quot;800.00&quot;|CNY|East|2024-05-23</code></pre></div><div style="display:contents" dir="auto"><p id="e188db55-6aee-8279-b4a1-01e26d1ae17b" class="">代码</p></div><div style="display:contents" dir="auto"><pre id="0138db55-6aee-83b3-9e04-816d3ffed2cd" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_community.document_loaders import CSVLoader
+
+loader = CSVLoader(
+    file_path=&quot;./sales_report.txt&quot;,      # 文件路径使用 .txt 后缀也无妨
+
+    # 自定义解析：设定分隔符、引号字符、自定义列名
+    csv_args={
+        &quot;delimiter&quot;: &quot;|&quot;,                # 使用竖线作为分隔符[reference:19]
+        &quot;quotechar&quot;: &#x27;&quot;&#x27;,                # 指定双引号为引用字符[reference:20]
+        &quot;fieldnames&quot;: [&quot;id&quot;, &quot;total&quot;, &quot;curr&quot;, &quot;zone&quot;, &quot;dt_update&quot;],  # 手动指定列名[reference:21]
+    },
+
+    source_column=&quot;zone&quot;,                # 用 region 列的值作为文档来源标识[reference:22]
+
+    metadata_columns=[&quot;curr&quot;, &quot;dt_update&quot;],  # 将货币和日期作为元数据[reference:23]
+
+    encoding=&quot;utf-8&quot;,                     # 明确指定文本编码[reference:24]
+    autodetect_encoding=False,            # 由于已手动指定编码，关闭自动检测更稳定[reference:25]
+)
+
+# 加载数据并查看第一条记录
+documents = loader.load()
+first_doc = documents[0]
+
+print(&quot;=== 文档内容内容 (page_content) ===&quot;)
+print(first_doc.page_content)
+print(&quot;\n=== 元数据 (metadata) ===&quot;)
+print(first_doc.metadata)</code></pre></div><div style="display:contents" dir="auto"><p id="d078db55-6aee-8307-a7c6-8138b886f9f9" class="">结果</p></div><div style="display:contents" dir="auto"><pre id="50a8db55-6aee-83a4-9849-01cb06385621" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">=== 文档页面内容 (page_content) ===
+id: T001
+total: 1299.00
+zone: North
+
+=== 元数据 (metadata) ===
+{&#x27;source&#x27;: &#x27;North&#x27;, &#x27;row&#x27;: 0, &#x27;curr&#x27;: &#x27;USD&#x27;, &#x27;dt_update&#x27;: &#x27;2024-05-21&#x27;}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="5f98db55-6aee-82c4-8e00-0170a6c81acb"/></div><div style="display:contents" dir="auto"><h1 id="c448db55-6aee-837c-959a-817b14843c34" class="">文档加载器:JSONLoader</h1></div><div style="display:contents" dir="auto"><p id="e918db55-6aee-8356-b41f-81bb106b89f6" class=""><code>JSONLoader</code> 是 LangChain 中专为处理 JSON 和 JSON Lines 数据设计的加载器。它的强大之处在于，能通过一个关键参数 <code>jq_schema</code>，灵活地将复杂的、嵌套的 JSON 数据精确提取并转换为 LangChain 的 <code>Document</code> 对象，为后续的处理与检索做好准备。</p></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="d518db55-6aee-823b-ac2e-81f7a397aa3a"><div style="font-size:1.5em"><span class="icon">‼️</span></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="ee58db55-6aee-82b2-add6-81c2c06e8732" class="">pip install jq</p></div></div></figure></div><div style="display:contents" dir="auto"><ul id="54e8db55-6aee-8272-85a8-01c94dd764e4" class="toggle"><li><details open=""><summary><code>JSONLoader()</code>参数</summary><div style="display:contents" dir="ltr"><table id="1238db55-6aee-83bf-8a99-01791bdd6453" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5ea8db55-6aee-83c7-973b-012a126c1315"><th id="Z}xC" class="simple-table-header-color simple-table-header" style="width:125px"><strong>参数</strong></th><th id="jN[U" class="simple-table-header-color simple-table-header"><strong>类型</strong></th><th id="t^Qo" class="simple-table-header-color simple-table-header"><strong>必填</strong></th><th id=":&gt;;i" class="simple-table-header-color simple-table-header"><strong>默认值</strong></th><th id="=[_f" class="simple-table-header-color simple-table-header" style="width:311.9732208251953px"><strong>一句话功能</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="d308db55-6aee-8334-bc71-011ed185ebc9"><td id="Z}xC" class="" style="width:125px"><code>file_path</code></td><td id="jN[U" class=""><code>str</code> / <code>Path</code></td><td id="t^Qo" class="">✅</td><td id=":&gt;;i" class="">—</td><td id="=[_f" class="" style="width:311.9732208251953px">JSON 文件路径</td></tr></div><div style="display:contents" dir="ltr"><tr id="9ba8db55-6aee-82d0-a61a-013c45dd645f"><td id="Z}xC" class="" style="width:125px"><code>jq_schema</code></td><td id="jN[U" class=""><code>str</code></td><td id="t^Qo" class="">❌</td><td id=":&gt;;i" class=""><code>&quot;.&quot;</code></td><td id="=[_f" class="" style="width:311.9732208251953px">jq 表达式，定位要提取的数据</td></tr></div><div style="display:contents" dir="ltr"><tr id="5318db55-6aee-83d5-973c-81f8c50a8f5a"><td id="Z}xC" class="" style="width:125px"><code>json_lines</code></td><td id="jN[U" class=""><code>bool</code></td><td id="t^Qo" class="">❌</td><td id=":&gt;;i" class=""><code>False</code></td><td id="=[_f" class="" style="width:311.9732208251953px">是否为 JSON Lines 格式</td></tr></div><div style="display:contents" dir="ltr"><tr id="96f8db55-6aee-8228-b291-01f7593abed4"><td id="Z}xC" class="" style="width:125px"><code>text_content</code></td><td id="jN[U" class=""><code>bool</code></td><td id="t^Qo" class="">❌</td><td id=":&gt;;i" class=""><code>False</code></td><td id="=[_f" class="" style="width:311.9732208251953px">是否将 <code>page_content</code> 强制转为字符串</td></tr></div><div style="display:contents" dir="ltr"><tr id="b968db55-6aee-8280-9b92-8124d7aa720c"><td id="Z}xC" class="" style="width:125px"><code>metadata_func</code></td><td id="jN[U" class=""><code>Callable</code></td><td id="t^Qo" class="">❌</td><td id=":&gt;;i" class=""><code>None</code></td><td id="=[_f" class="" style="width:311.9732208251953px">自定义元数据提取函数</td></tr></div><div style="display:contents" dir="ltr"><tr id="8958db55-6aee-8395-96d5-018d7a662dda"><td id="Z}xC" class="" style="width:125px"><code>content_key</code></td><td id="jN[U" class=""><code>str</code></td><td id="t^Qo" class="">❌</td><td id=":&gt;;i" class=""><code>None</code></td><td id="=[_f" class="" style="width:311.9732208251953px">当提取结果为字典时，指定哪个键作为 <code>page_content</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="e478db55-6aee-8344-bbed-015ecc401dd8"><td id="Z}xC" class="" style="width:125px"><code>is_content_key_jq_parsable</code></td><td id="jN[U" class=""><code>bool</code></td><td id="t^Qo" class="">❌</td><td id=":&gt;;i" class=""><code>False</code></td><td id="=[_f" class="" style="width:311.9732208251953px">是否将 <code>content_key</code> 视为 jq 表达式再次求值</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="ef18db55-6aee-83b7-9cd0-8194c3401b30" class="">其中<code>jq_schema</code>是解析的关键，具体用法：</p></div><div style="display:contents" dir="ltr"><table id="1b78db55-6aee-824d-ab29-81824b1b8709" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="1d48db55-6aee-8217-9b4b-0148f464c42c"><th id="~qCe" class="simple-table-header-color simple-table-header" style="width:258.1584930419922px"><strong>jq_schema</strong></th><th id=":u&lt;`" class="simple-table-header-color simple-table-header" style="width:378.22544860839844px"><strong>描述</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="9948db55-6aee-83be-b273-01ff96db8961"><td id="~qCe" class="" style="width:258.1584930419922px"><code>.</code></td><td id=":u&lt;`" class="" style="width:378.22544860839844px">提取整个 JSON 对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="7708db55-6aee-82ab-913b-01432f65fb72"><td id="~qCe" class="" style="width:258.1584930419922px"><code>.[]</code></td><td id=":u&lt;`" class="" style="width:378.22544860839844px">遍历数组的每个元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="8dd8db55-6aee-8259-96f4-812ef61b09eb"><td id="~qCe" class="" style="width:258.1584930419922px"><code>.[].name</code></td><td id=":u&lt;`" class="" style="width:378.22544860839844px">提取数组中每个对象的 <code>name</code> 字段</td></tr></div><div style="display:contents" dir="ltr"><tr id="6648db55-6aee-82d0-abb7-015fd2d8b3ef"><td id="~qCe" class="" style="width:258.1584930419922px"><code>.data.messages[].content</code></td><td id=":u&lt;`" class="" style="width:378.22544860839844px">提取嵌套结构中的内容</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ol type="1" id="47b8db55-6aee-8345-a77e-81186e5d9a7f" class="numbered-list" start="1"><li><code><strong>jq_schema</strong></code><strong> : </strong>使用 <a href="https://jqlang.github.io/jq/">jq</a> 语法编写的表达式，决定了从 JSON 中提取哪些数据片段。每个匹配到的片段会生成一个 <code>Document</code> (参数如上)</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="d9e8db55-6aee-826b-af22-017fa033dd7e" class="numbered-list" start="2"><li><code><strong>json_lines</strong></code><strong> : </strong>处理 <strong>JSON Lines</strong> 格式（每行一个独立的 JSON 对象，没有外层数组包裹）。<div style="display:contents" dir="auto"><pre id="efb8db55-6aee-8342-9830-013c8cf18ce9" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 普通 JSON 数组（json_lines=False）
+[
+  {&quot;id&quot;: 1},
+  {&quot;id&quot;: 2}
+]
+
+# JSON Lines（json_lines=True）
+{&quot;id&quot;: 1}
+{&quot;id&quot;: 2}</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6008db55-6aee-8306-9a04-01d7fc6cb1c7" class="numbered-list" start="3"><li><code><strong>text_content</strong></code><strong> : </strong><div style="display:contents" dir="auto"><p id="b238db55-6aee-83f0-bf13-0195dbe50601" class=""><code>False</code>：<code>page_content</code> 保持 jq 提取结果的原始 Python 类型（字符串、数字、列表、字典、None 等）。</p></div><div style="display:contents" dir="auto"><p id="c2a8db55-6aee-83ee-acd5-8143c54864b3" class=""><code>True</code>：将提取结果转换为 JSON 字符串（通过 <code>json.dumps</code>，对于非 JSON 可序列化对象则调用 <code>str()</code>）。</p></div><div style="display:contents" dir="auto"><blockquote id="4ed8db55-6aee-83f0-aba9-01d868bace4e" class=""><div style="display:contents" dir="auto"><p id="60a8db55-6aee-8205-86b2-01723bb85a70" class="">需要保留数值类型用于后续数学运算 → <code>False</code></p></div><div style="display:contents" dir="auto"><p id="b448db55-6aee-825e-8278-8114fca8cdc7" class="">需要直接拼接字符串或传给大模型 → <code>True</code>（更安全）</p></div></blockquote></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ef38db55-6aee-83ef-9704-01cf7af65aeb" class="numbered-list" start="4"><li><code><strong>metadata_func</strong></code><strong> : </strong>允许你从原始 JSON 中提取额外字段存入 <code>Document.metadata</code>。<div style="display:contents" dir="auto"><pre id="45a8db55-6aee-83c3-8110-8192529ad148" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def metadata_func(record: dict, metadata: dict) -&gt; dict:
+    &quot;&quot;&quot;
+    record:  当前 jq_schema 提取出的原始数据片段（字典或列表等）
+    metadata: 包含默认元数据的字典（已有 &#x27;source&#x27; 和 &#x27;seq_num&#x27;）
+    返回: 更新后的 metadata 字典
+    &quot;&quot;&quot;</code></pre></div><div style="display:contents" dir="auto"><pre id="76e8db55-6aee-823b-9836-81e237fa23dc" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def add_author(record, metadata):
+    metadata[&#x27;author&#x27;] = record.get(&#x27;author&#x27;, &#x27;anonymous&#x27;)
+    metadata[&#x27;views&#x27;] = record.get(&#x27;stats&#x27;, {}).get(&#x27;page_views&#x27;)
+    return metadata
+
+loader = JSONLoader(..., metadata_func=add_author)</code></pre></div><div style="display:contents" dir="auto"><blockquote id="8a98db55-6aee-838c-97bf-01932fa4afae" class=""><code>metadata_func</code> 会为每个生成的 <code>Document</code> 调用一次，因此要注意性能。不要在函数内部执行耗时操作（如网络请求）。</blockquote></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6598db55-6aee-8226-96dc-8146f5c3ba9a" class="numbered-list" start="5"><li><code><strong>content_key</strong></code><strong> :</strong><div style="display:contents" dir="auto"><p id="5c18db55-6aee-833d-8fa4-81dba31fe1c7" class="">当 <code>jq_schema</code> 提取的结果是一个 <strong>字典</strong>，而你只希望将字典中的某个特定键的值作为 <code>page_content</code> 时使用。</p></div><div style="display:contents" dir="auto"><pre id="5a28db55-6aee-8302-b8d6-81ee7574c59d" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">loader = JSONLoader(
+    file_path=&quot;data.json&quot;,
+    jq_schema=&quot;.&quot;,          # 提取整个根对象 -&gt; {&quot;text&quot;: ..., &quot;id&quot;: ...}
+    content_key=&quot;text&quot;      # 将 text 键的值作为 page_content
+)
+
+# 结果：doc.page_content = &quot;hello world&quot;
+#       doc.metadata 中会保留整个原始字典? 不，默认只保留 source 和 seq_num
+#       想保留其他字段要用 metadata_func</code></pre></div><div style="display:contents" dir="auto"><blockquote id="bc98db55-6aee-8244-8772-01408952d630" class=""><strong>与 </strong><code><strong>metadata_func</strong></code><strong> 配合</strong>：<code>content_key</code> 只影响 <code>page_content</code>；其他字段若想存入 <code>metadata</code> 仍需通过 <code>metadata_func</code>。</blockquote></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="aeb8db55-6aee-828f-ab34-816bcc8ba80e" class="numbered-list" start="6"><li><code><strong>is_content_key_jq_parsable</strong></code><strong>  : </strong>一个极少使用的高级选项。当 <code>content_key</code> 的值本身是一个 jq 表达式，并且需要对提取出的字典再次应用该表达式时，设为 <code>True</code>。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c218db55-6aee-83d5-928b-81cc364ef1f1" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><p id="6858db55-6aee-82fb-8489-81ee30eb2b96" class="">json文件</p></div><div style="display:contents" dir="auto"><pre id="19c8db55-6aee-8233-b167-0175db38b9a8" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">[
+  {
+    &quot;id&quot;: 1,
+    &quot;text&quot;: &quot;LangChain 很棒&quot;,
+    &quot;timestamp&quot;: 1625097600,
+    &quot;user&quot;: {&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 30}
+  }
+]</code></pre></div><div style="display:contents" dir="auto"><p id="4198db55-6aee-834a-97a9-011532be5dbb" class="">代码</p></div><div style="display:contents" dir="auto"><pre id="b558db55-6aee-8240-93d5-01012fa566c0" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def custom_metadata(record: dict, metadata: dict) -&gt; dict:
+    # 提取用户信息和时间戳到元数据
+    metadata[&#x27;user_name&#x27;] = record[&#x27;user&#x27;][&#x27;name&#x27;]
+    metadata[&#x27;age&#x27;] = record[&#x27;user&#x27;][&#x27;age&#x27;]
+    metadata[&#x27;timestamp&#x27;] = record[&#x27;timestamp&#x27;]
+    return metadata
+
+loader = JSONLoader(
+    file_path=&#x27;./complex_data.json&#x27;,
+    jq_schema=&#x27;.[]&#x27;,
+    metadata_func=custom_metadata,
+    text_content=False,  # 保留 text 的字符串类型
+    content_key=&#x27;text&#x27;   # 将 &#x27;text&#x27; 字段的值作为 page_content
+)
+
+docs = loader.load()
+
+for doc in docs:
+    print(f&quot;内容 (类型: {type(doc.page_content)}): {doc.page_content}&quot;)
+    print(f&quot;元数据: {doc.metadata}&quot;)</code></pre></div><div style="display:contents" dir="auto"><p id="6f98db55-6aee-820b-9050-810a43f1465a" class="">如果是JSON Lines文件</p></div><div style="display:contents" dir="auto"><pre id="7178db55-6aee-8365-a859-81869bf787bd" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">loader = JSONLoader(
+    file_path=&#x27;./data.jsonl&#x27;,
+    jq_schema=&#x27;.content&#x27;, # 此处的路径是相对于每一行 JSON 对象的
+    json_lines=True,
+    text_content=False
+)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="fbb8db55-6aee-8273-8141-818bf4d62a4b"/></div><div style="display:contents" dir="auto"><h1 id="15e8db55-6aee-833b-833c-816a312815ec" class="">文档加载器:TextLoader &amp;&amp; <strong>文档分割器:</strong>Text Splitter</h1></div><div style="display:contents" dir="auto"><p id="5918db55-6aee-8398-8a25-012480a6068b" class=""><code>TextLoader</code> 是 LangChain 中最基础、最直接的文档加载器，它的主要作用就是读取 <code>.txt</code>、<code>.md</code> 这类<strong>纯文本文件</strong>，并把文件内容统一转换成 LangChain 框架可以处理的 <code>Document</code> 对象。</p></div><div style="display:contents" dir="auto"><ul id="2048db55-6aee-82d7-b9f7-818e80ca68df" class="toggle"><li><details open=""><summary><code>TextLoader()</code>参数</summary><div style="display:contents" dir="ltr"><table id="a488db55-6aee-82c3-941a-0179110ad9a4" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="8048db55-6aee-834c-9fa3-815aa4bed055"><th id="QLH&lt;" class="simple-table-header-color simple-table-header"><strong>参数名</strong></th><th id="HykW" class="simple-table-header-color simple-table-header"><strong>类型</strong></th><th id="siOy" class="simple-table-header-color simple-table-header"><strong>必填/默认值</strong></th><th id="Lj?q" class="simple-table-header-color simple-table-header" style="width:322.8794708251953px"><strong>核心功能</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="90e8db55-6aee-8253-87d6-015315880c19"><td id="QLH&lt;" class=""><code><strong>file_path</strong></code></td><td id="HykW" class=""><code>str</code> / <code>Path</code></td><td id="siOy" class=""><strong>必填</strong></td><td id="Lj?q" class="" style="width:322.8794708251953px">需要加载的文本文件路径，支持本地或远程文件。</td></tr></div><div style="display:contents" dir="ltr"><tr id="b448db55-6aee-8250-b82a-01c744585c41"><td id="QLH&lt;" class=""><code><strong>encoding</strong></code></td><td id="HykW" class=""><code>str</code></td><td id="siOy" class="">可选，默认 <code>None</code></td><td id="Lj?q" class="" style="width:322.8794708251953px">指定文件编码（如 <code>&quot;utf-8&quot;</code>, <code>&quot;gbk&quot;</code>）。不指定时会尝试自动检测。</td></tr></div><div style="display:contents" dir="ltr"><tr id="d748db55-6aee-825f-bb6f-812169d4b098"><td id="QLH&lt;" class=""><code><strong>autodetect_encoding</strong></code></td><td id="HykW" class=""><code>bool</code></td><td id="siOy" class=""><code>False</code>（默认）</td><td id="Lj?q" class="" style="width:322.8794708251953px">是否启用自动检测编码，设为 <code>True</code> 前需要安装 <code>chardet</code>。</td></tr></div><div style="display:contents" dir="ltr"><tr id="9908db55-6aee-8351-8b04-81930555770d"><td id="QLH&lt;" class=""><code><strong>metadata</strong></code></td><td id="HykW" class=""><code>dict</code></td><td id="siOy" class="">可选，默认 <code>None</code></td><td id="Lj?q" class="" style="width:322.8794708251953px">自定义的附加元数据，会合并到生成的 <code>Document</code> 的 <code>metadata</code> 中。</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f778db55-6aee-8307-8618-819f606114f4" class="toggle"><li><details open=""><summary><code>TextLoader()</code>加载方式</summary><div style="display:contents" dir="ltr"><table id="6168db55-6aee-826a-bc58-81d2a27f87f6" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="b8c8db55-6aee-83e2-ad3f-0115d399dfce"><th id="Mi`?" class="simple-table-header-color simple-table-header"><strong>方法名</strong></th><th id="n{IU" class="simple-table-header-color simple-table-header" style="width:127px"><strong>返回值</strong></th><th id="fxov" class="simple-table-header-color simple-table-header" style="width:473px"><strong>描述</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="9be8db55-6aee-822c-80b8-810a0337a800"><td id="Mi`?" class=""><code><strong>load()</strong></code></td><td id="n{IU" class="" style="width:127px"><code>List[Document]</code></td><td id="fxov" class="" style="width:473px"><strong>一次性加载</strong>：将整个文件内容作为一个 <code>Document</code> 对象返回，适合<strong>小文件</strong>。</td></tr></div><div style="display:contents" dir="ltr"><tr id="4698db55-6aee-832b-8df3-0114406bcbb4"><td id="Mi`?" class=""><code><strong>aload()</strong></code></td><td id="n{IU" class="" style="width:127px"><code>List[Document]</code></td><td id="fxov" class="" style="width:473px"><strong>异步加载</strong>：<code>load()</code> 的异步版本</td></tr></div><div style="display:contents" dir="ltr"><tr id="a0e8db55-6aee-82ac-b3e7-81a49496424c"><td id="Mi`?" class=""><code><strong>load_and_split()</strong></code></td><td id="n{IU" class="" style="width:127px"><code>List[Document]</code></td><td id="fxov" class="" style="width:473px">在加载的同时，使用指定的 <code>TextSplitter</code>（如 <code>RecursiveCharacterTextSplitter</code>）对文本进行<strong>分块</strong>，返回多个 <code>Document</code> 对象，适合<strong>大文件</strong>或构建 RAG 应用</td></tr></div><div style="display:contents" dir="ltr"><tr id="93d8db55-6aee-8263-aefd-8172c5973a91"><td id="Mi`?" class=""><code><strong>lazy_load()</strong></code></td><td id="n{IU" class="" style="width:127px"><code>Iterator[Document]</code></td><td id="fxov" class="" style="width:473px"><strong>惰性加载</strong>：返回一个迭代器，按需逐个生成 <code>Document</code>，适合处理<strong>超大文件</strong>，可有效节省内存</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8ae8db55-6aee-820b-92b9-01ecee287fbb" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><pre id="6778db55-6aee-83c3-8970-81d77433b7ab" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_community.document_loaders import TextLoader
+
+# 1. 加载文件
+loader = TextLoader(&quot;example.txt&quot;, encoding=&quot;utf-8&quot;)
+# 输出为 Document 列表
+documents = loader.load()
+
+# 2. 打印加载结果
+print(f&quot;Documents 数量: {len(documents)}&quot;)
+print(f&quot;内容: {documents[0].page_content}&quot;)
+print(f&quot;元数据: {documents[0].metadata}&quot;)</code></pre></div><div style="display:contents" dir="auto"><ul id="8d28db55-6aee-822f-9163-81e9600614d2" class="bulleted-list"><li style="list-style-type:disc"><code><strong>page_content</strong></code>: 包含文件的全部文本内容。</li></ul></div><div style="display:contents" dir="auto"><ul id="2798db55-6aee-8337-841f-817a9545f7d7" class="bulleted-list"><li style="list-style-type:disc"><code><strong>metadata</strong></code>: 默认包含 <code>source</code> (文件路径) 这一项元数据。如果需要添加更多信息，如文件来源、作者等，可以通过 <code>metadata</code> 参数进行自定义。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="4ac8db55-6aee-8284-981c-813db604642f" class=""><strong>文档分割器</strong>（Text Splitter）的核心要务是：在尽可能不破坏语义的前提下，将超长文档分解成多个小“文本块”（Chunk），以适应大模型有限的上下文窗口。不合理的分割会导致语义丢失或检索不准，而高质量的分割则被视为RAG效率大幅优化的基石。</p></div><div style="display:contents" dir="auto"><ul id="f458db55-6aee-83d4-b830-01e02011b153" class="toggle"><li><details open=""><summary>核心参数</summary><div style="display:contents" dir="ltr"><table id="9998db55-6aee-8225-a01e-017dab5f1e5c" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="80c8db55-6aee-82bb-90e1-81042e2b4b38"><th id="jABK" class="simple-table-header-color simple-table-header"><strong>参数名</strong></th><th id="I:pP" class="simple-table-header-color simple-table-header" style="width:300.66741943359375px"><strong>作用</strong></th><th id="iDG:" class="simple-table-header-color simple-table-header"><strong>默认值</strong></th><th id="WniI" class="simple-table-header-color simple-table-header" style="width:254.6607208251953px"><strong>建议</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="8d88db55-6aee-8320-9f5e-01ef906ff427"><td id="jABK" class=""><code><strong>chunk_size</strong></code></td><td id="I:pP" class="" style="width:300.66741943359375px">每个文本块的最大长度（单位取决于 <code>length_function</code>）</td><td id="iDG:" class="">4000</td><td id="WniI" class="" style="width:254.6607208251953px"><strong>决定“块有多大”</strong>。设置为模型上下文窗口的 1/4 到 1/2。</td></tr></div><div style="display:contents" dir="ltr"><tr id="e468db55-6aee-829a-afe9-81e893085ee6"><td id="jABK" class=""><code><strong>chunk_overlap</strong></code></td><td id="I:pP" class="" style="width:300.66741943359375px">相邻块之间重叠的长度，用于保持上下文连贯性</td><td id="iDG:" class="">200</td><td id="WniI" class="" style="width:254.6607208251953px"><strong>决定“上下文连贯性”</strong>。通常设为 <code>chunk_size</code> 的 10~20%。</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5948db55-6aee-8374-be97-81bf84756e2e" class="toggle"><li><details open=""><summary>分割器按原理分类</summary><div style="display:contents" dir="auto"><ol type="1" id="c0c8db55-6aee-8294-941a-0141e97d0d47" class="numbered-list" start="1"><li><code>CharacterTextSplitter</code> <strong>（基础字符分割）</strong><div style="display:contents" dir="auto"><p id="26b8db55-6aee-833d-8b0e-81299c7f02d3" class="">按特定分隔符和固定长度硬性分割，它简单直接但<strong>会破坏语义</strong>，适合处理日志等无关语义的文本。</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="9528db55-6aee-82bb-a7d4-81150e8846bc" class="numbered-list" start="2"><li><code>RecursiveCharacterTextSplitter</code> <strong>（递归字符分割）</strong><div style="display:contents" dir="auto"><p id="a738db55-6aee-830e-a0e1-01463b64a352" class="">LangChain 官方推荐的通用分割器。它按优先级（如<code>[&quot;\n\n&quot;, &quot;\n&quot;, &quot; &quot;, &quot;&quot;]</code>）递归分割，<strong>能最大限度保持段落、句子的完整</strong>。</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="eae8db55-6aee-8333-8bc7-011c3c8e1dac" class="numbered-list" start="3"><li><code>TokenTextSplitter</code> <strong>（Token 数量分割）</strong><div style="display:contents" dir="auto"><p id="a538db55-6aee-82fd-ae73-01852d0dd24f" class="">以模型计费的 <code>Token</code> 为单位进行分割，输出与模型计费对齐，避免了因字符与 Token 转换不一致导致超限。</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="00b8db55-6aee-8387-a501-81c92e5fa247" class="numbered-list" start="4"><li><code>SemanticChunker</code> <strong>（语义分割）</strong><div style="display:contents" dir="auto"><p id="0fd8db55-6aee-8373-9426-012d25cb03db" class="">基于<strong>语义相似度</strong>，将语义相近的句子归入同一块。虽然质量高但速度慢，适合对语义要求极高的场景。</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="d2b8db55-6aee-82e4-abea-819e07ec8dae" class="numbered-list" start="5"><li><strong>结构专用分割器</strong><div style="display:contents" dir="auto"><p id="f448db55-6aee-8312-9384-01157127103d" class="">针对有结构的长文本，特定分割器可以精准解析其格式，有效保留原有逻辑：</p></div><div style="display:contents" dir="auto"><ul id="e908db55-6aee-8303-b2c5-819fe0fb3ae0" class="bulleted-list"><li style="list-style-type:disc"><code>MarkdownHeaderTextSplitter</code> <strong>（Markdown 结构分割）</strong>：根据标题层级分割，适合文档。</li></ul></div><div style="display:contents" dir="auto"><ul id="22a8db55-6aee-82ca-aeac-8195797bd86f" class="bulleted-list"><li style="list-style-type:disc"><code>PythonCodeTextSplitter</code> / <code>RecursiveCharacterTextSplitter.from_language</code> <strong>（代码结构分割）</strong>：识别函数、类等语法结构，适合分析代码。</li></ul></div><div style="display:contents" dir="auto"><ul id="e4f8db55-6aee-83cc-b8ff-81a46642917b" class="bulleted-list"><li style="list-style-type:disc"><code>JSONLoader</code> / <code>split_json</code> <strong>（JSON 结构分割）</strong>：提取 JSON 节点，适合结构化数据。</li></ul></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9088db55-6aee-8221-bb99-8117965bdfcd" class="toggle"><li><details open=""><summary>分割器按实用场景分类</summary><div style="display:contents" dir="ltr"><table id="ef58db55-6aee-8209-ace4-81008fc3cdc2" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="0918db55-6aee-8244-950a-013bd675ed0c"><th id="Zio}" class="simple-table-header-color simple-table-header"><strong>应用场景</strong></th><th id="P_I?" class="simple-table-header-color simple-table-header"><strong>推荐分割器</strong></th><th id="qN\M" class="simple-table-header-color simple-table-header"><strong>推荐理由</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="7fc8db55-6aee-827f-afd5-01cbef6533a5"><td id="Zio}" class=""><strong>通用问答 RAG</strong></td><td id="P_I?" class=""><code>RecursiveCharacterTextSplitter</code></td><td id="qN\M" class="">语义保留好，鲁棒性强，适合处理书籍、文章等混合文档。</td></tr></div><div style="display:contents" dir="ltr"><tr id="92c8db55-6aee-82d2-8b01-017d4c972e02"><td id="Zio}" class=""><strong>代码分析/辅助</strong></td><td id="P_I?" class=""><code>RecursiveCharacterTextSplitter</code>（指定语言）<code>PythonCodeTextSplitter</code></td><td id="qN\M" class="">能识别编程语言的语法结构，不会在函数中间切断。</td></tr></div><div style="display:contents" dir="ltr"><tr id="a5d8db55-6aee-82b2-8899-016c46fbee34"><td id="Zio}" class=""><strong>Markdown 文档</strong></td><td id="P_I?" class=""><code>MarkdownHeaderTextSplitter</code></td><td id="qN\M" class="">能提取出结构化的文本块，检索时能提供明确的标题和层级上下文。</td></tr></div><div style="display:contents" dir="ltr"><tr id="1148db55-6aee-8287-ac48-81555808857f"><td id="Zio}" class=""><strong>长文本摘要/翻译</strong></td><td id="P_I?" class=""><code>TokenTextSplitter</code></td><td id="qN\M" class="">计算准确，输出与计费标准对齐，可最大限度利用上下文窗口。</td></tr></div><div style="display:contents" dir="ltr"><tr id="d5e8db55-6aee-82d4-8602-013573fdafac"><td id="Zio}" class=""><strong>社交媒体/短文本</strong></td><td id="P_I?" class=""><code>CharacterTextSplitter</code></td><td id="qN\M" class="">结构简单，实现简单，性能开销低，满足快速分割需求。</td></tr></div><div style="display:contents" dir="ltr"><tr id="eb68db55-6aee-8272-be52-016d29692bee"><td id="Zio}" class=""><strong>中文/无空格语言</strong></td><td id="P_I?" class=""><code>RecursiveCharacterTextSplitter</code></td><td id="qN\M" class="">中文等语言没有词边界，需要自定义分隔符（如句号、逗号）来避免单词被切断。</td></tr></div><div style="display:contents" dir="ltr"><tr id="9768db55-6aee-83a5-aafc-0145027d73db"><td id="Zio}" class=""><strong>语义精确检索</strong></td><td id="P_I?" class=""><code>SemanticChunker</code></td><td id="qN\M" class="">能最大程度保证相关语义不被分割，但会牺牲一些处理速度。</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cf68db55-6aee-83ef-bfb3-01edb71c9335" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><pre id="2528db55-6aee-8323-897c-01b52dc5b399" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+text = &quot;这是一段很长的文本...&quot; # 假设这是一篇长文章
+
+# 1. 初始化一个分割器
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,       # 每个块最大 500 字符
+    chunk_overlap=50,     # 块与块之间重叠 50 字符
+    length_function=len,  # 默认使用 len() 计算长度
+    separators=[&quot;\n\n&quot;, &quot;\n&quot;, &quot;。&quot;, &quot;，&quot;, &quot; &quot;, &quot;&quot;]   # 中文优化分隔符
+)
+
+# 2. 对文本进行分割
+chunks = text_splitter.split_text(text)
+
+# 3. (可选) 如果是从加载器得到 Document 列表
+# from langchain_community.document_loaders import TextLoader
+# loader = TextLoader(&quot;my_doc.txt&quot;)
+# documents = loader.load()
+# docs = text_splitter.split_documents(documents)
+
+print(f&quot;文本被分割为了 {len(chunks)} 个块&quot;)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="2d68db55-6aee-83aa-a408-8170dc553a80" class=""><div style="display:contents" dir="auto"><p id="37e8db55-6aee-83de-99dd-81b00839751d" class=""><strong>块大小不是越小越好</strong>：在问答场景，增大块尺寸通常能提升检索命中率，但响应延迟也会增加。推荐以 400-800 token (约 300-600 汉字) 为起点调试。</p></div><div style="display:contents" dir="auto"><p id="7768db55-6aee-8248-a9b2-818742693385" class=""><strong>重叠不能太多</strong>：重叠建议设为 <code>chunk_size</code> 的 10-20%。过高的重叠会显著增加索引存储和计算开销。</p></div><div style="display:contents" dir="auto"><p id="bd98db55-6aee-8215-ad8b-81c4755dd4cc" class=""><strong>衡量长度用什么？</strong>：如果使用 <code>TokenTextSplitter</code>，块大小建议设为模型上下文窗口的 1/4 到 1/2；如果使用默认的 <code>RecursiveCharacterTextSplitter</code>（按字符），则需考虑中英文差异，英文可设置大一些（如 1000），中文推荐 500-800。</p></div><div style="display:contents" dir="auto"><p id="c4c8db55-6aee-821b-aee3-0183a0d65bb3" class=""><strong>根据大模型微调</strong>：针对不同模型调整块大小，例如 Claude 3 的 200K 上下文可用更大块；针对嵌入模型优化时，参考其文档（如 <code>text-embedding-3-small</code> 训练时常用 256-512 token）。</p></div></blockquote></div><div style="display:contents" dir="auto"><hr id="e248db55-6aee-837b-8dc4-01450b21a038"/></div><div style="display:contents" dir="auto"><h1 id="09a8db55-6aee-839b-9f81-0190714fe62c" class="">文档加载器:PyPDFLoader</h1></div><div style="display:contents" dir="auto"><p id="a2e8db55-6aee-8365-bfa7-815d6e185e6b" class=""><code>PyPDFLoader</code> 是 LangChain 中处理<strong>可复制文本型 PDF</strong> 最直接、最基础的工具，它通过底层 <code>pypdf</code> 库来提取文本。</p></div><div style="display:contents" dir="auto"><p id="fc68db55-6aee-83f7-bdd2-01ac887da0e7" class="">不过，它只是一个功能简单的“入门”工具，遇到扫描版 PDF 或复杂的表格时，能力会受限。</p></div><div style="display:contents" dir="auto"><p id="8778db55-6aee-822d-9d12-012974b313bd" class=""><mark class="highlight-red"><mark class="highlight-pink_background">核心逻辑</mark></mark>是：将 PDF 文件作为输入，解析其中的文本内容（非图片），并输出<code>Document</code> 对象。在构建 RAG（检索增强生成）系统时，它通常位于整个流程的起点。</p></div><div style="display:contents" dir="auto"><ul id="88e8db55-6aee-8277-a724-810b2cf0fe3e" class="toggle"><li><details open=""><summary><code>PyPDFLoader()</code>参数</summary><div style="display:contents" dir="ltr"><table id="6ad8db55-6aee-8346-9f4d-8188b46bcbaa" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="a518db55-6aee-828c-b328-0190b121bf0c"><th id="|J~c" class="simple-table-header-color simple-table-header"><strong>参数名</strong></th><th id="owiK" class="simple-table-header-color simple-table-header"><strong>类型</strong></th><th id="gV_R" class="simple-table-header-color simple-table-header"><strong>默认值</strong></th><th id="]jKW" class="simple-table-header-color simple-table-header" style="width:418px"><strong>核心功能 / 说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="1788db55-6aee-836b-9925-01e5745593f4"><td id="|J~c" class=""><code><strong>file_path</strong></code></td><td id="owiK" class=""><code>str</code> / <code>Path</code></td><td id="gV_R" class=""><strong>无（必填）</strong></td><td id="]jKW" class="" style="width:418px">PDF 文件路径，支持本地路径或 HTTP/HTTPS 的远程 URL。</td></tr></div><div style="display:contents" dir="ltr"><tr id="2658db55-6aee-8289-97fd-81ee6f60ee27"><td id="|J~c" class=""><code><strong>mode</strong></code></td><td id="owiK" class=""><code>str</code></td><td id="gV_R" class=""><code>&quot;page&quot;</code></td><td id="]jKW" class="" style="width:418px"><strong>提取模式</strong>。<code>&quot;page&quot;</code>：按页加载，每页一个<code>Document</code>；<code>&quot;single&quot;</code>：仅返回一个合并全文的<code>Document</code>。</td></tr></div><div style="display:contents" dir="ltr"><tr id="4fa8db55-6aee-82dd-a67c-813d2084aed9"><td id="|J~c" class=""><code><strong>password</strong></code></td><td id="owiK" class=""><code>str</code></td><td id="gV_R" class=""><code>None</code></td><td id="]jKW" class="" style="width:418px">用于打开受密码保护的加密 PDF 文件。</td></tr></div><div style="display:contents" dir="ltr"><tr id="98b8db55-6aee-82f3-b61e-01c4ec5f0705"><td id="|J~c" class=""><code><strong>extract_images</strong></code></td><td id="owiK" class=""><code>bool</code></td><td id="gV_R" class=""><code>False</code></td><td id="]jKW" class="" style="width:418px">是否尝试从 PDF 中提取图片（需额外配置解析器），常用于多模态 RAG 场景。</td></tr></div><div style="display:contents" dir="ltr"><tr id="dea8db55-6aee-820b-8b1e-014b4ff8c839"><td id="|J~c" class=""><code><strong>headers</strong></code></td><td id="owiK" class=""><code>dict</code></td><td id="gV_R" class=""><code>None</code></td><td id="]jKW" class="" style="width:418px">当<code>file_path</code>为远程 URL 时，可以传入此参数设置 HTTP 请求头（如 <code>User-Agent</code>）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="a128db55-6aee-83eb-b651-81e340779133"><td id="|J~c" class=""><code><strong>pages_delimiter</strong></code></td><td id="owiK" class=""><code>str</code></td><td id="gV_R" class=""><code>&quot; &quot;</code></td><td id="]jKW" class="" style="width:418px"><code>mode=&quot;single&quot;</code>时，合并全文使用的页间分隔符。</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="abb8db55-6aee-8215-8a61-0142d8289570" class="toggle"><li><details open=""><summary><code>PyPDFLoader()</code>加载方式</summary><div style="display:contents" dir="ltr"><table id="c8d8db55-6aee-8358-ad24-01e8a958d620" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="33c8db55-6aee-82d5-8ead-810e865e5fbb"><th id="su^v" class="simple-table-header-color simple-table-header"><strong>方法名</strong></th><th id="UcsN" class="simple-table-header-color simple-table-header"><strong>返回值</strong></th><th id="@B;g" class="simple-table-header-color simple-table-header" style="width:338px"><strong>描述</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="4868db55-6aee-8360-92ee-81713ee59914"><td id="su^v" class=""><code><strong>load()</strong></code></td><td id="UcsN" class=""><code>List[Document]</code></td><td id="@B;g" class="" style="width:338px"><strong>一次性加载</strong>。加载全文档，根据<code>mode</code>参数决定按页输出还是合并全文。</td></tr></div><div style="display:contents" dir="ltr"><tr id="6238db55-6aee-822d-ba8b-0160aa6abc70"><td id="su^v" class=""><code><strong>load_and_split()</strong></code></td><td id="UcsN" class=""><code>List[Document]</code></td><td id="@B;g" class="" style="width:338px"><strong>加载并分割</strong>。相当于<code>mode=&#x27;page&#x27;</code>的<code>load()</code>，已较少用，推荐直接使用<code>mode</code>参数。</td></tr></div><div style="display:contents" dir="ltr"><tr id="94c8db55-6aee-8317-9de3-0187d389ec82"><td id="su^v" class=""><code><strong>lazy_load()</strong></code></td><td id="UcsN" class=""><code>Iterator[Document]</code></td><td id="@B;g" class="" style="width:338px"><strong>惰性加载</strong>。返回一个生成器，逐页加载，处理大文件时内存占用极低。</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="04e8db55-6aee-83cd-935c-01b93110ed8d" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="adb8db55-6aee-83d1-bf88-811c89e1843c" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><p id="fa58db55-6aee-83f2-8073-81c97ce8441a" class=""><strong>1.基础按页加载</strong></p></div><div style="display:contents" dir="auto"><pre id="bbd8db55-6aee-82b7-b498-8178d3e07837" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_community.document_loaders import PyPDFLoader
+
+# 1. 初始化加载器（默认模式为按页加载）
+loader = PyPDFLoader(&quot;employee_handbook.pdf&quot;)
+
+# 2. 加载文档（本次使用惰性加载处理大文件）
+docs = []
+for doc in loader.lazy_load():
+    docs.append(doc)
+
+# 3. 检查第一页的数据
+print(f&quot;第一页文本预览: {docs[0].page_content[:100]}...&quot;)
+print(f&quot;元数据: {docs[0].metadata}&quot;)</code></pre></div><div style="display:contents" dir="auto"><pre id="0978db55-6aee-83b2-a0e5-019960e6d342" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">第一页文本预览: 员工手册 第一章 欢迎加入我们...
+元数据: {&#x27;source&#x27;: &#x27;employee_handbook.pdf&#x27;, &#x27;page&#x27;: 0}</code></pre></div><div style="display:contents" dir="auto"><p id="eb48db55-6aee-828d-aa26-0131d74408cd" class=""><strong>2.处理加密 PDF</strong></p></div><div style="display:contents" dir="auto"><p id="7bb8db55-6aee-8295-82ea-0157275fde50" class="">对于有密码的 PDF，在初始化时通过 <code>password</code> 参数传入即可。</p></div><div style="display:contents" dir="auto"><pre id="a618db55-6aee-82c1-b45f-81d961aa9ad2" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">loader = PyPDFLoader(
+    &quot;confidential_report.pdf&quot;,
+    mode=&quot;page&quot;,
+    password=&quot;secure_password_123&quot;  # 传入正确密码
+)
+docs = loader.load()</code></pre></div><div style="display:contents" dir="auto"><p id="9838db55-6aee-83b7-9413-01d9f9137370" class=""><strong>3.加载远程 PDF 并自定义请求头</strong></p></div><div style="display:contents" dir="auto"><p id="2d68db55-6aee-8201-b164-81997143bc32" class="">使用 URLs 加载 PDF 时，可以通过 <code>headers</code> 参数模拟浏览器请求，提高访问成功率</p></div><div style="display:contents" dir="auto"><pre id="34e8db55-6aee-8247-be03-81688371135c" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">headers = {&quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36&quot;}
+loader = PyPDFLoader(
+    &quot;https://example.com/report.pdf&quot;,
+    headers=headers
+)
+docs = loader.load()</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6df8db55-6aee-8209-a0ee-01cf7d3bca89" class="toggle"><li><details open=""><summary>Documnet对象结构</summary><div style="display:contents" dir="auto"><p id="0e18db55-6aee-8373-87a1-0127f857db37" class=""><code>PyPDFLoader</code> 返回的每个 <code>Document</code> 对象都包含两个关键属性：</p></div><div style="display:contents" dir="auto"><ul id="4ba8db55-6aee-8395-97c6-012e993be8f2" class="bulleted-list"><li style="list-style-type:disc"><code><strong>page_content</strong></code><strong> (字符串)</strong>：存储该页面的所有<strong>纯文本内容</strong>。PDF 中的图片、复杂的表格和排版信息通常会被舍弃，仅保留文字。</li></ul></div><div style="display:contents" dir="auto"><ul id="3958db55-6aee-83ed-aaa2-01e366dc9cb3" class="bulleted-list"><li style="list-style-type:disc"><code><strong>metadata</strong></code><strong> (字典)</strong>：存储辅助信息，包含两项内容：<div style="display:contents" dir="auto"><ul id="83c8db55-6aee-83c3-96e9-0108e227a61d" class="bulleted-list"><li style="list-style-type:circle"><code>&#x27;source&#x27;</code>：PDF 文件的路径或 URL。</li></ul></div><div style="display:contents" dir="auto"><ul id="b378db55-6aee-82bb-9d13-811e7fb83f34" class="bulleted-list"><li style="list-style-type:circle"><code>&#x27;page&#x27;</code>：页码（从 <strong>0</strong> 开始计数），便于追踪内容来源。</li></ul></div></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e068db55-6aee-8203-89fd-01b130c08bbe" class="toggle"><li><details open=""><summary>一些问题</summary><div style="display:contents" dir="ltr"><table id="82c8db55-6aee-822b-822e-01b78b8b2595" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="d778db55-6aee-82a2-8290-01e170cba371"><th id="ue?&lt;" class="simple-table-header-color simple-table-header"><strong>问题</strong></th><th id="uE\y" class="simple-table-header-color simple-table-header"><strong>原因</strong></th><th id="d=Yd" class="simple-table-header-color simple-table-header"><strong>解决方案</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="9dc8db55-6aee-8381-91f7-0180186c8fe3"><td id="ue?&lt;" class=""><strong>提取到空白文本或乱码</strong></td><td id="uE\y" class="">PDF 是由图片扫描而成的“扫描件”，本身不含文字层。</td><td id="d=Yd" class="">改用 OCR 方案提取文字：- <code><strong>PyMuPDFLoader</strong></code>：集成 Tesseract，可进行 OCR 识别。- <code><strong>UnstructuredPDFLoader</strong></code>：强大的开源 OCR 工具。- <strong>商用 API（Azure/AWS）</strong>：处理海量或专业文档时可考虑。</td></tr></div><div style="display:contents" dir="ltr"><tr id="fa28db55-6aee-837b-af16-811388bac16f"><td id="ue?&lt;" class=""><strong>表格或排版全乱 / 提取效率低</strong></td><td id="uE\y" class="">底层 <code>pypdf</code> 库会丢弃格式，只按顺序提取文字。</td><td id="d=Yd" class="">根据需求选择：- <strong>保留表格</strong>：使用 <code>PDFPlumberLoader</code>，专攻表格提取。- <strong>提升速度</strong>：使用 <code>PyMuPDFLoader</code>，处理速度快数倍。- <strong>复杂/扫描文档</strong>：使用 <code>UnstructuredPDFLoader</code>。</td></tr></div><div style="display:contents" dir="ltr"><tr id="f008db55-6aee-8338-b93d-813f78a51ab4"><td id="ue?&lt;" class=""><code>PdfReadError: file not encrypted</code> 或 <code>Invalid PDF structure</code></td><td id="uE\y" class="">文件来源损坏、非标准PDF或是加密文件。</td><td id="d=Yd" class="">用 PDF 阅读器手动验证，或利用 <code>pdf</code> 等 Python 库修复逻辑。</td></tr></div><div style="display:contents" dir="ltr"><tr id="8028db55-6aee-82a2-9c47-012bb55a3d7e"><td id="ue?&lt;" class="">加载速度慢 / 内存不足</td><td id="uE\y" class="">文件过大，<code>load()</code> 一次性将整个 PDF 读入内存。</td><td id="d=Yd" class="">使用 <code>lazy_load()</code> 方法，利用生成器按页加载，可极大降低内存占用。</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="7da8db55-6aee-8382-a9c2-0124752b184b"/></div><div style="display:contents" dir="auto"><h1 id="1ac8db55-6aee-831e-b77a-811381719f9d" class="">VectorStores向量存储</h1></div><div style="display:contents" dir="ltr"><figure id="56b8db55-6aee-8235-b6fb-01d44ee34054" class="image"><a href="LangChain/Snipaste_2026-04-30_22-22-14.png"><img style="width:704.0067138671875px" src="LangChain/Snipaste_2026-04-30_22-22-14.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="1128db55-6aee-835f-9b33-017974d7bd2e" class="">基于LangChain的向量存储，存储嵌入数据，并执行相似性搜索。</p></div><div style="display:contents" dir="auto"><ul id="4f78db55-6aee-82af-97e3-01baf3b1ff9d" class="toggle"><li><details open=""><summary>内置向量存储的使用案例</summary><div style="display:contents" dir="auto"><pre id="44c8db55-6aee-83ba-ac2e-817e5ae24044" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">source,info
+aaa,111
+bbb,222
+ccc,333
+ddd,444
+eee,555
+aab,112
+dec,453
+abc,123
+cba,321
+cce,335</code></pre></div><div style="display:contents" dir="auto"><pre id="fc88db55-6aee-8257-bbab-815fd395bddd" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_core.vectorstores import InMemoryVectorStore
+from langchain_community.embeddings import DashScopeEmbeddings
+from langchain_community.document_loaders import CSVLoader
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+api_key = os.getenv(&#x27;API_KEY&#x27;)
+os.environ[&#x27;DASHSCOPE_API_KEY&#x27;] = api_key
+
+vector_store = InMemoryVectorStore(
+    embedding=DashScopeEmbeddings()
+)
+
+loader = CSVLoader(
+    file_path=&#x27;./info.csv&#x27;,
+    encoding=&#x27;utf-8&#x27;,
+    source_column=&#x27;source&#x27;,
+)
+
+doc = loader.load()
+
+# 向量存储的，新增，删除，检索
+vector_store.add_documents(
+    documents=doc,
+    # id1, id2, id3 ....
+    ids=[&quot;id&quot; + str(i) for i  in range(1, len(doc) + 1)]
+)
+
+# 删除
+vector_store.delete(
+    [&quot;id1&quot;, &quot;id3&quot;]
+)
+
+# 检索
+res = vector_store.similarity_search(
+    &quot;b&quot;,
+    3
+)
+
+print(res)
+# 结果
+# [ 
+# Document(id=&#x27;id2&#x27;, metadata={&#x27;source&#x27;: &#x27;bbb&#x27;, &#x27;row&#x27;: 1}, page_content=&#x27;source: bbb\ninfo: 222&#x27;), 
+# Document(id=&#x27;id9&#x27;, metadata={&#x27;source&#x27;: &#x27;cba&#x27;, &#x27;row&#x27;: 8}, page_content=&#x27;source: cba\ninfo: 321&#x27;), 
+# Document(id=&#x27;id8&#x27;, metadata={&#x27;source&#x27;: &#x27;abc&#x27;, &#x27;row&#x27;: 7}, page_content=&#x27;source: abc\ninfo: 123&#x27;)
+# ]
+</code></pre></div><div style="display:contents" dir="auto"><p id="6928db55-6aee-82eb-ba41-018323e00a36" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6d58db55-6aee-830f-adcf-01b32e54e416" class="toggle"><li><details open=""><summary>外部(Chroma)向量存储的使用案例</summary><div style="display:contents" dir="auto"><pre id="9d98db55-6aee-8200-9de2-01b951f9d0a2" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_chroma import Chroma
+from langchain_community.embeddings import DashScopeEmbeddings
+from langchain_community.document_loaders import CSVLoader
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+api_key = os.getenv(&#x27;API_KEY&#x27;)
+os.environ[&#x27;DASHSCOPE_API_KEY&#x27;] = api_key
+
+vector_store = Chroma(
+    # 当前向量名称，类似数据库名
+    collection_name=&quot;test&quot;,
+    # 嵌入模型
+    embedding_function=DashScopeEmbeddings(),
+    # 存储路径
+    persist_directory=&#x27;./chroma_db&#x27;
+)
+
+loader = CSVLoader(
+    file_path=&#x27;./info.csv&#x27;,
+    encoding=&#x27;utf-8&#x27;,
+    source_column=&#x27;source&#x27;,
+)
+
+doc = loader.load()
+
+# 向量存储的，新增，删除，检索
+vector_store.add_documents(
+    documents=doc,
+    # id1, id2, id3 ....
+    ids=[&quot;id&quot; + str(i) for i  in range(1, len(doc) + 1)]
+)
+
+# 删除
+vector_store.delete(
+    [&quot;id1&quot;, &quot;id3&quot;]
+)
+
+# 检索
+res = vector_store.similarity_search(
+    &quot;b&quot;,
+    3,
+    # 过滤
+    # filter={&quot;source&quot;: &quot;a&quot;}
+)
+
+print(res)</code></pre></div><div style="display:contents" dir="auto"><p id="0ea8db55-6aee-8214-8a5f-01a12823435c" class="">会生成一个本地文件，这里命名为chroma_db文件夹，内部由一个数据库（<mark class="highlight-red"><mark class="highlight-pink_background">.sqlite3</mark></mark>），存储，csv文件内容.只要数据库存在，程序就能运行</p></div><div style="display:contents" dir="auto"><blockquote id="27a8db55-6aee-83d1-b073-01e10598583d" class="">另外，chroma还有search的过滤功能，<code>filter={&quot;source&quot;: &quot;a&quot;}</code>过滤指定的source</blockquote></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="0368db55-6aee-8246-b061-81dd20c5aeb4" class="">内置和外部的父类都是VectorStore，所以只是本身函数参数不同，方法都一样</blockquote></div><div style="display:contents" dir="auto"><hr id="5738db55-6aee-8240-b0ac-0191510424ec"/></div><div style="display:contents" dir="auto"><h1 id="f1a8db55-6aee-83ae-9a67-01a099dd2998" class="">基于向量检索构建提示词</h1></div><div style="display:contents" dir="auto"><p id="b548db55-6aee-82fb-9382-01406d110c8b" class=""><strong>向量检索：</strong>将用户问题也转换成向量，与预先存储好的知识片段向量进行相似度计算，召回 <code>top-k</code> 个最相关的片段。</p></div><div style="display:contents" dir="auto"><p id="f2a8db55-6aee-834d-a847-019a8bcd32b3" class=""><strong>构建提示词：</strong>用一个模板把检索到的片段和用户问题组合起来。模板通常包含三部分：</p></div><div style="display:contents" dir="auto"><ul id="2ab8db55-6aee-82f9-8481-81268b62860f" class="bulleted-list"><li style="list-style-type:disc"><strong>角色/指令</strong>（如“你是AI助手，基于如下知识回答”）</li></ul></div><div style="display:contents" dir="auto"><ul id="bda8db55-6aee-8362-910c-81d1b9c0143c" class="bulleted-list"><li style="list-style-type:disc"><strong>检索到的知识</strong>（<code>{context}</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="8fb8db55-6aee-83ce-b8c8-81fd5eb64f6e" class="bulleted-list"><li style="list-style-type:disc"><strong>用户问题</strong>（<code>{question}</code>）</li></ul></div><div style="display:contents" dir="auto"><ul id="9108db55-6aee-8313-b658-8184139ba785" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><pre id="ec78db55-6aee-8329-9b9b-818e9aff0121" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import os
+from dotenv import load_dotenv
+from langchain_community.document_loaders import CSVLoader
+from langchain_community.embeddings import DashScopeEmbeddings
+from langchain_community.vectorstores import FAISS  # 使用FAISS作为向量数据库
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
+
+# 加载环境变量
+load_dotenv()
+api_key = os.getenv(&#x27;API_KEY&#x27;)
+os.environ[&#x27;DASHSCOPE_API_KEY&#x27;] = api_key
+
+# Step 1: 加载和预处理文档
+loader = CSVLoader(
+    file_path=&#x27;./input.csv&#x27;,
+    encoding=&#x27;utf-8&#x27;,
+    source_column=&#x27;source&#x27;,
+)
+documents = loader.load()
+
+# Step 2: 切分文档（解决长文本问题）
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,      # 每块500字符
+    chunk_overlap=50,    # 块间重叠50字符
+)
+chunks = text_splitter.split_documents(documents)
+
+# Step 3: 向量化并存储
+embeddings = DashScopeEmbeddings(
+    model=&quot;text-embedding-v2&quot;  # 使用通义嵌入模型
+)
+vector_store = FAISS.from_documents(chunks, embeddings)
+
+# Step 4: 初始化通义千问大模型
+llm = ChatOpenAI(
+    base_url=&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;,
+    model=&quot;qwen-plus&quot;,  # 通义千问增强版
+    api_key=api_key,
+    temperature=0.7,
+)
+
+# Step 5: 构建提示词模板
+prompt_template = ChatPromptTemplate.from_template(&quot;&quot;&quot;
+你是一个专业的AI助手。请基于以下提供的知识内容回答用户的问题。
+- 如果知识内容足以回答问题，请结合知识进行回答。
+- 如果知识不足以回答，请如实告知，不要编造信息。
+
+【知识内容】
+{context}
+
+【用户问题】
+{question}
+
+【回答】：
+&quot;&quot;&quot;)
+
+# Step 6: 构建RAG问答链
+retriever = vector_store.as_retriever(search_kwargs={&quot;k&quot;: 3})  # 检索3个最相关片段
+
+def format_docs(docs):
+    return &quot;\n\n&quot;.join([doc.page_content for doc in docs])
+
+rag_chain = (
+    {&quot;context&quot;: retriever | format_docs, &quot;question&quot;: RunnablePassthrough()}
+    | prompt_template
+    | llm
+    | StrOutputParser()
+)
+
+# Step 7: 执行问答测试
+response = rag_chain.invoke(&quot;阿里云的通义千问模型有哪些特点？&quot;)
+print(response)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="8168db55-6aee-8308-b60b-01110d334208"/></div><div style="display:contents" dir="auto"><h1 id="9118db55-6aee-835e-8fa6-81d8f0fef171" class="">RunnablePassthrough使用</h1></div><div style="display:contents" dir="auto"><p id="d108db55-6aee-82e7-94e1-0160e5128c5a" class="">如何让向量检索入链？ → 通过 RunnablePassthrough</p></div><div style="display:contents" dir="auto"><ul id="4b18db55-6aee-823b-9911-016d6b80f849" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><pre id="c488db55-6aee-82a9-a1c8-0140a8dff907" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_community.chat_models import  ChatTongyi
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.vectorstores import InMemoryVectorStore
+from langchain_community.embeddings import DashScopeEmbeddings
+from langchain_core.output_parsers import StrOutputParser
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+model = ChatTongyi(model=&quot;qwen3-max&quot;, api_key=os.getenv(&quot;QWEN3_API_KEY&quot;))
+prompt = ChatPromptTemplate.from_messages(
+    [
+        (&quot;system&quot;, &quot;以我提供的已知参考资料为主，简介和专业的回答用户问题，参考资料:{context}&quot;),
+        (&quot;user&quot;, &quot;用户提问:{input}&quot;)
+    ]
+)
+
+vector_store = InMemoryVectorStore(embedding=DashScopeEmbeddings(model=&quot;text-embedding-v4&quot;))
+
+vector_store.add_texts([
+    &quot;减肥就是少吃多练&quot;,
+    &quot;在减脂期间吃东西很重要，要清淡少油控制卡路里的摄入并运动起来&quot;,
+    &quot;跑步是很好的运动哦&quot;
+])
+
+input_text = &quot;怎么减肥？&quot;
+
+# Langchain中向量存储对象，有一个方法，as_retriever，可以返回一个Runnable接口的子类实例对象
+# &quot;k&quot;, 2 最大返回2个匹配结果
+retriever = vector_store.as_retriever(search_kwargs={&quot;k&quot;: 2})
+
+# 转换list[Document] -&gt; str
+def format_func(docs) -&gt; str:
+    if not docs:
+        return &quot;无资料&quot;
+
+    formatted_docs = &quot;[&quot;
+    for doc in docs:
+        formatted_docs += doc.page_content
+    formatted_docs += &quot;]&quot;
+    return formatted_docs
+
+def print_history(full_prompt):
+    print(&quot;=&quot;*20, full_prompt, &quot;=&quot;*20)
+    return full_prompt
+
+# chain = retriever | prompt | model | StrOutputParser() 有问题
+chain = (
+    {&quot;input&quot;: RunnablePassthrough(), &quot;context&quot;: retriever | format_func}
+    | prompt
+    | print_history
+    | model
+    | StrOutputParser()
+)
+
+res = chain.invoke(input_text)
+# input_text会最先提供给rettiever，由于retriever在字典中，所以input_text需要先进入字典中
+# 这样input_text会分流一份给RunnablePassthrough()
+print(res)
+
+&quot;&quot;&quot;
+retriever：
+    - 输入：用户提问 str
+    - 输出：向量库的检索结果 list[Document]
+prompt：
+    - 输入：用户的提问+向量库检索结果 dict
+    - 输出：完整的提示词 PromptValue
+&quot;&quot;&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2b78db55-6aee-839f-b13d-01712dbe044c" class="toggle"><li><details open=""><summary>案例解析</summary><div style="display:contents" dir="auto"><pre id="ce68db55-6aee-8244-9919-01af525e6086" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">{&quot;input&quot;: RunnablePassthrough(), &quot;context&quot;: retriever | format_func}</code></pre></div><div style="display:contents" dir="auto"><p id="1198db55-6aee-8235-a534-81b4b26ffb47" class="">这是一个<strong>字典</strong>，它的值是两个<strong>可运行对象（Runnable）</strong>，会<strong>并行执行</strong>，最终合并成一个字典输出。</p></div><div style="display:contents" dir="ltr"><table id="9a48db55-6aee-832f-945e-01f355ed7158" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="9d18db55-6aee-8374-858d-8165141ab6f3"><th id="&gt;iIL" class="simple-table-header-color simple-table-header"><strong>键</strong></th><th id="ytfF" class="simple-table-header-color simple-table-header"><strong>值</strong></th><th id="Z:YS" class="simple-table-header-color simple-table-header"><strong>含义</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="f158db55-6aee-827b-ad9f-81bf1ced2d03"><td id="&gt;iIL" class=""><code>&quot;input&quot;</code></td><td id="ytfF" class=""><code>RunnablePassthrough()</code></td><td id="Z:YS" class="">将用户输入（原始问题）原封不动地传递下去</td></tr></div><div style="display:contents" dir="ltr"><tr id="7d08db55-6aee-8304-8bd9-81992e4d34b0"><td id="&gt;iIL" class=""><code>&quot;context&quot;</code></td><td id="ytfF" class=""><code>retriever | format_func</code></td><td id="Z:YS" class="">将用户输入经过检索器 → 格式化函数处理后得到上下文</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="b8b8db55-6aee-8299-8923-0190ab7083c9" class=""><strong>输入</strong>：用户的问题字符串（例如 <code>&quot;怎么减肥？&quot;</code>）</p></div><div style="display:contents" dir="auto"><p id="5698db55-6aee-8289-a128-01c6b13e9ab4" class=""><strong>输出</strong>：一个字典</p></div><div style="display:contents" dir="auto"><pre id="b478db55-6aee-8316-a1f4-818f7b120106" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">{
+    &quot;input&quot;: &quot;怎么减肥？&quot;,
+    &quot;context&quot;: &quot;检索并格式化后的文本字符串&quot;
+}</code></pre></div><div style="display:contents" dir="auto"><ul id="74b8db55-6aee-82e6-9aed-0124016e2e17" class="bulleted-list"><li style="list-style-type:disc"><code><strong>RunnablePassthrough()</strong></code>：一个非常简单的组件，什么都不做，只是把接收到的输入直接作为输出。这里它捕获原始的 <code>input_text</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="1338db55-6aee-83f6-8fa7-81d2866d3de3" class="bulleted-list"><li style="list-style-type:disc"><code><strong>retriever | format_func</strong></code>：<div style="display:contents" dir="auto"><ul id="1d28db55-6aee-82b6-8783-81fe9170f4a3" class="bulleted-list"><li style="list-style-type:circle"><code>retriever</code>：前面定义的 <code>vector_store.as_retriever(search_kwargs={&quot;k&quot;: 2})</code>，它的输入是用户问题，输出是 <code>list[Document]</code>（最多2个文档）。</li></ul></div><div style="display:contents" dir="auto"><ul id="ed48db55-6aee-825a-9f8e-817beb987201" class="bulleted-list"><li style="list-style-type:circle"><code>format_func</code>：一个自定义函数，接收 <code>list[Document]</code>，返回一个<strong>字符串</strong>（将文档内容拼接）。<div style="display:contents" dir="auto"><p id="8d48db55-6aee-821b-b0c6-812abb8fe7dd" class="">这个管道等价于先调用 <code>retriever</code>，然后把结果传给 <code>format_func</code>。</p></div></li></ul></div></li></ul></div><div style="display:contents" dir="auto"><hr id="1ec8db55-6aee-82c6-a69f-01e3004ba276"/></div><div style="display:contents" dir="auto"><pre id="69a8db55-6aee-834b-b463-01b3f7012ba6" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;以我提供的已知参考资料为主，简介和专业的回答用户问题，参考资料:{context}&quot;),
+    (&quot;user&quot;, &quot;用户提问:{input}&quot;)
+])</code></pre></div><div style="display:contents" dir="auto"><p id="0d98db55-6aee-8241-bcc5-81017709746b" class=""><code>prompt</code> 是一个 <code>ChatPromptTemplate</code>，它期望输入一个<strong>字典</strong>，包含 <code>context</code> 和 <code>input</code> 两个键，然后格式化出完整的对话消息。</p></div><div style="display:contents" dir="auto"><p id="5ae8db55-6aee-8315-a599-01af38729f80" class=""><strong>输入</strong>：上一步输出的字典（有 <code>context</code> 和 <code>input</code>）</p></div><div style="display:contents" dir="auto"><p id="0f18db55-6aee-8352-88f3-01be150075c1" class=""><strong>输出</strong>：一个 <code>PromptValue</code> 对象（可以看作是组装好的消息列表，即将发送给模型的内容）</p></div><div style="display:contents" dir="auto"><pre id="51c8db55-6aee-82e5-b977-813436bdef0e" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">system: 以我提供的已知参考资料为主，简介和专业的回答用户问题，参考资料:跑步是很好的运动哦 在减脂期间吃东西很重要...
+user: 用户提问:怎么减肥？</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="ae48db55-6aee-826f-b726-01d692039bb1"/></div><div style="display:contents" dir="auto"><hr id="7b38db55-6aee-8386-998f-01770a59c525"/></div><div style="display:contents" dir="auto"><hr id="2e98db55-6aee-834c-9c58-81cf55891df5"/></div><div style="display:contents" dir="auto"><p id="7d78db55-6aee-82a7-a54d-011abbe33869" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

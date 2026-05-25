@@ -1,0 +1,855 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>querystring模块和URLSearchParams</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e518db55-6aee-82fc-8d98-811d1b03611a" class="page mono"><header><h1 class="page-title" dir="auto">querystring模块和URLSearchParams</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="e328db55-6aee-8291-beab-01e799ed410a" class="">querystring专门处理url的查询部分（?后面的部分）</p></div><div style="display:contents" dir="auto"><p id="e868db55-6aee-839a-b124-81e610f1f885" class="">它提供了一套简洁的 API，实现查询字符串与 JavaScript 对象之间的<mark class="highlight-blue"><strong>相互转换</strong></mark>，同时支持对<mark class="highlight-blue">特殊字符的编码</mark>（<code>escape</code>）与解码（<code>unescape</code>），解决 URL 中<mark class="highlight-blue">非法字符</mark>（如空格、中文、特殊符号）的传输问题。</p></div><div style="display:contents" dir="auto"><hr id="0168db55-6aee-83d5-af99-01d9c0f5f8d0"/></div><div style="display:contents" dir="auto"><ul id="5068db55-6aee-828f-b0b7-016715c14d9e" class="toggle"><li><details open=""><summary>作用</summary><div style="display:contents" dir="auto"><ul id="00b8db55-6aee-82fa-a942-816922c2235a" class="bulleted-list"><li style="list-style-type:disc">特殊字符（如 <code>&amp;</code>、<code>=</code>、空格、中文）会破坏 URL 结构，导致解析错误；</li></ul></div><div style="display:contents" dir="auto"><ul id="b498db55-6aee-83d7-bcc0-01468b4b702a" class="bulleted-list"><li style="list-style-type:disc">手动遍历对象拼接字符串效率低且易出错；</li></ul></div><div style="display:contents" dir="auto"><ul id="3dd8db55-6aee-82d0-a82a-0124ee1523c4" class="bulleted-list"><li style="list-style-type:disc">不同后端框架对查询字符串的格式要求不同（如是否支持数组、嵌套对象）。</li></ul></div><div style="display:contents" dir="auto"><p id="87a8db55-6aee-8324-bfdf-01548d0f7a8a" class=""><code>querystring</code> 模块的核心作用就是<strong>标准化这些操作</strong>，解决上述痛点。<br/><br/></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ffa8db55-6aee-8334-8591-010104ab562e" class="toggle"><li><details open=""><summary>转换类：字符串→对象</summary><div style="display:contents" dir="auto"><ul id="73b8db55-6aee-82e3-b635-81c39da3408c" class="toggle"><li><details open=""><summary><code>querystring.parse(str[,esp[,eq[,options]]])</code></summary><div style="display:contents" dir="auto"><p id="f1c8db55-6aee-8231-a0cc-01279e32b5f9" class="">将查询字符串转换为Js对象</p></div><div style="display:contents" dir="auto"><p id="9cb8db55-6aee-82ed-9953-81204a5accda" class="">如：<code>&quot;?name=foo&amp;age=20&quot;</code> → <code>{ name: &quot;foo&quot;, age: &quot;20&quot; }</code>。</p></div><div style="display:contents" dir="ltr"><table id="0dc8db55-6aee-8285-9cce-81910e386800" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="b2e8db55-6aee-82fb-ae86-01b9d8d00d91"><th id="GTe{" class="simple-table-header-color simple-table-header"><strong>参数</strong></th><th id="fp{N" class="simple-table-header-color simple-table-header"><strong>类型</strong></th><th id="Y&lt;~M" class="simple-table-header-color simple-table-header" style="width:207px"><strong>默认值</strong></th><th id="B@r\" class="simple-table-header-color simple-table-header" style="width:528px"><strong>说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="82d8db55-6aee-822e-9ffc-8102ebc6b5f9"><td id="GTe{" class=""><code>str</code></td><td id="fp{N" class="">String</td><td id="Y&lt;~M" class="" style="width:207px">无（必传）</td><td id="B@r\" class="" style="width:528px">要解析的 URL 查询字符串（可带 <code>?</code>，也可不带，模块会自动忽略 <code>?</code>）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="c988db55-6aee-83b5-bba2-81d4ae333b03"><td id="GTe{" class=""><code>sep</code></td><td id="fp{N" class="">String</td><td id="Y&lt;~M" class="" style="width:207px"><code>&quot;&amp;&quot;</code></td><td id="B@r\" class="" style="width:528px">键值对之间的分隔符（如 <code>&amp;</code> 表示 <code>key1=val1&amp;key2=val2</code>）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="6ae8db55-6aee-8276-935c-01973d8e99ec"><td id="GTe{" class=""><code>eq</code></td><td id="fp{N" class="">String</td><td id="Y&lt;~M" class="" style="width:207px"><code>&quot;=&quot;</code></td><td id="B@r\" class="" style="width:528px">键与值之间的分隔符（如 <code>=</code> 表示 <code>key=val</code>）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="5148db55-6aee-827f-b704-0178be1964eb"><td id="GTe{" class=""><code>options</code></td><td id="fp{N" class="">Object</td><td id="Y&lt;~M" class="" style="width:207px"><code>{ maxKeys: 1000 }</code></td><td id="B@r\" class="" style="width:528px">配置项：- <code>maxKeys</code>：最大解析键数（默认 1000，设为 <code>0</code> 表示无限制）。</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="e0c8db55-6aee-82bb-8fe4-014c7885a1ea" class="">如：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="41a8db55-6aee-8254-9d7d-819e891983cb" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const querystring = require(&#x27;querystring&#x27;);
+
+// 解析带 ? 的查询字符串
+const str1 = &#x27;?name=张三&amp;age=20&amp;isStudent=true&#x27;;
+const obj1 = querystring.parse(str1);
+console.log(obj1); 
+// 输出：{ name: &#x27;张三&#x27;, age: &#x27;20&#x27;, isStudent: &#x27;true&#x27; } 
+// 注意：解析后的值均为字符串类型（如 age 是 &quot;20&quot;，不是数字 20）
+
+// 解析不带 ? 的查询字符串
+const str2 = &#x27;page=1&amp;size=10&amp;keyword=node&#x27;;
+const obj2 = querystring.parse(str2);
+console.log(obj2); 
+// 输出：{ page: &#x27;1&#x27;, size: &#x27;10&#x27;, keyword: &#x27;node&#x27; }</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a868db55-6aee-8345-ba10-81d34c924f4e" class="toggle"><li><details open=""><summary>自定义分隔符<code>querystring.parse(str,</code><mark class="highlight-blue"><code> &#x27;;&#x27;, &#x27;:&#x27;</code></mark><code>)</code></summary><div style="display:contents" dir="auto"><p id="cd98db55-6aee-82ab-81fc-01ce6adba521" class="">如果查询字符串用非默认分隔符（如 <code>;</code> 分隔键值对，<code>:</code> 分隔键与值），可手动指定 <code>sep</code> 和 <code>eq</code>：</p></div><div style="display:contents" dir="auto"><pre id="6248db55-6aee-82ba-a9ea-81fd7ba7ab08" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const str = &#x27;name:李四;age:22;hobby:code;hobby:game&#x27;;
+const obj = querystring.parse(str, &#x27;;&#x27;, &#x27;:&#x27;);
+console.log(obj); 
+// 输出：{ name: &#x27;李四&#x27;, age: &#x27;22&#x27;, hobby: [&#x27;code&#x27;, &#x27;game&#x27;] } 
+// 注意：重复的键会自动转为数组</code></pre></div><div style="display:contents" dir="auto"><p id="58b8db55-6aee-8393-b4c1-8128fe544d7c" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0618db55-6aee-8376-86fe-016ed7068944" class="toggle"><li><details open=""><summary><code>querystring.stringify(obj[[,esp[,eq[,options]]])</code></summary><div style="display:contents" dir="auto"><p id="86b8db55-6aee-83ea-9809-01dbe1264239" class="">将Js对象转换成url查询对象</p></div><div style="display:contents" dir="auto"><p id="3098db55-6aee-8352-b098-0182291b3bfb" class="">如：<code>{ name: &quot;foo&quot;, age: &quot;20&quot; }</code> → <code>&quot;name=foo&amp;age=20&quot;</code>。</p></div><div style="display:contents" dir="ltr"><table id="f308db55-6aee-8235-b44e-816da7758940" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="caa8db55-6aee-82e1-9835-814e7f48ce85"><th id="~YRh" class="simple-table-header-color simple-table-header"><strong>参数</strong></th><th id="xNak" class="simple-table-header-color simple-table-header"><strong>类型</strong></th><th id="_nXX" class="simple-table-header-color simple-table-header" style="width:362.5833282470703px"><strong>默认值</strong></th><th id="Rzf:" class="simple-table-header-color simple-table-header" style="width:331px"><strong>说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="8d88db55-6aee-83ec-9c75-01f8b1838faa"><td id="~YRh" class=""><code>obj</code></td><td id="xNak" class="">Object</td><td id="_nXX" class="" style="width:362.5833282470703px">无（必传）</td><td id="Rzf:" class="" style="width:331px">要转换的 JavaScript 对象（值可为字符串、数字、数组、布尔值）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="4848db55-6aee-82c6-9838-81b12c254623"><td id="~YRh" class=""><code>sep</code></td><td id="xNak" class="">String</td><td id="_nXX" class="" style="width:362.5833282470703px"><code>&quot;&amp;&quot;</code></td><td id="Rzf:" class="" style="width:331px">键值对之间的分隔符（同 <code>parse</code>）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="3f58db55-6aee-8212-883c-01d6f176695f"><td id="~YRh" class=""><code>eq</code></td><td id="xNak" class="">String</td><td id="_nXX" class="" style="width:362.5833282470703px"><code>&quot;=&quot;</code></td><td id="Rzf:" class="" style="width:331px">键与值之间的分隔符（同 <code>parse</code>）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="7e98db55-6aee-8346-b2ef-01b0b8498980"><td id="~YRh" class=""><code>options</code></td><td id="xNak" class="">Object</td><td id="_nXX" class="" style="width:362.5833282470703px"><code>{ encodeURIComponent: querystring.escape }</code></td><td id="Rzf:" class="" style="width:331px">配置项：- <code>encodeURIComponent</code>：自定义编码函数（默认用 <code>querystring.escape</code>）。</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="cc78db55-6aee-82ad-b755-01128369e70c" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const querystring = require(&#x27;querystring&#x27;);
+
+const obj1 = { name: &#x27;王五&#x27;, age: 25, isWorker: false };
+const str1 = querystring.stringify(obj1);
+console.log(str1); 
+// 输出：&quot;name=%E7%8E%8B%E4%BA%94&amp;age=25&amp;isWorker=false&quot; 
+// 注意：中文自动被编码（&quot;王五&quot; → &quot;%E7%8E%8B%E4%BA%94&quot;）
+
+// 手动拼接 URL
+const baseUrl = &#x27;https://example.com/api/user&#x27;;
+const fullUrl = `${baseUrl}?${str1}`;
+console.log(fullUrl); 
+// 输出：&quot;https://example.com/api/user?name=%E7%8E%8B%E4%BA%94&amp;age=25&amp;isWorker=false&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6748db55-6aee-83e2-945e-01c627b0bec5" class="toggle"><li><details open=""><summary>处理数组与自定义分隔符</summary><div style="display:contents" dir="auto"><pre id="f8f8db55-6aee-82f1-9ff8-8169b9fe914d" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">数组会被转为 key=val1&amp;key=val2 的格式；
+可自定义 sep 和 eq 改变分隔符：</code></pre></div><div style="display:contents" dir="auto"><pre id="e6b8db55-6aee-83e8-a8a4-01f2da0bf59d" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const obj = { name: &#x27;赵六&#x27;, hobbies: [&#x27;reading&#x27;, &#x27;running&#x27;], gender: &#x27;male&#x27; };
+
+// 自定义分隔符为 ; 和 =
+const str = querystring.stringify(obj, &#x27;;&#x27;, &#x27;=&#x27;);
+console.log(str); 
+// 输出：&quot;name=%E8%B5%B5%E5%85%AD;hobbies=reading;hobbies=running;gender=male&quot;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7498db55-6aee-82f3-a956-0136120f7a93" class="toggle"><li><details open=""><summary>编解码类：特殊字符处理</summary><div style="display:contents" dir="auto"><p id="d8e8db55-6aee-8301-903e-0176f0e7285c" class="">URL 中不允许直接包含空格、中文、<code>&amp;</code>、<code>=</code> 等特殊字符，必须先<strong>编码</strong>（转为 <code>%XX</code> 格式），传输到服务端后再<strong>解码</strong>（还原为原字符）。<code>querystring</code> 提供两个方法专门处理此过程。</p></div><div style="display:contents" dir="auto"><ul id="3588db55-6aee-833d-a8dc-01badb97aea9" class="toggle"><li><details open=""><summary><code>querystring.escape(str)</code></summary><div style="display:contents" dir="auto"><p id="47e8db55-6aee-8307-b508-01de7e863f67" class="">将字符串编码为 <strong>URL 安全格式</strong>（即把特殊字符转为 <code>%XX</code> 形式）。</p></div><div style="display:contents" dir="auto"><p id="fff8db55-6aee-8260-9ec6-01b993e2bf3d" class="">底层逻辑与 <code>encodeURIComponent</code> 类似，但对部分字符（如 <code>&#x27;</code>）的编码规则略有差异（<code>querystring.escape</code> 会编码 <code>&#x27;</code>，而 <code>encodeURIComponent</code> 不会）。</p></div><div style="display:contents" dir="auto"><pre id="3c98db55-6aee-83a9-99fb-81d1e60913cd" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const querystring = require(&#x27;querystring&#x27;);
+
+const str = &#x27;张三&amp;age=20&#x27;;
+const escapedStr = querystring.escape(str);
+console.log(escapedStr); 
+// 输出：&quot;%E5%BC%A0%E4%B8%89%26age%3D20&quot; 
+// 解析：&quot;张&quot;→%E5%BC%A0，&quot;三&quot;→%E4%B8%89，&quot;&amp;&quot;→%26，&quot;=&quot;→%3D</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e2d8db55-6aee-833e-8dd4-812b2667f87e" class="toggle"><li><details open=""><summary><code>querystring.unescape(str)</code></summary><div style="display:contents" dir="auto"><p id="51d8db55-6aee-8248-9632-0119599ef9b1" class="">将 <code>querystring.escape</code> 编码后的字符串<strong>解码</strong>为原字符串（<code>escape</code> 的逆操作）。</p></div><div style="display:contents" dir="auto"><pre id="70a8db55-6aee-8349-86d5-81de3e16aa18" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const querystring = require(&#x27;querystring&#x27;);
+
+const escapedStr = &quot;%E5%BC%A0%E4%B8%89%26age%3D20&quot;;
+const unescapedStr = querystring.unescape(escapedStr);
+console.log(unescapedStr); 
+// 输出：&quot;张三&amp;age=20&quot;（还原为原字符串）</code></pre></div><div style="display:contents" dir="auto"><p id="7518db55-6aee-82db-a675-8131c4f7270f" class="">
+</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f238db55-6aee-82cc-8f47-81bf4d90ae62" class="toggle"><li><details open=""><summary>注意</summary><div style="display:contents" dir="auto"><p id="2178db55-6aee-82d3-91a4-01b7ecd98628" class="">1、值的类型问题</p></div><div style="display:contents" dir="auto"><p id="d4c8db55-6aee-82e1-9e50-01c425e4ec20" class="">querystring.parse解析后，<mark class="highlight-blue">所有值都是字符串类型</mark>，即如果有类似age=20，解析后20会编程字符串’20’</p></div><div style="display:contents" dir="auto"><pre id="7048db55-6aee-838b-857f-81dddcd03bc1" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const obj = querystring.parse(&#x27;age=20&amp;isStudent=true&#x27;);
+obj.age = Number(obj.age); // 转为数字
+obj.isStudent = obj.isStudent === &#x27;true&#x27;; // 转为布尔值
+console.log(obj); // { age: 20, isStudent: true }</code></pre></div><div style="display:contents" dir="auto"><p id="2e88db55-6aee-8232-ad1b-81282a5e4659" class="">2、嵌套对象不支持</p></div><div style="display:contents" dir="auto"><p id="df88db55-6aee-834e-a92f-81b61c3b3848" class="">querystring仅支持<mark class="highlight-blue">扁平对象</mark>，不支持嵌套对象（如 <code>{ user: { name: &quot;foo&quot;, age: 20 } }</code>）若强行转换，嵌套部分会被转为字符串：</p></div><div style="display:contents" dir="auto"><pre id="8cd8db55-6aee-821d-b58f-01e5af519a8b" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const obj = { user: { name: &quot;foo&quot;, age: 20 } };
+const str = querystring.stringify(obj);
+console.log(str); // &quot;user=[object Object]&quot;（嵌套对象被转为字符串，无法正常解析）</code></pre></div><div style="display:contents" dir="auto"><p id="70a8db55-6aee-83a9-a800-019adafedab4" class="">3、与URLSearchParams区别</p></div><div style="display:contents" dir="ltr"><table id="97a8db55-6aee-836d-867f-0154939177bd" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="0ae8db55-6aee-8244-9e62-81d16174b665"><th id="lK{q" class="simple-table-header-color simple-table-header"><strong>特性</strong></th><th id="VLjY" class="simple-table-header-color simple-table-header" style="width:288.3072814941406px"><code><strong>querystring</strong></code><strong> 模块</strong></th><th id="I\Wv" class="simple-table-header-color simple-table-header" style="width:271.5247344970703px"><code><strong>URLSearchParams</strong></code><strong> 类</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="f348db55-6aee-8231-9be2-018d0dcb5b84"><td id="lK{q" class="">所属模块</td><td id="VLjY" class="" style="width:288.3072814941406px">独立内置模块</td><td id="I\Wv" class="" style="width:271.5247344970703px"><code>url</code> 模块的子功能</td></tr></div><div style="display:contents" dir="ltr"><tr id="2908db55-6aee-835c-b576-01f2496de0b8"><td id="lK{q" class="">浏览器支持</td><td id="VLjY" class="" style="width:288.3072814941406px">不支持（仅 Node.js）</td><td id="I\Wv" class="" style="width:271.5247344970703px">支持（浏览器 + Node.js）</td></tr></div><div style="display:contents" dir="ltr"><tr id="c288db55-6aee-8223-9bbc-013ffa2d19b6"><td id="lK{q" class="">嵌套对象支持</td><td id="VLjY" class="" style="width:288.3072814941406px">不支持</td><td id="I\Wv" class="" style="width:271.5247344970703px">不支持</td></tr></div><div style="display:contents" dir="ltr"><tr id="fcd8db55-6aee-8364-9f1c-0114ca9d26cf"><td id="lK{q" class="">API 风格</td><td id="VLjY" class="" style="width:288.3072814941406px">函数式（如 <code>parse</code>/<code>stringify</code>）</td><td id="I\Wv" class="" style="width:271.5247344970703px">面向对象（如 <code>get()</code>/<code>set()</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="6a28db55-6aee-82b4-9c52-81a6af012b4a"><td id="lK{q" class="">扩展功能</td><td id="VLjY" class="" style="width:288.3072814941406px">无（仅基础编解码 / 转换）</td><td id="I\Wv" class="" style="width:271.5247344970703px">支持 <code>forEach</code>、<code>has()</code> 等</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="69f8db55-6aee-83f8-b841-811fdf7d9d23"/></div><div style="display:contents" dir="auto"><ul id="f538db55-6aee-821b-b77a-01ab4ef2b4a7" class="bulleted-list"><li style="list-style-type:disc">若在 <strong>Node.js 环境</strong>中处理简单查询字符串，<code>querystring</code> 足够轻量；</li></ul></div><div style="display:contents" dir="auto"><ul id="c178db55-6aee-82b5-8098-01afd8394ae2" class="bulleted-list"><li style="list-style-type:disc">若需 <strong>浏览器 / Node.js 跨环境兼容</strong>，或需要更灵活的操作（如动态添加 / 删除键值对），推荐使用 <code>URLSearchParams</code>。</li></ul></div><div style="display:contents" dir="auto"><hr id="7398db55-6aee-82b2-b6f9-81f0bf366535"/></div><div style="display:contents" dir="auto"><hr id="6418db55-6aee-8334-9de2-8131e8cc4266"/></div><div style="display:contents" dir="auto"><hr id="5008db55-6aee-8247-bf91-81d74db5589b"/></div><div style="display:contents" dir="auto"><p id="c998db55-6aee-83b9-a192-018db44dcff6" class="">相比传统的字符串拼接或 <code>querystring</code> 模块，<code>URLSearchParams</code> 更符合现代 Web 标准，操作更简洁。</p></div><div style="display:contents" dir="auto"><ul id="5da8db55-6aee-8291-858d-01cd9fa3673a" class="toggle"><li><details open=""><summary>查询字符串创建</summary><div style="display:contents" dir="auto"><pre id="4b18db55-6aee-8301-bd34-01d66d203dde" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 带 ? 或不带 ? 均可
+const params1 = new URLSearchParams(&quot;name=Alice&amp;age=20&quot;);
+const params2 = new URLSearchParams(&quot;?name=Bob&amp;gender=male&quot;);</code></pre></div><div style="display:contents" dir="auto"><p id="8bb8db55-6aee-82ac-b27b-8160e3278ac5" class="">从对象创建</p></div><div style="display:contents" dir="auto"><pre id="63d8db55-6aee-83aa-ba50-813053e6994b" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const params = new URLSearchParams({
+  name: &quot;Charlie&quot;,
+  hobbies: [&quot;reading&quot;, &quot;sports&quot;] // 数组会被转为多个键值对
+});
+// 等价于 &quot;name=Charlie&amp;hobbies=reading&amp;hobbies=sports&quot;</code></pre></div><div style="display:contents" dir="auto"><p id="aa18db55-6aee-8275-9550-81950823f94f" class="">二维数组创建</p></div><div style="display:contents" dir="auto"><pre id="8708db55-6aee-8342-b4cd-81d66b2d3b11" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const params = new URLSearchParams([
+  [&quot;name&quot;, &quot;David&quot;],
+  [&quot;age&quot;, &quot;25&quot;],
+  [&quot;hobbies&quot;, &quot;music&quot;]
+]);
+// 等价于 &quot;name=David&amp;age=25&amp;hobbies=music&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5f98db55-6aee-8366-9e31-013a39608d37" class="toggle"><li><details open=""><summary>获取参数方法</summary><div style="display:contents" dir="ltr"><table id="b728db55-6aee-8356-bb68-011633e40981" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="f738db55-6aee-83c0-98bc-81f04abefd94"><th id="uHlx" class="simple-table-header-color simple-table-header"><strong>方法</strong></th><th id="Lw`_" class="simple-table-header-color simple-table-header" style="width:301px"><strong>说明</strong></th><th id="Fbrj" class="simple-table-header-color simple-table-header" style="width:438.171875px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="bff8db55-6aee-8399-b091-81d6f624003d"><td id="uHlx" class=""><code>get(key)</code></td><td id="Lw`_" class="" style="width:301px">获取指定键的第一个值（字符串）</td><td id="Fbrj" class="" style="width:438.171875px"><code>params.get(&quot;name&quot;) → &quot;Alice&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="d0e8db55-6aee-82f3-b165-01a747778ed9"><td id="uHlx" class=""><code>getAll(key)</code></td><td id="Lw`_" class="" style="width:301px">获取指定键的所有值（数组，适合多值）</td><td id="Fbrj" class="" style="width:438.171875px"><code>params.getAll(&quot;hobbies&quot;) → [&quot;reading&quot;, &quot;sports&quot;]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="94f8db55-6aee-837a-85ca-818938d201ca"><td id="uHlx" class=""><code>has(key)</code></td><td id="Lw`_" class="" style="width:301px">判断是否存在指定键（返回布尔值）</td><td id="Fbrj" class="" style="width:438.171875px"><code>params.has(&quot;age&quot;) → true</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="fa08db55-6aee-82a0-99ea-8138870069c1" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2448db55-6aee-8314-a0c5-01001243ec60" class="toggle"><li><details open=""><summary>添加/修改参数方法</summary><div style="display:contents" dir="ltr"><table id="97f8db55-6aee-8275-af0f-018dfae57e63" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="a718db55-6aee-8386-b695-01e7941c7699"><th id="RI`g" class="simple-table-header-color simple-table-header" style="width:189.0390625px"><strong>方法</strong></th><th id="]&lt;}~" class="simple-table-header-color simple-table-header" style="width:274px"><strong>说明</strong></th><th id="j?k_" class="simple-table-header-color simple-table-header" style="width:320.1341094970703px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="e998db55-6aee-82ec-83b4-81e58bfc7bc2"><td id="RI`g" class="" style="width:189.0390625px"><code>append(key, value)</code></td><td id="]&lt;}~" class="" style="width:274px">为指定键添加一个值（保留现有值）</td><td id="j?k_" class="" style="width:320.1341094970703px"><code>params.append(&quot;hobbies&quot;, &quot;coding&quot;)</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b468db55-6aee-8210-8890-816509456f7b"><td id="RI`g" class="" style="width:189.0390625px"><code>set(key, value)</code></td><td id="]&lt;}~" class="" style="width:274px">设置指定键的值（覆盖现有值）</td><td id="j?k_" class="" style="width:320.1341094970703px"><code>params.set(&quot;age&quot;, &quot;21&quot;)</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="63e8db55-6aee-829b-a1f0-81d86723452a" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c0c8db55-6aee-83d9-9806-01e374b1e839" class="toggle"><li><details open=""><summary>删除参数方法</summary><div style="display:contents" dir="ltr"><table id="ac38db55-6aee-83d1-99ea-81e007dd8dc1" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5578db55-6aee-8363-b0b4-01d3c6c9fa42"><th id="[;|h" class="simple-table-header-color simple-table-header"><strong>方法</strong></th><th id="PVVP" class="simple-table-header-color simple-table-header"><strong>说明</strong></th><th id="{qO_" class="simple-table-header-color simple-table-header"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="9738db55-6aee-83a9-84af-8110d5655b36"><td id="[;|h" class=""><code>delete(key)</code></td><td id="PVVP" class="">删除指定键的所有值</td><td id="{qO_" class=""><code>params.delete(&quot;gender&quot;)</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1fa8db55-6aee-8352-be33-01cfb36989a5" class="toggle"><li><details open=""><summary>遍历方法</summary><div style="display:contents" dir="auto"><pre id="4418db55-6aee-8340-aa2d-01cf8145fa5f" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const params = new URLSearchParams(&quot;name=Alice&amp;age=20&amp;hobbies=reading&quot;);
+
+// 1. for...of 遍历 [key, value]
+for (const [key, value] of params) {
+  console.log(`${key}: ${value}`); // name: Alice, age: 20, hobbies: reading
+}
+
+// 2. 遍历所有键
+for (const key of params.keys()) {
+  console.log(key); // name, age, hobbies
+}
+
+// 3. 遍历所有值
+for (const value of params.values()) {
+  console.log(value); // Alice, 20, reading
+}
+
+// 4. forEach 遍历
+params.forEach((value, key) =&gt; {
+  console.log(`${key}=${value}`);
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2dc8db55-6aee-8255-b6d8-81145c8190c0" class="toggle"><li><details open=""><summary>转换字符串方法</summary><div style="display:contents" dir="ltr"><table id="ad88db55-6aee-83f5-a84d-0182d72c5ee5" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="c308db55-6aee-82e7-a796-01ec53de6200"><th id="[w^E" class="simple-table-header-color simple-table-header"><strong>方法</strong></th><th id="|?eO" class="simple-table-header-color simple-table-header"><strong>说明</strong></th><th id="&gt;u\@" class="simple-table-header-color simple-table-header"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="5858db55-6aee-8354-ba51-01304c19f013"><td id="[w^E" class=""><code>toString()</code></td><td id="|?eO" class="">转换为查询字符串（不带 <code>?</code>）</td><td id="&gt;u\@" class=""><code>params.toString() → &quot;name=Alice&amp;age=20&quot;</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4818db55-6aee-82ae-8941-01f2eb083212" class="toggle"><li><details open=""><summary>编码与解码</summary><div style="display:contents" dir="auto"><p id="5c38db55-6aee-837e-b931-016ee2ba8cec" class=""><code>URLSearchParams</code> 会自动处理特殊字符的编码（如中文、空格、<code>&amp;</code> 等），无需手动调用 <code>encodeURIComponent</code>：（但不会处理单引号）</p></div><div style="display:contents" dir="auto"><pre id="9748db55-6aee-8215-bd1f-01fa6a8f0aba" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const params = new URLSearchParams();
+params.append(&quot;name&quot;, &quot;张三&quot;);
+params.append(&quot;msg&quot;, &quot;hello world!&quot;);
+
+console.log(params.toString()); 
+// 输出：&quot;name=%E5%BC%A0%E4%B8%89&amp;msg=hello+world!&quot;
+// 解析：&quot;张三&quot; 被编码为 %E5%BC%A0%E4%B8%89，空格被编码为 +</code></pre></div><div style="display:contents" dir="auto"><p id="dcd8db55-6aee-82ba-a9e7-0198fbbcc748" class="">解码也会自动获得，通过get()获取的值就是解码后的原始值：</p></div><div style="display:contents" dir="auto"><pre id="be08db55-6aee-822d-9a58-01cd330300b1" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">const params = new URLSearchParams(&quot;name=%E5%BC%A0%E4%B8%89&quot;);
+console.log(params.get(&quot;name&quot;)); // 输出：&quot;张三&quot;（自动解码）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1038db55-6aee-8201-862e-011653ea8c54" class="toggle"><li><details open=""><summary>与URL对象配合使用</summary><div style="display:contents" dir="auto"><p id="cf48db55-6aee-83aa-b0c5-81bc8498d9e6" class=""><code>URL</code> 对象的 <code>searchParams</code> 属性直接返回 <code>URLSearchParams</code> 实例，可无缝配合操作 URL：</p></div><div style="display:contents" dir="auto"><pre id="1b68db55-6aee-8249-b9e7-01d868d53951" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 创建 URL 对象
+const url = new URL(&quot;https://example.com/api/users&quot;);
+
+// 通过 searchParams 修改查询参数
+url.searchParams.set(&quot;page&quot;, &quot;1&quot;);
+url.searchParams.append(&quot;hobby&quot;, &quot;reading&quot;);
+url.searchParams.append(&quot;hobby&quot;, &quot;sports&quot;);
+
+console.log(url.href); 
+// 输出：&quot;https://example.com/api/users?page=1&amp;hobby=reading&amp;hobby=sports&quot;
+
+// 修改参数
+url.searchParams.set(&quot;page&quot;, &quot;2&quot;);
+console.log(url.href); 
+// 输出：&quot;https://example.com/api/users?page=2&amp;hobby=reading&amp;hobby=sports&quot;
+
+// 删除参数
+url.searchParams.delete(&quot;hobby&quot;);
+console.log(url.href); 
+// 输出：&quot;https://example.com/api/users?page=2&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ddc8db55-6aee-8312-a609-01b8c8c8ceae" class="toggle"><li><details open=""><summary>注意</summary><div style="display:contents" dir="auto"><ol type="1" id="2a58db55-6aee-8275-be5d-0164e0f3bd02" class="numbered-list" start="1"><li><strong>值的类型</strong>：所有参数值都会被转为字符串（例如数字 <code>20</code> 会变为 <code>&quot;20&quot;</code>，布尔值 <code>true</code> 会变为 <code>&quot;true&quot;</code>）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="cc78db55-6aee-833e-b304-819a84d650c8" class="numbered-list" start="2"><li><strong>不支持嵌套对象</strong>：<code>URLSearchParams</code> 仅支持扁平结构，无法直接处理嵌套对象（如 <code>{ user: { name: &quot;Alice&quot; } }</code>），需手动转为字符串（如 JSON 序列化）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ad78db55-6aee-82e4-865d-81b778bbd66b" class="numbered-list" start="3"><li><strong>浏览器兼容性</strong>：现代浏览器（Chrome、Firefox、Edge 等）均支持，但 IE 完全不支持，需通过 polyfill 兼容（如 <code>url-search-params-polyfill</code>）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1f18db55-6aee-82e0-8967-81037f41418d" class="numbered-list" start="4"><li><strong>与 querystring 模块的区别</strong>：<div style="display:contents" dir="auto"><ul id="cd48db55-6aee-833f-b997-81f04350d4da" class="bulleted-list"><li style="list-style-type:disc"><code>URLSearchParams</code> 是面向对象的 API，支持动态修改；</li></ul></div><div style="display:contents" dir="auto"><ul id="0d28db55-6aee-83a0-8186-01dfa69202f8" class="bulleted-list"><li style="list-style-type:disc"><code>querystring</code> 是 Node.js 模块，主要提供 <code>parse</code> 和 <code>stringify</code> 函数；</li></ul></div><div style="display:contents" dir="auto"><ul id="a8c8db55-6aee-83a4-a466-01f5c590b04d" class="bulleted-list"><li style="list-style-type:disc"><code>URLSearchParams</code> 跨浏览器和 Node.js 环境，而 <code>querystring</code> 仅在 Node.js 中可用。</li></ul></div></li></ol></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

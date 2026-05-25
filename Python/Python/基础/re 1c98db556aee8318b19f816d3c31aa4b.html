@@ -1,0 +1,913 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>re</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1c98db55-6aee-8318-b19f-816d3c31aa4b" class="page mono"><header><h1 class="page-title" dir="auto">re</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="0838db55-6aee-820c-81f7-813dd9c754a0" class="">正则表达式是一种用特殊字符序列描述字符串模式的方法，用于搜索、匹配和替换文本。在开始使用Python的<code>re</code>模块前，先了解其核心语法能让你事半功倍。</p></div><div style="display:contents" dir="auto"><hr id="e618db55-6aee-8208-8475-01a391cb958a"/></div><div style="display:contents" dir="auto"><ul id="cbd8db55-6aee-82f2-a548-01434c557b41" class="toggle"><li><details open=""><summary>元字符</summary><div style="display:contents" dir="auto"><p id="41a8db55-6aee-8256-96da-811ecfe37ae9" class=""><code>.</code>：匹配除换行符外任意单个字符</p></div><div style="display:contents" dir="auto"><p id="db78db55-6aee-82a3-8fd4-0160f8c171cd" class=""><code>^</code>：匹配字符串开始位置</p></div><div style="display:contents" dir="auto"><p id="9b88db55-6aee-82c1-9c1b-8194ab00df5e" class=""><code>$</code>：匹配字符串结束位置</p></div><div style="display:contents" dir="auto"><p id="a9d8db55-6aee-8211-aaf7-017c1dca8a57" class=""><code>|</code>：表示&quot;或&quot;关系，如a|b匹配a或b</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f7a8db55-6aee-8307-a9fa-81513a4b45c8" class="toggle"><li><details open=""><summary>转义字符</summary><div style="display:contents" dir="auto"><p id="6a78db55-6aee-828c-bd1b-81871332c9d0" class="">使用<code>\`</code>将元字符转义为普通字符，例如<code>.`</code>匹配点号本身</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3ae8db55-6aee-83f5-b44c-01a8d08b18d3" class="toggle"><li><details open=""><summary>字符类</summary><div style="display:contents" dir="auto"><p id="b448db55-6aee-82f6-84ba-812451a62388" class="">字符类用于<mark class="highlight-red">匹配特定字符集合</mark></p></div><div style="display:contents" dir="auto"><p id="4fd8db55-6aee-83be-bcd8-01be3ac65028" class=""><code>[abc]</code>：匹配a、b或c中的任意一个</p></div><div style="display:contents" dir="auto"><p id="4538db55-6aee-837b-bc29-81a8699d4e5a" class=""><code>[a-z]</code>：匹配任意小写字母</p></div><div style="display:contents" dir="auto"><p id="12c8db55-6aee-82ba-b9cd-81eb674b4c2b" class=""><code>[^abc]</code>：匹配除a、b、c外的任意字符</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7bb8db55-6aee-82b1-af2b-81139834828c" class="toggle"><li><details open=""><summary>预定义字符集</summary><div style="display:contents" dir="auto"><p id="3478db55-6aee-8219-bda9-01108cddd1c5" class="">预定义字符集<mark class="highlight-red">简化了常见模式</mark></p></div><div style="display:contents" dir="auto"><p id="4d28db55-6aee-8382-a972-81d3937df258" class=""><code>\d</code>：匹配数字，等价于[0-9]</p></div><div style="display:contents" dir="auto"><p id="d698db55-6aee-827c-b54c-813f1f006caf" class=""><code>\D</code>：匹配非数字字符</p></div><div style="display:contents" dir="auto"><p id="0cd8db55-6aee-8344-9123-81c1b8bca478" class=""><code>\w</code>：匹配字母、数字、下划线，等价于[a-zA-Z0-9_]</p></div><div style="display:contents" dir="auto"><p id="0028db55-6aee-8348-ae21-81ddd17c8d42" class=""><code>\W</code>：匹配非字母数字下划线字符</p></div><div style="display:contents" dir="auto"><p id="a218db55-6aee-8304-8d7d-013082b8254c" class=""><code>\s</code>：匹配空白字符（空格、制表符、换行符等）</p></div><div style="display:contents" dir="auto"><p id="8828db55-6aee-8273-a2db-81c3f6a4f940" class=""><code>\S</code>：匹配非空白字符</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3c88db55-6aee-8375-bfdb-0169f2c04b5f" class="toggle"><li><details open=""><summary>量词与重复匹配</summary><div style="display:contents" dir="auto"><p id="88f8db55-6aee-830c-86cd-819dd3723778" class="">量词控制前面元素的匹配次数：</p></div><div style="display:contents" dir="auto"><p id="bc78db55-6aee-83da-ac32-81d7b32047f8" class=""><code>*</code>：匹配前一个元素0次或多次</p></div><div style="display:contents" dir="auto"><p id="0148db55-6aee-839e-88ca-81b8b663226f" class=""><code>+</code>：匹配前一个元素1次或多次</p></div><div style="display:contents" dir="auto"><p id="47d8db55-6aee-82b3-9ead-815e0c46b784" class=""><code>?</code>：匹配前一个元素0次或1次</p></div><div style="display:contents" dir="auto"><p id="c0b8db55-6aee-8323-bb04-81a9bcac0793" class=""><code>{n}</code>：匹配前一个元素恰好n次</p></div><div style="display:contents" dir="auto"><p id="41e8db55-6aee-8312-836d-8192ad6953c5" class=""><code>{n,}</code>：匹配前一个元素至少n次</p></div><div style="display:contents" dir="auto"><p id="9318db55-6aee-83ff-b3a2-812526fd441c" class=""><code>{n,m}</code>：匹配前一个元素n到m次</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="8738db55-6aee-83c8-8aa3-81106c31c964"/></div><div style="display:contents" dir="auto"><ul id="e5f8db55-6aee-8209-a240-816e52bef1b1" class="toggle"><li><details open=""><summary>re模块函数对比</summary><div style="display:contents" dir="auto"><p id="8c28db55-6aee-83a8-8e85-81c0d0be9efc" class=""><code>re.match()</code></p></div><div style="display:contents" dir="auto"><p id="8ae8db55-6aee-8358-816e-01ca1daeaccb" class="">从字符串<mark class="highlight-blue">起始位置</mark>匹配</p></div><div style="display:contents" dir="auto"><p id="5f28db55-6aee-83c1-8593-81ec49768f3e" class="">返回，匹配对象或None</p></div><div style="display:contents" dir="auto"><p id="9828db55-6aee-837c-8c94-01a1bf9e730c" class="">验证字符串格式、检查前缀</p></div><div style="display:contents" dir="auto"><p id="bf38db55-6aee-8346-b975-811b0a54889b" class=""><code>re.search()</code></p></div><div style="display:contents" dir="auto"><p id="5b88db55-6aee-827d-ba42-01c4d584bc8e" class="">扫描整个字符串找<mark class="highlight-blue">第一个</mark>匹配</p></div><div style="display:contents" dir="auto"><p id="e048db55-6aee-82da-9686-015fa2ff62d7" class="">返回，匹配对象或None</p></div><div style="display:contents" dir="auto"><p id="8598db55-6aee-83ca-ad42-81788f1d5afb" class="">查找字符串中的特定模式</p></div><div style="display:contents" dir="auto"><p id="f368db55-6aee-8360-84ba-019f654ec57a" class=""><code>re.findall()</code></p></div><div style="display:contents" dir="auto"><p id="e288db55-6aee-83b0-b5e6-019e45fd126d" class="">返回所有<mark class="highlight-blue">非重叠匹配的列表</mark></p></div><div style="display:contents" dir="auto"><p id="1be8db55-6aee-830e-a4b3-01d739192407" class="">返回，字符串列表</p></div><div style="display:contents" dir="auto"><p id="3c48db55-6aee-83c7-8655-01169c3b322b" class="">提取所有符合条件的内容</p></div><div style="display:contents" dir="auto"><p id="a738db55-6aee-83f3-8f42-81f27a53b87e" class=""><code>re.finditer()</code></p></div><div style="display:contents" dir="auto"><p id="9188db55-6aee-83fa-801a-012ac8522873" class="">返回匹配对象的<mark class="highlight-blue">迭代器</mark></p></div><div style="display:contents" dir="auto"><p id="3928db55-6aee-8361-b3c2-81f5050bc8a5" class="">返回，迭代器</p></div><div style="display:contents" dir="auto"><p id="6e28db55-6aee-8253-9401-81cea3c71afd" class="">需要匹配详细信息时</p></div><div style="display:contents" dir="auto"><hr id="9c38db55-6aee-83fb-96ef-01f643c3ec4c"/></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="aae8db55-6aee-835a-b7bd-81961821cfac" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import re
+
+# re.match() - 从开头匹配
+text = &quot;hello world&quot;
+match_result = re.match(r&#x27;hello&#x27;, text)
+if match_result:
+    print(&quot;Match found:&quot;, match_result.group())  # 输出: hello
+
+# re.search() - 搜索整个字符串
+search_result = re.search(r&#x27;world&#x27;, text)
+if search_result:
+    print(&quot;Search found:&quot;, search_result.group())  # 输出: world
+
+# re.findall() - 查找所有匹配
+text_with_numbers = &quot;有2个苹果和5个橙子&quot;
+numbers = re.findall(r&#x27;\d+&#x27;, text_with_numbers)
+print(&quot;Numbers:&quot;, numbers)  # 输出: [&#x27;2&#x27;, &#x27;5&#x27;]
+
+# re.finditer() - 获取匹配对象
+for match in re.finditer(r&#x27;\d+&#x27;, text_with_numbers):
+    print(f&quot;数字 {match.group()} 在位置 {match.span()}&quot;)
+# 输出:
+# 数字 2 在位置 (1, 2)
+# 数字 5 在位置 (6, 7)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6548db55-6aee-8376-905f-811934b4eef7" class="toggle"><li><details open=""><summary>替换与分割函数</summary><div style="display:contents" dir="auto"><p id="9728db55-6aee-83e4-a3cf-81c18bb3b535" class=""><mark class="highlight-blue"><strong>替换操作</strong></mark>使用<code>re.sub()</code>和<code>re.subn()</code></p></div><div style="display:contents" dir="auto"><pre id="2578db55-6aee-83aa-94b5-019ecaf3e202" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 基本替换
+text = &quot;今天是2023-05-15&quot;
+new_text = re.sub(r&#x27;\d{4}-\d{2}-\d{2}&#x27;, &#x27;2024-01-01&#x27;, text)
+print(new_text)  # 输出: 今天是2024-01-01
+
+# 使用分组引用
+text = &quot;John Doe&quot;
+reversed_text = re.sub(r&#x27;(\w+)\s+(\w+)&#x27;, r&#x27;\2 \1&#x27;, text)
+print(reversed_text)  # 输出: Doe John
+
+# 替换并计数
+result, count = re.subn(r&#x27;\d&#x27;, &#x27;X&#x27;, &#x27;a1b2c3&#x27;)
+print(f&quot;结果: {result}, 替换次数: {count}&quot;)  # 输出: 结果:aXbXcX, 替换次数:3</code></pre></div><div style="display:contents" dir="auto"><p id="f768db55-6aee-833a-8306-01622219c0d4" class=""><mark class="highlight-blue"><strong>分割字符串</strong></mark>使用<code>re.split()</code></p></div><div style="display:contents" dir="auto"><pre id="c9f8db55-6aee-83a8-b2e7-81471edfb4d4" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 简单分割
+text = &quot;apple,banana;orange&quot;
+items = re.split(r&#x27;[;,]\s*&#x27;, text)
+print(items)  # 输出: [&#x27;apple&#x27;, &#x27;banana&#x27;, &#x27;orange&#x27;]
+
+# 复杂分割
+text = &quot;苹果12元 香蕉5元 橙子8元&quot;
+items = re.split(r&#x27;\d+元\s*&#x27;, text)
+print(items)  # 输出: [&#x27;苹果&#x27;, &#x27;香蕉&#x27;, &#x27;橙子&#x27;, &#x27;&#x27;]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f268db55-6aee-828e-9054-0110f45901ef" class="toggle"><li><details open=""><summary>编译正则表达式</summary><div style="display:contents" dir="auto"><p id="7a08db55-6aee-8318-aaf7-81dc6a18b269" class="">对于需要重复使用的正则表达式，<mark class="highlight-blue">预编译可以提高效率</mark></p></div><div style="display:contents" dir="auto"><pre id="8158db55-6aee-82de-9ff8-81755ae95097" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import re
+
+# 编译正则表达式
+phone_pattern = re.compile(r&#x27;(\d{3})-(\d{3}-\d{4})&#x27;)
+text = &quot;联系电话:123-456-7890，备用电话:987-654-3210&quot;
+
+# 使用编译后的模式
+match = phone_pattern.search(text)
+if match:
+    print(&quot;完整匹配:&quot;, match.group(0))  # 输出: 123-456-7890
+    print(&quot;区号:&quot;, match.group(1))     # 输出: 123
+    print(&quot;号码:&quot;, match.group(2))     # 输出: 456-7890
+
+# 查找所有匹配
+all_matches = phone_pattern.findall(text)
+print(&quot;所有匹配:&quot;, all_matches)  # 输出: [(&#x27;123&#x27;, &#x27;456-7890&#x27;), (&#x27;987&#x27;, &#x27;654-3210&#x27;)]</code></pre></div><div style="display:contents" dir="auto"><p id="4598db55-6aee-824d-a793-01a9f8b85a1d" class="">编译时还可以添加标志位修改匹配行为:</p></div><div style="display:contents" dir="auto"><p id="a408db55-6aee-8364-8f65-01de2e00dbc9" class=""><code>re.IGNORECASE</code>或<code>re.I</code>：忽略大小写</p></div><div style="display:contents" dir="auto"><p id="fa88db55-6aee-82de-a061-81df0094a60a" class=""><code>re.MULTILINE</code>或<code>re.M</code>：多行模式，使^和$匹配每行</p></div><div style="display:contents" dir="auto"><p id="6bd8db55-6aee-82d5-9802-8187c1fe4446" class=""><code>re.DOTALL</code>或<code>re.S</code>：使.匹配包括换行符在内的所有字符</p></div><div style="display:contents" dir="auto"><p id="9338db55-6aee-8353-9eaa-812c3be6295b" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="7258db55-6aee-8372-b0ba-01d6d445cb5e"/></div><div style="display:contents" dir="auto"><ul id="a3a8db55-6aee-82d7-9fc0-01b2e77b677f" class="toggle"><li><details open=""><summary>分组与捕获</summary><div style="display:contents" dir="auto"><p id="d3b8db55-6aee-8305-a89d-01c34bf96f41" class="">分组是正则表达式中强大的功能，可以提取和操作匹配的子内容</p></div><div style="display:contents" dir="auto"><p id="55c8db55-6aee-83e1-9513-81f30e78f483" class="">基本分组:</p></div><div style="display:contents" dir="auto"><pre id="6aa8db55-6aee-8255-aa37-8196ce9a6d00" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">text = &quot;2023年10月25日&quot;
+pattern = r&#x27;(\d{4})年(\d{1,2})月(\d{1,2})日&#x27;
+match = re.search(pattern, text)
+
+if match:
+    print(&quot;完整日期:&quot;, match.group(0))  # 2023年10月25日
+    print(&quot;年份:&quot;, match.group(1))     # 2023
+    print(&quot;月份:&quot;, match.group(2))     # 10
+    print(&quot;日期:&quot;, match.group(3))     # 25
+    print(&quot;所有分组:&quot;, match.groups()) # (&#x27;2023&#x27;, &#x27;10&#x27;, &#x27;25&#x27;)</code></pre></div><div style="display:contents" dir="auto"><p id="2198db55-6aee-83f4-8e45-81c74fd939fa" class="">命名分组（更易维护）:</p></div><div style="display:contents" dir="auto"><pre id="7a28db55-6aee-8267-bc00-019aec3fa1ea" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">text = &quot;姓名：张三，年龄：25&quot;
+pattern = r&#x27;姓名：(?P&lt;name&gt;\w+)，年龄：(?P&lt;age&gt;\d+)&#x27;
+match = re.search(pattern, text)
+
+if match:
+    print(&quot;姓名:&quot;, match.group(&#x27;name&#x27;))  # 张三
+    print(&quot;年龄:&quot;, match.group(&#x27;age&#x27;))   # 25
+    print(&quot;分组字典:&quot;, match.groupdict()) # {&#x27;name&#x27;: &#x27;张三&#x27;, &#x27;age&#x27;: &#x27;25&#x27;}</code></pre></div><div style="display:contents" dir="auto"><p id="34a8db55-6aee-82ff-bb07-0127c467a816" class=""><strong>非捕获组</strong>（提高效率）:</p></div><div style="display:contents" dir="auto"><pre id="6c38db55-6aee-8368-aa8a-0107e83ba499" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 使用(?:...)不捕获分组
+text = &quot;abc123 def456&quot;
+matches = re.findall(r&#x27;(?:abc|def)(\d+)&#x27;, text)
+print(matches)  # 输出: [&#x27;123&#x27;, &#x27;456&#x27;] - 只捕获数字部分</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fff8db55-6aee-8217-a310-81e9a120cb7a" class="toggle"><li><details open=""><summary>贪婪与非贪婪匹配</summary><div style="display:contents" dir="auto"><p id="1828db55-6aee-8323-8dc2-81958e409221" class="">正则表达式默认采用<mark class="highlight-blue"><strong>贪婪模式</strong></mark>（尽可能多匹配），使用<code>?</code>可启用<mark class="highlight-blue"><strong>非贪婪模式</strong></mark>（尽可能少匹配）</p></div><div style="display:contents" dir="auto"><pre id="8e08db55-6aee-831d-98b0-01b80b27956e" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">text = &quot;&lt;h1&gt;标题&lt;/h1&gt;&lt;p&gt;段落&lt;/p&gt;&quot;
+
+# 贪婪匹配
+greedy_match = re.search(r&#x27;&lt;.*&gt;&#x27;, text)
+print(&quot;贪婪匹配:&quot;, greedy_match.group())  # 输出整个字符串
+
+# 非贪婪匹配
+non_greedy_match = re.search(r&#x27;&lt;.*?&gt;&#x27;, text)
+print(&quot;非贪婪匹配:&quot;, non_greedy_match.group())  # 输出: &lt;h1&gt;
+
+# 提取所有标签内容（非贪婪）
+tags = re.findall(r&#x27;&lt;.*?&gt;&#x27;, text)
+print(&quot;所有标签:&quot;, tags)  # 输出: [&#x27;&lt;h1&gt;&#x27;, &#x27;&lt;/h1&gt;&#x27;, &#x27;&lt;p&gt;&#x27;, &#x27;&lt;/p&gt;&#x27;]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cd08db55-6aee-83e6-a17e-011d6a7747e7" class="toggle"><li><details open=""><summary>断言与条件匹配</summary><div style="display:contents" dir="auto"><p id="0d38db55-6aee-8257-b678-01b70fde34e3" class="">断言（零宽断言）用于指定匹配位置的前后条件，不消耗字符</p></div><div style="display:contents" dir="auto"><p id="f0a8db55-6aee-835e-b0ff-0157a8e6de8e" class=""><strong>前瞻断言</strong>：</p></div><div style="display:contents" dir="auto"><pre id="2e38db55-6aee-82fd-afe1-01a697d63414" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">text = &quot;100元、200美元、300欧元&quot;
+
+# 正向前瞻：匹配后面跟着&quot;元&quot;的数字
+yuan_nums = re.findall(r&#x27;\d+(?=元)&#x27;, text)
+print(&quot;元金额:&quot;, yuan_nums)  # 输出: [&#x27;100&#x27;]
+
+# 负向前瞻：匹配后面不跟&quot;元&quot;的数字
+non_yuan_nums = re.findall(r&#x27;\d+(?!元)&#x27;, text)
+print(&quot;非元金额:&quot;, non_yuan_nums)  # 输出: [&#x27;20&#x27;, &#x27;30&#x27;]（匹配200和300的前部分）</code></pre></div><div style="display:contents" dir="auto"><p id="6b18db55-6aee-8355-bacd-0183c42992e3" class=""><strong>后瞻断言</strong>：</p></div><div style="display:contents" dir="auto"><pre id="1ad8db55-6aee-83b8-92bc-01da30ab9bfe" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">text = &quot;价格：$100，价格：€200，价格：¥300&quot;
+
+# 正向后瞻：匹配前面是&quot;$&quot;的数字
+dollar_nums = re.findall(r&#x27;(?&lt;=\$)\d+&#x27;, text)
+print(&quot;美元金额:&quot;, dollar_nums)  # 输出: [&#x27;100&#x27;]
+
+# 负向后瞻：匹配前面不是&quot;$&quot;的数字
+non_dollar_nums = re.findall(r&#x27;(?&lt;!\$)\d+&#x27;, text)
+print(&quot;非美元金额:&quot;, non_dollar_nums)  # 输出: [&#x27;00&#x27;, &#x27;200&#x27;, &#x27;300&#x27;]（注意错误匹配）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2e48db55-6aee-832b-9941-81e615da9a6f" class="toggle"><li><details open=""><summary>反向引用</summary><div style="display:contents" dir="auto"><p id="d7f8db55-6aee-82c0-b3a4-0144ef4add98" class="">反向引用可以在同一表达式中引用前面捕获的内容：</p></div><div style="display:contents" dir="auto"><pre id="5828db55-6aee-828b-b615-01d157c96924" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 匹配重复单词
+text = &quot;hello hello world world&quot;
+duplicates = re.findall(r&#x27;(\b\w+\b)\s+\1&#x27;, text)
+print(&quot;重复单词:&quot;, duplicates)  # 输出: [&#x27;hello&#x27;, &#x27;world&#x27;]
+
+# 匹配对称标签
+html_text = &quot;&lt;div&gt;内容&lt;/div&gt;&lt;p&gt;段落&lt;/p&gt;&quot;
+matched_tags = re.findall(r&#x27;&lt;(\w+)&gt;.*?&lt;/\1&gt;&#x27;, html_text)
+print(&quot;匹配标签:&quot;, matched_tags)  # 输出: [&#x27;div&#x27;, &#x27;p&#x27;]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="8fb8db55-6aee-83e3-9f7d-81263cb45442"/></div><div style="display:contents" dir="auto"><p id="99c8db55-6aee-83dd-8a7b-0193f8302545" class="">案例：</p></div><div style="display:contents" dir="auto"><ul id="6d18db55-6aee-82b6-bac0-81381d5607e9" class="toggle"><li><details open=""><summary>数据验证</summary><div style="display:contents" dir="auto"><p id="82d8db55-6aee-82b0-8de8-01f40456b38f" class=""><strong>邮箱验证</strong>：</p></div><div style="display:contents" dir="auto"><pre id="4388db55-6aee-824a-a283-01fddb5ad08c" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def validate_email(email):
+    pattern = r&#x27;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$&#x27;
+    return re.match(pattern, email) is not None
+
+emails = [&quot;test@example.com&quot;, &quot;invalid.email@&quot;, &quot;user@domain..com&quot;]
+for email in emails:
+    print(f&quot;{email}: {&#x27;有效&#x27; if validate_email(email) else &#x27;无效&#x27;}&quot;)</code></pre></div><div style="display:contents" dir="auto"><p id="eff8db55-6aee-8316-b4b9-810cae38ba2e" class=""><strong>电话号码验证</strong>：</p></div><div style="display:contents" dir="auto"><pre id="e4d8db55-6aee-82af-a821-817c4a3a7dca" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def validate_phone(phone):
+    # 匹配多种格式：123-456-7890、(123)456-7890、1234567890等
+    pattern = r&#x27;^(\+\d{1,2}\s?)?(\(\d{3}\)|\d{3})[\s.-]?\d{3}[\s.-]?\d{4}$&#x27;
+    return re.match(pattern, phone) is not None
+
+phones = [&quot;123-456-7890&quot;, &quot;(123)456-7890&quot;, &quot;1234567890&quot;, &quot;+1 800 123 4567&quot;]
+for phone in phones:
+    print(f&quot;{phone}: {&#x27;有效&#x27; if validate_phone(phone) else &#x27;无效&#x27;}&quot;)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="04c8db55-6aee-83c2-819b-81ca2153e256" class="toggle"><li><details open=""><summary>数据提取与洗涤</summary><div style="display:contents" dir="auto"><p id="ec68db55-6aee-82ec-89d7-01602d282e53" class=""><strong>从文本提取结构化信息</strong>：</p></div><div style="display:contents" dir="auto"><pre id="e9d8db55-6aee-82d1-92c3-012ed4f380b8" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def extract_log_info(log_line):
+    # 解析Apache日志格式
+    pattern = r&#x27;^(\S+) \S+ \S+ \[([^\]]+)\] &quot;(\S+) (\S+) (\S+)&quot; (\d+) (\d+)&#x27;
+    match = re.match(pattern, log_line)
+    
+    if match:
+        return {
+            &#x27;ip&#x27;: match.group(1),
+            &#x27;time&#x27;: match.group(2),
+            &#x27;method&#x27;: match.group(3),
+            &#x27;path&#x27;: match.group(4),
+            &#x27;protocol&#x27;: match.group(5),
+            &#x27;status&#x27;: int(match.group(6)),
+            &#x27;size&#x27;: int(match.group(7))
+        }
+    return None
+
+log_line = &#x27;127.0.0.1 - - [10/May/2023:15:32:45 +0800] &quot;GET /index.html HTTP/1.1&quot; 200 1234&#x27;
+log_info = extract_log_info(log_line)
+print(&quot;日志信息:&quot;, log_info)</code></pre></div><div style="display:contents" dir="auto"><p id="58c8db55-6aee-8252-940a-0171ef36ab54" class=""><strong>文本清洗与标准化</strong>：</p></div><div style="display:contents" dir="auto"><pre id="d968db55-6aee-8326-893a-8177b018d32d" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def clean_text(text):
+    # 移除多余空白字符
+    text = re.sub(r&#x27;\s+&#x27;, &#x27; &#x27;, text)
+    # 标准化日期格式
+    text = re.sub(r&#x27;(\d{4})[/.-](\d{1,2})[/.-](\d{1,2})&#x27;, r&#x27;\1-\2-\3&#x27;, text)
+    # 移除特殊字符（保留中文、英文、数字和基本标点）
+    text = re.sub(r&#x27;[^\w\u4e00-\u9fa5\s.,!?;:]&#x27;, &#x27;&#x27;, text)
+    return text.strip()
+
+dirty_text = &quot;这是2023/05/15的文本！！！  有多余空格...和特殊符号@#￥%&quot;
+clean = clean_text(dirty_text)
+print(&quot;清洗后:&quot;, clean)  # 输出: 这是2023-05-15的文本!!! 有多余空格...和特殊符号</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="24b8db55-6aee-8222-a432-815126ebc939" class="toggle"><li><details open=""><summary>文本分析与处理</summary><div style="display:contents" dir="auto"><p id="b308db55-6aee-82c7-b726-81281b645a56" class=""><strong>多语言文本处理</strong>：</p></div><div style="display:contents" dir="auto"><pre id="9a98db55-6aee-83fc-b4c1-81eda9f05927" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def extract_chinese_words(text):
+    &quot;&quot;&quot;提取中文字符&quot;&quot;&quot;
+    pattern = r&#x27;[\u4e00-\u9fa5]+&#x27;
+    return re.findall(pattern, text)
+
+def extract_currency_amounts(text):
+    &quot;&quot;&quot;提取货币金额&quot;&quot;&quot;
+    # 匹配$100、¥200、300元等格式
+    pattern = r&#x27;[$\¥€]?\s*(\d+(?:\.\d{2})?)\s*元?&#x27;
+    return re.findall(pattern, text)
+
+mixed_text = &quot;商品价格是$100.50，或者¥200，也可以300元购买。这是一些中文字符。&quot;
+print(&quot;中文字符:&quot;, extract_chinese_words(mixed_text))
+print(&quot;金额:&quot;, extract_currency_amounts(mixed_text))</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

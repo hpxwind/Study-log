@@ -1,0 +1,769 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>内存组织架构</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="fed8db55-6aee-824b-9184-0119e7e02ff7" class="page serif"><header><h1 class="page-title" dir="auto">内存组织架构</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="f808db55-6aee-826d-8390-01f649584ba2" class="">程序在内存中的组织架构（即内存布局）是操作系统和编译器共同作用的结果，<mark class="highlight-orange">不同类型的程序（如 C/C++、Java）内存布局略有差异</mark>，但核心逻辑一致。以<mark class="highlight-orange">下以</mark><mark class="highlight-orange"><strong>C 语言程序</strong></mark><mark class="highlight-orange">为例</mark></p></div><div style="display:contents" dir="auto"><hr id="80c8db55-6aee-8354-a594-814fe98705a8"/></div><div style="display:contents" dir="auto"><ul id="2b68db55-6aee-82d4-aa45-8188d5a2dc7b" class="toggle"><li><details open=""><summary>内存布局的整体架构（高地址到低地址）</summary><div style="display:contents" dir="auto"><p id="ed38db55-6aee-8281-bc50-81bb3ee597a8" class="">现代操作系统（如 Linux、Windows）为<mark class="highlight-orange">每个进程分配独立的虚拟内存空间</mark></p></div><div style="display:contents" dir="auto"><p id="7c78db55-6aee-83d4-b334-819461cf418a" class="">其布局从<mark class="highlight-orange">高地址到低地址</mark>通常分为以下区域</p></div><div style="display:contents" dir="auto"><p id="4a48db55-6aee-8222-b7a4-01125da0eaa7" class="">（以 32 位系统为例，虚拟地址空间范围为 0x00000000 ~ 0xFFFFFFFF）</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="a638db55-6aee-826f-bff7-01387fb61cc1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">高地址  →  0xFFFFFFFF
+│
+├─ Kernel Space（内核空间，通常占1GB）
+│  （操作系统内核代码和数据，用户程序不可直接访问）
+│
+├─ User Space（用户空间，通常占3GB）
+│  ├─ Stack（栈区）
+│  ├─ Memory Mapping Segment（内存映射区）
+│  ├─ Heap（堆区）
+│  ├─ BSS（未初始化数据区）
+│  ├─ Data（已初始化数据区）
+│  └─ Text（代码区）
+│
+低地址  →  0x00000000</code></pre></div><div style="display:contents" dir="ltr"><figure id="b268db55-6aee-83b1-9d14-01948e68ad2a" class="image"><a href="%E5%86%85%E5%AD%98%E7%BB%84%E7%BB%87%E6%9E%B6%E6%9E%84/%E6%95%B0%E6%8D%AE%E6%98%AF%E5%A6%82%E4%BD%95%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%BB%84%E7%BB%87%E7%9A%84.png"><img style="width:681.9754638671875px" src="%E5%86%85%E5%AD%98%E7%BB%84%E7%BB%87%E6%9E%B6%E6%9E%84/%E6%95%B0%E6%8D%AE%E6%98%AF%E5%A6%82%E4%BD%95%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%BB%84%E7%BB%87%E7%9A%84.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="eb28db55-6aee-8313-a614-815374eeb8d0" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="a638db55-6aee-8229-b05f-81bd1592fed1"/></div><div style="display:contents" dir="auto"><p id="ed08db55-6aee-82f8-874c-810fab8d3516" class="">框架中各区域详细说明：</p></div><div style="display:contents" dir="auto"><ul id="5f78db55-6aee-83b2-822a-0106fe7f48f8" class="toggle"><li><details open=""><summary>Kernel Space（内核空间）</summary><div style="display:contents" dir="auto"><p id="8898db55-6aee-833d-8678-01e9782391db" class="">位置：<mark class="highlight-orange">高地址</mark>区域（如 32 位 Linux 中为 0xC0000000 ~ 0xFFFFFFFF，占 1GB）</p></div><div style="display:contents" dir="auto"><p id="6968db55-6aee-824e-a22c-01b827f3f1d9" class="">功能：存放<mark class="highlight-orange">操作系统内核</mark>的代码，数据，内核栈，设备驱动等</p></div><div style="display:contents" dir="auto"><p id="3de8db55-6aee-83c9-877d-012ba3566ec4" class="">特性：</p></div><div style="display:contents" dir="auto"><ul id="e568db55-6aee-83ed-ac60-018db142ba54" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-orange">只有内核态程序可访问</mark>，用户态程序（应用程序）无法直接读写，需通过系统调用（如<code>read</code>、<code>write</code>）间接访问。</li></ul></div><div style="display:contents" dir="auto"><ul id="b808db55-6aee-82c2-93ae-014beeb42e05" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-orange">内核空间对所有进程是共享的</mark>，但每个进程看到的内核映射一致。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b818db55-6aee-8309-925e-01c25766f1c5" class="toggle"><li><details open=""><summary>Stack（栈区）</summary><div style="display:contents" dir="auto"><p id="3ef8db55-6aee-82d7-a581-81a4db9c39bd" class="">位置：用户空间的高地址部分，从<mark class="highlight-orange">高地址向低地址增长</mark>（“向下生长”）</p></div><div style="display:contents" dir="auto"><p id="1b98db55-6aee-82d6-891d-814d027f63a4" class="">功能：存储<mark class="highlight-orange">函数调用</mark>相关的<mark class="highlight-orange">临时数据</mark><div class="indented"><div style="display:contents" dir="auto"><p id="5548db55-6aee-8266-a53f-01e5be9b2f29" class="">包括：</p></div><div style="display:contents" dir="auto"><ul id="1738db55-6aee-8342-8683-01fa79158fc8" class="bulleted-list"><li style="list-style-type:disc">函数的<mark class="highlight-blue">局部变量</mark>（如<code>int a = 10;</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="af28db55-6aee-828c-bea8-014b3b0bbab3" class="bulleted-list"><li style="list-style-type:disc">函数<mark class="highlight-blue">参数和返回值</mark>。</li></ul></div><div style="display:contents" dir="auto"><ul id="6078db55-6aee-83e7-87b1-01b98ec9ecfb" class="bulleted-list"><li style="list-style-type:disc">函数<mark class="highlight-blue">调用栈帧</mark>（保存调用者的上下文，如返回地址、寄存器状态）。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="18e8db55-6aee-83ff-8f73-010240ccb161" class="">特性：</p></div><div style="display:contents" dir="auto"><ul id="b028db55-6aee-83d2-af91-012049d8fc20" class="bulleted-list"><li style="list-style-type:disc"><strong>自动管理</strong>：由<mark class="highlight-blue">编译器自动分配和释放</mark>（函数进入时分配，退出时释放），无需程序员干预。</li></ul></div><div style="display:contents" dir="auto"><ul id="3638db55-6aee-831f-8bdd-81c2849fd207" class="bulleted-list"><li style="list-style-type:disc"><strong>大小固定</strong>：<mark class="highlight-blue">默认大小有限</mark>（如 Linux 中默认栈大小为 8MB），超出会导致 “栈溢出”（Stack Overflow）。</li></ul></div><div style="display:contents" dir="auto"><ul id="31f8db55-6aee-821f-b0db-0120db14027d" class="bulleted-list"><li style="list-style-type:disc"><strong>速度快</strong>：<mark class="highlight-blue">访问栈的指令是 CPU 直接支持</mark>的（如<code>push</code>、<code>pop</code>），效率高于堆。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fb18db55-6aee-838a-b744-01779479888b" class="toggle"><li><details open=""><summary>Memory Mapping Segment（内存映射区）</summary><div style="display:contents" dir="auto"><p id="9d98db55-6aee-8264-ab75-810652b682ef" class="">位置：<mark class="highlight-blue">栈区下方，堆区上方</mark>（不同系统位置可能微调）</p></div><div style="display:contents" dir="auto"><p id="16c8db55-6aee-832d-a1a3-8173a66bf987" class="">功能：通过<mark class="highlight-blue">内存映射机制</mark>将<mark class="highlight-orange">文件或设备映射到进程地址</mark>空间<div class="indented"><div style="display:contents" dir="auto"><p id="9928db55-6aee-83f6-9222-018139c8c649" class="">包括：</p></div><div style="display:contents" dir="auto"><ul id="b188db55-6aee-8208-9a26-01c437adeac9" class="bulleted-list"><li style="list-style-type:disc">共享库（如<code>libc.so</code>、<code>libstdc++.so</code>）的代码和数据（加载时映射到内存）。</li></ul></div><div style="display:contents" dir="auto"><ul id="fe68db55-6aee-83cd-9f63-0187179003a3" class="bulleted-list"><li style="list-style-type:disc">动态加载的模块（如<code>dlopen</code>加载的插件）。</li></ul></div><div style="display:contents" dir="auto"><ul id="9e78db55-6aee-820c-9bbd-8168acd75245" class="bulleted-list"><li style="list-style-type:disc">匿名内存映射（如<code>mmap</code>创建的无文件关联的内存块）。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="4d68db55-6aee-83a9-a007-0126c016ea1b" class=""><strong>特性</strong>：<div class="indented"><div style="display:contents" dir="auto"><ul id="6b68db55-6aee-82e4-b15a-01177f54cb48" class="bulleted-list"><li style="list-style-type:disc">映射的内存<mark class="highlight-orange">可被多个进程共享</mark>（如共享库在物理内存中只存一份，多进程共享）。</li></ul></div><div style="display:contents" dir="auto"><ul id="fe28db55-6aee-82e6-b2cb-0158c4c24b66" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-orange">大小动态调整</mark>，由<code>mmap</code>和<code>munmap</code>系统调用管理。</li></ul></div></div></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e318db55-6aee-8364-abeb-015dcafd56d2" class="toggle"><li><details open=""><summary>Heap（堆区） </summary><div style="display:contents" dir="auto"><p id="8488db55-6aee-838f-8ec9-01ea0c391e16" class=""><strong>位置</strong>：<mark class="highlight-orange">内存映射区下方</mark>，从<mark class="highlight-orange">低地址向高地址增长</mark>（“向上生长”）。</p></div><div style="display:contents" dir="auto"><p id="9db8db55-6aee-833a-8727-01de31efb74e" class=""><strong>功能</strong>：<mark class="highlight-orange">存储动态分配的内存</mark>，<div class="indented"><div style="display:contents" dir="auto"><p id="a4f8db55-6aee-8371-8c80-0145fe169e40" class="">如：</p></div><div style="display:contents" dir="auto"><ul id="5fb8db55-6aee-832d-a67c-0163f5efe1d0" class="bulleted-list"><li style="list-style-type:disc">程序员通过<code>malloc</code>、<code>calloc</code>、<code>new</code>申请的内存（如<code>int* p = malloc(100);</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="dff8db55-6aee-824a-be9a-01b3eae90d42" class="bulleted-list"><li style="list-style-type:disc">动态数组、链表等数据结构。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="24b8db55-6aee-8377-91e2-81ea7a35beb3" class=""><strong>特性</strong>：<div class="indented"><div style="display:contents" dir="auto"><ul id="a028db55-6aee-8371-acdf-81c12cb4ff96" class="bulleted-list"><li style="list-style-type:disc"><strong>手动管理</strong>：需程序员通过<code>free</code>或<code>delete</code>释放，否则会导致内存泄漏。</li></ul></div><div style="display:contents" dir="auto"><ul id="3288db55-6aee-834c-b58e-819a2282aa8e" class="bulleted-list"><li style="list-style-type:disc"><strong>大小灵活</strong>：理论上可扩展到接近内存映射区（受限于系统虚拟内存总量）。</li></ul></div><div style="display:contents" dir="auto"><ul id="8d88db55-6aee-83e1-b5b3-81cf39f6a011" class="bulleted-list"><li style="list-style-type:disc"><strong>速度较慢</strong>：分配和释放需要通过内存管理算法（如伙伴系统、 slab 分配器），效率低于栈。</li></ul></div></div></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6758db55-6aee-8255-932a-81a9bd7f04cb" class="toggle"><li><details open=""><summary>Bss（Block Started by Symbol，未初始化数据区）</summary><div style="display:contents" dir="auto"><p id="0048db55-6aee-8258-a310-81000291949a" class=""><strong>位置</strong>：<mark class="highlight-orange">堆区下方，数据区（Data）上方</mark>。</p></div><div style="display:contents" dir="auto"><p id="e568db55-6aee-8389-bca3-8112daf38ac5" class=""><strong>功能</strong>：存储<mark class="highlight-orange">未初始化的全局变量和静态变量</mark>，<div class="indented"><div style="display:contents" dir="auto"><p id="67b8db55-6aee-82a0-9dec-01dfe9112bcd" class="">包括：</p></div><div style="display:contents" dir="auto"><ul id="1458db55-6aee-8351-afda-818ed65383bd" class="bulleted-list"><li style="list-style-type:disc">未初始化的全局变量（如<code>int global;</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="5068db55-6aee-8395-9702-01dd46a28077" class="bulleted-list"><li style="list-style-type:disc">未初始化的静态变量（如<code>static int static_var;</code>）。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="2ab8db55-6aee-8303-81d7-01d0827f42fb" class=""><strong>特性</strong>：<div class="indented"><div style="display:contents" dir="auto"><ul id="c6e8db55-6aee-8307-a6e7-81c7dd83d6cf" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-orange"><strong>零初始化</strong></mark>：程序启动时，操作系统会自动将该区域的所有数据初始化为 0。</li></ul></div><div style="display:contents" dir="auto"><ul id="47d8db55-6aee-82b4-8be3-810eb47fe599" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-orange"><strong>不占用磁盘空间</strong></mark>：仅在二进制文件中记录变量的大小和位置，不存储实际数据（节省磁盘空间）。</li></ul></div></div></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8228db55-6aee-8239-abc3-81e3627ef4d5" class="toggle"><li><details open=""><summary>Data（已初始化数据区）</summary><div style="display:contents" dir="auto"><p id="1f08db55-6aee-82c8-ac10-819f760a333d" class=""><strong>位置</strong>：<mark class="highlight-orange">BSS 区下方，代码区（Text）上方</mark>。</p></div><div style="display:contents" dir="auto"><p id="6018db55-6aee-8262-9d4f-81ef69d6dff2" class=""><strong>功能</strong>：存储已<mark class="highlight-orange">初始化的全局变量和静态变量</mark>，<div class="indented"><div style="display:contents" dir="auto"><p id="8578db55-6aee-8375-8499-8148f86ea09c" class="">包括：</p></div><div style="display:contents" dir="auto"><ul id="6c58db55-6aee-83de-b8ed-81cf56de82f4" class="bulleted-list"><li style="list-style-type:disc">已初始化的全局变量（如<code>int global = 100;</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="5158db55-6aee-82af-9669-0139cc4a7a98" class="bulleted-list"><li style="list-style-type:disc">已初始化的静态变量（如<code>static int static_var = 200;</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="9148db55-6aee-83ce-b654-010830314df5" class="bulleted-list"><li style="list-style-type:disc">静态局部变量（如函数内的<code>static int s = 5;</code>，生命周期与程序一致）。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="8f38db55-6aee-83f1-ad60-814b2ec069e9" class=""><strong>特性</strong>：<div class="indented"><div style="display:contents" dir="auto"><ul id="c8f8db55-6aee-8280-8b7e-0127c29f6a3e" class="bulleted-list"><li style="list-style-type:disc"><strong>占用磁盘空间</strong>：变量的初始值会被存储在二进制文件中，<mark class="highlight-orange">加载时直接映射到内存</mark>。</li></ul></div><div style="display:contents" dir="auto"><ul id="1b18db55-6aee-8382-a0e9-01a2af97cba9" class="bulleted-list"><li style="list-style-type:disc"><strong>读写权限</strong>：<mark class="highlight-orange">程序运行时可修改</mark>（与只读的代码区区分）。</li></ul></div></div></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fd48db55-6aee-8324-9018-815538eaf5de" class="toggle"><li><details open=""><summary>Text（代码区）</summary><div style="display:contents" dir="auto"><p id="2658db55-6aee-8327-b86d-815bf4c3b791" class=""><strong>位置</strong>：用户空间的<mark class="highlight-orange">低地址部分</mark>（最靠近 0 地址）。</p></div><div style="display:contents" dir="auto"><p id="e2a8db55-6aee-8328-88c4-811aa49706ed" class=""><strong>功能</strong>：存储程序的<mark class="highlight-orange">可执行代码和只读数据</mark>，<div class="indented"><div style="display:contents" dir="auto"><p id="4178db55-6aee-8217-a362-81ff03debb5c" class="">包括：</p></div><div style="display:contents" dir="auto"><ul id="5758db55-6aee-833a-aac5-81442fcc0642" class="bulleted-list"><li style="list-style-type:disc">函数的机器码（如<code>main</code>函数、自定义函数的二进制指令）。</li></ul></div><div style="display:contents" dir="auto"><ul id="71a8db55-6aee-82a7-86f0-0134cf3ee545" class="bulleted-list"><li style="list-style-type:disc">只读字符串常量（如<code>printf(&quot;hello&quot;);</code>中的<code>&quot;hello&quot;</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="6108db55-6aee-823b-9cff-81519a0d6ac7" class="bulleted-list"><li style="list-style-type:disc">常量（如<code>const int PI = 3.14;</code>）。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="aca8db55-6aee-8295-9891-0157affc40a7" class=""><strong>特性</strong>：<div class="indented"><div style="display:contents" dir="auto"><ul id="0a58db55-6aee-8313-9a88-810e13885055" class="bulleted-list"><li style="list-style-type:disc"><strong>只读</strong>：加载到内存后为只读权限（防止意外修改代码），部分系统同时设置为可执行（<code>r-x</code>权限）。</li></ul></div><div style="display:contents" dir="auto"><ul id="6058db55-6aee-826f-a8f1-01138c130106" class="bulleted-list"><li style="list-style-type:disc"><strong>共享性</strong>：多个进程运行同一程序时，<mark class="highlight-orange">代码区可共享</mark>（物理内存中只存一份），节省内存。</li></ul></div></div></p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="9fe8db55-6aee-829f-87bb-01e1b30c88e7"/></div><div style="display:contents" dir="auto"><ul id="f1f8db55-6aee-829e-9a02-01245803f567" class="toggle"><li><details open=""><summary>区域总结与区别</summary><div style="display:contents" dir="ltr"><table id="1d78db55-6aee-83fb-ae27-010a70d5b8b0" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="cea8db55-6aee-8265-bf26-8194f7f7c7a0"><th id="yl\p" class="simple-table-header-color simple-table-header"><strong>区域</strong></th><th id="@aP}" class="simple-table-header-color simple-table-header"><strong>存储内容</strong></th><th id="R?KQ" class="simple-table-header-color simple-table-header"><strong>管理方式</strong></th><th id="l}@B" class="simple-table-header-color simple-table-header"><strong>增长方向</strong></th><th id="IQMy" class="simple-table-header-color simple-table-header"><strong>大小限制</strong></th><th id="i]By" class="simple-table-header-color simple-table-header"><strong>速度</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="8858db55-6aee-835c-9dca-818edef83001"><td id="yl\p" class="">栈（Stack）</td><td id="@aP}" class="">局部变量、函数调用信息</td><td id="R?KQ" class="">编译器自动管理</td><td id="l}@B" class="">高→低</td><td id="IQMy" class="">固定（较小）</td><td id="i]By" class="">快</td></tr></div><div style="display:contents" dir="ltr"><tr id="a738db55-6aee-8212-b1f7-81411ce08d86"><td id="yl\p" class="">堆（Heap）</td><td id="@aP}" class="">动态分配内存</td><td id="R?KQ" class="">程序员手动管理</td><td id="l}@B" class="">低→高</td><td id="IQMy" class="">灵活（较大）</td><td id="i]By" class="">较慢</td></tr></div><div style="display:contents" dir="ltr"><tr id="bcb8db55-6aee-83f6-b717-819ccc2f3ea3"><td id="yl\p" class="">BSS 区</td><td id="@aP}" class="">未初始化全局 / 静态变量</td><td id="R?KQ" class="">系统自动初始化</td><td id="l}@B" class="">固定</td><td id="IQMy" class="">由变量大小决定</td><td id="i]By" class="">-</td></tr></div><div style="display:contents" dir="ltr"><tr id="8048db55-6aee-82c0-8ff1-0125ac9403c7"><td id="yl\p" class="">Data 区</td><td id="@aP}" class="">已初始化全局 / 静态变量</td><td id="R?KQ" class="">加载时初始化</td><td id="l}@B" class="">固定</td><td id="IQMy" class="">由变量大小决定</td><td id="i]By" class="">-</td></tr></div><div style="display:contents" dir="ltr"><tr id="12b8db55-6aee-8296-87b1-816d53454092"><td id="yl\p" class="">Text 区</td><td id="@aP}" class="">代码、只读常量</td><td id="R?KQ" class="">只读不可修改</td><td id="l}@B" class="">固定</td><td id="IQMy" class="">由程序大小决定</td><td id="i]By" class="">-</td></tr></div><div style="display:contents" dir="ltr"><tr id="3a58db55-6aee-82f5-b579-01b046ed4704"><td id="yl\p" class="">内存映射区</td><td id="@aP}" class="">共享库、映射文件</td><td id="R?KQ" class="">系统调用管理</td><td id="l}@B" class="">动态调整</td><td id="IQMy" class="">灵活</td><td id="i]By" class="">-</td></tr></div><div style="display:contents" dir="ltr"><tr id="bfd8db55-6aee-8264-a53e-0151dd80bd6c"><td id="yl\p" class="">内核空间</td><td id="@aP}" class="">内核代码、数据</td><td id="R?KQ" class="">操作系统管理</td><td id="l}@B" class="">固定</td><td id="IQMy" class="">系统分配</td><td id="i]By" class="">-</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="11d8db55-6aee-83a7-b617-01e474fffbdd" class="toggle"><li><details open=""><summary>实际案例</summary><div style="display:contents" dir="ltr"><figure id="6d68db55-6aee-8256-838a-81b7e9ce7c72" class="image"><a href="%E5%86%85%E5%AD%98%E7%BB%84%E7%BB%87%E6%9E%B6%E6%9E%84/%E6%95%B0%E6%8D%AE%E6%98%AF%E5%A6%82%E4%BD%95%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%BB%84%E7%BB%87%E7%9A%84.png"><img style="width:681.9754638671875px" src="%E5%86%85%E5%AD%98%E7%BB%84%E7%BB%87%E6%9E%B6%E6%9E%84/%E6%95%B0%E6%8D%AE%E6%98%AF%E5%A6%82%E4%BD%95%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%BB%84%E7%BB%87%E7%9A%84.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="0f68db55-6aee-83eb-8904-01945a060b78" class="">图中代码：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="ace8db55-6aee-83b6-84ca-01db65535670" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">int glb;
+char* str =&quot;hello world!&quot;;
+
+int sum(int x, int y) {
+		int x+y;
+}
+
+int main() {
+		sum(1, 2);
+		void* ptr = malloc(0x100);
+		read(0, ptr, 0x100) // input &quot;deadbeef&quot;
+		return 0;
+}</code></pre></div><div style="display:contents" dir="ltr"><table id="1618db55-6aee-8257-9ed5-8137fac36b7a" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="7d18db55-6aee-823d-a169-8197527b9e32"><th id="jVak" class="simple-table-header-color simple-table-header" style="width:179.5625px"><strong>C 代码行</strong></th><th id="OO&lt;[" class="simple-table-header-color simple-table-header" style="width:140.73214721679688px"><strong>对应内存区域</strong></th><th id="TnmB" class="simple-table-header-color simple-table-header" style="width:381px"><strong>详解</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="83a8db55-6aee-828e-869f-010672d6a4cd"><td id="jVak" class="" style="width:179.5625px"><code>int glb;</code></td><td id="OO&lt;[" class="" style="width:140.73214721679688px">Bss 区</td><td id="TnmB" class="" style="width:381px">这是一个未初始化的全局变量，根据内存布局规则，未初始化的全局变量存储在 Bss 区，程序启动时会被系统自动初始化为 0。</td></tr></div><div style="display:contents" dir="ltr"><tr id="d5e8db55-6aee-82be-9ab8-01d7c9b0ff0b"><td id="jVak" class="" style="width:179.5625px"><code>char* str = &quot;Hello world!&quot;;</code></td><td id="OO&lt;[" class="" style="width:140.73214721679688px">Data 区 + Text 区</td><td id="TnmB" class="" style="width:381px"><code>str</code>是一个已初始化的全局指针变量，存储在 Data 区；而它指向的字符串常量<code>&quot;Hello world!&quot;</code>是只读的，存储在 Text 区。</td></tr></div><div style="display:contents" dir="ltr"><tr id="5738db55-6aee-82cc-ae2c-81bdd9e7eee6"><td id="jVak" class="" style="width:179.5625px"><code>int sum(int x, int y) { int t = x + y; }</code></td><td id="OO&lt;[" class="" style="width:140.73214721679688px">Text 区 + Stack 区</td><td id="TnmB" class="" style="width:381px"><code>sum</code>函数的机器码存储在 Text 区；函数中的局部变量<code>x</code>、<code>y</code>、<code>t</code>在函数调用时存储在 Stack 区，函数执行完毕后由系统自动释放。</td></tr></div><div style="display:contents" dir="ltr"><tr id="8a88db55-6aee-820b-8caa-81a376cee539"><td id="jVak" class="" style="width:179.5625px"><code>sum(1, 2);</code></td><td id="OO&lt;[" class="" style="width:140.73214721679688px">Text 区 + Stack 区</td><td id="TnmB" class="" style="width:381px">调用<code>sum</code>函数的指令存储在 Text 区；调用时传递的参数<code>1</code>、<code>2</code>以及函数执行时的局部变量存储在 Stack 区。</td></tr></div><div style="display:contents" dir="ltr"><tr id="0918db55-6aee-8313-83ad-01da040ea196"><td id="jVak" class="" style="width:179.5625px"><code>void* ptr = malloc(0x100);</code></td><td id="OO&lt;[" class="" style="width:140.73214721679688px">Heap 区 + Data 区</td><td id="TnmB" class="" style="width:381px"><code>malloc</code>申请的<code>0x100</code>大小的内存块存储在 Heap 区；指针变量<code>ptr</code>是已初始化的全局变量（在<code>main</code>函数内，属于局部变量？不，<code>ptr</code>是<code>main</code>函数内的局部变量，存储在 Stack 区，指向 Heap 区的内存。哦，这里之前有误，<code>ptr</code>是<code>main</code>函数内的局部变量，所以存储在 Stack 区，它指向的 Heap 区内存是动态分配的。</td></tr></div><div style="display:contents" dir="ltr"><tr id="b808db55-6aee-831e-845b-81e0e37bc6df"><td id="jVak" class="" style="width:179.5625px"><code>read(0, ptr, 0x100); // input &quot;deadbeef&quot;</code></td><td id="OO&lt;[" class="" style="width:140.73214721679688px">Heap 区</td><td id="TnmB" class="" style="width:381px"><code>read</code>函数将输入的<code>&quot;deadbeef&quot;</code>数据写入<code>ptr</code>指向的 Heap 区内存中。</td></tr></div></tbody></table></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

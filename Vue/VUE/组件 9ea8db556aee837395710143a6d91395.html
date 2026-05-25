@@ -1,0 +1,1384 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>组件</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9ea8db55-6aee-8373-9571-0143a6d91395" class="page mono"><header><h1 class="page-title" dir="auto">组件</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="5f58db55-6aee-8259-a69d-810c85242948" class="toggle"><li><details open=""><summary>生命周期</summary><div style="display:contents" dir="auto"><p id="3538db55-6aee-83ed-aaa1-81bc81cebccc" class="">Vue 的生命周期指的是组件从<strong>创建</strong>到<strong>销毁</strong>的完整过程，每个阶段会触发特定的 “钩子函数”，开发者可通过这些钩子在不同阶段执行逻辑（如初始化数据、操作 DOM、清理资源等）。</p></div><div style="display:contents" dir="auto"><hr id="aaf8db55-6aee-82e6-a704-01bb3807363e"/></div><div style="display:contents" dir="auto"><ul id="9288db55-6aee-82bd-9c80-812add48d7f1" class="toggle"><li><details open=""><summary>vue2（选项式 API）</summary><div style="display:contents" dir="ltr"><table id="aeb8db55-6aee-8377-880d-8145a8106aa4" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="b338db55-6aee-838c-b663-01ac2a9a2443"><th id="N_qZ" class="simple-table-header-color simple-table-header"><strong>钩子函数</strong></th><th id="zcKw" class="simple-table-header-color simple-table-header"><strong>触发时机</strong></th><th id="NmJJ" class="simple-table-header-color simple-table-header"><strong>核心作用</strong></th><th id="VQCu" class="simple-table-header-color simple-table-header"><strong>可操作资源</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="d958db55-6aee-8359-9143-818f303ff80a"><td id="N_qZ" class=""><code>beforeCreate</code></td><td id="zcKw" class="">实例初始化后，数据观测（data）前</td><td id="NmJJ" class="">组件刚创建，尚未初始化数据和方法</td><td id="VQCu" class="">无法访问 <code>data</code>、<code>methods</code>、<code>DOM</code>（<code>$el</code> 不存在）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3f88db55-6aee-82ff-84a0-819c159bba04"><td id="N_qZ" class=""><code>created</code></td><td id="zcKw" class="">实例创建完成，数据观测和方法初始化后</td><td id="NmJJ" class="">初始化数据、发送异步请求（如接口调用）、定义初始状态</td><td id="VQCu" class="">可访问 <code>data</code>、<code>methods</code>，但<strong>无法操作 DOM</strong>（<code>$el</code> 仍未生成）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3258db55-6aee-8336-adff-01536cdf383e"><td id="N_qZ" class=""><code>beforeMount</code></td><td id="zcKw" class="">模板编译完成，挂载到 DOM 前</td><td id="NmJJ" class="">可修改数据（不会触发重新渲染）</td><td id="VQCu" class="">模板已编译，但未挂载到页面，<code>$el</code> 为虚拟 DOM（非真实 DOM）</td></tr></div><div style="display:contents" dir="ltr"><tr id="9a28db55-6aee-832b-9497-019390f521e7"><td id="N_qZ" class=""><code>mounted</code></td><td id="zcKw" class="">模板挂载到真实 DOM 后</td><td id="NmJJ" class="">操作 DOM（如初始化第三方库：ECharts、地图）、监听 DOM 事件</td><td id="VQCu" class="">可访问真实 DOM（<code>$el</code> 存在），子组件也已挂载完成</td></tr></div><div style="display:contents" dir="ltr"><tr id="77c8db55-6aee-83a6-a468-813bdfdafd48"><td id="N_qZ" class=""><code>beforeUpdate</code></td><td id="zcKw" class="">数据更新后，DOM 重新渲染前</td><td id="NmJJ" class="">获取更新前的 DOM 状态（如旧数据对应的 DOM）</td><td id="VQCu" class="">可访问更新前的 DOM 和数据，修改数据不会触发额外更新</td></tr></div><div style="display:contents" dir="ltr"><tr id="d9b8db55-6aee-8317-a20e-81163c4ba971"><td id="N_qZ" class=""><code>updated</code></td><td id="zcKw" class="">数据更新且 DOM 重新渲染后</td><td id="NmJJ" class="">处理更新后的 DOM 逻辑（如基于新 DOM 计算尺寸）</td><td id="VQCu" class="">可访问更新后的 DOM 和数据，<strong>禁止在此修改数据</strong>（会导致无限循环）</td></tr></div><div style="display:contents" dir="ltr"><tr id="b278db55-6aee-8376-96ce-815be86d811d"><td id="N_qZ" class=""><code>beforeDestroy</code></td><td id="zcKw" class="">实例销毁前</td><td id="NmJJ" class="">清理资源（清除定时器、解绑事件监听、取消未完成的请求）</td><td id="VQCu" class="">实例仍完整可用，可访问 <code>data</code>、<code>DOM</code> 等</td></tr></div><div style="display:contents" dir="ltr"><tr id="f258db55-6aee-8255-9db0-01ebd0b25b0e"><td id="N_qZ" class=""><code>destroyed</code></td><td id="zcKw" class="">实例销毁后</td><td id="NmJJ" class="">最终清理（极少用，一般在 <code>beforeDestroy</code> 中完成）</td><td id="VQCu" class="">所有指令、事件监听、子组件已销毁，<code>data</code> 和 <code>DOM</code> 不可靠再用</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h3 id="c8e8db55-6aee-827b-81ba-81a9386cbbed" class=""><strong>父子组件生命周期执行顺序</strong></h3></div><div style="display:contents" dir="auto"><p id="5828db55-6aee-83cc-ae41-810a338164e0" class="">父子组件的生命周期会按 “先父后子，再父后子” 的顺序执行：</p></div><div style="display:contents" dir="auto"><ul id="66b8db55-6aee-82ac-b1c8-812b8526178c" class="bulleted-list"><li style="list-style-type:disc">挂载阶段：父 <code>beforeCreate</code> → 父 <code>created</code> → 父 <code>beforeMount</code> → 子 <code>beforeCreate</code> → 子 <code>created</code> → 子 <code>beforeMount</code> → 子 <code>mounted</code> → 父 <code>mounted</code></li></ul></div><div style="display:contents" dir="auto"><ul id="bf38db55-6aee-83c4-b9ae-0178afe0f35b" class="bulleted-list"><li style="list-style-type:disc">更新阶段：父 <code>beforeUpdate</code> → 子 <code>beforeUpdate</code> → 子 <code>updated</code> → 父 <code>updated</code></li></ul></div><div style="display:contents" dir="auto"><ul id="3948db55-6aee-8338-9396-01076a3cbc7a" class="bulleted-list"><li style="list-style-type:disc">销毁阶段：父 <code>beforeDestroy</code> → 子 <code>beforeDestroy</code> → 子 <code>destroyed</code> → 父 <code>destroyed</code></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7fb8db55-6aee-8259-b54e-01946e116264" class="toggle"><li><details open=""><summary>vue3（组合式 API为主）</summary><div style="display:contents" dir="auto"><p id="96b8db55-6aee-834b-940e-018ca07f6c9b" class="">Vue 3 兼容 Vue 2 的大部分生命周期钩子，但<strong>推荐使用组合式 API 的生命周期函数</strong>（更贴合逻辑聚合）。核心变化：</p></div><div style="display:contents" dir="auto"><ul id="86b8db55-6aee-8273-a5dc-81320f76ef7d" class="bulleted-list"><li style="list-style-type:disc">移除 <code>beforeCreate</code> 和 <code>created</code>（由 <code>setup</code> 替代，<code>setup</code> 在这两个钩子前执行）；</li></ul></div><div style="display:contents" dir="auto"><ul id="2388db55-6aee-820b-ab40-0100a3c0f096" class="bulleted-list"><li style="list-style-type:disc">销毁相关钩子重命名（<code>beforeDestroy</code> → <code>onBeforeUnmount</code>，<code>destroyed</code> → <code>onUnmounted</code>）；</li></ul></div><div style="display:contents" dir="ltr"><table id="9688db55-6aee-82b5-86ac-01b3fc832c3b" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="e0b8db55-6aee-8376-ac65-010a3082e61a"><th id="[jB&gt;" class="simple-table-header-color simple-table-header"><strong>组合式 API 钩子</strong></th><th id="pRA\" class="simple-table-header-color simple-table-header"><strong>对应 Vue 2 钩子</strong></th><th id="CWT}" class="simple-table-header-color simple-table-header"><strong>触发时机</strong></th><th id="uejl" class="simple-table-header-color simple-table-header"><strong>核心作用</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="00c8db55-6aee-83be-bf01-81ff23ee3090"><td id="[jB&gt;" class=""><code>setup</code></td><td id="pRA\" class=""><code>beforeCreate</code> + <code>created</code></td><td id="CWT}" class="">实例初始化后立即执行</td><td id="uejl" class="">初始化数据、定义响应式变量、注册方法（替代 Vue 2 的 <code>data</code> 和 <code>methods</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="ab98db55-6aee-830e-9e31-01be863ed544"><td id="[jB&gt;" class=""><code>onBeforeMount</code></td><td id="pRA\" class=""><code>beforeMount</code></td><td id="CWT}" class="">模板挂载前</td><td id="uejl" class="">同 Vue 2 <code>beforeMount</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2558db55-6aee-82f5-bae6-81f8f4083b74"><td id="[jB&gt;" class=""><code>onMounted</code></td><td id="pRA\" class=""><code>mounted</code></td><td id="CWT}" class="">模板挂载后</td><td id="uejl" class="">同 Vue 2 <code>mounted</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1948db55-6aee-82d6-ba36-010ba54fbe07"><td id="[jB&gt;" class=""><code>onBeforeUpdate</code></td><td id="pRA\" class=""><code>beforeUpdate</code></td><td id="CWT}" class="">数据更新、DOM 渲染前</td><td id="uejl" class="">同 Vue 2 <code>beforeUpdate</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="91e8db55-6aee-8354-9c3b-0133838d83b3"><td id="[jB&gt;" class=""><code>onUpdated</code></td><td id="pRA\" class=""><code>updated</code></td><td id="CWT}" class="">数据更新、DOM 渲染后</td><td id="uejl" class="">同 Vue 2 <code>updated</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="9ca8db55-6aee-837f-8998-017e302eb2d5"><td id="[jB&gt;" class=""><code>onBeforeUnmount</code></td><td id="pRA\" class=""><code>beforeDestroy</code></td><td id="CWT}" class="">实例销毁前</td><td id="uejl" class="">同 Vue 2 <code>beforeDestroy</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c618db55-6aee-836b-b023-81f717dcd3e1"><td id="[jB&gt;" class=""><code>onUnmounted</code></td><td id="pRA\" class=""><code>destroyed</code></td><td id="CWT}" class="">实例销毁后</td><td id="uejl" class="">同 Vue 2 <code>destroyed</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h3 id="69d8db55-6aee-823d-b509-81a0886fb039" class=""><strong>Vue 3 新增钩子（调试 / 特殊场景）</strong></h3></div><div style="display:contents" dir="auto"><ul id="b2d8db55-6aee-83a4-8e1c-01d908af5653" class="bulleted-list"><li style="list-style-type:disc"><code>onRenderTracked</code>：组件渲染时追踪依赖（调试用，查看哪些数据被追踪）；</li></ul></div><div style="display:contents" dir="auto"><ul id="9028db55-6aee-83e0-8679-813e195659ea" class="bulleted-list"><li style="list-style-type:disc"><code>onRenderTriggered</code>：组件更新时触发（调试用，查看是什么数据导致更新）；</li></ul></div><div style="display:contents" dir="auto"><ul id="6e28db55-6aee-825e-b293-81c0195ba449" class="bulleted-list"><li style="list-style-type:disc"><code>onErrorCaptured</code>：捕获子组件抛出的错误（返回 <code>false</code> 可阻止错误向上传播）。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2858db55-6aee-8203-bb04-01892b5a8870" class="toggle"><li><details open=""><summary>区别</summary><div style="display:contents" dir="auto"><ol type="1" id="bdb8db55-6aee-822e-9b33-8115fdc5a850" class="numbered-list" start="1"><li><strong>Vue 2 vs Vue 3</strong>：<div style="display:contents" dir="auto"><ul id="dad8db55-6aee-8226-9274-01afab03a044" class="bulleted-list"><li style="list-style-type:disc">Vue 2 用选项式 API（<code>methods</code>、<code>data</code> 中定义钩子）；</li></ul></div><div style="display:contents" dir="auto"><ul id="02d8db55-6aee-8213-b934-017bc2625dbe" class="bulleted-list"><li style="list-style-type:disc">Vue 3 推荐组合式 API（<code>setup</code> 中通过 <code>import</code> 引入钩子，如 <code>import { onMounted } from &#x27;vue&#x27;</code>）。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0d28db55-6aee-83c4-bbad-013791830928" class="numbered-list" start="2"><li><strong>常见场景</strong>：<div style="display:contents" dir="auto"><ul id="9568db55-6aee-8366-bd63-017450ea145c" class="bulleted-list"><li style="list-style-type:disc">初始化数据 / 发请求：Vue 2 用 <code>created</code>，Vue 3 用 <code>setup</code>；</li></ul></div><div style="display:contents" dir="auto"><ul id="8328db55-6aee-8241-97af-017e442cfbac" class="bulleted-list"><li style="list-style-type:disc">操作 DOM：两者均用 <code>mounted</code>/<code>onMounted</code>；</li></ul></div><div style="display:contents" dir="auto"><ul id="ec68db55-6aee-8286-a06d-01271fb9103a" class="bulleted-list"><li style="list-style-type:disc">清理资源：两者均用 <code>beforeDestroy</code>/<code>onBeforeUnmount</code>。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="e778db55-6aee-8220-a6ae-0185f5e59976" class="numbered-list" start="3"><li><strong>注意点</strong>：<div style="display:contents" dir="auto"><ul id="28c8db55-6aee-829b-8828-014cbad0196e" class="bulleted-list"><li style="list-style-type:disc"><code>updated</code>/<code>onUpdated</code> 中禁止修改数据（避免无限更新）；</li></ul></div><div style="display:contents" dir="auto"><ul id="a7a8db55-6aee-822d-9aeb-8107725b00ef" class="bulleted-list"><li style="list-style-type:disc">父子组件通信相关逻辑，需遵循生命周期执行顺序（如父组件在 <code>mounted</code> 中给子组件传值，子组件可在 <code>mounted</code> 中接收）。</li></ul></div></li></ol></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4d08db55-6aee-8392-9a47-810eea8e61c8" class="toggle"><li><details open=""><summary>组件的基本定义</summary><div style="display:contents" dir="auto"><p id="ca68db55-6aee-8205-b096-816ff20cd062" class="">组件本质是 “<mark class="highlight-orange">可复用的 Vue 实例</mark>”，拥有与根实例类似的选项（<code>data</code>、<code>methods</code>、<code>computed</code> 等），但 **<code>data</code> 必须是函数 **（避免组件复用时光芒数据污染）。</p></div><div style="display:contents" dir="auto"><p id="f028db55-6aee-8205-933d-81576ee25c82" class="">1、vue2中定义组件（选项式API）</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e48db55-6aee-83b5-96fc-01e03dbe0a52" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 定义一个简单的组件
+const MyComponent = {
+  // data 必须是函数，返回一个对象
+  data() {
+    return {
+      message: &quot;我是组件&quot;
+    }
+  },
+  template: `
+    &lt;div class=&quot;my-component&quot;&gt;
+      &lt;p&gt;{{ message }}&lt;/p&gt;
+    &lt;/div&gt;
+  `,
+  methods: {
+    handleClick() {
+      console.log(&quot;组件被点击&quot;);
+    }
+  }
+};</code></pre></div><div style="display:contents" dir="auto"><p id="ac18db55-6aee-82c3-8feb-010195f032f6" class="">2、vue3中定义组件（组合式API，&lt;script setup&gt;）</p></div><div style="display:contents" dir="auto"><pre id="d178db55-6aee-82d4-8071-015108be59ff" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;my-component&quot;&gt;
+    &lt;p&gt;{{ message }}&lt;/p&gt;
+    &lt;button @click=&quot;handleClick&quot;&gt;点击&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from &#x27;vue&#x27;;
+// 响应式数据
+const message = ref(&quot;我是Vue3组件&quot;);
+// 方法
+const handleClick = () =&gt; {
+  console.log(&quot;组件被点击&quot;);
+};
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1238db55-6aee-83cb-a031-81de64d8a5bf" class="toggle"><li><details open=""><summary>全局组件与局部组件</summary><div style="display:contents" dir="auto"><p id="62a8db55-6aee-8350-bb5d-813b7154222d" class="">组件需 “注册” 后才能使用，根据注册范围分为<strong>全局组件</strong>和<strong>局部组件</strong>。</p></div><div style="display:contents" dir="auto"><hr id="0ef8db55-6aee-83b4-aa22-01e18454ebaf"/></div><div style="display:contents" dir="auto"><p id="71a8db55-6aee-82c2-812d-816f3dc23ad3" class="">1、全局组件</p></div><div style="display:contents" dir="auto"><ul id="0018db55-6aee-8398-9074-01051787d612" class="bulleted-list"><li style="list-style-type:disc"><strong>特点</strong>：注册后可在<strong>任何 Vue 实例或组件的模板中使用</strong>（包括子组件内部）。</li></ul></div><div style="display:contents" dir="auto"><ul id="eab8db55-6aee-839a-86c1-01adbfc52af5" class="bulleted-list"><li style="list-style-type:disc"><strong>注册方式</strong>：通过 <code>Vue.component(组件名, 组件配置)</code> 注册（Vue2）；Vue3 中通过 <code>app.component(组件名, 组件)</code> 注册。</li></ul></div><div style="display:contents" dir="auto"><hr id="83c8db55-6aee-821a-8f7f-819cd6320622"/></div><div style="display:contents" dir="auto"><p id="5fb8db55-6aee-827c-96f0-811d106b5caf" class="">1、vue2中全局组件示例</p></div><div style="display:contents" dir="auto"><pre id="06d8db55-6aee-83ef-990f-0145fd852cfb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;app&quot;&gt;
+  &lt;!-- 全局组件可直接使用 --&gt;
+  &lt;global-component&gt;&lt;/global-component&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+// 1. 定义组件配置
+const GlobalComponent = {
+  template: `&lt;div&gt;我是全局组件&lt;/div&gt;`
+};
+
+// 2. 全局注册（需在根实例创建前注册）
+Vue.component(&#x27;global-component&#x27;, GlobalComponent);
+
+// 3. 创建根实例
+new Vue({ el: &#x27;#app&#x27; });
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="cd38db55-6aee-82b9-bf2b-01dd3110bc55" class="">2、vue3中全局组件示例</p></div><div style="display:contents" dir="auto"><pre id="40d8db55-6aee-83fe-9fcb-8180d9077eef" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;app&quot;&gt;
+  &lt;global-component&gt;&lt;/global-component&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+import { createApp } from &#x27;vue&#x27;;
+// 定义组件
+const GlobalComponent = {
+  template: `&lt;div&gt;我是Vue3全局组件&lt;/div&gt;`
+};
+
+// 创建app实例并全局注册组件
+const app = createApp({});
+app.component(&#x27;global-component&#x27;, GlobalComponent); // 全局注册
+app.mount(&#x27;#app&#x27;);
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="1dd8db55-6aee-83ca-a422-81eb0de59b00"/></div><div style="display:contents" dir="auto"><hr id="de38db55-6aee-82a6-821d-01ccbda67633"/></div><div style="display:contents" dir="auto"><p id="f098db55-6aee-839b-9028-01a3cc55e0c5" class="">2、局部组件</p></div><div style="display:contents" dir="auto"><ul id="6be8db55-6aee-8202-a630-018c34282fec" class="bulleted-list"><li style="list-style-type:disc"><strong>特点</strong>：仅能在<strong>注册它的父组件模板中使用</strong>，避免全局污染。</li></ul></div><div style="display:contents" dir="auto"><ul id="8968db55-6aee-83b8-a665-811954a7788a" class="bulleted-list"><li style="list-style-type:disc"><strong>注册方式</strong>：在父组件的 <code>components</code> 选项中声明（Vue2）；Vue3 中在 <code>&lt;script setup&gt;</code> 中直接引入即可（自动局部注册）。</li></ul></div><div style="display:contents" dir="auto"><hr id="d248db55-6aee-82f4-9eab-01915decdbea"/></div><div style="display:contents" dir="auto"><p id="4858db55-6aee-82c9-b1ed-015cb1577a17" class="">1、vue2局部组件示例</p></div><div style="display:contents" dir="auto"><pre id="a208db55-6aee-8361-875f-011dd6c5cc30" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;app&quot;&gt;
+  &lt;!-- 局部组件只能在当前根实例中使用 --&gt;
+  &lt;local-component&gt;&lt;/local-component&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+// 1. 定义局部组件
+const LocalComponent = {
+  template: `&lt;div&gt;我是局部组件&lt;/div&gt;`
+};
+
+// 2. 在父组件（此处为根实例）的 components 中注册
+new Vue({
+  el: &#x27;#app&#x27;,
+  components: {
+    &#x27;local-component&#x27;: LocalComponent // 键为组件名，值为组件配置
+  }
+});
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="ed88db55-6aee-839a-894c-018b8f8fd217" class="">2、vue3局部组件示例（&lt;script setup&gt;）</p></div><div style="display:contents" dir="auto"><pre id="fc88db55-6aee-83cb-b794-817eb304912b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 父组件 App.vue --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 直接使用引入的局部组件 --&gt;
+    &lt;local-component&gt;&lt;/local-component&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+// 引入组件（自动局部注册，无需显式声明）
+import LocalComponent from &#x27;./LocalComponent.vue&#x27;;
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="0e58db55-6aee-83f4-aa96-010d96cee9d3"/></div><div style="display:contents" dir="auto"><hr id="c828db55-6aee-839b-a9b8-814b6884f14e"/></div><div style="display:contents" dir="auto"><h3 id="0c08db55-6aee-83ca-b42b-012089164806" class=""><strong>全局 vs 局部组件：如何选择？</strong></h3></div><div style="display:contents" dir="auto"><ul id="c478db55-6aee-833c-8c28-8133fa47074b" class="bulleted-list"><li style="list-style-type:disc">全局组件：适合通用组件（如按钮、输入框），需频繁在各处使用。</li></ul></div><div style="display:contents" dir="auto"><ul id="19c8db55-6aee-82cf-b51c-81eb8344758b" class="bulleted-list"><li style="list-style-type:disc">局部组件：适合业务相关组件（如订单列表、用户信息），仅在特定场景使用，避免全局命名冲突。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5ea8db55-6aee-823a-ad7b-0196f8eea701" class="toggle"><li><details open=""><summary>父传子（<strong>通过 </strong><code><strong>props</strong></code><strong> 传递数据</strong>）</summary><div style="display:contents" dir="auto"><p id="e208db55-6aee-83da-a4c1-817a12bef336" class="">父组件向子组件传递数据的核心是 <code><strong>props</strong></code>：父组件通过 “自定义属性” 传递数据，子组件通过 <code>props</code> 选项声明接收的数据。</p></div><div style="display:contents" dir="auto"><hr id="3678db55-6aee-8290-abf4-01fbb5d2bc2d"/></div><div style="display:contents" dir="auto"><p id="abe8db55-6aee-8319-8db4-818dc4d7a8c0" class="">1、基本用法（vue2）</p></div><div style="display:contents" dir="auto"><pre id="93a8db55-6aee-8254-8cce-01cf615d1bf9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 父组件 --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 父组件通过自定义属性传递数据 --&gt;
+    &lt;child-component 
+      :title=&quot;parentTitle&quot; 
+      :user-age=&quot;userAge&quot;
+    &gt;&lt;/child-component&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import ChildComponent from &#x27;./ChildComponent.vue&#x27;;
+export default {
+  components: { ChildComponent },
+  data() {
+    return {
+      parentTitle: &quot;来自父组件的标题&quot;,
+      userAge: 20
+    }
+  }
+};
+&lt;/script&gt;
+
+
+&lt;!-- 子组件 ChildComponent.vue --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;p&gt;标题：{{ title }}&lt;/p&gt;
+    &lt;p&gt;年龄：{{ userAge }}&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  // 子组件通过 props 声明接收的属性（数组形式，仅指定名称）
+  props: [&#x27;title&#x27;, &#x27;userAge&#x27;], 
+  // 注意：HTML中属性名不区分大小写，父组件传递时建议用 kebab-case（如 user-age），子组件 props 用 camelCase（userAge）自动映射
+}
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="cd08db55-6aee-83fb-900c-81d6c52b82d4" class="">2、props的单项数据流</p></div><div style="display:contents" dir="auto"><ul id="7e98db55-6aee-8303-8c96-01a819535392" class="bulleted-list"><li style="list-style-type:disc"><strong>规则</strong>：父组件数据更新时，子组件会自动同步，但<strong>子组件不能直接修改 </strong><code><strong>props</strong></code>（避免数据流混乱）。</li></ul></div><div style="display:contents" dir="auto"><ul id="e268db55-6aee-82cb-8ebf-016af0d5bc19" class="bulleted-list"><li style="list-style-type:disc"><strong>解决</strong>：若子组件需修改 <code>props</code>，可将 <code>props</code> 赋值给子组件的 <code>data</code>，或通过计算属性处理。</li></ul></div><div style="display:contents" dir="auto"><pre id="bfe8db55-6aee-83e6-bd1c-81ce4df9588b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 子组件中安全使用 props
+export default {
+  props: [&#x27;initialCount&#x27;],
+  data() {
+    return {
+      // 将 props 赋值给 data，子组件修改 count 不会影响父组件
+      count: this.initialCount 
+    }
+  },
+  methods: {
+    increment() {
+      this.count++; // 安全修改
+    }
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c628db55-6aee-822f-97a4-819a6c7ce918" class="toggle"><li><details open=""><summary>子转父（<strong>通过 </strong><code><strong>$emit</strong></code><strong> 触发事件</strong>）</summary><div style="display:contents" dir="auto"><p id="b4c8db55-6aee-8246-9be6-81677072bd6b" class="">子组件向父组件传递数据的核心是 <code><strong>$emit</strong></code>：子组件通过 <code>$emit(&#x27;事件名&#x27;, 数据)</code> 触发自定义事件，父组件通过 <code>@事件名</code> 监听并接收数据。</p></div><div style="display:contents" dir="auto"><hr id="5e68db55-6aee-83ee-9e88-014ad6d8f6b8"/></div><div style="display:contents" dir="auto"><p id="7978db55-6aee-836a-8726-01c4b6007c3f" class="">1、基本用法（vue2）</p></div><div style="display:contents" dir="auto"><pre id="b958db55-6aee-831a-a81f-8173c1227276" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 子组件 ChildComponent.vue --&gt;
+&lt;template&gt;
+  &lt;button @click=&quot;sendDataToParent&quot;&gt;向父组件传值&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      childMessage: &quot;我是子组件的数据&quot;
+    }
+  },
+  methods: {
+    sendDataToParent() {
+      // 触发自定义事件（事件名建议用 kebab-case），并传递数据
+      this.$emit(&#x27;send-message&#x27;, this.childMessage, 123); 
+    }
+  }
+}
+&lt;/script&gt;
+
+
+&lt;!-- 父组件 --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 父组件监听子组件的自定义事件 --&gt;
+    &lt;child-component @send-message=&quot;handleMessage&quot;&gt;&lt;/child-component&gt;
+    &lt;p&gt;从子组件接收的数据：{{ receivedData }}&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import ChildComponent from &#x27;./ChildComponent.vue&#x27;;
+export default {
+  components: { ChildComponent },
+  data() {
+    return {
+      receivedData: null
+    }
+  },
+  methods: {
+    // 接收子组件传递的参数（按触发时的顺序接收）
+    handleMessage(msg, num) {
+      this.receivedData = `消息：${msg}，数字：${num}`;
+    }
+  }
+}
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="9428db55-6aee-82a6-8156-01086fe76e86" class="">2、vue3中的子传父（emit函数）</p></div><div style="display:contents" dir="auto"><p id="bec8db55-6aee-83b8-89f7-0112841c093b" class="">Vue3 中通过 <code>defineEmits</code> 声明自定义事件（更规范），使用 <code>emit</code> 函数触发：</p></div><div style="display:contents" dir="auto"><pre id="15a8db55-6aee-833c-9701-816a09337d4d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 子组件 Child.vue --&gt;
+&lt;template&gt;
+  &lt;button @click=&quot;sendData&quot;&gt;传递数据&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+// 声明自定义事件（返回 emit 函数）
+const emit = defineEmits([&#x27;send-message&#x27;]); 
+const sendData = () =&gt; {
+  emit(&#x27;send-message&#x27;, &#x27;Vue3子组件数据&#x27;); // 触发事件
+};
+&lt;/script&gt;
+
+
+&lt;!-- 父组件 Parent.vue --&gt;
+&lt;template&gt;
+  &lt;child-component @send-message=&quot;handleMsg&quot;&gt;&lt;/child-component&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import ChildComponent from &#x27;./Child.vue&#x27;;
+const handleMsg = (data) =&gt; {
+  console.log(&#x27;接收数据：&#x27;, data);
+};
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c998db55-6aee-83f3-923e-01d32a2fa165" class="toggle"><li><details open=""><summary>属性验证与默认属性</summary><div style="display:contents" dir="auto"><p id="b9c8db55-6aee-82e9-8ef0-81df6cf9c8dc" class=""><code>props</code> 支持<strong>属性验证</strong>（确保传递的数据类型 / 格式正确）和<strong>默认属性</strong>（当父组件未传递时使用默认值），通过 “对象形式的 <code>props</code>” 配置。</p></div><div style="display:contents" dir="auto"><hr id="3318db55-6aee-83db-87d7-01f92c4bcd15"/></div><div style="display:contents" dir="auto"><p id="f4c8db55-6aee-8337-b1c4-81656de17963" class="">1、基本验证规则（Vue2）</p></div><div style="display:contents" dir="auto"><pre id="2418db55-6aee-837e-bd9d-01c9b6ce2048" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">export default {
+  // props 为对象形式，键是属性名，值是验证规则
+  props: {
+    // 1. 类型验证（Number/String/Boolean/Array/Object/Function）
+    age: {
+      type: Number, // 必须是数字类型
+      required: true // 父组件必须传递该属性
+    },
+
+    // 2. 默认值（当父组件未传递时使用）
+    name: {
+      type: String,
+      default: &#x27;默认名称&#x27; // 字符串默认值
+    },
+
+    // 3. 数组/对象的默认值（必须是函数返回）
+    tags: {
+      type: Array,
+      default: () =&gt; [&#x27;前端&#x27;, &#x27;Vue&#x27;] // 数组默认值需用函数
+    },
+
+    // 4. 自定义验证函数（返回 true 则验证通过）
+    score: {
+      type: Number,
+      validator: (value) =&gt; {
+        // 验证规则：分数必须在 0-100 之间
+        return value &gt;= 0 &amp;&amp; value &lt;= 100;
+      }
+    }
+  }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="aa38db55-6aee-83c2-906e-81f76673503d" class="">2、验证失败后果</p></div><div style="display:contents" dir="auto"><ul id="e248db55-6aee-82a2-a464-81e191a36f72" class="bulleted-list"><li style="list-style-type:disc">开发环境下，Vue 会在控制台抛出警告（如 “属性 <code>age</code> 期望是 Number 但得到 String”）。</li></ul></div><div style="display:contents" dir="auto"><ul id="82f8db55-6aee-83f8-926c-01e6a6d88be6" class="bulleted-list"><li style="list-style-type:disc">生产环境下，验证会被跳过（不影响性能）。</li></ul></div><div style="display:contents" dir="auto"><p id="bfd8db55-6aee-8214-98c8-01f36be43661" class="">3、Vue3中属性验证<strong>（</strong><code><strong>defineProps</strong></code><strong>）</strong></p></div><div style="display:contents" dir="auto"><p id="a048db55-6aee-834e-af47-012a77435a31" class="">Vue3 中通过 <code>defineProps</code> 的泛型或对象形式声明验证规则：</p></div><div style="display:contents" dir="auto"><pre id="4358db55-6aee-8224-a613-81e42cca6411" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;script setup&gt;
+// 对象形式声明 props 及验证规则
+const props = defineProps({
+  age: {
+    type: Number,
+    required: true
+  },
+  name: {
+    type: String,
+    default: &#x27;默认名称&#x27;
+  }
+});
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f898db55-6aee-831d-b25c-81d46ff317e6" class="toggle"><li><details open=""><summary>中间人模式（状态提升）</summary><div style="display:contents" dir="auto"><p id="6fa8db55-6aee-833c-9f9a-811faa67cefb" class=""><strong>定义</strong>：当多个子组件需要共享状态或相互通信时，将共享状态 “提升” 到它们的共同父组件（中间人），通过父组件中转数据的模式。</p></div><div style="display:contents" dir="auto"><hr id="10b8db55-6aee-8265-ae80-01e1e8804e58"/></div><div style="display:contents" dir="auto"><p id="c238db55-6aee-820e-bd64-81b3d84b5db2" class=""><strong>核心逻辑</strong>：子组件 → 父组件（通过 <code>$emit</code>）传递数据，父组件 → 其他子组件（通过 <code>props</code>）传递数据，实现子组件间间接通信。</p></div><div style="display:contents" dir="auto"><hr id="8578db55-6aee-83d6-bb3e-810d08afbbc7"/></div><div style="display:contents" dir="auto"><p id="9a88db55-6aee-82cf-b3bd-815fc883ab5b" class=""><strong>原理</strong>：</p></div><div style="display:contents" dir="auto"><ul id="ef48db55-6aee-83d1-a9da-01a424919418" class="bulleted-list"><li style="list-style-type:disc">子组件通过 <code>$emit</code> 将数据变化通知父组件；</li></ul></div><div style="display:contents" dir="auto"><ul id="7af8db55-6aee-828a-b9fc-81c2abab639e" class="bulleted-list"><li style="list-style-type:disc">父组件更新自身状态后，通过 <code>props</code> 将新状态传递给所有依赖该状态的子组件；</li></ul></div><div style="display:contents" dir="auto"><ul id="b218db55-6aee-8245-8adc-0139ff1f175d" class="bulleted-list"><li style="list-style-type:disc">适用于<strong>层级较浅</strong>的组件间通信（避免深层嵌套导致的代码冗余）。</li></ul></div><div style="display:contents" dir="auto"><hr id="d308db55-6aee-8398-b7ae-81434e8f6037"/></div><div style="display:contents" dir="auto"><p id="7fe8db55-6aee-8213-8bd2-81e69757dd02" class="">场景：两个子组件共享“计数器”状态</p></div><div style="display:contents" dir="auto"><pre id="9688db55-6aee-823b-9cab-01fb17bcfffa" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 父组件（中间人） --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;ChildA :count=&quot;count&quot; @update-count=&quot;count = $event&quot;&gt;&lt;/ChildA&gt;
+    &lt;ChildB :count=&quot;count&quot; @update-count=&quot;count = $event&quot;&gt;&lt;/ChildB&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import ChildA from &#x27;./ChildA.vue&#x27;;
+import ChildB from &#x27;./ChildB.vue&#x27;;
+export default {
+  components: { ChildA, ChildB },
+  data() { return { count: 0 }; } // 共享状态提升到父组件
+};
+&lt;/script&gt;
+
+
+&lt;!-- 子组件 ChildA.vue --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;p&gt;ChildA: {{ count }}&lt;/p&gt;
+    &lt;button @click=&quot;$emit(&#x27;update-count&#x27;, count + 1)&quot;&gt;+1&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt; export default { props: [&#x27;count&#x27;] }; &lt;/script&gt;
+
+
+&lt;!-- 子组件 ChildB.vue --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;p&gt;ChildB: {{ count }}&lt;/p&gt;
+    &lt;button @click=&quot;$emit(&#x27;update-count&#x27;, count - 1)&quot;&gt;-1&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt; export default { props: [&#x27;count&#x27;] }; &lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b7e8db55-6aee-82f2-b127-81e19995e5d8" class="toggle"><li><details open=""><summary>中央事件总线（EventBus）</summary><div style="display:contents" dir="auto"><p id="9d98db55-6aee-8381-8d9b-81a32befddc0" class=""><strong>定义</strong>：通过一个全局的 “事件中心” 实现任意组件间通信（包括非父子、跨层级组件），组件可向中心发送 / 监听事件。</p></div><div style="display:contents" dir="auto"><hr id="6478db55-6aee-82c0-b046-017b1d1f10b1"/></div><div style="display:contents" dir="auto"><p id="ba28db55-6aee-8255-8951-81a2860bc164" class=""><strong>核心逻辑</strong>：创建一个空的 Vue 实例作为事件总线，通过 <code>$on</code> 监听事件、<code>$emit</code> 发送事件、<code>$off</code> 移除事件。</p></div><div style="display:contents" dir="auto"><hr id="efd8db55-6aee-8284-81ae-01553c519bbf"/></div><div style="display:contents" dir="auto"><p id="14e8db55-6aee-83ec-b6c1-01b018fd89cc" class="">1、vue2实现EventBus</p></div><div style="display:contents" dir="auto"><pre id="3cc8db55-6aee-82d9-bb77-8156989d0c65" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 1. 创建事件总线（bus.js）
+import Vue from &#x27;vue&#x27;;
+export default new Vue(); // 空Vue实例作为总线
+
+
+// 2. 组件A（发送事件）
+import bus from &#x27;./bus.js&#x27;;
+export default {
+  methods: {
+    sendData() {
+      // 发送事件：第一个参数是事件名，后续是传递的数据
+      bus.$emit(&#x27;send-message&#x27;, &#x27;来自组件A的数据&#x27;, 123);
+    }
+  }
+};
+
+
+// 3. 组件B（监听事件）
+import bus from &#x27;./bus.js&#x27;;
+export default {
+  mounted() {
+    // 监听事件：第一个参数是事件名，第二个是回调函数
+    this.eventHandler = (msg, num) =&gt; {
+      console.log(&#x27;接收数据：&#x27;, msg, num); // 输出：来自组件A的数据 123
+    };
+    bus.$on(&#x27;send-message&#x27;, this.eventHandler);
+  },
+  beforeDestroy() {
+    // 移除事件监听（必须！避免内存泄漏）
+    bus.$off(&#x27;send-message&#x27;, this.eventHandler);
+  }
+};</code></pre></div><div style="display:contents" dir="auto"><p id="f918db55-6aee-830e-ad32-01f4a7ed2dcd" class="">2、vue3实现（使用mitt库）</p></div><div style="display:contents" dir="auto"><p id="21d8db55-6aee-820c-b305-8143eed65ad1" class="">Vue3 移除了 <code>$on</code>/<code>$off</code>，推荐用轻量库 <code>mitt</code> 替代：</p></div><div style="display:contents" dir="auto"><pre id="5c58db55-6aee-838b-a92e-01589c65e670" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm install mitt</code></pre></div><div style="display:contents" dir="auto"><pre id="a948db55-6aee-83aa-9f3a-81d94c94c4e4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 1. 创建总线（bus.js）
+import mitt from &#x27;mitt&#x27;;
+export default mitt(); // 创建mitt实例
+
+
+// 2. 组件A（发送事件）
+import bus from &#x27;./bus.js&#x27;;
+const sendData = () =&gt; {
+  bus.emit(&#x27;send-message&#x27;, &#x27;Vue3数据&#x27;); // 发送事件
+};
+
+
+// 3. 组件B（监听事件）
+import bus from &#x27;./bus.js&#x27;;
+import { onMounted, onUnmounted } from &#x27;vue&#x27;;
+
+onMounted(() =&gt; {
+  // 监听事件
+  const handler = (data) =&gt; {
+    console.log(&#x27;接收：&#x27;, data);
+  };
+  bus.on(&#x27;send-message&#x27;, handler);
+
+  // 组件卸载时移除监听
+  onUnmounted(() =&gt; {
+    bus.off(&#x27;send-message&#x27;, handler);
+  });
+});</code></pre></div><div style="display:contents" dir="auto"><p id="c698db55-6aee-83d6-a962-81260a815f53" class=""><strong>注意</strong>：</p></div><div style="display:contents" dir="auto"><ul id="1a28db55-6aee-8344-8660-012792542397" class="bulleted-list"><li style="list-style-type:disc">必须在组件销毁时移除事件监听，否则可能导致多次触发；</li></ul></div><div style="display:contents" dir="auto"><ul id="ecf8db55-6aee-832d-af73-811a9d491fd4" class="bulleted-list"><li style="list-style-type:disc">适用于<strong>中小型项目</strong>，大型项目建议用 Vuex/Pinia 管理状态。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="dd08db55-6aee-8216-88a8-01c37befedd0" class="toggle"><li><details open=""><summary>ref 组件通信</summary><div style="display:contents" dir="auto"><p id="4228db55-6aee-823a-95a7-0148f9463479" class=""><strong>定义</strong>：父组件通过 <code>ref</code> 属性获取子组件实例或 DOM 元素，直接访问子组件的数据 / 方法，实现父子组件通信。</p></div><div style="display:contents" dir="auto"><hr id="13d8db55-6aee-8389-a55c-8192cc15cc85"/></div><div style="display:contents" dir="auto"><p id="c118db55-6aee-82b2-971c-81b15d692dc5" class="">1、访问DOM元素</p></div><div style="display:contents" dir="auto"><pre id="2bf8db55-6aee-8362-afb2-016181f3d513" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;input ref=&quot;inputRef&quot; type=&quot;text&quot;&gt;
+    &lt;button @click=&quot;focusInput&quot;&gt;聚焦输入框&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+// Vue2
+export default {
+  methods: {
+    focusInput() {
+      this.$refs.inputRef.focus(); // 通过$refs获取DOM并调用方法
+    }
+  }
+};
+
+// Vue3（&lt;script setup&gt;）
+import { ref } from &#x27;vue&#x27;;
+const inputRef = ref(null); // 与模板中ref=&quot;inputRef&quot;对应
+const focusInput = () =&gt; {
+  inputRef.value.focus(); // .value访问DOM
+};
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="d1c8db55-6aee-82d4-a5ee-015da65fe7dc" class="">2、访问子组件实例</p></div><div style="display:contents" dir="auto"><pre id="8e78db55-6aee-822a-b628-01b560cf2c79" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 子组件 Child.vue --&gt;
+&lt;template&gt;
+  &lt;div&gt;{{ count }}&lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+// Vue2
+export default {
+  data() { return { count: 0 }; },
+  methods: {
+    increment() { this.count++; }
+  }
+};
+
+// Vue3（&lt;script setup&gt;需暴露方法）
+import { ref } from &#x27;vue&#x27;;
+const count = ref(0);
+const increment = () =&gt; { count.value++; };
+// 暴露给父组件的属性/方法（setup语法糖中默认私有）
+defineExpose({ count, increment });
+&lt;/script&gt;
+
+
+&lt;!-- 父组件 Parent.vue --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;Child ref=&quot;childRef&quot;&gt;&lt;/Child&gt;
+    &lt;button @click=&quot;callChildMethod&quot;&gt;调用子组件方法&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+// Vue2
+import Child from &#x27;./Child.vue&#x27;;
+export default {
+  components: { Child },
+  methods: {
+    callChildMethod() {
+      this.$refs.childRef.increment(); // 调用子组件方法
+      console.log(&#x27;子组件count：&#x27;, this.$refs.childRef.count); // 访问子组件数据
+    }
+  }
+};
+
+// Vue3（&lt;script setup&gt;）
+import { ref } from &#x27;vue&#x27;;
+import Child from &#x27;./Child.vue&#x27;;
+const childRef = ref(null);
+const callChildMethod = () =&gt; {
+  childRef.value.increment(); // 调用子组件方法
+  console.log(&#x27;子组件count：&#x27;, childRef.value.count);
+};
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="7b28db55-6aee-8378-9b60-018964b4a777" class=""><strong>注意</strong>：</p></div><div style="display:contents" dir="auto"><ul id="2bf8db55-6aee-8295-bdc5-01f8ed7597e7" class="bulleted-list"><li style="list-style-type:disc">避免过度依赖 <code>ref</code> 直接操作子组件（破坏封装性），优先用 <code>props</code>/<code>$emit</code>；</li></ul></div><div style="display:contents" dir="auto"><ul id="e438db55-6aee-8396-8d0f-01d416fd0469" class="bulleted-list"><li style="list-style-type:disc"><code>ref</code> 访问在组件挂载后才有效（<code>mounted</code> 钩子中）。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c478db55-6aee-83ef-8487-01008f8759b4" class="toggle"><li><details open=""><summary>动态组件</summary><div style="display:contents" dir="auto"><p id="92d8db55-6aee-83e8-acb1-01cb59961b27" class=""><strong>定义</strong>：通过 <code>&lt;component :is=&quot;组件名&quot;&gt;&lt;/component&gt;</code> 动态渲染不同组件，实现组件的切换展示。</p></div><div style="display:contents" dir="auto"><hr id="0128db55-6aee-8364-a7a5-81a9e90ecf67"/></div><div style="display:contents" dir="auto"><p id="8148db55-6aee-82f9-a307-013f6e65ab56" class="">1、基本用法：</p></div><div style="display:contents" dir="auto"><pre id="6158db55-6aee-83ce-9107-810f86da8801" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 按钮切换组件 --&gt;
+    &lt;button @click=&quot;currentComponent = &#x27;ComponentA&#x27;&quot;&gt;显示A&lt;/button&gt;
+    &lt;button @click=&quot;currentComponent = &#x27;ComponentB&#x27;&quot;&gt;显示B&lt;/button&gt;
+    
+    &lt;!-- 动态组件：:is绑定组件名 --&gt;
+    &lt;component :is=&quot;currentComponent&quot;&gt;&lt;/component&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import ComponentA from &#x27;./ComponentA.vue&#x27;;
+import ComponentB from &#x27;./ComponentB.vue&#x27;;
+
+export default {
+  components: { ComponentA, ComponentB }, // 局部注册组件
+  data() {
+    return {
+      currentComponent: &#x27;ComponentA&#x27; // 默认显示A
+    }
+  }
+};
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="2508db55-6aee-8205-92dd-01be5022c3a2" class="">2、结合<code>keep-alive</code>缓存组件状态</p></div><div style="display:contents" dir="auto"><p id="1be8db55-6aee-823b-8f7b-0179e15ce7a7" class="">默认切换动态组件时，旧组件会被销毁，新组件重新创建。<code>keep-alive</code> 可缓存组件实例，保留状态（如表单输入值）：</p></div><div style="display:contents" dir="auto"><pre id="f5f8db55-6aee-83c6-b5cc-813703ecf4c8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 缓存所有动态组件 --&gt;
+&lt;keep-alive&gt;
+  &lt;component :is=&quot;currentComponent&quot;&gt;&lt;/component&gt;
+&lt;/keep-alive&gt;
+
+&lt;!-- 只缓存指定组件（include/exclude） --&gt;
+&lt;keep-alive include=&quot;ComponentA,ComponentB&quot; exclude=&quot;ComponentC&quot;&gt;
+  &lt;component :is=&quot;currentComponent&quot;&gt;&lt;/component&gt;
+&lt;/keep-alive&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="80e8db55-6aee-825f-b426-01e02c7143b3" class=""><code>keep-alive</code> 相关生命周期</p></div><div style="display:contents" dir="auto"><ul id="e398db55-6aee-8334-81d4-01ee1613c257" class="bulleted-list"><li style="list-style-type:disc">组件被缓存时触发 <code>deactivated</code>；</li></ul></div><div style="display:contents" dir="auto"><ul id="a658db55-6aee-8255-8bf3-01e4919871f2" class="bulleted-list"><li style="list-style-type:disc">组件被激活时触发 <code>activated</code>。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7358db55-6aee-82d2-8435-81eadfdd4959" class="toggle"><li><details open=""><summary>slot 插槽</summary><div style="display:contents" dir="auto"><p id="cc08db55-6aee-8252-9260-81691e3ee1f6" class=""><strong>定义</strong>：插槽是组件的 “占位符”，允许父组件向子组件插入自定义内容，实现组件内容的灵活定制。</p></div><div style="display:contents" dir="auto"><p id="9ae8db55-6aee-82cb-820f-018ed1075cac" class=""><strong>核心</strong>：作用域插槽实现了 “子组件提供数据，父组件决定渲染方式” 的灵活协作。</p></div><div style="display:contents" dir="auto"><hr id="ae98db55-6aee-8384-b44c-81c7122c2a4f"/></div><div style="display:contents" dir="auto"><p id="75a8db55-6aee-82d9-86c2-016f390f366f" class="">1、默认插槽<strong>（匿名插槽）</strong></p></div><div style="display:contents" dir="auto"><p id="2168db55-6aee-8262-abcc-81faa4a8ca16" class="">子组件定义一个无名称的插槽，父组件插入的内容会填充到该插槽。</p></div><div style="display:contents" dir="auto"><pre id="38f8db55-6aee-8347-9a09-818157ab093b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 子组件 Child.vue --&gt;
+&lt;template&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;div class=&quot;header&quot;&gt;卡片标题&lt;/div&gt;
+    &lt;!-- 默认插槽：父组件内容会插入这里 --&gt;
+    &lt;slot&gt;&lt;/slot&gt; 
+    &lt;div class=&quot;footer&quot;&gt;卡片底部&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+
+&lt;!-- 父组件使用 --&gt;
+&lt;template&gt;
+  &lt;Child&gt;
+    &lt;!-- 插入到子组件的默认插槽 --&gt;
+    &lt;p&gt;这是父组件插入的内容&lt;/p&gt;
+    &lt;button&gt;父组件的按钮&lt;/button&gt;
+  &lt;/Child&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="0de8db55-6aee-823c-ab83-8189bbfecf81" class="">2、具名插槽（Named Slot）</p></div><div style="display:contents" dir="auto"><p id="8008db55-6aee-83bc-853c-01811313c852" class="">当子组件有多个插槽时，用 <code>name</code> 属性区分，<mark class="highlight-yellow_background">父组件通过 </mark><mark class="highlight-yellow_background"><code>v-slot:名称</code></mark><mark class="highlight-yellow_background">（简写 </mark><mark class="highlight-yellow_background"><code>#名称</code></mark>）指定插入位置。</p></div><div style="display:contents" dir="auto"><pre id="c678db55-6aee-8394-b7a3-8162ebba64dd" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 子组件 Child.vue --&gt;
+&lt;template&gt;
+  &lt;div class=&quot;layout&quot;&gt;
+    &lt;!-- 头部插槽 --&gt;
+    &lt;slot name=&quot;header&quot;&gt;&lt;/slot&gt;
+    &lt;!-- 内容插槽 --&gt;
+    &lt;slot name=&quot;content&quot;&gt;&lt;/slot&gt;
+    &lt;!-- 底部插槽 --&gt;
+    &lt;slot name=&quot;footer&quot;&gt;&lt;/slot&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+
+&lt;!-- 父组件使用（Vue2/Vue3通用） --&gt;
+&lt;template&gt;
+  &lt;Child&gt;
+    &lt;!-- 插入到header插槽 --&gt;
+    &lt;template v-slot:header&gt;
+      &lt;h1&gt;页面标题&lt;/h1&gt;
+    &lt;/template&gt;
+    
+    &lt;!-- 插入到content插槽（简写#content） --&gt;
+    &lt;template #content&gt;
+      &lt;p&gt;页面内容...&lt;/p&gt;
+    &lt;/template&gt;
+    
+    &lt;!-- 插入到footer插槽 --&gt;
+    &lt;template #footer&gt;
+      &lt;p&gt;版权信息&lt;/p&gt;
+    &lt;/template&gt;
+  &lt;/Child&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3f68db55-6aee-82e5-bff5-81df1178f39e" class="">3、作用域插槽（Scoped Slot）</p></div><div style="display:contents" dir="auto"><p id="17a8db55-6aee-8315-810e-81da448f7380" class="">子组件向插槽传递数据（子组件 → 父组件），父组件可使用这些数据定制插槽内容。</p></div><div style="display:contents" dir="auto"><pre id="af28db55-6aee-8352-8fb8-81383ecc8f40" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 子组件 Child.vue --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- 子组件向插槽传递数据（:user=&quot;user&quot;） --&gt;
+    &lt;slot name=&quot;user-info&quot; :user=&quot;user&quot; :age=&quot;20&quot;&gt;&lt;/slot&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+export default {
+  data() { return { user: { name: &#x27;张三&#x27; } }; }
+};
+&lt;/script&gt;
+
+
+&lt;!-- 父组件使用 --&gt;
+&lt;template&gt;
+  &lt;Child&gt;
+    &lt;!-- 通过v-slot接收子组件传递的数据（user和age） --&gt;
+    &lt;template #user-info=&quot;slotProps&quot;&gt;
+      &lt;p&gt;姓名：{{ slotProps.user.name }}&lt;/p&gt;
+      &lt;p&gt;年龄：{{ slotProps.age }}&lt;/p&gt;
+    &lt;/template&gt;
+    
+    &lt;!-- 解构赋值简化（推荐） --&gt;
+    &lt;template #user-info=&quot;{ user, age }&quot;&gt;
+      &lt;p&gt;姓名：{{ user.name }}，年龄：{{ age }}&lt;/p&gt;
+    &lt;/template&gt;
+  &lt;/Child&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e8e8db55-6aee-8394-8e13-013e70bf59ee" class="toggle"><li><details open=""><summary>过度（transition）与动画</summary><div style="display:contents" dir="auto"><p id="8588db55-6aee-8362-aee8-01cf5eb7cd1d" class="">Vue 提供 <code>&lt;transition&gt;</code> 组件封装过渡效果，通过 CSS 类或 JavaScript 钩子实现元素进入 / 离开的动画。</p></div><div style="display:contents" dir="auto"><hr id="0d88db55-6aee-8226-a534-81011918ecf0"/></div><div style="display:contents" dir="auto"><p id="e8c8db55-6aee-820d-a9d0-01c176078b63" class="">1、单个元素/组件的过度（&lt;transition&gt;）</p></div><div style="display:contents" dir="auto"><pre id="d548db55-6aee-839a-acc5-81118c1963fa" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;button @click=&quot;show = !show&quot;&gt;切换&lt;/button&gt;
+    &lt;!-- 包裹需要过渡的元素，name指定过渡类的前缀 --&gt;
+    &lt;transition name=&quot;fade&quot;&gt;
+      &lt;p v-if=&quot;show&quot;&gt;这是过渡元素&lt;/p&gt;
+    &lt;/transition&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default { data() { return { show: true }; } };
+&lt;/script&gt;
+
+&lt;style&gt;
+/* 进入/离开的初始状态 */
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+/* 进入/离开的过渡状态 */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* 进入结束的状态（可选，通常与默认一致） */
+.fade-enter-to, .fade-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+&lt;/style&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="1ba8db55-6aee-82e5-8fcc-81f3f5d94a14" class=""><strong>过渡类名说明</strong>（以 <code>name=&quot;fade&quot;</code> 为例）：</p></div><div style="display:contents" dir="auto"><ul id="2df8db55-6aee-83ac-bdb3-81308203ed63" class="bulleted-list"><li style="list-style-type:disc"><code>fade-enter-from</code>：进入开始（瞬间）；</li></ul></div><div style="display:contents" dir="auto"><ul id="e788db55-6aee-835f-8745-812e4494ac4c" class="bulleted-list"><li style="list-style-type:disc"><code>fade-enter-active</code>：进入过程中（持续到结束）；</li></ul></div><div style="display:contents" dir="auto"><ul id="b498db55-6aee-82e0-98d0-81bb3445c332" class="bulleted-list"><li style="list-style-type:disc"><code>fade-enter-to</code>：进入结束（瞬间）；</li></ul></div><div style="display:contents" dir="auto"><ul id="9198db55-6aee-8352-8bcf-01f71cc391a7" class="bulleted-list"><li style="list-style-type:disc"><code>fade-leave-from</code>：离开开始（瞬间）；</li></ul></div><div style="display:contents" dir="auto"><ul id="0a48db55-6aee-8304-96a7-01ab47e7493b" class="bulleted-list"><li style="list-style-type:disc"><code>fade-leave-active</code>：离开过程中（持续到结束）；</li></ul></div><div style="display:contents" dir="auto"><ul id="0078db55-6aee-83f4-ba57-01eb1891340b" class="bulleted-list"><li style="list-style-type:disc"><code>fade-leave-to</code>：离开结束（瞬间）。</li></ul></div><div style="display:contents" dir="auto"><hr id="9c48db55-6aee-825b-8bf1-8154e04a1f48"/></div><div style="display:contents" dir="auto"><p id="1ba8db55-6aee-835c-af46-814c8c13e486" class="">2、列表过度（&lt;transition-group&gt;）</p></div><div style="display:contents" dir="auto"><p id="e4e8db55-6aee-8272-b219-01ef7e94f5ab" class="">用于 <code>v-for</code> 渲染的列表，需为每个子元素设置唯一 <code>key</code>：</p></div><div style="display:contents" dir="auto"><p id="0cb8db55-6aee-821a-85a0-017887c134be" class=""><code><strong>list-move</strong></code><strong> 类</strong>：当列表项位置变化（如删除中间项）时，触发移动动画，实现平滑过渡。</p></div><div style="display:contents" dir="auto"><pre id="b118db55-6aee-82a7-b100-01fb6603c231" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;
+    &lt;button @click=&quot;addItem&quot;&gt;添加&lt;/button&gt;
+    &lt;!-- 列表过渡：必须指定tag（渲染为指定标签） --&gt;
+    &lt;transition-group name=&quot;list&quot; tag=&quot;ul&quot;&gt;
+      &lt;li v-for=&quot;item in list&quot; :key=&quot;item.id&quot;&gt;
+        {{ item.text }}
+        &lt;button @click=&quot;removeItem(item.id)&quot;&gt;删除&lt;/button&gt;
+      &lt;/li&gt;
+    &lt;/transition-group&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return { list: [], nextId: 1 };
+  },
+  methods: {
+    addItem() {
+      this.list.push({ id: this.nextId++, text: `项目${this.nextId}` });
+    },
+    removeItem(id) {
+      this.list = this.list.filter(item =&gt; item.id !== id);
+    }
+  }
+};
+&lt;/script&gt;
+
+&lt;style&gt;
+/* 进入/离开动画 */
+.list-enter-from, .list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-enter-active, .list-leave-active {
+  transition: all 0.3s;
+}
+
+/* 列表项移动动画（关键！） */
+.list-move {
+  transition: transform 0.3s;
+}
+
+/* 避免删除时元素突然消失 */
+.list-leave-active {
+  position: absolute;
+}
+&lt;/style&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="b3f8db55-6aee-8249-9377-81ea67d84a16"/></div><div style="display:contents" dir="auto"><p id="bb98db55-6aee-837f-ae49-81f8d0e49140" class="">3、可复用过度（封装为组件）</p></div><div style="display:contents" dir="auto"><p id="9668db55-6aee-8365-8751-01c55ebdefe0" class="">将 <code>&lt;transition&gt;</code> 封装为可复用组件，在多个地方使用：</p></div><div style="display:contents" dir="auto"><pre id="3a98db55-6aee-8356-a525-81c76a70be3f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- FadeTransition.vue（可复用过渡组件） --&gt;
+&lt;template&gt;
+  &lt;transition name=&quot;fade&quot;&gt;
+    &lt;slot&gt;&lt;/slot&gt; &lt;!-- 插槽接收需要过渡的内容 --&gt;
+  &lt;/transition&gt;
+&lt;/template&gt;
+
+&lt;style&gt;
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+.fade-enter-active, .fade-leave-active { transition: opacity 0.3s; }
+&lt;/style&gt;
+
+
+&lt;!-- 使用可复用过渡 --&gt;
+&lt;template&gt;
+  &lt;FadeTransition&gt;
+    &lt;p v-if=&quot;show&quot;&gt;使用复用的过渡效果&lt;/p&gt;
+  &lt;/FadeTransition&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import FadeTransition from &#x27;./FadeTransition.vue&#x27;;
+export default { components: { FadeTransition }, data() { return { show: true }; } };
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aab8db55-6aee-835e-aff2-815b45969e98" class="toggle"><li><details open=""><summary>Diff算法</summary><div style="display:contents" dir="auto"><p id="6f18db55-6aee-8240-9943-016bcb530ab7" class=""><strong>定义</strong>：Vue 的虚拟 DOM（Virtual DOM）对比算法，用于计算新旧虚拟 DOM 树的差异，只更新变化的部分（最小化 DOM 操作），提升性能。</p></div><div style="display:contents" dir="auto"><hr id="04c8db55-6aee-8339-8fc5-81eea1000e1c"/></div><div style="display:contents" dir="auto"><h3 id="3658db55-6aee-832c-ba98-017c7fa6e397" class=""><strong>核心原理</strong></h3></div><div style="display:contents" dir="auto"><ol type="1" id="a448db55-6aee-83b8-85e2-0152cc6b12bc" class="numbered-list" start="1"><li><strong>同级对比</strong>：只对比同一层级的节点（不跨层级对比），降低复杂度（时间复杂度 O (n)）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2dd8db55-6aee-83f2-896b-015850ea5fef" class="numbered-list" start="2"><li><strong>节点类型判断</strong>：<div style="display:contents" dir="auto"><ul id="dcf8db55-6aee-8249-ae70-0153dbd3566a" class="bulleted-list"><li style="list-style-type:disc">若标签名不同（如 <code>div</code> → <code>p</code>），直接销毁旧节点，创建新节点；</li></ul></div><div style="display:contents" dir="auto"><ul id="fac8db55-6aee-8386-a7f3-01011258c850" class="bulleted-list"><li style="list-style-type:disc">若标签名相同，对比属性（<code>class</code>、<code>style</code> 等），更新变化的属性。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a608db55-6aee-835a-b8be-819ed1c81f23" class="numbered-list" start="3"><li><strong>列表节点对比</strong>：依赖 <code>key</code> 标识节点唯一性：<div style="display:contents" dir="auto"><ul id="87b8db55-6aee-831a-84c6-011ab9e48168" class="bulleted-list"><li style="list-style-type:disc">有 <code>key</code> 时：通过 <code>key</code> 匹配新旧节点，只移动 / 更新变化的节点；</li></ul></div><div style="display:contents" dir="auto"><ul id="cb68db55-6aee-8334-8e9e-81d5fcd0d345" class="bulleted-list"><li style="list-style-type:disc">无 <code>key</code> 时：默认按索引匹配，可能导致错误复用（如列表排序 / 删除时状态错乱）。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><hr id="f0c8db55-6aee-8215-b058-811b4ba059a9"/></div><div style="display:contents" dir="auto"><p id="df78db55-6aee-82e5-972d-015adb59e02f" class="">为什么key很重要?</p></div><div style="display:contents" dir="auto"><pre id="d388db55-6aee-82f4-a024-8171835f335d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!-- 反例：用索引作为key，删除第一项时的问题 --&gt;
+&lt;ul&gt;
+  &lt;li v-for=&quot;(item, index) in list&quot; :key=&quot;index&quot;&gt;
+    {{ item }} &lt;input type=&quot;text&quot;&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre></div><div style="display:contents" dir="auto"><ul id="5d18db55-6aee-821a-ae37-8146f97fc2e0" class="bulleted-list"><li style="list-style-type:disc">原始列表：<code>[A, B, C]</code> → 输入框分别输入 <code>a, b, c</code>；</li></ul></div><div style="display:contents" dir="auto"><ul id="4318db55-6aee-8237-a62c-81919b33d83c" class="bulleted-list"><li style="list-style-type:disc">删除第一项后，新列表为 <code>[B, C]</code>，索引变为 <code>0, 1</code>；</li></ul></div><div style="display:contents" dir="auto"><ul id="3cf8db55-6aee-824c-9790-812f1717db48" class="bulleted-list"><li style="list-style-type:disc">Vue 会认为索引 <code>0</code> 的节点还是原来的节点，复用输入框，导致 <code>B</code> 对应的输入框显示 <code>a</code>（错误复用）。</li></ul></div><div style="display:contents" dir="auto"><p id="b258db55-6aee-8332-ba38-81b6fb43454b" class=""><strong>正例</strong>：用唯一 <code>id</code> 作为 <code>key</code>，确保节点正确匹配，避免状态错乱。</p></div><div style="display:contents" dir="auto"><hr id="9c58db55-6aee-8248-a11e-017c04087f79"/></div><div style="display:contents" dir="auto"><p id="9b38db55-6aee-835f-b2bc-018c37068cd0" class="">vue3 对 Diff 算法的优化</p></div><div style="display:contents" dir="auto"><h3 id="9ab8db55-6aee-83d6-95dd-810825d5b714" class=""><strong>Vue3 对 Diff 算法的优化</strong></h3></div><div style="display:contents" dir="auto"><ul id="b348db55-6aee-8360-ac02-011b9cd5fa16" class="bulleted-list"><li style="list-style-type:disc"><strong>静态节点提升</strong>：编译时标记不会变化的节点（如纯文本），diff 时直接跳过；</li></ul></div><div style="display:contents" dir="auto"><ul id="7de8db55-6aee-8276-b7b7-81870e274bf3" class="bulleted-list"><li style="list-style-type:disc"><strong>事件缓存</strong>：相同事件处理函数（如 <code>@click=&quot;handleClick&quot;</code>）缓存，避免重复创建；</li></ul></div><div style="display:contents" dir="auto"><ul id="3568db55-6aee-8392-84ff-010371c5e509" class="bulleted-list"><li style="list-style-type:disc"><strong>片段（Fragment）</strong>：支持多根节点，减少不必要的父容器 DOM 节点。</li></ul></div><div style="display:contents" dir="auto"><hr id="9ad8db55-6aee-8363-855a-01fff2919646"/></div><div style="display:contents" dir="auto"><p id="96e8db55-6aee-82b6-8d87-81a8e64a04ac" class="">总结：</p></div><div style="display:contents" dir="ltr"><table id="a028db55-6aee-83f0-a553-01e0efafad1c" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="a498db55-6aee-8202-a6f1-016d6e381133"><th id="HxvD" class="simple-table-header-color simple-table-header"><strong>特性</strong></th><th id="JbEg" class="simple-table-header-color simple-table-header"><strong>核心作用</strong></th><th id="&gt;[Kq" class="simple-table-header-color simple-table-header"><strong>适用场景</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="c438db55-6aee-83ca-b28d-015fe06606f3"><td id="HxvD" class="">中间人模式</td><td id="JbEg" class="">父组件中转子组件数据</td><td id="&gt;[Kq" class="">浅层子组件间共享状态</td></tr></div><div style="display:contents" dir="ltr"><tr id="24d8db55-6aee-83bd-99a4-01c59bc5322c"><td id="HxvD" class="">中央事件总线</td><td id="JbEg" class="">全局事件中心实现任意组件通信</td><td id="&gt;[Kq" class="">中小型项目跨组件通信</td></tr></div><div style="display:contents" dir="ltr"><tr id="0458db55-6aee-8210-90ea-81b5e1afbb3a"><td id="HxvD" class="">ref 通信</td><td id="JbEg" class="">父组件直接访问子组件 / DOM</td><td id="&gt;[Kq" class="">父子组件紧急通信（谨慎使用）</td></tr></div><div style="display:contents" dir="ltr"><tr id="7de8db55-6aee-820a-b190-81923a581fdf"><td id="HxvD" class="">动态组件</td><td id="JbEg" class="">动态切换组件展示</td><td id="&gt;[Kq" class="">标签页、表单步骤等切换场景</td></tr></div><div style="display:contents" dir="ltr"><tr id="ce68db55-6aee-82df-845e-813ca818b579"><td id="HxvD" class="">插槽（slot）</td><td id="JbEg" class="">父组件定制子组件内容</td><td id="&gt;[Kq" class="">组件内容灵活化（如卡片、列表项）</td></tr></div><div style="display:contents" dir="ltr"><tr id="5d48db55-6aee-8200-99ab-81e0f4394267"><td id="HxvD" class="">Transition</td><td id="JbEg" class="">元素进入 / 离开动画</td><td id="&gt;[Kq" class="">单个元素切换（如弹窗、提示）</td></tr></div><div style="display:contents" dir="ltr"><tr id="2038db55-6aee-82db-9623-813d47f805c4"><td id="HxvD" class="">TransitionGroup</td><td id="JbEg" class="">列表项添加 / 删除 / 移动动画</td><td id="&gt;[Kq" class="">动态列表（如待办事项、商品列表）</td></tr></div><div style="display:contents" dir="ltr"><tr id="8878db55-6aee-8314-b0e4-0195a5dd3fc1"><td id="HxvD" class="">Diff 算法</td><td id="JbEg" class="">高效对比虚拟 DOM，最小化 DOM 操作</td><td id="&gt;[Kq" class="">Vue 内部渲染优化（开发者需正确用 key）</td></tr></div></tbody></table></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

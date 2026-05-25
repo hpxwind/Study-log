@@ -1,0 +1,759 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>方块属性</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3688db55-6aee-803e-9ed4-c07732f7f205" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/webb4.jpg" style="object-position:center 50%"/><h1 class="page-title" dir="auto">方块属性</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-805e-9a03-c69778b62f14" class="numbered-list" start="1"><li><code>strength(float destroyHardness, float explosionResistance)</code><div style="display:contents" dir="auto"><ul id="3688db55-6aee-80d3-b454-e179fdfc6a67" class="bulleted-list"><li style="list-style-type:disc">第一参数：挖掘硬度，数值越大挖掘越慢</li></ul></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-806e-85d6-fb7fd806d06d" class="bulleted-list"><li style="list-style-type:disc">第二参数：爆炸抗性，数值越高越难被炸碎</li></ul></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3688db55-6aee-8096-91f9-ca0b3a22f3df" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 硬度1.5，防爆3
+.of().strength(1.5F, 3.0F)</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-8028-ae24-f32849bd99a7" class="numbered-list" start="2"><li><code>lightLevel(BlockState state -&gt; int)</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-8054-a38e-df9f33a85809" class="">亮度范围 <code>0~15</code>，15 为最亮</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-807c-8632-c0877dfa0815" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 固定亮度7
+.of().lightLevel(s -&gt; 7)</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-8012-86a7-c487565cdbbb" class="numbered-list" start="3"><li><code>dropsLike(Block block)</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-8065-bf44-e28752c9239b" class="">沿用指定方块的掉落逻辑</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-806d-bc4f-e730263c15d8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 掉落规则同原石
+.of().dropsLike(Blocks.COBBLESTONE)</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-809c-a55a-fc75a5bd95aa" class="numbered-list" start="4"><li><code>requiresCorrectToolForDrops()</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-8051-a9fc-f763c9c6b5c3" class="">必须对应工具才能掉落物品，徒手挖不掉</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8047-a3f7-ec68c7c139b1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 必须镐子挖掘才掉落
+.of().requiresCorrectToolForDrops()</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-8027-954a-f408ecd93711" class="numbered-list" start="5"><li><code>soundType(SoundType type)</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-8030-8e8b-ff1cd8327ff5" class="">常用原版声音枚举</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-806e-a7fc-f090d4357758" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 石头音效
+.of().soundType(SoundType.STONE)
+// 木质音效
+.of().soundType(SoundType.WOOD)
+// 沙子、玻璃、金属、泥土同理</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-8044-bc75-ed3834ebe119" class="numbered-list" start="6"><li><code>friction(float value)</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-8022-9344-c189a64884e1" class="">默认 0.6F，数值越小越滑</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80c4-903a-f322fb3d2501" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 类似冰面打滑
+.of().friction(0.98F)</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-802b-ba49-e132f1f3072a" class="numbered-list" start="7"><li><code>jumpFactor(float value)</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-80c0-9f9b-ca142a4bacdc" class="">调整玩家跳跃高度</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80dd-a6ba-d325473f2bcd" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 跳得更高
+.of().jumpFactor(1.2F)</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-807b-a52f-cb5117cf8242" class="numbered-list" start="8"><li><code>speedFactor(float value)</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-803d-996d-e754f086b578" class="">调整方块上移动速度</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80d6-9a1e-e5d60fc0bb7c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 行走变慢
+.of().speedFactor(0.7F)</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-80b4-a276-dd8134349ea3" class="numbered-list" start="9"><li><code>noPush()</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-801c-90a2-fa4b465298f7" class="">活塞无法推动该方块</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-800e-baef-cb10e5d423b1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">.of().noPush()</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-8057-b6a9-f460e99c1faf" class="numbered-list numbered-list-digits-2" start="10"><li><code>opaque() / transparent()</code><div style="display:contents" dir="auto"><ul id="3688db55-6aee-80fe-988d-d555ddf73aa9" class="bulleted-list"><li style="list-style-type:disc"><code>opaque()</code>：不透明，遮挡光线</li></ul></div><div style="display:contents" dir="auto"><ul id="3688db55-6aee-80ee-bd12-fdd23b55e04e" class="bulleted-list"><li style="list-style-type:disc"><code>transparent()</code>：透明方块，如水、玻璃</li></ul></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8015-8b98-d6ae057871fa" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">.of().transparent()</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-803f-b473-c055b400d83d" class="numbered-list numbered-list-digits-2" start="11"><li><code>noCollission()</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-8036-b279-d01928bd10ca" class="">无碰撞，可直接穿过（花朵、栅栏装饰）</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8033-b658-c078feae81b2" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">.of().noCollission()</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-8074-90e5-d8f2a1faeff9" class="numbered-list numbered-list-digits-2" start="12"><li><code>indestructible()</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-8033-af94-f64f781fd96b" class="">无敌方块，不能破坏</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-804d-b434-f8c16b5c89a7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">.of().indestructible()</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-8058-9250-c9ce4a2b0bbf" class="numbered-list numbered-list-digits-2" start="13"><li><code>offsetType(BlockBehaviour.OffsetType type)</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-8036-8d92-c6728a894ade" class=""><code>NONE</code>无偏移，<code>XZ</code>地面随机偏移（花草通用）</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80c3-a2db-f7c1daa56ea7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">.of().offsetType(BlockBehaviour.OffsetType.XZ)</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-809d-a0f2-e12c6ff67c8f" class="numbered-list numbered-list-digits-2" start="14"><li><code>slippery()</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-8001-8177-cff5b7916ece" class="">冰类打滑专属属性</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-802b-87e3-d51eec5c353c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">.of().slippery()</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-800b-a39a-fce2f068fbfe" class="numbered-list numbered-list-digits-2" start="15"><li><code>air()</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-8090-a9c3-fa27e109d607" class="">当作空气方块，无实体体积</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-80b4-addc-f44d7226406f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">.of().air()</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-8067-ba3a-e34cad61c689" class="numbered-list numbered-list-digits-2" start="16"><li><code>fireProperties(BlockFireProperties props)</code><div style="display:contents" dir="auto"><p id="3688db55-6aee-80cf-9f4a-c4fe86d0b14e" class="">设置易燃、火势蔓延速度</p></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-8056-a638-ec5c51efe8fc" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">.of().fireProperties(BlockFireProperties.NONE)</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><hr id="3688db55-6aee-8005-b8d0-e6d8509f3fe5"/></div><div style="display:contents" dir="auto"><pre id="3688db55-6aee-800e-b1a1-e91960017d7c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 发光、高防爆、需镐子挖掘的自定义方块
+BlockBehaviour.Properties.of()
+        .strength(2F, 5F)
+        .lightLevel(s -&gt; 10)
+        .requiresCorrectToolForDrops()
+        .soundType(SoundType.METAL);</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

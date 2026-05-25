@@ -1,0 +1,902 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>物品</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3678db55-6aee-80b1-8eb4-c3ce030586f8" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/rijksmuseum_jansz_1636.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🪐</span></div><h1 class="page-title" dir="auto">物品</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="3678db55-6aee-80cf-9f35-effc58db6f1b" class="">新建物品文件</h1></div><div style="display:contents" dir="auto"><p id="3678db55-6aee-8029-8eab-eadd66589e03" class="">在com/hpxwind/tutorial/下新建item/ModItems.java 并编写代码</p></div><div style="display:contents" dir="ltr"><figure id="3678db55-6aee-801b-a5d4-f0106418e90d" class="image"><a href="%E7%89%A9%E5%93%81/Snipaste_2026-05-21_22-03-30.png"><img style="width:348.99871826171875px" src="%E7%89%A9%E5%93%81/Snipaste_2026-05-21_22-03-30.png"/></a></figure></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-803c-a049-e631cc81bdd5" class="toggle"><li><details open=""><summary>item/ModItems.java</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3678db55-6aee-8003-b842-fa49648fd309" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 包声明：定义这个类所在的文件夹路径，对应项目的目录结构
+package com.hpxwind.tutorial.item;
+
+// 导入模组主类，用于获取固定的MOD_ID（模组唯一标识）
+import com.hpxwind.tutorial.TutorialMod;
+// 导入Minecraft原版物品的基类，所有自定义物品都要继承这个类
+import net.minecraft.world.item.Item;
+// 导入Forge事件总线，用于注册物品到游戏
+import net.minecraftforge.eventbus.api.IEventBus;
+// 导入Forge的延迟注册器（推荐的注册方式，安全高效）
+import net.minecraftforge.registries.DeferredRegister;
+// 导入Forge的物品注册表（所有物品都在这里注册）
+import net.minecraftforge.registries.ForgeRegistries;
+// 导入注册对象，用于接收注册后的物品
+import net.minecraftforge.registries.RegistryObject;
+
+/**
+ * 模组物品注册类
+ * 作用：统一管理、注册所有【自定义物品】（如冰以太、原材料等）
+ * 这是Forge模组开发的标准写法
+ */
+public class ModItems {
+    /**
+     * 创建物品【延迟注册器】
+     * DeferredRegister：Forge推荐的注册工具，避免手动注册导致的重复/报错
+     * 参数1：ForgeRegistries.ITEMS → 固定写法，代表注册【物品】
+     * 参数2：TutorialMod.MOD_ID → 绑定你的模组唯一ID，防止和其他模组冲突
+     */
+    public static final DeferredRegister&lt;Item&gt; ITEMS =
+            DeferredRegister.create(ForgeRegistries.ITEMS, TutorialMod.MOD_ID);
+
+    /**
+     * 注册第一个自定义物品：冰以太锭
+     * ITEMS.register(注册名, 物品实例)
+     * 注册名规则：只能用 小写字母、数字、下划线，**不能有大写/空格/斜杠/中文**
+     * new Item.Properties() → 物品基础属性（默认属性，无特殊效果）
+     */
+    public static final RegistryObject&lt;Item&gt; ICE_ETHER =
+            ITEMS.register(&quot;ice_ether&quot;, () -&gt; new Item(new Item.Properties()));
+
+    /**
+     * 注册第二个自定义物品：原矿冰以太
+     * 注册名 raw_ice_ether → 唯一不重复，和上面的 ice_ether 区分开
+     */
+    public static final RegistryObject&lt;Item&gt; RAW_ICE_ETHER =
+            ITEMS.register(&quot;raw_ice_ether&quot;, () -&gt; new Item(new Item.Properties()));
+
+    // ==============================================
+    // ❌ 【严重错误】注册名不能带斜杠 /！！！
+    // 正确写法：cardboard 或 material_cardboard
+    // ==============================================
+    public static final RegistryObject&lt;Item&gt; CARDBOARD =
+            ITEMS.register(&quot;material_cardboard&quot;, () -&gt; new Item(new Item.Properties()));
+
+    /**
+     * 注册方法：将所有物品【提交到Forge事件总线】
+     * 必须在模组主类中调用这个方法，物品才能生效
+     * @param eventBus  Forge事件总线（从主类传入）
+     */
+    public static void register(IEventBus eventBus) {
+        ITEMS.register(eventBus);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="3678db55-6aee-80c1-93f0-ee00c3049c2a" class="block-color-purple_background">register 名称参数只能 [a-z0-9/._-]</blockquote></div><div style="display:contents" dir="auto"><p id="3678db55-6aee-8067-b452-f9e5b3b924b9" class="">需要在物品栏中添加该物品，在TutorialMod.java中修改addCreative函数即可</p></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-80b5-b73a-d4ac8c15c5ad" class="toggle"><li><details open=""><summary>TutorialMod.java</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-80a6-861d-cc16372bd303" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 方法作用：向【创造模式物品栏】中添加我们的自定义物品
+// BuildCreativeModeTabContentsEvent：Forge 专门用于「修改创造模式标签页内容」的事件
+private void addCreative(BuildCreativeModeTabContentsEvent event)
+{
+    // 判断：当前正在填充的创造模式标签页，是不是【原材料(INGREDIENTS)】标签
+    // CreativeModeTabs.INGREDIENTS = 游戏默认的「材料」分类（和钻石、铁锭在一起）
+    if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+        
+        // 把 冰以太 物品添加到「材料」标签页中
+        event.accept(ModItems.ICE_ETHER);
+        // 把 原矿冰以太 物品添加到「材料」标签页中
+        event.accept(ModItems.RAW_ICE_ETHER);
+        // 把 纸板 物品添加到「材料」标签页中
+        event.accept(ModItems.CARDBOARD);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3678db55-6aee-80a4-ad24-e1f5988cf1cc"/></div><div style="display:contents" dir="auto"><h1 id="3678db55-6aee-800e-9e00-fba89b0bc7c3" class="">文件资源添加</h1></div><div style="display:contents" dir="auto"><p id="3678db55-6aee-8028-b4c2-e5ee0e3f8c64" class="">在resources/assets/[MOD_ID]文件夹下创建 语言文件，模组物品配置，材质等文件，结构如下：</p></div><div style="display:contents" dir="auto"><blockquote id="3678db55-6aee-8036-b1eb-f8f655f3dae8" class="block-color-purple_background">这个[MOD_ID]是TutorialMod.java中的<code>MOD_ID = &quot;tutorial_mod&quot;</code>，即模组的命名空间</blockquote></div><div style="display:contents" dir="ltr"><figure id="3678db55-6aee-8088-aee1-e8d56d9609e4" class="image"><a href="%E7%89%A9%E5%93%81/Snipaste_2026-05-21_22-12-15.png"><img style="width:363.99871826171875px" src="%E7%89%A9%E5%93%81/Snipaste_2026-05-21_22-12-15.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="3678db55-6aee-804d-ad1a-f4e6b048f61a" class="">lang为语言文件配置，具体不同语言配置可以搜索</p></div><div style="display:contents" dir="auto"><p id="3678db55-6aee-8096-a23c-c09019c36d56" class="">models是模组具体物品文件配置</p></div><div style="display:contents" dir="auto"><p id="3678db55-6aee-804f-b640-d22b37c9651c" class="">textures是模组材质，贴图等文件</p></div><div style="display:contents" dir="auto"><blockquote id="3678db55-6aee-8025-b8da-d51822a73598" class="block-color-purple_background">需要注意命名规则只能为 [a-z0-9/._-]<br/>需要注意目录结构需要和 item/ModItems.java 中的路径对应,多层路径需要自己创建文件夹</blockquote></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-80c6-8f93-df9ba9b36e95" class="toggle"><li><details open=""><summary>lang/en_us.json</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-80b0-8863-ffc1f0ea00be" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">{
+  // 键名规则：item.模组ID.物品注册名  →  对应游戏内显示名称
+  // 对应 ModItems 里的 ICE_ETHER (注册名 ice_ether)
+  &quot;item.tutorial_mod.ice_ether&quot;: &quot;Ice Ether&quot;,
+
+  // 对应 ModItems 里的 RAW_ICE_ETHER (注册名 raw_ice_ether)
+  &quot;item.tutorial_mod.raw_ice_ether&quot;: &quot;Raw Ice Ether&quot;,
+
+  // item.tutorial_mod.material_cardboard
+  &quot;item.tutorial_mod.material.cardboard&quot;: &quot;Cardboard&quot;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-8070-9886-d4c4f114aea0" class="toggle"><li><details open=""><summary>models/ice_ether.json</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-8066-a177-c64c2da692d8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">{
+  // 1. 父模型：继承 Minecraft 原版的【2D物品基础模型】
+  // &quot;item/generated&quot; 是固定值 → 用于普通物品（如铁锭、钻石）的2D贴图显示，无3D模型
+  &quot;parent&quot;: &quot;item/generated&quot;,
+
+  // 2. 贴图配置节点：定义物品使用的贴图文件
+  &quot;textures&quot;: {
+    // 3. 第一层贴图（普通物品只需要一层贴图，固定写 layer0）
+    // 贴图路径规则：【模组ID:文件夹/贴图名】
+    // tutorial_mod = 你的模组ID
+    // item/ice_ether = 对应贴图文件位置：assets/tutorial_mod/textures/item/ice_ether.png
+    &quot;layer0&quot;: &quot;tutorial_mod:item/ice_ether&quot;
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-8072-941a-da7319259dda" class="toggle"><li><details open=""><summary>models/material/cardboard.json</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-80aa-aec3-e3d834531046" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;parent&quot;: &quot;item/generated&quot;,
+  &quot;textures&quot;: {
+    &quot;layer0&quot;: &quot;tutorial_mod:item/material/cardboard&quot;
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3678db55-6aee-80d4-8f4d-d22b5153485b"/></div><div style="display:contents" dir="auto"><hr id="3678db55-6aee-801f-91bf-f6d28e8b7eca"/></div><div style="display:contents" dir="auto"><h1 id="3678db55-6aee-8081-b7b8-c58fca8b7c2b" class="">函数理解</h1></div><div style="display:contents" dir="auto"><ul id="3678db55-6aee-80a5-9bc7-de79d615e938" class="toggle"><li><details open=""><summary>code</summary><div style="display:contents" dir="auto"><pre id="3678db55-6aee-8000-9d5c-cd0c0d124c76" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 1. 创建【物品延迟注册器】（核心清单）
+public static final DeferredRegister&lt;Item&gt; ITEMS =
+        DeferredRegister.create(ForgeRegistries.ITEMS, TutorialMod.MOD_ID);
+
+// 2. 往清单里添加 3 个自定义物品
+public static final RegistryObject&lt;Item&gt; ICE_ETHER =
+        ITEMS.register(&quot;ice_ether&quot;, () -&gt; new Item(new Item.Properties()));
+public static final RegistryObject&lt;Item&gt; RAW_ICE_ETHER =
+        ITEMS.register(&quot;raw_ice_ether&quot;, () -&gt; new Item(new Item.Properties()));
+public static final RegistryObject&lt;Item&gt; CARDBOARD =
+        ITEMS.register(&quot;material/cardboard&quot;, () -&gt; new Item(new Item.Properties()));
+
+// 3. 提交注册器到游戏总线（启动按钮）
+public static void register(IEventBus eventBus) {
+    ITEMS.register(eventBus);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3678db55-6aee-8010-a1ae-e114386ff691" class="">创建延迟注册器（核心）</h2></div><div style="display:contents" dir="auto"><pre id="3678db55-6aee-805b-b8f0-e957ba053b63" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static final DeferredRegister&lt;Item&gt; ITEMS =
+        DeferredRegister.create(ForgeRegistries.ITEMS, TutorialMod.MOD_ID);</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="3678db55-6aee-8069-a3bd-ff92df5ba1e6" class="numbered-list" start="1"><li>DeferredRegister&lt;Item&gt;:Forge 官方<strong>延迟注册工具, Item </strong>限定这个注册器<strong>只注册物品</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3678db55-6aee-8079-8b6c-ecc5004acdc1" class="numbered-list" start="2"><li>DeferredRegister.create:创建一个新的注册器，两个参数固定:<div style="display:contents" dir="auto"><ol type="a" id="3678db55-6aee-80c1-9708-d74801f6dd18" class="numbered-list" start="1"><li>ForgeRegistries.ITEMS:固定值，告诉游戏：我要注册的是<strong>物品</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3678db55-6aee-80b9-af38-cff7a7e42977" class="numbered-list" start="2"><li>TutorialMod.MOD_ID:模组命名空间[MOD_ID]=tutorial_mod(TutorialMod.java 中查看)</li></ol></div></li></ol></div><div style="display:contents" dir="auto"><hr id="3678db55-6aee-80d5-bb73-dc8fe8e9d8ab"/></div><div style="display:contents" dir="auto"><h2 id="3678db55-6aee-80c7-9666-e8b911fe03b4" class="">添加物品（注册单个物品）</h2></div><div style="display:contents" dir="auto"><pre id="3678db55-6aee-8031-afc6-ef75e26bc33b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static final RegistryObject&lt;Item&gt; ICE_ETHER =
+        ITEMS.register(&quot;ice_ether&quot;, () -&gt; new Item(new Item.Properties()));</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="3678db55-6aee-8054-90dd-c7e9e0b2198a" class="numbered-list" start="1"><li>RegistryObject&lt;Item&gt;:Forge 提供的<strong>物品包装类,安全获取注册后的物品，防止提前调用报错。</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3678db55-6aee-8042-a52b-c16378d68539" class="numbered-list" start="2"><li>ITEMS.register:往「物品清单」里添加一个物品，<strong>两个参数缺</strong>:<div style="display:contents" dir="auto"><ol type="a" id="3678db55-6aee-809f-97d6-e58fc2fc8699" class="numbered-list" start="1"><li>&quot;ice_ether”:物品注册名 （唯一且[a-z0-9/._-]）</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3678db55-6aee-80fa-99b0-ffb014fcf44d" class="numbered-list" start="2"><li>() -&gt; new Item(new Item.Properties()):延迟创建物品对象，等到游戏注册时才生成，避免提前加载崩溃。<div style="display:contents" dir="auto"><ol type="i" id="3678db55-6aee-8073-952c-f827d08213d5" class="numbered-list" start="1"><li>new Item.Properties():物品<strong>基础属性（最大堆叠数、是否可合成等，默认 64 个）</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="i" id="3678db55-6aee-80db-8d33-f6720401b46d" class="numbered-list" start="2"><li>new Item(...):创建一个<strong>原版普通物品</strong></li></ol></div></li></ol></div></li></ol></div><div style="display:contents" dir="auto"><hr id="3678db55-6aee-80d3-9214-c4b432cc1c16"/></div><div style="display:contents" dir="auto"><h2 id="3678db55-6aee-8089-a2e4-c5ef9d9fe1b4" class="">提交注册（启动按钮）</h2></div><div style="display:contents" dir="auto"><pre id="3678db55-6aee-809e-9613-e9d99ac9661b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static void register(IEventBus eventBus) {
+    ITEMS.register(eventBus);
+}</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="3678db55-6aee-806a-9a3e-cc469da8d70f" class="numbered-list" start="1"><li>register(IEventBus eventBus):IEventBus=<strong>Forge 事件总线</strong>（游戏的中央调度器）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3678db55-6aee-801b-8e60-d026ca6f0380" class="numbered-list" start="2"><li>ITEMS.register(eventBus):把我装满物品的「清单」提交给游戏</li></ol></div><div style="display:contents" dir="auto"><hr id="3678db55-6aee-804d-a6b1-e8e56304e790"/></div><div style="display:contents" dir="auto"><h2 id="3678db55-6aee-809b-963b-f63145235aa9" class="">register方法</h2></div><div style="display:contents" dir="auto"><pre id="3678db55-6aee-809c-89ed-fbe2ad93ed84" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public  static final RegistryObject&lt;Item&gt;  ICE_ETHER =
+   ITEMS.register(&quot;ice_ether&quot;, () -&gt; new Item(new Item.Properties()));</code></pre></div><div style="display:contents" dir="auto"><p id="3678db55-6aee-808d-a2cc-deadb7234ce9" class="">追踪register到 DeferredRegister.java/RegistryObject（Forge 底层注册物品的核心代码）中</p></div><div style="display:contents" dir="auto"><blockquote id="3678db55-6aee-804c-bf0c-e712cde6cdcc" class="">其中<mark class="highlight-orange"><mark class="highlight-purple_background">ResourceLocation</mark></mark><mark class="highlight-orange"> 函数生成模组物品的唯一身份标识：模组id+物品名（最容易出错），确保id和名字满足 </mark>[a-z0-9/._-]</blockquote></div><div style="display:contents" dir="auto"><pre id="3678db55-6aee-8067-9f8d-c55ac9748b40" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 1. 定义注册方法：传入物品名字、物品创建方式，返回包装好的物品
+public &lt;I extends T&gt; RegistryObject&lt;I&gt; register(final String name, final Supplier&lt;? extends I&gt; sup)
+{
+    // 2. 检查：游戏已经开始注册了 → 不准再加新物品，直接报错
+    if (seenRegisterEvent)
+        throw new IllegalStateException(&quot;注册结束后不能新增物品！&quot;);
+
+    // 3. 检查：物品名/创建方式不能为空，空了直接报错
+    Objects.requireNonNull(name);
+    Objects.requireNonNull(sup);
+
+    // 4. 生成【唯一身份证】：模组ID + 物品名（比如 tutorial_mod:ice_ether）
+    final ResourceLocation key = new ResourceLocation(modid, name);
+
+    // 5. 创建物品的包装对象（方便游戏安全调用）
+    RegistryObject&lt;I&gt; ret = RegistryObject.create(唯一身份证);
+
+    // 6. ✨ 核心：把物品存进清单，如果名字重复 → 直接抛你之前的报错！
+    if (entries.putIfAbsent(物品, 创建方式) != null) {
+        throw new IllegalArgumentException(&quot;Duplicate registration &quot; + name);
+    }
+
+    // 7. 返回注册好的物品
+    return ret;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3678db55-6aee-8038-b2da-dab88712970a" class="">再次追踪<mark class="highlight-orange"><mark class="highlight-purple_background">ResourceLocation</mark></mark>进入 ResourceLocation,java/ResourceLocation 类</p></div><div style="display:contents" dir="auto"><pre id="3678db55-6aee-800d-af2c-cedde4cdcaa7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class ResourceLocation implements Comparable&lt;ResourceLocation&gt; {</code></pre></div><div style="display:contents" dir="auto"><blockquote id="3678db55-6aee-80a4-9fb9-ddc9a85e4927" class="">这是 Minecraft 中用于标识资源的核心类，其实现和用法在不同版本中有一些关键变化。<strong>但 </strong><code><strong>implements Comparable&lt;ResourceLocation&gt;</strong></code><strong> 这个特性几乎所有版本都保持一致</strong>。</blockquote></div><div style="display:contents" dir="auto"><p id="3678db55-6aee-804b-ae91-c11da19d0943" class="">变化如下：</p></div><div style="display:contents" dir="auto"><pre id="3678db55-6aee-8091-a9d1-c5780e16ad13" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 包名
+// 1.16及之前
+import net.minecraft.util.ResourceLocation;
+// 1.17及之后
+import net.minecraft.resources.ResourceLocation;
+
+// 类名
+// 1.21.10及之前
+ResourceLocation key = new ResourceLocation(&quot;tutorial_mod&quot;, &quot;ice_ether&quot;);
+// 1.21.11及之后
+Identifier key = new Identifier(&quot;tutorial_mod&quot;, &quot;ice_ether&quot;);</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

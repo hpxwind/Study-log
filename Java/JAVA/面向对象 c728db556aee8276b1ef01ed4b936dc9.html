@@ -1,0 +1,1241 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>面向对象</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c728db55-6aee-8276-b1ef-01ed4b936dc9" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/met_terracotta_funerary_plaque.jpg" style="object-position:center 9.999999999999998%"/><h1 class="page-title" dir="auto">面向对象</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="ltr"><figure id="5328db55-6aee-8355-b30c-01c3d1638d30" class="link-to-page"><a href="%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/%E4%B9%A0%E9%A2%98%205328db556aee8355b30c01c3d1638d30.html"><span class="icon">🪛</span>习题</a></figure></div><div style="display:contents" dir="auto"><h1 id="3fa8db55-6aee-8393-9325-81316ec64fff" class="">类和对象</h1></div><div style="display:contents" dir="auto"><p id="4898db55-6aee-821d-9df1-0103888f5eec" class="">面向对象最基础的元素是对象，对象从何而来？通过类来创建，即：类→对象</p></div><div style="display:contents" dir="auto"><p id="c4b8db55-6aee-83c6-b4be-01be9e7b2022" class=""><code>类是所有对象的抽象模板，对象是类的一个具体实例</code></p></div><div style="display:contents" dir="auto"><p id="86d8db55-6aee-83b5-9f9d-8156873b65da" class="">我们编写的代码都是类，静态资源，程序运行时候，JVM会加载类，运行类中代码，从而产生对象</p></div><div style="display:contents" dir="auto"><p id="a0c8db55-6aee-83a7-976d-01e24bf56b1a" class="">对象的存在是一种瞬间状态，程序执行期间对象是存在的，程序一旦结束对象就不存在了，而类是一直存在的，</p></div><div style="display:contents" dir="auto"><p id="bc68db55-6aee-833e-80b9-01de1b796b4e" class="">类中包含两部分内容，用来描述对象的特征</p></div><div style="display:contents" dir="auto"><ul id="9758db55-6aee-8259-90a1-81416d6c3d36" class="bulleted-list"><li style="list-style-type:disc">静态特征 颜色，重量，编号….</li></ul></div><div style="display:contents" dir="auto"><ul id="38c8db55-6aee-834a-9b8f-012a9ed10891" class="bulleted-list"><li style="list-style-type:disc">动态特征 带有动作执行的操作 走路，跑….</li></ul></div><div style="display:contents" dir="auto"><p id="a6b8db55-6aee-83dc-a735-01c0c1b062d1" class="">静态特征在类中定义为<code>属性</code>（成员变量）</p></div><div style="display:contents" dir="auto"><p id="20d8db55-6aee-82bc-a689-01344c130968" class="">动态特征在类中定义为<code>方法</code></p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="dd38db55-6aee-8280-ad8f-817df88d2344" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Student {
+    // 属性定义包含三个部分
+    // 访问权限修饰符号，数据类型，属性名
+    public int id;
+    public String name;
+
+    // 方法包含五个部分构成
+    // 访问权限修饰符，返回值类型，方法名，参数列表，方法体
+    public void test() {
+        System.out.println(123);
+        return; // return 后不能有代码
+    }
+
+    public int add(int n1, int n2) {
+        int n3 = n1 + n2;
+        return n3;
+    }
+}
+</code></pre></div><div style="display:contents" dir="auto"><hr id="d4a8db55-6aee-829d-8ee0-01f0a520b2c8"/></div><div style="display:contents" dir="auto"><h1 id="3468db55-6aee-8271-89fe-017c53bb7c06" class="">构造函数</h1></div><div style="display:contents" dir="auto"><p id="4058db55-6aee-835f-90db-017dbbf21d27" class="">类是创建对象的，对象是通过构造函数来创建的，<code>类中必须有至少一个构造函数</code> ，每个类中都有一个默认的无参数构造函数</p></div><div style="display:contents" dir="auto"><p id="0dc8db55-6aee-834f-8941-01097bc942dd" class="">构造函数<mark class="highlight-orange_background">不需要返回值</mark>，方法名必须与类名相同，可以有参数列表，访问权限修饰符不能用<code>private</code> ，因为<code>private</code> 只等通过内部创建对象，如果为<code>private</code> 外部无法创建对象（<mark class="highlight-pink_background">也有</mark><mark class="highlight-pink_background"><code>private</code></mark><mark class="highlight-pink_background"> 的情况）</mark></p></div><div style="display:contents" dir="auto"><p id="b0b8db55-6aee-829f-a44b-8111fc594d04" class="">如果声明了一个有参数构造，默认的无参数构造会被覆盖，无参数构造需要手动再创建</p></div><div style="display:contents" dir="auto"><h3 id="eb88db55-6aee-8256-a480-813f94853965" class="">无参数构造与有参数构造的区别？</h3></div><div style="display:contents" dir="auto"><p id="5868db55-6aee-83d7-945a-81fbdddd4e7c" class="">无参数构造只能创建对象，无法给对象的属性赋值</p></div><div style="display:contents" dir="auto"><p id="7ca8db55-6aee-8294-9ec2-017291c459c1" class="">有参数构造可以连同创建  +  属性赋值一起完成</p></div><div style="display:contents" dir="auto"><pre id="abc8db55-6aee-8320-8e7e-01cec5dfaaae" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Student {
+    public int id;
+    public String name;
+    // 无参构造
+    public Student() {}
+    // 有参数构造
+    public Student(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    // 方法重写
+    @Override
+    public  String toString() {
+        return &quot;Student{&quot; + &quot;id=&quot; + id + &quot;, name=&quot; + name + &quot;}&quot;;
+    }
+}
+
+</code></pre></div><div style="display:contents" dir="auto"><pre id="1168db55-6aee-8350-99c7-81e6a322ab60" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+  public static void main(String[] args) {
+      // 无参数构造
+      Student s = new Student();
+      s.id = 1;
+      s.name = &quot;zs&quot;;
+      System.out.println(s);
+      // 有参数构造
+      Student s1 = new Student(2, &quot;ww&quot;);
+      System.out.println(s1);
+  }
+}
+结果：
+Student{id=1, name=zs}
+Student{id=2, name=ww}</code></pre></div><div style="display:contents" dir="auto"><hr id="bac8db55-6aee-8353-a329-819cf2358b5f"/></div><div style="display:contents" dir="auto"><h1 id="e728db55-6aee-83e7-84d9-81e48adfde60" class="">this 关键子</h1></div><div style="display:contents" dir="auto"><p id="7d08db55-6aee-839f-a85b-01b28210a47e" class="">this用来指代当前类的实例化对象，通过 this 可以调用当前类的属性和方法 ，比如有参数构造中，通过 this 将外部传递来的值赋给当前实例化对象、</p></div><div style="display:contents" dir="auto"><p id="e948db55-6aee-8235-9ff4-019b2e7b833b" class="">this 除了可以在类中访问属性也可以在类中调用方法，类中的方法分两种：构造方法和普通方法。用this调用这两种方法的语法也不同</p></div><div style="display:contents" dir="auto"><ul id="c8a8db55-6aee-8235-b301-81f1ab9e6b09" class="bulleted-list"><li style="list-style-type:disc">调用构造方法 <code>this(参数列表)</code></li></ul></div><div style="display:contents" dir="auto"><ul id="9328db55-6aee-8272-b49e-01de93adcd1a" class="bulleted-list"><li style="list-style-type:disc">调用普通函数 <code>this.方法名(参数列表)</code></li></ul></div><div style="display:contents" dir="auto"><p id="4108db55-6aee-8329-abf3-0121087b9a8f" class="">不能再普通方法中使用this来调用构造函数</p></div><div style="display:contents" dir="auto"><p id="1a78db55-6aee-82fb-84cb-81d99e8c2dcf" class="">不能再构造函数中用this调用构造函数，因为会产生递归，<mark class="highlight-pink_background">构造函数调用会创建对象，会占用内存，导致内存溢出。</mark></p></div><div style="display:contents" dir="auto"><p id="71c8db55-6aee-821c-94b5-019ea9b744c9" class="">而普通方法可以递归，因为普通方法递归不会创建对象，因此不会占用内存。</p></div><div style="display:contents" dir="auto"><hr id="c798db55-6aee-82a1-b78e-81c8543514e9"/></div><div style="display:contents" dir="auto"><h1 id="40b8db55-6aee-8338-a257-819f50aa8bf9" class="">static 关键字</h1></div><div style="display:contents" dir="auto"><p id="2748db55-6aee-83bf-bfad-81b7d83c46c2" class="">static表示静态或者全局，可以用来修饰成员变量和成员方法以及代码块，</p></div><div style="display:contents" dir="auto"><p id="8e48db55-6aee-8343-a08e-018be90dc6d7" class="">成员变量和成员方法，必须通过对象来访问吗，必须依赖于对象</p></div><div style="display:contents" dir="auto"><p id="2948db55-6aee-82d0-9c60-816bf6c88ad0" class="">而使用static 修饰的成员变量和成员方法独立于任何一个实例对象，访问时候不依赖任何一个对象，可以直接通过类来访问</p></div><div style="display:contents" dir="auto"><p id="f498db55-6aee-82b6-b751-818870d53887" class="">类 → 对象 → 方法</p></div><div style="display:contents" dir="auto"><p id="a978db55-6aee-83db-918a-81a5affebe9c" class="">类 → 方法</p></div><div style="display:contents" dir="auto"><p id="1398db55-6aee-8315-be25-816b1e30f31e" class="">被static修饰的变量叫做静态变量，被static修饰的方法叫静态方法</p></div><div style="display:contents" dir="auto"><p id="8c48db55-6aee-8211-863a-018a7448cfa0" class="">多个对象共享，内存中只有一份</p></div><div style="display:contents" dir="auto"><pre id="0b98db55-6aee-82f0-aa42-81ac203fcb98" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class User {
+    public static String name;
+    public static void show() {
+        System.out.println(&quot;这是一个输出类&quot;);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="fe18db55-6aee-836d-a720-81d5fdf4ef30" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        User.name = &quot;张三&quot;; // 可以直接调用， 而不用创建对象
+        User.show();
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="8e78db55-6aee-824d-be30-010b2fc3180a" class="">因为static下的属性和方法内存为同一块，为共享的，一旦更改，所有的都会改变</p></div><div style="display:contents" dir="auto"><pre id="b7d8db55-6aee-824a-bff3-010903ec5399" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        User user1 = new User();
+        user1.name = &quot;张三&quot;;
+        user1.show(); // 张三
+
+        User user2 = new User();
+        user2.name = &quot;李四&quot;;
+        user2.show(); // 李四，
+        user1.show(); //  李四，因为同一块地址被user2的李四覆盖，user1的也变为李四
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="d1d8db55-6aee-8345-8e1b-81ba54c9c9c4" class="">而实例中每开辟一个对象就实例化一个属性，所以下面的代码最终输出为1，总共创建了实例化了十个m，而每个m都有自己的id</p></div><div style="display:contents" dir="auto"><p id="3198db55-6aee-828c-8df5-81ec7f052570" class="">而如果<code>private int id;</code>变为<code>private static int id;</code>  结果变为10，因为id是公共的</p></div><div style="display:contents" dir="auto"><pre id="86f8db55-6aee-836a-a985-813b8805399b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    private int id;
+    public static void main(String[] args) {
+        Main m = null;
+        for (int i = 0; i &lt; 10; i++) {
+            m = new Main();
+            m.id++;
+        }
+        System.out.println(m.id); // 1
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="0aa8db55-6aee-8348-bbc3-81d84093a5b0" class="">使用static修饰的静态方法中不能使用this关键字，不能访问类的实例变量和实例方法，可以直接访问类的静态变量和静态方法，<mark class="highlight-orange_background">如果要访问实例变量和实例方法，必须先实例化该类的对象，通过对象去访问。</mark></p></div><div style="display:contents" dir="auto"><p id="a408db55-6aee-824e-958f-816ad555cab1" class="">因为静态方法已经属于类了，不能再方法中调用类，因此无法使用this关键字（<mark class="highlight-pink_background">静态不能访问非静态的，静态指的是类，this指的是对象</mark>）</p></div><div style="display:contents" dir="auto"><p id="5fb8db55-6aee-8327-bcaa-0116a2996434" class="">
+</p></div><div style="display:contents" dir="auto"><p id="cbd8db55-6aee-82bf-a7b1-811ed7b7eaa7" class="">static也可以修饰代码块，被static修饰的代码块叫做静态代码块</p></div><div style="display:contents" dir="auto"><p id="8168db55-6aee-8300-81a3-01e6b781c1a2" class="">静态代码块只执行一次，<mark class="highlight-orange_background">当类被加载到内存中的时候</mark>，会自动执行静态代码块，不需要手动调用。   </p></div><div style="display:contents" dir="auto"><pre id="cfa8db55-6aee-82e5-83ec-012bc2d2ffa7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class User {
+    public static int id;
+    static {
+        id++;
+        System.out.println(&quot;执行了静态代码块&quot;);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="0938db55-6aee-82ca-b1c7-818d50717508" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        User u1 = new User();
+        User u2 = new User();
+        User u3 = new User();
+        System.out.println(u1.id);
+        System.out.println(u2.id);
+        System.out.println(u3.id);
+    }
+}
+结果：
+执行了静态代码块
+1
+1
+1</code></pre></div><div style="display:contents" dir="auto"><p id="c2e8db55-6aee-82bb-99af-81ec87e9723b" class="">代码块执行多次，取决于创建了多少个对象</p></div><div style="display:contents" dir="auto"><pre id="df38db55-6aee-8390-961f-0185e8c5ac20" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class User {
+    public static int id;
+    {
+        System.out.println(&quot;执行了代码块&quot;);
+    }
+    static {
+        id++;
+        System.out.println(&quot;执行了静态代码块&quot;);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="c498db55-6aee-83ec-956b-019e6607f1bf" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        User u1 = new User();
+        User u2 = new User();
+        User u3 = new User();
+    }
+}
+结果：
+执行了静态代码块
+执行了代码块
+执行了代码块
+执行了代码块</code></pre></div><div style="display:contents" dir="auto"><p id="74a8db55-6aee-83fc-b014-0168bc5a8b56" class="">代码块，静态代码块，父子类的构造器执行顺序：（先加载类，再创建对象，调用构造器之前，先执行代码块）</p></div><div style="display:contents" dir="auto"><ol type="1" id="b5d8db55-6aee-83b8-a1b4-81416e87ad89" class="numbered-list" start="1"><li>调用父类的静态代码块</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2de8db55-6aee-82dc-8c3b-01baea92d4dd" class="numbered-list" start="2"><li>调用子类的静态代码块</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3298db55-6aee-83f6-aa2a-01addedd92eb" class="numbered-list" start="3"><li>调用父类的代码块</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a6e8db55-6aee-822f-b3a9-01a60251aff1" class="numbered-list" start="4"><li>调用父类的构造器</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="26d8db55-6aee-82a2-b979-8162e5fa88d5" class="numbered-list" start="5"><li>调用子类的代码块</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="7058db55-6aee-82b0-af0a-01eded82c355" class="numbered-list" start="6"><li>调用子类的代码块</li></ol></div><div style="display:contents" dir="auto"><pre id="6628db55-6aee-833d-b912-01cf77be2d1f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Person { // Person.class
+    public Person() {
+        System.out.println(&quot;执行了Person构造函数&quot;);
+    }
+    {
+        System.out.println(&quot;执行了Person代码块&quot;);
+    }
+    static {
+        System.out.println(&quot;执行了Person静态代码块&quot;);
+    }
+}
+
+
+public class User extends Person{ // User.class
+    public User() {
+        System.out.println(&quot;执行了User构造函数&quot;);
+    }
+    {
+        System.out.println(&quot;执行了User代码块&quot;);
+    }
+    static {
+        System.out.println(&quot;执行了User静态代码块&quot;);
+    }
+}
+结果：
+执行了Person静态代码块
+执行了User静态代码块
+执行了Person代码块
+执行了Person构造函数
+执行了User代码块
+执行了User构造函数</code></pre></div><div style="display:contents" dir="auto"><hr id="7a08db55-6aee-82ea-a0dd-010e164ed1e4"/></div><div style="display:contents" dir="auto"><h1 id="1208db55-6aee-8226-a21a-8168d6e30952" class="">方法重载（@Override）</h1></div><div style="display:contents" dir="auto"><p id="0dc8db55-6aee-8297-a111-8116c3c33f9d" class="">java重载是java代码复用的一种重要方式，指的是两个方法之间的一种关系，要求：</p></div><div style="display:contents" dir="auto"><ul id="4088db55-6aee-83f3-a0f5-011e676bbf23" class="bulleted-list"><li style="list-style-type:disc">在同一个类中</li></ul></div><div style="display:contents" dir="auto"><ul id="7748db55-6aee-8315-a40a-81ee64b2a0ab" class="bulleted-list"><li style="list-style-type:disc">方法名相同</li></ul></div><div style="display:contents" dir="auto"><ul id="46f8db55-6aee-83b3-b43c-8195f03e7ad7" class="bulleted-list"><li style="list-style-type:disc">参数列表不同（个数或数据类型不同）</li></ul></div><div style="display:contents" dir="auto"><ul id="3e28db55-6aee-8398-940a-014ce7060c0e" class="bulleted-list"><li style="list-style-type:disc">与返回值和访问权限修饰符无关</li></ul></div><div style="display:contents" dir="auto"><pre id="fdd8db55-6aee-834a-92cd-8124c63177ab" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Override
+public  String toString() { // 重载toString方法
+    return &quot;Student{&quot; + &quot;id=&quot; + id + &quot;, name=&quot; + name + &quot;}&quot;;
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="2ea8db55-6aee-8346-bfe2-01441e3271de" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Student {
+    public void p1() {
+        System.out.println(&quot;没有参数&quot;);
+    }
+    public void p1(int num) { // 为无参数p1的重载
+        System.out.println(&quot;有参数：&quot;+num);
+    }
+}
+</code></pre></div><div style="display:contents" dir="auto"><hr id="5488db55-6aee-83d4-908d-01dda68403bb"/></div><div style="display:contents" dir="auto"><h1 id="2848db55-6aee-82c8-8548-0161b415bf92" class="">成员变量和局部变量</h1></div><div style="display:contents" dir="auto"><p id="dcf8db55-6aee-8294-91dd-014775b784df" class="">两个变量之间除了数据类型，变量名，变量值不同之外，变量的作用域范围也是不同的。</p></div><div style="display:contents" dir="auto"><p id="e7c8db55-6aee-8333-bb5f-01a26d2a34a3" class="">变量的作用域是指在程序中可以通过变量名来访问该变量的范围</p></div><div style="display:contents" dir="auto"><p id="8738db55-6aee-838f-9289-814d90849ba3" class="">变量的作用域由变量被声明时候所在位置决定</p></div><div style="display:contents" dir="auto"><p id="ffc8db55-6aee-837b-8557-017101a20871" class="">根据不同的作用域可以将变量分为成员变量和局部变量</p></div><div style="display:contents" dir="auto"><p id="8308db55-6aee-8376-97a0-81414c971a97" class="">如果一个变量在方法中声明，则该变量为局部变量</p></div><div style="display:contents" dir="auto"><p id="56a8db55-6aee-8332-b542-815609e78568" class="">如果一个变量在方法外，类中声明，则该变量为成员变量</p></div><div style="display:contents" dir="auto"><pre id="9228db55-6aee-835f-bac4-811c552f5790" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Student {
+    // 成员变量
+    public int id;
+
+    public void p1() {
+        // 局部变量
+        int num  = 1;
+    }
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="eee8db55-6aee-835c-8035-81d4720e223c" class="">成员变量的作用域是整个类，类中的任意一个方法都可以访问该变量，而局部变量的作用域仅在该方法中，其他局部变量无法调用</p></div><div style="display:contents" dir="auto"><p id="7138db55-6aee-831d-95cc-01fbdb0e63de" class="">局部变量没有默认值，成员变量有默认值（<code>在没有人为赋值的时候有默认值</code>）</p></div><div style="display:contents" dir="auto"><hr id="7f38db55-6aee-828d-9e1f-011908609626"/></div><div style="display:contents" dir="auto"><h1 id="36b8db55-6aee-8201-99ac-811031d35b7c" class="">封装</h1></div><div style="display:contents" dir="auto"><h3 id="f3b8db55-6aee-8322-9e95-01fc44989481" class="">为什么要有封装？</h3></div><div style="display:contents" dir="auto"><p id="5c78db55-6aee-8374-b5eb-01eb7279d8e6" class="">为了保证数据的安全性</p></div><div style="display:contents" dir="auto"><p id="8c78db55-6aee-8312-9f58-01b1c7a7e122" class="">将类的信息全部封装到内部，让外部无法直接访问，确保数据的安全</p></div><div style="display:contents" dir="auto"><ol type="1" id="09f8db55-6aee-8268-aedd-81e3b38ae484" class="numbered-list" start="1"><li>将属性私有化（<code>private</code>）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b068db55-6aee-82f6-8788-81e065618fd3" class="numbered-list" start="2"><li>通过间接的方法让外部访问内部的私有属性</li></ol></div><div style="display:contents" dir="auto"><pre id="67c8db55-6aee-8233-87d5-01fd68513498" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Student {
+    // 成员变量私有化
+    private String name;
+    private int age;
+
+    // 间接方法访问私有属性
+    public void setAge(int age) {
+        if (age &lt; 0) { // 封装中可以判断违规
+            System.out.println(&quot;年龄不合规&quot;);
+            this.age = 18;
+        }
+        this.age = age;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;student&quot; + &quot;{name=&quot; + name +&quot;, age=&quot; + age +&quot;}&quot;;
+    }
+}
+</code></pre></div><div style="display:contents" dir="auto"><hr id="1928db55-6aee-82ca-8aee-01195dcc77a8"/></div><div style="display:contents" dir="auto"><h1 id="8cd8db55-6aee-825d-a458-0122cbe0fb56" class="">继承</h1></div><div style="display:contents" dir="auto"><p id="1bc8db55-6aee-8284-96c7-01971e54be7f" class="">继承是java代码复用的重要特征，子类可以直接继承父类全部<mark class="highlight-orange_background">非私有</mark>信息（属性，方法）</p></div><div style="display:contents" dir="auto"><p id="28c8db55-6aee-8334-a19a-0165bd447bc6" class="">创建子类对象的时候，会默认优先创建父类对象</p></div><div style="display:contents" dir="auto"><hr id="3238db55-6aee-8387-a338-8155f49daba0"/></div><div style="display:contents" dir="auto"><h3 id="fcf8db55-6aee-825b-a612-81afa3452c6b" class="">子类访问父类</h3></div><div style="display:contents" dir="auto"><p id="28c8db55-6aee-830e-8053-01656ba6c495" class="">创建子类对象的时候，无论使用无参数还是有参数，都会默认使用无参参创建父类对象</p></div><div style="display:contents" dir="auto"><p id="c4c8db55-6aee-8303-8fe3-01a8617f9229" class="">例如：<code>student extends person</code> </p></div><div style="display:contents" dir="auto"><p id="9cc8db55-6aee-83b7-9857-813784c0c331" class="">当实例化 student 时候，会创建三个对象，分别是<code>student</code> <code>，person</code> <code>，object</code> </p></div><div style="display:contents" dir="auto"><p id="f9d8db55-6aee-83f3-9492-81baa76d126b" class="">super 调用父类构造器</p></div><div style="display:contents" dir="auto"><p id="c598db55-6aee-82b4-ba41-819f53679019" class="">使用this或者super调用构造函数，必须写在第一行，同时this和super调用构造器不能同时出现</p></div><div style="display:contents" dir="auto"><hr id="68f8db55-6aee-824d-87cf-01b003ca4c09"/></div><div style="display:contents" dir="auto"><h3 id="ac08db55-6aee-8254-bfd8-81f28510e927" class="">类访问权限</h3></div><div style="display:contents" dir="auto"><p id="e0b8db55-6aee-8208-8bc1-81559839e5fe" class="">4种：public， private， 默认（不写）， protected/</p></div><div style="display:contents" dir="ltr"><table id="8558db55-6aee-8236-b149-81906c2dbe51" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="1de8db55-6aee-82e1-b2ef-81f74dac845d"><td id="@xi_" class="" style="width:102.3125px">修饰符</td><td id="VJBH" class="" style="width:141.30048370361328px">同一个类</td><td id="irPQ" class="" style="width:167.31971740722656px">同包不同类</td><td id="K?y&lt;" class="" style="width:170px">不同包</td><td id="TyME" class="" style="width:132px">不同包子类</td></tr></div><div style="display:contents" dir="ltr"><tr id="a2d8db55-6aee-8285-82fb-0174fa49ff7d"><td id="@xi_" class="" style="width:102.3125px">public</td><td id="VJBH" class="" style="width:141.30048370361328px">可以访问</td><td id="irPQ" class="" style="width:167.31971740722656px">可以访问</td><td id="K?y&lt;" class="" style="width:170px">可以访问</td><td id="TyME" class="" style="width:132px">可以访问</td></tr></div><div style="display:contents" dir="ltr"><tr id="9df8db55-6aee-8375-9f73-81059ad2e052"><td id="@xi_" class="" style="width:102.3125px">protected</td><td id="VJBH" class="" style="width:141.30048370361328px">可以访问</td><td id="irPQ" class="" style="width:167.31971740722656px">可以访问</td><td id="K?y&lt;" class="" style="width:170px">否</td><td id="TyME" class="" style="width:132px">可以访问</td></tr></div><div style="display:contents" dir="ltr"><tr id="fd08db55-6aee-820c-981b-0144c1db76ce"><td id="@xi_" class="" style="width:102.3125px">默认</td><td id="VJBH" class="" style="width:141.30048370361328px">可以访问</td><td id="irPQ" class="" style="width:167.31971740722656px">可以访问</td><td id="K?y&lt;" class="" style="width:170px">否</td><td id="TyME" class="" style="width:132px">否</td></tr></div><div style="display:contents" dir="ltr"><tr id="5748db55-6aee-828b-90a5-817e5c18893a"><td id="@xi_" class="" style="width:102.3125px">private</td><td id="VJBH" class="" style="width:141.30048370361328px">可以访问</td><td id="irPQ" class="" style="width:167.31971740722656px">否</td><td id="K?y&lt;" class="" style="width:170px">否</td><td id="TyME" class="" style="width:132px">否</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="8128db55-6aee-82f7-a528-0137b7758047"/></div><div style="display:contents" dir="auto"><h3 id="87a8db55-6aee-83cb-8746-81d0af254700" class="">方法重写</h3></div><div style="display:contents" dir="auto"><p id="ab78db55-6aee-830f-9360-8107209057e3" class="">重写即：子类继承父类方法的基础上，对父类方法重新定义并覆盖的操作</p></div><div style="display:contents" dir="auto"><p id="9a48db55-6aee-82d0-8220-01383b2a86e5" class="">方法重写规则：</p></div><div style="display:contents" dir="auto"><ul id="8d38db55-6aee-8235-81dc-0183c6f8380c" class="bulleted-list"><li style="list-style-type:disc">父子类方法同名</li></ul></div><div style="display:contents" dir="auto"><ul id="6778db55-6aee-8241-82a7-012bc021b10c" class="bulleted-list"><li style="list-style-type:disc">父子类的参数列表相同</li></ul></div><div style="display:contents" dir="auto"><ul id="1478db55-6aee-836b-87ae-810c0cb11bbc" class="block-color-default bulleted-list"><li style="list-style-type:disc">子类方法的返回值和父类方法的返回值相同或者是其子类（<mark class="highlight-yellow_background">子类方法的返回值相同/子类方法的返回值是父类方法返回值的子类）</mark></li></ul></div><div style="display:contents" dir="auto"><ul id="fa88db55-6aee-82c4-a3b6-81dccce02546" class="bulleted-list"><li style="list-style-type:disc">子类的访问劝降不能小于父类（<mark class="highlight-yellow_background">private除外，因为private 权限下的方法，不能继承私有（私有无法继承）</mark>）</li></ul></div><div style="display:contents" dir="auto"><h2 id="9c58db55-6aee-83da-98f5-0154f8dce9d8" class="">方法重写和重载的区别</h2></div><div style="display:contents" dir="ltr"><table id="57b8db55-6aee-8290-bf49-010d5d652f6f" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="f248db55-6aee-827a-965c-8111c55b7355"><td id="Qqb;" class="block-color-blue" style="width:101.32211303710938px">类型</td><td id="dYAD" class="block-color-blue" style="width:116.32211303710938px">所在位置</td><td id="TLhL" class="block-color-blue" style="width:122.32211303710938px">方法名</td><td id="`OqP" class="block-color-blue">参数列表</td><td id="P_nB" class="block-color-blue" style="width:149.9976043701172px">返回值</td><td id="F_yU" class="block-color-blue" style="width:128px">访问权限</td></tr></div><div style="display:contents" dir="ltr"><tr id="3f78db55-6aee-8295-a0ec-012e7fda6acb"><td id="Qqb;" class="" style="width:101.32211303710938px">重写</td><td id="dYAD" class="" style="width:116.32211303710938px">父子类</td><td id="TLhL" class="" style="width:122.32211303710938px">相同</td><td id="`OqP" class="">相同</td><td id="P_nB" class="" style="width:149.9976043701172px">相同或是其子类</td><td id="F_yU" class="" style="width:128px">不能小于父类</td></tr></div><div style="display:contents" dir="ltr"><tr id="cff8db55-6aee-82be-8ec7-816da0374dc9"><td id="Qqb;" class="" style="width:101.32211303710938px">重载</td><td id="dYAD" class="" style="width:116.32211303710938px">同一个类</td><td id="TLhL" class="" style="width:122.32211303710938px">相同</td><td id="`OqP" class="">不同</td><td id="P_nB" class="" style="width:149.9976043701172px">没有要求</td><td id="F_yU" class="" style="width:128px">没有要求</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="0578db55-6aee-8326-a463-010997412394"/></div><div style="display:contents" dir="auto"><h1 id="5318db55-6aee-822f-85d3-8114764eee92" class="">多态</h1></div><div style="display:contents" dir="auto"><p id="6fe8db55-6aee-82da-9b23-819e14293556" class="">多态是指一个事务有多种表现形态</p></div><div style="display:contents" dir="auto"><p id="2e78db55-6aee-8305-bb8d-0127f0282b78" class="">java：定义一个类，该类的实例化对象在不同的业务场景中根据不同的需求呈现出不同的状态</p></div><div style="display:contents" dir="auto"><p id="0538db55-6aee-8212-99ab-81cee3559a4d" class="">Java 中主要通过 <mark class="highlight-yellow_background"><strong>方法重写（Override）</strong></mark> 配合 <strong>向上转型</strong> 实现运行时多态。</p></div><div style="display:contents" dir="auto"><pre id="9a78db55-6aee-8209-94d9-8116cdbb7d88" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">例如会员买书：
+普通会员买书9折优惠
+超级会员买书6折优惠
+收银员结算</code></pre></div><div style="display:contents" dir="auto"><ul id="6bd8db55-6aee-82cf-8fe4-011ae73ef9fa" class="toggle"><li><details open=""><summary>代码演示</summary><div style="display:contents" dir="auto"><p id="1058db55-6aee-8367-bf11-81ce997ef1cb" class="">Member 用户，所有类型优惠的父亲组件</p></div><div style="display:contents" dir="auto"><pre id="b848db55-6aee-8212-af0b-01f3126a3a10" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Member {
+    public void buyBook() {
+        System.out.println(&quot;普通顾客-无优惠&quot;);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="00b8db55-6aee-8366-9778-814cf8db23e5" class="">OrdinaryMember 普通会员，优惠9折，继承Member</p></div><div style="display:contents" dir="auto"><pre id="ac38db55-6aee-83bb-9b6b-819eed4c3376" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class OrdinaryMember extends Member{
+    public void buyBook() {
+        System.out.println(&quot;普通会员-9折&quot;);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="f0d8db55-6aee-836d-a957-8189ba9d9ed7" class="">SuperMember 超级会员，优惠6折，继承Member</p></div><div style="display:contents" dir="auto"><pre id="57c8db55-6aee-8333-af44-019ba3ee0c29" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class SuperMember extends Member{
+    public void buyBook() {
+        System.out.println(&quot;超级会员-6折&quot;);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="f3b8db55-6aee-835a-8bea-819f792404df" class="">Cashier 收银员，只需要接收用户（Menber）就可以区分不同会员</p></div><div style="display:contents" dir="auto"><pre id="f628db55-6aee-83e9-a2af-012163d1087b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Cashier {
+    private static Member member;
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public static Member getInstance() {
+        return member;
+    }
+    
+    public void settlement() {
+        System.out.println(&quot;开始结算&quot;);
+        this.member.buyBook();
+    }
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="5928db55-6aee-833f-8740-816d58f8baa7" class="">Test 演示，方便区分，不用改Cashier内部的东西，只需要传入不同会员的对象就可以区分优惠</p></div><div style="display:contents" dir="auto"><pre id="0448db55-6aee-83bc-b173-01e7338bbcd7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Test {
+    static void main(String[] args) {
+        OrdinaryMember ordinaryMember = new OrdinaryMember();
+        SuperMember superMember = new SuperMember();
+        Cashier cashier = new Cashier();
+        cashier.setMember(ordinaryMember);
+        cashier.settlement();
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="7148db55-6aee-839a-9c24-811be499a922" class="">从效果来看提高了代码的扩展性</p></div><div style="display:contents" dir="auto"><p id="d098db55-6aee-8225-8876-0128bdd35e9f" class="">使用的多态编程思想，具体是通过继承来实现</p></div><div style="display:contents" dir="auto"><h3 id="f7d8db55-6aee-83d9-ae9d-81d86fe80b9e" class="">多态的使用</h3></div><div style="display:contents" dir="auto"><ol type="1" id="6958db55-6aee-82a3-a9cd-01bdab899e0b" class="numbered-list" start="1"><li>定义方法时形参为父类，调用方法时传入的参数为子类对象</li></ol></div><div style="display:contents" dir="auto"><pre id="9268db55-6aee-8345-a0d5-0199b3d2390d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public void setMember(Member member) {
+        this.member = member;
+    }</code></pre></div><div style="display:contents" dir="auto"><pre id="1528db55-6aee-82ea-8c52-81d75a170a34" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">cashier.setMember(new SuperMember());</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="1b38db55-6aee-831f-882f-8189cab6c24a" class="numbered-list" start="2"><li>定义方法时返回值的数据类型为父类，调用方法时返回子类对象</li></ol></div><div style="display:contents" dir="auto"><pre id="4378db55-6aee-83df-9521-01da2024340f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public Member getMember(String name) {
+   if (name.equals(&quot;ordinaryMember&quot;)){
+       return new OrdinaryMember();
+   } else if (name.equals(&quot;superMember&quot;)) {
+       return new SuperMember();
+   } else {
+       return null;
+   }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3678db55-6aee-832c-bb0b-81ac9d7377ba" class="">以上两种多态的形式，都是基于子类对象可以直接赋值给父类对象，自动类型转换</p></div><div style="display:contents" dir="auto"><hr id="d338db55-6aee-832b-a8b4-81b767140a0b"/></div><div style="display:contents" dir="auto"><h1 id="bf48db55-6aee-837c-b00c-81488b19abc7" class="">抽象</h1></div><div style="display:contents" dir="auto"><p id="2a98db55-6aee-8334-88f4-8140bb0a5716" class="">方法必须存在，方法的具体实现没有意义</p></div><div style="display:contents" dir="auto"><p id="7de8db55-6aee-82c9-abb3-0160ed63987c" class="">之定义方法，但是不做具体的实现，抽象方法</p></div><div style="display:contents" dir="auto"><pre id="41e8db55-6aee-83fe-b110-01d4238619e6" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public abstract class Member {
+    public abstract void buyBook();
+}</code></pre></div><div style="display:contents" dir="auto"><p id="cea8db55-6aee-836e-8dc8-012e95a4e19f" class="">抽象方法所在的类必须是抽象类，即类上也要加abstract</p></div><div style="display:contents" dir="auto"><p id="f8f8db55-6aee-8321-b6d3-0170021ac75c" class="">一旦某个类继承了一个抽象类，要么该类也需要成为抽象类，要么去重写从抽象父类哪里继承过来的抽象方法，让他有具体实现，不在是抽象方法</p></div><div style="display:contents" dir="auto"><p id="7728db55-6aee-82c2-81f3-0134eab10535" class="">一旦某个类中，出现一个抽象方法，则该类必须被声明为抽象类，<mark class="highlight-yellow_background">但是抽象类可以包含非抽象方法</mark></p></div><div style="display:contents" dir="auto"><hr id="9f68db55-6aee-83cb-b212-01162fab812a"/></div><div style="display:contents" dir="auto"><h1 id="01d8db55-6aee-838f-8c30-81b2741ad920" class="">接口</h1></div><div style="display:contents" dir="auto"><p id="ef08db55-6aee-8258-b450-01e6f944b143" class="">在开发中使用非常频繁，面向接口编程，提高程序的扩展性，降低程序的耦合度，进行解耦合。</p></div><div style="display:contents" dir="auto"><p id="dd78db55-6aee-82a4-8d26-81f0b39622d6" class="">接口是对抽象类的一种升级，实现解耦和</p></div><div style="display:contents" dir="auto"><p id="a3d8db55-6aee-82f1-ad4c-013c24f4cc7f" class="">接口本质上就是抽象类，只不过更加简洁而已</p></div><div style="display:contents" dir="auto"><p id="ddf8db55-6aee-83df-9d6c-8117f520bec4" class="">接口是一个极度抽象的抽象类，接口中所有方法必须是抽象方法</p></div><div style="display:contents" dir="auto"><p id="ba48db55-6aee-832b-9054-01be7c08cf6f" class="">接口的实现叫做实现类</p></div><div style="display:contents" dir="auto"><pre id="1d58db55-6aee-8211-ba4f-818b1d245266" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">接口 -&gt; 抽象类
+实现类 -&gt; 抽象类的非抽象子类
+继承通过implements关键字</code></pre></div><div style="display:contents" dir="auto"><ul id="9da8db55-6aee-8348-adf6-810d9f8962f6" class="toggle"><li><details open=""><summary>代码演示</summary><div style="display:contents" dir="auto"><p id="09a8db55-6aee-833d-b1a0-815b2b628ef3" class=""><a href="http://Equipment.java">Equipment.java</a> 为interface接口</p></div><div style="display:contents" dir="auto"><pre id="56d8db55-6aee-82f0-9f01-8172dedd3afc" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public interface Equipment {
+    public void  work();
+}</code></pre></div><div style="display:contents" dir="auto"><p id="b4d8db55-6aee-826b-b312-01234bbc44a7" class=""><a href="http://EquipmentA.java">EquipmentA.java</a> 为具体实现，继承<a href="http://Equipment.java">Equipment.java</a></p></div><div style="display:contents" dir="auto"><pre id="dfc8db55-6aee-8377-88b0-012dd3cb6542" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class EquipmentA implements Equipment{
+    public  void work() {
+        System.out.println(&quot;设备A运行&quot;);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="fa78db55-6aee-83b6-985b-810c69137773" class=""><a href="http://EquipmentA.java">EquipmentB.java</a> 为具体实现，继承<a href="http://Equipment.java">Equipment.java</a></p></div><div style="display:contents" dir="auto"><pre id="0998db55-6aee-8314-bb31-019e48978cb4" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class EquipmentB  implements Equipment{
+    public void work() {
+        System.out.println(&quot;设备B运行&quot;);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="0458db55-6aee-828e-a786-8113bd213e4f" class=""><a href="http://Factory.java">Factory.java</a> <a href="http://只使用Equipment.java">只使用Equipment.java</a> 来耦合A和B</p></div><div style="display:contents" dir="auto"><pre id="b7f8db55-6aee-8319-af28-0171dbd4f4a6" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Factory {
+    private Equipment equipment;
+
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
+    }
+
+    public Equipment getEquipment() {
+        return equipment;
+    }
+
+    public void work() {
+        System.out.println(&quot;开始生产&quot;);
+        this.equipment.work();
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="d778db55-6aee-8352-8022-012d8d26c2b7" class=""><a href="http://Test.java">Test.java</a> 测试</p></div><div style="display:contents" dir="auto"><pre id="3aa8db55-6aee-82e9-afc1-813aa09348b0" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Test {
+    static void main(String[] args) {
+        Factory factory = new Factory();
+        factory.setEquipment(new EquipmentA());
+        factory.work();
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="ced8db55-6aee-8272-a005-81b2fe9cc33f"/></div><div style="display:contents" dir="auto"><hr id="e3c8db55-6aee-823f-b50f-01ee812e5f0f"/></div><div style="display:contents" dir="auto"><h1 id="47d8db55-6aee-83b6-b473-01aadf0f3532" class="">Object类</h1></div><div style="display:contents" dir="auto"><p id="79b8db55-6aee-82c2-b0ba-01c821886448" class="">Object是java中全部类的共同父类，实现代码复用</p></div><div style="display:contents" dir="auto"><p id="0f28db55-6aee-83ec-8fc2-81d95877c48f" class="">Object中定义了一些所有类都需要使用到的方法，所有类直接继承使用</p></div><div style="display:contents" dir="auto"><ul id="07b8db55-6aee-82ed-8d63-818af523aa81" class="toggle"><li><details open=""><summary>列举</summary><div style="display:contents" dir="auto"><pre id="3dc8db55-6aee-83ec-917d-81b6816fdb29" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">1. protected Object clone()
+创建并返回此对象的一个副本。类必须实现 Cloneable接口。
+
+2. boolean equals(Object obj)
+指示其他某个对象是否与此对象“相等”。用于逻辑比较，默认比较引用地址。
+
+3. protected void finalize()
+当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法（已不推荐使用）。
+
+4. Class&lt;?&gt; getClass()
+返回此对象的运行时类（Class对象）。
+
+5. int hashCode()
+返回该对象的哈希码值。通常与 equals方法一同重写。
+
+6. String toString()
+返回该对象的字符串表示。默认格式为：类名@十六进制哈希码。
+
+7. void notify()
+唤醒在此对象监视器上等待的单个线程。
+
+8. void notifyAll()
+唤醒在此对象监视器上等待的所有线程。
+
+9. void wait()
+导致当前线程等待，直到另一个线程调用此对象的 notify()或 notifyAll()方法。
+
+10. void wait(long timeout)
+导致当前线程等待，直到另一个线程调用此对象的 notify()或 notifyAll()方法，或者超过指定的时间量（毫秒）。
+
+11. void wait(long timeout, int nanos)
+导致当前线程等待，直到另一个线程调用此对象的 notify()或 notifyAll()方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量（毫秒+纳秒）。
+此外，还有一组与内存排序相关的方法（自Java 9+引入，由java.lang.invoke.VarHandle提供类似功能）：
+
+12. public final native int getAddress() (已废弃/内部使用)
+（注：严格来说，现代JDK中一些底层或内部方法未被列为标准API。核心公共API方法即为上述11个。）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="84a8db55-6aee-83b1-a208-0165a301724d" class="">方法重写</h2></div><div style="display:contents" dir="auto"><ol type="1" id="cc88db55-6aee-825d-9e71-0193d73d640c" class="numbered-list" start="1"><li>toString</li></ol></div><div style="display:contents" dir="auto"><p id="60c8db55-6aee-83b9-b4c9-01d9a26a25fb" class="">以字符串形式返回该类的实例化对象</p></div><div style="display:contents" dir="auto"><pre id="72e8db55-6aee-838b-8acd-01e1f5e38c04" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public String toString() {
+    return getClass().getName() + &quot;@&quot; + Integer.toHexString(hashCode());
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="77c8db55-6aee-83e1-a040-81cbe397bca1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">    @Override
+    public String toString() {
+        return &quot;User{&quot; +
+                &quot;id=&quot; + id +
+                &quot;, name=&#x27;&quot; + name + &#x27;\&#x27;&#x27; +
+                &#x27;}&#x27;;
+    }</code></pre></div><div style="display:contents" dir="auto"><ol type="1" id="53f8db55-6aee-82c7-9f6c-01cd714961ac" class="numbered-list" start="2"><li>equals</li></ol></div><div style="display:contents" dir="auto"><p id="b1d8db55-6aee-83ce-b212-81b0edcc453e" class="block-color-yellow_background"><code>==</code> 是判断两个对象的内存地址（栈内存）</p></div><div style="display:contents" dir="auto"><p id="e518db55-6aee-82ff-880f-01357c043666" class="block-color-yellow_background">使用<code>new Intger(1)</code>时候存放在堆内存中</p></div><div style="display:contents" dir="auto"><pre id="8f38db55-6aee-83a9-902d-817a68393d88" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">    // 手写
+    @Override
+    public boolean equals(Object obj) {
+        User user = (User) obj;
+        if (user.id != this.id) return false;
+        if (!this.name.equals(user.name)) return false;
+        return true;
+    }</code></pre></div><div style="display:contents" dir="auto"><pre id="a628db55-6aee-83ef-92c3-81afcf15264b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">    // 默认生成的
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &amp;&amp; Objects.equals(name, user.name);
+    }</code></pre></div><div style="display:contents" dir="auto"><p id="7448db55-6aee-83ac-9f51-817b47b99bb1" class="">id,name必须使用equals判断，如果传入对象是<code>new Integer(1)</code> 或<code>new String(“张三“)</code> 也会判断相等，如果是<code>==</code> 会判断为false</p></div><div style="display:contents" dir="auto"><p id="76c8db55-6aee-821b-938b-011d1d87552b" class=""><mark class="highlight-yellow_background">equels判断可以规避栈和堆内存导致的不同，equals只比较字符串，而且是字符串逐位对比</mark></p></div><div style="display:contents" dir="auto"><ol type="1" id="a9b8db55-6aee-82a6-a27a-81bdeb79b68d" class="numbered-list" start="3"><li>hashCode</li></ol></div><div style="display:contents" dir="auto"><pre id="c7f8db55-6aee-83f0-b8fc-01b7c90ce5c5" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@IntrinsicCandidate
+public native int hashCode();</code></pre></div><div style="display:contents" dir="auto"><pre id="c258db55-6aee-834b-b8a7-81154cd71f67" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">User user = new User(1, &quot;张三&quot;);
+User user2 = new User(1, &quot;张三&quot;);
+System.out.println(user.hashCode()); 1325547227
+System.out.println(user2.hashCode()); 980546781
+即便参数一致hashCode()的值也不同</code></pre></div><div style="display:contents" dir="auto"><p id="ce28db55-6aee-83f1-96f1-8195868a21d7" class="">hashCode 和 equals需要配合起来使用，都是用来判断两个对象是否相等</p></div><div style="display:contents" dir="auto"><p id="5d68db55-6aee-83c9-9dda-81389c21b75c" class="">hashCode 效率更高，如果两个对象的hashCode不相等，则这两个对象肯定不相等，但是如果两个对象的hashCode相等，不能说明两个对象肯定相等。因此需要使用equals验证</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-8352-8bcd-01e237873e75" class="">先用效率高的判断，如果判断不出来，再用效率低的验证</p></div><div style="display:contents" dir="auto"><h1 id="c848db55-6aee-826f-95eb-813c4984b985" class="">包装类</h1></div><div style="display:contents" dir="auto"><p id="de38db55-6aee-83be-828c-01e62d49af23" class="">java中的数据类型本质上分为两类：8种基本类型和引用类型</p></div><div style="display:contents" dir="auto"><p id="0c48db55-6aee-828a-bbc6-81ba79fb4d69" class="">如何把基本数据类型转换为对象？</p></div><div style="display:contents" dir="auto"><p id="e268db55-6aee-8261-972f-81a7823d770e" class="">java提供的包装类，专门用来创建8种基本数据类型对应的对象</p></div><div style="display:contents" dir="ltr"><table id="9878db55-6aee-82f5-a686-01bd8b32b7d8" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="8da8db55-6aee-8358-8d6b-818c77a148d7"><td id="oLUk" class="" style="width:315.328125px">基本数据类型</td><td id="F\y;" class="" style="width:317.328125px">包装类</td></tr></div><div style="display:contents" dir="ltr"><tr id="36f8db55-6aee-822a-a33a-01224989c449"><td id="oLUk" class="" style="width:315.328125px">byte</td><td id="F\y;" class="" style="width:317.328125px">Byte</td></tr></div><div style="display:contents" dir="ltr"><tr id="8228db55-6aee-83ce-a059-01bb1296ed4b"><td id="oLUk" class="" style="width:315.328125px">short</td><td id="F\y;" class="" style="width:317.328125px">Short</td></tr></div><div style="display:contents" dir="ltr"><tr id="5fa8db55-6aee-8200-9654-0156034ada47"><td id="oLUk" class="" style="width:315.328125px">int</td><td id="F\y;" class="" style="width:317.328125px">Integer</td></tr></div><div style="display:contents" dir="ltr"><tr id="07b8db55-6aee-8289-b921-0157272fe586"><td id="oLUk" class="" style="width:315.328125px">long</td><td id="F\y;" class="" style="width:317.328125px">Long</td></tr></div><div style="display:contents" dir="ltr"><tr id="4d38db55-6aee-83f6-92c4-01d657d1d8ba"><td id="oLUk" class="" style="width:315.328125px">float</td><td id="F\y;" class="" style="width:317.328125px">Float</td></tr></div><div style="display:contents" dir="ltr"><tr id="1718db55-6aee-82d9-9449-8100d79f4c14"><td id="oLUk" class="" style="width:315.328125px">double</td><td id="F\y;" class="" style="width:317.328125px">Double</td></tr></div><div style="display:contents" dir="ltr"><tr id="c5e8db55-6aee-8215-a662-0148ee27d87a"><td id="oLUk" class="" style="width:315.328125px">char</td><td id="F\y;" class="" style="width:317.328125px">Character</td></tr></div><div style="display:contents" dir="ltr"><tr id="c698db55-6aee-83dd-b7b5-01c64f5c8be4"><td id="oLUk" class="" style="width:315.328125px">boolean</td><td id="F\y;" class="" style="width:317.328125px">Boolean</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="9b88db55-6aee-8365-88f1-0126098f5e8f" class="">包装类全部存放再<code>java.lang</code> 文件中</p></div><div style="display:contents" dir="auto"><p id="b728db55-6aee-8301-9b37-81128d94e677" class="">一级父类：Object</p></div><div style="display:contents" dir="auto"><p id="0598db55-6aee-825c-9066-817344a39b3b" class="">二级父类：Character，Number，Boolean</p></div><div style="display:contents" dir="auto"><p id="37a8db55-6aee-82f7-9c62-0164e9867f2b" class="">Number子类：Byte，Short，Integer，Long，Float，Double</p></div><div style="display:contents" dir="auto"><blockquote id="91b8db55-6aee-83aa-84ad-810c5e147e73" class="">实际开发中对于包装类的使用就是将基本数据类型转换为包装类，或者将包装类转换为基本数据类型</blockquote></div><div style="display:contents" dir="auto"><h2 id="29c8db55-6aee-8319-82f8-81b0cbd6357a" class="">装箱和拆箱</h2></div><div style="display:contents" dir="auto"><p id="9628db55-6aee-83e2-b976-8157a281b121" class="">装箱：将基本类型转换为包装类</p></div><div style="display:contents" dir="auto"><pre id="ca58db55-6aee-83db-9577-8105a2efa86b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        byte b = 1;
+        Byte byt = new Byte(b);
+        short s = 2;
+        Short sho = new Short(s);
+        int i=3;
+        Integer integer = new Integer(i);
+        long l = 4;
+        Long lon = new Long(l);
+        float f = 4.4f;
+        Float flo = new Float(f);
+        double d = 22.2f;
+        Double dou = new Double(d);
+        char c = &#x27;a&#x27;;
+        Character cha = new Character(c);
+        boolean o = true;
+        Boolean boo = new Boolean(o);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="dc48db55-6aee-835c-8241-01bef6082acc" class="">拆箱：将包装类转换为基本类型</p></div><div style="display:contents" dir="auto"><pre id="5e88db55-6aee-82f0-94e5-81d4323a9cc0" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) {
+        byte b = 1;
+        Byte byt = new Byte(b);
+        byte b1 = byt.byteValue();
+
+        short s = 2;
+        Short sho = new Short(s);
+        short s1 = sho.shortValue();
+
+        int i=3;
+        Integer integer = new Integer(i);
+        int i1 = integer.intValue();
+
+        long l = 4;
+        Long lon = new Long(l);
+        long l1 = lon.longValue();
+
+        float f = 4.4f;
+        Float flo = new Float(f);
+        double d = 22.2f;
+        Double dou = new Double(d);
+        char c = &#x27;a&#x27;;
+        Character cha = new Character(c);
+        boolean o = true;
+        Boolean boo = new Boolean(o);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="2478db55-6aee-834e-a894-8111ea3f4b07" class="">有些时候无法直接使用int，等基本类型，所以需要了解包装类</p></div><div style="display:contents" dir="auto"><hr id="b5d8db55-6aee-837f-8100-8139d05053db"/></div><div style="display:contents" dir="auto"><h1 id="2438db55-6aee-83a0-a809-0160924f5d70" class="">异常</h1></div><div style="display:contents" dir="auto"><p id="b1c8db55-6aee-8260-9415-81ab2f75e51b" class="">java中错误可以分为两类：</p></div><div style="display:contents" dir="auto"><ul id="4638db55-6aee-833e-b05f-814c69b5705b" class="bulleted-list"><li style="list-style-type:disc">编译时报错，一般指语法错误</li></ul></div><div style="display:contents" dir="auto"><ul id="79f8db55-6aee-8337-928e-813baadbe4bb" class="bulleted-list"><li style="list-style-type:disc">运行时报错，语法没问题，可以正常通过编译，但是运行时报错</li></ul></div><div style="display:contents" dir="auto"><blockquote id="8cc8db55-6aee-82c5-a313-8135d6cdbccb" class="">java中一切皆是对象，错误也是对象</blockquote></div><div style="display:contents" dir="auto"><p id="f8d8db55-6aee-8262-b332-81eeca4fa61f" class="">java提供了一组类，来表示各种各样的运行时错误</p></div><div style="display:contents" dir="auto"><ul id="7b38db55-6aee-8201-b920-81d715c17947" class="bulleted-list"><li style="list-style-type:disc">ArithmeticException: 数学异常</li></ul></div><div style="display:contents" dir="auto"><ul id="5ce8db55-6aee-83ed-91a9-8189de9c02fe" class="bulleted-list"><li style="list-style-type:disc">ClassNotFoundException: 类未定义异常</li></ul></div><div style="display:contents" dir="auto"><ul id="3c58db55-6aee-833f-b119-01b862dadbc1" class="bulleted-list"><li style="list-style-type:disc">IllegalArgumentException: 参数格式异常</li></ul></div><div style="display:contents" dir="auto"><ul id="3748db55-6aee-8334-897e-01d6ad7f33a3" class="bulleted-list"><li style="list-style-type:disc">ArrayIndexOutOfBoundsException: 数组下标越界异常</li></ul></div><div style="display:contents" dir="auto"><ul id="3908db55-6aee-8303-a5b4-01e1e0112e20" class="bulleted-list"><li style="list-style-type:disc">NullPointerException: 空指针异常</li></ul></div><div style="display:contents" dir="auto"><ul id="3f28db55-6aee-82f6-b46e-814f243ba98e" class="bulleted-list"><li style="list-style-type:disc">NoSuchMethodException: 方法未定义异常</li></ul></div><div style="display:contents" dir="auto"><ul id="3498db55-6aee-8372-8205-819323b0c345" class="bulleted-list"><li style="list-style-type:disc">NumberFormatException: 将其他数据类型转为数值类型的不匹配异常</li></ul></div><div style="display:contents" dir="auto"><pre id="a128db55-6aee-8217-83f3-01187feade14" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) throws Exception{
+        System.out.println(Class.forName(&quot;23132&quot;));
+    }
+    public static void test(Object i) {
+        Integer i1 = null;
+        System.out.println(i1);
+    }
+}
+
+错误：
+Exception in thread &quot;main&quot; java.lang.ClassNotFoundException: 23132
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:467)
+	at java.base/java.lang.Class.forName(Class.java:458)
+	at Main.main(Main.java:5)</code></pre></div><div style="display:contents" dir="auto"><h2 id="16d8db55-6aee-8209-bdbd-818edc5a0b53" class="">try-catch-finally</h2></div><div style="display:contents" dir="auto"><blockquote id="8428db55-6aee-8365-8199-81c99aa8dff7" class="">try: 监听可能会抛出异常的代码，一旦出现错误，JDK会自动创建一个错误对应的异常对象，抛出该异常对象<br/>catch: 用来捕获JDK创建的异常对象，进行后续的处理<br/>finally: 关键字，无论是否抛出异常，finally代码块中的程序一定会执行</blockquote></div><div style="display:contents" dir="auto"><pre id="a798db55-6aee-8226-9df9-81fb6e601745" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">try {
+} catch (Exception e) {
+} finally {
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="9e38db55-6aee-823e-987e-01fe67479d09" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) throws Exception{
+        try {
+            System.out.println(Class.forName(&quot;23132&quot;));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    public static void test(Object i) {
+        Integer i1 = null;
+        System.out.println(i1);
+    }
+}
+结果：
+java.lang.ClassNotFoundException: 23132</code></pre></div><div style="display:contents" dir="auto"><p id="aed8db55-6aee-83c3-a0f9-0122eeb2c4ac" class="">业务代码出错的概率比较大时，一般需要加上try-catch来进行异常处理，如果代码出错概率较小，不用加</p></div><div style="display:contents" dir="auto"><pre id="6c88db55-6aee-8395-87ad-01a6c98d5931" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) throws Exception{
+        try {
+            int num = 10/0;
+            System.out.println(123);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println(&quot;finally...&quot;);
+        }
+        System.out.println(&quot;out...&quot;);
+    }
+}
+
+结果：
+java.lang.ArithmeticException: / by zero
+	at Main.main(Main.java:6)
+finally...
+out...</code></pre></div><div style="display:contents" dir="auto"><p id="2ae8db55-6aee-83f4-9534-815b140a202c" class="">没有输出123，报错后，try中出错位置之后的代码不再执行，try-catch后和finally中的代码会正常执行，</p></div><div style="display:contents" dir="auto"><p id="1e58db55-6aee-83ec-b6b3-81d6dab9e19e" class=""><mark class="highlight-yellow_background">return 可以直接中断，但再finally中的代码会在终端前执行</mark></p></div><div style="display:contents" dir="auto"><pre id="3678db55-6aee-8363-bbce-81d7d63fb6c2" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) throws Exception{
+        System.out.println(test());
+    }
+    public static int test() {
+        try {
+            System.out.println(&quot;try..&quot;);
+            return 10;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println(&quot;finally...&quot;);
+            return 20;
+        }
+    }
+}
+
+结果：
+try..
+finally...
+20</code></pre></div><div style="display:contents" dir="auto"><p id="c6b8db55-6aee-829f-b9e9-8189617e5c42" class=""><mark class="highlight-yellow_background">即使try中有return， 但是再执行 try中return之前，会优先执行finally中的代码</mark></p></div><div style="display:contents" dir="auto"><h2 id="f0f8db55-6aee-8387-b095-812982fe1e48" class="">throw和throws</h2></div><div style="display:contents" dir="auto"><p id="ffd8db55-6aee-83a7-ab77-810c934c0cde" class="">throw和throws时java在处理异常时使用的两个关键字，都是用来抛出异常的，但是使用方式和表示的含义完全不同。</p></div><div style="display:contents" dir="auto"><p id="c8c8db55-6aee-8333-ba79-01a61634b2ff" class="">java中抛出异常的方式有三种：</p></div><div style="display:contents" dir="auto"><ul id="4e18db55-6aee-83c5-8166-010950ef2bcc" class="bulleted-list"><li style="list-style-type:disc">try-catch: 是一种<mark class="highlight-red">防范机制</mark>，代码可能会出现异常，如果抛出则捕获即可，如果不抛出则继续执行</li></ul></div><div style="display:contents" dir="auto"><ul id="b7e8db55-6aee-8255-a05e-8161b8a8731b" class="bulleted-list"><li style="list-style-type:disc">throw: 开发者主动（明确异常类型）创建一个错误并抛出<code>throw new Exceprion()</code></li></ul></div><div style="display:contents" dir="auto"><ul id="a6e8db55-6aee-83b9-9ff7-81dc05e5b8f5" class="bulleted-list"><li style="list-style-type:disc">throws: 标注方法的，用来描述该方法可能会抛出的异常</li></ul></div><div style="display:contents" dir="auto"><blockquote id="f1e8db55-6aee-8208-8f23-81de8121069e" class="">throw主动抛出对象，throws标注一个方法可能会抛出某些异常</blockquote></div><div style="display:contents" dir="auto"><pre id="42b8db55-6aee-8323-9926-0129712c5fd6" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class Main {
+    public static void main(String[] args) throws Exception {
+        try {
+            test();
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void test() throws  NumberFormatException {
+        String str = &quot;Java&quot;;
+        int num = Integer.parseInt(str);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><h2 id="30f8db55-6aee-822e-8e48-81cbc841a3a9" class="">自定义异常</h2></div><div style="display:contents" dir="auto"><p id="4908db55-6aee-82a0-9b18-01faa4e13783" class="">定义一个方法，对传入的参数进行++操作，并返回结果，同时要求参数必须是整数类型，如果传入的参数不是整数类型则抛出异常</p></div><div style="display:contents" dir="auto"><p id="5ca8db55-6aee-82e3-9acb-01d41ceb10a5" class=""><a href="http://NumberException.java">NumberException.java</a> : 一个自定义异常类</p></div><div style="display:contents" dir="auto"><pre id="c8c8db55-6aee-82cc-b83b-01b36bdc103f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class NumberException extends Exception{
+    public NumberException(String message) {
+        super(message);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="a368db55-6aee-83b4-be9e-01fa1ce2a71e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            int a = add(1);
+            System.out.println(a);
+        } catch (NumberException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int add(Object o) throws NumberException {
+        // 判断类型
+        if (!(o instanceof Integer)) {
+            // 抛出异常
+            // 异常信息是传入的参数不是Integer
+            throw new NumberException(&quot;传入的参数不是Integer&quot;);
+        } else  {
+            int num = (int) o;
+            return ++num;
+        }
+    }
+}</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

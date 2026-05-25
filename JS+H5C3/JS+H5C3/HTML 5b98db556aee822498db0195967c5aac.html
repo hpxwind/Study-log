@@ -1,0 +1,1111 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>HTML</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5b98db55-6aee-8224-98db-0195967c5aac" class="page sans"><header><h1 class="page-title" dir="auto">HTML</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="0888db55-6aee-828d-9a8b-81cedd979a67" class="toggle"><li><details open=""><summary>特殊符号</summary><div style="display:contents" dir="ltr"><table id="3908db55-6aee-823b-8b51-013db4237731" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="d5d8db55-6aee-8262-ab8f-8144b2b2e1fa"><td id="m|GD" class="" style="width:158.99737548828125px">特殊符号</td><td id="q^O&lt;" class="" style="width:480.99346923828125px">解释</td></tr></div><div style="display:contents" dir="ltr"><tr id="d848db55-6aee-8392-972c-014b19e3af2b"><td id="m|GD" class="" style="width:158.99737548828125px">&amp;lt;</td><td id="q^O&lt;" class="" style="width:480.99346923828125px">左尖角号（&lt;）</td></tr></div><div style="display:contents" dir="ltr"><tr id="8738db55-6aee-831b-a8d8-81ad75c0ae52"><td id="m|GD" class="" style="width:158.99737548828125px">&amp;gt;</td><td id="q^O&lt;" class="" style="width:480.99346923828125px">右尖角号（&gt;）</td></tr></div><div style="display:contents" dir="ltr"><tr id="f208db55-6aee-83b5-bd19-816addc4f871"><td id="m|GD" class="" style="width:158.99737548828125px">&amp;nbsp;</td><td id="q^O&lt;" class="" style="width:480.99346923828125px">该空格占据宽度受【字体】影响明显，强烈</td></tr></div><div style="display:contents" dir="ltr"><tr id="6008db55-6aee-8247-b0d5-01da0f315e8e"><td id="m|GD" class="" style="width:158.99737548828125px">&amp;emsp;</td><td id="q^O&lt;" class="" style="width:480.99346923828125px">占据的宽度正好是一个中文宽度，基本上不受字体影响</td></tr></div><div style="display:contents" dir="ltr"><tr id="4ba8db55-6aee-8219-8a07-81624bf70df4"><td id="m|GD" class="" style="width:158.99737548828125px">&amp;copy;</td><td id="q^O&lt;" class="" style="width:480.99346923828125px">版权标：©</td></tr></div><div style="display:contents" dir="ltr"><tr id="7678db55-6aee-83b2-93d4-81a023d2230e"><td id="m|GD" class="" style="width:158.99737548828125px">&amp;trade;</td><td id="q^O&lt;" class="" style="width:480.99346923828125px">商标 tm</td></tr></div><div style="display:contents" dir="ltr"><tr id="7798db55-6aee-8288-8a15-814994ba991d"><td id="m|GD" class="" style="width:158.99737548828125px">&amp;reg;</td><td id="q^O&lt;" class="" style="width:480.99346923828125px">商标R</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9548db55-6aee-82e3-a871-014572e06a4a" class="toggle"><li><details open=""><summary>表单相关标签操作</summary><div style="display:contents" dir="auto"><ul id="d908db55-6aee-826b-b9cd-01c9b74745b6" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7678db55-6aee-8243-a441-81869f73e531" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;基础功能表单&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;用户信息表单&lt;/h2&gt;
+    &lt;!-- 表单核心：action提交地址，method提交方式 --&gt;
+    &lt;form action=&quot;submit.php&quot; method=&quot;post&quot;&gt;
+        &lt;!-- 1. 文本输入框（单行文本） --&gt;
+        &lt;p&gt;
+            用户名：
+            &lt;input type=&quot;text&quot; name=&quot;username&quot; required placeholder=&quot;请输入用户名&quot;&gt;
+            &lt;!-- required：必填项；placeholder：提示文本 --&gt;
+        &lt;/p&gt;
+
+        &lt;!-- 2. 密码输入框 --&gt;
+        &lt;p&gt;
+            密码：
+            &lt;input type=&quot;password&quot; name=&quot;password&quot; required minlength=&quot;6&quot;&gt;
+            &lt;!-- type=&quot;password&quot;：输入内容隐藏；minlength：最小长度限制 --&gt;
+        &lt;/p&gt;
+
+        &lt;!-- 3. 单选按钮组（只能选一个） --&gt;
+        &lt;p&gt;
+            性别：
+            &lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;male&quot; checked&gt; 男
+            &lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;female&quot;&gt; 女
+            &lt;!-- name相同为一组；checked：默认选中 --&gt;
+            &lt;!-- value=&quot;male&quot; 是提交给后台的值，如果选择男，后台会受到 male --&gt;
+        &lt;/p&gt;
+
+        &lt;!-- 4. 复选框（可多选） --&gt;
+        &lt;p&gt;
+            爱好：
+            &lt;input type=&quot;checkbox&quot; name=&quot;hobby[]&quot; value=&quot;reading&quot;&gt; 阅读
+            &lt;input type=&quot;checkbox&quot; name=&quot;hobby[]&quot; value=&quot;sports&quot;&gt; 运动
+            &lt;input type=&quot;checkbox&quot; name=&quot;hobby[]&quot; value=&quot;music&quot;&gt; 音乐
+            &lt;!-- name带[]：后端接收为数组 --&gt;
+        &lt;/p&gt;
+
+        &lt;!-- 5. 下拉选择框 --&gt;
+        &lt;p&gt;
+            学历：
+            &lt;select name=&quot;education&quot;&gt;
+                &lt;option value=&quot;&quot;&gt;请选择&lt;/option&gt;
+                &lt;option value=&quot;highschool&quot;&gt;高中&lt;/option&gt;
+                &lt;option value=&quot;college&quot;&gt;大专&lt;/option&gt;
+                &lt;option value=&quot;bachelor&quot; selected&gt;本科&lt;/option&gt;
+                &lt;option value=&quot;master&quot;&gt;硕士&lt;/option&gt;
+                &lt;!-- selected：默认选中项 --&gt;
+            &lt;/select&gt;
+        &lt;/p&gt;
+
+        &lt;!-- 6. 多行文本框 --&gt;
+        &lt;p&gt;
+            个人简介：
+            &lt;br&gt;
+            &lt;textarea name=&quot;intro&quot; rows=&quot;3&quot; cols=&quot;30&quot; placeholder=&quot;请输入个人简介&quot;&gt;&lt;/textarea&gt;
+            &lt;!-- rows：行数；cols：列数 --&gt;
+        &lt;/p&gt;
+
+        &lt;!-- 7. 数字输入框 --&gt;
+        &lt;p&gt;
+            年龄：
+            &lt;input type=&quot;number&quot; name=&quot;age&quot; min=&quot;0&quot; max=&quot;120&quot; value=&quot;18&quot;&gt;
+            &lt;!-- type=&quot;number&quot;：只允许输入数字；min/max：范围限制；value：默认值 --&gt;
+        &lt;/p&gt;
+
+        &lt;!-- 8. 隐藏域（用户不可见，用于传递数据） --&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;form_id&quot; value=&quot;user_info_123&quot;&gt;
+
+        &lt;!-- 9. 按钮 --&gt;
+        &lt;p&gt;
+            &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;
+            &lt;input type=&quot;reset&quot; value=&quot;重置&quot;&gt;
+            &lt;button type=&quot;button&quot; onclick=&quot;alert(&#x27;这是普通按钮&#x27;)&quot;&gt;帮助&lt;/button&gt;
+        &lt;/p&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+    </code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3008db55-6aee-837b-8b39-8151cb1a40ed" class="toggle"><li><details open=""><summary>&lt;form&gt;</summary><div style="display:contents" dir="auto"><p id="3aa8db55-6aee-827a-8b23-81b693fee546" class="">用于用于收集用户输入并提交数</p></div><div style="display:contents" dir="ltr"><table id="bd78db55-6aee-8256-a1ea-017d5d7c6ce1" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="bbf8db55-6aee-831f-9883-0105163e6074"><th id="]Ajc" class="simple-table-header-color simple-table-header"><strong>属性名</strong></th><th id="B]^e" class="simple-table-header-color simple-table-header"><strong>作用描述</strong></th><th id="gj&gt;\" class="simple-table-header-color simple-table-header"><strong>常用取值</strong></th><th id="x}op" class="simple-table-header-color simple-table-header" style="width:230.0091094970703px"><strong>示例代码</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="ffd8db55-6aee-837b-b561-0120e17bc45a"><td id="]Ajc" class=""><code>action</code></td><td id="B]^e" class="">指定表单数据提交的目标 URL（后端处理程序）</td><td id="gj&gt;\" class="">相对路径（如 <code>submit.php</code>）、绝对路径（如 <code>https://api.example.com</code>）、空值（当前页面）</td><td id="x}op" class="" style="width:230.0091094970703px"><code>&lt;form action=&quot;/user/login&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="f7d8db55-6aee-8296-b0dc-01aeac82f1ab"><td id="]Ajc" class=""><code>method</code></td><td id="B]^e" class="">定义数据提交的 HTTP 方法</td><td id="gj&gt;\" class=""><code>get</code>（默认，数据在 URL 中，适合查询）、<code>post</code>（数据在请求体，适合敏感数据）</td><td id="x}op" class="" style="width:230.0091094970703px"><code>&lt;form method=&quot;post&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8108db55-6aee-8370-90e7-814fcb5f0319"><td id="]Ajc" class=""><code>enctype</code></td><td id="B]^e" class="">设置表单数据的编码方式（仅 <code>method=&quot;post&quot;</code> 有效）</td><td id="gj&gt;\" class=""><code>application/x-www-form-urlencoded</code>（默认，普通数据）、<code>multipart/form-data</code>（文件上传）、<code>text/plain</code>（纯文本）</td><td id="x}op" class="" style="width:230.0091094970703px"><code>&lt;form enctype=&quot;multipart/form-data&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5698db55-6aee-83a2-ab4c-01d4adaa2a4b"><td id="]Ajc" class=""><code>target</code></td><td id="B]^e" class="">指定响应结果显示的窗口 / 框架</td><td id="gj&gt;\" class=""><code>_self</code>（默认，当前窗口）、<code>_blank</code>（新窗口）、<code>_parent</code>（父框架）、<code>_top</code>（顶层窗口）</td><td id="x}op" class="" style="width:230.0091094970703px"><code>&lt;form target=&quot;_blank&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="99a8db55-6aee-8357-8f5a-01f439fe73f5"><td id="]Ajc" class=""><code>autocomplete</code></td><td id="B]^e" class="">控制浏览器是否自动填充表单数据</td><td id="gj&gt;\" class=""><code>on</code>（默认，启用）、<code>off</code>（禁用，适合敏感字段）</td><td id="x}op" class="" style="width:230.0091094970703px"><code>&lt;form autocomplete=&quot;off&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c858db55-6aee-83ce-84a6-01d26e225dc1"><td id="]Ajc" class=""><code>novalidate</code></td><td id="B]^e" class="">禁用浏览器的 HTML5 自动验证（如 <code>required</code>、<code>pattern</code> 验证）</td><td id="gj&gt;\" class="">布尔属性（存在即生效，无需赋值）</td><td id="x}op" class="" style="width:230.0091094970703px"><code>&lt;form novalidate&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b5d8db55-6aee-82c9-ae81-01af5dbbfec5"><td id="]Ajc" class=""><code>rel</code></td><td id="B]^e" class="">定义当前页面与 <code>action</code> 目标的关系（增强安全性）</td><td id="gj&gt;\" class=""><code>noopener</code>（防止新页面访问原页面）、<code>noreferrer</code>（隐藏来源）</td><td id="x}op" class="" style="width:230.0091094970703px"><code>&lt;form rel=&quot;noopener noreferrer&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c508db55-6aee-82fb-b09d-011609dc31a5"><td id="]Ajc" class=""><code>name</code></td><td id="B]^e" class="">为表单定义名称，用于 JavaScript 访问（<code>document.forms.name</code>）</td><td id="gj&gt;\" class="">自定义名称（如 <code>loginForm</code>）</td><td id="x}op" class="" style="width:230.0091094970703px"><code>&lt;form name=&quot;loginForm&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ddf8db55-6aee-829a-b493-81b8df7a8b2b"><td id="]Ajc" class=""><code>id</code></td><td id="B]^e" class="">表单唯一标识符，用于 CSS 或 JavaScript 定位（<code>getElementById</code>）</td><td id="gj&gt;\" class="">自定义唯一 ID（如 <code>userForm</code>）</td><td id="x}op" class="" style="width:230.0091094970703px"><code>&lt;form id=&quot;userForm&quot;&gt;</code></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="79e8db55-6aee-8213-bad0-0167a042e5f6" class="toggle"><li><details open=""><summary>&lt;input&gt;</summary><div style="display:contents" dir="auto"><pre id="1d08db55-6aee-8316-bcb2-018e8c165a97" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;input type=&quot;控件类型&quot; name=&quot;键名&quot; 属性=&quot;值&quot;&gt; 
+必须属性：
+// name：用于后端接收数据时得到“键名”，缺少无法提交数据
+// type：决定空间类型，默认为text</code></pre></div><div style="display:contents" dir="ltr"><table id="8cc8db55-6aee-8395-8f87-8131e3129a66" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="d3c8db55-6aee-82e0-b600-0172fc04e68d"><th id="@E^O" class="simple-table-header-color simple-table-header"><strong>type 值</strong></th><th id="~oTO" class="simple-table-header-color simple-table-header"><strong>控件名称</strong></th><th id="`EIC" class="simple-table-header-color simple-table-header"><strong>功能说明</strong></th><th id="rtQR" class="simple-table-header-color simple-table-header"><strong>示例代码</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="6718db55-6aee-8385-ac28-014efa819e18"><td id="@E^O" class=""><code>text</code></td><td id="~oTO" class="">单行文本框</td><td id="`EIC" class="">接收普通文本输入（默认类型），可通过 <code>maxlength</code> 限制长度。</td><td id="rtQR" class=""><code>&lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;请输入用户名&quot; maxlength=&quot;20&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2138db55-6aee-8324-9730-81c1fb800c20"><td id="@E^O" class=""><code>password</code></td><td id="~oTO" class="">密码框</td><td id="`EIC" class="">输入内容以圆点 / 星号隐藏，保护敏感信息。</td><td id="rtQR" class=""><code>&lt;input type=&quot;password&quot; name=&quot;pwd&quot; required minlength=&quot;6&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="bea8db55-6aee-8254-b412-81731729d0d9"><td id="@E^O" class=""><code>radio</code></td><td id="~oTO" class="">单选按钮</td><td id="`EIC" class="">多个同 <code>name</code> 的单选按钮组成一组，只能选择其中一个，用 <code>checked</code> 设默认值。</td><td id="rtQR" class=""><code>&lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;male&quot; checked&gt; 男</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="d818db55-6aee-83cc-ace7-01f0657661b7"><td id="@E^O" class=""><code>checkbox</code></td><td id="~oTO" class="">复选框</td><td id="`EIC" class="">可多选，同 <code>name</code> 建议加 <code>[]</code>（如 <code>hobby[]</code>），后端接收为数组。</td><td id="rtQR" class=""><code>&lt;input type=&quot;checkbox&quot; name=&quot;hobby[]&quot; value=&quot;reading&quot;&gt; 阅读</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ac18db55-6aee-8243-832a-8114106a452d"><td id="@E^O" class=""><code>number</code></td><td id="~oTO" class="">数字输入框</td><td id="`EIC" class="">只允许输入数字（包括正负号、小数点），通过 <code>min</code>/<code>max</code> 限制范围。</td><td id="rtQR" class=""><code>&lt;input type=&quot;number&quot; name=&quot;age&quot; min=&quot;0&quot; max=&quot;120&quot; value=&quot;18&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a3b8db55-6aee-823c-9813-81df404b5d44"><td id="@E^O" class=""><code>email</code></td><td id="~oTO" class="">邮箱输入框</td><td id="`EIC" class="">自带邮箱格式验证（如必须包含 <code>@</code>），提交时不符合格式会提示错误。</td><td id="rtQR" class=""><code>&lt;input type=&quot;email&quot; name=&quot;email&quot; required&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6268db55-6aee-82cf-9db6-812ecd7eb451"><td id="@E^O" class=""><code>tel</code></td><td id="~oTO" class="">电话输入框</td><td id="`EIC" class="">移动端会唤起数字键盘，PC 端无特殊限制，需配合 <code>pattern</code> 自定义验证。</td><td id="rtQR" class=""><code>&lt;input type=&quot;tel&quot; name=&quot;phone&quot; pattern=&quot;\d{11}&quot; placeholder=&quot;请输入11位手机号&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7c68db55-6aee-825c-b06d-0194bcb53e7c"><td id="@E^O" class=""><code>url</code></td><td id="~oTO" class="">网址输入框</td><td id="`EIC" class="">验证输入是否为合法网址（需包含 <code>http://</code> 或 <code>https://</code>）。</td><td id="rtQR" class=""><code>&lt;input type=&quot;url&quot; name=&quot;website&quot; placeholder=&quot;如：https://example.com&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="bba8db55-6aee-8286-998f-81ac4a5204ab"><td id="@E^O" class=""><code>date</code></td><td id="~oTO" class="">日期选择器</td><td id="`EIC" class="">弹出日历选择年月日（格式 <code>YYYY-MM-DD</code>），可通过 <code>min</code>/<code>max</code> 限制日期范围。</td><td id="rtQR" class=""><code>&lt;input type=&quot;date&quot; name=&quot;birthday&quot; min=&quot;1900-01-01&quot; max=&quot;2023-12-31&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5f08db55-6aee-8390-a88c-81e5e8341579"><td id="@E^O" class=""><code>time</code></td><td id="~oTO" class="">时间选择器</td><td id="`EIC" class="">选择小时和分钟（格式 <code>HH:MM</code>）。</td><td id="rtQR" class=""><code>&lt;input type=&quot;time&quot; name=&quot;meet_time&quot; min=&quot;09:00&quot; max=&quot;18:00&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b728db55-6aee-8381-8663-81a8fac21eca"><td id="@E^O" class=""><code>file</code></td><td id="~oTO" class="">文件上传框</td><td id="`EIC" class="">用于选择本地文件，<code>multiple</code> 允许多选，<code>accept</code> 限制文件类型。</td><td id="rtQR" class=""><code>&lt;input type=&quot;file&quot; name=&quot;avatar&quot; accept=&quot;image/*&quot; multiple&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="aed8db55-6aee-8252-9bdc-812189f68ae5"><td id="@E^O" class=""><code>hidden</code></td><td id="~oTO" class="">隐藏域</td><td id="`EIC" class="">用户不可见，用于传递额外数据（如表单 ID、用户 ID 等）。</td><td id="rtQR" class=""><code>&lt;input type=&quot;hidden&quot; name=&quot;form_id&quot; value=&quot;user_123&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="96d8db55-6aee-836e-a169-01afd8f3ed4e"><td id="@E^O" class=""><code>submit</code></td><td id="~oTO" class="">提交按钮</td><td id="`EIC" class="">点击后提交表单数据到 <code>form</code> 标签的 <code>action</code> 地址。</td><td id="rtQR" class=""><code>&lt;input type=&quot;submit&quot; value=&quot;提交表单&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="70e8db55-6aee-8390-98b3-81e03900c07c"><td id="@E^O" class=""><code>reset</code></td><td id="~oTO" class="">重置按钮</td><td id="`EIC" class="">点击后将表单所有控件恢复为默认值。</td><td id="rtQR" class=""><code>&lt;input type=&quot;reset&quot; value=&quot;重新填写&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8fe8db55-6aee-83c6-93d9-81a4b04a2028"><td id="@E^O" class=""><code>button</code></td><td id="~oTO" class="">普通按钮</td><td id="`EIC" class="">无默认功能，需配合 <code>onclick</code> 绑定事件（如弹窗）。</td><td id="rtQR" class=""><code>&lt;input type=&quot;button&quot; value=&quot;点击提示&quot; onclick=&quot;alert(&#x27;Hello&#x27;)&quot;&gt;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><table id="77e8db55-6aee-83c6-b782-81ae32864a77" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="2b28db55-6aee-8220-b631-018c678507ab"><th id="[j&gt;&lt;" class="simple-table-header-color simple-table-header"><strong>input属性名</strong></th><th id="yWBk" class="simple-table-header-color simple-table-header"><strong>作用范围</strong></th><th id=":hGp" class="simple-table-header-color simple-table-header" style="width:473px"><strong>功能说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="ea78db55-6aee-836a-baad-81dd978c9b73"><td id="[j&gt;&lt;" class=""><code>name</code></td><td id="yWBk" class="">所有类型</td><td id=":hGp" class="" style="width:473px">后端接收数据的 “键名”（如 <code>name=&quot;username&quot;</code>，后端获取 <code>username</code> 的值）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="5b98db55-6aee-82bd-8c79-81eefbb09c43"><td id="[j&gt;&lt;" class=""><code>value</code></td><td id="yWBk" class="">所有类型</td><td id=":hGp" class="" style="width:473px">控件的默认值（如文本框的初始内容、单选 / 复选框的提交值）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="6288db55-6aee-83f9-9b35-818806cf0834"><td id="[j&gt;&lt;" class=""><code>placeholder</code></td><td id="yWBk" class="">文本类控件</td><td id=":hGp" class="" style="width:473px">输入框为空时显示的提示文本（如 “请输入用户名”），不影响实际提交值。</td></tr></div><div style="display:contents" dir="ltr"><tr id="d758db55-6aee-8289-9b9a-81b63f30b9f5"><td id="[j&gt;&lt;" class=""><code>required</code></td><td id="yWBk" class="">大部分控件</td><td id=":hGp" class="" style="width:473px">标记为必填项，提交时若为空，浏览器会提示 “请填写此字段”。</td></tr></div><div style="display:contents" dir="ltr"><tr id="e238db55-6aee-8283-b1c1-011c9a4fe3bf"><td id="[j&gt;&lt;" class=""><code>disabled</code></td><td id="yWBk" class="">所有类型</td><td id=":hGp" class="" style="width:473px">禁用控件（不可编辑、不可点击），禁用状态的控件数据不会被提交。</td></tr></div><div style="display:contents" dir="ltr"><tr id="74e8db55-6aee-828c-979b-81b8b1b99407"><td id="[j&gt;&lt;" class=""><code>readonly</code></td><td id="yWBk" class="">文本类控件</td><td id=":hGp" class="" style="width:473px">控件只读（不可编辑，但可选中复制），数据会正常提交。</td></tr></div><div style="display:contents" dir="ltr"><tr id="eae8db55-6aee-822c-84c4-8176f0009109"><td id="[j&gt;&lt;" class=""><code>checked</code></td><td id="yWBk" class="">单选 / 复选框</td><td id=":hGp" class="" style="width:473px">设置默认选中状态（单选按钮组中只能有一个 <code>checked</code>）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="ece8db55-6aee-8395-bc1e-81585a796137"><td id="[j&gt;&lt;" class=""><code>min</code>/<code>max</code></td><td id="yWBk" class="">数字 / 日期 / 时间</td><td id=":hGp" class="" style="width:473px">限制输入范围（如 <code>min=&quot;0&quot;</code> 表示数字不能小于 0，<code>max=&quot;2023-12-31&quot;</code> 限制日期）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="1b98db55-6aee-8385-9fae-8171629c413a"><td id="[j&gt;&lt;" class=""><code>maxlength</code></td><td id="yWBk" class="">文本类控件</td><td id=":hGp" class="" style="width:473px">限制最大输入长度（如 <code>maxlength=&quot;11&quot;</code> 限制手机号为 11 位）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="0778db55-6aee-83c5-87e6-01b0ac4d449d"><td id="[j&gt;&lt;" class=""><code>multiple</code></td><td id="yWBk" class="">文件上传 / 邮箱</td><td id=":hGp" class="" style="width:473px">允许多选（文件上传时可选择多个文件，邮箱输入时可填多个邮箱用逗号分隔）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="9c78db55-6aee-8294-ad32-019028b2eb03"><td id="[j&gt;&lt;" class=""><code>accept</code></td><td id="yWBk" class="">文件上传</td><td id=":hGp" class="" style="width:473px">限制可上传的文件类型（如 <code>accept=&quot;image/*&quot;</code> 只允许图片，<code>accept=&quot;.pdf&quot;</code> 只允许 PDF）。</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="df68db55-6aee-82bc-bca4-01139aa97e2f" class="toggle"><li><details open=""><summary>&lt;button&gt;</summary><div style="display:contents" dir="auto"><p id="8368db55-6aee-821e-a755-01defba3f1d1" class=""><code>&lt;button&gt;</code> 标签用于创建可点击的按钮，功能灵活，可用于提交表单、重置表单或触发自定义 JavaScript 事件。</p></div><div style="display:contents" dir="auto"><p id="1ee8db55-6aee-838e-984e-015e1c3d8315" class="">与 <code>&lt;input type=&quot;button&quot;&gt;</code> 相比，<code>&lt;button&gt;</code> 是双标签，内部可包含文本、图片等内容，样式控制更灵活。</p></div><div style="display:contents" dir="auto"><pre id="4168db55-6aee-8204-8aa7-011e221c84d5" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;button type=&quot;按钮类型&quot; 属性&gt;按钮内容（文本/图片等）&lt;/button&gt;
+// type：决定按钮行为，默认值为submit</code></pre></div><div style="display:contents" dir="ltr"><table id="f398db55-6aee-83e9-be09-015f815515f1" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="d9b8db55-6aee-83f6-8e37-81f96ab9f346"><th id="t:IP" class="simple-table-header-color simple-table-header"><strong>type 值</strong></th><th id="wu&gt;N" class="simple-table-header-color simple-table-header"><strong>按钮类型</strong></th><th id="o{aZ" class="simple-table-header-color simple-table-header" style="width:344px"><strong>行为说明</strong></th><th id="sHSJ" class="simple-table-header-color simple-table-header" style="width:196.6731719970703px"><strong>适用场景</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="2b38db55-6aee-8202-a9cf-012147caadb1"><td id="t:IP" class=""><code>submit</code></td><td id="wu&gt;N" class="">提交按钮</td><td id="o{aZ" class="" style="width:344px">点击后提交表单数据到 <code>&lt;form&gt;</code> 标签的 <code>action</code> 地址（默认类型）。</td><td id="sHSJ" class="" style="width:196.6731719970703px">表单提交（如 “登录”“注册”）</td></tr></div><div style="display:contents" dir="ltr"><tr id="14e8db55-6aee-8382-b48d-019bb5ef2176"><td id="t:IP" class=""><code>reset</code></td><td id="wu&gt;N" class="">重置按钮</td><td id="o{aZ" class="" style="width:344px">点击后将表单中所有控件恢复为默认值（需放在 <code>&lt;form&gt;</code> 内才有效）。</td><td id="sHSJ" class="" style="width:196.6731719970703px">表单重置（如 “重新填写”）</td></tr></div><div style="display:contents" dir="ltr"><tr id="4998db55-6aee-8209-8574-8103645e3834"><td id="t:IP" class=""><code>button</code></td><td id="wu&gt;N" class="">普通按钮</td><td id="o{aZ" class="" style="width:344px">无默认行为，需配合 <code>onclick</code> 等事件绑定自定义逻辑（如弹窗、切换内容）。</td><td id="sHSJ" class="" style="width:196.6731719970703px">触发 JavaScript 操作</td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><table id="36c8db55-6aee-822a-92f3-8175379e1916" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="a6a8db55-6aee-8215-a94e-814b3367f4fd"><th id="`GgX" class="simple-table-header-color simple-table-header"><code>&lt;button&gt;</code><strong>属性名</strong></th><th id="nwUa" class="simple-table-header-color simple-table-header" style="width:427px"><strong>作用描述</strong></th><th id="Ku^v" class="simple-table-header-color simple-table-header"><strong>示例代码</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3c68db55-6aee-8315-974d-01b93f53e499"><td id="`GgX" class=""><code>type</code></td><td id="nwUa" class="" style="width:427px">定义按钮类型（<code>submit</code>/<code>reset</code>/<code>button</code>），默认 <code>submit</code>。</td><td id="Ku^v" class=""><code>&lt;button type=&quot;button&quot;&gt;点击&lt;/button&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2758db55-6aee-8201-8575-018760aca2ab"><td id="`GgX" class=""><code>name</code></td><td id="nwUa" class="" style="width:427px">为按钮定义名称，用于后端区分多个按钮（提交表单时会将 <code>name=value</code> 传递给后端）。</td><td id="Ku^v" class=""><code>&lt;button type=&quot;submit&quot; name=&quot;action&quot; value=&quot;save&quot;&gt;保存&lt;/button&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="d7e8db55-6aee-82c5-b4b6-0122da2f024f"><td id="`GgX" class=""><code>value</code></td><td id="nwUa" class="" style="width:427px">按钮的提交值（仅在 <code>type=&quot;submit&quot;</code> 或 <code>type=&quot;reset&quot;</code> 时有效，后端通过 <code>name</code> 获取）。</td><td id="Ku^v" class=""><code>&lt;button type=&quot;submit&quot; name=&quot;op&quot; value=&quot;delete&quot;&gt;删除&lt;/button&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8348db55-6aee-82ea-b78a-01578e0e30a7"><td id="`GgX" class=""><code>disabled</code></td><td id="nwUa" class="" style="width:427px">禁用按钮（不可点击，样式变灰），禁用状态的按钮不会触发事件或提交数据。</td><td id="Ku^v" class=""><code>&lt;button type=&quot;submit&quot; disabled&gt;提交（禁用）&lt;/button&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="dc38db55-6aee-8360-aa4f-814bd289767a"><td id="`GgX" class=""><code>autofocus</code></td><td id="nwUa" class="" style="width:427px">页面加载时自动聚焦到该按钮（一个页面只能有一个元素用此属性）。</td><td id="Ku^v" class=""><code>&lt;button type=&quot;button&quot; autofocus&gt;自动聚焦&lt;/button&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4738db55-6aee-829e-9cda-01315986f67c"><td id="`GgX" class=""><code>form</code></td><td id="nwUa" class="" style="width:427px">指定按钮关联的表单 ID（即使按钮在 <code>&lt;form&gt;</code> 外部，也能控制该表单）。</td><td id="Ku^v" class=""><code>&lt;button type=&quot;submit&quot; form=&quot;userForm&quot;&gt;提交表单&lt;/button&gt;</code>（表单需设置 <code>id=&quot;userForm&quot;</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="1828db55-6aee-82da-975d-016849ed781c"><td id="`GgX" class=""><code>formaction</code></td><td id="nwUa" class="" style="width:427px">覆盖表单的 <code>action</code> 属性，指定当前按钮的提交地址（仅 <code>type=&quot;submit&quot;</code> 有效）。</td><td id="Ku^v" class=""><code>&lt;button type=&quot;submit&quot; formaction=&quot;save.php&quot;&gt;保存&lt;/button&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b2b8db55-6aee-8284-92b3-8103510021bc"><td id="`GgX" class=""><code>formmethod</code></td><td id="nwUa" class="" style="width:427px">覆盖表单的 <code>method</code> 属性，指定当前按钮的提交方式（<code>get</code>/<code>post</code>，仅 <code>type=&quot;submit&quot;</code> 有效）。</td><td id="Ku^v" class=""><code>&lt;button type=&quot;submit&quot; formmethod=&quot;get&quot;&gt;查询&lt;/button&gt;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="e8b8db55-6aee-8357-8038-8121dec0e1a0" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;form id=&quot;userForm&quot; action=&quot;submit.php&quot; method=&quot;post&quot;&gt;
+  &lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;用户名&quot;&gt;
+  
+  &lt;!-- 1. 提交按钮（默认 type=&quot;submit&quot;） --&gt;
+  &lt;button&gt;默认提交（type=&quot;submit&quot;）&lt;/button&gt;
+  
+  &lt;!-- 2. 明确指定提交类型，带自定义提交值 --&gt;
+  &lt;button type=&quot;submit&quot; name=&quot;action&quot; value=&quot;save&quot;&gt;保存（提交）&lt;/button&gt;
+  
+  &lt;!-- 3. 重置按钮 --&gt;
+  &lt;button type=&quot;reset&quot;&gt;重置表单&lt;/button&gt;
+  
+  &lt;!-- 4. 普通按钮（触发JavaScript） --&gt;
+  &lt;button type=&quot;button&quot; onclick=&quot;alert(&#x27;普通按钮被点击&#x27;)&quot;&gt;点击弹窗&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;!-- 5. 表单外部的按钮，通过 form 属性关联表单 --&gt;
+&lt;button type=&quot;submit&quot; form=&quot;userForm&quot; formaction=&quot;update.php&quot; formmethod=&quot;post&quot;&gt;
+  外部提交按钮（修改数据）
+&lt;/button&gt;
+
+&lt;!-- 6. 禁用状态的按钮 --&gt;
+&lt;button type=&quot;submit&quot; disabled&gt;禁用的提交按钮（不可点击）&lt;/button&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b5f8db55-6aee-8284-bedd-814f13703b07" class="toggle"><li><details open=""><summary>&lt;select&gt;&amp;&amp;&lt;option&gt;</summary><div style="display:contents" dir="auto"><p id="de88db55-6aee-8289-870e-0154242b602f" class="">创建下拉菜单。</p></div><div style="display:contents" dir="ltr"><table id="c968db55-6aee-82e9-a74f-0104cba29418" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="dad8db55-6aee-83f3-a136-8135cbd2daac"><th id="zKIK" class="simple-table-header-color simple-table-header"><code><strong>&lt;select&gt;</strong></code><strong>属性名</strong></th><th id="^J[D" class="simple-table-header-color simple-table-header" style="width:410.99346923828125px"><strong>作用描述</strong></th><th id="YbVR" class="simple-table-header-color simple-table-header"><strong>示例代码</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="4178db55-6aee-8363-bb52-019a9929580c"><td id="zKIK" class=""><code>name</code></td><td id="^J[D" class="" style="width:410.99346923828125px">定义下拉框的 “键名”，后端通过该名称接收选中的值（必填）。</td><td id="YbVR" class=""><code>&lt;select name=&quot;city&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b578db55-6aee-828c-b0d7-8175a257dd1a"><td id="zKIK" class=""><code>multiple</code></td><td id="^J[D" class="" style="width:410.99346923828125px">布尔属性，允许同时选择多个选项（按住 Ctrl 键点击多选），默认只能选一个。</td><td id="YbVR" class=""><code>&lt;select name=&quot;hobby&quot; multiple&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="f798db55-6aee-838c-a2d1-81176274ac0a"><td id="zKIK" class=""><code>size</code></td><td id="^J[D" class="" style="width:410.99346923828125px">规定可见选项的数量（默认值为 1，即折叠为下拉框；值 &gt;1 则显示为列表）。</td><td id="YbVR" class=""><code>&lt;select name=&quot;subject&quot; size=&quot;3&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1a08db55-6aee-838f-af7c-8185ab818465"><td id="zKIK" class=""><code>disabled</code></td><td id="^J[D" class="" style="width:410.99346923828125px">禁用下拉框（不可选择，数据不会提交）。</td><td id="YbVR" class=""><code>&lt;select name=&quot;city&quot; disabled&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7218db55-6aee-83c4-a544-81c08c5a07d2"><td id="zKIK" class=""><code>required</code></td><td id="^J[D" class="" style="width:410.99346923828125px">标记为必填项，提交表单时若未选择任何选项，浏览器会提示错误。</td><td id="YbVR" class=""><code>&lt;select name=&quot;city&quot; required&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4c18db55-6aee-836f-89f3-8142b32a49b5"><td id="zKIK" class=""><code>autofocus</code></td><td id="^J[D" class="" style="width:410.99346923828125px">页面加载时自动聚焦到该下拉框（一个页面只能有一个元素用此属性）。</td><td id="YbVR" class=""><code>&lt;select name=&quot;city&quot; autofocus&gt;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><table id="1c88db55-6aee-83a0-8f34-81ae46c6d12f" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="b7d8db55-6aee-8262-bebe-810ccc4523f3"><th id="qcjI" class="simple-table-header-color simple-table-header"><code><strong>&lt;option&gt;</strong></code><strong>属性名</strong></th><th id="ZY^J" class="simple-table-header-color simple-table-header" style="width:411.99737548828125px"><strong>作用描述</strong></th><th id="]VkV" class="simple-table-header-color simple-table-header"><strong>示例代码</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="8fa8db55-6aee-8394-8af7-0141d6e88991"><td id="qcjI" class=""><code>value</code></td><td id="ZY^J" class="" style="width:411.99737548828125px">选项被选中时，提交给后端的实际值（若省略，默认提交 “选项文本”）。</td><td id="]VkV" class=""><code>&lt;option value=&quot;beijing&quot;&gt;北京&lt;/option&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4078db55-6aee-8344-869b-813e02ec7db0"><td id="qcjI" class=""><code>selected</code></td><td id="ZY^J" class="" style="width:411.99737548828125px">布尔属性，设置该选项为默认选中项（一个 <code>&lt;select&gt;</code> 中可多个，但通常只设一个）。</td><td id="]VkV" class=""><code>&lt;option value=&quot;shanghai&quot; selected&gt;上海&lt;/option&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c038db55-6aee-8339-8d22-01ad1a9d02b5"><td id="qcjI" class=""><code>disabled</code></td><td id="ZY^J" class="" style="width:411.99737548828125px">禁用该选项（不可选中）。</td><td id="]VkV" class=""><code>&lt;option value=&quot;guangzhou&quot; disabled&gt;广州&lt;/option&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="e008db55-6aee-83d4-9205-810b3ecce7aa"><td id="qcjI" class=""><code>label</code></td><td id="ZY^J" class="" style="width:411.99737548828125px">为选项定义更简短的标签（优先于选项文本显示，较少用）。</td><td id="]VkV" class=""><code>&lt;option value=&quot;sz&quot; label=&quot;深&quot;&gt;深圳&lt;/option&gt;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="7c58db55-6aee-83c2-9129-01a6339a7598" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;form action=&quot;submit.php&quot; method=&quot;post&quot;&gt;
+  &lt;!-- 基础下拉框 --&gt;
+  &lt;p&gt;
+    城市：
+    &lt;select name=&quot;city&quot; required&gt;
+      &lt;option value=&quot;&quot;&gt;请选择城市&lt;/option&gt; &lt;!-- 空选项提示 --&gt;
+      &lt;option value=&quot;beijing&quot;&gt;北京&lt;/option&gt;
+      &lt;option value=&quot;shanghai&quot; selected&gt;上海&lt;/option&gt;
+      &lt;option value=&quot;guangzhou&quot;&gt;广州&lt;/option&gt;
+      &lt;option value=&quot;shenzhen&quot;&gt;深圳&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/p&gt;
+
+  &lt;!-- 分组选项 --&gt;
+  &lt;p&gt;
+    专业：
+    &lt;select name=&quot;major&quot;&gt;
+      &lt;optgroup label=&quot;文科&quot;&gt;
+        &lt;option value=&quot;chinese&quot;&gt;汉语言文学&lt;/option&gt;
+        &lt;option value=&quot;history&quot;&gt;历史学&lt;/option&gt;
+      &lt;/optgroup&gt;
+      &lt;optgroup label=&quot;理科&quot;&gt;
+        &lt;option value=&quot;math&quot;&gt;数学&lt;/option&gt;
+        &lt;option value=&quot;physics&quot;&gt;物理学&lt;/option&gt;
+      &lt;/optgroup&gt;
+    &lt;/select&gt;
+  &lt;/p&gt;
+
+  &lt;!-- 多选列表 --&gt;
+  &lt;p&gt;
+    感兴趣的领域（可多选）：
+    &lt;br&gt;
+    &lt;select name=&quot;field[]&quot; multiple size=&quot;3&quot;&gt;
+      &lt;option value=&quot;tech&quot;&gt;科技&lt;/option&gt;
+      &lt;option value=&quot;art&quot;&gt;艺术&lt;/option&gt;
+      &lt;option value=&quot;sports&quot;&gt;体育&lt;/option&gt;
+      &lt;option value=&quot;business&quot;&gt;商业&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/p&gt;
+
+  &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;
+&lt;/form&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e7e8db55-6aee-82d4-a375-81340d1ebe2e" class="toggle"><li><details open=""><summary>&lt;textarea&gt;</summary><div style="display:contents" dir="auto"><p id="c2b8db55-6aee-83cb-b3cb-0108e8e223a4" class="">创建<strong>多行文本输入框</strong>的元素。</p></div><div style="display:contents" dir="auto"><p id="0148db55-6aee-825d-b477-01dc00118cac" class="">与单行文本输入框 <code>&lt;input type=&quot;text&quot;&gt;</code> 相比，它支持换行和多行显示，且输入长度通常不受限（可通过属性控制）。</p></div><div style="display:contents" dir="auto"><pre id="dd48db55-6aee-82d5-a7f1-81b4ceb6161c" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;textarea name=&quot;键名&quot; 属性&gt;默认文本内容&lt;/textarea&gt;</code></pre></div><div style="display:contents" dir="ltr"><table id="1928db55-6aee-8397-bb40-81f00f82d521" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="fe58db55-6aee-834f-8c5f-814146a43008"><th id="}qwB" class="simple-table-header-color simple-table-header"><strong>属性名</strong></th><th id="qg~^" class="simple-table-header-color simple-table-header" style="width:403px"><strong>作用描述</strong></th><th id="Od\w" class="simple-table-header-color simple-table-header" style="width:262px"><strong>示例代码</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="9e78db55-6aee-82f5-88f2-017e80cd0038"><td id="}qwB" class=""><code>name</code></td><td id="qg~^" class="" style="width:403px">定义文本框的 “键名”，后端通过该名称接收输入的文本（必填）。</td><td id="Od\w" class="" style="width:262px"><code>&lt;textarea name=&quot;intro&quot;&gt;&lt;/textarea&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5458db55-6aee-835a-94a1-818ccc5538ec"><td id="}qwB" class=""><code>rows</code></td><td id="qg~^" class="" style="width:403px">规定可见的行数（高度），默认值为 2（实际高度受字体大小等影响）。</td><td id="Od\w" class="" style="width:262px"><code>&lt;textarea name=&quot;comment&quot; rows=&quot;4&quot;&gt;&lt;/textarea&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="01a8db55-6aee-83c7-b99d-815e4b893c51"><td id="}qwB" class=""><code>cols</code></td><td id="qg~^" class="" style="width:403px">规定可见的列数（宽度），默认值为 20（实际宽度受字体大小等影响）。</td><td id="Od\w" class="" style="width:262px"><code>&lt;textarea name=&quot;comment&quot; cols=&quot;30&quot;&gt;&lt;/textarea&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3af8db55-6aee-82fd-bb9c-8168819bcfd8"><td id="}qwB" class=""><code>placeholder</code></td><td id="qg~^" class="" style="width:403px">输入框为空时显示的提示文本（如 “请输入评论”），不影响实际提交值。</td><td id="Od\w" class="" style="width:262px"><code>&lt;textarea name=&quot;feedback&quot; placeholder=&quot;请描述您遇到的问题&quot;&gt;&lt;/textarea&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="cf08db55-6aee-831d-839e-81a39acd25c7"><td id="}qwB" class=""><code>required</code></td><td id="qg~^" class="" style="width:403px">标记为必填项，提交表单时若未输入内容，浏览器会提示错误。</td><td id="Od\w" class="" style="width:262px"><code>&lt;textarea name=&quot;agreement&quot; required&gt;&lt;/textarea&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6f38db55-6aee-825e-a9c5-81371d1ca751"><td id="}qwB" class=""><code>disabled</code></td><td id="qg~^" class="" style="width:403px">禁用文本框（不可编辑、不可点击），禁用状态的数据不会被提交。</td><td id="Od\w" class="" style="width:262px"><code>&lt;textarea name=&quot;note&quot; disabled&gt;&lt;/textarea&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5608db55-6aee-823f-90ac-8192d2609b52"><td id="}qwB" class=""><code>readonly</code></td><td id="qg~^" class="" style="width:403px">文本框只读（不可编辑，但可选中复制），数据会正常提交。</td><td id="Od\w" class="" style="width:262px"><code>&lt;textarea name=&quot;log&quot; readonly&gt;&lt;/textarea&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b298db55-6aee-82b4-9b71-815684b78207"><td id="}qwB" class=""><code>maxlength</code></td><td id="qg~^" class="" style="width:403px">限制最大输入字符数（包括换行符），超过则无法输入。</td><td id="Od\w" class="" style="width:262px"><code>&lt;textarea name=&quot;reply&quot; maxlength=&quot;500&quot;&gt;&lt;/textarea&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="83a8db55-6aee-822e-a037-81c12f702aab"><td id="}qwB" class=""><code>wrap</code></td><td id="qg~^" class="" style="width:403px">控制提交时文本的换行方式：- <code>soft</code>（默认）：提交时忽略换行，仅保留内容。- <code>hard</code>：提交时保留换行（需配合 <code>cols</code> 使用）。</td><td id="Od\w" class="" style="width:262px"><code>&lt;textarea name=&quot;article&quot; wrap=&quot;hard&quot; cols=&quot;50&quot;&gt;&lt;/textarea&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c848db55-6aee-8348-8ea6-8188775d5d0a"><td id="}qwB" class=""><code>autofocus</code></td><td id="qg~^" class="" style="width:403px">页面加载时自动聚焦到该文本框（一个页面只能有一个元素用此属性）。</td><td id="Od\w" class="" style="width:262px"><code>&lt;textarea name=&quot;comment&quot; autofocus&gt;&lt;/textarea&gt;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="31b8db55-6aee-834d-83d0-0116bf5ee64f" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;form action=&quot;submit.php&quot; method=&quot;post&quot;&gt;
+	&lt;!--评论输入框 --&gt;
+	&lt;p&gt;
+		评论：
+		&lt;textarea name=&quot;commit&quot; rows=&#x27;5&#x27; cols=&#x27;50&#x27; placeholder=&quot;输入评论，最多500字&quot; maxlength=&quot;500&quot; required&gt;&lt;/textarea&gt;
+	&lt;/p&gt;
+	&lt;!-- 只读的协议文本框 --&gt;
+	&lt;p&gt;
+		用户协议：
+		&lt;br&gt;
+		&lt;textarea name=&quot;agreement&quot; rows=&quot;4&quot; cols=&quot;50&quot; readonly&gt;
+			1、遵循社区规范
+			2、不得发布违规内容
+			3、版权归作者所有
+		&lt;/textarea&gt;
+	&lt;/p&gt;
+&lt;/form&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f298db55-6aee-82a5-9c0b-015651f68855" class="toggle"><li><details open=""><summary>&lt;label&gt;</summary><div style="display:contents" dir="auto"><p id="c848db55-6aee-835e-b9e9-019a9c304807" class="">&lt;label&gt;主要用于<strong>提升表单的可用性和可访问性</strong>，让用户更清晰地理解每个控件的用途，同时增<mark class="highlight-red">强交互体验</mark>。</p></div><div style="display:contents" dir="auto"><p id="6268db55-6aee-820b-94ed-81bc11adfab1" class="">如下例子，可以同构点击文字选中单选框</p></div><div style="display:contents" dir="auto"><pre id="3048db55-6aee-8341-9010-0104ca9a676e" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div&gt;
+	&lt;div&gt;
+		&lt;input type=&quot;radio&quot; name=&quot;aaa&quot; id=&quot;man&quot;&gt;
+		&lt;label for=&quot;man&quot;&gt;男&lt;/label&gt;
+	&lt;/div&gt;
+	&lt;div&gt;
+		&lt;input type=&quot;radio&quot; name=&quot;aaa&quot; id=&quot;woman&quot;&gt;
+		&lt;label for=&quot;woman&quot;&gt;女&lt;/label&gt;
+	&lt;/div&gt;
+
+&lt;/div&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="adf8db55-6aee-821e-abb1-810a9e1f5949" class="toggle"><li><details open=""><summary>&lt;fieldset&gt;</summary><div style="display:contents" dir="auto"><p id="3eb8db55-6aee-833d-8f6a-813adc3a14c4" class=""><code>&lt;fieldset&gt;</code> 是 HTML 中用于对表单元素进行分组和关联的标签.</p></div><div style="display:contents" dir="auto"><p id="6b58db55-6aee-827d-b26e-01dcd01cbf3b" class="">常与 <code>&lt;legend&gt;</code> 配合使用，用于在表单中创建一个具有边框的区域，将相关的表单控件（如输入框、复选框等）组合在一起，提升表单的结构性和可读性。</p></div><div style="display:contents" dir="auto"><pre id="66e8db55-6aee-8365-9694-019fd094830b" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;fieldset&gt;
+  &lt;legend&gt;分组标题&lt;/legend&gt;
+  &lt;!-- 相关的表单控件 --&gt;
+  &lt;label&gt;用户名: &lt;input type=&quot;text&quot;&gt;&lt;/label&gt;&lt;br&gt;
+  &lt;label&gt;密码: &lt;input type=&quot;password&quot;&gt;&lt;/label&gt;
+&lt;/fieldset&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="5178db55-6aee-82a1-b26f-011800757c86" class="">常见属性：</p></div><div style="display:contents" dir="auto"><p id="8ee8db55-6aee-831c-915c-01e1ce102651" class=""><code>disabled</code>：禁用整个字段集内的所有表单控件（不可交互，样式会变灰）</p></div><div style="display:contents" dir="auto"><pre id="f628db55-6aee-83ea-a264-013c5cda5c21" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;fieldset disabled&gt;
+  &lt;legend&gt;禁用的分组&lt;/legend&gt;
+  &lt;input type=&quot;text&quot; value=&quot;不可编辑&quot;&gt;
+&lt;/fieldset&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="68f8db55-6aee-83c5-8ffd-01c264119b33" class=""><code>form</code>：指定字段集所属的表单（值为目标表单的id），用于关联不在&lt;form&gt;标签内的字段集。</p></div><div style="display:contents" dir="auto"><p id="4fa8db55-6aee-835c-a933-81e7144c03d7" class=""><code>name</code>：为字段集定义名称，可用于脚本中标识该分组。</p></div><div style="display:contents" dir="auto"><p id="2fb8db55-6aee-83f4-a2f6-01d8111a7d99" class="">完整实例：</p></div><div style="display:contents" dir="auto"><pre id="6ea8db55-6aee-8345-a637-819d741a39a2" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;form action=&quot;/submit&quot; method=&quot;post&quot;&gt;
+  &lt;!-- 个人信息分组 --&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;个人信息&lt;/legend&gt;
+    &lt;label&gt;姓名: &lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;&lt;/label&gt;&lt;br&gt;
+    &lt;label&gt;年龄: &lt;input type=&quot;number&quot; name=&quot;age&quot;&gt;&lt;/label&gt;
+  &lt;/fieldset&gt;
+
+  &lt;!-- 联系方式分组 --&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;联系方式&lt;/legend&gt;
+    &lt;label&gt;电话: &lt;input type=&quot;tel&quot; name=&quot;phone&quot;&gt;&lt;/label&gt;&lt;br&gt;
+    &lt;label&gt;邮箱: &lt;input type=&quot;email&quot; name=&quot;email&quot;&gt;&lt;/label&gt;
+  &lt;/fieldset&gt;
+
+  &lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;
+&lt;/form&gt;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d308db55-6aee-82f7-ba97-8120aad48374" class="toggle"><li><details open=""><summary>&lt;hr&gt;</summary><div style="display:contents" dir="auto"><pre id="f5a8db55-6aee-827d-b059-81e156254901" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;hr color=&quot;green&quot;&gt;  // 绿色水平分割线
+&lt;hr color=&quot;red&quot;, width=&quot;600&quot;&gt; // 红色，宽度600px
+&lt;hr color=&quot;yellow&quot;, width=&quot;200&quot;, align=&quot;right&quot;&gt; // 黄色，宽度200px，靠右
+&lt;hr&gt; // 带有阴影
+&lt;hr noshade&gt; // 不带阴影</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="80b8db55-6aee-8306-ac60-01b34244a9fb" class="toggle"><li><details open=""><summary>&lt;div&gt;&amp;&amp;&lt;span&gt;</summary><div style="display:contents" dir="auto"><p id="5758db55-6aee-830b-b297-81284f1f79bd" class="">div标签无具体含义，用来划分区域，独占一行</p></div><div style="display:contents" dir="auto"><pre id="4fe8db55-6aee-8348-a63c-01def706cdae" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div&gt; this is div &lt;/div&gt; 
+&lt;div id=&quot;header&quot;&gt; this is header&lt;/div&gt; // 唯一标识符
+&lt;div class=&quot;dog&quot;&gt; this is a dog class &lt;/div&gt; // 定义一个或多个类
+&lt;div style=&quot;width:200px; height:100px&quot;&gt; im div &lt;/div&gt; // 内联样式
+&lt;div title=&quot;this is a tip&quot;&gt; tooltip &lt;/div&gt; // 鼠标悬停时查看文本
+&lt;div lang=&quot;en&quot;&gt; this is English content&lt;/div&gt;// 帮助浏览器、搜索引擎或屏幕阅读器正确处理内容
+&lt;div hidden&gt; this is hiddened &lt;/div&gt; // 元素是否隐藏</code></pre></div><div style="display:contents" dir="auto"><p id="99f8db55-6aee-826f-8e68-81d1c4de206f" class="">span标签没有实际意义，主要应用在对<mark class="highlight-teal">文本独立修饰</mark>的时候，内容有多宽就占多宽的距离。</p></div><div style="display:contents" dir="auto"><pre id="1f78db55-6aee-82cf-a967-0176fbb757ac" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">通用属性：id,class,style,title,lang,hidden</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7008db55-6aee-8346-899d-8115966119e1" class="toggle"><li><details open=""><summary>&lt;ul&gt;&amp;&amp;&lt;li&gt;</summary><div style="display:contents" dir="auto"><p id="3218db55-6aee-826d-91b9-014eed8820a7" class="">无序列表ul和无序列表内容li</p></div><div style="display:contents" dir="auto"><pre id="ff28db55-6aee-8395-9ce3-817a7d838757" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">通用属性：id,class,style,title,hidden</code></pre></div><div style="display:contents" dir="auto"><pre id="f248db55-6aee-8388-ad4a-012383077077" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul calss=&quot;fruit-list&quot;&gt;
+    &lt;li&gt;苹果&lt;/li&gt;
+    &lt;li&gt;香蕉&lt;/li&gt;
+    &lt;li&gt;橙子&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+
+&lt;ul id=&quot;todo-list&quot; style=&quot;list-style-type: none;&quot;&gt;
+    &lt;li class=&quot;todo-item&quot;, data-status=&quot;done&quot;&gt;
+        &lt;span&gt;完成html学习&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;todo-item&quot;, data-status=&quot;pending&quot; onclick=&quot;&quot;&gt;
+        &lt;span&gt;练习完成&lt;/span&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bab8db55-6aee-82d0-bbc6-811b32e49b33" class="toggle"><li><details open=""><summary>&lt;ol&gt;&amp;&amp;&lt;li&gt;</summary><div style="display:contents" dir="auto"><p id="cef8db55-6aee-82ca-8f2d-81206750c1d6" class="">有序列表ol和有序列表内容li（<strong>顺序优先级</strong>）</p></div><div style="display:contents" dir="auto"><pre id="6fb8db55-6aee-833b-8b37-019eec284eab" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">通用属性：id,class,style,hidden</code></pre></div><div style="display:contents" dir="auto"><pre id="efd8db55-6aee-83f2-bca3-011e4c20fb17" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">核心属性：start,reversed,type,value(仅用于ol中的li)
+&lt;ol start=&quot;5&quot;&gt;
+	&lt;li&gt;The order is 5&lt;/li&gt;
+	&lt;li&gt;The order is 6&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ol start=&quot;5&quot;, reversed&gt; // 逆序
+    &lt;li&gt;The order is 5&lt;/li&gt;
+    &lt;li&gt;The order is 4&lt;/li&gt; 
+&lt;/ol&gt;
+
+&lt;ol start=&quot;5&quot;, type=&quot;A&quot;, reversed&gt; // 指定序号类型
+    &lt;li&gt;The order is E&lt;/li&gt;
+    &lt;li&gt;The order is D&lt;/li&gt; 
+&lt;/ol&gt;
+
+&lt;ol&gt; // 强制指定当前列表项的编号值，后续项目会从该值继续递增。
+  &lt;li&gt;1&lt;/li&gt;
+  &lt;li&gt;2&lt;/li&gt;
+  &lt;li value=&quot;4&quot;&gt;4（跳过3）&lt;/li&gt;
+  &lt;li&gt;5&lt;/li&gt;
+&lt;/ol&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="4398db55-6aee-82b3-83e2-81ed2f60c8c3" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5778db55-6aee-83ff-a90b-019265cead54" class="toggle"><li><details open=""><summary>&lt;dl&gt;&amp;&amp;&lt;dt&gt;&amp;&amp;&lt;dd&gt;</summary><div style="display:contents" dir="auto"><p id="80c8db55-6aee-8227-9eef-01276afcb378" class="">自定义<strong>描述列表</strong></p></div><div style="display:contents" dir="auto"><ul id="7018db55-6aee-83e3-96e5-01be069598e7" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;dl&gt;</code>（Definition List）：作为容器，定义整个描述列表。</li></ul></div><div style="display:contents" dir="auto"><ul id="1618db55-6aee-83b8-b98a-015d803e243c" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;dt&gt;</code>（Definition Term）：表示 “术语” 或 “标题”，即定义术语。</li></ul></div><div style="display:contents" dir="auto"><ul id="b4a8db55-6aee-83a9-b96c-01a03505fc96" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;dd&gt;</code>（Definition Description）：表示 “解释” 或 “描述”，用于解释对应的 <code>&lt;dt&gt;</code>。</li></ul></div><div style="display:contents" dir="auto"><pre id="d0c8db55-6aee-83b6-b81e-8125cb9b0181" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">通用属性：id,class,style
+dl特有：hidden
+dt特有：title
+
+&lt;dl class=&quot;tech-glossary&quot;&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;超文本标记语言（HyperText Markup Language），用于构建网页结构。&lt;/dd&gt;
+  
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;层叠样式表（Cascading Style Sheets），用于美化网页布局和外观。&lt;/dd&gt;
+  &lt;dd&gt;支持响应式设计，可适配不同设备屏幕。&lt;/dd&gt;
+  
+  &lt;dt&gt;JavaScript&lt;/dt&gt;
+  &lt;dd style=&quot;color: #f0db4f;&quot;&gt;一种脚本语言，用于实现网页交互逻辑（如表单验证、动态内容）。&lt;/dd&gt;
+&lt;/dl&gt;
+// &lt;dd&gt; 会自动缩进以区分术语和解释，实际开发中可通过 CSS 自定义样式（如调整缩进、间距、字体等）。</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="dd78db55-6aee-838a-9ec3-811ea3a8af63" class="toggle"><li><details open=""><summary>&lt;img&gt;</summary><div style="display:contents" dir="auto"><p id="5518db55-6aee-8302-8297-8129cf56b7b5" class="">&lt;img&gt;用于嵌入图片</p></div><div style="display:contents" dir="auto"><pre id="bd18db55-6aee-829c-a33d-81d6a3ac1794" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">通用属性：width,height,title</code></pre></div><div style="display:contents" dir="auto"><pre id="6168db55-6aee-8274-9b5b-0149f71dcc06" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;img src=&quot;图片路径&quot;, alt=&quot;图片描述&quot;&gt; // 核心属性src路径，alt替代文本
+&lt;img src=&quot;long-page-img.jpg&quot; alt=&quot;long img&quot; loading=&quot;lazy&quot;&gt; 
+// loading 懒加载控制，控制图片加载是否有延迟：取值
+// lazy：图片进入视口时才加载
+// eager：立即加载（默认）
+&lt;img src=&quot;large-img.jpg&quot; alt=&quot;大图&quot; decoding=&quot;async&quot;&gt;
+// decoding 指定浏览器如何解码图片，提升渲染性能
+// async：异步解码（不阻塞页面渲染，推荐）
+// sync：同步解码（可能阻塞渲染）
+// auto：浏览器决定（默认）
+&lt;img src=&quot;https://other-domain.com/image.jpg&quot; alt=&quot;跨域图片&quot; crossorigin=&quot;anonymous&quot;&gt;
+// crossorigin当加载跨域图片时，控制是否允许跨域访问（常配合Canvas使用）
+// anonymous：跨域请i去不发送凭据（cookie）
+// use-credentials：跨域请求发送凭据</code></pre></div><div style="display:contents" dir="auto"><p id="9138db55-6aee-82c2-82ce-81b266fab75b" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7ad8db55-6aee-8325-9ff9-81a57235104c" class="toggle"><li><details open=""><summary>&lt;a&gt;</summary><div style="display:contents" dir="auto"><pre id="3168db55-6aee-83d4-b5cd-01d862068a6a" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;a href=&quot;目标地址&quot; 属性&gt;链接文本/内容&lt;/a&gt;
+
+&lt;!-- 新窗口打开百度 --&gt;
+&lt;a href=&quot;https://www.baidu.com&quot; target=&quot;_blank&quot;&gt;百度一下&lt;/a&gt; // target控制在那个窗口/标签页打开
+
+&lt;!-- 当前窗口打开内部页面 --&gt;
+&lt;a href=&quot;about.html&quot; target=&quot;_self&quot;&gt;关于我们&lt;/a&gt;
+
+&lt;a href=&quot;https://external-site.com&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;外部链接&lt;/a&gt; // rel定义与目标资源的关系</code></pre></div><div style="display:contents" dir="ltr"><table id="33d8db55-6aee-82d5-a875-81bb9eedb6cc" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="1748db55-6aee-822f-9abd-010a6695bb77"><th id="GOrW" class="simple-table-header-color simple-table-header" style="width:220px"><strong>target属性值</strong></th><th id="?@Zz" class="simple-table-header-color simple-table-header" style="width:437.99609375px"><strong>作用</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="81f8db55-6aee-838e-ba5b-81009673a451"><td id="GOrW" class="" style="width:220px"><code>_self</code></td><td id="?@Zz" class="" style="width:437.99609375px">默认值，在当前窗口打开链接</td></tr></div><div style="display:contents" dir="ltr"><tr id="03a8db55-6aee-83e9-9dba-81fa2f5929cb"><td id="GOrW" class="" style="width:220px"><code>_blank</code></td><td id="?@Zz" class="" style="width:437.99609375px">在新窗口 / 标签页打开链接（最常用，避免覆盖当前页面）</td></tr></div><div style="display:contents" dir="ltr"><tr id="50f8db55-6aee-83d2-81e7-0129705b7a8f"><td id="GOrW" class="" style="width:220px"><code>_parent</code></td><td id="?@Zz" class="" style="width:437.99609375px">在父框架中打开（用于框架页面 <code>&lt;frameset&gt;</code>，极少用）</td></tr></div><div style="display:contents" dir="ltr"><tr id="6c18db55-6aee-833c-b1cf-81b3be14f818"><td id="GOrW" class="" style="width:220px"><code>_top</code></td><td id="?@Zz" class="" style="width:437.99609375px">在顶层窗口打开（突破所有框架，用于框架页面）</td></tr></div><div style="display:contents" dir="ltr"><tr id="d6e8db55-6aee-82f7-ac9e-81daa8998fac"><td id="GOrW" class="" style="width:220px"><code>framename</code></td><td id="?@Zz" class="" style="width:437.99609375px">在指定名称的框架中打开（需配合 <code>&lt;frame&gt;</code> 的 <code>name</code> 属性，极少用）</td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><table id="e418db55-6aee-83c1-b5f7-01a0e3b4fcbe" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="78f8db55-6aee-8286-a376-015f79f1bca6"><th id="X;H|" class="simple-table-header-color simple-table-header" style="width:220px"><strong>rel属性值</strong></th><th id="||A|" class="simple-table-header-color simple-table-header" style="width:435px"><strong>作用</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="a928db55-6aee-83de-b3a5-01cb05b5bca0"><td id="X;H|" class="" style="width:220px"><code>noopener</code></td><td id="||A|" class="" style="width:435px">新页面无法通过 <code>window.opener</code> 访问原页面，配合 <code>target=&quot;_blank&quot;</code> 使用，增强安全</td></tr></div><div style="display:contents" dir="ltr"><tr id="7e18db55-6aee-8309-b7bb-81670ec9878c"><td id="X;H|" class="" style="width:220px"><code>noreferrer</code></td><td id="||A|" class="" style="width:435px">阻止发送 <code>Referer</code> 头信息（不泄露原页面地址），增强隐私</td></tr></div><div style="display:contents" dir="ltr"><tr id="4c38db55-6aee-822b-a475-8110add03a26"><td id="X;H|" class="" style="width:220px"><code>nofollow</code></td><td id="||A|" class="" style="width:435px">告诉搜索引擎不要追踪该链接（不传递页面权重，常用于用户生成内容中的链接）</td></tr></div><div style="display:contents" dir="ltr"><tr id="0588db55-6aee-83a1-9274-010899b02f46"><td id="X;H|" class="" style="width:220px"><code>external</code></td><td id="||A|" class="" style="width:435px">标识链接为外部网站（非本站链接），辅助样式和脚本处理</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="55b8db55-6aee-835f-b270-8109b8ed74d1" class="toggle"><li><details open=""><summary>&lt;table&gt;</summary><div style="display:contents" dir="auto"><p id="7c88db55-6aee-833b-a08a-81d3c3d1ad3e" class=""><code>&lt;table&gt;</code> 标签用于创建表格，用于展示结构化数据，配合多个标签（如 <code>&lt;tr&gt;</code>、<code>&lt;td&gt;</code>、<code>&lt;th&gt;</code> 等）可构建复杂的表格结构。</p></div><div style="display:contents" dir="auto"><pre id="fdb8db55-6aee-83dd-a16d-811d59690ea5" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;table&gt;：表格容器，所有表格内容都需放在此标签内。
+&lt;thead&gt;：表头区域，用于定义表格的列标题，视觉上通常会加粗显示。
+&lt;tbody&gt;：表格主体，包含实际的数据行，是表格的核心内容区域。
+&lt;tfoot&gt;：表尾区域，用于显示汇总信息（如总计、平均值），浏览器会自动将其放在表格底部。
+&lt;tr&gt;：表格行（Table Row），每个 &lt;tr&gt; 代表一行，包含多个单元格。
+&lt;th&gt;：表头单元格（Table Header），用于列标题，默认加粗居中。
+&lt;td&gt;：数据单元格（Table Data），用于存放具体数据。</code></pre></div><div style="display:contents" dir="auto"><pre id="e818db55-6aee-832b-8c57-01b722b0fa5a" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;table&gt;
+  &lt;thead&gt; &lt;!-- 表头区域（可选，通常包含列标题） --&gt;
+    &lt;tr&gt; &lt;!-- 表头行 --&gt;
+      &lt;th&gt;列标题1&lt;/th&gt;
+      &lt;th&gt;列标题2&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt; &lt;!-- 表格主体（必选，包含数据行） --&gt;
+    &lt;tr&gt; &lt;!-- 数据行 --&gt;
+      &lt;td&gt;单元格内容1&lt;/td&gt;
+      &lt;td&gt;单元格内容2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;单元格内容3&lt;/td&gt;
+      &lt;td&gt;单元格内容4&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  &lt;tfoot&gt; &lt;!-- 表尾区域（可选，通常包含汇总信息） --&gt;
+    &lt;tr&gt;
+      &lt;td&gt;总计&lt;/td&gt;
+      &lt;td&gt;xxx&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tfoot&gt;
+&lt;/table&gt;</code></pre></div><div style="display:contents" dir="ltr"><table id="3e28db55-6aee-83de-9cd4-01685262988a" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="6be8db55-6aee-82ce-8d6c-0134f7757146"><th id="Hi\B" class="simple-table-header-color simple-table-header"><code><strong>table</strong></code><strong>属性</strong></th><th id="gtWU" class="simple-table-header-color simple-table-header" style="width:385.9986877441406px"><strong>作用</strong></th><th id="RkD^" class="simple-table-header-color simple-table-header" style="width:275.99737548828125px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="4ab8db55-6aee-829a-9434-81db1a3c50f9"><td id="Hi\B" class=""><code>border</code></td><td id="gtWU" class="" style="width:385.9986877441406px">表格边框宽度（像素），<code>border=&quot;0&quot;</code> 表示无边框（默认）。</td><td id="RkD^" class="" style="width:275.99737548828125px"><code>&lt;table border=&quot;1&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1c88db55-6aee-82c1-9aaf-01de99567f0a"><td id="Hi\B" class=""><code>width</code></td><td id="gtWU" class="" style="width:385.9986877441406px">表格宽度（像素或百分比），建议用 CSS 替代。</td><td id="RkD^" class="" style="width:275.99737548828125px"><code>&lt;table width=&quot;800&quot;&gt;</code> 或 <code>width=&quot;80%&quot;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8328db55-6aee-8284-a4dc-013c7a8c594f"><td id="Hi\B" class=""><code>height</code></td><td id="gtWU" class="" style="width:385.9986877441406px">表格高度（像素或百分比），建议用 CSS 替代。</td><td id="RkD^" class="" style="width:275.99737548828125px"><code>&lt;table height=&quot;400&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4308db55-6aee-8317-988b-010ed0cc79fc"><td id="Hi\B" class=""><code>cellspacing</code></td><td id="gtWU" class="" style="width:385.9986877441406px">单元格之间的间距（像素），建议用 CSS <code>border-spacing</code> 替代。</td><td id="RkD^" class="" style="width:275.99737548828125px"><code>&lt;table cellspacing=&quot;5&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1838db55-6aee-83b5-a628-811e41365f8d"><td id="Hi\B" class=""><code>cellpadding</code></td><td id="gtWU" class="" style="width:385.9986877441406px">单元格内容与边框的内边距（像素），建议用 CSS <code>padding</code> 替代。</td><td id="RkD^" class="" style="width:275.99737548828125px"><code>&lt;table cellpadding=&quot;10&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2ff8db55-6aee-83b5-b969-8122dc67f38a"><td id="Hi\B" class=""><code>align</code></td><td id="gtWU" class="" style="width:385.9986877441406px">表格在页面中的对齐方式（<code>left</code>/<code>center</code>/<code>right</code>），建议用 CSS 替代。</td><td id="RkD^" class="" style="width:275.99737548828125px"><code>&lt;table align=&quot;center&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2398db55-6aee-8313-b4a3-01c8e6e00f2b"><td id="Hi\B" class=""><code>bgcolor</code></td><td id="gtWU" class="" style="width:385.9986877441406px">表格背景色，建议用 CSS <code>background-color</code> 替代。</td><td id="RkD^" class="" style="width:275.99737548828125px"><code>&lt;table bgcolor=&quot;#f5f5f5&quot;&gt;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><table id="eb58db55-6aee-839b-990f-016975a3c73f" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="05f8db55-6aee-8369-a1de-01c71dcf98c0"><th id="=dlv" class="simple-table-header-color simple-table-header"><code><strong>tr</strong></code><strong>属性</strong></th><th id="==d@" class="simple-table-header-color simple-table-header" style="width:492px"><strong>作用</strong></th><th id="YF=@" class="simple-table-header-color simple-table-header"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="dfb8db55-6aee-82b2-8dbf-81acb8c36ef5"><td id="=dlv" class=""><code>align</code></td><td id="==d@" class="" style="width:492px">行内所有单元格内容的水平对齐（<code>left</code>/<code>center</code>/<code>right</code>）。</td><td id="YF=@" class=""><code>&lt;tr align=&quot;center&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="81c8db55-6aee-82df-a982-81630b1d1901"><td id="=dlv" class=""><code>valign</code></td><td id="==d@" class="" style="width:492px">行内所有单元格内容的垂直对齐（<code>top</code>/<code>middle</code>/<code>bottom</code>）。</td><td id="YF=@" class=""><code>&lt;tr valign=&quot;top&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="acc8db55-6aee-82e2-a48b-01b3bc2e0a35"><td id="=dlv" class=""><code>bgcolor</code></td><td id="==d@" class="" style="width:492px">行的背景色，建议用 CSS 替代。</td><td id="YF=@" class=""><code>&lt;tr bgcolor=&quot;#eee&quot;&gt;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><table id="66e8db55-6aee-8211-891c-81c4c0d9a9f8" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5ac8db55-6aee-82da-b634-8118d0b7175b"><th id="}m@[" class="simple-table-header-color simple-table-header"><code><strong>th和td</strong></code><strong>属性</strong></th><th id="Zx~I" class="simple-table-header-color simple-table-header" style="width:404px"><strong>作用</strong></th><th id="l{tR" class="simple-table-header-color simple-table-header"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="a8c8db55-6aee-838b-bf79-01a6a1261780"><td id="}m@[" class=""><code>width</code>/<code>height</code></td><td id="Zx~I" class="" style="width:404px">单元格宽度 / 高度（像素或百分比），建议用 CSS 替代。</td><td id="l{tR" class=""><code>&lt;td width=&quot;150&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="9bc8db55-6aee-828b-9286-01db3c4a7d32"><td id="}m@[" class=""><code>align</code>/<code>valign</code></td><td id="Zx~I" class="" style="width:404px">单元格内容的水平 / 垂直对齐，同 <code>&lt;tr&gt;</code> 的 <code>align</code>/<code>valign</code>。</td><td id="l{tR" class=""><code>&lt;td align=&quot;right&quot; valign=&quot;middle&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="f358db55-6aee-8336-9461-81f03eaedb91"><td id="}m@[" class=""><code>bgcolor</code></td><td id="Zx~I" class="" style="width:404px">单元格背景色，建议用 CSS 替代。</td><td id="l{tR" class=""><code>&lt;td bgcolor=&quot;#fff&quot;&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="d838db55-6aee-8366-83b0-01a987221e18"><td id="}m@[" class=""><code>colspan</code></td><td id="Zx~I" class="" style="width:404px">横向合并单元格（跨列），值为合并的列数。</td><td id="l{tR" class=""><code>&lt;td colspan=&quot;2&quot;&gt;</code>（合并当前列和右侧 1 列）</td></tr></div><div style="display:contents" dir="ltr"><tr id="f0d8db55-6aee-82da-b041-0135dc6699ad"><td id="}m@[" class=""><code>rowspan</code></td><td id="Zx~I" class="" style="width:404px">纵向合并单元格（跨行），值为合并的行数。</td><td id="l{tR" class=""><code>&lt;td rowspan=&quot;3&quot;&gt;</code>（合并当前行和下方 2 行）</td></tr></div><div style="display:contents" dir="ltr"><tr id="64a8db55-6aee-8338-be0d-0110430704ae"><td id="}m@[" class=""><code>nowrap</code></td><td id="Zx~I" class="" style="width:404px">单元格内容不换行（布尔属性），建议用 CSS <code>white-space: nowrap</code> 替代。</td><td id="l{tR" class=""><code>&lt;td nowrap&gt;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="4898db55-6aee-836c-a7aa-81865b2456ea" class="">横向合并（colspan）</p></div><div style="display:contents" dir="auto"><pre id="a998db55-6aee-833b-bc83-019c19a9c0d7" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;table border=&quot;1&quot;&gt;
+  &lt;tr&gt;
+    &lt;th colspan=&quot;2&quot;&gt;学生信息表&lt;/th&gt; &lt;!-- 横向合并2列 --&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;姓名&lt;/th&gt;
+    &lt;th&gt;年龄&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;张三&lt;/td&gt;
+    &lt;td&gt;18&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3ae8db55-6aee-8290-881f-81f6027b06a9" class="">纵向合并（rowspan）</p></div><div style="display:contents" dir="auto"><pre id="d298db55-6aee-8385-a091-01aa6583c4b0" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;table border=&quot;1&quot;&gt;
+  &lt;tr&gt;
+    &lt;th&gt;班级&lt;/th&gt;
+    &lt;th&gt;姓名&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td rowspan=&quot;3&quot;&gt;高一(1)班&lt;/td&gt; &lt;!-- 纵向合并3行 --&gt;
+    &lt;td&gt;张三&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;李四&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;王五&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ba88db55-6aee-83a5-88f2-0126f9bf864c" class="toggle"><li><details open=""><summary>&lt;audio&gt;</summary><div style="display:contents" dir="auto"><p id="5288db55-6aee-8352-8b5f-013d1ca5134e" class="">音频标签</p></div><div style="display:contents" dir="auto"><pre id="7aa8db55-6aee-83bb-90d8-014c20b6c552" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;audio src=&quot;音频文件路径&quot; controls&gt;
+	您的浏览器不支持 audio 标签
+&lt;/audio&gt;</code></pre></div><div style="display:contents" dir="ltr"><table id="bf08db55-6aee-8325-b7a1-81b2efa195fc" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="c958db55-6aee-82ae-86a1-812cb58ed3d5"><th id="E@ne" class="simple-table-header-color simple-table-header"><strong>属性名</strong></th><th id="n[JM" class="simple-table-header-color simple-table-header" style="width:684px"><strong>作用说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="5998db55-6aee-839e-b76d-01dcd0278dbe"><td id="E@ne" class=""><code>src</code></td><td id="n[JM" class="" style="width:684px">指定音频文件的 URL 路径（必填，支持相对路径或绝对路径）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="3e78db55-6aee-83bb-83dd-81aebad10792"><td id="E@ne" class=""><code>controls</code></td><td id="n[JM" class="" style="width:684px">显示浏览器默认的播放控件（包含播放 / 暂停、音量、进度条、播放速度等）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="f448db55-6aee-8283-8b58-01cd2063653b"><td id="E@ne" class=""><code>autoplay</code></td><td id="n[JM" class="" style="width:684px">音频加载完成后自动播放（<strong>注意</strong>：多数浏览器（如 Chrome、Safari）为避免打扰用户，默认禁止自动播放，需配合 <code>muted</code> 使用）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="0488db55-6aee-83c0-8651-01a8ff9e84dc"><td id="E@ne" class=""><code>muted</code></td><td id="n[JM" class="" style="width:684px">音频默认静音播放（可与 <code>autoplay</code> 配合，绕过自动播放限制）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="7548db55-6aee-8348-b202-01c210635640"><td id="E@ne" class=""><code>loop</code></td><td id="n[JM" class="" style="width:684px">音频播放结束后自动循环播放。</td></tr></div><div style="display:contents" dir="ltr"><tr id="c068db55-6aee-83fc-bcd4-012fd66f4097"><td id="E@ne" class=""><code>preload</code></td><td id="n[JM" class="" style="width:684px">指定音频预加载方式（可选值：<code>auto</code> 自动预加载；<code>metadata</code> 只预加载元数据；<code>none</code> 不预加载）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="df58db55-6aee-8307-8855-012a44920af9"><td id="E@ne" class=""><code>volume</code></td><td id="n[JM" class="" style="width:684px">音频音量（0.0~1.0，可通过 JavaScript 控制，如 <code>audio.volume = 0.5</code>）。</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="37f8db55-6aee-82c5-9e60-0162f60868c9" class="toggle"><li><details open=""><summary>&lt;video&gt;</summary><div style="display:contents" dir="auto"><p id="59c8db55-6aee-8244-b92a-0154c30c1daa" class="">视频标签</p></div><div style="display:contents" dir="auto"><pre id="31d8db55-6aee-82d1-9e6a-817d2b668405" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;video src=&quot;视频文件路径&quot; controls&gt;
+  您的浏览器不支持 video 标签。 &lt;!-- 浏览器不支持时显示的备用文本 --&gt;
+&lt;/video&gt;</code></pre></div><div style="display:contents" dir="ltr"><table id="4738db55-6aee-826c-9a37-015da5f47a47" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="07e8db55-6aee-8293-9241-8134e5a915c3"><th id="Y}Mo" class="simple-table-header-color simple-table-header"><strong>属性名</strong></th><th id="Tqt~" class="simple-table-header-color simple-table-header" style="width:684px"><strong>作用说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3ac8db55-6aee-8281-88d8-01adf44406f1"><td id="Y}Mo" class=""><code>src</code></td><td id="Tqt~" class="" style="width:684px">指定视频文件的 URL 路径（必填，支持相对路径或绝对路径）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="65d8db55-6aee-838e-984f-01f811835fb2"><td id="Y}Mo" class=""><code>controls</code></td><td id="Tqt~" class="" style="width:684px">显示浏览器默认的播放控件（包含播放 / 暂停、进度条、音量、全屏等）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="8738db55-6aee-826a-8cc6-8144cd37336d"><td id="Y}Mo" class=""><code>autoplay</code></td><td id="Tqt~" class="" style="width:684px">视频加载完成后自动播放（<strong>注意</strong>：多数浏览器要求配合 <code>muted</code> 使用，否则会被阻止）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="2668db55-6aee-821e-bdc6-011c1a66aeb7"><td id="Y}Mo" class=""><code>muted</code></td><td id="Tqt~" class="" style="width:684px">视频默认静音播放（可与 <code>autoplay</code> 配合，绕过自动播放限制）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="6a38db55-6aee-8310-a270-0147dfdb0a01"><td id="Y}Mo" class=""><code>loop</code></td><td id="Tqt~" class="" style="width:684px">视频播放结束后自动循环播放。</td></tr></div><div style="display:contents" dir="ltr"><tr id="3638db55-6aee-8395-a809-8170adec55a6"><td id="Y}Mo" class=""><code>preload</code></td><td id="Tqt~" class="" style="width:684px">指定预加载方式：- <code>auto</code>：自动预加载视频（默认）- <code>metadata</code>：只预加载元数据（时长、尺寸等）- <code>none</code>：不预加载</td></tr></div><div style="display:contents" dir="ltr"><tr id="d138db55-6aee-82ca-b627-0116442e27fb"><td id="Y}Mo" class=""><code>width</code>/<code>height</code></td><td id="Tqt~" class="" style="width:684px">设置视频播放器的宽度 / 高度（单位：px），建议同时设置以避免页面布局抖动。</td></tr></div><div style="display:contents" dir="ltr"><tr id="ba18db55-6aee-827c-8bd1-0133169ae02f"><td id="Y}Mo" class=""><code>poster</code></td><td id="Tqt~" class="" style="width:684px">指定视频加载前或未播放时显示的封面图（URL 路径）。</td></tr></div><div style="display:contents" dir="ltr"><tr id="d138db55-6aee-8239-b9a8-017dec55a802"><td id="Y}Mo" class=""><code>playsinline</code></td><td id="Tqt~" class="" style="width:684px">允许视频在页面内播放（而非全屏，尤其适用于 iOS 设备）。</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6878db55-6aee-8324-a9a6-815cc85a5ebd" class="toggle"><li><details open=""><summary>&lt;datalist&gt;</summary><div style="display:contents" dir="auto"><p id="ec78db55-6aee-8254-b97d-010a0181fcfa" class="">用于给输入框（如input）提供<mark class="highlight-red">预设选项列表</mark>，它可以让用户在输入时看到推荐选项，同时允许自由输入内容。</p></div><div style="display:contents" dir="auto"><p id="a3a8db55-6aee-8334-9349-818e71813c83" class="">datalist本身不会直接显示，而是通过id与&lt;input&gt;的list属性关联，为输入框提供可选值。</p></div><div style="display:contents" dir="auto"><pre id="2348db55-6aee-8273-9afa-81da3442e1d3" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;input type=&quot;text&quot; list=&quot;optionslist&quot; placeholder=&quot;请输入选择...&quot;&gt;
+&lt;datalist id=&quot;optionslist&quot;&gt;
+    &lt;option value=&quot;手表&quot;&gt;&lt;/option&gt;
+    &lt;option value=&quot;表带&quot;&gt;&lt;/option&gt;
+    &lt;option value=&quot;袋子&quot;&gt;&lt;/option&gt;
+    &lt;option value=&quot;儿子&quot;&gt;&lt;/option&gt;
+&lt;/datalist&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="7ce8db55-6aee-83b5-b159-81feab253f10" class="">option标签可以添加label属性，用于显示不同于value的提示文本（但实际提交的值仍然为value）</p></div><div style="display:contents" dir="auto"><pre id="7d88db55-6aee-839c-9725-015e27f7ccb0" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;datalist id=&quot;cities&quot;&gt;
+  &lt;option value=&quot;Beijing&quot; label=&quot;北京&quot;&gt;
+  &lt;option value=&quot;Shanghai&quot; label=&quot;上海&quot;&gt;
+&lt;/datalist&gt;
+&lt;input list=&quot;cities&quot; placeholder=&quot;输入城市...&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="9f38db55-6aee-82e9-8247-01dd83ecd9c2"/></div><div style="display:contents" dir="auto"><pre id="5438db55-6aee-8201-beee-0145271cecb0" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;datalist示例&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h3&gt;请选择或输入编程语言：&lt;/h3&gt;
+  &lt;input type=&quot;text&quot; list=&quot;languages&quot; placeholder=&quot;例如：Python、Java...&quot;&gt;
+  &lt;datalist id=&quot;languages&quot;&gt;
+    &lt;option value=&quot;Python&quot;&gt;
+    &lt;option value=&quot;Java&quot;&gt;
+    &lt;option value=&quot;JavaScript&quot;&gt;
+    &lt;option value=&quot;C++&quot;&gt;
+    &lt;option value=&quot;Go&quot;&gt;
+  &lt;/datalist&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

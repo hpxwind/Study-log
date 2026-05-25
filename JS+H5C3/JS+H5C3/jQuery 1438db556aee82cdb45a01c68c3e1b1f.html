@@ -1,0 +1,2073 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>jQuery</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1438db55-6aee-82cd-b45a-01c68c3e1b1f" class="page serif"><header><h1 class="page-title" dir="auto">jQuery</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ol type="1" id="c028db55-6aee-8225-98ac-01390f19f07f" class="numbered-list" start="1"><li>优质的选择器和筛选器</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b3b8db55-6aee-82f2-8801-01da17e14b05" class="numbered-list" start="2"><li>好用的隐式迭代</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ce98db55-6aee-83c5-8188-816f3562c04d" class="numbered-list" start="3"><li>强大的链式编程</li></ol></div><div style="display:contents" dir="auto"><p id="3148db55-6aee-827a-8c44-0167b2bd4ab2" class="">普通对象转换成jquery对象：<mark class="highlight-teal">$(普通对象)=jquery对象</mark></p></div><div style="display:contents" dir="auto"><hr id="6db8db55-6aee-8370-b088-0120586ea6be"/></div><div style="display:contents" dir="auto"><ul id="61a8db55-6aee-82e1-8499-81ad652edba7" class="toggle"><li><details open=""><summary>选择器</summary><div style="display:contents" dir="auto"><ul id="dd18db55-6aee-8207-bece-81bc206e7c45" class="toggle"><li><details open=""><summary>使用示例</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fa28db55-6aee-820a-a386-01fab1b2f001" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul&gt;
+    &lt;li&gt;11&lt;/li&gt;
+    &lt;li&gt;22&lt;/li&gt;
+    &lt;li class=&quot;active&quot;&gt;333&lt;/li&gt;
+    &lt;li&gt;44&lt;/li&gt;
+    &lt;li&gt;55&lt;/li&gt;
+    &lt;li class=&quot;aaa&quot;&gt;66&lt;/li&gt;
+    &lt;li&gt;77&lt;/li&gt;
+    &lt;li&gt;
+        999999
+        &lt;ul&gt;
+            &lt;li&gt;9999-1&lt;/li&gt;
+            &lt;li&gt;9999-2&lt;/li&gt;
+            &lt;li&gt;9999-3&lt;/li&gt;
+            &lt;li&gt;9999-4&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&quot;box&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+    // 1、基本选择器
+    // 2、特殊选择器
+    // 3、筛选方法
+
+    // 1、基本选择器
+    console.log($(&quot;ul li&quot;)) // 获取所有li // querySelectorAll // 返回伪数组
+    console.log($(&quot;#box&quot;))
+
+    // 2、特殊选择器
+    console.log($(&quot;ul li:first&quot;))
+
+    // 3、筛选方法
+    // 与ul li:first不同，.first()为二次筛选，返回的是对象
+    // .last() .eq() ....
+    console.log($(&quot;ul li&quot;).first())
+
+    console.log($(&quot;ul li.active&quot;).next())
+    console.log($(&quot;ul li.active&quot;).first().next())
+    console.log($(&quot;ul li.active&quot;).nextAll(&quot;.aaa&quot;))
+
+    // 从ul li.active开始直到.aaa结束
+    console.log($(&quot;ul li.active&quot;).nextUntil(&quot;.aaa&quot;))
+    // ul li.active前一个节点
+    // prevUntil()
+    console.log($(&quot;ul li.active&quot;).prev())
+
+    // 父节点
+    // parents(),所有的祖先
+    console.log($(&quot;ul li.active&quot;).parent())
+    console.log($(&quot;ul li.active&quot;).parents())
+
+    // 兄弟节点
+    // siblings(),所有的兄弟节点
+    console.log($(&quot;ul li.active&quot;).siblings())
+
+    console.log($(&quot;ul li.active&quot;).find(&quot;li&quot;))
+
+    // index()找到索引，在父节点下的索引 //从0开始
+    console.log($(&quot;ul li.active&quot;).index())
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="dd98db55-6aee-8359-b864-813718210857" class=""><strong>1. 基本选择器</strong></p></div><div style="display:contents" dir="ltr"><table id="5618db55-6aee-83bd-8d5d-8125cf6defb6" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="39a8db55-6aee-8394-99fe-81c0d2f13430"><th id="UTuV" class="simple-table-header-color simple-table-header" style="width:185.9971466064453px"><strong>选择器</strong></th><th id="jFFx" class="simple-table-header-color simple-table-header" style="width:337.1661682128906px"><strong>描述</strong></th><th id="lNKV" class="simple-table-header-color simple-table-header" style="width:453.0028381347656px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="c7c8db55-6aee-826b-87d9-815ce78b2970"><td id="UTuV" class="" style="width:185.9971466064453px"><code>*</code></td><td id="jFFx" class="" style="width:337.1661682128906px">选取所有元素</td><td id="lNKV" class="" style="width:453.0028381347656px"><code>$(&quot;*&quot;)</code> 选取页面中所有元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="7838db55-6aee-834a-abe8-81c3773bc4e4"><td id="UTuV" class="" style="width:185.9971466064453px"><code>element</code></td><td id="jFFx" class="" style="width:337.1661682128906px">选取指定标签名的元素</td><td id="lNKV" class="" style="width:453.0028381347656px"><code>$(&quot;p&quot;)</code> 选取所有 <code>&lt;p&gt;</code> 元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="1b38db55-6aee-8364-b776-014a71a5284a"><td id="UTuV" class="" style="width:185.9971466064453px"><code>#id</code></td><td id="jFFx" class="" style="width:337.1661682128906px">选取指定 ID 的元素</td><td id="lNKV" class="" style="width:453.0028381347656px"><code>$(&quot;#box&quot;)</code> 选取 ID 为 &quot;box&quot; 的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="b0e8db55-6aee-83d9-af1c-0151f49a76b6"><td id="UTuV" class="" style="width:185.9971466064453px"><code>.class</code></td><td id="jFFx" class="" style="width:337.1661682128906px">选取指定类名的元素</td><td id="lNKV" class="" style="width:453.0028381347656px"><code>$(&quot;.active&quot;)</code> 选取所有类为 &quot;active&quot; 的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="3268db55-6aee-83f4-8f44-012fa16d38c9"><td id="UTuV" class="" style="width:185.9971466064453px"><code>selector1, selector2</code></td><td id="jFFx" class="" style="width:337.1661682128906px">组合选择器，选取多个选择器匹配的元素</td><td id="lNKV" class="" style="width:453.0028381347656px"><code>$(&quot;div, p&quot;)</code> 选取所有 <code>&lt;div&gt;</code> 和 <code>&lt;p&gt;</code> 元素</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="ed68db55-6aee-837f-bc93-81a60acde995" class=""><strong>2. 层次选择器</strong></p></div><div style="display:contents" dir="ltr"><table id="b778db55-6aee-8256-a6e6-018f0a57ea76" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="f1c8db55-6aee-83e1-809a-01f31fa35738"><th id="sC:O" class="simple-table-header-color simple-table-header" style="width:207.4488525390625px"><strong>选择器</strong></th><th id=";S_R" class="simple-table-header-color simple-table-header" style="width:357.9971618652344px"><strong>描述</strong></th><th id="~wjy" class="simple-table-header-color simple-table-header" style="width:380.64772033691406px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3438db55-6aee-8204-8105-0161d2d7cfe2"><td id="sC:O" class="" style="width:207.4488525390625px"><code>ancestor descendant</code></td><td id=";S_R" class="" style="width:357.9971618652344px">选取祖先元素下的所有后代元素（包括子、孙等）</td><td id="~wjy" class="" style="width:380.64772033691406px"><code>$(&quot;div p&quot;)</code> 选取 <code>&lt;div&gt;</code> 内所有 <code>&lt;p&gt;</code>（无论嵌套层级）</td></tr></div><div style="display:contents" dir="ltr"><tr id="e088db55-6aee-8330-949b-01c4dba6db63"><td id="sC:O" class="" style="width:207.4488525390625px"><code>parent &gt; child</code></td><td id=";S_R" class="" style="width:357.9971618652344px">选取父元素的直接子元素（仅一代）</td><td id="~wjy" class="" style="width:380.64772033691406px"><code>$(&quot;ul &gt; li&quot;)</code> 选取 <code>&lt;ul&gt;</code> 的直接子元素 <code>&lt;li&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2378db55-6aee-823f-a27e-01e798fb5d66"><td id="sC:O" class="" style="width:207.4488525390625px"><code>prev + next</code></td><td id=";S_R" class="" style="width:357.9971618652344px">选取紧邻在 prev 元素后的 next 元素（同级）</td><td id="~wjy" class="" style="width:380.64772033691406px"><code>$(&quot;h1 + p&quot;)</code> 选取 <code>&lt;h1&gt;</code> 后面紧邻的第一个 <code>&lt;p&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="52c8db55-6aee-837e-b9b1-0190e388bc1e"><td id="sC:O" class="" style="width:207.4488525390625px"><code>prev ~ siblings</code></td><td id=";S_R" class="" style="width:357.9971618652344px">选取 prev 元素后的所有同级 siblings 元素</td><td id="~wjy" class="" style="width:380.64772033691406px"><code>$(&quot;h1 ~ p&quot;)</code> 选取 <code>&lt;h1&gt;</code> 后面所有同级的 <code>&lt;p&gt;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="ffe8db55-6aee-8355-b98e-818cbe2278f2" class=""><strong>3. 过滤选择器</strong></p></div><div style="display:contents" dir="ltr"><table id="83b8db55-6aee-8304-8c80-81f028f9b06f" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="7d78db55-6aee-8216-a798-01c78b702002"><th id="w]IB" class="simple-table-header-color simple-table-header" style="width:183.02130126953125px"><strong>选择器</strong></th><th id="\Lt^" class="simple-table-header-color simple-table-header" style="width:263.03692626953125px"><strong>描述</strong></th><th id="prty" class="simple-table-header-color simple-table-header" style="width:507px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="6408db55-6aee-8341-94c6-817e33374111"><td id="w]IB" class="" style="width:183.02130126953125px"><code>:first</code></td><td id="\Lt^" class="" style="width:263.03692626953125px">选取第一个元素</td><td id="prty" class="" style="width:507px"><code>$(&quot;p:first&quot;)</code> 选取第一个 <code>&lt;p&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3358db55-6aee-8368-8d11-0124ac25686a"><td id="w]IB" class="" style="width:183.02130126953125px"><code>:last</code></td><td id="\Lt^" class="" style="width:263.03692626953125px">选取最后一个元素</td><td id="prty" class="" style="width:507px"><code>$(&quot;p:last&quot;)</code> 选取最后一个 <code>&lt;p&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a678db55-6aee-8275-a8c9-01e650d6e02d"><td id="w]IB" class="" style="width:183.02130126953125px"><code>:not(selector)</code></td><td id="\Lt^" class="" style="width:263.03692626953125px">排除匹配 selector 的元素</td><td id="prty" class="" style="width:507px"><code>$(&quot;input:not(:checked)&quot;)</code> 选取未选中的 input</td></tr></div><div style="display:contents" dir="ltr"><tr id="e1c8db55-6aee-8255-b653-01317a9b5420"><td id="w]IB" class="" style="width:183.02130126953125px"><code>:even</code></td><td id="\Lt^" class="" style="width:263.03692626953125px">选取索引为偶数的元素（从 0 开始）</td><td id="prty" class="" style="width:507px"><code>$(&quot;tr:even&quot;)</code> 选取表格中偶数行</td></tr></div><div style="display:contents" dir="ltr"><tr id="c1b8db55-6aee-838c-bc05-018f97f53be5"><td id="w]IB" class="" style="width:183.02130126953125px"><code>:odd</code></td><td id="\Lt^" class="" style="width:263.03692626953125px">选取索引为奇数的元素</td><td id="prty" class="" style="width:507px"><code>$(&quot;tr:odd&quot;)</code> 选取表格中奇数行</td></tr></div><div style="display:contents" dir="ltr"><tr id="ef98db55-6aee-83f2-8e7d-01de299e8e75"><td id="w]IB" class="" style="width:183.02130126953125px"><code>:eq(index)</code></td><td id="\Lt^" class="" style="width:263.03692626953125px">选取索引等于 index 的元素</td><td id="prty" class="" style="width:507px"><code>$(&quot;li:eq(2)&quot;)</code> 选取第 3 个 <code>&lt;li&gt;</code>（索引 2）</td></tr></div><div style="display:contents" dir="ltr"><tr id="1198db55-6aee-8332-80fe-8143cba3081e"><td id="w]IB" class="" style="width:183.02130126953125px"><code>:gt(index)</code></td><td id="\Lt^" class="" style="width:263.03692626953125px">选取索引大于 index 的元素</td><td id="prty" class="" style="width:507px"><code>$(&quot;li:gt(2)&quot;)</code> 选取索引 &gt; 2 的 <code>&lt;li&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7b88db55-6aee-8335-ae4e-0159c12df386"><td id="w]IB" class="" style="width:183.02130126953125px"><code>:lt(index)</code></td><td id="\Lt^" class="" style="width:263.03692626953125px">选取索引小于 index 的元素</td><td id="prty" class="" style="width:507px"><code>$(&quot;li:lt(2)&quot;)</code> 选取索引 &lt; 2 的 <code>&lt;li&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2438db55-6aee-83f1-9fe5-81a9f44929fa"><td id="w]IB" class="" style="width:183.02130126953125px"><code>:header</code></td><td id="\Lt^" class="" style="width:263.03692626953125px">选取所有标题元素（h1~h6）</td><td id="prty" class="" style="width:507px"><code>$(&quot;:header&quot;)</code> 选取页面中所有标题</td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><table id="6398db55-6aee-8211-847c-8159e44692b7" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3588db55-6aee-831a-a8ea-01284f72f278"><th id="w&gt;WH" class="simple-table-header-color simple-table-header" style="width:201.56675720214844px"><strong>选择器</strong></th><th id="kkJx" class="simple-table-header-color simple-table-header" style="width:317.99998474121094px"><strong>描述</strong></th><th id="j|hg" class="simple-table-header-color simple-table-header" style="width:455.9985656738281px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="0c78db55-6aee-824d-8a8a-01dbfa166802"><td id="w&gt;WH" class="" style="width:201.56675720214844px"><code>:contains(text)</code></td><td id="kkJx" class="" style="width:317.99998474121094px">选取包含指定文本的元素</td><td id="j|hg" class="" style="width:455.9985656738281px"><code>$(&quot;p:contains(&#x27;Hello&#x27;)&quot;)</code> 选取含 &quot;Hello&quot; 的 <code>&lt;p&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7d18db55-6aee-8300-9732-816a16f80257"><td id="w&gt;WH" class="" style="width:201.56675720214844px"><code>:empty</code></td><td id="kkJx" class="" style="width:317.99998474121094px">选取不包含子元素或文本的空元素</td><td id="j|hg" class="" style="width:455.9985656738281px"><code>$(&quot;div:empty&quot;)</code> 选取空的 <code>&lt;div&gt;</code>（无内容）</td></tr></div><div style="display:contents" dir="ltr"><tr id="2128db55-6aee-82c1-ab8d-0166d0a24a32"><td id="w&gt;WH" class="" style="width:201.56675720214844px"><code>:has(selector)</code></td><td id="kkJx" class="" style="width:317.99998474121094px">选取包含匹配 selector 子元素的元素</td><td id="j|hg" class="" style="width:455.9985656738281px"><code>$(&quot;div:has(p)&quot;)</code> 选取包含 <code>&lt;p&gt;</code> 的 <code>&lt;div&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="f7c8db55-6aee-82a1-9587-01358be598c8"><td id="w&gt;WH" class="" style="width:201.56675720214844px"><code>:parent</code></td><td id="kkJx" class="" style="width:317.99998474121094px">选取包含子元素或文本的非空元素</td><td id="j|hg" class="" style="width:455.9985656738281px"><code>$(&quot;td:parent&quot;)</code> 选取非空的 <code>&lt;td&gt;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><table id="e3c8db55-6aee-82b4-a49f-81f72e6a0a64" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="0478db55-6aee-838e-8b18-012872234bd3"><th id="A~=R" class="simple-table-header-color simple-table-header" style="width:223.9943084716797px"><strong>选择器</strong></th><th id="Im[O" class="simple-table-header-color simple-table-header" style="width:397.99998474121094px"><strong>描述</strong></th><th id="&lt;eVo" class="simple-table-header-color simple-table-header" style="width:349.99998474121094px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="2ec8db55-6aee-836a-8b67-01cf1536af30"><td id="A~=R" class="" style="width:223.9943084716797px"><code>:visible</code></td><td id="Im[O" class="" style="width:397.99998474121094px">选取所有可见元素</td><td id="&lt;eVo" class="" style="width:349.99998474121094px"><code>$(&quot;div:visible&quot;)</code> 选取可见的 <code>&lt;div&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6dd8db55-6aee-82bd-9775-81bc20a39092"><td id="A~=R" class="" style="width:223.9943084716797px"><code>:hidden</code></td><td id="Im[O" class="" style="width:397.99998474121094px">选取所有隐藏元素（display:none 或 type=&quot;hidden&quot;）</td><td id="&lt;eVo" class="" style="width:349.99998474121094px"><code>$(&quot;input:hidden&quot;)</code> 选取隐藏的 input</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="9bb8db55-6aee-8265-bc0b-01d1f1bcb0d5" class=""><strong>4. 属性选择器</strong></p></div><div style="display:contents" dir="ltr"><table id="68c8db55-6aee-8344-83c5-81a0ebbba971" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="50d8db55-6aee-8233-b876-015c0b30d43d"><th id="|LnK" class="simple-table-header-color simple-table-header" style="width:178.99999237060547px"><strong>选择器</strong></th><th id="CoaX" class="simple-table-header-color simple-table-header" style="width:264.90623474121094px"><strong>描述</strong></th><th id="]ZmV" class="simple-table-header-color simple-table-header" style="width:558.9999694824219px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="d5b8db55-6aee-8234-8cc7-81f3a68e4040"><td id="|LnK" class="" style="width:178.99999237060547px"><code>[attribute]</code></td><td id="CoaX" class="" style="width:264.90623474121094px">选取有指定属性的元素</td><td id="]ZmV" class="" style="width:558.9999694824219px"><code>$(&quot;[href]&quot;)</code> 选取所有带 href 属性的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="1158db55-6aee-828a-8c27-81c173d34277"><td id="|LnK" class="" style="width:178.99999237060547px"><code>[attribute=value]</code></td><td id="CoaX" class="" style="width:264.90623474121094px">选取属性值等于 value 的元素</td><td id="]ZmV" class="" style="width:558.9999694824219px"><code>$(&quot;[name=&#x27;username&#x27;]&quot;)</code> 选取 name 为 &quot;username&quot; 的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="8048db55-6aee-8282-8344-01a89ec59caa"><td id="|LnK" class="" style="width:178.99999237060547px"><code>[attribute!=value]</code></td><td id="CoaX" class="" style="width:264.90623474121094px">选取属性值不等于 value 的元素</td><td id="]ZmV" class="" style="width:558.9999694824219px"><code>$(&quot;[type!=&#x27;text&#x27;]&quot;)</code> 选取 type 不是 &quot;text&quot; 的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="e908db55-6aee-82b5-9fe5-0109704b8e48"><td id="|LnK" class="" style="width:178.99999237060547px"><code>[attribute^=value]</code></td><td id="CoaX" class="" style="width:264.90623474121094px">选取属性值以 value 开头的元素</td><td id="]ZmV" class="" style="width:558.9999694824219px"><code>$(&quot;[href^=&#x27;https&#x27;]&quot;)</code> 选取 href 以 &quot;https&quot; 开头的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="1668db55-6aee-82e6-9b08-01c48c428ce0"><td id="|LnK" class="" style="width:178.99999237060547px"><code>[attribute$=value]</code></td><td id="CoaX" class="" style="width:264.90623474121094px">选取属性值以 value 结尾的元素</td><td id="]ZmV" class="" style="width:558.9999694824219px"><code>$(&quot;[src$=&#x27;.png&#x27;]&quot;)</code> 选取 src 以 &quot;.png&quot; 结尾的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="e398db55-6aee-8299-abdd-0146a13599a7"><td id="|LnK" class="" style="width:178.99999237060547px"><code>[attribute*=value]</code></td><td id="CoaX" class="" style="width:264.90623474121094px">选取属性值包含 value 的元素</td><td id="]ZmV" class="" style="width:558.9999694824219px"><code>$(&quot;[class*=&#x27;menu&#x27;]&quot;)</code> 选取 class 含 &quot;menu&quot; 的元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="c198db55-6aee-8383-a718-01a92f4fbb20"><td id="|LnK" class="" style="width:178.99999237060547px"><code>[attr1][attr2]</code></td><td id="CoaX" class="" style="width:264.90623474121094px">复合属性选择，同时满足多个条件</td><td id="]ZmV" class="" style="width:558.9999694824219px"><code>$(&quot;input[type=&#x27;text&#x27;][name=&#x27;email&#x27;]&quot;)</code> 选取 type 为 text 且 name 为 email 的 input</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="2668db55-6aee-8359-9f28-8125a4f5ede8" class=""><strong>5. 子元素选择器</strong></p></div><div style="display:contents" dir="ltr"><table id="bb68db55-6aee-8333-951c-018399d204a9" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="0b38db55-6aee-8232-a93f-811ded993a08"><th id="WszK" class="simple-table-header-color simple-table-header" style="width:187.99999237060547px"><strong>选择器</strong></th><th id="\QfW" class="simple-table-header-color simple-table-header" style="width:422.99998474121094px"><strong>描述</strong></th><th id="O=AY" class="simple-table-header-color simple-table-header" style="width:473.99998474121094px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="1a28db55-6aee-8282-b448-8149549bbe19"><td id="WszK" class="" style="width:187.99999237060547px"><code>:nth-child(index)</code></td><td id="\QfW" class="" style="width:422.99998474121094px">选取父元素中第 index 个子元素（从 1 开始）</td><td id="O=AY" class="" style="width:473.99998474121094px"><code>$(&quot;ul li:nth-child(2)&quot;)</code> 选取每个 <code>&lt;ul&gt;</code> 的第 2 个 <code>&lt;li&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="12a8db55-6aee-8269-9c81-815aa3462a95"><td id="WszK" class="" style="width:187.99999237060547px"><code>:first-child</code></td><td id="\QfW" class="" style="width:422.99998474121094px">选取父元素的第一个子元素</td><td id="O=AY" class="" style="width:473.99998474121094px"><code>$(&quot;ul li:first-child&quot;)</code> 选取每个 <code>&lt;ul&gt;</code> 的第一个 <code>&lt;li&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2c68db55-6aee-821d-8477-81625f4660ae"><td id="WszK" class="" style="width:187.99999237060547px"><code>:last-child</code></td><td id="\QfW" class="" style="width:422.99998474121094px">选取父元素的最后一个子元素</td><td id="O=AY" class="" style="width:473.99998474121094px"><code>$(&quot;ul li:last-child&quot;)</code> 选取每个 <code>&lt;ul&gt;</code> 的最后一个 <code>&lt;li&gt;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="47a8db55-6aee-826e-bcdd-01d0b5f1f85d"><td id="WszK" class="" style="width:187.99999237060547px"><code>:only-child</code></td><td id="\QfW" class="" style="width:422.99998474121094px">选取父元素中唯一的子元素</td><td id="O=AY" class="" style="width:473.99998474121094px"><code>$(&quot;div:only-child&quot;)</code> 选取是其父元素唯一子元素的 <code>&lt;div&gt;</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="5be8db55-6aee-83b2-a8fe-8179cd63d477" class=""><strong>6. 表单选择器</strong></p></div><div style="display:contents" dir="ltr"><table id="acc8db55-6aee-837b-8598-01e2d0ac811e" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5af8db55-6aee-8207-b094-01c5c7c5f30e"><th id="q]qt" class="simple-table-header-color simple-table-header" style="width:258.9957275390625px"><strong>选择器</strong></th><th id="e&gt;jD" class="simple-table-header-color simple-table-header" style="width:335.9985656738281px"><strong>描述</strong></th><th id="LS:H" class="simple-table-header-color simple-table-header" style="width:374.7954406738281px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="98a8db55-6aee-82af-ac7d-81c6c1bcd774"><td id="q]qt" class="" style="width:258.9957275390625px"><code>:input</code></td><td id="e&gt;jD" class="" style="width:335.9985656738281px">选取所有表单元素（input、textarea、select 等）</td><td id="LS:H" class="" style="width:374.7954406738281px"><code>$(&quot;:input&quot;)</code> 选取所有表单元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="ce08db55-6aee-8261-940e-817b62b8960b"><td id="q]qt" class="" style="width:258.9957275390625px"><code>:text</code></td><td id="e&gt;jD" class="" style="width:335.9985656738281px">选取单行文本框（type=&quot;text&quot;）</td><td id="LS:H" class="" style="width:374.7954406738281px"><code>$(&quot;:text&quot;)</code> 选取文本输入框</td></tr></div><div style="display:contents" dir="ltr"><tr id="e468db55-6aee-8328-bce2-0126ce47b8fa"><td id="q]qt" class="" style="width:258.9957275390625px"><code>:password</code></td><td id="e&gt;jD" class="" style="width:335.9985656738281px">选取密码框</td><td id="LS:H" class="" style="width:374.7954406738281px"><code>$(&quot;:password&quot;)</code> 选取密码输入框</td></tr></div><div style="display:contents" dir="ltr"><tr id="b618db55-6aee-82cb-9704-81e144ed7e69"><td id="q]qt" class="" style="width:258.9957275390625px"><code>:radio</code></td><td id="e&gt;jD" class="" style="width:335.9985656738281px">选取单选按钮</td><td id="LS:H" class="" style="width:374.7954406738281px"><code>$(&quot;:radio&quot;)</code> 选取所有单选按钮</td></tr></div><div style="display:contents" dir="ltr"><tr id="e278db55-6aee-832c-9048-0111f26c0e11"><td id="q]qt" class="" style="width:258.9957275390625px"><code>:checkbox</code></td><td id="e&gt;jD" class="" style="width:335.9985656738281px">选取复选框</td><td id="LS:H" class="" style="width:374.7954406738281px"><code>$(&quot;:checkbox&quot;)</code> 选取所有复选框</td></tr></div><div style="display:contents" dir="ltr"><tr id="82e8db55-6aee-83d7-aa98-815d0fd70ee1"><td id="q]qt" class="" style="width:258.9957275390625px"><code>:submit</code></td><td id="e&gt;jD" class="" style="width:335.9985656738281px">选取提交按钮</td><td id="LS:H" class="" style="width:374.7954406738281px"><code>$(&quot;:submit&quot;)</code> 选取提交按钮</td></tr></div><div style="display:contents" dir="ltr"><tr id="c7c8db55-6aee-82da-b367-010e92e710a6"><td id="q]qt" class="" style="width:258.9957275390625px"><code>:reset</code></td><td id="e&gt;jD" class="" style="width:335.9985656738281px">选取重置按钮</td><td id="LS:H" class="" style="width:374.7954406738281px"><code>$(&quot;:reset&quot;)</code> 选取重置按钮</td></tr></div><div style="display:contents" dir="ltr"><tr id="e398db55-6aee-830b-a86e-015a80453796"><td id="q]qt" class="" style="width:258.9957275390625px"><code>:button</code></td><td id="e&gt;jD" class="" style="width:335.9985656738281px">选取按钮（包括 <code>&lt;button&gt;</code> 标签）</td><td id="LS:H" class="" style="width:374.7954406738281px"><code>$(&quot;:button&quot;)</code> 选取所有按钮</td></tr></div><div style="display:contents" dir="ltr"><tr id="0638db55-6aee-837b-ba23-8148f7d8a2f6"><td id="q]qt" class="" style="width:258.9957275390625px"><code>:file</code></td><td id="e&gt;jD" class="" style="width:335.9985656738281px">选取文件上传控件</td><td id="LS:H" class="" style="width:374.7954406738281px"><code>$(&quot;:file&quot;)</code> 选取文件输入框</td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><table id="1298db55-6aee-837d-941e-81cf72de06f1" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="cc38db55-6aee-832c-8939-81f6ff8339ae"><th id="I^YC" class="simple-table-header-color simple-table-header" style="width:182.99999237060547px"><strong>选择器</strong></th><th id="QM|d" class="simple-table-header-color simple-table-header" style="width:369.5113525390625px"><strong>描述</strong></th><th id="DMSf" class="simple-table-header-color simple-table-header" style="width:405.99998474121094px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="b188db55-6aee-8385-a94a-8185ee937e50"><td id="I^YC" class="" style="width:182.99999237060547px"><code>:enabled</code></td><td id="QM|d" class="" style="width:369.5113525390625px">选取可用的表单元素</td><td id="DMSf" class="" style="width:405.99998474121094px"><code>$(&quot;input:enabled&quot;)</code> 选取可用的 input</td></tr></div><div style="display:contents" dir="ltr"><tr id="0748db55-6aee-8309-a36d-01dd1938b652"><td id="I^YC" class="" style="width:182.99999237060547px"><code>:disabled</code></td><td id="QM|d" class="" style="width:369.5113525390625px">选取禁用的表单元素</td><td id="DMSf" class="" style="width:405.99998474121094px"><code>$(&quot;input:disabled&quot;)</code> 选取禁用的 input</td></tr></div><div style="display:contents" dir="ltr"><tr id="0208db55-6aee-82f4-a5cf-81cb8926e4c0"><td id="I^YC" class="" style="width:182.99999237060547px"><code>:checked</code></td><td id="QM|d" class="" style="width:369.5113525390625px">选取选中的单选 / 复选框</td><td id="DMSf" class="" style="width:405.99998474121094px"><code>$(&quot;input:checked&quot;)</code> 选取选中的 input</td></tr></div><div style="display:contents" dir="ltr"><tr id="eae8db55-6aee-831f-a6c3-01bafb9f9ae3"><td id="I^YC" class="" style="width:182.99999237060547px"><code>:selected</code></td><td id="QM|d" class="" style="width:369.5113525390625px">选取选中的下拉选项</td><td id="DMSf" class="" style="width:405.99998474121094px"><code>$(&quot;select option:selected&quot;)</code> 选取选中的下拉项</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6768db55-6aee-83e8-a33c-811b54896c6a" class="toggle"><li><details open=""><summary>更改样式</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="d008db55-6aee-832a-9bd1-8187bed704bf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">查看样式
+console.log($(&#x27;#box&#x27;).css(&#x27;width&#x27;)) 
+
+单个更改样式
+$(&#x27;#box&#x27;).css(&#x27;width&#x27;, &#x27;200px&#x27;) 
+
+批量更改样式
+$(&quot;ul li&quot;).css({
+    &quot;background-color&quot;: &quot;red&quot;,
+    &quot;color&quot;: &quot;white&quot;
+})</code></pre></div><div style="display:contents" dir="auto"><pre id="ee38db55-6aee-83f5-947e-0154a9a09f01" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;box&quot; style=&quot;width: 100px;&quot;&gt;&lt;/div&gt;
+&lt;ul&gt;
+    &lt;li&gt;1&lt;/li&gt;
+    &lt;li&gt;23&lt;/li&gt;
+    &lt;li&gt;432&lt;/li&gt;
+    &lt;li&gt;3&lt;/li&gt;
+    &lt;li&gt;31&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script&gt;
+    console.log($(&#x27;#box&#x27;).css(&#x27;width&#x27;))
+    console.log($(&#x27;#box&#x27;).css(&#x27;height&#x27;))
+    console.log($(&#x27;#box&#x27;).css(&#x27;background-color&#x27;))
+
+    // 更改属性
+    $(&#x27;#box&#x27;).css(&#x27;width&#x27;, &#x27;200px&#x27;)
+
+    // 批量更改属性
+    $(&quot;ul li&quot;).css({
+        &quot;background-color&quot;: &quot;red&quot;,
+        &quot;color&quot;: &quot;white&quot;
+    })
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0fb8db55-6aee-83ae-87c9-01caebc9ddf6" class="toggle"><li><details open=""><summary>操作class</summary><div style="display:contents" dir="auto"><p id="fa68db55-6aee-827a-80ad-81d6de29a4af" class="">addClass() # 添加class</p></div><div style="display:contents" dir="auto"><p id="c5a8db55-6aee-831d-a113-815150818dc3" class="">removeClass() # 删除class</p></div><div style="display:contents" dir="auto"><p id="fec8db55-6aee-8356-ab47-81ec9eb26407" class="">hasClass() # 判断当前元素是否含有某个class</p></div><div style="display:contents" dir="auto"><p id="b058db55-6aee-8203-a1e7-81cba031522e" class="">toggleClass() # 切换功能，如果有就删除，没有就添加。</p></div><div style="display:contents" dir="auto"><pre id="e6c8db55-6aee-837c-82c6-8138f3ef5e51" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 具有隐式迭代能力
+$(&quot;#box&quot;).addClass(&quot;active&quot;) // 添加class
+$(&quot;#box&quot;).removeClass(&quot;active&quot;) // 删除class
+
+// $(&quot;ul li&quot;).removeClass(&quot;active&quot;) 删除所有li上的class
+// .eq(3).addClass(&quot;active&quot;)给第三各添加class=active
+$(&quot;ul li&quot;).removeClass(&quot;active&quot;).eq(3).addClass(&quot;active&quot;)
+
+// hasClass() 判断当前元素是否含有某个class
+console.log($(&quot;ul li&quot;).hasClass(&quot;active&quot;))
+
+//toggleClass() 切换功能，如果有就删除，没有就添加。
+$(&quot;ul li&quot;).toggleClass(&quot;active&quot;)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a4d8db55-6aee-8331-aa02-010272d0d15a" class="toggle"><li><details open=""><summary>操作内容</summary><div style="display:contents" dir="auto"><p id="81c8db55-6aee-826d-873c-0128264f7771" class="">html() # 含标签输出，输入</p></div><div style="display:contents" dir="auto"><p id="7bf8db55-6aee-83aa-a0fc-01e131f4f7eb" class="">text() # 不获取标签，输出标签为字符串</p></div><div style="display:contents" dir="auto"><p id="9098db55-6aee-83c5-a033-01cc404d724c" class="">val() # 获取或操作input的值</p></div><div style="display:contents" dir="auto"><pre id="eb38db55-6aee-8357-b5df-016b59835ea8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// html()
+console.log($(&quot;#box&quot;).html())
+var arr =[&quot;aaa&quot;, &quot;bbb&quot;, &quot;ccc&quot;]
+var listr = arr.map(item =&gt; `&lt;li&gt;${item}&lt;/li&gt;`).join(&#x27;&#x27;)
+$(&quot;ul.list1&quot;).html(listr)
+// text() 不获取标签，输出标签为字符串
+console.log($(&quot;#box&quot;).text())
+$(&quot;ul.list2&quot;).text(listr)
+// val()
+console.log($(&quot;input&quot;).val())
+$(&quot;input&quot;).val(&quot;123456&quot;) // 默认所有的input
+$(&quot;input[name=&#x27;username&#x27;]&quot;).val(&quot;12321321321432&quot;)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d2d8db55-6aee-823f-9b1d-016f82592415" class="toggle"><li><details open=""><summary>操作属性</summary><div style="display:contents" dir="auto"><p id="93e8db55-6aee-827c-ad44-81322ae3eaca" class="">attr() # 操作原生属性和自定义属性（人为约定只用其操作自定义属性）,可以获取，设置，删除（removeAttr()）</p></div><div style="display:contents" dir="auto"><p id="9908db55-6aee-826b-a749-0185a09fca7e" class="">prop() # 操作原生属性，可以获取，设置</p></div><div style="display:contents" dir="auto"><pre id="be38db55-6aee-83db-8bdb-011e409d1831" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// attr() 操作自定义属性和原生属性（人为约定只用其设置自定义属性）
+// prop() 操作原生属性
+// prop() 只能获取和设置原生属性
+
+console.log($(&quot;#box&quot;).attr(&quot;id&quot;)) // 获取原生
+console.log($(&quot;#box&quot;).attr(&quot;id&quot;,&quot;box2&quot;)) // 设置原生
+console.log($(&quot;#box2&quot;).attr(&quot;index&quot;)) // 获取自定义
+console.log($(&quot;#box2&quot;).attr(&quot;index&quot;,&quot;2&quot;)) // 设置自定义
+
+// removeAttr() 删除属性
+// console.log($(&quot;#box2&quot;).removeAttr(&quot;id&quot;)) // 删除原生
+// console.log($(&quot;#box2&quot;).removeAttr(&quot;index&quot;)) // 删除自定义
+
+// attr() 控制按钮原生状态
+$(&quot;#mybtn&quot;).attr(&quot;disabled&quot;,true)
+
+// ----------------
+console.log($(&quot;#box2&quot;).prop(&quot;index&quot;,&quot;3&quot;)) // 自定义还是2
+console.log($(&quot;#box2&quot;).prop(&quot;id&quot;,&quot;box3&quot;)) // 原生已经变为box3</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9568db55-6aee-834d-8389-01163e1ed7e6" class="toggle"><li><details open=""><summary>操作偏移量</summary><div style="display:contents" dir="auto"><p id="78d8db55-6aee-822d-b9c1-81ef003d3723" class="">offset()  # 距离文档流左上角的left top，传参数就是设置<br/>positoin() # 距离父元素（必须设置position），不能设置</p></div><div style="display:contents" dir="auto"><pre id="7478db55-6aee-82f0-8904-01c54747dc68" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 之前的offsetLeft 距离有定位的父元素左边的距离 offsetTo</code></pre></div><div style="display:contents" dir="auto"><pre id="ca88db55-6aee-83a8-b382-81b603a0deca" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log($(&quot;div&quot;).offset()) // 返回偏移对象
+
+$(&quot;div&quot;).offset({ // 会与默认的margin重叠 
+    left: 100,
+    top: 100 
+})
+
+console.log($(&quot;p&quot;).offset()) // 和设置结果一样，offset就是距离文档流的距离，与定位与否无关
+console.log($(&quot;p&quot;).position()) // 距离父元素的距离对象</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="13d8db55-6aee-8384-8578-816cd71933d6" class="toggle"><li><details open=""><summary>获取元素尺寸</summary><div style="display:contents" dir="auto"><p id="9858db55-6aee-82e5-8013-012c4f6c888c" class="">console.log($(&quot;div&quot;)<mark class="highlight-teal">.width</mark>, $(&quot;div&quot;)<mark class="highlight-teal">.height</mark>) # 获取内容宽高，忽视display:none</p></div><div style="display:contents" dir="auto"><p id="b0d8db55-6aee-8255-8219-015e989ac6ac" class=""><mark class="highlight-red">但是原生方法：document.quertSelector()、offsetHeight 会受display:none影响</mark></p></div><div style="display:contents" dir="auto"><p id="74b8db55-6aee-83ee-8105-016105ab0aaa" class="">console.log($(&quot;div&quot;)<mark class="highlight-teal">.innerWidth</mark>, $(&quot;div&quot;)<mark class="highlight-teal">.innerHeight</mark>) #  <em>padding+内容</em></p></div><div style="display:contents" dir="auto"><p id="ffd8db55-6aee-826a-8e8f-013d1ac8be13" class="">console.log($(&quot;div&quot;)<mark class="highlight-teal">.outerWidth</mark>, $(&quot;div&quot;)<mark class="highlight-teal">.outerHeigh</mark>t) # <em>padding+border+内容# </em></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5448db55-6aee-831e-9d0f-815289bf4409" class="toggle"><li><details open=""><summary>jquery事件</summary><div style="display:contents" dir="auto"><p id="8208db55-6aee-8327-ba6a-8163aee8f9c8" class="">on # 事件委托（迭代）</p></div><div style="display:contents" dir="auto"><p id="da18db55-6aee-83bd-a39a-01de28f87b43" class="">one # 只执行一次事件（抽奖等活动）</p></div><div style="display:contents" dir="auto"><p id="a378db55-6aee-824a-b56a-81566a694e56" class="">off # 移除事件</p></div><div style="display:contents" dir="auto"><p id="67d8db55-6aee-8296-abb3-81ec47597c4f" class=""> click, mouseenter, mouseleave, mouseover, mouseout,  mousemove, mouseup, mousedown, dblclick, focus, blur, change, submit, keydown, keypress, keyup, resize, scroll, unload, load # 常用函数</p></div><div style="display:contents" dir="auto"><pre id="c278db55-6aee-839b-87f3-81fa849a29d3" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all"> &lt;ul&gt;
+    &lt;li&gt;1111
+        &lt;button&gt;del&lt;/button&gt;
+    &lt;/li&gt;
+    &lt;li&gt;2222
+        &lt;button&gt;del&lt;/button&gt;
+    &lt;/li&gt;
+    &lt;li&gt;3333
+        &lt;button&gt;del&lt;/button&gt;
+    &lt;/li&gt;
+    &lt;li&gt;4444
+        &lt;button&gt;del&lt;/button&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+&lt;div&gt;&lt;/div&gt;
+&lt;script&gt;
+    // on 
+    $(&quot;ul li&quot;).on(&quot;click&quot;, function () {
+        console.log(&quot;ckick&quot;)
+    })
+
+    // on 事件委托
+    $(&quot;ul&quot;).on(&quot;click&quot;, &quot;button&quot;, function () {
+        // console.log(&quot;ckick&quot;)
+        $(this).parent().remove() // this.parentNode.remove()
+    })
+
+    // on 传参数（必须是对象）
+    $(&quot;ul&quot;).on(&quot;click&quot;,{name:&quot;zhangsan&quot;}, function (e) {
+        console.log(e.data.name)
+    })
+
+    // on 事件委托 +参数（随意）
+    $(&quot;ul&quot;).on(&quot;click&quot;, &quot;button&quot;,{name:&quot;zhangshan&quot;}, function (e) {
+        console.log(e.data)
+    })
+
+    // on 每次点击都触发
+    // one 一次性事件（抽奖等情况）
+    $(&quot;ul&quot;).one(&quot;click&quot;, &quot;button&quot;, function () { 
+        console.log(&quot;cl&quot;)
+    })
+
+    // 常用方法函数: click， mouseenter, mouseleave, mouseover, mouseout, 
+    // mousemove, mouseup, mousedown, dblclick, focus, blur, change, submit, 
+    // keydown, keypress, keyup, resize, scroll, unload, load、
+    支持链式写法
+    $(&quot;ul&quot;).click(function () { 
+        console.log(&quot;cl&quot;)
+    }).mouseout(function () { 
+        console.log(&quot;out&quot;)
+    })
+
+    // off() 解绑所有事件
+    // off(&quot;click&quot;) 解绑click事件
+    $(&quot;div&quot;).mousedown(function() {
+        console.log(&quot;down&quot;)
+        // document.onmousemove = function() { 
+        //     console.log(&quot;move&quot;)
+        // }
+        $(document).mousemove(function() {
+            console.log(&quot;move&quot;)
+        })
+    }).mouseup(function() {
+        console.log(&quot;up&quot;)
+        $(document).off(&quot;mousemove&quot;)
+    }).mousemove()
+    
+    // off 可以传第二个参数，指定要解绑的事件函数
+    function A() {
+        console.log(&quot;A&quot;)
+    }
+    $(&quot;ul li&quot;).on(&quot;click&quot;, A)
+    $(&quot;ul li&quot;).off(&quot;click&quot;, A)
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4558db55-6aee-82cc-ba99-81b5db9a3f34" class="toggle"><li><details open=""><summary>动画函数</summary><div style="display:contents" dir="auto"><ul id="4738db55-6aee-8331-ac41-8121fdf7e7e3" class="toggle"><li><details open=""><summary>基础方法</summary><div style="display:contents" dir="auto"><p id="0ac8db55-6aee-8240-8fce-0186efd731c5" class="">1、show()/hide()/toggle() : 显示/隐藏元素</p></div><div style="display:contents" dir="auto"><p id="89d8db55-6aee-82af-ab92-8145400a7180" class="">通过改变元素的display，width，height，opacity属性实现动画。</p></div><div style="display:contents" dir="auto"><pre id="da78db55-6aee-8319-b338-810aaafb1e68" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 显示元素（默认无动画，duration可选：毫秒数或slow/fast）
+$(selector).show(duration, [easing], [complete]);
+// 隐藏元素
+$(selector).hide(1000, fcuntion() {
+	// 动画完成后的回调
+	console.log(&quot;隐藏元素&quot;)
+})</code></pre></div><div style="display:contents" dir="auto"><pre id="4d28db55-6aee-8338-9cf8-0178f2be622d" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;box&quot; style=&quot;width:100px;height:100px;background:red;&quot;&gt;&lt;/div&gt;
+&lt;button id=&quot;toggle&quot;&gt;切换&lt;/button&gt;
+
+&lt;script&gt;
+  $(&#x27;#toggle&#x27;).click(function() {
+    $(&#x27;#box&#x27;).toggle(500); // 500ms 内切换显示/隐藏状态
+  });
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="84b8db55-6aee-83aa-a61b-81856a650369"/></div><div style="display:contents" dir="auto"><p id="6518db55-6aee-83f1-8b36-810bea0b5163" class="">2、fadeIn()/fadeOut()/fadeToggle()/ fadeTo() : 淡入/淡出</p></div><div style="display:contents" dir="auto"><p id="32f8db55-6aee-82dc-bd4d-018231eb63b9" class="">仅通过改变opacity属性事件透明度渐变</p></div><div style="display:contents" dir="auto"><p id="1288db55-6aee-8362-a036-01bce9eb321c" class="">fadeTo()多接收一个参数，指定透明度（0-1）</p></div><div style="display:contents" dir="auto"><pre id="cde8db55-6aee-83d7-92a8-816317bb033f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 淡入（从透明到不透明）
+$(selector).fadeIn(800);
+// 淡出（从实体到透明）
+$(selector).fadeOut(&#x27;slow&#x27;, function() {
+	$(this).remove(); // 淡出后移除元素
+})</code></pre></div><div style="display:contents" dir="auto"><hr id="6788db55-6aee-8379-bc4a-81a9bda44b63"/></div><div style="display:contents" dir="auto"><p id="3ab8db55-6aee-83e9-8891-0146331a390f" class="">3、slideDown()/slideUp()/slideToggle() : 滑动显示/隐藏</p></div><div style="display:contents" dir="auto"><p id="05b8db55-6aee-8287-81fe-016d2e74f6a1" class="">通过改变height属性实现类似卷帘门的效果</p></div><div style="display:contents" dir="auto"><pre id="0c28db55-6aee-8316-ae13-01fd98a1c42d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 向下展开（高度从0到实际值）
+$(selector).slideDown();
+// 向上收起（高度从实际值到0）
+$(selector).slideUp(600);</code></pre></div><div style="display:contents" dir="auto"><hr id="d788db55-6aee-8332-b7cf-819408fc8ba6"/></div><div style="display:contents" dir="auto"><p id="9818db55-6aee-82da-a1c5-01fbffd10e3f" class="">4、animate() : 自定义动画</p></div><div style="display:contents" dir="auto"><p id="bee8db55-6aee-8220-9718-0113aa8d63ae" class="">1、样式过度 不支持</p></div><div style="display:contents" dir="auto"><p id="e8b8db55-6aee-8345-89fc-8174b035d3b7" class="">2、颜色变化 不支持</p></div><div style="display:contents" dir="auto"><p id="1e38db55-6aee-8338-b1a9-819174a2f944" class="">3、transform变形 不支持</p></div><div style="display:contents" dir="auto"><pre id="30c8db55-6aee-8222-843e-01d2ac7bd68e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$(selector).animate(
+  properties,   // 要动画的CSS属性（必选）
+  duration,     // 动画时长（可选，默认400ms）
+  easing,       // 缓动函数（可选，默认&#x27;swing&#x27;）
+  complete      // 完成回调（可选）
+);</code></pre></div><div style="display:contents" dir="auto"><pre id="8d48db55-6aee-82a6-82ed-816cd886b9bf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 同时修改多个属性（宽、高、透明度、位置）
+$(&#x27;#box&#x27;).animate({
+  width: &#x27;300px&#x27;,
+  height: &#x27;300px&#x27;,
+  opacity: 0.5,
+  top: &#x27;50px&#x27;,
+  left: &#x27;50px&#x27;
+}, 1500);</code></pre></div><div style="display:contents" dir="auto"><pre id="ee28db55-6aee-83fb-af61-01d5ac39abdc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 相对值动画：在属性值前加 += 或 -= 表示相对当前值变化
+// 宽度增加100px，高度减少50px
+$(&#x27;#box&#x27;).animate({
+  width: &#x27;+=100px&#x27;,
+  height: &#x27;-=50px&#x27;
+}, 800);</code></pre></div><div style="display:contents" dir="auto"><pre id="1898db55-6aee-8280-835d-81866f449e88" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 队列动画：多次调用 animate() 会按顺序执行（默认排队）
+$(&#x27;#box&#x27;)
+  .animate({ left: &#x27;200px&#x27; }, 500)    // 第一步：右移
+  .animate({ top: &#x27;100px&#x27; }, 500)     // 第二步：下移
+  .animate({ opacity: 0 }, 500);      // 第三步：淡出</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="22d8db55-6aee-8254-a120-01df3e80cb65" class="toggle"><li><details open=""><summary>动画控制</summary><div style="display:contents" dir="auto"><p id="46a8db55-6aee-831a-836d-816894fe3449" class="">1、stop() : 停止动画（保持暂停时的状态）</p></div><div style="display:contents" dir="auto"><pre id="c578db55-6aee-824a-a037-81a6bb3f59f1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 停止当前动画，保留当前状态（默认）
+$(selector).stop();
+// 停止当前动画，并立即完成所有排队动画
+$(selector).stop(true, true);
+
+场景：快速 hover 时避免动画堆积（如导航菜单）
+$(&#x27;.menu&#x27;).hover(
+  function() { $(this).stop().slideDown(); },
+  function() { $(this).stop().slideUp(); }
+);</code></pre></div><div style="display:contents" dir="auto"><p id="a7c8db55-6aee-8294-bdf9-816e389a6f13" class="">2、delay() : 延迟动画</p></div><div style="display:contents" dir="auto"><pre id="26b8db55-6aee-828c-adb2-813b8cd3d45b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 先等待1秒，再执行动画
+$(&#x27;#box&#x27;)
+  .delay(1000)
+  .animate({ left: &#x27;200px&#x27; }, 500);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="da78db55-6aee-82b9-96fc-81cc4ee5ff34" class="toggle"><li><details open=""><summary>缓动函数(easing)</summary><div style="display:contents" dir="auto"><p id="dad8db55-6aee-8283-b6d7-814e42ae63f1" class="">控制动画的速度变化曲线，影响动画的 &quot;质感&quot;：</p></div><div style="display:contents" dir="auto"><p id="6d08db55-6aee-8258-97b4-01e03b04236e" class=""><strong>默认值</strong>：<div class="indented"><div style="display:contents" dir="auto"><p id="4e48db55-6aee-822b-8192-8123fd9883b5" class=""><code>swing</code>：先慢后快再慢（默认，适合大多数场景）</p></div><div style="display:contents" dir="auto"><p id="57b8db55-6aee-83c0-aaca-013fef0ea6b1" class=""><code>linear</code>：匀速运动（适合机械感动画）</p></div></div></p></div><div style="display:contents" dir="auto"><p id="2118db55-6aee-8391-b6d3-01fb3ad7d2a1" class=""><strong>扩展</strong>：通过引入 jQuery UI 可获得更多缓动效果（如 <code>easeOutBounce</code> 弹跳效果）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1f18db55-6aee-83a4-8f22-8188c0905338" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><pre id="0928db55-6aee-82c5-9a23-011e84fcb755" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;modal&quot; style=&quot;display:none; position:fixed; top:50%; left:50%; width:300px; height:200px; 
+                       background:white; border-radius:8px; padding:20px;&quot;&gt;
+  &lt;h3&gt;弹出框&lt;/h3&gt;
+  &lt;p&gt;这是一个带动画的弹出框&lt;/p&gt;
+  &lt;button id=&quot;close&quot;&gt;关闭&lt;/button&gt;
+&lt;/div&gt;
+&lt;button id=&quot;open&quot;&gt;打开弹出框&lt;/button&gt;
+
+&lt;script&gt;
+  $(&#x27;#open&#x27;).click(function() {
+    $(&#x27;#modal&#x27;)
+      .css({ 
+        // 初始位置（屏幕中心偏上）
+        marginLeft: &#x27;-150px&#x27;, 
+        marginTop: &#x27;-200px&#x27;, 
+        opacity: 0 
+      })
+      .show()
+      .animate({ 
+        marginTop: &#x27;-100px&#x27;,  // 移动到中心
+        opacity: 1            // 淡入
+      }, 500);
+  });
+
+  $(&#x27;#close&#x27;).click(function() {
+    $(&#x27;#modal&#x27;)
+      .animate({ 
+        marginTop: &#x27;-200px&#x27;,  // 移回上方
+        opacity: 0            // 淡出
+      }, 500, function() {
+        $(this).hide();       // 动画结束后隐藏
+      });
+  });
+&lt;/script&gt;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8458db55-6aee-8277-9978-81a9492bd823" class="toggle"><li><details open=""><summary>节点操作</summary><div style="display:contents" dir="auto"><ul id="1ad8db55-6aee-8201-b191-01f18013f289" class="toggle"><li><details open=""><summary>1、节点创建</summary><div style="display:contents" dir="auto"><p id="6fb8db55-6aee-8341-b19f-01ac21adf2cf" class="">通过jQuery选择器语法直接创建DOM节点</p></div><div style="display:contents" dir="auto"><p id="ca18db55-6aee-8296-be67-0176d5e15814" class="">$(’&lt;标签名 属性=’值’&gt;内容&lt;/标签名&gt;’)，</p></div><div style="display:contents" dir="auto"><p id="dc68db55-6aee-8379-889a-817f8f7daaec" class="">返回jQuery对象</p></div><div style="display:contents" dir="auto"><pre id="3be8db55-6aee-8327-b918-01c838a344e4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 1. 创建空标签（无属性、无内容）
+const $div = $(&#x27;&lt;div&gt;&lt;/div&gt;&#x27;);
+// 2. 创建带属性和内容的标签
+const $link = $(&#x27;&lt;a href=&quot;https://jquery.com&quot; target=&quot;_blank&quot;&gt;jQuery官网&lt;/a&gt;&#x27;);
+// 3. 创建带复杂属性的标签（如class、style）
+const $box = $(&#x27;&lt;div class=&quot;box&quot; style=&quot;width:100px;height:100px;background:red;&quot;&gt;我是红色盒子&lt;/div&gt;&#x27;);</code></pre></div><div style="display:contents" dir="auto"><p id="22a8db55-6aee-82b4-ad5b-018344732dfd" class="">创建后立即设置属性/事件</p></div><div style="display:contents" dir="auto"><pre id="6388db55-6aee-8279-a08b-812b8f8baea2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const $btn = $(&#x27;&lt;button&gt;点击我&lt;/button&gt;&#x27;)
+  .attr(&#x27;id&#x27;, &#x27;submit-btn&#x27;)       // 设置id属性
+  .css(&#x27;padding&#x27;, &#x27;8px 16px&#x27;)    // 设置样式
+  .on(&#x27;click&#x27;, function() {       // 绑定点击事件
+    alert(&#x27;按钮被点击了！&#x27;);
+  });</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9d38db55-6aee-83f7-a27d-811f0f2079ea" class="toggle"><li><details open=""><summary>2、节点插入</summary><div style="display:contents" dir="auto"><p id="3258db55-6aee-8388-a7c6-013eb55accff" class="">1、内部插入（插入元素到目标元素内部）（子节点）</p></div><div style="display:contents" dir="ltr"><table id="d018db55-6aee-83ca-808b-81281d32c7fa" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="ac28db55-6aee-8383-b9a8-81257568c2b8"><th id="RPo:" class="simple-table-header-color simple-table-header" style="width:189.57681274414062px"><strong>方法</strong></th><th id="\xLa" class="simple-table-header-color simple-table-header" style="width:293.99737548828125px"><strong>作用</strong></th><th id="ZYVQ" class="simple-table-header-color simple-table-header" style="width:335px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="d9a8db55-6aee-82fe-ba08-0140fd4a0481"><td id="RPo:" class="" style="width:189.57681274414062px"><code>append(content)</code></td><td id="\xLa" class="" style="width:293.99737548828125px">新节点插入到目标元素<strong>末尾</strong></td><td id="ZYVQ" class="" style="width:335px"><code>$(&#x27;ul&#x27;).append($(&#x27;&lt;li&gt;新列表项&lt;/li&gt;&#x27;))</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="70b8db55-6aee-8258-90bc-81098491ec6c"><td id="RPo:" class="" style="width:189.57681274414062px"><code>prepend(content)</code></td><td id="\xLa" class="" style="width:293.99737548828125px">新节点插入到目标元素<strong>开头</strong></td><td id="ZYVQ" class="" style="width:335px"><code>$(&#x27;div&#x27;).prepend($(&#x27;&lt;p&gt;顶部内容&lt;/p&gt;&#x27;))</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="35e8db55-6aee-827b-841b-010d17a01cc7"><td id="RPo:" class="" style="width:189.57681274414062px"><code>appendTo(target)</code></td><td id="\xLa" class="" style="width:293.99737548828125px">新节点追加到目标元素末尾（反转语法）</td><td id="ZYVQ" class="" style="width:335px"><code>$(&#x27;&lt;li&gt;新项&lt;/li&gt;&#x27;).appendTo(&#x27;ul&#x27;)</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7258db55-6aee-824a-8869-01ffa05f8a5f"><td id="RPo:" class="" style="width:189.57681274414062px"><code>prependTo(target)</code></td><td id="\xLa" class="" style="width:293.99737548828125px">新节点添加到目标元素开头（反转语法）</td><td id="ZYVQ" class="" style="width:335px"><code>$(&#x27;&lt;p&gt;顶部&lt;/p&gt;&#x27;).prependTo(&#x27;div&#x27;)</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="48b8db55-6aee-83dd-aaea-8156d0c0b981" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul id=&quot;list&quot;&gt;
+  &lt;li&gt;原有项1&lt;/li&gt;
+  &lt;li&gt;原有项2&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+  // 1. 向列表末尾添加新项
+  $(&#x27;#list&#x27;).append($(&#x27;&lt;li&gt;末尾新项&lt;/li&gt;&#x27;));
+  // 2. 向列表开头添加新项（链式调用）
+  $(&#x27;&lt;li&gt;开头新项&lt;/li&gt;&#x27;).css(&#x27;color&#x27;, &#x27;red&#x27;).prependTo(&#x27;#list&#x27;);
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="eed8db55-6aee-8346-b428-8104efddc886" class="">最终列表结构：</p></div><div style="display:contents" dir="auto"><pre id="a258db55-6aee-8293-b3e6-816a0c808caa" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul id=&quot;list&quot;&gt;
+  &lt;li style=&quot;color: red;&quot;&gt;开头新项&lt;/li&gt;
+  &lt;li&gt;原有项1&lt;/li&gt;
+  &lt;li&gt;原有项2&lt;/li&gt;
+  &lt;li&gt;末尾新项&lt;/li&gt;
+&lt;/ul&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="6d98db55-6aee-82b4-bb91-816221f67a16" class="">2、外部插入（兄弟节点）</p></div><div style="display:contents" dir="ltr"><table id="25f8db55-6aee-83b9-8a9f-81d67798071c" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="eb48db55-6aee-82cb-b736-8134f1a8f71e"><th id="BXmc" class="simple-table-header-color simple-table-header" style="width:183.20571899414062px"><strong>方法</strong></th><th id="?|Wq" class="simple-table-header-color simple-table-header" style="width:279.9947814941406px"><strong>作用</strong></th><th id="Z\HO" class="simple-table-header-color simple-table-header" style="width:353px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="6068db55-6aee-821f-955b-0149a6ac554a"><td id="BXmc" class="" style="width:183.20571899414062px"><code>after(content)</code></td><td id="?|Wq" class="" style="width:279.9947814941406px">新节点插入到目标元素<strong>后面</strong></td><td id="Z\HO" class="" style="width:353px"><code>$(&#x27;button&#x27;).after($(&#x27;&lt;span&gt;点击提交&lt;/span&gt;&#x27;))</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a268db55-6aee-83c0-b784-81b096a19d06"><td id="BXmc" class="" style="width:183.20571899414062px"><code>before(content)</code></td><td id="?|Wq" class="" style="width:279.9947814941406px">新节点插入到目标元素<strong>前面</strong></td><td id="Z\HO" class="" style="width:353px"><code>$(&#x27;p&#x27;).before($(&#x27;&lt;hr&gt;&#x27;))</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7bd8db55-6aee-8261-bad4-81454dc8947c"><td id="BXmc" class="" style="width:183.20571899414062px"><code>insertAfter(target)</code></td><td id="?|Wq" class="" style="width:279.9947814941406px">新节点插入到目标元素后面（反转语法）</td><td id="Z\HO" class="" style="width:353px"><code>$(&#x27;&lt;span&gt;提示&lt;/span&gt;&#x27;).insertAfter(&#x27;button&#x27;)</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="faa8db55-6aee-8355-87bc-818fa274d2b1"><td id="BXmc" class="" style="width:183.20571899414062px"><code>insertBefore(target)</code></td><td id="?|Wq" class="" style="width:279.9947814941406px">新节点插入到目标元素前面（反转语法）</td><td id="Z\HO" class="" style="width:353px"><code>$(&#x27;&lt;hr&gt;&#x27;).insertBefore(&#x27;p&#x27;)</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="9a68db55-6aee-82b8-ae42-016b2c1a57de" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all"> 按钮前面添加提示
+&lt;button id=&quot;btn&quot;&gt;提交&lt;/button&gt;
+
+&lt;script&gt;
+  // 1. 在按钮前添加&quot;必填&quot;提示
+  $(&#x27;#btn&#x27;).before($(&#x27;&lt;span style=&quot;color:red;&quot;&gt;*&lt;/span&gt;&#x27;));
+  // 2. 在按钮后添加&quot;请确认信息&quot;提示
+  $(&#x27;&lt;span style=&quot;margin-left:8px;&quot;&gt;请确认信息&lt;/span&gt;&#x27;).insertAfter(&#x27;#btn&#x27;);
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="7188db55-6aee-8361-9a20-814c1b88026e" class="">最终结构：</p></div><div style="display:contents" dir="auto"><pre id="f2d8db55-6aee-830d-82fc-81a5e7612152" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;span style=&quot;color: red;&quot;&gt;*&lt;/span&gt;
+&lt;button id=&quot;btn&quot;&gt;提交&lt;/button&gt;
+&lt;span style=&quot;margin-left: 8px;&quot;&gt;请确认信息&lt;/span&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e788db55-6aee-831a-b9c5-0193aa63a3a6" class="toggle"><li><details open=""><summary>3、节点删除</summary><div style="display:contents" dir="auto"><p id="b398db55-6aee-8354-b4eb-018178c16033" class="">1、remove([selector]): 彻底删除节点</p></div><div style="display:contents" dir="auto"><p id="1c88db55-6aee-822d-8f4c-81049765925c" class="">删除匹配的节点以及其所有的子节点，<strong>从DOM中完全移除（无法恢复）</strong></p></div><div style="display:contents" dir="auto"><p id="4698db55-6aee-82db-bf1d-015f787157de" class="">可选selector：过滤条件，仅符合条件的子节点</p></div><div style="display:contents" dir="auto"><pre id="7b88db55-6aee-838d-a052-01cdf3abc4b0" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul id=&quot;list&quot;&gt;
+  &lt;li class=&quot;active&quot;&gt;项1&lt;/li&gt;
+  &lt;li&gt;项2&lt;/li&gt;
+  &lt;li class=&quot;active&quot;&gt;项3&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+  // 1. 删除整个列表（彻底移除）
+  // $(&#x27;#list&#x27;).remove();
+  // 2. 仅删除列表中class为active的项
+  $(&#x27;#list li&#x27;).remove(&#x27;.active&#x27;);
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="b228db55-6aee-828b-8c99-013dbd523e91" class="">2、empty(): 清空内部节点</p></div><div style="display:contents" dir="auto"><p id="7b58db55-6aee-834d-9f4d-01a585f47ed7" class="">删除匹配节点的<strong>所有子节点，</strong>但保留节点本身（仅清空内容）</p></div><div style="display:contents" dir="auto"><pre id="bf58db55-6aee-83ae-be08-8129852d7768" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;container&quot;&gt;
+  &lt;p&gt;原有内容&lt;/p&gt;
+  &lt;input type=&quot;text&quot; value=&quot;测试值&quot;&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  // 清空container的所有子节点（p标签和input会被删除，container本身保留）
+  $(&#x27;#container&#x27;).empty();
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ec78db55-6aee-8380-b3ee-81f9fb6d2241" class="toggle"><li><details open=""><summary>4、节点复制</summary><div style="display:contents" dir="auto"><p id="1798db55-6aee-8380-a74e-011880051a49" class="">通过clone([withDataAndEvents])复制节点，生成一个与原节点完全相同的新节点（可选是否复制事件）</p></div><div style="display:contents" dir="auto"><p id="7c48db55-6aee-824c-b5f3-8179fd718c9b" class=""><code>withDataAndEvents</code>：布尔值（默认 <code>false</code>）<div class="indented"><div style="display:contents" dir="auto"><p id="5718db55-6aee-82ef-8857-81251610a5c0" class=""><code>false</code>：仅复制节点结构和样式，不复制绑定的事件。</p></div><div style="display:contents" dir="auto"><p id="af28db55-6aee-83e0-9000-81de1985b8e2" class=""><code>true</code>：复制节点结构、样式，<strong>同时复制绑定的事件</strong>（如 <code>click</code>、<code>hover</code>）。</p></div></div></p></div><div style="display:contents" dir="auto"><pre id="f488db55-6aee-8270-8b9c-012e8a6df96e" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">复制带事件的按钮
+&lt;button id=&quot;originalBtn&quot;&gt;原按钮&lt;/button&gt;
+&lt;div id=&quot;target&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  // 1. 给原按钮绑定点击事件
+  $(&#x27;#originalBtn&#x27;).on(&#x27;click&#x27;, function() {
+    alert(&#x27;原按钮被点击&#x27;);
+  });
+
+  // 2. 复制按钮（带事件），并插入到target中
+  const $cloneBtn = $(&#x27;#originalBtn&#x27;).clone(true); // true：复制事件
+  $cloneBtn.text(&#x27;复制的按钮&#x27;).appendTo(&#x27;#target&#x27;);
+
+  // 3. 点击复制的按钮，会触发相同的alert（事件被复制）
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1e68db55-6aee-832e-aa82-0155a74c6f1d" class="toggle"><li><details open=""><summary>5、节点替换</summary><div style="display:contents" dir="auto"><p id="0898db55-6aee-82a0-a8cc-01b13758e739" class="">1、replaceWith(newContent)</p></div><div style="display:contents" dir="auto"><p id="c928db55-6aee-8378-a96d-010e3a3cec6b" class="">将匹配的节点替换为新节点（原节点被移除）</p></div><div style="display:contents" dir="auto"><pre id="a708db55-6aee-82e5-875b-01a1f499d9df" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">替换段落内容
+&lt;p id=&quot;oldP&quot;&gt;旧段落&lt;/p&gt;
+
+&lt;script&gt;
+  // 将旧段落替换为新的div
+  $(&#x27;#oldP&#x27;).replaceWith($(&#x27;&lt;div style=&quot;color:blue;&quot;&gt;新的div内容&lt;/div&gt;&#x27;));
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="6228db55-6aee-8275-b4ac-818509506551" class="">2、replaceAll(target)</p></div><div style="display:contents" dir="auto"><p id="9748db55-6aee-8380-afba-817fa8c48b2c" class="">用新节点替换所有目标节点（翻转replaceWith的用法）</p></div><div style="display:contents" dir="auto"><pre id="39f8db55-6aee-8314-bfd4-81fe64888cc7" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">批量替换列表项
+&lt;ul&gt;
+  &lt;li class=&quot;old&quot;&gt;旧项1&lt;/li&gt;
+  &lt;li class=&quot;old&quot;&gt;旧项2&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+  // 用新li替换所有class为old的li
+  $(&#x27;&lt;li style=&quot;color:green;&quot;&gt;新项&lt;/li&gt;&#x27;).replaceAll(&#x27;li.old&#x27;);
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="dbf8db55-6aee-82d5-b7a7-011fa0131ef0" class="">替换后的列表为：</p></div><div style="display:contents" dir="auto"><pre id="2098db55-6aee-82e7-9e71-0149f9a3bbc9" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul&gt;
+  &lt;li style=&quot;color: green;&quot;&gt;新项&lt;/li&gt;
+  &lt;li style=&quot;color: green;&quot;&gt;新项&lt;/li&gt;
+&lt;/ul&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9708db55-6aee-82d6-b559-013df89cdaa0" class="toggle"><li><details open=""><summary>6、遍历节点</summary><div style="display:contents" dir="ltr"><table id="31b8db55-6aee-8396-b693-8124400e1b3d" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="c938db55-6aee-833f-8bc3-81de1004ddf1"><th id="BSUg" class="simple-table-header-color simple-table-header" style="width:184.20571899414062px"><strong>方法</strong></th><th id="l;Tt" class="simple-table-header-color simple-table-header" style="width:233.4609375px"><strong>作用</strong></th><th id="jE?;" class="simple-table-header-color simple-table-header" style="width:399px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="cdd8db55-6aee-8338-b340-81dcaf068deb"><td id="BSUg" class="" style="width:184.20571899414062px"><code>parent([selector])</code></td><td id="l;Tt" class="" style="width:233.4609375px">查找<strong>直接父节点</strong>（一层）</td><td id="jE?;" class="" style="width:399px"><code>$(&#x27;li&#x27;).parent()</code> → 找到 li 的直接父 ul</td></tr></div><div style="display:contents" dir="ltr"><tr id="6878db55-6aee-83ec-9116-81e509918c8f"><td id="BSUg" class="" style="width:184.20571899414062px"><code>children([selector])</code></td><td id="l;Tt" class="" style="width:233.4609375px">查找<strong>直接子节点</strong>（一层）</td><td id="jE?;" class="" style="width:399px"><code>$(&#x27;ul&#x27;).children(&#x27;.active&#x27;)</code> → 找到 ul 下 class 为 active 的 li</td></tr></div><div style="display:contents" dir="ltr"><tr id="9878db55-6aee-8379-867b-819916ffeabf"><td id="BSUg" class="" style="width:184.20571899414062px"><code>siblings([selector])</code></td><td id="l;Tt" class="" style="width:233.4609375px">查找<strong>所有兄弟节点</strong>（排除自身）</td><td id="jE?;" class="" style="width:399px"><code>$(&#x27;li.active&#x27;).siblings()</code> → 找到 active li 的所有兄弟</td></tr></div><div style="display:contents" dir="ltr"><tr id="9dd8db55-6aee-831a-9e7b-014266ee5ada"><td id="BSUg" class="" style="width:184.20571899414062px"><code>find(selector)</code></td><td id="l;Tt" class="" style="width:233.4609375px">查找<strong>所有后代节点</strong>（任意层级）</td><td id="jE?;" class="" style="width:399px"><code>$(&#x27;div&#x27;).find(&#x27;span&#x27;)</code> → 找到 div 下所有 span</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7908db55-6aee-8364-9940-0104985404d3" class="toggle"><li><details open=""><summary>注意</summary><div style="display:contents" dir="auto"><ol type="1" id="0bf8db55-6aee-8323-a75a-817a4f03b747" class="numbered-list" start="1"><li><strong>链式调用</strong>：jQuery 节点操作方法大多返回 jQuery 对象，可链式调用（如 <code>$(&#x27;&lt;div&gt;&#x27;).css().appendTo()</code>），减少代码量。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6878db55-6aee-83c9-824c-81e4e89bcedb" class="numbered-list" start="2"><li><strong>事件丢失问题</strong>：<div style="display:contents" dir="auto"><ul id="a718db55-6aee-8351-b806-019c7c25b6e8" class="bulleted-list"><li style="list-style-type:disc">用 <code>html()</code> 或 <code>replaceWith()</code> 替换节点时，原节点绑定的事件会丢失（需重新绑定，或用事件委托）。</li></ul></div><div style="display:contents" dir="auto"><ul id="d4d8db55-6aee-8300-ab2c-01be44bfd5f7" class="bulleted-list"><li style="list-style-type:disc">复制节点时，需加 <code>clone(true)</code> 才能保留事件。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="4b48db55-6aee-835f-bbec-0178bf755c7b" class="numbered-list" start="3"><li><strong>性能优化</strong>：<div style="display:contents" dir="auto"><ul id="ec28db55-6aee-82f6-b851-01eed6602d55" class="bulleted-list"><li style="list-style-type:disc">批量创建节点时，先创建临时容器（如 <code>$(&#x27;&lt;div&gt;&#x27;)</code>），将所有节点插入临时容器后，再一次性插入 DOM（减少重排）。</li></ul></div><div style="display:contents" dir="auto"><ul id="2fb8db55-6aee-833a-ba93-0165557032c4" class="bulleted-list"><li style="list-style-type:disc">避免频繁操作 DOM（如循环中多次 <code>append</code>），优先在内存中组装节点。</li></ul></div></li></ol></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="26d8db55-6aee-8368-a204-81855cb3b6c0" class="toggle"><li><details open=""><summary>jQuery操作Ajax</summary><div style="display:contents" dir="auto"><ul id="da58db55-6aee-82ce-a834-015d9f5d0755" class="toggle"><li><details open=""><summary>1、核心方法: $.ajax()</summary><div style="display:contents" dir="auto"><p id="bd78db55-6aee-83e4-bdd0-017c5241badf" class=""><code>$.ajax()</code> 是最底层、最灵活的 AJAX 方法，支持所有 HTTP 请求类型（GET、POST 等），并可配置各种参数.</p></div><div style="display:contents" dir="auto"><p id="9998db55-6aee-8200-941e-81e9ac6d33ac" class="">基本语法：</p></div><div style="display:contents" dir="auto"><pre id="5178db55-6aee-8389-97cd-0150425c6d2b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$.ajax({
+  url: &#x27;请求地址&#x27;,       // 必选，接口URL
+  type: &#x27;请求类型&#x27;,      // 可选，默认&#x27;GET&#x27;（常用&#x27;GET&#x27;/&#x27;POST&#x27;）
+  data: &#x27;发送的数据&#x27;,    // 可选，请求参数（对象或字符串）
+  dataType: &#x27;预期响应类型&#x27;, // 可选，如&#x27;json&#x27;/&#x27;html&#x27;/&#x27;text&#x27;
+  success: function(response) {}, // 可选，请求成功的回调
+  error: function(xhr) {},        // 可选，请求失败的回调
+  // 更多配置...
+});</code></pre></div><div style="display:contents" dir="auto"><p id="1a08db55-6aee-831a-9dc9-8165daa78954" class="">常用参数：</p></div><div style="display:contents" dir="ltr"><table id="4f78db55-6aee-8381-abe8-013f6080d4a5" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="e1c8db55-6aee-82af-b4d1-01b93ce456bf"><th id="bbQL" class="simple-table-header-color simple-table-header"><strong>参数名</strong></th><th id="Cd]D" class="simple-table-header-color simple-table-header" style="width:512.9986877441406px"><strong>作用说明</strong></th><th id="z==b" class="simple-table-header-color simple-table-header" style="width:430.6653594970703px"><strong>示例值</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="2018db55-6aee-8201-a163-01e8aa1217ce"><td id="bbQL" class=""><code>url</code></td><td id="Cd]D" class="" style="width:512.9986877441406px">请求的服务器接口地址（相对路径或绝对路径）</td><td id="z==b" class="" style="width:430.6653594970703px"><code>&#x27;/api/users&#x27;</code> 或 <code>&#x27;https://api.example.com/data&#x27;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="9d48db55-6aee-82ce-b7a9-81d54de3fada"><td id="bbQL" class=""><code>type</code></td><td id="Cd]D" class="" style="width:512.9986877441406px">HTTP 方法（大小写不敏感），常用 <code>&#x27;GET&#x27;</code>/<code>&#x27;POST&#x27;</code>，还有 <code>&#x27;PUT&#x27;</code>/<code>&#x27;DELETE&#x27;</code> 等</td><td id="z==b" class="" style="width:430.6653594970703px"><code>&#x27;POST&#x27;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a028db55-6aee-8328-b11f-01413591ea2c"><td id="bbQL" class=""><code>data</code></td><td id="Cd]D" class="" style="width:512.9986877441406px">发送到服务器的数据：- GET 请求会拼接为 URL 参数- POST 请求会放在请求体</td><td id="z==b" class="" style="width:430.6653594970703px"><code>{id: 1, name: &#x27;张三&#x27;}</code> 或 <code>&#x27;id=1&amp;name=张三&#x27;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a788db55-6aee-8348-8129-81af3863724e"><td id="bbQL" class=""><code>dataType</code></td><td id="Cd]D" class="" style="width:512.9986877441406px">预期服务器返回的数据类型（自动解析）：- <code>&#x27;json&#x27;</code>：自动解析 JSON- <code>&#x27;html&#x27;</code>：返回 HTML 字符串- <code>&#x27;text&#x27;</code>：纯文本</td><td id="z==b" class="" style="width:430.6653594970703px"><code>&#x27;json&#x27;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="0338db55-6aee-82ca-a035-814a5eac5a4b"><td id="bbQL" class=""><code>contentType</code></td><td id="Cd]D" class="" style="width:512.9986877441406px">请求头 <code>Content-Type</code>（POST 等请求用）：- 默认 <code>&#x27;application/x-www-form-urlencoded&#x27;</code>（表单格式）- 发送 JSON 需设为 <code>&#x27;application/json&#x27;</code></td><td id="z==b" class="" style="width:430.6653594970703px"><code>&#x27;application/json&#x27;</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4fe8db55-6aee-82bb-b439-01f803cea3e3"><td id="bbQL" class=""><code>success</code></td><td id="Cd]D" class="" style="width:512.9986877441406px">请求成功的回调函数，参数为服务器响应数据</td><td id="z==b" class="" style="width:430.6653594970703px"><code>function(res) { console.log(res); }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="e918db55-6aee-8224-b191-8181eb96f83a"><td id="bbQL" class=""><code>error</code></td><td id="Cd]D" class="" style="width:512.9986877441406px">请求失败的回调函数，参数为 XMLHttpRequest 对象</td><td id="z==b" class="" style="width:430.6653594970703px"><code>function(xhr) { console.error(xhr.status); }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c2e8db55-6aee-8321-9dba-8150e3999682"><td id="bbQL" class=""><code>timeout</code></td><td id="Cd]D" class="" style="width:512.9986877441406px">请求超时时间（毫秒），超时会触发 <code>error</code> 回调</td><td id="z==b" class="" style="width:430.6653594970703px"><code>5000</code>（5 秒超时）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="7748db55-6aee-8340-bfac-01653156cdcc" class="">示例：</p></div><div style="display:contents" dir="auto"><p id="8558db55-6aee-831c-86d2-012e5312780b" class="">发送get请求</p></div><div style="display:contents" dir="auto"><pre id="04e8db55-6aee-8273-91cd-81ac05140f2d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 向服务器请求ID为1的用户数据
+$.ajax({
+  url: &#x27;/api/users&#x27;,
+  type: &#x27;GET&#x27;,
+  data: { id: 1 }, // GET参数会拼接为：/api/users?id=1
+  dataType: &#x27;json&#x27;, // 预期返回JSON
+  success: function(user) {
+    console.log(&#x27;请求成功：&#x27;, user);
+    // 处理数据（如渲染到页面）
+    $(&#x27;#username&#x27;).text(user.name);
+  },
+  error: function(xhr) {
+    console.error(&#x27;请求失败，状态码：&#x27;, xhr.status);
+  }
+});</code></pre></div><div style="display:contents" dir="auto"><p id="9db8db55-6aee-8259-a8ff-8118d686facb" class="">发送post请求（提交表单数据）</p></div><div style="display:contents" dir="auto"><pre id="f098db55-6aee-8232-b4d0-81cb71182e1c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 提交用户注册信息
+$.ajax({
+  url: &#x27;/api/register&#x27;,
+  type: &#x27;POST&#x27;,
+  data: {
+    username: &#x27;zhangsan&#x27;,
+    password: &#x27;123456&#x27;,
+    email: &#x27;zhangsan@example.com&#x27;
+  },
+  dataType: &#x27;json&#x27;,
+  success: function(res) {
+    if (res.success) {
+      alert(&#x27;注册成功！&#x27;);
+    } else {
+      alert(&#x27;注册失败：&#x27; + res.message);
+    }
+  },
+  error: function() {
+    alert(&#x27;网络错误，请重试！&#x27;);
+  }
+});</code></pre></div><div style="display:contents" dir="auto"><p id="7178db55-6aee-82a0-b352-01fb017204dc" class="">发送json格式的post请求</p></div><div style="display:contents" dir="auto"><pre id="6f08db55-6aee-8263-8d6b-01fe83d54959" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const userData = { name: &#x27;李四&#x27;, age: 25 };
+
+$.ajax({
+  url: &#x27;/api/users&#x27;,
+  type: &#x27;POST&#x27;,
+  data: JSON.stringify(userData), // 转换为JSON字符串
+  contentType: &#x27;application/json&#x27;, // 告诉服务器是JSON格式
+  dataType: &#x27;json&#x27;,
+  success: function(res) {
+    console.log(&#x27;用户创建成功：&#x27;, res);
+  }
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d678db55-6aee-83e9-a914-813b80c13c17" class="toggle"><li><details open=""><summary>2、简化方法</summary><div style="display:contents" dir="auto"><p id="5248db55-6aee-82f9-85d0-012893039df1" class="">1、$.get(url, [data], [success], [dataType])</p></div><div style="display:contents" dir="auto"><p id="e748db55-6aee-8202-9b9a-8168c3c0c8e5" class="">发送get请求（常用）</p></div><div style="display:contents" dir="auto"><pre id="c3b8db55-6aee-829d-943c-013afc7d406a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 获取产品列表
+$.get(&#x27;/api/products&#x27;, { category: &#x27;book&#x27; }, function(products) {
+  console.log(&#x27;产品列表：&#x27;, products);
+}, &#x27;json&#x27;);</code></pre></div><div style="display:contents" dir="auto"><p id="cbc8db55-6aee-8336-949b-812e942a6c6a" class="">2、$.post(url, [data], [success], [dataType])</p></div><div style="display:contents" dir="auto"><p id="4c48db55-6aee-8329-8018-0118074599a7" class="">发送post请求</p></div><div style="display:contents" dir="auto"><pre id="80c8db55-6aee-831a-8c41-817c305d1937" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 提交表单数据
+$.post(&#x27;/api/login&#x27;, { username: &#x27;admin&#x27;, pwd: &#x27;123&#x27; }, function(res) {
+  if (res.code === 200) {
+    location.href = &#x27;/home&#x27;; // 登录成功跳转
+  }
+}, &#x27;json&#x27;);</code></pre></div><div style="display:contents" dir="auto"><p id="8d08db55-6aee-82d9-930e-815d213972c7" class="">3、$.getJSON(url, [data], [success])</p></div><div style="display:contents" dir="auto"><p id="2438db55-6aee-8267-a79a-014c601db9d4" class="">专门用于获取JSON数据（等价于$.get(… , ‘json’)）</p></div><div style="display:contents" dir="auto"><pre id="beb8db55-6aee-8363-a087-01106bbd061e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$.getJSON(&#x27;/api/config&#x27;, function(config) {
+  console.log(&#x27;配置数据：&#x27;, config);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="35b8db55-6aee-837e-9afc-81a0228852c8" class="">4、$.getScript(url, [success])</p></div><div style="display:contents" dir="auto"><p id="9c88db55-6aee-8392-b755-81b75c7c863f" class="">动态加载并执行JS脚本（如：加载第三方库）</p></div><div style="display:contents" dir="auto"><pre id="aab8db55-6aee-8372-b358-8140dd02d95b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 动态加载Chart.js并使用
+$.getScript(&#x27;https://cdn.jsdelivr.net/npm/chart.js&#x27;, function() {
+  // 脚本加载完成后执行
+  const ctx = $(&#x27;#myChart&#x27;)[0].getContext(&#x27;2d&#x27;);
+  new Chart(ctx, { /* 配置 */ });
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d7e8db55-6aee-83dc-a92d-013fadc0d778" class="toggle"><li><details open=""><summary>3、高级用法</summary><div style="display:contents" dir="auto"><p id="5fa8db55-6aee-826b-bc44-81c13ea6c403" class="">1、全局事件（监控所有AJAX请求）</p></div><div style="display:contents" dir="auto"><p id="86d8db55-6aee-83d9-8f0c-81efd7347858" class="">jQuery 提供全局 AJAX 事件，可统一处理所有请求的开始、结束、错误等：</p></div><div style="display:contents" dir="auto"><pre id="5b08db55-6aee-83fd-abd1-01b32b9d0f0e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 所有AJAX请求开始时触发（如显示加载动画）
+$(document).ajaxStart(function() {
+  $(&#x27;#loading&#x27;).show(); // 显示加载提示
+});
+
+// 所有AJAX请求结束时触发（如隐藏加载动画）
+$(document).ajaxStop(function() {
+  $(&#x27;#loading&#x27;).hide(); // 隐藏加载提示
+});
+
+// 所有AJAX请求失败时触发
+$(document).ajaxError(function(event, xhr) {
+  console.error(&#x27;全局错误：&#x27;, xhr.status);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="d3a8db55-6aee-8253-afb7-818955860244" class="">2、取消请求（abort()）</p></div><div style="display:contents" dir="auto"><p id="9438db55-6aee-82c9-86ed-01487553a382" class="">通过保存 <code>$.ajax()</code> 返回的 <code>jqXHR</code> 对象，可手动取消请求：</p></div><div style="display:contents" dir="auto"><pre id="2d98db55-6aee-8280-ac5b-81d8fa9ae0a7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let xhr; // 保存请求对象
+
+$(&#x27;#fetchBtn&#x27;).click(function() {
+  // 如果已有请求，先取消
+  if (xhr) xhr.abort();
+  
+  xhr = $.ajax({
+    url: &#x27;/api/large-data&#x27;,
+    success: function(data) {
+      console.log(&#x27;数据加载完成&#x27;);
+    }
+  });
+});
+
+$(&#x27;#cancelBtn&#x27;).click(function() {
+  if (xhr) xhr.abort(); // 取消请求
+  console.log(&#x27;请求已取消&#x27;);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="8818db55-6aee-82eb-b58a-81444d1eb86e" class="">3、设置请求头（headers）</p></div><div style="display:contents" dir="auto"><p id="8448db55-6aee-831f-9783-81692c04fb50" class="">某些接口需要自定义请求头（如认证 Token）：</p></div><div style="display:contents" dir="auto"><pre id="85a8db55-6aee-8340-9d09-81477ad542f6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$.ajax({
+  url: &#x27;/api/private-data&#x27;,
+  headers: {
+    &#x27;Authorization&#x27;: &#x27;Bearer &#x27; + localStorage.getItem(&#x27;token&#x27;), // 携带Token
+    &#x27;X-Requested-With&#x27;: &#x27;XMLHttpRequest&#x27; // 标识AJAX请求
+  },
+  success: function(data) {
+    console.log(&#x27;私有数据：&#x27;, data);
+  }
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9588db55-6aee-8318-b6fe-81f58c363685" class="toggle"><li><details open=""><summary>注意</summary><div style="display:contents" dir="auto"><ol type="1" id="9c98db55-6aee-83b6-be23-014c5d43b3ce" class="numbered-list" start="1"><li><strong>跨域问题</strong>：jQuery AJAX 受浏览器同源策略限制，跨域请求需服务器配合设置 CORS（跨域资源共享）响应头，否则会报 <code>Access-Control-Allow-Origin</code> 错误。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a2d8db55-6aee-8321-b990-8133c744bd8c" class="numbered-list" start="2"><li><strong>数据类型转换</strong>：<div style="display:contents" dir="auto"><ul id="8478db55-6aee-8290-b5d2-01fe585d68c5" class="bulleted-list"><li style="list-style-type:disc"><code>dataType: &#x27;json&#x27;</code> 时，若服务器返回非 JSON 格式数据，会触发 <code>error</code> 回调（解析失败）。</li></ul></div><div style="display:contents" dir="auto"><ul id="b848db55-6aee-8236-b11d-81c915724368" class="bulleted-list"><li style="list-style-type:disc">POST 请求用 <code>application/json</code> 时，必须用 <code>JSON.stringify()</code> 转换数据，否则服务器可能无法解析。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a358db55-6aee-8264-bc31-811bc0b43fa4" class="numbered-list" start="3"><li><strong>替代方案</strong>：jQuery AJAX 已逐渐被现代 API 替代（如 <code>fetch</code> 或 Axios），但在维护旧项目时仍广泛使用。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0528db55-6aee-8263-9707-817eecfa3bde" class="numbered-list" start="4"><li><strong>版本差异</strong>：<div style="display:contents" dir="auto"><ul id="dea8db55-6aee-83b1-a76c-8149a7708109" class="bulleted-list"><li style="list-style-type:disc">jQuery 1.x 支持 IE6/7/8，2.x+ 放弃旧 IE 支持，建议根据项目需求选择版本。</li></ul></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6168db55-6aee-834e-8520-81ae2040efb4" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><p id="6b68db55-6aee-83e7-bfde-0107a4ba5463" class="">用户登录功能：</p></div><div style="display:contents" dir="auto"><pre id="8118db55-6aee-83ed-897c-814d73257676" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;loginForm&quot;&gt;
+  &lt;input type=&quot;text&quot; id=&quot;username&quot; placeholder=&quot;用户名&quot;&gt;
+  &lt;input type=&quot;password&quot; id=&quot;password&quot; placeholder=&quot;密码&quot;&gt;
+  &lt;button id=&quot;loginBtn&quot;&gt;登录&lt;/button&gt;
+  &lt;div id=&quot;loading&quot; style=&quot;display:none;&quot;&gt;登录中...&lt;/div&gt;
+  &lt;div id=&quot;error&quot; style=&quot;color:red;&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  $(&#x27;#loginBtn&#x27;).click(function() {
+    const username = $(&#x27;#username&#x27;).val();
+    const password = $(&#x27;#password&#x27;).val();
+    
+    // 显示加载状态，清空错误提示
+    $(&#x27;#loading&#x27;).show();
+    $(&#x27;#error&#x27;).text(&#x27;&#x27;);
+    
+    // 发送登录请求
+    $.ajax({
+      url: &#x27;/api/login&#x27;,
+      type: &#x27;POST&#x27;,
+      data: { username, password },
+      dataType: &#x27;json&#x27;,
+      timeout: 5000,
+      success: function(res) {
+        if (res.code === 200) {
+          // 登录成功，保存Token并跳转
+          localStorage.setItem(&#x27;token&#x27;, res.token);
+          location.href = &#x27;/dashboard&#x27;;
+        } else {
+          // 业务错误（如用户名密码错误）
+          $(&#x27;#error&#x27;).text(res.message);
+        }
+      },
+      error: function(xhr) {
+        if (xhr.statusText === &#x27;abort&#x27;) {
+          $(&#x27;#error&#x27;).text(&#x27;请求已取消&#x27;);
+        } else if (xhr.status === 0) {
+          $(&#x27;#error&#x27;).text(&#x27;网络连接失败&#x27;);
+        } else {
+          $(&#x27;#error&#x27;).text(&#x27;服务器错误：&#x27; + xhr.status);
+        }
+      },
+      complete: function() {
+        // 无论成功失败，都隐藏加载状态
+        $(&#x27;#loading&#x27;).hide();
+      }
+    });
+  });
+&lt;/script&gt;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3d48db55-6aee-828f-ac96-01bcaae0f5d2" class="toggle"><li><details open=""><summary>jQuery操作jsonp</summary><div style="display:contents" dir="auto"><ul id="c998db55-6aee-834f-a896-819dd91aaf48" class="toggle"><li><details open=""><summary>jQuery 操作JSONP的方法</summary><div style="display:contents" dir="auto"><p id="c808db55-6aee-823c-8a0f-01c2763ce7fc" class="">jQuery 的<code>$.ajax()</code>方法<mark class="highlight-purple">通过配置</mark><mark class="highlight-purple"><code>dataType: &quot;jsonp&quot;</code></mark><mark class="highlight-purple">支持 JSONP 请求</mark>，核心参数如下：</p></div><div style="display:contents" dir="ltr"><table id="e1e8db55-6aee-829b-8130-811cfcfa9a27" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="da68db55-6aee-82d8-907a-816c20fd3637"><th id="uXNS" class="simple-table-header-color simple-table-header" style="width:183.15625px"><strong>参数名</strong></th><th id="ES?g" class="simple-table-header-color simple-table-header" style="width:639px"><strong>作用说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="5838db55-6aee-83fa-bc44-815e5a2a0bc3"><td id="uXNS" class="" style="width:183.15625px"><code>url</code></td><td id="ES?g" class="" style="width:639px">跨域接口的请求地址</td></tr></div><div style="display:contents" dir="ltr"><tr id="f9c8db55-6aee-82b5-b74c-81c2351be767"><td id="uXNS" class="" style="width:183.15625px"><code>dataType</code></td><td id="ES?g" class="" style="width:639px">必须设为<code>&quot;jsonp&quot;</code>，告知 jQuery 使用 JSONP 方式请求</td></tr></div><div style="display:contents" dir="ltr"><tr id="f4b8db55-6aee-8370-a57d-81da3913c601"><td id="uXNS" class="" style="width:183.15625px"><code>jsonp</code></td><td id="ES?g" class="" style="width:639px">回调函数名的参数名（默认值为<code>&quot;callback&quot;</code>，需与服务端约定）</td></tr></div><div style="display:contents" dir="ltr"><tr id="db08db55-6aee-838c-9956-81b8b6fe0cdc"><td id="uXNS" class="" style="width:183.15625px"><code>jsonpCallback</code></td><td id="ES?g" class="" style="width:639px">自定义回调函数名（可选，默认由 jQuery 自动生成随机函数名，如<code>jQueryxxx_xxx</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="8498db55-6aee-833e-b96b-01c5ccbd868a"><td id="uXNS" class="" style="width:183.15625px"><code>success</code></td><td id="ES?g" class="" style="width:639px">数据成功返回后的处理函数（参数为服务端返回的 JSON 数据）</td></tr></div><div style="display:contents" dir="ltr"><tr id="bd88db55-6aee-830a-a604-0141fc8b4326"><td id="uXNS" class="" style="width:183.15625px"><code>error</code></td><td id="ES?g" class="" style="width:639px">错误处理函数（注意：JSONP 无法捕获 HTTP 错误状态码，仅在超时等情况下触发）</td></tr></div><div style="display:contents" dir="ltr"><tr id="ec58db55-6aee-8260-9d6e-01bc1d5d834e"><td id="uXNS" class="" style="width:183.15625px"><code>timeout</code></td><td id="ES?g" class="" style="width:639px">超时时间（毫秒，超过时间触发<code>error</code>）</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="99f8db55-6aee-839f-beba-81a1b6669f5d" class="toggle"><li><details open=""><summary>完整演示</summary><div style="display:contents" dir="auto"><p id="8218db55-6aee-82bc-bb17-81b96ffa0600" class="">客户端：</p></div><div style="display:contents" dir="auto"><pre id="6828db55-6aee-8209-93ff-819438837778" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;jQuery JSONP示例&lt;/title&gt;
+  &lt;!-- 引入jQuery --&gt;
+  &lt;script src=&quot;https://code.jquery.com/jquery-3.6.0.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script&gt;
+    // 发送JSONP请求
+    $.ajax({
+      url: &quot;http://cross-domain.com/api/data&quot;, // 跨域接口地址
+      dataType: &quot;jsonp&quot;, // 关键：指定为JSONP
+      jsonp: &quot;callback&quot;, // 服务端接收回调函数名的参数名（默认就是&quot;callback&quot;，可省略）
+      jsonpCallback: &quot;myCallback&quot;, // 自定义回调函数名（可选）
+      data: { // 携带的参数（会自动拼接到url后）
+        type: &quot;movie&quot;,
+        page: 1
+      },
+      success: function(data) { // 回调函数（实际由服务端返回的函数调用触发）
+        console.log(&quot;获取到的数据：&quot;, data);
+        // 处理数据（如渲染页面）
+      },
+      error: function(xhr, status, error) {
+        console.log(&quot;请求失败：&quot;, status, error);
+      },
+      timeout: 5000 // 5秒超时
+    });
+
+    // 注意：如果指定了jsonpCallback为&quot;myCallback&quot;，需确保全局存在该函数（也可由jQuery自动管理）
+    // function myCallback(data) { ... } 
+    // （jQuery会自动绑定success到回调，无需手动定义）
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="6278db55-6aee-8366-bf05-0111cdb8c27f" class="">服务端：</p></div><div style="display:contents" dir="auto"><pre id="42d8db55-6aee-83fb-a96f-8144a42b140a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const http = require(&#x27;http&#x27;);
+const url = require(&#x27;url&#x27;);
+
+http.createServer((req, res) =&gt; {
+  const parsedUrl = url.parse(req.url, true);
+  const query = parsedUrl.query;
+
+  // 1. 获取客户端传来的回调函数名（对应客户端的jsonp参数，默认是&quot;callback&quot;）
+  const callbackName = query.callback;
+
+  // 2. 准备要返回的数据（JSON格式）
+  const responseData = {
+    code: 200,
+    message: &quot;success&quot;,
+    data: [
+      { id: 1, title: &quot;肖申克的救赎&quot; },
+      { id: 2, title: &quot;霸王别姬&quot; }
+    ]
+  };
+
+  // 3. 拼接响应内容：回调函数名(数据)
+  const jsonpResponse = `${callbackName}(${JSON.stringify(responseData)})`;
+
+  // 4. 设置响应头（返回JavaScript）
+  res.writeHead(200, { &quot;Content-Type&quot;: &quot;application/javascript&quot; });
+  res.end(jsonpResponse);
+
+}).listen(80, &quot;cross-domain.com&quot;); // 模拟跨域域名</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6a58db55-6aee-839b-b4e3-0192510deb38" class="toggle"><li><details open=""><summary>jQuery中AJAX Hooks</summary><div style="display:contents" dir="auto"><p id="b758db55-6aee-8214-8d47-8182b671c3e2" class="">是一组在 AJAX 请求生命周期不同阶段触发的回调函数，允许开发者在请求发送前、响应处理中、请求完成后等关键节点插入自定义逻辑，实现对 AJAX 行为的扩展或干预。</p></div><div style="display:contents" dir="auto"><ul id="a6d8db55-6aee-82b9-8623-019a820204fd" class="toggle"><li><details open=""><summary>核心作用</summary><div style="display:contents" dir="auto"><p id="6d38db55-6aee-8214-ad92-01f6dd32fae0" class=""><strong>拦截与修改</strong>：在请求发送前修改请求参数、 headers 等；在响应返回后预处理数据。</p></div><div style="display:contents" dir="auto"><p id="4778db55-6aee-83de-9772-81d1b51a12eb" class=""><strong>统一处理</strong>：全局统一处理所有 AJAX 请求的错误、添加通用请求头（如 Token）、加载状态提示等。</p></div><div style="display:contents" dir="auto"><p id="5308db55-6aee-83d3-a394-01f63bd1b3cc" class=""><strong>扩展功能</strong>：基于钩子实现自定义数据格式解析、请求重试、权限验证等。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9ec8db55-6aee-83fe-96d9-01b1db1c808b" class="toggle"><li><details open=""><summary>分类与执行时机</summary><div style="display:contents" dir="auto"><p id="b548db55-6aee-8259-8965-815b30be162e" class="">jQuery 的 AJAX 钩子按作用范围分为 <strong>局部钩子</strong>（单个请求生效）和 <strong>全局钩子</strong>（所有请求生效），按执行阶段可分为以下几类：</p></div><div style="display:contents" dir="ltr"><table id="4868db55-6aee-83e5-b1ed-81960e51f5e5" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5468db55-6aee-8215-8a5a-0177724b24b4"><th id="CnQQ" class="simple-table-header-color simple-table-header" style="width:147.1302032470703px"><strong>钩子类型</strong></th><th id="wP:G" class="simple-table-header-color simple-table-header" style="width:370.17706298828125px"><strong>执行时机</strong></th><th id="]Ybc" class="simple-table-header-color simple-table-header" style="width:371.671875px"><strong>核心参数</strong></th><th id="S~Fz" class="simple-table-header-color simple-table-header" style="width:267px"><strong>作用场景示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="c728db55-6aee-838e-84b2-01c787dfb900"><td id="CnQQ" class="" style="width:147.1302032470703px"><code>beforeSend</code></td><td id="wP:G" class="" style="width:370.17706298828125px">请求发送前（<code>XMLHttpRequest</code>已创建）</td><td id="]Ybc" class="" style="width:371.671875px"><code>xhr</code>（请求对象）、<code>settings</code>（配置）</td><td id="S~Fz" class="" style="width:267px">添加请求头、取消请求（返回<code>false</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="bff8db55-6aee-8245-a61f-81a5553a54a1"><td id="CnQQ" class="" style="width:147.1302032470703px"><code>dataFilter</code></td><td id="wP:G" class="" style="width:370.17706298828125px">响应数据接收后，<code>success</code>执行前</td><td id="]Ybc" class="" style="width:371.671875px"><code>data</code>（原始响应）、<code>type</code>（数据类型）、<code>xhr</code></td><td id="S~Fz" class="" style="width:267px">预处理响应（如解密、格式转换）</td></tr></div><div style="display:contents" dir="ltr"><tr id="f718db55-6aee-8287-b4f2-81b0fba54df6"><td id="CnQQ" class="" style="width:147.1302032470703px"><code>success</code></td><td id="wP:G" class="" style="width:370.17706298828125px">响应成功（HTTP 2xx + 数据解析成功）</td><td id="]Ybc" class="" style="width:371.671875px"><code>data</code>（处理后数据）、<code>status</code>、<code>xhr</code></td><td id="S~Fz" class="" style="width:267px">处理业务数据</td></tr></div><div style="display:contents" dir="ltr"><tr id="2a88db55-6aee-83d3-b910-811983308723"><td id="CnQQ" class="" style="width:147.1302032470703px"><code>error</code></td><td id="wP:G" class="" style="width:370.17706298828125px">请求失败（网络错误、HTTP 4xx/5xx、解析失败）</td><td id="]Ybc" class="" style="width:371.671875px"><code>xhr</code>、<code>status</code>（错误类型）、<code>error</code></td><td id="S~Fz" class="" style="width:267px">统一错误提示（如 “登录过期”）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3d58db55-6aee-8372-85f0-018fbdcf7b1c"><td id="CnQQ" class="" style="width:147.1302032470703px"><code>complete</code></td><td id="wP:G" class="" style="width:370.17706298828125px">请求完成（无论成功 / 失败）</td><td id="]Ybc" class="" style="width:371.671875px"><code>xhr</code>、<code>status</code></td><td id="S~Fz" class="" style="width:267px">关闭加载动画、清理资源</td></tr></div><div style="display:contents" dir="ltr"><tr id="ebc8db55-6aee-83b1-aa08-01c39aa08bac"><td id="CnQQ" class="" style="width:147.1302032470703px"><code>jsonpCallback</code></td><td id="wP:G" class="" style="width:370.17706298828125px">JSONP 请求中，自定义回调函数名</td><td id="]Ybc" class="" style="width:371.671875px">-</td><td id="S~Fz" class="" style="width:267px">控制 JSONP 回调逻辑</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="9d38db55-6aee-82c6-a431-81e6a2219d85" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0c28db55-6aee-831a-be6b-0111942e678f" class="toggle"><li><details open=""><summary>在ajax外部以事件定义的钩子</summary><div style="display:contents" dir="auto"><p id="a228db55-6aee-83ce-ada5-01a15280fc2e" class="">1、$(window).ajaxStart(callback)</p></div><div style="display:contents" dir="auto"><p id="f1f8db55-6aee-8339-854f-0109ddfe0e13" class=""><em>当前页面作用域，第一个ajax发送前执行，只执行一次</em></p></div><div style="display:contents" dir="auto"><p id="17d8db55-6aee-8276-90ff-012ddcd5245e" class="">2、$(window).ajaxSend(callback)</p></div><div style="display:contents" dir="auto"><p id="0588db55-6aee-83f0-8e6c-017c34e0583f" class=""><em>每个ajax发送前都执行</em></p></div><div style="display:contents" dir="auto"><p id="9fb8db55-6aee-8382-b623-01710436dd35" class="">3、$(window).ajaxSuccess(callback)</p></div><div style="display:contents" dir="auto"><p id="6468db55-6aee-8308-bd2d-8180dbfa79c8" class="">每个ajax执行<mark class="highlight-teal">成功后</mark>执行（ajax内有success先执行内部内容）</p></div><div style="display:contents" dir="auto"><p id="8548db55-6aee-83f6-b927-815e1f52e438" class="">4、$(window).ajaxStop(callback)</p></div><div style="display:contents" dir="auto"><p id="fdc8db55-6aee-835b-8d8a-81031efab1af" class="">最后一个ajax执行成功后执行</p></div><div style="display:contents" dir="auto"><p id="6d38db55-6aee-8253-89fa-013aa584552e" class="">5、$(window).ajaxError(callback)</p></div><div style="display:contents" dir="auto"><p id="22b8db55-6aee-837d-a18d-818c7c543caf" class="">每个ajax执行失败后执行（ajax内有error先执行内部内容）</p></div><div style="display:contents" dir="auto"><p id="3528db55-6aee-824c-9641-816af6c52c55" class="">6、$(window).ajaxComplete(callback)</p></div><div style="display:contents" dir="auto"><p id="8788db55-6aee-837f-9b62-8182ed200393" class="">每个ajax无论成功还是失败，都执行一次</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="86d8db55-6aee-8358-ab9a-0181414a6e9b" class="toggle"><li><details open=""><summary>局部钩子（单个请求）</summary><div style="display:contents" dir="auto"><p id="4b68db55-6aee-8319-ae99-017f7387ed96" class="">在<code>$.ajax()</code>调用中直接定义，仅对当前请求生效：</p></div><div style="display:contents" dir="auto"><pre id="2998db55-6aee-8265-a8ce-812e8e13bca6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$.ajax({
+  url: &quot;/api/movies&quot;,
+  type: &quot;GET&quot;,
+  dataType: &quot;json&quot;,
+  
+  // 请求发送前：添加Token头
+  beforeSend: function(xhr, settings) {
+    xhr.setRequestHeader(&quot;Authorization&quot;, &quot;Bearer &quot; + localStorage.getItem(&quot;token&quot;));
+    // 可返回false取消请求（如Token不存在时）
+    if (!localStorage.getItem(&quot;token&quot;)) {
+      console.log(&quot;未登录，取消请求&quot;);
+      return false;
+    }
+  },
+  
+  // 响应数据预处理：过滤无效字段
+  dataFilter: function(data, type) {
+    // 原始响应可能包含多余字段，仅保留data部分
+    if (type === &quot;json&quot;) {
+      return JSON.parse(data).data; // 假设服务端返回格式为 {code:200, data: [...]}
+    }
+    return data;
+  },
+  
+  // 成功回调：渲染数据
+  success: function(data, status, xhr) {
+    console.log(&quot;请求成功，数据：&quot;, data);
+    renderMovies(data); // 自定义渲染函数
+  },
+  
+  // 错误处理：统一提示
+  error: function(xhr, status, error) {
+    let msg = &quot;请求失败&quot;;
+    if (xhr.status === 401) msg = &quot;登录已过期，请重新登录&quot;;
+    if (xhr.status === 404) msg = &quot;接口不存在&quot;;
+    alert(msg);
+  },
+  
+  // 完成回调：关闭加载状态
+  complete: function(xhr, status) {
+    $(&quot;#loading&quot;).hide(); // 隐藏加载动画
+  }
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="05e8db55-6aee-8381-84dc-0163e685f929" class="toggle"><li><details open=""><summary>全局钩子（所有请求）</summary><div style="display:contents" dir="auto"><p id="29a8db55-6aee-822c-8426-816543459df5" class="">通过<code>$.ajaxSetup()</code>定义，对页面中所有<code>$.ajax()</code>、<code>$.get()</code>、<code>$.post()</code>请求生效，适合全局统一处理：</p></div><div style="display:contents" dir="auto"><pre id="7328db55-6aee-830c-834b-81f212eccc61" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 全局配置：所有AJAX请求共享的钩子
+$.ajaxSetup({
+  // 全局请求发送前：显示加载动画
+  beforeSend: function(xhr, settings) {
+    $(&quot;#loading&quot;).show();
+    // 所有请求默认添加Content-Type
+    if (!settings.headers[&quot;Content-Type&quot;]) {
+      xhr.setRequestHeader(&quot;Content-Type&quot;, &quot;application/json&quot;);
+    }
+  },
+  
+  // 全局错误处理：记录错误日志
+  error: function(xhr, status, error) {
+    // 发送错误日志到后端
+    $.post(&quot;/api/log/error&quot;, {
+      url: xhr.responseURL,
+      status: xhr.status,
+      error: error,
+      time: new Date().toISOString()
+    });
+  },
+  
+  // 全局完成回调：隐藏加载动画
+  complete: function(xhr, status) {
+    $(&quot;#loading&quot;).hide();
+  }
+});
+
+// 之后的所有AJAX请求都会触发上述全局钩子
+$.get(&quot;/api/user&quot;); // 会显示加载动画、添加Content-Type头
+$.post(&quot;/api/order&quot;); // 错误时会自动记录日志</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1d88db55-6aee-828c-a75c-0194a869a4b4" class="toggle"><li><details open=""><summary>特殊钩子：$.ajaxPrefilter()</summary><div style="display:contents" dir="auto"><p id="dd08db55-6aee-82af-9fa0-815c8d6037a4" class=""><code>$.ajaxPrefilter()</code> 是一种特殊的 “预处理钩子”，在请求初始化阶段（甚至<code>beforeSend</code>之前）执行，主要用于修改请求配置（<code>settings</code>），如动态调整 URL、数据格式等：</p></div><div style="display:contents" dir="auto"><pre id="a2f8db55-6aee-8301-8f00-814be79bdfcf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 预处理所有请求：给URL添加版本前缀
+$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+  // 给非绝对路径的URL添加/api/v1前缀
+  if (!options.url.startsWith(&quot;http&quot;)) {
+    options.url = &quot;/api/v1&quot; + options.url;
+  }
+  
+  // 对POST请求自动序列化数据
+  if (options.type === &quot;POST&quot; &amp;&amp; typeof options.data === &quot;object&quot;) {
+    options.data = JSON.stringify(options.data);
+  }
+});
+
+// 实际请求会被处理为：/api/v1/movies
+$.get(&quot;/movies&quot;); </code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2758db55-6aee-82f5-9d59-01690dbfd3f0" class="toggle"><li><details open=""><summary>钩子执行顺序</summary><div style="display:contents" dir="auto"><p id="a578db55-6aee-83a9-a6dc-018c8fc96a7d" class="">单个AJAX请求的钩子执行流程：</p></div><div style="display:contents" dir="auto"><p id="d858db55-6aee-836d-9d14-017f1180ea91" class="">$.ajaxPrefilter() → beforeSend → 发送请求 → 接收响应 → dataFilter → success/error → complete</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5228db55-6aee-8204-b8fb-8148668189ff" class="toggle"><li><details open=""><summary>注意</summary><div style="display:contents" dir="auto"><ol type="1" id="3c28db55-6aee-829f-bf9d-81687f69e2b1" class="numbered-list" start="1"><li><strong>全局与局部的优先级</strong>：局部钩子会覆盖全局钩子中同名的配置（如局部<code>beforeSend</code>会替代全局<code>beforeSend</code>）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="94a8db55-6aee-8387-bdb7-815d086ff341" class="numbered-list" start="2"><li><strong>取消请求</strong>：<code>beforeSend</code>中返回<code>false</code>可取消当前请求。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0618db55-6aee-83ca-869c-812ba959267e" class="numbered-list" start="3"><li><code><strong>this</strong></code><strong>指向</strong>：所有钩子函数中，<code>this</code>均指向当前 AJAX 请求的配置对象（<code>settings</code>）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2d68db55-6aee-83b5-910a-01675564c876" class="numbered-list" start="4"><li><strong>JSONP 限制</strong>：JSONP 请求（<code>dataType: &quot;jsonp&quot;</code>）不支持<code>beforeSend</code>中修改<code>XMLHttpRequest</code>（因使用<code>&lt;script&gt;</code>标签实现，无 xhr 对象）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a918db55-6aee-83b9-b204-0150793ca086" class="numbered-list" start="5"><li><strong>现代替代方案</strong>：jQuery AJAX 钩子本质是回调机制，现代前端（如 React/Vue）更多使用拦截器（如 Axios 拦截器），但核心思想一致。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5918db55-6aee-827e-81ff-011475fc3363" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><pre id="6158db55-6aee-83a8-b90e-0159546a7d24" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 注册 AJAX 请求钩子（在请求发送前执行）
+$.ajaxHooks.add(&#x27;beforeSend&#x27;, function(xhr, settings) {
+  // 1. 从本地存储获取Token（登录后存储，如localStorage）
+  const token = localStorage.getItem(&#x27;authToken&#x27;);
+  
+  // 2. 若Token存在，添加到请求头
+  if (token) {
+    xhr.setRequestHeader(&#x27;Authorization&#x27;, `Bearer ${token}`);
+    console.log(&#x27;已为请求添加Token:&#x27;, token);
+  }
+  
+  // 3. 可在这里添加其他全局请求头（如API版本）
+  xhr.setRequestHeader(&#x27;X-API-Version&#x27;, &#x27;1.0&#x27;);
+});
+
+// 测试：发送任意AJAX请求，会自动携带Token头
+$.get(&#x27;/api/userinfo&#x27;, function(res) {
+  console.log(&#x27;用户信息:&#x27;, res);
+});
+
+// 注意：若某些请求不需要Token，可在单独调用时移除
+$.ajax({
+  url: &#x27;/api/public&#x27;,
+  beforeSend: function(xhr) {
+    xhr.setRequestHeader(&#x27;Authorization&#x27;, &#x27;&#x27;); // 清空Token
+  }
+});
+</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bcf8db55-6aee-8206-9089-81b5f26afda2" class="toggle"><li><details open=""><summary>深浅复制</summary><div style="display:contents" dir="auto"><p id="4f68db55-6aee-8264-827e-81d49dd7330a" class="">针对 <strong>嵌套结构</strong>，如对象里套对象、数组里套数组：</p></div><div style="display:contents" dir="ltr"><table id="c498db55-6aee-8392-b621-8113e991f5fb" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="9ad8db55-6aee-8362-a440-81db89e256ec"><th id="MJ=A" class="simple-table-header-color simple-table-header"><strong>类型</strong></th><th id="b&gt;{K" class="simple-table-header-color simple-table-header"><strong>核心逻辑</strong></th><th id="`REz" class="simple-table-header-color simple-table-header"><strong>适用场景</strong></th><th id="|zd[" class="simple-table-header-color simple-table-header"><strong>风险点</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="89a8db55-6aee-826c-9217-0164e319a6ae"><td id="MJ=A" class=""><strong>浅复制</strong></td><td id="b&gt;{K" class="">只复制「第一层」数据，嵌套的子对象 / 子数组仍为 <strong>引用传递</strong>（修改会影响原数据）</td><td id="`REz" class="">扁平结构（无嵌套的对象 / 数组）</td><td id="|zd[" class="">嵌套结构修改时会 “污染” 原数据</td></tr></div><div style="display:contents" dir="ltr"><tr id="e0e8db55-6aee-82a0-9df2-813dece6c58e"><td id="MJ=A" class=""><strong>深复制</strong></td><td id="b&gt;{K" class="">递归复制所有层级数据，子对象 / 子数组完全独立（修改不影响原数据）</td><td id="`REz" class="">嵌套结构（如 <code>{a: {b: 1}}</code>）</td><td id="|zd[" class="">性能略低（需遍历所有层级）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="7238db55-6aee-827c-b64f-810e13b28751" class="">jQuery可以通过$.extend() 灵活实现深复制和浅复制，核心是是否传入true作为第一个参数</p></div><div style="display:contents" dir="auto"><ul id="49b8db55-6aee-8246-a4d9-814cf3dba152" class="toggle"><li><details open=""><summary>浅复制<code><strong>$.extend(target, source1, source2, ...)</strong></code></summary><div style="display:contents" dir="auto"><p id="4958db55-6aee-824c-83f9-8139b61c6f95" class=""><strong>语法</strong>：将 <code>source</code> 对象的属性复制到 <code>target</code> 对象（多个 <code>source</code> 时，后面的覆盖前面的）。</p></div><div style="display:contents" dir="auto"><p id="aa88db55-6aee-82fe-8bde-81d61bb6d51e" class=""><strong>核心</strong>：只复制第一层，嵌套子对象仍为引用。</p></div><div style="display:contents" dir="auto"><p id="8468db55-6aee-83b7-8bfb-81c6ec488a23" class=""><strong>返回值</strong>：修改后的 <code>target</code> 对象（若未传 <code>target</code>，则自动创建空对象）。</p></div><div style="display:contents" dir="auto"><pre id="9448db55-6aee-82f7-9a3f-010ef627edf1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 原对象（扁平结构，无嵌套）
+const obj1 = { name: &quot;张三&quot;, age: 25, hobby: [&quot;篮球&quot;] };
+
+// 浅复制：将 obj1 复制到新对象（不传 target 则自动创建）
+const obj2 = $.extend({}, obj1);
+
+// 修改 obj2 的第一层属性（不影响 obj1）
+obj2.name = &quot;李四&quot;;
+obj2.age = 30;
+
+// 修改 obj2 的嵌套子数组（影响 obj1，因为是引用）
+obj2.hobby.push(&quot;足球&quot;);
+
+console.log(obj1); // { name: &quot;张三&quot;, age: 25, hobby: [&quot;篮球&quot;, &quot;足球&quot;] } → hobby 被修改
+console.log(obj2); // { name: &quot;李四&quot;, age: 30, hobby: [&quot;篮球&quot;, &quot;足球&quot;] }</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3178db55-6aee-82d4-9feb-81366afaba4a" class="toggle"><li><details open=""><summary>深复制<code><strong>$.extend(true, target, source1, source2, ...)</strong></code></summary><div style="display:contents" dir="auto"><p id="52e8db55-6aee-82d3-a41c-012ce2644129" class=""><strong>语法</strong>：第一个参数传 <code>true</code>，开启 “递归复制”，所有层级的子对象 / 子数组都会独立拷贝。</p></div><div style="display:contents" dir="auto"><p id="35d8db55-6aee-824e-a677-01d28c814e85" class=""><strong>核心</strong>：完全脱离原数据，修改新对象不会影响原对象。</p></div><div style="display:contents" dir="auto"><p id="7668db55-6aee-83cd-9c4f-8193e5f630da" class=""><strong>注意</strong>：不支持复制 <strong>函数、正则、DOM 元素</strong> 等特殊类型（会丢失或异常），仅适合普通 JSON 结构（字符串、数字、对象、数组）。</p></div><div style="display:contents" dir="auto"><pre id="9218db55-6aee-82ed-ba57-01ae7f19be15" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 原对象（嵌套结构：obj 里套 obj，obj 里套 array）
+const user = {
+  name: &quot;张三&quot;,
+  info: { age: 25, gender: &quot;男&quot; }, // 嵌套子对象
+  hobby: [&quot;篮球&quot;, &quot;游戏&quot;]          // 嵌套子数组
+};
+
+// 深复制：第一个参数传 true
+const userCopy = $.extend(true, {}, user);
+
+// 修改复制后的嵌套子对象（不影响原对象）
+userCopy.info.age = 30;
+// 修改复制后的嵌套子数组（不影响原对象）
+userCopy.hobby.push(&quot;读书&quot;);
+
+console.log(user); 
+// { name: &quot;张三&quot;, info: { age: 25, gender: &quot;男&quot; }, hobby: [&quot;篮球&quot;, &quot;游戏&quot;] } → 原数据无变化
+console.log(userCopy); 
+// { name: &quot;张三&quot;, info: { age: 30, gender: &quot;男&quot; }, hobby: [&quot;篮球&quot;, &quot;游戏&quot;, &quot;读书&quot;] } → 新数据独立</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="e838db55-6aee-8299-af1f-01605119d78b"/></div><div style="display:contents" dir="auto"><ul id="5b48db55-6aee-82a7-b4b6-81df3f14f486" class="toggle"><li><details open=""><summary>递归实现深浅复制</summary><div style="display:contents" dir="auto"><ul id="89f8db55-6aee-83d3-b327-811c7a86a97b" class="toggle"><li><details open=""><summary>浅复制：</summary><div style="display:contents" dir="auto"><pre id="f798db55-6aee-82ae-a309-8171d02b28b7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/**
+ * 递归实现浅复制（仅处理对象、数组，不处理特殊类型）
+ * @param {any} data - 要复制的数据（基本类型/对象/数组）
+ * @returns {any} 复制后的新数据
+ */
+function shallowCopyRecursive(data) {
+  // 1. 处理基本类型：直接返回（基本类型赋值即独立）
+  if (typeof data !== &#x27;object&#x27; || data === null) {
+    return data;
+  }
+
+  // 2. 处理引用类型：仅创建顶层新实例，嵌套引用复用原引用
+  let newData;
+  // 判断是数组还是对象
+  if (Array.isArray(data)) {
+    newData = []; // 创建新数组
+    // 遍历顶层元素：基本类型直接push，引用类型直接push原引用（不递归）
+    data.forEach(item =&gt; newData.push(item));
+  } else {
+    newData = {}; // 创建新对象
+    // 遍历顶层属性：基本类型直接赋值，引用类型直接赋值原引用（不递归）
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) { // 只复制自身属性（排除原型链属性）
+        newData[key] = data[key];
+      }
+    }
+  }
+
+  return newData;
+}
+
+// 测试：浅复制嵌套结构
+const original = {
+  name: &quot;张三&quot;,
+  age: 25,
+  hobby: [&quot;篮球&quot;, &quot;游戏&quot;], // 嵌套数组（引用类型）
+  info: { gender: &quot;男&quot; }   // 嵌套对象（引用类型）
+};
+
+const copy = shallowCopyRecursive(original);
+// 修改顶层基本类型：不影响原数据
+copy.name = &quot;李四&quot;;
+console.log(original.name); // &quot;张三&quot;（正确）
+
+// 修改嵌套引用类型：影响原数据（浅复制的核心特征）
+copy.hobby.push(&quot;读书&quot;);
+copy.info.gender = &quot;女&quot;;
+console.log(original.hobby); // [&quot;篮球&quot;, &quot;游戏&quot;, &quot;读书&quot;]（被修改）
+console.log(original.info.gender); // &quot;女&quot;（被修改）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="24c8db55-6aee-8261-b23b-8106d80e90eb" class="toggle"><li><details open=""><summary>深复制：</summary><div style="display:contents" dir="auto"><pre id="cfa8db55-6aee-832c-8d4d-01892cf7b626" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/**
+ * 递归实现深复制（处理对象、数组，暂不处理特殊类型）
+ * @param {any} data - 要复制的数据（基本类型/对象/数组）
+ * @returns {any} 完全独立的新数据
+ */
+function deepCopyRecursive(data) {
+  // 1. 处理基本类型：直接返回（基本类型无需递归）
+  if (typeof data !== &#x27;object&#x27; || data === null) {
+    return data;
+  }
+
+  // 2. 处理引用类型：递归遍历每一层，创建新实例
+  let newData;
+  // 判断是数组还是对象
+  if (Array.isArray(data)) {
+    newData = [];
+    // 遍历数组元素：递归复制每个元素（无论层级多深）
+    data.forEach(item =&gt; newData.push(deepCopyRecursive(item)));
+  } else {
+    newData = {};
+    // 遍历对象属性：递归复制每个属性值（无论层级多深）
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        newData[key] = deepCopyRecursive(data[key]);
+      }
+    }
+  }
+
+  return newData;
+}
+
+// 测试：深复制嵌套结构
+const original = {
+  name: &quot;张三&quot;,
+  hobby: [&quot;篮球&quot;, [&quot;游戏1&quot;, &quot;游戏2&quot;]], // 两层嵌套数组
+  info: { address: { city: &quot;深圳&quot; } }   // 两层嵌套对象
+};
+
+const copy = deepCopyRecursive(original);
+// 修改嵌套最深层的引用类型：不影响原数据
+copy.hobby[1].push(&quot;游戏3&quot;);
+copy.info.address.city = &quot;广州&quot;;
+
+console.log(original.hobby); // [&quot;篮球&quot;, [&quot;游戏1&quot;, &quot;游戏2&quot;]]（原数据无变化）
+console.log(original.info.address.city); // &quot;深圳&quot;（原数据无变化）
+console.log(copy.hobby); // [&quot;篮球&quot;, [&quot;游戏1&quot;, &quot;游戏2&quot;, &quot;游戏3&quot;]]（新数据独立）
+console.log(copy.info.address.city); // &quot;广州&quot;（新数据独立）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1b58db55-6aee-82d3-ac41-01404310967a" class="toggle"><li><details open=""><summary>包含特殊类型的深递归复制：</summary><div style="display:contents" dir="auto"><pre id="4e08db55-6aee-83cf-b7ff-81def51681e2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/**
+ * 全功能递归深复制（支持普通类型+特殊类型：函数、正则、Date、DOM元素）
+ * @param {any} data - 要复制的数据
+ * @returns {any} 完全独立的新数据
+ */
+function deepCopyFull(data) {
+  // 1. 处理基本类型：直接返回
+  if (typeof data !== &#x27;object&#x27; || data === null) {
+    return data;
+  }
+
+  // 2. 处理特殊引用类型：针对性创建新实例
+  let newData;
+
+  // 2.1 处理 Date 对象
+  if (data instanceof Date) {
+    newData = new Date(data); // 用原日期创建新 Date 实例
+    return newData;
+  }
+
+  // 2.2 处理 RegExp 正则
+  if (data instanceof RegExp) {
+    // 提取原正则的模式（source）和修饰符（flags）
+    const source = data.source;
+    const flags = data.flags || data.toString().match(/\/([gimuy]*)$/)[1]; // 兼容旧浏览器
+    newData = new RegExp(source, flags); // 创建新正则实例
+    return newData;
+  }
+
+  // 2.3 处理 Function 函数（仅复制函数体，不保留闭包）
+  if (typeof data === &#x27;function&#x27;) {
+    // 解析函数参数和函数体（支持箭头函数和普通函数）
+    const fnStr = data.toString();
+    const match = fnStr.match(/^([^(]+)?\(([^)]*)\)\s*=&gt;?\s*([\s\S]*)$/);
+    if (!match) return data; // 复杂函数（如生成器函数）暂不处理，返回原引用
+    const [, , argsStr, bodyStr] = match;
+    // 处理箭头函数的 return 省略（如 x=&gt;x+1 补为 return x+1）
+    const body = bodyStr.includes(&#x27;return&#x27;) ? bodyStr : `return ${bodyStr}`;
+    // 用 new Function 创建新函数实例
+    newData = new Function(argsStr.split(&#x27;,&#x27;).map(arg =&gt; arg.trim()), body);
+    return newData;
+  }
+
+  // 2.4 处理 DOM 元素（用 cloneNode 深复制结构，用 jQuery 补事件复制）
+  if (data instanceof HTMLElement) {
+    // 原生 cloneNode(true)：复制元素+所有子元素（但不复制事件）
+    newData = data.cloneNode(true);
+    // 若需复制事件，可结合 jQuery（需确保 data 已被 jQuery 包装）
+    if (window.jQuery &amp;&amp; data.jquery) {
+      newData = jQuery(data).clone(true)[0]; // jQuery clone(true) 复制事件
+    }
+    return newData;
+  }
+
+  // 3. 处理普通引用类型：数组和对象（递归遍历）
+  if (Array.isArray(data)) {
+    newData = [];
+    data.forEach(item =&gt; newData.push(deepCopyFull(item)));
+  } else {
+    newData = {};
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        newData[key] = deepCopyFull(data[key]);
+      }
+    }
+  }
+
+  return newData;
+}
+
+// 测试：深复制含特殊类型的复杂数据
+const original = {
+  name: &quot;张三&quot;,
+  birth: new Date(&#x27;2000-01-01&#x27;), // Date 类型
+  reg: /abc/gi,                 // RegExp 类型
+  fn: (x, y) =&gt; x + y,          // 函数类型
+  dom: document.createElement(&#x27;div&#x27;), // DOM 元素
+  nested: { arr: [1, [2, 3]] }   // 嵌套普通类型
+};
+
+// 给 DOM 元素绑定事件（测试事件复制）
+if (window.jQuery) {
+  jQuery(original.dom).text(&#x27;原DOM&#x27;).on(&#x27;click&#x27;, () =&gt; alert(&#x27;原DOM被点击&#x27;));
+}
+
+// 执行深复制
+const copy = deepCopyFull(original);
+
+// 验证特殊类型的独立性
+copy.birth.setFullYear(2001);
+console.log(original.birth.getFullYear()); // 2000（Date 独立）
+
+copy.reg.lastIndex = 10;
+console.log(original.reg.lastIndex); // 0（RegExp 独立）
+
+console.log(copy.fn(2, 3)); // 5（函数正常执行）
+console.log(copy.fn === original.fn); // false（函数实例独立）
+
+// 验证 DOM 复制（若用 jQuery，事件也会被复制）
+if (window.jQuery) {
+  copy.dom.textContent = &#x27;复制的DOM&#x27;;
+  document.body.appendChild(original.dom);
+  document.body.appendChild(copy.dom);
+  // 点击两个 DOM 元素，都会触发 alert（事件独立）
+}
+
+// 验证嵌套普通类型的独立性
+copy.nested.arr[1].push(4);
+console.log(original.nested.arr); // [1, [2, 3]]（嵌套结构独立）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5968db55-6aee-8352-bd04-8190a205232a" class="toggle"><li><details open=""><summary>注意事项与解决方法</summary><div style="display:contents" dir="auto"><p id="6b78db55-6aee-8231-9b50-81decc3be978" class=""><strong>避免循环引用（ Circular Reference ）</strong>若原数据存在 “循环引用”（如a = { b: a }），递归会陷入无限循环，导致栈溢出。</p></div><div style="display:contents" dir="auto"><p id="fbe8db55-6aee-82c5-9cbd-01aca9bbcfc9" class="">解决：用 “哈希表（Map/WeakMap）” 记录已复制的对象，遇到已复制的对象直接返回，避免重复递归：</p></div><div style="display:contents" dir="auto"><pre id="7b18db55-6aee-8352-a4a0-01e545940239" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function deepCopyWithCircular(data, map = new WeakMap()) {
+  if (typeof data !== &#x27;object&#x27; || data === null) return data;
+  // 若已复制过该对象，直接返回副本（避免循环引用）
+  if (map.has(data)) return map.get(data);
+
+  let newData;
+  // ... 其他类型处理逻辑（Date、RegExp 等）...
+
+  // 记录当前对象到哈希表
+  map.set(data, newData);
+
+  // ... 递归遍历数组/对象 ...
+  return newData;
+}
+
+// 测试循环引用
+const a = { name: &quot;a&quot; };
+a.b = a; // 循环引用：a.b 指向 a 自身
+const copyA = deepCopyWithCircular(a);
+console.log(copyA.b === copyA); // true（副本也保持循环引用，且不报错）</code></pre></div><div style="display:contents" dir="auto"><hr id="d688db55-6aee-83be-bae1-0130d3b4c945"/></div><div style="display:contents" dir="auto"><ul id="c438db55-6aee-839b-a17c-81d1e6acbc6f" class="bulleted-list"><li style="list-style-type:disc">函数：无法复制闭包（新函数的作用域是全局 / 当前执行上下文，而非原函数的闭包作用域）。</li></ul></div><div style="display:contents" dir="auto"><ul id="f808db55-6aee-83a6-a867-81403446b17a" class="bulleted-list"><li style="list-style-type:disc">DOM 元素：原生 <code>cloneNode</code> 不复制 <code>addEventListener</code> 绑定的事件，需依赖 jQuery 的 <code>clone(true)</code> 或手动重新绑定事件。</li></ul></div><div style="display:contents" dir="auto"><ul id="c558db55-6aee-8291-9359-017cc25ee03d" class="bulleted-list"><li style="list-style-type:disc">其他特殊类型：如 <code>Set</code>、<code>Map</code>、<code>Blob</code> 等，需额外增加类型判断（类似 Date/RegExp 的处理逻辑）。</li></ul></div><div style="display:contents" dir="auto"><hr id="dc38db55-6aee-82da-bd9f-01ca0404f256"/></div><div style="display:contents" dir="auto"><p id="54a8db55-6aee-83c7-8f17-81e98a5e4c3c" class="">递归深复制的时间复杂度是 O (n)（n 为数据的总元素数），嵌套层级过深（如 1000 层以上）可能导致 “栈溢出”（浏览器对递归深度有限制）。</p></div><div style="display:contents" dir="auto"><p id="10c8db55-6aee-83b0-bd7d-81a4a1ab9982" class=""><strong>优化方案</strong>：对超深结构，可改用 “迭代法”（用栈 / 队列模拟递归，避免栈溢出）。</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7388db55-6aee-828f-a618-011138f97731" class="toggle"><li><details open=""><summary>栈实现深浅复制</summary><div style="display:contents" dir="auto"><ul id="7718db55-6aee-831e-b618-01a182492ebd" class="toggle"><li><details open=""><summary>浅复制</summary><div style="display:contents" dir="auto"><pre id="c6b8db55-6aee-8286-8c5c-015581d41eee" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/**
+ * 用栈实现浅复制（仅处理对象和数组，不递归嵌套）
+ * @param {any} data - 待复制的数据
+ * @returns {any} 浅复制结果
+ */
+function shallowCopyWithStack(data) {
+  // 基本类型直接返回
+  if (typeof data !== &#x27;object&#x27; || data === null) {
+    return data;
+  }
+
+  // 初始化栈：存储 [原数据, 复制后的数据]
+  const stack = [];
+  // 创建顶层副本（数组/对象）
+  const result = Array.isArray(data) ? [] : {};
+  stack.push([data, result]);
+
+  // 处理栈中元素（仅遍历顶层）
+  while (stack.length &gt; 0) {
+    const [original, copy] = stack.pop(); // 栈：后进先出
+
+    // 遍历原数据的顶层属性/元素
+    if (Array.isArray(original)) {
+      original.forEach((item, index) =&gt; {
+        // 浅复制：直接赋值（引用类型复用原引用）
+        copy[index] = item;
+      });
+    } else {
+      for (const key in original) {
+        if (original.hasOwnProperty(key)) {
+          // 浅复制：直接赋值（引用类型复用原引用）
+          copy[key] = original[key];
+        }
+      }
+    }
+  }
+
+  return result;
+}
+
+// 测试浅复制
+const original = {
+  a: 1,
+  b: [2, 3],
+  c: { d: 4 }
+};
+const copy = shallowCopyWithStack(original);
+copy.b.push(5); // 修改复制后的数组
+console.log(original.b); // [2, 3, 5]（原数据被影响，符合浅复制特性）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7a68db55-6aee-822b-abb4-01500ed51b4e" class="toggle"><li><details open=""><summary>深复制</summary><div style="display:contents" dir="auto"><pre id="8698db55-6aee-8243-952b-81eb337ed4e1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/**
+ * 用栈实现深复制（处理对象、数组、Date、RegExp）
+ * @param {any} data - 待复制的数据
+ * @returns {any} 深复制结果
+ */
+function deepCopyWithStack(data) {
+  // 基本类型直接返回
+  if (typeof data !== &#x27;object&#x27; || data === null) {
+    return data;
+  }
+
+  // 处理特殊类型
+  if (data instanceof Date) {
+    return new Date(data);
+  }
+  if (data instanceof RegExp) {
+    return new RegExp(data.source, data.flags);
+  }
+
+  // 初始化栈和结果（数组/对象）
+  const stack = [];
+  const result = Array.isArray(data) ? [] : {};
+  stack.push([data, result]);
+
+  // 用栈迭代处理所有层级
+  while (stack.length &gt; 0) {
+    const [original, copy] = stack.pop(); // 栈：后进先出
+
+    // 遍历原数据的属性/元素
+    if (Array.isArray(original)) {
+      original.forEach((item, index) =&gt; {
+        if (typeof item === &#x27;object&#x27; &amp;&amp; item !== null) {
+          // 嵌套引用类型：创建新副本并压入栈，等待后续处理
+          const childCopy = Array.isArray(item) ? [] : {};
+          copy[index] = childCopy;
+          stack.push([item, childCopy]); // 新元素入栈，继续深复制
+        } else {
+          // 基本类型：直接赋值
+          copy[index] = item;
+        }
+      });
+    } else {
+      for (const key in original) {
+        if (original.hasOwnProperty(key)) {
+          const value = original[key];
+          if (typeof value === &#x27;object&#x27; &amp;&amp; value !== null) {
+            // 嵌套引用类型：创建新副本并压入栈
+            const childCopy = Array.isArray(value) ? [] : {};
+            copy[key] = childCopy;
+            stack.push([value, childCopy]); // 新元素入栈
+          } else {
+            // 基本类型：直接赋值
+            copy[key] = value;
+          }
+        }
+      }
+    }
+  }
+
+  return result;
+}
+
+// 测试深复制
+const original = {
+  a: 1,
+  b: [2, { c: 3 }],
+  d: new Date()
+};
+const copy = deepCopyWithStack(original);
+copy.b[1].c = 100; // 修改深层属性
+console.log(original.b[1].c); // 3（原数据不受影响，符合深复制特性）</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5f58db55-6aee-82cc-af95-01da9ca21879" class="toggle"><li><details open=""><summary>队列实现深浅复制</summary><div style="display:contents" dir="auto"><ul id="8f18db55-6aee-82bd-b783-013345ae309d" class="toggle"><li><details open=""><summary>浅复制</summary><div style="display:contents" dir="auto"><pre id="6ba8db55-6aee-837b-9342-815ed2bfd1e8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/**
+ * 用队列实现浅复制（仅处理顶层）
+ * @param {any} data - 待复制的数据
+ * @returns {any} 浅复制结果
+ */
+function shallowCopyWithQueue(data) {
+  if (typeof data !== &#x27;object&#x27; || data === null) {
+    return data;
+  }
+
+  // 初始化队列：存储 [原数据, 复制后的数据]
+  const queue = [];
+  const result = Array.isArray(data) ? [] : {};
+  queue.push([data, result]);
+
+  // 处理队列（仅顶层）
+  while (queue.length &gt; 0) {
+    const [original, copy] = queue.shift(); // 队列：先进先出
+
+    // 遍历顶层属性/元素（不处理嵌套）
+    if (Array.isArray(original)) {
+      original.forEach((item, index) =&gt; {
+        copy[index] = item; // 直接赋值，复用引用
+      });
+    } else {
+      for (const key in original) {
+        if (original.hasOwnProperty(key)) {
+          copy[key] = original[key]; // 直接赋值，复用引用
+        }
+      }
+    }
+  }
+
+  return result;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="85d8db55-6aee-83de-b808-01264c119e96" class="toggle"><li><details open=""><summary>深复制</summary><div style="display:contents" dir="auto"><pre id="b638db55-6aee-831a-96c0-8102e4c03e28" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/**
+ * 用队列实现深复制（广度优先遍历）
+ * @param {any} data - 待复制的数据
+ * @returns {any} 深复制结果
+ */
+function deepCopyWithQueue(data) {
+  if (typeof data !== &#x27;object&#x27; || data === null) {
+    return data;
+  }
+
+  // 处理特殊类型
+  if (data instanceof Date) return new Date(data);
+  if (data instanceof RegExp) return new RegExp(data.source, data.flags);
+
+  // 初始化队列和结果
+  const queue = [];
+  const result = Array.isArray(data) ? [] : {};
+  queue.push([data, result]);
+
+  // 用队列迭代处理所有层级
+  while (queue.length &gt; 0) {
+    const [original, copy] = queue.shift(); // 队列：先进先出
+
+    // 遍历属性/元素
+    if (Array.isArray(original)) {
+      original.forEach((item, index) =&gt; {
+        if (typeof item === &#x27;object&#x27; &amp;&amp; item !== null) {
+          const childCopy = Array.isArray(item) ? [] : {};
+          copy[index] = childCopy;
+          queue.push([item, childCopy]); // 新元素入队，继续处理
+        } else {
+          copy[index] = item;
+        }
+      });
+    } else {
+      for (const key in original) {
+        if (original.hasOwnProperty(key)) {
+          const value = original[key];
+          if (typeof value === &#x27;object&#x27; &amp;&amp; value !== null) {
+            const childCopy = Array.isArray(value) ? [] : {};
+            copy[key] = childCopy;
+            queue.push([value, childCopy]); // 新元素入队
+          } else {
+            copy[key] = value;
+          }
+        }
+      }
+    }
+  }
+
+  return result;
+}
+
+// 测试队列深复制
+const original = {
+  level: 1,
+  next: {
+    level: 2,
+    next: { level: 3 }
+  }
+};
+const copy = deepCopyWithQueue(original);
+copy.next.next.level = 100;
+console.log(original.next.next.level); // 3（原数据不受影响）</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="2348db55-6aee-82e8-8532-014109f2dd6d" class="">无论是栈还是队列实现，都需解决<strong>循环引用</strong>（如 <code>a = { b: a }</code>）导致的无限循环问题。解决方案是用 <code>WeakMap</code> 记录已复制的对象：</p></div><div style="display:contents" dir="ltr"><table id="0c78db55-6aee-82e0-8f6c-8159bc497692" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="9228db55-6aee-8350-bd80-01e5b75869a7"><th id="dIOi" class="simple-table-header-color simple-table-header"><strong>特性</strong></th><th id="{gb&lt;" class="simple-table-header-color simple-table-header" style="width:330.6614532470703px"><strong>栈（深度优先）</strong></th><th id="Ymyi" class="simple-table-header-color simple-table-header" style="width:459px"><strong>队列（广度优先）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="9238db55-6aee-831b-b4f5-812616041a1c"><td id="dIOi" class="">处理顺序</td><td id="{gb&lt;" class="" style="width:330.6614532470703px">先深入嵌套层级，再返回处理外层</td><td id="Ymyi" class="" style="width:459px">先处理外层，再逐层深入嵌套</td></tr></div><div style="display:contents" dir="ltr"><tr id="a688db55-6aee-82d6-bd41-011fd3073707"><td id="dIOi" class="">内存占用</td><td id="{gb&lt;" class="" style="width:330.6614532470703px">深层嵌套时栈可能堆积较多元素</td><td id="Ymyi" class="" style="width:459px">每层元素均匀分布，内存占用更稳定</td></tr></div><div style="display:contents" dir="ltr"><tr id="f458db55-6aee-83cc-9755-01ab335e6856"><td id="dIOi" class="">适用场景</td><td id="{gb&lt;" class="" style="width:330.6614532470703px">数据嵌套层级深但每层元素少（如树形结构）</td><td id="Ymyi" class="" style="width:459px">数据层级浅但每层元素多（如列表套列表）</td></tr></div><div style="display:contents" dir="ltr"><tr id="a498db55-6aee-8379-a103-015e84353ea8"><td id="dIOi" class="">循环引用处理</td><td id="{gb&lt;" class="" style="width:330.6614532470703px">需用哈希表记录已复制对象，避免重复处理</td><td id="Ymyi" class="" style="width:459px">同左（所有迭代法都需处理循环引用）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="dfd8db55-6aee-82c8-be90-811623ca34ef" class="">浅复制说白了就是只复制一层，对于第一层内的嵌套结构（数组，对象）复制的是引用，而不是数据。</p></div><div style="display:contents" dir="auto"><hr id="a708db55-6aee-82c5-ba7b-012953cfd7c0"/></div><div style="display:contents" dir="auto"><ul id="5d28db55-6aee-8337-a5df-816aa66ec1a7" class="toggle"><li><details open=""><summary>深浅结合适用案例</summary><div style="display:contents" dir="auto"><pre id="3a68db55-6aee-822e-a119-819524beb0cf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 默认配置（嵌套结构）
+const defaultConfig = {
+  theme: &quot;light&quot;,
+  size: { width: 100, height: 200 },
+  show: true
+};
+
+// 用户自定义配置（只传部分属性）
+const userConfig = {
+  theme: &quot;dark&quot;,
+  size: { width: 150 } // 只修改宽度，保留高度默认值
+};
+
+// 深合并：将 userConfig 合并到 defaultConfig 的副本中（不修改原 defaultConfig）
+const finalConfig = $.extend(true, {}, defaultConfig, userConfig);
+
+console.log(finalConfig);
+// {
+//   theme: &quot;dark&quot;,          // 用用户配置
+//   size: { width: 150, height: 200 }, // 合并用户宽度和默认高度（深复制生效）
+//   show: true              // 保留默认值
+// }
+
+console.log(defaultConfig); // 原默认配置无变化 → { theme: &quot;light&quot;, ... }</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5988db55-6aee-8389-ae37-016623400684" class="toggle"><li><details open=""><summary>局限性，替代与性能建议</summary><div style="display:contents" dir="auto"><ol type="1" id="8038db55-6aee-8224-bf22-0193b9400dd5" class="numbered-list" start="1"><li><strong>jQuery </strong><code><strong>$.extend()</strong></code><strong> 的局限性</strong>：<div style="display:contents" dir="auto"><ul id="47c8db55-6aee-82df-ab7c-814dc52c7b44" class="bulleted-list"><li style="list-style-type:disc">不支持复制 <strong>函数、正则表达式、Date 对象、DOM 元素</strong> 等特殊类型（复制后可能异常）。</li></ul></div><div style="display:contents" dir="auto"><ul id="a5c8db55-6aee-8335-b4ce-81745dceb908" class="bulleted-list"><li style="list-style-type:disc">若需复制特殊类型，需结合原生方法（如 <code>new Date(originalDate)</code> 复制日期）。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="23d8db55-6aee-82eb-a072-81aea6706fd0" class="numbered-list" start="2"><li><strong>替代方案：原生深复制（ES6+）</strong></li></ol></div><div style="display:contents" dir="auto"><p id="0f48db55-6aee-8223-9158-01ec73fc73d0" class="">若项目中没有强依赖 jQuery，可使用原生<code>structuredClone()</code>支持更多类型，如 Date、RegExp）：</p></div><div style="display:contents" dir="auto"><pre id="5058db55-6aee-8320-b6a3-017b14f54175" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const obj = { date: new Date(), reg: /abc/ };
+const deepCopy = structuredClone(obj); // 原生深复制，无需 jQuery</code></pre></div><div style="display:contents" dir="auto"><p id="3648db55-6aee-82af-a0b4-81ea40e987d5" class="">注意：<code>structuredClone()</code> 不支持函数、DOM 元素，适合普通数据。</p></div><div style="display:contents" dir="auto"><p id="7ab8db55-6aee-836d-85e9-01551047250f" class=""><strong>3.  性能建议</strong>：<div class="indented"><div style="display:contents" dir="auto"><ul id="34f8db55-6aee-83a4-b28e-01715539b9df" class="bulleted-list"><li style="list-style-type:disc">扁平结构优先用浅复制（<code>$.extend({}, obj)</code> 或 <code>[...arr]</code>），性能更高。</li></ul></div><div style="display:contents" dir="auto"><ul id="e548db55-6aee-83d1-a6fe-81bb76bee3b0" class="bulleted-list"><li style="list-style-type:disc">嵌套结构才用深复制（<code>$.extend(true, {}, obj)</code>），避免不必要的递归。</li></ul></div></div></p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="7508db55-6aee-831e-9d54-010c92bcc730"/></div><div style="display:contents" dir="auto"><p id="4918db55-6aee-8216-8c22-811b19f7e449" class="">对于复杂结构（<strong>函数、正则、DOM 元素</strong> 等特殊类型）→<mark class="highlight-red"><strong>浅复制复用引用，深复制创建独立实例</strong></mark></p></div><div style="display:contents" dir="auto"><p id="1bd8db55-6aee-8305-9cf5-01aefc882f54" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ac98db55-6aee-8221-a0fa-01d96c28e5d6" class="toggle"><li><details open=""><summary>插件扩展</summary><div style="display:contents" dir="auto"><ul id="5b08db55-6aee-83d2-94b7-815da3f08bf4" class="toggle"><li><details open=""><summary>扩展工具方法（<code>$.extend()</code>）</summary><div style="display:contents" dir="auto"><p id="5f78db55-6aee-827e-a2ff-81cc1387d5f4" class="">用于添加 <strong>全局工具函数</strong>（类似 <code>$.ajax()</code>、<code>$.trim()</code>），通过 <code>$</code> 直接调用，不依赖 DOM 元素。</p></div><div style="display:contents" dir="auto"><pre id="1e98db55-6aee-825a-87f7-8151ffe24d3e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$.extend({
+  插件名: function(参数) {
+    // 功能实现
+  }
+});</code></pre></div><div style="display:contents" dir="auto"><p id="da28db55-6aee-8328-963a-815a1567cfbb" class="">例如：实现一个日期格式化工具</p></div><div style="display:contents" dir="auto"><pre id="6938db55-6aee-82b6-bd8b-0174f8b7b1f9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 扩展日期格式化工具
+$.extend({
+  formatDate: function(date, format = &#x27;yyyy-MM-dd&#x27;) {
+    // 处理参数：支持 Date 对象或时间戳
+    if (typeof date === &#x27;number&#x27;) {
+      date = new Date(date);
+    }
+    if (!(date instanceof Date)) {
+      throw new Error(&#x27;请传入有效的日期或时间戳&#x27;);
+    }
+
+    const options = {
+      yyyy: date.getFullYear(),
+      MM: String(date.getMonth() + 1).padStart(2, &#x27;0&#x27;),
+      dd: String(date.getDate()).padStart(2, &#x27;0&#x27;),
+      HH: String(date.getHours()).padStart(2, &#x27;0&#x27;),
+      mm: String(date.getMinutes()).padStart(2, &#x27;0&#x27;),
+      ss: String(date.getSeconds()).padStart(2, &#x27;0&#x27;)
+    };
+
+    // 替换格式字符串
+    return format.replace(/yyyy|MM|dd|HH|mm|ss/g, key =&gt; options[key]);
+  }
+});
+
+// 使用插件
+console.log($.formatDate(new Date(), &#x27;yyyy年MM月dd日 HH:mm:ss&#x27;)); 
+// 输出：2023年10月05日 14:30:25
+
+console.log($.formatDate(1633426800000)); // 时间戳
+// 输出：2021-10-05</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="05a8db55-6aee-825c-924c-8145ab37d06b" class="toggle"><li><details open=""><summary>扩展元素方法（<code>$.fn.extend()</code>）</summary><div style="display:contents" dir="auto"><p id="53a8db55-6aee-8359-89c5-017657119f43" class="">用于添加 <strong>DOM 元素相关方法</strong>（类似 <code>$().css()</code>、<code>$().html()</code>），需通过 jQuery 选择器获取元素后调用，操作匹配的 DOM 元素。</p></div><div style="display:contents" dir="auto"><p id="34f8db55-6aee-839b-b4d3-81df10aea3ac" class=""><code>$.extend($.fn, {})</code> 和 <code>$.fn.extend({})</code> 完全等价。</p></div><div style="display:contents" dir="auto"><pre id="78e8db55-6aee-83b1-97fe-01d3d1a271b5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$.fn.extend({
+  插件名: function(参数) {
+    // 遍历所有匹配元素（支持链式调用）
+    return this.each(function() {
+      // 对每个元素的操作（this 指向当前 DOM 元素）
+      const $this = $(this); // 转为 jQuery 对象
+      // 功能实现
+    });
+  }
+});</code></pre></div><div style="display:contents" dir="auto"><p id="7e68db55-6aee-8273-96c0-01be3ad098c6" class="">示例：实现一个高亮显示插件</p></div><div style="display:contents" dir="auto"><pre id="e558db55-6aee-83c6-9008-01e2d07789a0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 扩展元素高亮方法
+$.fn.extend({
+  highlight: function(options) {
+    // 默认配置
+    const defaults = {
+      color: &#x27;red&#x27;,
+      backgroundColor: &#x27;yellow&#x27;,
+      fontSize: &#x27;inherit&#x27;
+    };
+
+    // 合并用户配置和默认配置（深合并）
+    const settings = $.extend(true, {}, defaults, options);
+
+    // 遍历所有匹配元素，返回 this 支持链式调用
+    return this.each(function() {
+      const $element = $(this);
+      // 应用高亮样式
+      $element.css({
+        color: settings.color,
+        backgroundColor: settings.backgroundColor,
+        fontSize: settings.fontSize
+      });
+    });
+  }
+});
+
+// 使用插件
+$(&#x27;h1&#x27;).highlight(); // 默认样式：红文字+黄背景
+$(&#x27;p&#x27;).highlight({ color: &#x27;green&#x27;, fontSize: &#x27;16px&#x27; }); // 自定义样式
+
+// 支持链式调用
+$(&#x27;span&#x27;).highlight().addClass(&#x27;highlighted&#x27;);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0148db55-6aee-821b-8b03-016d80b248b1" class="toggle"><li><details open=""><summary>jQuery插件开发规范</summary><div style="display:contents" dir="auto"><h3 id="58c8db55-6aee-820e-8180-8100c83c70e0" class=""><strong>1. 避免全局变量污染</strong></h3></div><div style="display:contents" dir="auto"><p id="1b68db55-6aee-831e-813f-81ced6ae1cd0" class="">使用立即执行函数（IIFE）包裹插件代码，将 <code>jQuery</code> 作为参数传入，避免外部变量干扰。</p></div><div style="display:contents" dir="auto"><pre id="9858db55-6aee-8263-bc6a-81a8123a11b9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 安全的插件包装方式
+(function($) { // $ 作为参数，内部可安全使用
+  // 插件代码（如 $.fn.extend(...)）
+})(jQuery); // 传入全局 jQuery</code></pre></div><div style="display:contents" dir="auto"><h3 id="9108db55-6aee-826c-9c34-81717a2fa11c" class=""><strong>2. 支持默认配置与用户配置合并</strong></h3></div><div style="display:contents" dir="auto"><p id="ae28db55-6aee-8209-965d-01741ef63e0b" class="">通过 <code>$.extend()</code> 合并默认配置（<code>defaults</code>）和用户传入的配置，提高灵活性。</p></div><div style="display:contents" dir="auto"><pre id="bb78db55-6aee-823c-8064-811974f35249" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$.fn.myPlugin = function(options) {
+  const defaults = { size: 10, color: &#x27;black&#x27; };
+  const settings = $.extend({}, defaults, options); // 浅合并
+  // 若有嵌套配置，用深合并：$.extend(true, {}, defaults, options)
+};</code></pre></div><div style="display:contents" dir="auto"><h3 id="90a8db55-6aee-8203-b358-81155ce8a909" class=""><strong>3. 支持链式调用</strong></h3></div><div style="display:contents" dir="auto"><p id="7158db55-6aee-82fc-bc10-016a80dcb0dc" class="">插件方法需返回 <code>this</code>（即 jQuery 对象），确保可以继续调用其他 jQuery 方法。</p></div><div style="display:contents" dir="auto"><pre id="c0c8db55-6aee-835a-984d-814d8837326f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$.fn.myPlugin = function() {
+  return this.each(function() { // 返回 this 支持链式调用
+    // 处理逻辑
+  });
+};</code></pre></div><div style="display:contents" dir="auto"><h3 id="5298db55-6aee-83fc-9ba6-8125ef341b1d" class=""><strong>4. 避免覆盖已有插件</strong></h3></div><div style="display:contents" dir="auto"><p id="3ce8db55-6aee-8275-a04d-01f7d686ded7" class="">开发前检查插件名是否已存在，避免覆盖已有方法。</p></div><div style="display:contents" dir="auto"><pre id="cb88db55-6aee-8289-9b9c-81fc89367dff" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if (!$.fn.highlight) { // 检查插件是否已存在
+  $.fn.highlight = function() {
+    // 插件逻辑
+  };
+}</code></pre></div><div style="display:contents" dir="auto"><h3 id="c788db55-6aee-82e6-9d0d-81d2470a3980" class=""><strong>5. 事件命名空间</strong></h3></div><div style="display:contents" dir="auto"><p id="4638db55-6aee-82b1-a511-8168cd86e95b" class="">绑定事件时使用命名空间（如 <code>click.highlight</code>），避免移除事件时影响其他逻辑。</p></div><div style="display:contents" dir="auto"><pre id="6678db55-6aee-8371-bfd6-81d509000131" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$.fn.highlight = function() {
+  return this.each(function() {
+    const $this = $(this);
+    // 绑定带命名空间的事件
+    $this.on(&#x27;click.highlight&#x27;, function() {
+      $this.css(&#x27;color&#x27;, &#x27;red&#x27;);
+    });
+  });
+};
+
+// 后续可安全移除插件绑定的事件
+$(&#x27;div&#x27;).off(&#x27;click.highlight&#x27;);</code></pre></div><div style="display:contents" dir="auto"><h3 id="2cd8db55-6aee-83b7-933d-019846119503" class=""><strong>6. 暴露公共方法与配置</strong></h3></div><div style="display:contents" dir="auto"><p id="6f08db55-6aee-82e7-939e-01b237939c66" class="">允许用户通过特定方法修改插件配置或调用内部功能。</p></div><div style="display:contents" dir="auto"><pre id="79e8db55-6aee-83fd-b1eb-81da2dccf2b4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">$.fn.tooltip = function(options) {
+  const methods = {
+    init: function() { /* 初始化逻辑 */ },
+    show: function() { /* 显示提示 */ },
+    hide: function() { /* 隐藏提示 */ }
+  };
+
+  // 支持通过字符串调用方法（如 $().tooltip(&#x27;show&#x27;)）
+  if (typeof options === &#x27;string&#x27; &amp;&amp; methods[options]) {
+    return methods[options].apply(this, Array.prototype.slice.call(arguments, 1));
+  }
+
+  // 默认执行初始化
+  return methods.init.apply(this, arguments);
+};
+
+// 使用公共方法
+$(&#x27;.tip&#x27;).tooltip(); // 初始化
+$(&#x27;.tip&#x27;).tooltip(&#x27;show&#x27;); // 调用显示方法</code></pre></div><div style="display:contents" dir="auto"><p id="6588db55-6aee-8241-87fe-81fedb896184" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1918db55-6aee-83ab-89f1-81e00b5a0e16" class="toggle"><li><details open=""><summary>案例</summary></details></li></ul></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

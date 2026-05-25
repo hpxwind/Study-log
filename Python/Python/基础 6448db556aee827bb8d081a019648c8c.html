@@ -1,0 +1,1123 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>基础</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6448db55-6aee-827b-b8d0-81a019648c8c" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/hudsonRiverSchool_rockyMountainsLandersPeak.jpg" style="object-position:center 100%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">💵</span></div><h1 class="page-title" dir="auto">基础</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="3248db55-6aee-8324-b1e3-011214a50e13" class="toggle"><li><details open=""><summary>面向对象中的方法与函数</summary><div style="display:contents" dir="auto"><ul id="7bf8db55-6aee-828e-a280-01e989d23533" class="toggle"><li><details open=""><summary><code>__init__</code></summary><div style="display:contents" dir="auto"><p id="8e28db55-6aee-836f-87a0-81e072a76f60" class="">用于初始化方法</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="8958db55-6aee-82ae-9a42-8133642f716e" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class F(object):
+	def __init__(self, name):
+		self.name=name;
+obj=F(&quot;alice&quot;)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="be98db55-6aee-83d7-af61-01459976c3ba" class="toggle"><li><details open=""><summary><code>__new__</code></summary><div style="display:contents" dir="auto"><p id="0bd8db55-6aee-822a-b3ba-017411982d7e" class="">实例化对象时，最先执行__new__方法，然后是__init__，</p></div><div style="display:contents" dir="auto"><p id="6528db55-6aee-8397-a18d-01f0728c9f18" class="">如果类中没有__new__，则会从该父类中寻找。</p></div><div style="display:contents" dir="auto"><p id="9528db55-6aee-83bd-83ff-816fc17ad1ac" class="">即<mark class="highlight-red">构造方法</mark></p></div><div style="display:contents" dir="auto"><pre id="e268db55-6aee-8315-a8b0-01ba315e08af" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class F(object):
+	def __init__(self, name):
+		print(&quot;second&quot;)
+		self.name=name;
+	def __new__(cls, *args, **kwargs):
+		print(&quot;first&quot;)
+		return objct.__new__(cls)
+obj=F(&quot;alice&quot;)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b8c8db55-6aee-8388-828c-015a5362adc4" class="toggle"><li><details open=""><summary><code>__call__</code></summary><div style="display:contents" dir="auto"><p id="db98db55-6aee-83cb-b445-01759592d18b" class="">如果一个类被实例化为对象如：</p></div><div style="display:contents" dir="auto"><p id="6698db55-6aee-8340-abcb-015e1a69af3b" class="">obj=F()</p></div><div style="display:contents" dir="auto"><p id="a1a8db55-6aee-83a2-a112-01e7158f47f3" class="">会调用__init__方法和__new__方法</p></div><div style="display:contents" dir="auto"><p id="8268db55-6aee-82ed-8223-813b14c7b75e" class="">但，python中，对象后面也可以加括号:</p></div><div style="display:contents" dir="auto"><p id="4688db55-6aee-8390-944f-81812309c2a7" class="">obj()</p></div><div style="display:contents" dir="auto"><p id="3bb8db55-6aee-8347-be16-810601669816" class="">此时会自动调用__call__方法</p></div><div style="display:contents" dir="auto"><pre id="e548db55-6aee-82d4-9ce7-813293189370" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class F(object):
+	def __call__(self, *args, **kwargs):
+		print(&quot;我是__call__&quot;)
+obj=F(&quot;alice&quot;)
+obj() # 我是__call__</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e3a8db55-6aee-82d6-b748-817ea79fcba6" class="toggle"><li><details open=""><summary><code>__str__</code></summary><div style="display:contents" dir="auto"><p id="6708db55-6aee-83d9-b4c2-813993543314" class="">该方法必须返回字符串，即 return “str”</p></div><div style="display:contents" dir="auto"><p id="73f8db55-6aee-839a-ab0c-01bba1f7e5e4" class="">即:      对象————&gt;字符串</p></div><div style="display:contents" dir="auto"><pre id="4aa8db55-6aee-83d7-9e9e-8171c244add2" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class F(object):
+	def __str__(self):
+		return &quot;ssss&quot;
+obj=F()
+data=str(obj)
+print(data)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0b08db55-6aee-8307-91ba-818323c3086c" class="toggle"><li><details open=""><summary><code>__dict__</code> </summary><div style="display:contents" dir="auto"><p id="aee8db55-6aee-8248-9897-81766ce5f4d0" class="">获取类中的所有实列对象，并转换为字典</p></div><div style="display:contents" dir="auto"><p id="6a88db55-6aee-8292-b578-01690a20650e" class="">前后端分离时常用</p></div><div style="display:contents" dir="auto"><pre id="d748db55-6aee-8209-ae0a-01ece40df7ce" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class F(object):
+	def __init__(self, name, age):
+		self.name = name
+		self.age = age
+obj=F(&quot;asx&quot;, 12)
+print(obj.__dict__)
+# {&#x27;name&#x27;: &#x27;asx&#x27;, &#x27;age&#x27;: 12}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0408db55-6aee-8357-9aa0-8156014a7a04" class="toggle"><li><details open=""><summary><code>__getitem__</code> &amp;<code>__setitem__</code> &amp;<code>__delitem__</code></summary><div style="display:contents" dir="auto"><p id="85b8db55-6aee-823f-8368-817744652ed9" class="">匹配对象的语法</p></div><div style="display:contents" dir="auto"><p id="8d48db55-6aee-837a-9a4a-8187a4cb4eaa" class="">obj[&quot;xxx&quot;] = 123 <br/>obj[&quot;xx&quot;]</p></div><div style="display:contents" dir="auto"><p id="2ce8db55-6aee-8299-b574-81a069340ebd" class="">del obj[&quot;xx&quot;]</p></div><div style="display:contents" dir="auto"><pre id="6748db55-6aee-83f8-a189-81edf20dc3dd" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class F(object):
+	def __setitem__(self, key, value):
+		print(key, value)
+
+	def __getitem__(self, item):
+		print(item)
+
+	def __delitem__(self, key):
+		print(key)
+
+obj=F()
+obj[&quot;xxx&quot;] = 123 # 自动触发__setitem__ # xxx传入key，123传入value
+
+obj[&quot;xx&quot;] # 自动触发__getitem__ # xx传入item
+
+del obj[&quot;xx&quot;] # 自动触发__delitem__ # xx传入key
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d1a8db55-6aee-831a-866a-0113c06c474f" class="toggle"><li><details open=""><summary><code>__enter__</code>&amp; <code>__exit__</code> </summary><div style="display:contents" dir="auto"><p id="f188db55-6aee-8231-95c0-01579e3b517b" class="">一般成对出现</p></div><div style="display:contents" dir="auto"><p id="aa58db55-6aee-8228-af82-813feb32c3ec" class="">对于</p></div><div style="display:contents" dir="auto"><p id="21f8db55-6aee-834f-a9c2-81ff375615b8" class="">with open(”xx.log”) as f:<div class="indented"><div style="display:contents" dir="auto"><p id="4858db55-6aee-83ff-8f57-817a8c5bd633" class="">f.read()</p></div></div></p></div><div style="display:contents" dir="auto"><p id="d768db55-6aee-82e3-9759-01bbe16c916d" class="">对象也可以这样操作</p></div><div style="display:contents" dir="auto"><pre id="0ae8db55-6aee-8350-abee-016bfeb0fd1b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class F(object):
+	def __enter__(self):
+		print(&quot;in&quot;)
+	def __exit__(self):
+		print(&quot;out&quot;)
+
+obj=F()
+with obj as f:
+	print(&quot;aaa&quot;)
+# 结果：
+# in
+# aaa
+# out
+--------------
+# with 默认执行__enter__方法，返回一个对象 给 as f:
+# 当with内所有代码执行完毕，自动执行__exit__方法</code></pre></div><div style="display:contents" dir="auto"><p id="d5d8db55-6aee-82e9-92b2-81f971831505" class="">数据连接实例</p></div><div style="display:contents" dir="auto"><pre id="f908db55-6aee-827c-beb9-81486a5f37b7" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">calss SqlHelper(object):
+	def __enter__(self):
+		self.连接=数据库连接
+		return 连接
+	def __exit__(self, exc_type, exc_val, exc_tb):
+		self.连接.关闭
+
+with SqlHelper() as 连接:
+	连接.操作</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a178db55-6aee-8345-82c4-81651582fa30" class="toggle"><li><details open=""><summary><code>__add__</code></summary><div style="display:contents" dir="auto"><p id="d388db55-6aee-8360-81a7-01da5e436003" class="">实现类的相加</p></div><div style="display:contents" dir="auto"><p id="0da8db55-6aee-835b-84bb-01525551b69d" class="">相加，减，乘，除都有，不常用</p></div><div style="display:contents" dir="auto"><pre id="6748db55-6aee-82e1-af79-81488a19eb35" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class F(object):
+	def __init__(self, name):
+		self.name=name
+	def __add__(self, other):
+		return f&quot;{self.name}-{other.name}&quot;
+
+v1 = F(&quot;aaa&quot;)
+v2 = F(&quot;zxc&quot;)
+v3 = v1+v2 # 对象+值，内部执行对象.__add__方法，并将+后面的值当作参数传递过去
+print(v3) #  aaa-zxc</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c3f8db55-6aee-83f8-a334-81540599c624" class="toggle"><li><details open=""><summary><code>__iter__</code> &amp;迭代器，生成器，可迭代对象</summary><div style="display:contents" dir="auto"><p id="3758db55-6aee-83df-aacc-81fa36f845cc" class="">迭代器</p></div><div style="display:contents" dir="auto"><pre id="6998db55-6aee-82ac-b207-01ec4e0c3e98" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 迭代器类型的定义：
+	1. 当类中定义了__iter__和__next__两个方法。
+	2. __iter__方法需要返回对象本身，即self。
+	3. __next__方法，返回下一个数据，如果没有数据了，需要抛出一个StopIteration的异常。
+# 创建迭代器对象：
+	class IT(object):
+		def __init__(self):
+			self.counter=0
+		def __iter__(self):
+			return self
+		def __next__(self):
+			self.counter+=1
+			if self.counter==3:
+				raise StopIteration()
+			return self.counter
+# 根据类实例化创建一个迭代器对象
+	obj1=IT()
+	# v1=obj1.__next__()
+	# v2=obj1.__next__()
+	# v3=obj1.__next__() # 异常
+	v1=next(obj1) #  obj.__next__()
+	print(v1)
+	obj2=IT()
+	for item in obj2: # 首先会执行迭代器对象的__iter__方法并获取返回值，一直去反复指向next(对象)
+		print(item)
+	#结果：
+	# 1
+	# 2</code></pre></div><div style="display:contents" dir="auto"><p id="4c18db55-6aee-821d-a077-01bf9d6eacab" class="">生成器</p></div><div style="display:contents" dir="auto"><pre id="d398db55-6aee-828e-91d2-01f0c78f4fdb" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 本质和迭代器相同，只是编写和表现形式不同而已
+# 生成器是特殊的迭代器
+# 创建生成器函数
+	def func():
+		yield 1
+		yield 2
+# 创建生成对象（内部是根据生成器类generator创建的对象）
+# 也声明了__iter__,__next__方法
+obj1 = func()
+v1=next(obj1)
+....
+obj2=func()
+for item in obj2:
+	print(item)</code></pre></div><div style="display:contents" dir="auto"><p id="2298db55-6aee-8393-a31e-812d9bd52b8d" class="">可迭代对象</p></div><div style="display:contents" dir="auto"><pre id="11c8db55-6aee-8212-8198-01f299839455" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 如果一个类中有__iter__方法且返回一个迭代器对象
+# 则这个类创建的对象为可迭代对象
+class F(object):
+	def __iter__(self):
+		return 迭代器对象
+obj=F() # obj是可迭代对象
+for item in obj:
+	pass</code></pre></div><div style="display:contents" dir="auto"><p id="c3a8db55-6aee-8203-ad21-81da09c7449d" class="">综上：</p></div><div style="display:contents" dir="auto"><p id="8b48db55-6aee-82ac-ba6d-01c707a4a273" class="">一个类中存在__iter__方法，返回一个迭代器对象，</p></div><div style="display:contents" dir="auto"><p id="d2c8db55-6aee-8392-8794-816ad799d1b8" class="">实例化接收到的就是可迭代对象（可用于for循环遍历）</p></div><div style="display:contents" dir="auto"><p id="2768db55-6aee-8284-83d7-015118eb6db8" class="">当使用for循环遍历可迭代对象时，内部先指向obj.__iter__并获取迭代器对象</p></div><div style="display:contents" dir="auto"><p id="7c38db55-6aee-8248-a0bb-819db779c611" class="">在for循环内部，会不断指向迭代器对象的next（）方法。</p></div><div style="display:contents" dir="auto"><p id="fda8db55-6aee-826b-9f56-01ed14c94d01" class="">如：</p></div><div style="display:contents" dir="auto"><p id="3828db55-6aee-82c8-abc1-8190b117a23d" class="">v1=range(10) # v1是可迭代对象</p></div><div style="display:contents" dir="auto"><p id="3968db55-6aee-83a7-9726-01409af62989" class="">v2=v1.__iter__() # v2就是迭代器对象</p></div><div style="display:contents" dir="auto"><p id="0278db55-6aee-8365-8573-01c66d4397f7" class="">v2.__next__()</p></div><div style="display:contents" dir="ltr"><table id="15c8db55-6aee-8224-ad1e-01b925ca348d" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="f8d8db55-6aee-8341-9f00-8175733609c9"><td id="CUIx" class=""><strong>特性</strong></td><td id="r[}?" class=""><strong>可迭代对象（如 </strong><code><strong>range</strong></code><strong>）</strong></td><td id="bo\R" class=""><strong>迭代器（如 </strong><code><strong>v2</strong></code><strong>）</strong></td></tr></div><div style="display:contents" dir="ltr"><tr id="3d48db55-6aee-821a-a014-81c03acbb726"><td id="CUIx" class=""><strong>定义</strong></td><td id="r[}?" class="">实现 <code>__iter__()</code> 方法的对象</td><td id="bo\R" class="">实现 <code>__iter__()</code> 和 <code>__next__()</code> 的对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="ece8db55-6aee-8208-a4cb-01cd9596390b"><td id="CUIx" class=""><strong>能否生成元素</strong></td><td id="r[}?" class="">不能，需通过迭代器生成</td><td id="bo\R" class="">能，逐个生成元素</td></tr></div><div style="display:contents" dir="ltr"><tr id="2e88db55-6aee-8395-a33d-01adc42b9c53"><td id="CUIx" class=""><strong>状态</strong></td><td id="r[}?" class="">无状态，可多次获取迭代器</td><td id="bo\R" class="">有状态，记录当前位置</td></tr></div><div style="display:contents" dir="ltr"><tr id="2be8db55-6aee-8343-80b0-016fe989657f"><td id="CUIx" class=""><strong>典型场景</strong></td><td id="r[}?" class="">容器（列表、字典）、生成器表达式</td><td id="bo\R" class="">流式数据、惰性计算</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="2ef8db55-6aee-82e6-8ce2-8196a1935f04" class="">例如：range()的实现</p></div><div style="display:contents" dir="auto"><pre id="6d38db55-6aee-82f4-ae56-01171d5a453c" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 基于可迭代对象
+class IterRange(object):
+	def __init__(self, num):
+		self.num=num
+		self.conuter=-1
+	def __iter__(self):
+		return self
+	def __next__(self):
+		self.counter+=1
+			if self.counter==self.num
+				raise StopIteration()
+			return self.counter
+
+class Xrange(object):
+	def __init__(self, max_num):
+		self.max_num=max_num
+	def __iter__(self):
+		return IterRange(self.max_num):
+
+obj=Xrange(100)
+for item in obj:
+	print(item)</code></pre></div><div style="display:contents" dir="auto"><p id="9a48db55-6aee-8380-bffe-014102f835e0" class=""><mark class="highlight-purple"><strong>for循环可以自动捕获异常</strong></mark></p></div><div style="display:contents" dir="auto"><p id="5888db55-6aee-8241-b184-01d2b3d8a114" class=""><mark class="highlight-purple"><strong>while需要手动捕获</strong></mark></p></div><div style="display:contents" dir="auto"><p id="3eb8db55-6aee-82b6-9c4c-01e7b728fc1c" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3488db55-6aee-829a-b046-81a7194bbb34" class="toggle"><li><details open=""><summary>反射：<code>getattr()</code> &amp;<code>setattr()</code> &amp;<code>hasattr()</code> &amp;<code>delattr()</code></summary><div style="display:contents" dir="auto"><p id="5c38db55-6aee-825c-b312-81de2ec4896e" class="">反射，提供了一种更加灵活的方式让你可以去 对象 中操作成员（以字符串的形式去对象中进行成员操作）</p></div><div style="display:contents" dir="auto"><pre id="7cb8db55-6aee-829e-9b20-0155d59ab806" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class Person(object):
+	def __init__(self, name, wx):
+		self.name=name
+		self.wx=wx
+	def show(self):
+		print(&quot;ss&quot;)
+user = Person(&quot;alice&quot;, &quot;123&quot;)
+getattr(user, &quot;name&quot;) # user.name
+getattr(user, &quot;wx&quot;) # user.wx
+getattr(user, &quot;aaaaa&quot;, None) # 不存在，返回getattr中的第三个参数，一般为None
+
+method=getattr(user, &quot;show&quot;) # user.show
+method()
+# 也可以写成一行 getattr(user, &quot;show&quot;)()
+
+setattr(user, &quot;name&quot;, &quot;bob&quot;) # user.name=&quot;bob&quot;
+
+# 判断是否存在
+hasattr(user, &quot;name&quot;) # true
+hasattr(user, &quot;asda&quot;) # false
+
+# 删除
+delattr(uesr, &quot;name&quot;) </code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="55b8db55-6aee-83fc-8bb9-0103d96bc9f8" class="toggle"><li><details open=""><summary><code>@classmethod</code> &amp; <code>@staticmethod</code> &amp; <code>@property</code></summary></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ed28db55-6aee-8384-b265-8197999e6cf6" class="toggle"><li><details open=""><summary><code>callable()</code></summary><div style="display:contents" dir="auto"><p id="ab98db55-6aee-82a4-994c-81e0d72951c5" class="">用于检查一个对象是否可以被调用（即是否可以像函数一样被执行）。</p></div><div style="display:contents" dir="auto"><pre id="87f8db55-6aee-826a-a0c9-81dedf361bf9" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def add(a, b):
+    return a + b
+print(callable(add))  # True
+
+class MyClass:
+    pass
+print(callable(MyClass))  # True
+
+print(callable(print))  # True
+print(callable(list))   # True
+
+x = 42
+lst = [1, 2, 3]
+print(callable(x))      # False
+print(callable(lst))    # False
+
+import types
+def func(): pass
+obj = Adder()  # 定义了__call__的类实例
+print(callable(func))       # True
+print(callable(obj))        # True
+print(isinstance(obj, types.FunctionType))  # False（obj不是函数类型）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7b78db55-6aee-835d-8f0d-812c336193ee" class="toggle"><li><details open=""><summary><code>super()</code></summary><div style="display:contents" dir="auto"><p id="f058db55-6aee-837a-96b6-81b70fda9d96" class="">如 ： super().message(11+22)</p></div><div style="display:contents" dir="auto"><p id="0708db55-6aee-837b-8a88-81570d60cb84" class="">按照继承关系，去上游中助益寻找相应的message()方法，找到返回，找不到报错</p></div><div style="display:contents" dir="auto"><pre id="f8e8db55-6aee-8304-983a-8163bb84b9c8" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class Top(object):
+	def message(self, num):
+		print(&quot;Top.message&quot;, num)
+class Base(Top):
+	pass
+class F(Base):
+	def message(self, num):
+		print(&quot;F.message&quot;, num)
+		super().message(num+111)
+
+obj=F()
+obj.message(1)
+# F.message 1
+# Top.message 112</code></pre></div><div style="display:contents" dir="auto"><p id="67c8db55-6aee-8305-9b7f-81557c0813e6" class="">更改已有类的功能</p></div><div style="display:contents" dir="auto"><pre id="8268db55-6aee-839e-9c11-018b31812276" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class MyDict(dict):
+	def get(self, k):
+		print(&quot;添加方法&quot;)
+		return super().get(k)
+info = MyDict()
+info[&quot;name&quot;] = &quot;a&quot;
+info[&quot;age&quot;] = 111
+print(info)
+
+value = info.get(&quot;age&quot;) # 先执行自定义方法，再执行调用原有get方法（方法重写）
+print(value)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a108db55-6aee-83b6-864f-0127e794bb83" class="toggle"><li><details open=""><summary><code>type()</code></summary><div style="display:contents" dir="auto"><p id="5028db55-6aee-82a2-813c-810f4667716b" class="">获取一个对象的类型</p></div><div style="display:contents" dir="auto"><pre id="c298db55-6aee-828e-9bc4-811ac78715ec" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">type(&quot;sss&quot;) # &lt;class &#x27;str&#x27;&gt;
+type(&quot;asas&quot;)==str # True
+type([1,2,3])==list # True
+class F(object):
+	pass
+v=F()
+type(v)==F # True</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6688db55-6aee-829e-a836-81cd3ac70acd" class="toggle"><li><details open=""><summary><code>isinstance()</code></summary><div style="display:contents" dir="auto"><p id="1d38db55-6aee-8299-b2cc-81fd405603ee" class="">判断对象是否是某个类或其子类的实例</p></div><div style="display:contents" dir="auto"><pre id="0b18db55-6aee-830c-9e08-0147d1867a18" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class Animal(object)&quot;
+	def run(self):
+		pass
+class Dog(Animal):
+	pass
+class Cat(Animal):
+	pass
+data_list = [
+	&quot;allic&quot;,
+	Dog(),
+	Cat(),
+	&quot;roto&quot;
+]
+for i in data_list: # type()
+	if (type(i)) == Cat:
+		i.run()
+	elif (type(i)) == Dog:
+		i.run()
+	else:
+		pass
+
+for i in data_list: # isinstance()
+	if isinstance(i, Animal):
+		i.run()
+	else:
+		pass</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="90e8db55-6aee-8383-b913-01ecae432f8c" class="toggle"><li><details open=""><summary>内置方法</summary><div style="display:contents" dir="auto"><ul id="c1f8db55-6aee-8342-88ff-01fb9c130c75" class="toggle"><li><details open=""><summary><code>next()</code> 从生成器中取第一个满足条件的元素</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js" integrity="sha512-namzGTZvHaug0jeipHRN2pMepMiJj+EbrloktVFlMYGnA0EwZhbdLeENjBYLCgoghVbZGinIz/FFYHmB0o3wLw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="5c28db55-6aee-8272-81e2-0115a0a22c68" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">next(c for c in enumerate(secret_key) if ord(c[1]) == plain_text[j])
+如果找到，返回该值，
+如果没有，next抛出StopIteration异常</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fb38db55-6aee-83a7-898c-81f5b3135221" class="toggle"><li><details open=""><summary><code>abs()</code> 取绝对值</summary><div style="display:contents" dir="auto"><pre id="03a8db55-6aee-827c-b5b1-81aac2dbf349" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">a: int = -100
+print(abs(a)) 
+# 100</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3428db55-6aee-82f2-a15d-8155a2a05b62" class="toggle"><li><details open=""><summary><code>all() any()</code> 列表真假判断</summary><div style="display:contents" dir="auto"><pre id="34e8db55-6aee-8211-86ea-818f139ca2ae" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">voters: list[int] = [1, 0, 1, 1]
+voters2: list[int] = [0, 0, 0, 0]
+voters3: list[int] = [1, 1, 1, 1]
+
+print(all(voters))    # False
+print(all(voters2))   # False
+print(all(voters3))   # True
+# all() 全部为True为True， 否则为False
+print(any(voters))    # True
+print(any(voters2))   # False
+print(any(voters3))   # True
+# any() 全部为False为False， 否则为True
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9398db55-6aee-83c2-babe-01601ea95195" class="toggle"><li><details open=""><summary><code>ascii()</code> 转换成ASCII文本</summary><div style="display:contents" dir="auto"><pre id="d4c8db55-6aee-834c-bfcb-016d56af1591" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">myChars: list[str] = [&#x27;%&#x27;, &#x27;s&#x27;]
+print(ascii(myChars))
+# [&#x27;%&#x27;, &#x27;s&#x27;]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3388db55-6aee-8326-9251-810328bd317c" class="toggle"><li><details open=""><summary><code>bin()</code> 转换成二进制</summary><div style="display:contents" dir="auto"><pre id="3d88db55-6aee-82df-a7a0-014ae36991f6" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">print(bin(1000))       # 0b1111101000
+print(bin(-5))         # -0b101
+print(bin(0))          # 0b0
+print(bin(1_000_001))  # 0b11110100001001000001</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c858db55-6aee-829e-873f-018cbb12563e" class="toggle"><li><details open=""><summary><code>callable()</code> 检查是否可调用</summary><div style="display:contents" dir="auto"><pre id="3a28db55-6aee-8380-be01-017eeda2c0fc" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">myName: str = &quot;Bob&quot;
+
+def geeeet(name: str) -&gt; None:
+	print(f&#x27;hi, {name}!&#x27;)
+
+print(callable(myName))   # False # myName 是字符串，不可调用
+print(callable(geeeet))   # True # 是可调用函数
+print(callable(print))    # True # 是可调用函数</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b698db55-6aee-8384-a73d-0189aa073cdf" class="toggle"><li><details open=""><summary><code>chr() ord()</code> 转换成Unicode编码字符串到整数之间相互转换</summary><div style="display:contents" dir="auto"><pre id="6d88db55-6aee-82d6-9005-810a7f1c1e46" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">print(chr(100)) # 100
+print(ord(&#x27;d&#x27;)) # d</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3be8db55-6aee-836d-a8fb-01dd591f3241" class="toggle"><li><details open=""><summary><code>dict()</code> 转换为字典类型</summary><div style="display:contents" dir="auto"><pre id="1de8db55-6aee-8363-b902-81a9869ea739" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">myDict: dict = dict()          # {} # 空字典
+print(dict(a=1, b=2))          # {&#x27;a&#x27;: 1, &#x27;b&#x27;: 2}
+container: list[tuple[str, int]] = [(&#x27;a&#x27;, 1), (&#x27;b&#x27;, 2)] # {&#x27;a&#x27;: 1, &#x27;b&#x27;: 2}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c778db55-6aee-821e-8ef6-019f299144f8" class="toggle"><li><details open=""><summary><code>dir()</code> 获得模块所有的方法名</summary><div style="display:contents" dir="auto"><pre id="98b8db55-6aee-829f-8c3d-0196e3d8db9b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">print(dir())
+# [&#x27;__annotations__&#x27;, &#x27;__builtins__&#x27;, &#x27;__cached__&#x27;, &#x27;__doc__&#x27;, &#x27;__file__&#x27;, &#x27;__loader__&#x27;, &#x27;__name__&#x27;, &#x27;__package__&#x27;, &#x27;__spec__&#x27;]
+# main.py 中的方法
+
+import json
+print(dir(json))
+# [&#x27;JSONDecodeError&#x27;, &#x27;JSONDecoder&#x27;, &#x27;JSONEncoder&#x27;, &#x27;__all__&#x27;, &#x27;__author__&#x27;, &#x27;__builtins__&#x27;, &#x27;__cached__&#x27;, &#x27;__doc__&#x27;, &#x27;__file__&#x27;, &#x27;__loader__&#x27;, &#x27;__name__&#x27;, &#x27;__package__&#x27;, &#x27;__path__&#x27;, &#x27;__spec__&#x27;, &#x27;__version__&#x27;, &#x27;_default_decoder&#x27;, &#x27;_default_encoder&#x27;, &#x27;codecs&#x27;, &#x27;decoder&#x27;, &#x27;detect_encoding&#x27;, &#x27;dump&#x27;, &#x27;dumps&#x27;, &#x27;encoder&#x27;, &#x27;load&#x27;, &#x27;loads&#x27;, &#x27;scanner&#x27;]
+# json 模块中的所有方法
+
+print(dir(int))
+# [&#x27;__abs__&#x27;, &#x27;__add__&#x27;, &#x27;__and__&#x27;, &#x27;__bool__&#x27;, &#x27;__ceil__&#x27;, &#x27;__class__&#x27;, &#x27;__delattr__&#x27;, &#x27;__dir__&#x27;, &#x27;__divmod__&#x27;, &#x27;__doc__&#x27;, &#x27;__eq__&#x27;, &#x27;__float__&#x27;, &#x27;__floor__&#x27;, &#x27;__floordiv__&#x27;, &#x27;__format__&#x27;, &#x27;__ge__&#x27;, &#x27;__getattribute__&#x27;, &#x27;__getnewargs__&#x27;, &#x27;__gt__&#x27;, &#x27;__hash__&#x27;, &#x27;__index__&#x27;, &#x27;__init__&#x27;, &#x27;__init_subclass__&#x27;, &#x27;__int__&#x27;, &#x27;__invert__&#x27;, &#x27;__le__&#x27;, &#x27;__lshift__&#x27;, &#x27;__lt__&#x27;, &#x27;__mod__&#x27;, &#x27;__mul__&#x27;, &#x27;__ne__&#x27;, &#x27;__neg__&#x27;, &#x27;__new__&#x27;, &#x27;__or__&#x27;, &#x27;__pos__&#x27;, &#x27;__pow__&#x27;, &#x27;__radd__&#x27;, &#x27;__rand__&#x27;, &#x27;__rdivmod__&#x27;, &#x27;__reduce__&#x27;, &#x27;__reduce_ex__&#x27;, &#x27;__repr__&#x27;, &#x27;__rfloordiv__&#x27;, &#x27;__rlshift__&#x27;, &#x27;__rmod__&#x27;, &#x27;__rmul__&#x27;, &#x27;__ror__&#x27;, &#x27;__round__&#x27;, &#x27;__rpow__&#x27;, &#x27;__rrshift__&#x27;, &#x27;__rshift__&#x27;, &#x27;__rsub__&#x27;, &#x27;__rtruediv__&#x27;, &#x27;__rxor__&#x27;, &#x27;__setattr__&#x27;, &#x27;__sizeof__&#x27;, &#x27;__str__&#x27;, &#x27;__sub__&#x27;, &#x27;__subclasshook__&#x27;, &#x27;__truediv__&#x27;, &#x27;__trunc__&#x27;, &#x27;__xor__&#x27;, &#x27;as_integer_ratio&#x27;, &#x27;bit_length&#x27;, &#x27;conjugate&#x27;, &#x27;denominator&#x27;, &#x27;from_bytes&#x27;, &#x27;imag&#x27;, &#x27;numerator&#x27;, &#x27;real&#x27;, &#x27;to_bytes&#x27;]
+# int 函数中的所有方法</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f7c8db55-6aee-83e5-b713-81260409c835" class="toggle"><li><details open=""><summary><code>divmod()</code> 计算两个数整除几次，余数是几</summary><div style="display:contents" dir="auto"><pre id="2dd8db55-6aee-83e8-b4e2-813685b91cea" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">print(divmod(7, 4)) # (1, 3) # 整除1次，余数为3 # 返回一个元组
+print(divmod(1.5, 0.7)) # (2.0, 0.1) # 使用于小数 </code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d4b8db55-6aee-82c7-aa7c-814898336933" class="toggle"><li><details open=""><summary><code>enumerate()</code> 遍历元素位置和内容</summary><div style="display:contents" dir="auto"><pre id="1d48db55-6aee-82b9-b8c3-01c91820b54d" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">a: list[str]=[&#x27;Agnatha&#x27;, &#x27;asdx&#x27;, &#x27;alice&#x27;, &#x27;none&#x27;]
+enumeration: enumerate = enumerate(a)
+print(list(enumeration)) # 转换为可视数据类型
+# [(0, &#x27;Agnatha&#x27;), (1, &#x27;asdx&#x27;), (2, &#x27;alice&#x27;), (3, &#x27;none&#x27;)]
+print(enumeration) # 返回enumerate对象
+
+for i, person in enumerate(people, start=1):
+	print(i, person)
+# 1 Agnatha
+# 2 asdx
+# 3 alice
+# 4 none</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9268db55-6aee-8366-ba09-81a17ccf915d" class="toggle"><li><details open=""><summary><code>exec()</code> 执行字符串里的逻辑代码</summary><div style="display:contents" dir="auto"><pre id="7538db55-6aee-8315-862d-011663770b74" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">source: str = &quot;&quot;&quot;
+a: int = 10
+b: int = 20
+
+print(a + b)
+
+for i in range(3):
+	print(&quot;loop:&quot;, i)
+&quot;&quot;&quot;
+
+exec(source)
+# 30
+# loop 1
+# loop 2
+# loop 3
+print(exec(source))
+# None 无返回值
+print(a) # 显示错误，因为a是字符串</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="09b8db55-6aee-83dc-905b-0198f51e7d55" class="toggle"><li><details open=""><summary><code>.replace()</code> 替换指定字符串</summary></details></li></ul></div><div style="display:contents" dir="auto"><p id="77b8db55-6aee-83cd-93d9-012ae88a45ff" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f308db55-6aee-82d3-b145-01bfda5eb698" class="toggle"><li><details open=""><summary>推导式</summary><div style="display:contents" dir="auto"><ul id="c888db55-6aee-831f-b200-012ed3c39e29" class="toggle"><li><details open=""><summary>列表推导式</summary><div style="display:contents" dir="auto"><pre id="4038db55-6aee-8391-86d3-01b2d779f53a" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">nums = [1, 2, 3, 4, 5]
+squared_nums = [num ** 2 for num in nums]
+print(squared_nums)  
+# 输出: [1, 4, 9, 16, 25]</code></pre></div><div style="display:contents" dir="auto"><p id="6eb8db55-6aee-8318-a82d-810d5fe26f96" class="">带条件列表推导式</p></div><div style="display:contents" dir="auto"><pre id="5458db55-6aee-8306-98f9-011191840e1e" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">nums = [1, 2, 3, 4, 5]
+even_squared_nums = [num ** 2 for num in nums if num % 2 == 0]
+print(even_squared_nums)  
+# 输出: [4, 16]</code></pre></div><div style="display:contents" dir="auto"><p id="c798db55-6aee-838f-84fb-815ac135a00a" class="">嵌套列表推导式</p></div><div style="display:contents" dir="auto"><pre id="e458db55-6aee-8284-931b-81e0ba2b84d2" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+flattened_matrix = [num for sublist in matrix for num in sublist]
+print(flattened_matrix)  
+# 输出: [1, 2, 3, 4, 5, 6, 7, 8, 9]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="06c8db55-6aee-82de-ae75-0122a6336919" class="toggle"><li><details open=""><summary>集合推导式</summary><div style="display:contents" dir="auto"><pre id="4098db55-6aee-82e2-bb1f-81140f2977db" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">nums = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
+unique_squared_nums = {num ** 2 for num in nums}
+print(unique_squared_nums)  
+# 输出: {1, 4, 9, 16}</code></pre></div><div style="display:contents" dir="auto"><p id="3268db55-6aee-832c-95af-0114f00e934c" class=""><mark class="highlight-yellow"><strong>集合具有去重的特性</strong></mark></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3bb8db55-6aee-83a3-93f6-81f4b33c24bf" class="toggle"><li><details open=""><summary>字典推导式</summary><div style="display:contents" dir="auto"><pre id="1828db55-6aee-830b-b7cd-0135404212f4" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">nums = [1, 2, 3, 4, 5]
+num_dict = {num: num ** 2 for num in nums}
+print(num_dict)  
+# 输出: {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}</code></pre></div><div style="display:contents" dir="auto"><p id="44f8db55-6aee-83d6-b579-812637c00042" class="">带条件的字典推导式</p></div><div style="display:contents" dir="auto"><pre id="09e8db55-6aee-8398-a123-81e52c74ac36" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">nums = [1, 2, 3, 4, 5]
+even_num_dict = {num: num ** 2 for num in nums if num % 2 == 0}
+print(even_num_dict)  
+# 输出: {2: 4, 4: 16}</code></pre></div><div style="display:contents" dir="auto"><p id="2148db55-6aee-83ba-aa0f-01c1cca165e3" class="">通过条件 <code>if num % 2 == 0</code> 筛选出 <code>nums</code> 中的偶数，再构建键值对。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8b58db55-6aee-8228-b9b9-0157094fe417" class="toggle"><li><details open=""><summary>生成器表达式</summary><div style="display:contents" dir="auto"><p id="26e8db55-6aee-83e3-980f-012777053cca" class=""><mark class="highlight-pink"><code><strong>from typing import Generator</strong></code></mark></p></div><div style="display:contents" dir="auto"><pre id="50e8db55-6aee-8337-8a1b-8119ac8396c6" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 生成器表达式，不会立即计算所有结果
+gen: Generator = (x ** 2 for x in range(10) if x % 2 == 0)
+# 遍历生成器，按需生成元素
+for num in gen:
+    print(num)
+# 输出：0 4 16 36 64</code></pre></div><div style="display:contents" dir="auto"><h3 id="4fe8db55-6aee-8356-b16d-81dbdfc8c18b" class=""><strong>特点</strong></h3></div><div style="display:contents" dir="auto"><ul id="4388db55-6aee-8220-a938-812af7b39287" class="bulleted-list"><li style="list-style-type:disc"><strong>节省内存</strong>：处理百万级数据时，生成器表达式优势明显，列表推导式可能因内存不足报错。</li></ul></div><div style="display:contents" dir="auto"><ul id="62f8db55-6aee-8325-b510-81d065655ca8" class="bulleted-list"><li style="list-style-type:disc"><strong>惰性计算</strong>：只有在迭代（如 <code>for</code> 循环、<mark class="highlight-yellow"><code><strong>next()</strong></code></mark><mark class="highlight-yellow"><strong> 调用</strong></mark>）时才会计算下一个元素。</li></ul></div><div style="display:contents" dir="auto"><p id="94b8db55-6aee-8251-bbe9-819d91ec9553" class="">
+</p></div><div style="display:contents" dir="auto"><p id="bb78db55-6aee-83b1-bc6a-81a07afcd42c" class="">元组的“伪推导式”（生成器+元组构造）</p></div><div style="display:contents" dir="auto"><pre id="b748db55-6aee-83e1-9ce8-81d80ecaa6c1" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 用生成器表达式生成元素，再转成元组
+tup = tuple(x ** 2 for x in range(5))
+print(tup)  
+# 输出：(0, 1, 4, 9, 16)</code></pre></div><div style="display:contents" dir="auto"><p id="a6f8db55-6aee-8270-a271-81f42159aa03" class="">自定义类的“推导式风格”构建（借助生成器+类逻辑）</p></div><div style="display:contents" dir="auto"><pre id="85b8db55-6aee-8283-bb21-81ce66f885b3" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+# 用生成器表达式批量创建 Person 实例，存入列表
+people = [Person(f&quot;Person_{i}&quot;, i) for i in range(3)]
+for p in people:
+    print(p.name, p.age)
+# 输出：
+# Person_0 0
+# Person_1 1
+# Person_2 2</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6138db55-6aee-83d9-beb2-01b891792e1c" class="toggle"><li><details open=""><summary>虚拟环境中运行不同版本</summary><div style="display:contents" dir="auto"><pre id="76f8db55-6aee-839d-ba57-01541b1c6bb7" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 使用 Python 3.9 创建虚拟环境（确保 python3.9 命令可用）
+python3.9 -m venv py39_env
+
+conda create -n py39 python=3.9
+
+# 激活虚拟环境
+conda activate py39
+# Windows:
+py39_env\Scripts\activate
+# Linux/macOS:
+source py39_env/bin/activate
+
+pip install uncompyle6 -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install decompyle3
+pip install uncompyle6 --no-cache-dir
+# 执行任务
+uncompyle6 文件名.pyc &gt; 输出文件名.py
+.............
+
+# 退出虚拟环境
+deactivate</code></pre></div><div style="display:contents" dir="auto"><pre id="bc58db55-6aee-83d5-b7a4-81a52b745a7a" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 对于其他版本
+# 卸载旧版 uncompyle6（避免冲突）
+pip uninstall uncompyle6
+
+# 安装 decompyle3（从源码获取最新支持）
+pip install git+https://github.com/rocky/python-decompyle3.git
+# 1. 安装 pycdc（支持 Python 3.10+）
+pip install pycdc
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pycdc
+# 反编译命令（与 uncompyle6 语法一致）
+decompyle3 stream.pyc &gt; sss.py</code></pre></div></details></li></ul></div><div style="display:contents" dir="ltr"><figure id="1c98db55-6aee-8318-b19f-816d3c31aa4b" class="link-to-page"><a href="%E5%9F%BA%E7%A1%80/re%201c98db556aee8318b19f816d3c31aa4b.html">re</a></figure></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

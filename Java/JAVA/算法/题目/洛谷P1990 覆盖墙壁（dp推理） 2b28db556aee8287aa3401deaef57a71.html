@@ -1,0 +1,765 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>洛谷P1990 覆盖墙壁（dp推理）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2b28db55-6aee-8287-aa34-01deaef57a71" class="page sans"><header><h1 class="page-title" dir="auto">洛谷<strong>P1990 覆盖墙壁（dp推理）</strong></h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="e878db55-6aee-8225-8bbb-8174f6dddf28" class="toggle"><li><details open=""><summary>题目</summary><div style="display:contents" dir="auto"><h2 id="e448db55-6aee-831f-8791-019fab31ce81" class=""><strong>题目描述</strong></h2></div><div style="display:contents" dir="auto"><p id="73a8db55-6aee-82a8-8569-01399a74ced3" class="">你有一个长为 <em>N</em> 宽为 2 的墙壁，给你两种砖头：一个长 2 宽 1，另一个是 L 型覆盖 3 个单元的砖头。如下图：</p></div><div style="display:contents" dir="auto"><p id="66f8db55-6aee-83c4-ac0b-01cccdc34b9b" class=""><code>0  0<br/>0  00</code></p></div><div style="display:contents" dir="auto"><p id="faf8db55-6aee-838b-995c-81122920493c" class="">砖头可以旋转，两种砖头可以无限制提供。你的任务是计算用这两种来覆盖 <em>N</em>×2 的墙壁的覆盖方法。例如一个 2×3 的墙可以有 5 种覆盖方法，如下：</p></div><div style="display:contents" dir="auto"><p id="a418db55-6aee-83bf-929c-819a539e2e77" class=""><code>012 002 011 001 011  <br/>012 112 022 011 001</code></p></div><div style="display:contents" dir="auto"><p id="b388db55-6aee-83cf-959c-01033abeedd4" class="">注意可以使用两种砖头混合起来覆盖，如 2×4 的墙可以这样覆盖：</p></div><div style="display:contents" dir="auto"><p id="60f8db55-6aee-839a-95c6-01d03988eb82" class=""><code>0112<br/>0012</code></p></div><div style="display:contents" dir="auto"><p id="ebf8db55-6aee-8309-9195-81f6519dd0e2" class="">给定 <em>N</em>，要求计算 2×<em>N</em> 的墙壁的覆盖方法。由于结果很大，所以只要求输出最后 4 位。例如 2×13 的覆盖方法为 13465，只需输出 3465 即可。如果答案少于 4 位，就直接输出就可以，不用加前导 0，如 <em>N</em>=3 时输出 5。</p></div><div style="display:contents" dir="auto"><h2 id="b668db55-6aee-8292-8903-01af86e3daa8" class=""><strong>输入格式</strong></h2></div><div style="display:contents" dir="auto"><p id="a998db55-6aee-83ff-b0f4-8188043a4d15" class="">一个整数 <em>N</em>，表示墙壁的长。</p></div><div style="display:contents" dir="auto"><h2 id="4668db55-6aee-83bf-869b-013e8f8fbe61" class=""><strong>输出格式</strong></h2></div><div style="display:contents" dir="auto"><p id="e058db55-6aee-82a5-b383-018e427fc819" class="">输出覆盖方法的最后 4 位，如果不足 4 位就输出整个答案。</p></div><div style="display:contents" dir="auto"><h2 id="10d8db55-6aee-8340-b052-8134d9bf32fa" class=""><strong>输入输出样例</strong></h2></div><div style="display:contents" dir="auto"><p id="1be8db55-6aee-8224-909f-81f2120e3224" class=""><strong>输入 #1</strong>复制运行</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7348db55-6aee-8272-ab09-81bb6dd0abba" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">13</code></pre></div><div style="display:contents" dir="auto"><p id="47c8db55-6aee-8384-893b-8128655dabfa" class=""><strong>输出 #1</strong>复制运行</p></div><div style="display:contents" dir="auto"><pre id="9568db55-6aee-83c6-a479-81f9215f4ffb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3465</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bb88db55-6aee-82ef-8ced-01833115f272" class="toggle"><li><details open=""><summary>推导</summary><div style="display:contents" dir="auto"><p id="5b28db55-6aee-830e-9edb-81e7233d24a4" class="">我们定义：</p></div><div style="display:contents" dir="auto"><ul id="df58db55-6aee-833a-9096-01b413cf3954" class="bulleted-list"><li style="list-style-type:disc"><code>dp[i]</code> = 铺满 <strong>2×i</strong> 墙壁的总方法数</li></ul></div><div style="display:contents" dir="auto"><h2 id="7318db55-6aee-834c-a034-017d8a84b6e6" class="">第一步：写出原始递推关系</h2></div><div style="display:contents" dir="auto"><p id="60b8db55-6aee-8335-b49f-015c611925c6" class="">我们从<strong>最后一块区域怎么铺</strong>来分类：</p></div><div style="display:contents" dir="auto"><h3 id="b078db55-6aee-8315-a3ac-81376049261e" class="">情况 1：最后放 1 个竖的 2×1 砖头</h3></div><div style="display:contents" dir="auto"><p id="c258db55-6aee-8300-bc2a-0166887bc04a" class="">前面剩下</p></div><div style="display:contents" dir="auto"><pre id="22a8db55-6aee-8214-8456-0187f73712a3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2×(i-1)</code></pre></div><div style="display:contents" dir="auto"><p id="1a98db55-6aee-83d3-8bc4-01acbb799c4a" class="">贡献：</p></div><div style="display:contents" dir="auto"><p id="24d8db55-6aee-83a4-90af-01b3ab23cc26" class=""><code><strong>dp[i-1]</strong></code></p></div><div style="display:contents" dir="auto"><h3 id="3958db55-6aee-83a8-a281-01e30958d1ab" class="">情况 2：最后放 2 个横的 1×2 砖头</h3></div><div style="display:contents" dir="auto"><p id="6988db55-6aee-83d0-82c3-0120171e3907" class="">刚好铺满 2×2，前面剩下</p></div><div style="display:contents" dir="auto"><pre id="a448db55-6aee-83cb-af1c-815a868020a1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2×(i-2)</code></pre></div><div style="display:contents" dir="auto"><p id="ad68db55-6aee-830c-b666-01cad5ef264a" class="">贡献：</p></div><div style="display:contents" dir="auto"><p id="d6d8db55-6aee-82dc-8803-01366009835a" class=""><code><strong>dp[i-2]</strong></code></p></div><div style="display:contents" dir="auto"><h3 id="acc8db55-6aee-8383-8963-812bee859e2c" class="">情况 3：最后用 L 型砖头（关键！）</h3></div><div style="display:contents" dir="auto"><p id="6168db55-6aee-8306-8812-81ce10a24777" class="">L 型砖头</p></div><div style="display:contents" dir="auto"><p id="ca78db55-6aee-8233-bb7a-819aacea7483" class=""><strong>必须两个一起用</strong></p></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-8315-9c2d-0197a4a3405d" class="">，才能拼成完整的 2×3 区域！而且 L 型有</p></div><div style="display:contents" dir="auto"><p id="d5a8db55-6aee-8344-abc4-81339f12f7b9" class=""><strong>两种摆法</strong></p></div><div style="display:contents" dir="auto"><p id="2808db55-6aee-83e7-9604-81c25383884c" class="">：</p></div><div style="display:contents" dir="auto"><ul id="5b68db55-6aee-82f5-bae7-01efb4c21d62" class="bulleted-list"><li style="list-style-type:disc">凸在左边</li></ul></div><div style="display:contents" dir="auto"><ul id="4a88db55-6aee-8237-a2f1-0173e5a41ece" class="bulleted-list"><li style="list-style-type:disc">凸在右边</li></ul></div><div style="display:contents" dir="auto"><p id="73a8db55-6aee-83e0-9894-018d2a18e580" class="">所以：</p></div><div style="display:contents" dir="auto"><ul id="bce8db55-6aee-8370-a04a-818bb06e0a58" class="bulleted-list"><li style="list-style-type:disc">用 L 型铺满 2×3 → 2 种方法</li></ul></div><div style="display:contents" dir="auto"><ul id="0ca8db55-6aee-8276-984b-8167f2aa1dca" class="bulleted-list"><li style="list-style-type:disc">用 L 型铺满 2×4 → 2*dp [1] 种</li></ul></div><div style="display:contents" dir="auto"><ul id="5688db55-6aee-821f-b031-01f9dbdbd2bc" class="bulleted-list"><li style="list-style-type:disc">用 L 型铺满 2×5 → 2*dp [2] 种</li></ul></div><div style="display:contents" dir="auto"><ul id="7708db55-6aee-820a-b718-817b2420c961" class="bulleted-list"><li style="list-style-type:disc">...</li></ul></div><div style="display:contents" dir="auto"><ul id="3948db55-6aee-8270-a3fb-8126fadba009" class="bulleted-list"><li style="list-style-type:disc">用 L 型铺满 2×i → <strong>2 * dp[i-3]</strong></li></ul></div><div style="display:contents" dir="auto"><hr id="6a38db55-6aee-8334-aeb3-01b627bcce6e"/></div><div style="display:contents" dir="auto"><h2 id="2b48db55-6aee-834c-96f4-018178387255" class="">第二步：合并所有情况</h2></div><div style="display:contents" dir="auto"><p id="8858db55-6aee-82c5-825d-0144819bba30" class="">把上面三类加起来：</p></div><div style="display:contents" dir="auto"><p id="d1b8db55-6aee-833d-b371-014309333aec" class="">plaintext</p></div><div style="display:contents" dir="auto"><p id="f7f8db55-6aee-829b-9463-013aca143ae4" class=""><code>dp[i] = dp[i-1] + dp[i-2] + 2*(dp[i-3] + dp[i-4] + ... + dp[0])</code></p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="b3b8db55-6aee-827f-b047-81f3edb7120d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">第一种：       第二种：
+□  □            □  □
+□  □ □        □ □  □</code></pre></div><div style="display:contents" dir="auto"><p id="9548db55-6aee-82c8-b991-81fb2a3d807a" class="">这是<strong>原始公式</strong>，但我们可以<strong>简化</strong>成更短的式子！</p></div><div style="display:contents" dir="auto"><hr id="c908db55-6aee-8249-acb5-81450bb098cb"/></div><div style="display:contents" dir="auto"><h2 id="da08db55-6aee-8269-bf5b-81baee204b2e" class="">第三步：两式相减，推导出最简公式</h2></div><div style="display:contents" dir="auto"><p id="f078db55-6aee-83ec-8d38-017e41f9eef5" class="">我们写出 <code>i</code> 和 <code>i-1</code> 的式子：</p></div><div style="display:contents" dir="auto"><h3 id="7be8db55-6aee-828a-a721-010f15a640be" class="">① i 式</h3></div><div style="display:contents" dir="auto"><p id="28a8db55-6aee-83c9-9a73-016e2a522d92" class="">plaintext</p></div><div style="display:contents" dir="auto"><p id="37a8db55-6aee-8258-8c61-810e62ae8182" class=""><code>dp[i] = dp[i-1] + dp[i-2] + 2*(dp[i-3] + ... + dp[0])</code></p></div><div style="display:contents" dir="auto"><h3 id="7048db55-6aee-8353-abfd-814c18a5dbb5" class="">② i-1 式</h3></div><div style="display:contents" dir="auto"><p id="4228db55-6aee-822c-8705-8115b74b9394" class="">plaintext</p></div><div style="display:contents" dir="auto"><p id="d828db55-6aee-83b7-99ee-019c4b176e4a" class=""><code>dp[i-1] = dp[i-2] + dp[i-3] + 2*(dp[i-4] + ... + dp[0])</code></p></div><div style="display:contents" dir="auto"><h3 id="6438db55-6aee-82b2-8a96-81646bf77a1c" class="">① - ② 得到：</h3></div><div style="display:contents" dir="auto"><p id="9188db55-6aee-82e1-bcad-01ca2faea8cd" class="">plaintext</p></div><div style="display:contents" dir="auto"><p id="17b8db55-6aee-82ac-ba3f-816c9aae3e42" class=""><code>dp[i] - dp[i-1] = dp[i-1] + dp[i-3]</code></p></div><div style="display:contents" dir="auto"><p id="a668db55-6aee-8394-aa2b-015bd4f5d8d8" class="">移项后：</p></div><div style="display:contents" dir="auto"><h1 id="9018db55-6aee-8234-b28d-81b86ca7d1b4" class="">✔ 最终公式</h1></div><div style="display:contents" dir="auto"><p id="79c8db55-6aee-8226-a478-010e7ea3fd99" class="">plaintext</p></div><div style="display:contents" dir="auto"><p id="6dc8db55-6aee-834e-8c48-01eace8d1e78" class=""><code>dp[i] = 2 * dp[i-1] + dp[i-3]</code></p></div></details></li></ul></div><div style="display:contents" dir="auto"><pre id="5e88db55-6aee-8399-84ff-0114e3e6db94" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.util.*;
+
+public class Main{
+  static int  MOD = 10000;
+  
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+
+    int[] dp = new int[n+1];
+    if (n&gt;=0) dp[0] = 1;
+    if (n&gt;=1) dp[1] = 1;
+    if (n&gt;=2) dp[2] = 2;
+
+    for (int i=3; i&lt;=n; i++) {
+        dp[i] = (2*dp[i-1] + dp[i-3]) % MOD;
+    }
+
+    System.out.println(dp[n]);
+  }
+}</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

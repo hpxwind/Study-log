@@ -1,0 +1,1328 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>并发与网络</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3418db55-6aee-8324-8172-01409195d79e" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/nasa_reduced_gravity_walking_simulator.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">♟️</span></div><h1 class="page-title" dir="auto">并发与网络</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="6608db55-6aee-8341-b25b-812465097599" class="toggle"><li><details open=""><summary>进程与线程</summary><div style="display:contents" dir="auto"><p id="50e8db55-6aee-8223-82f3-01b0e29b318b" class="">线程：计算机中可以被cpu调度的最小单元（真正在工作）</p></div><div style="display:contents" dir="auto"><p id="7188db55-6aee-82fd-bb72-01fcdc3b1aee" class="">进程：是计算机资源分配的最小单元</p></div><div style="display:contents" dir="auto"><p id="7ce8db55-6aee-82cd-8040-81a4205da6d3" class="">一个进程中可以有多个线程，同一个进程中的线程可以共享此进程中的资源</p></div><div style="display:contents" dir="auto"><h3 id="7468db55-6aee-836d-a0b2-01ba717c79f2" class="">多线程</h3></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="ad58db55-6aee-82d4-91aa-810260873c80" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import time
+import requests
+import threading
+
+url_list = [
+	(&quot;a.mp4&quot;, &quot;https://....&quot;),
+	(&quot;b.mp4&quot;, &quot;https://....&quot;),
+	(&quot;c.mp4&quot;, &quot;https://....&quot;)
+]
+
+def task(file_name, video_url):
+	res=requests.get(video_url)
+	with open(file_name, mode=&quot;wb&quot;) as f:
+		f.write(res.content)
+	print(time.time())
+
+if __name__ == &quot;__main__&quot;: # windows(spawn) mac(fork和spawn)默认会报错 # linux(fork)不会
+	for name, url in url_list:
+		# 创建线程，让每个线程去执行task函数，（参数不同）
+		t=threading.Thread(target=task, args=(name, url))
+		t.start()</code></pre></div><div style="display:contents" dir="auto"><h3 id="dae8db55-6aee-824d-b33a-0180e0f6ab0f" class="">多进程</h3></div><div style="display:contents" dir="auto"><pre id="57d8db55-6aee-8289-ad4f-01b148daf24d" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import multiprocessing
+import requests
+
+def download_file(url, filename):
+    &quot;&quot;&quot;下载文件并保存到本地&quot;&quot;&quot;
+    try:
+        response = requests.get(url, stream=True)
+        response.raise_for_status()  # 检查请求是否成功
+        
+        with open(filename, &#x27;wb&#x27;) as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        
+        print(f&quot;下载完成: {filename}&quot;)
+    except Exception as e:
+        print(f&quot;下载失败 {filename}: {e}&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    # 文件列表：(文件名, 下载URL)
+    file_list = [
+        (&quot;file1.txt&quot;, &quot;https://example.com/file1.txt&quot;),
+        (&quot;file2.txt&quot;, &quot;https://example.com/file2.txt&quot;),
+        (&quot;file3.txt&quot;, &quot;https://example.com/file3.txt&quot;),
+    ]
+    
+    # 创建并启动进程
+    processes = []
+    for filename, url in file_list:
+        p = multiprocessing.Process(target=download_file, args=(url, filename))
+        processes.append(p)
+        p.start()
+    
+    # 等待所有进程完成
+    for p in processes:
+        p.join()
+    
+    print(&quot;所有下载任务已完成&quot;)</code></pre></div><div style="display:contents" dir="ltr"><table id="b728db55-6aee-83aa-9098-01b3bd2eb90f" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="24b8db55-6aee-83a0-8343-8100cb582a78"><th id="jlpA" class="simple-table-header-color simple-table-header"><strong>维度</strong></th><th id="\c&lt;z" class="simple-table-header-color simple-table-header"><strong>多进程（Multiprocessing）</strong></th><th id="D{]:" class="simple-table-header-color simple-table-header"><strong>多线程（Multithreading）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="bb48db55-6aee-8295-8a15-01e4bc678b05"><td id="jlpA" class=""><strong>基本单位</strong></td><td id="\c&lt;z" class="">操作系统分配资源的最小单位（如内存、CPU 时间片）</td><td id="D{]:" class="">进程内的执行单元，共享进程的资源（内存、文件句柄等）</td></tr></div><div style="display:contents" dir="ltr"><tr id="dfa8db55-6aee-83a1-91fe-8185382929eb"><td id="jlpA" class=""><strong>资源隔离</strong></td><td id="\c&lt;z" class="">每个进程有独立的地址空间，数据不共享</td><td id="D{]:" class="">同一进程内的线程共享内存，数据可直接访问</td></tr></div><div style="display:contents" dir="ltr"><tr id="c418db55-6aee-827b-b0f0-010b60f20a64"><td id="jlpA" class=""><strong>切换开销</strong></td><td id="\c&lt;z" class="">进程切换需保存整个上下文（内存状态、寄存器等），开销大</td><td id="D{]:" class="">线程切换只需保存少量寄存器状态，开销较小</td></tr></div><div style="display:contents" dir="ltr"><tr id="8e68db55-6aee-828c-a6e4-816dc1cd3ff2"><td id="jlpA" class=""><strong>并发实现</strong></td><td id="\c&lt;z" class="">操作系统层面调度，可利用多核 CPU 真正并行执行</td><td id="D{]:" class="">操作系统调度线程，但受 GIL 限制（Python 中）无法真正并行</td></tr></div><div style="display:contents" dir="ltr"><tr id="6d48db55-6aee-82db-9227-01b20c2eabdd"><td id="jlpA" class=""><strong>创建代价</strong></td><td id="\c&lt;z" class="">启动进程需复制进程空间，耗时较长（毫秒级）</td><td id="D{]:" class="">启动线程只需分配栈空间，耗时极短（微秒级）</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e718db55-6aee-830b-8a05-0196d1b4a04a" class="toggle"><li><details open=""><summary>GIL锁</summary><div style="display:contents" dir="auto"><p id="1618db55-6aee-8359-932d-81ca15ee8d0f" class="">GIL，全局解释器锁，是CPython解释器特有</p></div><div style="display:contents" dir="auto"><p id="e8f8db55-6aee-83d1-b0bf-012ee006b199" class=""><mark class="highlight-red">让一个进程中同一个时刻只有一个线程可以被cpu调用（同一时刻，仅允许一个线程执行 Python 字节码）</mark></p></div><div style="display:contents" dir="ltr"><figure id="7108db55-6aee-8397-b775-8109d8d2e39a" class="image"><a href="%E5%B9%B6%E5%8F%91%E4%B8%8E%E7%BD%91%E7%BB%9C/Snipaste_2025-07-03_15-05-35.png"><img style="width:1042.984375px" src="%E5%B9%B6%E5%8F%91%E4%B8%8E%E7%BD%91%E7%BB%9C/Snipaste_2025-07-03_15-05-35.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="57f8db55-6aee-836a-b4c1-01a734254bfb" class="">
+</p></div><div style="display:contents" dir="auto"><p id="8098db55-6aee-82fe-a937-810ce24fb1d9" class="">1、利用计算机多核优势，如果想让CPU同时处理一些任务，适合用多进程开发（资源开销大）</p></div><div style="display:contents" dir="auto"><p id="59e8db55-6aee-8260-a6d2-011ff097f83f" class=""><strong><span style="border-bottom:0.05em solid">如果程序时计算密集型，用多进程</span></strong></p></div><div style="display:contents" dir="auto"><p id="70c8db55-6aee-832e-8589-81a62c265e24" class="">&gt;&gt;&gt; 多线程在 CPU 密集型任务中比单线程更慢（因线程切换增加额外开销）。</p></div><div style="display:contents" dir="ltr"><figure id="caa8db55-6aee-8335-81f4-01e6be3ada35" class="image"><a href="%E5%B9%B6%E5%8F%91%E4%B8%8E%E7%BD%91%E7%BB%9C/Snipaste_2025-07-03_15-05-53.png"><img style="width:661px" src="%E5%B9%B6%E5%8F%91%E4%B8%8E%E7%BD%91%E7%BB%9C/Snipaste_2025-07-03_15-05-53.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="4f58db55-6aee-82c2-a40b-01276718dd26" class="">2、不利用多核优势，适合用多线程开发</p></div><div style="display:contents" dir="auto"><p id="08e8db55-6aee-8227-b084-81b7ae762173" class=""><strong><span style="border-bottom:0.05em solid">如果时IO密集类型，用多线程（网络请求，文件读写）</span></strong></p></div><div style="display:contents" dir="auto"><p id="b038db55-6aee-829f-b948-014ae435bff4" class="">&gt;&gt;&gt; GIL不影响IO密集型多线程效率，甚至因线程切换开销小，而性能优异</p></div><div style="display:contents" dir="ltr"><figure id="8618db55-6aee-8224-8c57-01dc4bcb2591" class="image"><a href="%E5%B9%B6%E5%8F%91%E4%B8%8E%E7%BD%91%E7%BB%9C/Snipaste_2025-07-03_15-06-58.png"><img style="width:1042.984375px" src="%E5%B9%B6%E5%8F%91%E4%B8%8E%E7%BD%91%E7%BB%9C/Snipaste_2025-07-03_15-06-58.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="62c8db55-6aee-82b1-b110-01106baf76ef" class="">
+</p></div><div style="display:contents" dir="auto"><p id="9218db55-6aee-821a-940c-81de428e794e" class="">&gt;&gt;&gt; <mark class="highlight-red"><strong>每个进程有独立的 Python 解释器和 GIL，互不干扰。</strong></mark></p></div><div style="display:contents" dir="auto"><p id="8bb8db55-6aee-82eb-a59a-81ac8a355f72" class="">
+</p></div><div style="display:contents" dir="auto"><p id="73a8db55-6aee-8233-85fd-81a893ddcdb2" class="">多进程案例（计算密集）：</p></div><div style="display:contents" dir="auto"><p id="9a78db55-6aee-827e-b55b-815e99bfda1c" class="">大数据计算下</p></div><div style="display:contents" dir="auto"><p id="3ab8db55-6aee-83e2-901e-01e81af46a79" class="">串行</p></div><div style="display:contents" dir="auto"><pre id="1098db55-6aee-8360-a9e8-815bc0940e54" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import time
+start = time.time()
+res=0;
+for i in range(100000000):
+	res+=1
+end=time.time()
+print(res)
+print(&quot;time spend:&quot;, end-start) # time spend: 0.03632092475891113</code></pre></div><div style="display:contents" dir="auto"><p id="edc8db55-6aee-83ca-a7b5-8174a88d8fcc" class="">并行</p></div><div style="display:contents" dir="auto"><pre id="f398db55-6aee-839c-a6e8-818dcb1f4f8c" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import time
+import multiprocessing
+
+def task(start, end, queue):
+	res=0
+	for i in range(start, end):
+		res+=1
+	queue.put(res)
+
+if __name__==&quot;__main__&quot;:
+	queue=multiprocessing.Queue()
+	start_time=time.time()
+	p1=multiprocessing.Process(target=task, args=(0, 50000000, queue))
+	p1.start()
+	p2=multiprocessing.Process(target=task, args=(50000000, 100000000, queue))
+	p2.start()
+	v1=queue.get(block=True)
+	v2=queue.get(block=True)
+	print(v1+v2)
+	end_time=time.time()
+	print(&quot;time spend：&quot;, end_time-start_time) # time spend： 1.2043030261993408</code></pre></div><div style="display:contents" dir="auto"><ul id="8798db55-6aee-8375-8755-016b2536e030" class="toggle"><li><details open=""><summary>Lock，同步锁</summary><div style="display:contents" dir="auto"><pre id="71f8db55-6aee-83d6-ba80-81b55f26e760" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import threading
+import time
+lock_onject=threading.Lock()
+def task():
+	print(&quot;start&quot;)
+	lock_object.acquire()
+	print(&quot;123123&quot;)
+	lock_object.release()
+	
+for i in range(2):
+	t=threading.Tread(target=task)
+	t.start()
+# start
+# 123123
+# start
+# 123123</code></pre></div><div style="display:contents" dir="auto"><p id="d5d8db55-6aee-824d-9dbd-81ab980c5574" class="">lock_object.acquire() # 申请一个锁，并锁上</p></div><div style="display:contents" dir="auto"><p id="9438db55-6aee-828d-9d89-01223da896b5" class="">lock_object.release() # 线程完毕释放锁，其他线程释放</p></div><div style="display:contents" dir="auto"><p id="9e48db55-6aee-82d9-827e-81564cd25be6" class="">一个锁申请对应一个锁释放</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="72f8db55-6aee-8367-9787-0110087c9604" class="toggle"><li><details open=""><summary>RLock，递归锁</summary><div style="display:contents" dir="auto"><pre id="4ad8db55-6aee-8363-be3e-014ac29c9848" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import threading
+import time
+lock_onject=threading.Lock()
+def task():
+	print(&quot;start&quot;)
+	lock_object.acquire()
+	lock_object.acquire()
+	print(&quot;123123&quot;)
+	lock_object.release()
+	lock_object.release()
+	
+for i in range(2):
+	t=threading.Tread(target=task)
+	t.start()
+# start
+# 123123
+# start
+# 123123</code></pre></div><div style="display:contents" dir="auto"><p id="e588db55-6aee-83e8-9d57-018b2dc1ae4d" class="">lock_object.acquire()<br/>lock_object.acquire()</p></div><div style="display:contents" dir="auto"><p id="8468db55-6aee-83d9-ab6d-819f19b32488" class="">lock_object.release()<br/>lock_object.release()</p></div><div style="display:contents" dir="auto"><p id="f3f8db55-6aee-8285-9e66-81754312ae56" class="">在一个线程中再申请一个锁，释放内层锁之后再释放外层锁</p></div><div style="display:contents" dir="auto"><p id="c198db55-6aee-8219-8840-01e9c82f01db" class="">例如：</p></div><div style="display:contents" dir="auto"><pre id="6c18db55-6aee-83a2-9658-0169e3b6b039" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">lock_object=threading.RLock()
+# A 开发了一个函数，函数可以被其他开发者调用，内部需要基于锁保证数据安全
+def func():
+	with lock:
+		pass
+# B 开发了一个函数，可以直接调用这个函数
+def run():
+	print(&quot;其他功能&quot;)
+	func() # 调用 A 写的func函数，内部用到了锁
+	print(&quot;其他功能&quot;)</code></pre></div><div style="display:contents" dir="auto"><p id="c748db55-6aee-82dc-a3f5-016d306ada5e" class="">func()内有一套完整的锁，B调用的时候不会发生错误</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="45a8db55-6aee-824b-936a-01a634f270e4" class="toggle"><li><details open=""><summary>死锁</summary><div style="display:contents" dir="auto"><p id="1878db55-6aee-83dc-87f6-8192ad07d85c" class="">1、通过Lock申请多次导致死锁</p></div><div style="display:contents" dir="auto"><pre id="4168db55-6aee-83f8-82f2-81c43388d1c2" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import threading
+import time
+lock_onject=threading.Lock()
+def task():
+	print(&quot;start&quot;)
+	lock_object.acquire()
+	lock_object.acquire() # Lock申请多次锁
+	print(&quot;123123&quot;)
+	lock_object.release()
+	
+for i in range(2):
+	t=threading.Tread(target=task)
+	t.start()</code></pre></div><div style="display:contents" dir="auto"><p id="8a88db55-6aee-829e-8b3f-81ab3a256006" class="">2、多个线程争取资源</p></div><div style="display:contents" dir="auto"><pre id="cb08db55-6aee-8249-a47b-01e7e0cd8b7f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">lk_1=threading.Lock()
+lk_2=threading.Lock()
+
+def task1():
+	lk_1.acquire()
+	time.sleep()
+	lk_2.acquire()
+	print(11)
+	lk_2.release()
+	print(22)
+	lk_2.release()
+	print(33)
+
+def task2():
+	lk_2.acquire()
+	time.sleep()
+	lk_1.acquire()
+	print(44)
+	lk_1.release()
+	print(55)
+	lk_2.release()
+	print(66)
+t1=threading.Thread(target=task1)
+t2=threading.Thread(target=task2)
+t1.start()
+t2.start()</code></pre></div><div style="display:contents" dir="auto"><p id="5378db55-6aee-82c7-a778-0126bc48d8d0" class="">在该例子中，task1和task2在第二次申请时，由于各自分别占用对方需要的锁，导致持续等待，导致死锁</p></div><div style="display:contents" dir="auto"><p id="4d98db55-6aee-8313-afd1-0187c0ec1104" class="">
+</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="93b8db55-6aee-83d8-9926-019613455436" class="toggle"><li><details open=""><summary>多线程开发</summary><div style="display:contents" dir="auto"><p id="0338db55-6aee-8312-a51c-81b7acd793c7" class=""> # 创建一个Thread对象（线程），并封装线程被cpu调度时应该执行的任务和相关参数</p></div><div style="display:contents" dir="auto"><p id="be68db55-6aee-8328-97bd-011df880d1bd" class=""><code>t = threading.Thread(target=func, args=(…))</code></p></div><div style="display:contents" dir="auto"><p id="8058db55-6aee-8223-83f8-01fa710a6fc1" class=""># 线程准备就绪（准备cpu调度），代码继续向下执行</p></div><div style="display:contents" dir="auto"><p id="ac38db55-6aee-83ec-9ca6-01a249594d57" class=""><code>t.start()</code></p></div><div style="display:contents" dir="auto"><p id="a718db55-6aee-8288-99b7-01bfcad0fb64" class=""># 主线程执行完毕后，会在最后位置，等待子线程执行完毕后，结束任务。</p></div><div style="display:contents" dir="auto"><pre id="fc38db55-6aee-8263-953f-0130e17d6e5d" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import threading
+
+loop=100000
+number=0
+def _add(count):
+	global number
+	for i in range(count):
+		number+=1
+
+t=threading.Thread(traget=_add, args=(loop)) # 创建线程
+t.start()
+
+print(number) # 78909 # 此时子线程还没执行完</code></pre></div><div style="display:contents" dir="auto"><h3 id="60c8db55-6aee-82ba-8322-01f18c82d408" class="">线程方法 </h3></div><div style="display:contents" dir="auto"><ul id="18f8db55-6aee-8387-82b3-013b3c3848b8" class="toggle"><li><details open=""><summary>1、<code>t.start()</code></summary><div style="display:contents" dir="auto"><pre id="bbf8db55-6aee-829a-8b32-017150a7876e" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">1. t.start() # 子线程开始执行 # 如上例子</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4108db55-6aee-8269-8b12-81170fe3f493" class="toggle"><li><details open=""><summary>2、<code>t.join()</code></summary><div style="display:contents" dir="auto"><pre id="16a8db55-6aee-8333-ae88-8147a5432548" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">2. t.join() # 等待当前线程执行完毕后再继续向下执行
+-------------
+import threading
+number =0;
+def _add():
+	global number
+	for i in range(1000000):
+		number+=1
+t=threading.Thread(target=_add)
+t.start
+
+t.join() # 等待主线程结束
+
+print(number) # 1000000</code></pre></div><div style="display:contents" dir="auto"><p id="b418db55-6aee-837a-8f4d-01e259a899f3" class="">注意下面多子线程例子：（数据混乱）</p></div><div style="display:contents" dir="auto"><pre id="5a08db55-6aee-83a0-aebe-01ccabd03b38" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import threading
+number =0;
+def _add(): # 加操作
+	global number
+	for i in range(1000000):
+		number+=1
+def _sub(): # 减操作
+	global number
+	for i in range(1000000):
+		number-=1
+t1=threading.Thread(target=_add)
+t2=threading.Thread(target=_sub)
+t1.start()
+t2.start()
+
+t1.join() # 等待主线程结束
+t2.join() 
+
+print(number) # 数据可能错误</code></pre></div><div style="display:contents" dir="auto"><p id="e728db55-6aee-8237-ace9-01184cb38bb5" class="">两个子线程同时执行，cpu并不会单一执行一个线程到结束，而是交叉执行加和减操作，但时对于同一个number，执行加操作之后记录的number值假如为A经过减操作后改变为B，再次返回加操作时，加操作仍然再A基础上运算，导致结果错误。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7ec8db55-6aee-8396-98f8-01323305b756" class="toggle"><li><details open=""><summary>3、<code>t.setDeamon()</code></summary><div style="display:contents" dir="auto"><pre id="c498db55-6aee-83d3-9a4e-01ea5c5032e8" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">3. t.setDeamon（bool） # 守护线程 # 在start()之前
+True # 守护线程，主线程执行完毕后，子线程也关闭
+False # 非守护线程，主线程等待子线程，子线程指向完毕后，主线程才结束（默认）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="feb8db55-6aee-83d6-b84b-019913a06ab9" class="toggle"><li><details open=""><summary>4、<code>setName()</code> &amp; <code>getName()</code></summary><div style="display:contents" dir="auto"><pre id="d968db55-6aee-8285-bee1-01f95c79ab96" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">3. setName() # 设置线程名称 # 一定放在start()之前
+getName() # 获取线程名字 
+import threading
+
+def task(arg):
+	name = threading.current_thread().getName() # 获取名字
+	print(name)
+for i in range(10):
+	t=threading.Thread(target=task, args=(11,))
+	t.setName(f&quot;aus-{i}&quot;) # 设置线程名字
+	t.start()</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1358db55-6aee-823c-9cb0-81c8b7630a4a" class="toggle"><li><details open=""><summary>5、自定义类，直接将线程需要做的事写到run方法中</summary><div style="display:contents" dir="auto"><pre id="e488db55-6aee-83e7-8c39-8156adbc72ce" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import threading
+
+class MyThreading(threading.Thread):
+	def run(self):
+		print(&quot;执行此线程&quot;, self._args)
+
+t.MyThreading(args=(100,))
+t.start()</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8278db55-6aee-82be-b2ce-81a8d570f58a" class="toggle"><li><details open=""><summary>线程安全</summary><div style="display:contents" dir="auto"><p id="f138db55-6aee-8264-b2a9-81cdd12fa5ef" class="">如下例子：导致数据错误</p></div><div style="display:contents" dir="auto"><pre id="f0f8db55-6aee-8300-9e06-81b0341f0615" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import threading
+number =0;
+def _add(): # 加操作
+	global number
+	for i in range(1000000):
+		number+=1
+def _sub(): # 减操作
+	global number
+	for i in range(1000000):
+		number-=1
+t1=threading.Thread(target=_add)
+t2=threading.Thread(target=_sub)
+t1.start()
+t2.start()
+
+t1.join() # 等待主线程结束
+t2.join() 
+
+print(number) # 数据可能错误</code></pre></div><div style="display:contents" dir="auto"><p id="42f8db55-6aee-831b-9bf7-01c1f635d92c" class="">可以通过线程一个线程结束后再执行另一个线程</p></div><div style="display:contents" dir="auto"><p id="e968db55-6aee-8332-8ae2-01d93dfa69a0" class="">也可以通过如下方式申请加锁：</p></div><div style="display:contents" dir="auto"><pre id="4308db55-6aee-8238-b049-01495f45cff6" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import threading
+lock_object=threading.RLock()
+loop=1000000
+number=0
+def _add(count):
+	lock_object.acquire() # 加锁,
+	global number
+	for i in range(1000000):
+		number+=1
+	lock_object.release() # 释放锁
+def _sub(): # 减操作
+  lock_object.acquire() # 加锁
+	global number
+	for i in range(1000000):
+		number-=1
+.....
+....
+....
+t1.join() # t1结束后，才往后执行
+t2.join() # t2结束后，才往后执行</code></pre></div><div style="display:contents" dir="auto"><p id="3de8db55-6aee-8329-880a-015dac3d353a" class=""><mark class="highlight-red"><mark class="highlight-red_background">再只有同一把锁的时候，一个线程只有释放了锁，其他线程才可以申请</mark></mark></p></div><div style="display:contents" dir="auto"><p id="82f8db55-6aee-829f-b16a-018c4cedc8c0" class="">基于上下文管理的写法：</p></div><div style="display:contents" dir="auto"><pre id="6388db55-6aee-8208-860f-8154578e8523" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def task():
+	with lock_boject:
+		....
+		....
+print(&quot;aaa&quot;)</code></pre></div><div style="display:contents" dir="auto"><p id="66c8db55-6aee-82b0-ac74-01b4f47bd4e1" class="">注意：在开发过程中，有些操纵默认是线程安全的（内部集成了锁的机制），此时无序锁处理。如：</p></div><div style="display:contents" dir="auto"><pre id="b7b8db55-6aee-8221-99f7-817555d49e59" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import threading
+data_list=[]
+
+lock_object=threading.RLock()
+
+def task():
+	print(&quot;start&quot;)
+	for i in range(1000000):
+		data_list.append(i)
+	print(len(data_list))
+
+for i in range(2):
+	t=threading.Thread(target=task)
+	t.start()
+	
+# start
+# start
+# 1982333
+# 2000000</code></pre></div><div style="display:contents" dir="auto"><p id="2f98db55-6aee-824a-b6fb-0105db6c5a88" class="">最终结果正确，说明列表中append()方法是线程安全的。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e448db55-6aee-8202-a5d4-016a79a3d06a" class="toggle"><li><details open=""><summary>线程池</summary><div style="display:contents" dir="auto"><p id="a5b8db55-6aee-82c3-afc7-8150a132d276" class=""><mark class="highlight-red">线程不是越多效率越高</mark></p></div><div style="display:contents" dir="auto"><p id="85e8db55-6aee-8389-a95f-815febffafd7" class="">过多的线程反而会导致效率变低</p></div><div style="display:contents" dir="auto"><p id="b368db55-6aee-8248-9e44-81b03fc10b74" class="">对此，出现了线程池</p></div><div style="display:contents" dir="auto"><pre id="41c8db55-6aee-8316-9374-0138cbd3b098" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import time
+from concurrent.fufures import ThreadPoolExecutor
+def task(video_url, num):
+	print(&quot;start test&quot;, video_url)
+	time.sleep(5)
+pool = ThreadPoolExecutor(100) # 创建线程池，只维护100个线程
+url_list=[f&quot;www.xx={i}.com&quot; for i in range(40)]
+
+for url in url_list:
+	pool.submit(task, url, 2) # 提交给线程一个任务
+
+pool.submit(True)
+print(&quot;END&quot;)</code></pre></div><div style="display:contents" dir="auto"><p id="0da8db55-6aee-8222-a962-0113e446f1a7" class=""><code>pool.submit(task, url, 2)</code> # 是统一提交完所有任务后再开始执行线程池中的任务。</p></div><div style="display:contents" dir="auto"><p id="7798db55-6aee-8357-8e53-01dd78cf1d9d" class=""><code>pool.submit(True)</code> # 等待线程池中的任务执行完再执行向下的任务。</p></div><div style="display:contents" dir="auto"><pre id="0c88db55-6aee-834a-a7b9-81d0b5d36dd9" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def task(video_url, num):
+	print(&quot;start test&quot;, video_url)
+	time.sleep(5)
+	
+pool = ThreadPoolExecutor(100) # 创建线程池，只维护100个线程
+url_list=[f&quot;www.xx={i}.com&quot; for i in range(40)]
+
+def done(response):
+	print(&quot;return:&quot;, response.result())
+
+for url in url_list:
+	future=pool.submit(task, url, 2)
+	future.add_done_callback(done) # 是主线程执行</code></pre></div><div style="display:contents" dir="auto"><p id="ce58db55-6aee-831d-b728-816ba36834f5" class="">future # 占位符，标识一个尚未完成的任务</p></div><div style="display:contents" dir="auto"><p id="70d8db55-6aee-834b-a551-015052aabc6c" class=""><code>future.add_done_callback(done)</code>回调 # 由主线程执行 # 当一个线程结束后，自动执行</p></div><div style="display:contents" dir="auto"><p id="58c8db55-6aee-82cb-b154-8153cfb41de5" class=""><code>response.result()</code> # 获取对应线程的结果</p></div><div style="display:contents" dir="auto"><p id="2098db55-6aee-832c-9275-810b7ba00f77" class="">以上功能可用于分工。</p></div><div style="display:contents" dir="auto"><p id="c008db55-6aee-8389-ac23-0176cdb9c533" class="">例如：</p></div><div style="display:contents" dir="auto"><pre id="c468db55-6aee-82dd-b95d-81286e134882" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import os
+import requests
+from concurrent.future import ThreadPoolExecutor
+
+def dowload(file, image_url):
+	res=requests.get(
+		url=image_url,
+		header={
+			...
+		}
+	)
+	return res
+
+def outer(file_name):
+	def save(response):
+		res=respone.result() # 得到dowload的结果
+		if not os.path.exists(&quot;images&quot;):
+			os.makedirs(&quot;images&quot;)
+		file_path=os.path.join(&quot;images&quot;, file_name)
+		with open(file_name, mode=&#x27;wb&#x27;) as img_object:
+			img_object.write(res.content)
+	return save
+	
+pool=ThreadPoolExecutor(10)
+
+if __name__ == &quot;__main__&quot;:
+	with open(&quot;my.csv&quot;, mode=&#x27;r&#x27;, encoding=&#x27;utf-8&#x27;) as file_object:
+		for line in file_object:
+			nid, name, url = line.split(&quot;,&quot;)
+			file_name=f&quot;{name}.png&quot;
+			fur=pool.submit(dowload, file_name, url)
+			fur.add_done_callback(outer(file_name))</code></pre></div><div style="display:contents" dir="auto"><p id="ce28db55-6aee-83bd-ba48-01151d99d7ab" class="">注意，使用outer()函数通过闭包传递函数名</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e1b8db55-6aee-832d-8430-8195d4ca543d" class="toggle"><li><details open=""><summary>单例模式</summary><div style="display:contents" dir="auto"><p id="1aa8db55-6aee-832c-a644-01cba758255f" class="">说明是单例模式：</p></div><div style="display:contents" dir="auto"><pre id="24c8db55-6aee-820f-88b1-01978d8fac8a" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">class Singleton:
+	instance=None
+	
+	def __init__(self, name):
+		self.name=name
+	
+	def __new__(cls, *args, **kwargs):
+		if cls.instance: # 返回空对象
+			return cls.instance
+		cls.instance=object.__new__(cls)
+		return cls.instance</code></pre></div><div style="display:contents" dir="auto"><p id="ce88db55-6aee-82bc-accd-81e0cb3aa40b" class="">对于这个类，申请两个对象，得到的对象的地址是相同的</p></div><div style="display:contents" dir="auto"><p id="d7f8db55-6aee-8352-b173-0132ad1ea18d" class="">但对于线程会存在问题，导致申请不同线程申请的地址不同，如下：</p></div><div style="display:contents" dir="auto"><pre id="5da8db55-6aee-83c3-adfd-8149c4809996" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import time
+
+class Singleton:
+	instance=None
+	
+	def __init__(self, name):
+		self.name=name
+	
+	def __new__(cls, *args, **kwargs):
+		if cls.instance: # 返回空对象
+			return cls.instance
+		time.sleep(0.1) # 正常不会写这个，仅用于模拟情况
+		cls.instance=object.__new__(cls)
+		return cls.instance
+		
+def task():
+	obj=Singlenton(&#x27;x&#x27;)
+	print(obj)
+	
+for i in range(10):
+	t=threading.Tread(target=task)
+	t.start()
+# 10 个线程的地址不同</code></pre></div><div style="display:contents" dir="auto"><p id="8788db55-6aee-8349-8bb5-010ba090c6c0" class="">对于这种情况，可以利用锁，如下</p></div><div style="display:contents" dir="auto"><pre id="f768db55-6aee-8375-9b29-81ec2e01d23f" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import time
+import threading
+
+class Singleton:
+	instance=None
+	lock = threading.RLock()
+	
+	def __init__(self, name):
+		self.name=name
+	
+	def __new__(cls, *args, **kwargs):
+		with cls.lock:
+			if cls.instance: # 返回空对象
+				return cls.instance
+			cls.instance=object.__new__(cls)
+			return cls.instance
+		
+def task():
+	obj=Singlenton(&#x27;x&#x27;)
+	print(obj)
+	
+for i in range(10):
+	t=threading.Tread(target=task)
+	t.start()
+# 10 个线程的地址不同</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6d08db55-6aee-8373-a313-817f20312db5" class="toggle"><li><details open=""><summary>多进程的三种启动方式</summary><div style="display:contents" dir="auto"><p id="40a8db55-6aee-8280-9669-81b63bb538e7" class="">进程是计算机中资源分配的最小单位；一个进程中存在多个线程，同一个进程中的线程共享资源。</p></div><div style="display:contents" dir="auto"><p id="5028db55-6aee-8249-bfdc-01ab026ee444" class="">进程与进程之间相互隔离</p></div><div style="display:contents" dir="auto"><pre id="cde8db55-6aee-8350-81ee-01d72c5754f3" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import multiprocessing</code></pre></div><div style="display:contents" dir="auto"><ul id="7548db55-6aee-83dd-8ecd-013041c59b4f" class="toggle"><li><details open=""><summary>fork</summary><div style="display:contents" dir="auto"><p id="4e88db55-6aee-8294-95ac-81bdbafea222" class="">unix专属，高效高风险</p></div><div style="display:contents" dir="auto"><p id="4b18db55-6aee-825b-853d-81c39a9abbc9" class="">&gt;&gt;&gt; 直接赋值父进程内存（写的时候复制，实际修改才拷贝），子进程继承所有变量，模块，文件句柄等。</p></div><div style="display:contents" dir="auto"><p id="cc88db55-6aee-82bc-a9c1-01824aecc8f5" class="">&gt;&gt;&gt; 若父进程有多线程和锁，子进程可能复制锁但为负值解锁线程，导致死锁</p></div><div style="display:contents" dir="auto"><pre id="da88db55-6aee-831d-8c1e-01655a824d3a" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot; Unix系统运行 &quot;&quot;&quot;
+import os
+import time
+
+global_var = &quot;父进程的变量&quot; # 子进程直接继承
+
+def worker():
+	print(&quot;aa&quot;)
+	print(&quot;bb&quot;)
+
+if __name__ == &quot;__main__&quot;:
+	pid=os.fork() # 创建子进程
+	if pid==0:
+		worker() # 子进程执行
+	else:
+		time.sleep(1)
+		print(&quot;cc&quot;)</code></pre></div><div style="display:contents" dir="auto"><p id="b5d8db55-6aee-8308-9224-8169a969b8dc" class="">子进程直接访问 <code>global_var</code>，无需传参，启动极快。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d548db55-6aee-833e-8007-016e1b246c8f" class="toggle"><li><details open=""><summary>spawn</summary><div style="display:contents" dir="auto"><p id="08c8db55-6aee-8211-9f20-81f6fd75ac2f" class="">跨平台，安全但缓慢</p></div><div style="display:contents" dir="auto"><p id="b348db55-6aee-8224-9ecd-01ca2b11681a" class="">&gt;&gt;&gt;子进程重启Python解释器，仅继承显示传递的参数，父进程的全局变量，模块需要重新加载。</p></div><div style="display:contents" dir="auto"><p id="f9a8db55-6aee-83c6-b5c2-812534a3bbdd" class="">&gt;&gt;&gt;Windows仅支持spawn，且必须再__main__中启动，否则创建递归进程</p></div><div style="display:contents" dir="auto"><pre id="e548db55-6aee-82fb-81d8-8118196acdaa" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from multiprocessing import Process, set_start_method
+import os
+
+def worker(name):
+    print(f&quot;子进程: {name}, PID: {os.getpid()}&quot;)
+    # 无法直接访问父进程的 global_var（若定义在 __main__ 外会报错）
+    print(f&quot;参数: {name}&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    set_start_method(&#x27;spawn&#x27;)  # 显式启用 spawn 模式（Windows 默认无需显式）
+    p = Process(target=worker, args=(&quot;任务1&quot;,))
+    p.start()
+    p.join()
+    print(&quot;父进程结束&quot;)</code></pre></div><div style="display:contents" dir="auto"><p id="be38db55-6aee-829f-a448-81cec6a67aaf" class="">子进程需通过 <code>args</code> 传参，启动时重新加载模块，速度慢但内存省。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7cc8db55-6aee-82fb-a785-0124a890436a" class="toggle"><li><details open=""><summary>forkserver</summary><div style="display:contents" dir="auto"><p id="6dd8db55-6aee-829d-8dc7-81b916417569" class="">Unix专属，折中方案</p></div><div style="display:contents" dir="auto"><p id="6418db55-6aee-827a-a1bf-8160b62b1b43" class="">&gt;&gt;&gt; </p></div><div style="display:contents" dir="auto"><ol type="1" id="b6c8db55-6aee-83e5-aea5-01ee603e56f7" class="numbered-list" start="1"><li>主进程先启动一个 <strong>“服务器进程”</strong>（仅加载 Python 解释器和基础模块）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="d5d8db55-6aee-82c5-a2d6-819695e794cb" class="numbered-list" start="2"><li>当需要创建子进程时，主进程通过 Unix socket 通知服务器，由服务器调用 <code>fork</code> 创建子进程。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ecf8db55-6aee-83d9-adf7-81efa4f75123" class="numbered-list" start="3"><li>子进程继承<strong>服务器进程的干净状态</strong>（无主进程的多线程锁、大量变量等），避免死锁。</li></ol></div><div style="display:contents" dir="auto"><p id="d278db55-6aee-83b3-ade2-012d8a105591" class="">&gt;&gt;&gt; 多线程环境下创建子进程，或频繁创建 / 销毁进程的场景。</p></div><div style="display:contents" dir="auto"><pre id="0238db55-6aee-8288-8e1e-81bdd4a794eb" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from multiprocessing import Process, set_start_method
+import threading
+import os
+
+lock = threading.Lock()  # 父进程的锁
+shared_data = 0
+
+def worker():
+    global shared_data
+    with lock:  # forkserver 模式下，子进程不会继承主进程的锁！
+        shared_data += 1
+    print(f&quot;子进程修改后: {shared_data}&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    set_start_method(&#x27;forkserver&#x27;)  # 启动 forkserver 模式
+    p = Process(target=worker)
+    p.start()
+    p.join()
+    print(f&quot;父进程最终: {shared_data}&quot;)  # 输出 1（无锁竞争，安全）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="0e88db55-6aee-82b2-a22d-01f600d83e05" class="">常见方法</h3></div><div style="display:contents" dir="auto"><ul id="ae08db55-6aee-8354-ba07-0166e63e12eb" class="toggle"><li><details open=""><summary><code>p.start()</code></summary><div style="display:contents" dir="auto"><p id="d808db55-6aee-8365-b4f2-8136285f20d9" class="">当前进程准备就绪，等待CPU调度</p></div><div style="display:contents" dir="auto"><p id="1bd8db55-6aee-8379-99fa-81e6b561c406" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="12e8db55-6aee-8220-bc85-81861fa7f0cf" class="toggle"><li><details open=""><summary><code>p.join()</code></summary><div style="display:contents" dir="auto"><p id="62a8db55-6aee-8254-8125-8143d3da92e2" class="">等待当前进程的任务执行完毕后再向下执行，同上</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d488db55-6aee-82b4-9a1a-81c9d62aa14b" class="toggle"><li><details open=""><summary><code>p.deamon=布尔值</code> </summary><div style="display:contents" dir="auto"><pre id="2cf8db55-6aee-839e-b041-8194d62196ab" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">3. t.setDeamon（bool） # 守护线程 # 在start()之前
+True # 守护线程，主线程执行完毕后，子线程也关闭
+False # 非守护线程，主线程等待子线程，子线程指向完毕后，主线程才结束（默认）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7d48db55-6aee-8293-b345-81f6ab6f3136" class="toggle"><li><details open=""><summary><code>p.name=name</code></summary><div style="display:contents" dir="auto"><p id="94b8db55-6aee-829f-982e-81b726add59b" class="">给进程取名字</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="eb58db55-6aee-8305-9bb2-8105ba225d96" class="toggle"><li><details open=""><summary>自定义类，直接将线程需要做的事写到run方法中</summary><div style="display:contents" dir="auto"><pre id="8388db55-6aee-8257-bfe2-01485bdfb05a" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import threading
+
+class MyThreading(threading.Thread):
+	def run(self):
+		print(&quot;执行此线程&quot;, self._args)
+
+t.MyThreading(args=(100,))
+t.start()</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d488db55-6aee-82bb-902c-813308d0b620" class="toggle"><li><details open=""><summary>进程练习题目</summary><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8384-b437-8186368197cb" class="toggle"><li><details open=""><summary>fork有关</summary><div style="display:contents" dir="auto"><p id="b778db55-6aee-83cd-a203-8112519e0eb5" class="">&gt;&gt;&gt;01</p></div><div style="display:contents" dir="auto"><pre id="eb48db55-6aee-8329-8164-81929e43bad7" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import multiprocessing
+
+def task():
+    print(name)
+    file_obj.write(&quot;a\n&quot;)
+    file_obj.flush()
+
+if __name__ == &quot;__main__&quot;:
+    multiprocessing.set_start_method(&quot;fork&quot;)
+
+    name=[]
+    file_obj = open(&#x27;进程练习题01.txt&#x27;, mode=&#x27;a+&#x27;, encoding=&#x27;utf-8&#x27;)
+    file_obj.write(&quot;jks\n&quot;)
+
+    p1 = multiprocessing.Process(target=task)
+    p1.start()</code></pre></div><div style="display:contents" dir="auto"><pre id="00b8db55-6aee-8396-8bbc-81d42ddb802c" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">输出：
+jks
+a
+jks</code></pre></div><div style="display:contents" dir="auto"><p id="2958db55-6aee-839f-b6aa-81b2155f53eb" class="">解释：</p></div><div style="display:contents" dir="auto"><p id="b778db55-6aee-834e-b48c-0130112fdd78" class="">从__main__开始，执行到file_obj.write(”jks\n”)，此时已经写入jks\n到内存（还没有刷到硬盘上），</p></div><div style="display:contents" dir="auto"><p id="7958db55-6aee-82b7-831f-812f086c0d3c" class="">p1创建了一个子进程，模式为fork，复制了p1以上的所有内容（name，file_obj.write()），</p></div><div style="display:contents" dir="auto"><p id="d718db55-6aee-8289-93f0-81591f1561ab" class="">接着进入子进程后继续写入a\n到内存，接着file.obj.flush()将write()写道内存的内容按顺序刷到硬盘上，输出</p></div><div style="display:contents" dir="auto"><p id="09a8db55-6aee-82b5-8f94-810fc05a3516" class="">jks</p></div><div style="display:contents" dir="auto"><p id="e2e8db55-6aee-829c-9714-81ea431fcb0b" class="">a</p></div><div style="display:contents" dir="auto"><p id="7af8db55-6aee-83bc-99c2-81a7bfbed80c" class="">接着主进程等待结束，此时被复制的file_obj.write(”jks\n”) 执行，在主进程结束前，会flush()内存中所有内容到硬盘上，最终结果为</p></div><div style="display:contents" dir="auto"><p id="7128db55-6aee-8222-af7a-015dfdd9fe51" class="">jks</p></div><div style="display:contents" dir="auto"><p id="4cf8db55-6aee-8379-ba0c-812ed9d6ce38" class="">a</p></div><div style="display:contents" dir="auto"><p id="0d98db55-6aee-837e-aabf-01402da3f6ea" class="">jks</p></div><div style="display:contents" dir="auto"><p id="03d8db55-6aee-8241-8410-017c4df054b0" class="">&gt;&gt;&gt;02</p></div><div style="display:contents" dir="auto"><p id="c7e8db55-6aee-8261-bcf9-01da4e3e9a48" class="">相比与01，p1前多了一个flush()</p></div><div style="display:contents" dir="auto"><pre id="d1f8db55-6aee-83ec-ac7d-81e87398441b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import multiprocessing
+
+def task():
+    print(name)
+    file_obj.write(&quot;a\n&quot;)
+    file_obj.flush()
+
+if __name__ == &quot;__main__&quot;:
+    multiprocessing.set_start_method(&quot;fork&quot;)
+
+    name=[]
+    file_obj = open(&#x27;进程练习题01.txt&#x27;, mode=&#x27;a+&#x27;, encoding=&#x27;utf-8&#x27;)
+    file_obj.write(&quot;jks\n&quot;)
+		file_obj.flush()
+
+    p1 = multiprocessing.Process(target=task)
+    p1.start()</code></pre></div><div style="display:contents" dir="auto"><pre id="2cd8db55-6aee-83cc-b233-015b25a71522" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">结果：
+jks
+a</code></pre></div><div style="display:contents" dir="auto"><p id="a878db55-6aee-82de-bb24-01f5ccffad8f" class="">解释：</p></div><div style="display:contents" dir="auto"><p id="ae08db55-6aee-8267-bf32-018cdd7d2651" class="">运行到file_obj.flush()时内存中什么也没有</p></div><div style="display:contents" dir="auto"><p id="42f8db55-6aee-83e2-926b-81854c7b59cd" class="">fork复制内容为空</p></div><div style="display:contents" dir="auto"><p id="39d8db55-6aee-82cc-8aad-81af73f5161c" class="">所以执行task()时只write(”a\n”)</p></div><div style="display:contents" dir="auto"><p id="15b8db55-6aee-83f9-94cb-0124eaf2dd2f" class="">结果为</p></div><div style="display:contents" dir="auto"><p id="8888db55-6aee-830d-a917-013b09284eaa" class="">jks</p></div><div style="display:contents" dir="auto"><p id="8c68db55-6aee-83f2-80b7-81f3d9392b4d" class="">a</p></div><div style="display:contents" dir="auto"><p id="e598db55-6aee-830f-a0c2-81a6c59613f5" class="">&gt;&gt;&gt;03</p></div><div style="display:contents" dir="auto"><pre id="ede8db55-6aee-8201-a85d-01891ffdd6e4" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import multiprocessing
+import threading
+import time
+
+
+def func():
+    print(&quot;678&quot;)
+    with lock: # 需要在23行位置有一个lock.release()，才能执行到123123
+        print(123123)
+        time.sleep(1)
+
+def task():
+    &quot;&quot;&quot;
+    fork被拷贝的时候，主进程已经有锁了，所以拷贝的就是locked状态
+    此时锁被子进程中的主线程
+    由于是RLock，可以有锁嵌套，那么子进程中仍然可以申请锁，锁的对象是除了该子进程中主线程意外的其他线程
+    &quot;&quot;&quot;
+    print(lock) # &lt;locked _thread.RLock object owner=24400 count=1 at 0x000002568B6E01B0&gt;
+
+    for i in range(10):
+        t=threading.Thread(target=func)
+        t.start()
+
+    lock.acquire()
+    print(123) # 可以输出
+
+
+
+if __name__ == &quot;__main__&quot;:
+    # multiprocessing.set_start_method(&quot;fork&quot;)
+    name=[]
+    lock=threading.RLock()
+    print(lock) # &lt;unlocked _thread.RLock object owner=0 count=0 at 0x000002568B6E01B0&gt;
+    lock.acquire() # 申请锁
+    print(lock) # &lt;locked _thread.RLock object owner=24400 count=1 at 0x000002568B6E01B0&gt;
+
+    p1 = multiprocessing.Process(target=task)
+    p1.start()</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="adb8db55-6aee-837c-8723-8102c6a103b4" class="toggle"><li><details open=""><summary>进程间数据的共享</summary><div style="display:contents" dir="auto"><p id="c5d8db55-6aee-824f-82da-81729d4582eb" class="">类型码</p></div><div style="display:contents" dir="ltr"><table id="d708db55-6aee-8260-be67-01607ef9e982" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="cc28db55-6aee-8377-8a3f-010bea3a321a"><th id="QNBI" class="simple-table-header-color simple-table-header"><strong>类型码</strong></th><th id="flud" class="simple-table-header-color simple-table-header"><strong>对应 C 类型</strong></th><th id="Ktp:" class="simple-table-header-color simple-table-header"><strong>Python 类型</strong></th><th id="oVgv" class="simple-table-header-color simple-table-header"><strong>说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="1518db55-6aee-8209-bfa2-01bfe2c38f80"><td id="QNBI" class=""><code>&#x27;b&#x27;</code></td><td id="flud" class=""><code>signed char</code></td><td id="Ktp:" class=""><code>int</code></td><td id="oVgv" class="">有符号字节（8 位，范围：-128~127）</td></tr></div><div style="display:contents" dir="ltr"><tr id="f5a8db55-6aee-82f3-8613-81c66de5508f"><td id="QNBI" class=""><code>&#x27;B&#x27;</code></td><td id="flud" class=""><code>unsigned char</code></td><td id="Ktp:" class=""><code>int</code></td><td id="oVgv" class="">无符号字节（8 位，范围：0~255）</td></tr></div><div style="display:contents" dir="ltr"><tr id="b388db55-6aee-8339-9afa-81a8852a91b4"><td id="QNBI" class=""><code>&#x27;h&#x27;</code></td><td id="flud" class=""><code>signed short</code></td><td id="Ktp:" class=""><code>int</code></td><td id="oVgv" class="">有符号短整型（16 位）</td></tr></div><div style="display:contents" dir="ltr"><tr id="5528db55-6aee-8271-98b0-01eaacc18f02"><td id="QNBI" class=""><code>&#x27;H&#x27;</code></td><td id="flud" class=""><code>unsigned short</code></td><td id="Ktp:" class=""><code>int</code></td><td id="oVgv" class="">无符号短整型（16 位）</td></tr></div><div style="display:contents" dir="ltr"><tr id="bf88db55-6aee-8368-8eec-81ba570c43be"><td id="QNBI" class=""><code>&#x27;i&#x27;</code></td><td id="flud" class=""><code>signed int</code></td><td id="Ktp:" class=""><code>int</code></td><td id="oVgv" class="">有符号整型（32 位）</td></tr></div><div style="display:contents" dir="ltr"><tr id="a668db55-6aee-82e6-bf27-0168a495d27b"><td id="QNBI" class=""><code>&#x27;I&#x27;</code></td><td id="flud" class=""><code>unsigned int</code></td><td id="Ktp:" class=""><code>int</code></td><td id="oVgv" class="">无符号整型（32 位）</td></tr></div><div style="display:contents" dir="ltr"><tr id="2b08db55-6aee-8309-a1f8-0127e27926ae"><td id="QNBI" class=""><code>&#x27;l&#x27;</code></td><td id="flud" class=""><code>signed long</code></td><td id="Ktp:" class=""><code>int</code></td><td id="oVgv" class="">有符号长整型（通常 32 位）</td></tr></div><div style="display:contents" dir="ltr"><tr id="8328db55-6aee-83fb-b50c-81ac54683ce2"><td id="QNBI" class=""><code>&#x27;L&#x27;</code></td><td id="flud" class=""><code>unsigned long</code></td><td id="Ktp:" class=""><code>int</code></td><td id="oVgv" class="">无符号长整型（通常 32 位）</td></tr></div><div style="display:contents" dir="ltr"><tr id="35f8db55-6aee-827d-81b5-018daf33586c"><td id="QNBI" class=""><code>&#x27;q&#x27;</code></td><td id="flud" class=""><code>signed long long</code></td><td id="Ktp:" class=""><code>int</code></td><td id="oVgv" class="">有符号长长整型（64 位）</td></tr></div><div style="display:contents" dir="ltr"><tr id="f158db55-6aee-8308-85a4-018fba3c1f44"><td id="QNBI" class=""><code>&#x27;Q&#x27;</code></td><td id="flud" class=""><code>unsigned long long</code></td><td id="Ktp:" class=""><code>int</code></td><td id="oVgv" class="">无符号长长整型（64 位）</td></tr></div><div style="display:contents" dir="ltr"><tr id="f5f8db55-6aee-838f-9f8b-817e48f39b68"><td id="QNBI" class=""><code>&#x27;f&#x27;</code></td><td id="flud" class=""><code>float</code></td><td id="Ktp:" class=""><code>float</code></td><td id="oVgv" class="">单精度浮点数（32 位）</td></tr></div><div style="display:contents" dir="ltr"><tr id="b968db55-6aee-830b-af49-014bb7c867b8"><td id="QNBI" class=""><code>&#x27;d&#x27;</code></td><td id="flud" class=""><code>double</code></td><td id="Ktp:" class=""><code>float</code></td><td id="oVgv" class="">双精度浮点数（64 位）</td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><table id="d558db55-6aee-83ea-9b14-813abec325a6" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="79c8db55-6aee-8320-a47b-819895080fef"><td id="Ngdp" class=""><code>&#x27;c&#x27;</code></td><td id="rStd" class=""><code>char</code></td><td id="=Ekv" class=""><code>bytes</code></td><td id="HmJ[" class="">单字符（长度为 1 的字节串）</td></tr></div><div style="display:contents" dir="ltr"><tr id="2a48db55-6aee-822a-9c6c-81d26933ff32"><td id="Ngdp" class=""><code>&#x27;u&#x27;</code></td><td id="rStd" class=""><code>wchar_t</code></td><td id="=Ekv" class=""><code>str</code></td><td id="HmJ[" class="">Unicode 字符（Python 3 不推荐）</td></tr></div><div style="display:contents" dir="ltr"><tr id="f6f8db55-6aee-8231-9451-812a3583f63c"><td id="Ngdp" class=""><code>&#x27;?&#x27;</code></td><td id="rStd" class=""><code>_Bool</code></td><td id="=Ekv" class=""><code>bool</code></td><td id="HmJ[" class="">布尔值（True/False）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ul id="b648db55-6aee-8373-b887-81f81ebdc4b0" class="toggle"><li><details open=""><summary>multiprocessing内置共享对象</summary><div style="display:contents" dir="auto"><p id="dd38db55-6aee-82cd-ba8f-81c01586d91f" class="">Value和Array工具箱数值和数组等简单数据。</p></div><div style="display:contents" dir="auto"><pre id="3fa8db55-6aee-825d-858d-01d0bb07d65b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from multiprocessing import Process, Value, Array
+
+def worker(counter, arr):
+	with counter.get_lock(): # 加锁保证原子性
+		counter.value += 1
+	for i in range(len(arr)):
+		arr[i] *= 2
+
+if __name__ == &quot;__main__&quot;:
+	counter=Value(&#x27;i&#x27;, 0) # 整数类型，初始值 0
+  arr = Array(&#x27;d&#x27;, [1.0, 2.2, 3.0]) # 双精度数组
+	p = Process(target=worker, args=(counter, arr))
+	p.start()
+	p.join()
+
+	print(f&quot;Counter {counter.value}&quot;) # 1
+  print(f&quot;{Array {list(arr)}&quot;) # [1.0, 2.2, 3.0]</code></pre></div><div style="display:contents" dir="auto"><ul id="c8e8db55-6aee-8258-aab4-01081f819aef" class="bulleted-list"><li style="list-style-type:disc"><code>Value(typecode, initial_value)</code>：<code>typecode</code> 如 <code>&#x27;i&#x27;</code>（整数）、<code>&#x27;d&#x27;</code>（双精度浮点数）。</li></ul></div><div style="display:contents" dir="auto"><ul id="b5c8db55-6aee-8373-8369-810d376d4b88" class="bulleted-list"><li style="list-style-type:disc"><code>Array(typecode, initial_values)</code>：初始值可为列表或长度。</li></ul></div><div style="display:contents" dir="auto"><p id="1c58db55-6aee-8269-9944-81b634fe32a4" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="82b8db55-6aee-8384-b308-81f9ccaa8029" class="toggle"><li><details open=""><summary>Manager共享复杂对象</summary><div style="display:contents" dir="auto"><p id="4488db55-6aee-820c-adc1-01b7fef511db" class="">共享字典，列表，锁等复杂对象</p></div><div style="display:contents" dir="auto"><pre id="6318db55-6aee-8308-8c4f-81727d682ad9" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from multiprocessing import Process, Manager
+
+
+def worker(d, lst):
+    d[&#x27;k&#x27;] = &#x27;v&#x27;
+    lst.append(123)
+
+
+if __name__ == &quot;__main__&quot;:
+    with Manager() as manager:
+        shared_dict = manager.dict()  # 共享字典
+        shared_list = manager.list()  # 共享列表
+
+        p = Process(target=worker, args=(shared_dict, shared_list))
+        p.start()
+        p.join()
+
+        print(shared_dict) # {&#x27;k&#x27;: &#x27;v&#x27;}
+        print(shared_list) # [123]</code></pre></div><div style="display:contents" dir="auto"><p id="ef58db55-6aee-83c4-85df-813b5e281093" class="">Manager 基于服务器进程实现，开销较大，适合需要频繁读写的复杂数据。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9838db55-6aee-83c8-85be-019d819dc274" class="toggle"><li><details open=""><summary>shared_memory自定义共享模块(python3.8+)</summary><div style="display:contents" dir="auto"><p id="54b8db55-6aee-8272-82ca-0103087d8b55" class="">共享大型数组（如 NumPy 数组），高效传递数据。</p></div><div style="display:contents" dir="auto"><pre id="b1f8db55-6aee-8229-b4a8-013b915d06b8" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import numpy as np
+from multiprocessing import Process
+from multiprocessing.shared_memory import SharedMemoery
+
+def modify(shm_name, shape, dtype):
+		exising_shm = SharedMemory(name=shm_name)
+		arr = np.ndarray(shape, dtype=dtype, buffer=existing_shm.buf)
+		arr[:] = [i*2 for i in arr] # 修改数组
+		existing_shm.close() # 关闭连接但不释放内存
+
+if __name__==&quot;__main__&quot;；
+		arr = np.array([1,2,3,4,5])
+		shm=SharedMemory(create=True, size=arr.nbytes)
+		shm_arr=np.ndarray(arr.shape, dtype=arr.dtype, buffer=shm.buf)
+		shm_arr[:] = arr[:] # 复制数据到共享内存
+
+		p = Process(target=modify, args=(shm.name, arr.shape, arr.dtype))
+    p.start()
+    p.join()
+
+    print(shm_arr)  # 输出 [2, 4, 6, 8, 10]
+    shm.close()
+    shm.unlink()  # 释放共享内存</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="2238db55-6aee-83e4-9389-8153c135ad6e" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

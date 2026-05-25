@@ -1,0 +1,2093 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>JavaWeb</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2a38db55-6aee-821b-8cd3-010b301bb65b" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/hudsonRiverSchool_passingOffOfTheStorm.jpg" style="object-position:center 70%"/><h1 class="page-title" dir="auto">JavaWeb</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="d9a8db55-6aee-83b0-8423-010ee0750561" class="">Tomcat</h1></div><div style="display:contents" dir="auto"><p id="a728db55-6aee-837d-b486-01e86fe2079e" class="">Web应用服务器，专门用来运行Web程序的，tomcat文件目录的作用：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="2de8db55-6aee-835b-bfe1-016b6f2af824" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">bin 启动/关闭Tomcat服务的命令
+conf 配置文件
+lib jar包
+log 日志
+temp 临时文件
+webapps 存放程序
+work JSP文件转换之后的Servlet文件</code></pre></div><div style="display:contents" dir="auto"><p id="4288db55-6aee-82c4-ac37-81de5b8f6941" class="">需要启动一个服务，端口8080，浏览器可以通过url访问服务，返回改服务中的资源。</p></div><div style="display:contents" dir="auto"><h2 id="0f98db55-6aee-826e-84c6-81354b69c9eb" class="">手写简单Tomcat</h2></div><div style="display:contents" dir="auto"><p id="cfb8db55-6aee-837f-ae3b-81b762a53b67" class="">使用Scoket简单编写一个Tomcat</p></div><div style="display:contents" dir="auto"><blockquote id="2998db55-6aee-8330-a4b9-01657e1e3725" class="">响应：根据浏览器所请求的uri去找对应的资源，如果有该资源就返回，没有就返回404错误</blockquote></div><div style="display:contents" dir="auto"><blockquote id="35a8db55-6aee-805a-b40d-fd95a3f95f96" class="">这个手写内容目的在于理解Tomcat原理</blockquote></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-807d-aeac-cc9a8f728341" class="toggle"><li><details open=""><summary>HttpServer.java</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="35a8db55-6aee-80ab-85a9-e5d99d550f39" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package test;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+/**
+ * 自定义 HTTP 服务器类（核心启动类）
+ * 作用：启动服务端，监听端口，接收浏览器请求，并分发处理请求和响应
+ *
+ * Custom HTTP Server Class (Core Startup Class)
+ * Function: Start the server, listen on a port, accept browser requests,
+ *           and distribute processing of requests and responses
+ */
+public class MyHttpServer {
+    // 服务器监听端口号，默认 8080
+    // Server listening port number, default 8080
+    private int port = 8080;
+
+    /**
+     * 定义网站静态资源根目录
+     * 路径：项目根目录 \WebContent
+     * System.getProperty(&quot;user.dir&quot;) = 获取项目当前工作目录
+     * File.separator = 系统自适应文件分隔符（Windows \，Linux /）
+     *
+     * Define the root directory of static web resources
+     * Path: Project Root Directory \WebContent
+     */
+    public static String WebContent = System.getProperty(&quot;user.dir&quot;) + File.separator + &quot;WebContent&quot;;
+
+    /**
+     * 接收客户端请求的核心方法
+     * Core method to receive client requests
+     */
+    public void receiving() {
+        // 声明服务器套接字：用于监听客户端连接
+        // Declare server socket: used to listen for client connections
+        ServerSocket serverSocket = null;
+
+        try {
+            // 1. 创建 ServerSocket 实例
+            // 参数1：port 监听端口
+            // 参数2：最大等待连接数（backlog）
+            // 参数3：绑定本机回环地址 127.0.0.1，只允许本机访问
+            serverSocket = new ServerSocket(port, 1, InetAddress.getByName(&quot;127.0.0.1&quot;));
+            System.out.println(&quot;简易服务器启动成功，监听端口：&quot; + port);
+        } catch (IOException e) {
+            // 启动服务器失败，抛出异常
+            // Failed to start the server, throw exception
+            throw new RuntimeException(e);
+        }
+
+        // 2. 死循环：持续接收客户端请求（模拟 Tomcat 持续运行）
+        // Infinite loop: Continuously accept client requests (simulate Tomcat running continuously)
+        while (true) {
+            // 客户端套接字：与浏览器建立连接后的通信通道
+            // Client socket: Communication channel after establishing connection with browser
+            Socket socket = null;
+            // 输入流：读取浏览器发送的请求数据
+            // Input stream: Read request data sent by the browser
+            InputStream inputStream = null;
+            // 输出流：向浏览器返回响应数据
+            // Output stream: Return response data to the browser
+            OutputStream outputStream = null;
+
+            try {
+                // 3. 阻塞监听：等待浏览器发起连接（没有连接就一直等）
+                // Blocking listening: Wait for the browser to initiate a connection (wait if no connection)
+                socket = serverSocket.accept();
+                System.out.println(&quot;接收到新的客户端连接&quot;);
+
+                // 4. 获取与该客户端通信的输入、输出流
+                // Get input and output streams for communication with this client
+                inputStream = socket.getInputStream();
+                outputStream = socket.getOutputStream();
+
+                // 5. 封装请求对象：解析浏览器发送的 HTTP 请求
+                // Encapsulate request object: Parse HTTP request sent by browser
+                MyHttpRequest req = new MyHttpRequest(inputStream);
+                req.parse(); // 执行解析（解析出 URL）
+
+                // 6. 封装响应对象：根据请求结果，返回数据给浏览器
+                // Encapsulate response object: Return data to browser based on request result
+                MyHttpResopnse response = new MyHttpResopnse(outputStream);
+                response.response(req); // 执行响应（返回页面/404）
+
+                System.out.println(&quot;请求处理完成：&quot; + req.getUrl());
+
+            } catch (IOException e) {
+                // 请求处理过程中出现异常
+                // Exception occurred during request processing
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-808a-b666-ca9a157a2035" class="toggle"><li><details open=""><summary>HttpRequest.java</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-80d0-8775-f96cd438290c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package test;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+/**
+ * 自定义 HTTP 请求解析类
+ * 作用：读取浏览器发送的 HTTP 请求数据，从中解析出请求的 URL 地址
+ *
+ * Custom HTTP Request Parsing Class
+ * Function: Read HTTP request data sent by the browser and parse the requested URL address from it
+ */
+public class MyHttpRequest {
+
+    // 输入流：用于接收浏览器发送的 HTTP 请求数据
+    // Input stream: Used to receive HTTP request data sent by the browser
+    private InputStream inputStream;
+
+    // 存储解析出来的请求 URL 地址
+    // Store the parsed request URL address
+    private String url;
+
+    /**
+     * 构造方法
+     * @param inputStream 传入的网络输入流（来自浏览器的请求数据）
+     *
+     * Constructor
+     * @param inputStream Incoming network input stream (request data from the browser)
+     */
+    public MyHttpRequest(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
+
+    /**
+     * 解析 HTTP 请求的核心方法
+     * 1. 从输入流中读取字节数据
+     * 2. 将字节数据转为字符串
+     * 3. 调用方法解析出 URL
+     *
+     * Core method to parse HTTP request
+     * 1. Read byte data from input stream
+     * 2. Convert byte data to string
+     * 3. Call method to parse out URL
+     */
+    public void parse() {
+        // 字符串缓冲区：用于拼接读取到的请求数据
+        // String buffer: Used to concatenate the read request data
+        StringBuffer sb = new StringBuffer();
+        int i;
+        // 字节缓冲区：一次性读取 2KB 的请求数据
+        // Byte buffer: Read 2KB of request data at one time
+        byte[] buffer = new byte[1024*2];
+        try {
+            // 从输入流中读取数据到缓冲区，返回读取到的字节数
+            // Read data from input stream into buffer, return the number of bytes read
+            i = inputStream.read(buffer);
+        } catch (IOException e) {
+            // 读取数据异常，抛出运行时异常
+            // Exception occurred while reading data, throw runtime exception
+            throw new RuntimeException(e);
+        }
+
+        // 将字节数组转为字符串（遍历字节，强转为字符并拼接）
+        // Convert byte array to string (traverse bytes, cast to char and concatenate)
+        for (int i1 = 0; i1 &lt; i; i1++) {
+            sb.append((char)buffer[i1]);
+        }
+
+        // 调用 parseUrl 方法，从完整请求头中解析出 URL 并赋值给成员变量
+        // Call parseUrl method to parse URL from complete request header and assign to member variable
+        url = parseUrl(sb.toString());
+    }
+
+    /**
+     * 从 HTTP 请求头字符串中解析 URL
+     * HTTP 请求头格式示例：GET /index.html HTTP/1.1
+     * 解析逻辑：截取两个空格中间的路径部分
+     *
+     * Parse URL from HTTP request header string
+     * HTTP request header example: GET /index.html HTTP/1.1
+     * Parsing logic: Intercept the path part between two spaces
+     * @param sb 完整的 HTTP 请求字符串 / Complete HTTP request string
+     * @return 解析后的 URL 地址 / Parsed URL address
+     */
+    public String parseUrl(String sb) {
+        int index1, index2;
+        // 找到第一个空格的位置（GET 后面的空格）
+        // Find the position of the first space (the space after GET)
+        index1 = sb.indexOf(&quot; &quot;);
+        // 从第一个空格后开始，找到第二个空格的位置（HTTP/1.1 前面的空格）
+        // Start after the first space, find the position of the second space (the space before HTTP/1.1)
+        index2 = sb.indexOf(&quot; &quot;, index1+1);
+
+        // 截取两个空格中间的子串，即为请求的 URL
+        // Intercept the substring between two spaces, which is the requested URL
+        return sb.substring(index1+1, index2);
+    }
+
+    /**
+     * 获取解析完成的 URL
+     * @return 请求 URL
+     *
+     * Get the parsed URL
+     * @return Request URL
+     */
+    public String getUrl(){
+        return url;
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8070-b33a-ebf03ffe8832" class="toggle"><li><details open=""><summary>HttpResponse.java</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-804e-919e-c0b77f21fafe" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package test;
+
+import java.io.*;
+
+/**
+ * 自定义 HTTP 响应类
+ * 作用：根据请求信息，向浏览器返回对应的 HTML 文件或 404 错误信息
+ *
+ * Custom HTTP Response Class
+ * Function: Return corresponding HTML file or 404 error message to the browser based on request information
+ */
+public class MyHttpResopnse {
+    // 输出流：用于向客户端（浏览器）发送响应数据
+    // Output stream: Used to send response data to the client (browser)
+    private OutputStream out;
+
+    /**
+     * 构造方法
+     * @param out 传入的网络输出流
+     *
+     * Constructor
+     * @param out Incoming network output stream
+     */
+    public MyHttpResopnse(OutputStream out) {
+        this.out = out;
+    }
+
+    /**
+     * 处理响应的核心方法
+     * 1. 获取请求的 URL
+     * 2. 读取服务器本地对应的 HTML 文件
+     * 3. 封装 HTTP 响应协议并发送给浏览器
+     *
+     * Core method for processing response
+     * 1. Get the requested URL
+     * 2. Read the corresponding HTML file locally on the server
+     * 3. Encapsulate HTTP response protocol and send it to the browser
+     */
+    public void response(MyHttpRequest request) throws IOException {
+        // 字节缓冲区：用于临时读取文件数据
+        // Byte buffer: Used to temporarily read file data
+        byte[] bytes = new byte[1024*2];
+        // 文件输入流：读取本地 HTML 文件
+        // File input stream: Read local HTML files
+        FileInputStream fis = null;
+
+        // 获取请求的 URL 路径
+        // Get the requested URL path
+        String fisPath = request.getUrl();
+
+        // 如果访问根路径 /，默认访问 index.html
+        // If accessing the root path /, default to index.html
+        if (fisPath.equals(&quot;/&quot;)) {
+            fisPath = &quot;/index.html&quot;;
+        }
+
+        // 存储最终响应字符串
+        // Store the final response string
+        String result = null;
+
+        // 根据 Web 根目录 + 请求路径 创建文件对象
+        // Create file object based on Web root directory + request path
+        File file = new File(MyHttpServer.WebContent, fisPath);
+
+        // 根据文件大小创建对应长度的字节数组
+        // Create a byte array of corresponding length according to file size
+        byte[] fileBytes = new byte[(int)file.length()];
+
+        // 判断文件是否存在
+        // Check if the file exists
+        if (file.exists()) {
+            // 文件存在 → 返回 200 + 文件内容
+            // File exists → return 200 + file content
+            fis = new FileInputStream(file);
+            fis.read(bytes);       // 读取文件到缓冲区
+            fis.close();          // 关闭流
+            result = new String(fileBytes);  // 将文件字节转为字符串
+            result = createMsg(&quot;200&quot;, result); // 封装 HTTP 响应头
+            out.write(result.getBytes());    // 发送给浏览器
+        } else {
+            // 文件不存在 → 返回 404 错误
+            // File does not exist → return 404 error
+            String error = &quot;404 File Not Found&quot;;
+            String msg = createMsg(&quot;404&quot;, error);
+            out.write(msg.getBytes());
+        }
+    }
+
+    /**
+     * 封装标准 HTTP 响应报文
+     * 格式：协议版本 状态码 \r\n 响应头 \r\n 响应体
+     *
+     * Encapsulate standard HTTP response message
+     * Format: Protocol version Status code \r\n Response header \r\n Response body
+     * @param code 状态码：200=成功 404=未找到
+     * @param message 响应内容
+     * @return 完整 HTTP 响应字符串
+     */
+    public String createMsg(String code, String message) {
+        return &quot;HTTP/1.1 &quot; + code + &quot;\r\n&quot;
+                + &quot;Content-Length:&quot; + message.length() + &quot;\r\n&quot;
+                + &quot;\r\n&quot;
+                + message;
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8017-a5ea-e380bc5e8d00" class="toggle"><li><details open=""><summary>Test.java</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-806b-bf22-cf5e3655fe8e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package test;
+
+public class Test {
+    public static void main(String[] args) {
+        System.out.println(&quot;Server startup successfully&quot;);
+        MyHttpServer server = new MyHttpServer();
+        server.receiving();
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="35a8db55-6aee-80b7-ad3f-ddf58d5289c5"/></div><div style="display:contents" dir="auto"><h1 id="35a8db55-6aee-8097-a441-e0667f4128e5" class="">Tomcat配置</h1></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-802d-a9e7-f7393da38493" class="toggle"><li><details open=""><summary>Java Application工程项目目录结构</summary><div style="display:contents" dir="auto"><div id="35a8db55-6aee-8071-bb35-f7fd9a74038d" class="column-list"><div style="display:contents" dir="auto"><div id="35a8db55-6aee-8007-a7f2-f62bf13e2bbc" style="width:62.5%" class="column"><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-8042-b30f-f0f3aac2f087" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">javaweb1
+├── .idea/                # IDEA 配置文件
+├── .mvn/                 # Maven Wrapper 相关文件
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com.hpc.javaweb1/
+│   │   │       └── MyServlet.java  # 你的 Servlet 类
+│   │   ├── resources/    # 配置文件（如 properties、xml）
+│   │   └── webapp/
+│   │       ├── WEB-INF/
+│   │       │   └── web.xml   # Web 应用部署描述符
+│   │       └── index.jsp      # 首页 JSP
+│   └── test/              # 测试代码目录
+├── target/                # 编译后的输出目录
+├── pom.xml                # Maven 项目核心配置文件
+└── 其他辅助文件（.gitignore、mvnw 等）</code></pre></div><div style="display:contents" dir="auto"><hr id="35a8db55-6aee-80a8-b0ca-ef66ba1c9c62"/></div><div style="display:contents" dir="auto"><hr id="35a8db55-6aee-8029-8fc1-d2ef271e039c"/></div><div style="display:contents" dir="auto"><hr id="35a8db55-6aee-80e1-bf9f-c2052d7b943b"/></div><div style="display:contents" dir="auto"><hr id="35a8db55-6aee-8022-b6ac-cfb54f95d03f"/></div></div></div><div style="display:contents" dir="auto"><div id="35a8db55-6aee-8037-b423-dce0e563cf22" style="width:37.50000000000001%" class="column"><div style="display:contents" dir="ltr"><figure id="35a8db55-6aee-8056-a62d-ed46e29caf3d" class="image"><a href="JavaWeb/Snipaste_2026-05-08_17-55-49.png"><img style="width:369.0067138671875px" src="JavaWeb/Snipaste_2026-05-08_17-55-49.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="35a8db55-6aee-80d7-a34e-f219070342ad" class="">
+</p></div></div></div></div></div><div style="display:contents" dir="auto"><h3 id="35a8db55-6aee-8054-b18d-f81f326e9cf4" class="">项目根目录 <code>javaweb1</code></h3></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80b4-a5c2-e95c73d7ed5b" class="bulleted-list"><li style="list-style-type:disc"><code>javaweb1</code>：你的项目名称，对应 Maven 的 <code>artifactId</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80cb-b7f4-e2190dc9e449" class="bulleted-list"><li style="list-style-type:disc"><code>.idea/</code>：IDEA 自动生成的项目配置文件，包含运行配置、模块设置、本地历史等，<strong>不要手动修改，也不用提交到 Git</strong>。</li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8065-b74a-f4e1a317f0d9" class="bulleted-list"><li style="list-style-type:disc"><code>.mvn/</code>：Maven Wrapper 的目录，里面有自动下载 Maven 的脚本，确保不同环境下 Maven 版本一致。</li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80c0-8c34-dca64fa85d2c" class="bulleted-list"><li style="list-style-type:disc"><code>pom.xml</code>：<strong>Maven 项目的核心配置文件</strong>，定义了项目依赖（如 Servlet、JSP 等）、打包方式、插件配置等。</li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-801b-bd40-d597b0dd8eff" class="bulleted-list"><li style="list-style-type:disc"><code>mvnw</code> / <code>mvnw.cmd</code>：Maven Wrapper 的启动脚本，Windows 用 <code>mvnw.cmd</code>，Linux/Mac 用 <code>mvnw</code>，不用本地装 Maven 也能构建项目。</li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8031-bc9b-ebc31718c1b0" class="bulleted-list"><li style="list-style-type:disc"><code>.gitignore</code>：配置 Git 忽略的文件 / 目录，比如 <code>target/</code>、<code>.idea/</code> 等，避免提交无关文件到仓库。</li></ul></div><div style="display:contents" dir="auto"><hr id="35a8db55-6aee-805a-ab08-f19b962ba8df"/></div><div style="display:contents" dir="auto"><h3 id="35a8db55-6aee-8021-a4e9-edb6cc809f5c" class="">2. <code>src/main/java/</code> 目录（Java 源代码）</h3></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8025-86bf-cdb683facd0a" class="bulleted-list"><li style="list-style-type:disc"><code>src/main/java/com.hpc.javaweb1/MyServlet.java</code>：<div style="display:contents" dir="auto"><ul id="35a8db55-6aee-802f-b8c3-dec09d1c5e2f" class="bulleted-list"><li style="list-style-type:circle">这是你的 Servlet 类，继承 <code>HttpServlet</code>，用来处理浏览器请求、生成响应。</li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80cd-9cb0-d15f99fb0b61" class="bulleted-list"><li style="list-style-type:circle">它的作用，就相当于你手写服务器里 <code>MyHttpRequest + MyHttpResponse</code> 的合体，由 Tomcat 帮你处理 Socket、流操作这些底层细节。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><hr id="35a8db55-6aee-803d-93c2-f830d233cb98"/></div><div style="display:contents" dir="auto"><h3 id="35a8db55-6aee-800b-8a68-c316dc3624f4" class="">3. <code>src/main/resources/</code> 目录（资源文件）</h3></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80ce-b902-e5fcb92f1952" class="bulleted-list"><li style="list-style-type:disc">用来存放项目需要的配置文件，比如：<div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8028-afa1-fba73ad225f7" class="bulleted-list"><li style="list-style-type:circle">数据库配置 <code>db.properties</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80bc-b26a-dc2c31e41e28" class="bulleted-list"><li style="list-style-type:circle">日志配置 <code>log4j.xml</code> / <code>logback.xml</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80c1-b95a-cbea6f98413e" class="bulleted-list"><li style="list-style-type:circle">其他 XML/JSON 配置文件</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8069-afc3-f238c83e686f" class="bulleted-list"><li style="list-style-type:disc">Maven 编译时，会把这里的文件自动复制到 <code>target/classes/</code> 目录下。</li></ul></div><div style="display:contents" dir="auto"><hr id="35a8db55-6aee-8012-ac0d-dc0c0e9ecffe"/></div><div style="display:contents" dir="auto"><h3 id="35a8db55-6aee-8047-969f-e624849cdff5" class="">4. <code>src/main/webapp/</code> 目录（Web 应用根目录）</h3></div><div style="display:contents" dir="auto"><p id="35a8db55-6aee-8063-8ced-eb924ece5f59" class="">这是 Web 项目的<strong>核心静态资源目录</strong>，Tomcat 部署时，这个目录就是 Web 应用的根路径。</p></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8042-9a1a-ccdca52ac4d3" class="bulleted-list"><li style="list-style-type:disc"><code>index.jsp</code>：项目的首页，浏览器访问 <code>http://localhost:8080/javaweb1/</code> 时默认打开的页面。</li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-802a-8686-e02c434ea7ee" class="bulleted-list"><li style="list-style-type:disc"><code>WEB-INF/</code>：<div style="display:contents" dir="auto"><ul id="35a8db55-6aee-806d-adbc-d2d113df6de9" class="bulleted-list"><li style="list-style-type:circle">这是一个<strong>受保护的目录</strong>，浏览器不能直接访问里面的文件，只能通过服务器内部访问。</li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8096-90b0-da89075ac593" class="bulleted-list"><li style="list-style-type:circle"><code>web.xml</code>：<strong>Web 应用的部署描述符文件</strong>，作用是：<div style="display:contents" dir="auto"><ul id="35a8db55-6aee-808b-89fc-d48652ad9612" class="bulleted-list"><li style="list-style-type:square">配置 Servlet、Filter、Listener</li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80c0-8da9-e9228a760507" class="bulleted-list"><li style="list-style-type:square">设置欢迎页面（比如默认打开 index.jsp）</li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8088-ab13-cb6060806d3b" class="bulleted-list"><li style="list-style-type:square">配置错误页面、安全约束等</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8081-a2f9-eeda84de68b0" class="bulleted-list"><li style="list-style-type:circle">在 Servlet 3.0 以后，很多配置可以用注解（<code>@WebServlet</code>）代替 <code>web.xml</code>，但旧项目或复杂配置还是会用到它。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><hr id="35a8db55-6aee-80c7-b9ff-c3ce9fe98a55"/></div><div style="display:contents" dir="auto"><h3 id="35a8db55-6aee-80df-bb1c-d2b2dfef0e66" class="">5. <code>src/test/</code> 目录（测试代码）</h3></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8038-93a4-e016f42a42ac" class="bulleted-list"><li style="list-style-type:disc"><code>src/test/java/</code>：单元测试代码目录，比如用 JUnit 测试你的 Servlet 逻辑。</li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80e6-859a-e8632773ff40" class="bulleted-list"><li style="list-style-type:disc"><code>src/test/resources/</code>：测试用的配置文件，和 <code>main/resources</code> 类似，只在测试时生效。</li></ul></div><div style="display:contents" dir="auto"><hr id="35a8db55-6aee-80c6-af8a-d2bca0005edc"/></div><div style="display:contents" dir="auto"><h3 id="35a8db55-6aee-8072-8e9a-f07dd7c7873f" class="">6. <code>target/</code> 目录（编译输出）</h3></div><div style="display:contents" dir="auto"><p id="35a8db55-6aee-8015-8668-c53e6db1eb6d" class="">这是 Maven 构建项目后生成的目录，存放编译后的字节码、打包后的文件。</p></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8000-a90a-c27238a413f4" class="bulleted-list"><li style="list-style-type:disc"><code>classes/</code>：编译后的 <code>.class</code> 文件和 <code>resources</code> 里的配置文件。</li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80e2-83e7-e29e7cbf07d5" class="bulleted-list"><li style="list-style-type:disc"><code>javaweb1-1.0-SNAPSHOT/</code>：<div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80fe-a9e2-ead422aae214" class="bulleted-list"><li style="list-style-type:circle">这是 Tomcat 部署时的实际应用目录结构，里面包含 <code>WEB-INF/classes/</code>、<code>WEB-INF/lib/</code>、<code>index.jsp</code> 等。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8010-9e8b-f04e94cc5aa0" class="bulleted-list"><li style="list-style-type:disc">打包后会生成 <code>javaweb1-1.0-SNAPSHOT.war</code> 文件，直接放到 Tomcat 的 <code>webapps/</code> 目录下就能部署运行。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="35a8db55-6aee-8045-a454-cac81f03816d" class="">前端</h2></div><div style="display:contents" dir="auto"><p id="35a8db55-6aee-8053-a34c-caab1263dddb" class="">基础需要掌握:</p></div><div style="display:contents" dir="auto"><div style="display:contents" dir="ltr"><figure id="38d8db55-6aee-830b-b9bc-816b371f6dd8" class="link-to-page"><a href="https://www.notion.so/JavaScript-H5C3-38d8db556aee830bb9bc816b371f6dd8?pvs=21"><img class="icon" src="../JavaScript+H5C3/augmented_reality_computer_developer_coding_programming_icon_134250.webp"/>JavaScript+H5C3</a></figure></div></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8081-bcdf-f99f74d30447" class="toggle"><li><details open=""><summary>url和uri的区别</summary><div style="display:contents" dir="auto"><p id="35a8db55-6aee-803f-9727-d7491aad47dd" class="">url是完整的请求路径(如：http://localhost:8080/test.html)</p></div><div style="display:contents" dir="auto"><p id="35a8db55-6aee-80de-8d4f-d64c60fda4bf" class="">uri是具体的资源名称(如：test.html)</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8035-a68c-ccd05d368a15" class="toggle"><li><details open=""><summary>register.html</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-80d9-a64a-da3242a9bb9c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;简易表单&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/index.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;form-box&quot;&gt;
+    &lt;h3&gt;用户提交表单&lt;/h3&gt;
+    &lt;form action=&quot;test&quot; method=&quot;post&quot;&gt;
+        &lt;div class=&quot;item&quot;&gt;
+            &lt;label&gt;编号ID：&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;id&quot; placeholder=&quot;请输入id&quot;&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;item&quot;&gt;
+            &lt;label&gt;用户名：&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;请输入用户名&quot;&gt;
+        &lt;/div&gt;
+        &lt;button class=&quot;submit-btn&quot; type=&quot;submit&quot;&gt;提交&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="35a8db55-6aee-80d8-9fd9-eaae88e0ac02" class="">后端</h2></div><div style="display:contents" dir="auto"><p id="35a8db55-6aee-8010-8645-f3f5d4d08241" class="">JavaWeb提供的后端组件Servlet，Servlet是一个接口，<mark class="highlight-orange"><mark class="highlight-purple_background">让Java具备接收网络请求，并作出响应的功能。</mark></mark></p></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80bc-a941-dd657a05b520" class="toggle"><li><details open=""><summary>TestServlet.java</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-80aa-b391-f3d8e3b9b633" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package com.hpc.javaweb1;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
+import java.io.IOException;
+
+/**
+ * 自定义 Servlet 类
+ * 实现 Servlet 原生接口，处理客户端请求并响应
+ *
+ * Custom Servlet Class
+ * Implements the native Servlet interface to handle client requests and respond
+ */
+// WebServlet 注解：将 /test 路径映射到当前 Servlet 类
+// WebServlet Annotation: Map /test path to current Servlet class
+@WebServlet(&quot;/test&quot;)
+public class MyServlet implements Servlet {
+
+    /**
+     * 初始化方法
+     * Servlet 被创建时执行，只执行一次
+     *
+     * Init method
+     * Executed when Servlet is created, only once
+     */
+    @Override
+    public void init(ServletConfig servletConfig) throws ServletException {
+        // 初始化逻辑（如加载配置、连接资源）
+        // Initialization logic (e.g., load config, connect resources)
+    }
+
+    /**
+     * 获取 Servlet 配置对象
+     *
+     * Get Servlet configuration object
+     */
+    @Override
+    public ServletConfig getServletConfig() {
+        return null;
+    }
+
+    /**
+     * 服务方法（核心业务处理）
+     * 每次请求都会调用这个方法
+     *
+     * Service method (Core business processing)
+     * Called every time a request comes in
+     */
+    @Override
+    public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
+        // 从请求中获取名为 id 的参数
+        // Get parameter named &#x27;id&#x27; from the request
+        String idStr = servletRequest.getParameter(&quot;id&quot;);
+
+        // 控制台打印接收到的客户端参数
+        // Print received client parameter to console
+        System.out.println(&quot;[+]接收到了客户端参数:&quot; + idStr);
+
+        // 获取响应输出流，向客户端写入字符串
+        // Get response output stream and write string to client
+        servletResponse.getWriter().write(&quot;Hello World&quot;);
+    }
+
+    /**
+     * 获取 Servlet 信息
+     *
+     * Get Servlet information
+     */
+    @Override
+    public String getServletInfo() {
+        return &quot;&quot;;
+    }
+
+    /**
+     * 销毁方法
+     * Servlet 被销毁时执行，只执行一次
+     *
+     * Destroy method
+     * Executed when Servlet is destroyed, only once
+     */
+    @Override
+    public void destroy() {
+        // 释放资源逻辑
+        // Release resources logic
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80ef-b4cd-eacb79a81ce0" class="toggle"><li><details open=""><summary>TestServlet.java(继承简化)</summary><div style="display:contents" dir="auto"><p id="35a8db55-6aee-80e6-a8d7-ddb3f665ed1e" class="">简化写法，直接继承。同时使用 HttpServletRequest 和 HttpServletResponse 可提供的方法更多</p></div><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-80a4-a24d-d4ba098b655f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package com.hpc.javaweb1;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/*
+* MyServlet的简化写法，直接继承
+* */
+@WebServlet(&quot;/test&quot;)
+public class TestServlet extends HttpServlet {
+    @Override // HttpServletRequest 和 HttpServletResponse 可提供的方法更多
+    protected void  doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+        System.out.println(&quot;调用了Get方法&quot;);
+    }
+
+    @Override
+    protected void  doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+        System.out.println(&quot;调用了Post方法&quot;);
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80b8-bcc2-e89709c116ec" class="toggle"><li><details open=""><summary>获取前端信息</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-809f-b3cc-f40b1f89a281" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package com.hpc.javaweb1;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+
+/*
+* MyServlet的简化写法，直接继承
+* */
+@WebServlet(&quot;/test&quot;)
+public class TestServlet extends HttpServlet {
+    @Override // HttpServletRequest 和 HttpServletResponse 可提供的方法更多
+    protected void  doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+        System.out.println(&quot;调用了Get方法&quot;);
+    }
+
+    @Override
+    protected void  doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, UnsupportedEncodingException {
+        req.setCharacterEncoding(&quot;UTF-8&quot;); // 解决中文乱码问题
+        System.out.println(&quot;调用了Post方法&quot;);
+        String id = req.getParameter(&quot;id&quot;); // 获取前端中对应的input标签的name属性
+        String name = req.getParameter(&quot;name&quot;);
+        System.out.println(id + name);
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="35a8db55-6aee-8080-a016-e6585150e840" class="">doGet 和 doPost 控制请求类型，get请求进doGet方法，post请求进doPost方法<br/>HttpServletRequest 表示请求<br/>HttpServletResponse 表示响应<br/>整体是面向对象的思路</blockquote></div><div style="display:contents" dir="auto"><hr id="35a8db55-6aee-8053-9aa3-f4ed80e8fda8"/></div><div style="display:contents" dir="auto"><h1 id="35a8db55-6aee-8079-b3a3-d408f8049cf1" class="">HttpServletRequest</h1></div><div style="display:contents" dir="auto"><p id="35a8db55-6aee-80be-b39e-e78fd5c6c8ad" class="">表示请求，可以:</p></div><div style="display:contents" dir="ltr"><table id="35a8db55-6aee-80fa-ae0a-db0384f3b652" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-8069-a3d3-fd8ccb9bc926"><th id="Plcy" class="simple-table-header-color simple-table-header" style="width:97.89286804199219px">对象</th><th id="Dor^" class="simple-table-header-color simple-table-header" style="width:267.0044708251953px">方法</th><th id="WvUb" class="simple-table-header-color simple-table-header">作用</th><th id="Y{LO" class="simple-table-header-color simple-table-header" style="width:306.703125px">说明</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-8002-b2d5-eac9e7fed334"><td id="Plcy" class="" style="width:97.89286804199219px"><strong>HttpServletRequest</strong></td><td id="Dor^" class="" style="width:267.0044708251953px"><code>req.getParameter(name)</code></td><td id="WvUb" class=""><strong>接收客户端参数</strong></td><td id="Y{LO" class="" style="width:306.703125px">获取表单 / URL 传参，根据 input 的 name 取值</td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-80c2-840e-fa58702829fd"><td id="Plcy" class="" style="width:97.89286804199219px"></td><td id="Dor^" class="" style="width:267.0044708251953px"><code>req.setCharacterEncoding(&quot;UTF-8&quot;)</code></td><td id="WvUb" class=""><strong>设置请求编码</strong></td><td id="Y{LO" class="" style="width:306.703125px">解决 POST 请求中文乱码</td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-8035-bd0b-e3401f6df42c"><td id="Plcy" class="" style="width:97.89286804199219px"></td><td id="Dor^" class="" style="width:267.0044708251953px"><code>req.setAttribute(key, value)</code></td><td id="WvUb" class=""><strong>向 request 域存数据</strong></td><td id="Y{LO" class="" style="width:306.703125px">一次请求内有效</td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-8056-b000-ecf7566f99dc"><td id="Plcy" class="" style="width:97.89286804199219px"></td><td id="Dor^" class="" style="width:267.0044708251953px"><code>req.getAttribute(key)</code></td><td id="WvUb" class=""><strong>从 request 域取数据</strong></td><td id="Y{LO" class="" style="width:306.703125px">配合转发使用</td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-8077-bf5c-e90b7e14243f"><td id="Plcy" class="" style="width:97.89286804199219px"></td><td id="Dor^" class="" style="width:267.0044708251953px"><code>req.getRequestDispatcher(路径).forward(req,resp)</code></td><td id="WvUb" class=""><strong>请求转发</strong></td><td id="Y{LO" class="" style="width:306.703125px">服务器内部跳转，地址栏不变，可带 request 数据</td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-809b-9c9d-dcd6866b2706"><td id="Plcy" class="" style="width:97.89286804199219px"><strong>HttpSession</strong></td><td id="Dor^" class="" style="width:267.0044708251953px"><code>req.getSession()</code></td><td id="WvUb" class=""><strong>获取 Session 对象</strong></td><td id="Y{LO" class="" style="width:306.703125px">获取当前会话</td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-8014-94f7-f71f47fb251e"><td id="Plcy" class="" style="width:97.89286804199219px"></td><td id="Dor^" class="" style="width:267.0044708251953px"><code>session.setAttribute(key, value)</code></td><td id="WvUb" class=""><strong>向 Session 域存数据</strong></td><td id="Y{LO" class="" style="width:306.703125px">一次会话内有效（跨请求 / 页面）</td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-80dd-90db-f11feef2cd5f"><td id="Plcy" class="" style="width:97.89286804199219px"></td><td id="Dor^" class="" style="width:267.0044708251953px"><code>session.getAttribute(key)</code></td><td id="WvUb" class=""><strong>从 Session 域取数据</strong></td><td id="Y{LO" class="" style="width:306.703125px">登录用户信息常用</td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-80e5-b930-f2bf109e4bb9"><td id="Plcy" class="" style="width:97.89286804199219px"></td><td id="Dor^" class="" style="width:267.0044708251953px"><code>session.invalidate()</code></td><td id="WvUb" class=""><strong>销毁 Session</strong></td><td id="Y{LO" class="" style="width:306.703125px">退出登录时使用</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><blockquote id="35a8db55-6aee-800a-8605-e8fefc2a048d" class="">JSP: Java Server Page HTML 代码和Java代码的混合体<br/>JSP内置对象，JSP引擎预先为开发者创建好的Java对象，可以直接使用</blockquote></div><div style="display:contents" dir="auto"><blockquote id="35a8db55-6aee-80b7-828f-f6f216775cee" class=""><code>&lt;% 代码 %&gt;</code> 相当于java代码区域（定义变量，if，for，逻辑）<br/><code>&lt;%= 代码 %&gt;</code> 相当于输出内容的界面区域（类似 <code>out.print()</code>）</blockquote></div><div style="display:contents" dir="auto"><h2 id="35a8db55-6aee-8030-bbfc-cd230153a6ff" class="">1.request存储数据登录场景:</h2></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8087-b880-c7db65b10292" class="toggle"><li><details open=""><summary>register.html</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-80fc-9d56-e1096b9b5fcb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;简易表单&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/index.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;form-box&quot;&gt;
+    &lt;h3&gt;用户提交表单&lt;/h3&gt;
+    &lt;form action=&quot;/test&quot; method=&quot;post&quot;&gt;
+        &lt;div class=&quot;item&quot;&gt;
+            &lt;label&gt;编号ID：&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;id&quot; placeholder=&quot;请输入id&quot;&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;item&quot;&gt;
+            &lt;label&gt;用户名：&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;请输入用户名&quot;&gt;
+        &lt;/div&gt;
+        &lt;button class=&quot;submit-btn&quot; type=&quot;submit&quot;&gt;提交&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8065-a1c9-fea617494480" class="toggle"><li><details open=""><summary>TestServlet.java(执行逻辑的后端代码)</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-806a-aee2-e25d5d644ec9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package com.hpc.javaweb1;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * 测试用Servlet：接收前端表单数据，转发到index.jsp页面
+ *
+ * Test Servlet: Receive front-end form data and forward to index.jsp page
+ */
+// 注解：配置访问路径 /test
+// Annotation: Configure access path /test
+@WebServlet(&quot;/test&quot;)
+public class TestServlet extends HttpServlet {
+
+    /**
+     * 处理GET请求
+     * 浏览器直接访问、a标签、GET表单都会走这里
+     *
+     * Handle GET requests
+     * Direct browser access, a tags, and GET forms will go here
+     */
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 让GET请求直接调用POST方法，统一处理逻辑
+        // Let GET request directly call POST method to unify processing logic
+        doPost(req, resp);
+    }
+
+    /**
+     * 处理POST请求
+     * form method=&quot;post&quot; 提交时会进入这个方法
+     *
+     * Handle POST requests
+     * This method is entered when form method=&quot;post&quot; is submitted
+     */
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // ========== 1. 设置请求编码（解决中文乱码）==========
+        // 告诉服务器用UTF-8解析前端传递的参数
+        // Tell the server to use UTF-8 to parse parameters passed from the front end
+        req.setCharacterEncoding(&quot;UTF-8&quot;);
+
+        // ========== 2. 设置响应编码（解决中文乱码）==========
+        // 告诉浏览器返回的是UTF-8格式的文本/html
+        // Tell the browser that the returned content is UTF-8 formatted text/html
+        resp.setContentType(&quot;text/html;charset=UTF-8&quot;);
+
+        // 控制台打印日志
+        // Console print log
+        System.out.println(&quot;========= 进入doPost =========&quot;);
+
+        // ========== 3. 获取前端表单传递的参数 ==========
+        // 根据input标签的name属性获取值
+        // Get values according to the name attribute of the input tag
+
+        // 获取name=&quot;name&quot;的输入框内容
+        // Get the content of the input box with name=&quot;name&quot;
+        String name = req.getParameter(&quot;name&quot;);
+
+        // 获取name=&quot;id&quot;的输入框内容
+        // Get the content of the input box with name=&quot;id&quot;
+        String id = req.getParameter(&quot;id&quot;);
+
+        // 控制台打印接收到的数据
+        // Print received data to console
+        System.out.println(&quot;id = &quot; + id);
+        System.out.println(&quot;name = &quot; + name);
+
+        // ========== 4. 将数据存入request域，传递给JSP ==========
+        // setAttribute(key, value)：往请求域中存数据
+        // setAttribute(key, value): Store data in the request domain
+        req.setAttribute(&quot;name&quot;, name);
+
+        // ========== 5. 请求转发到index.jsp页面 ==========
+        // 服务器内部跳转：地址栏不变，request数据可以带过去
+        // Server internal jump: The address bar remains unchanged, and request data can be carried over
+        req.getRequestDispatcher(&quot;/index.jsp&quot;).forward(req, resp);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-808c-97f2-d26d8d78c25a" class="toggle"><li><details open=""><summary>index.jsp</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-8060-9ffe-fe7635af6c0a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;%@ page contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot; %&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;h1&gt;Hello
+    &lt;%
+        String username = (String) request.getAttribute(&quot;name&quot;);
+        if (username == null) username = &quot;未获取到数据&quot;;
+    %&gt;
+    &lt;%= username %&gt;
+&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="35a8db55-6aee-80ea-b432-c616fcd490f6" class="">资源之间跳转有两种方法：<mark class="highlight-orange"><mark class="highlight-purple_background">1.转发 2.重定向<br/></mark></mark>两者区别：<br/>1.转发操作request,重定向操作response<br/>2.转发浏览器地址栏不变,重定向浏览器地址栏会变<br/><mark class="highlight-orange"><mark class="highlight-orange_background">3.转发前后是同一个request对象，重定向前后是两个request对象</mark></mark></blockquote></div><div style="display:contents" dir="auto"><blockquote id="35a8db55-6aee-80ef-924e-db6fbe934689" class="">session和request一样，都是javaweb提供的对象，session用来存储登录用户信息</blockquote></div><div style="display:contents" dir="auto"><blockquote id="35a8db55-6aee-801d-a4fd-d67c68f94408" class="">如果通过request进行数据的传递必须使用转发。如果是重定向会造成数据丢失(见上<mark class="highlight-orange"><mark class="highlight-orange_background">3.</mark></mark>)</blockquote></div><div style="display:contents" dir="auto"><blockquote id="35a8db55-6aee-80e5-b350-dc2ca573efaa" class=""><strong>如果使用重定向进行跳转，同时需要数据共享，此时使用 session存储数据即可<br/>session作用域大于request，不同的使用场景:<br/>1.</strong>业务数据查询，后台查出数据，转发到页面进行展示，使用request存储数据<br/><strong>2.</strong>登录用户，多个场景中使用，session存储数据</blockquote></div><div style="display:contents" dir="auto"><h2 id="35a8db55-6aee-8095-9347-cf834a05e00d" class="">2.session存储数据登录场景:</h2></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80f7-9f3a-f2ef3ff94ea2" class="toggle"><li><details open=""><summary>Login.jsp</summary><div style="display:contents" dir="auto"><p id="35a8db55-6aee-80f4-9b2d-d4b0bf88cdfb" class="">向用户展示的页面</p></div><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-8002-8561-f7be2e9b3474" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;%@ page contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot; %&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;用户登录&lt;/title&gt;
+&lt;%--    &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/logincss.css&quot;&gt;--%&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;login-box&quot;&gt;
+    &lt;h2&gt;用户登录&lt;/h2&gt;
+
+    &lt;form action=&quot;/login&quot; method=&quot;post&quot;&gt;
+
+        &lt;div class=&quot;item&quot;&gt;
+            &lt;label&gt;用户名&lt;/label&gt;
+            &lt;%-- 有错误才显示，没有不占位置 --%&gt;
+            &lt;% if(request.getAttribute(&quot;msg_1&quot;) != null) { %&gt;
+                &lt;p style=&quot;color: red&quot;&gt;&lt;%=request.getAttribute(&quot;msg_1&quot;)%&gt;&lt;/p&gt;
+            &lt;% } %&gt;
+            &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;请输入用户名&quot;&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;item&quot;&gt;
+            &lt;label&gt;密码&lt;/label&gt;
+            &lt;%-- 有错误才显示 --%&gt;
+            &lt;% if(request.getAttribute(&quot;msg_2&quot;) != null) { %&gt;
+                &lt;p style=&quot;color: red&quot;&gt;&lt;%=request.getAttribute(&quot;msg_2&quot;)%&gt;&lt;/p&gt;
+            &lt;% } %&gt;
+            &lt;input type=&quot;password&quot; name=&quot;pwd&quot; placeholder=&quot;请输入密码&quot;&gt;
+        &lt;/div&gt;
+
+        &lt;button type=&quot;submit&quot;&gt;登录&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-803a-a361-e441d226577f" class="toggle"><li><details open=""><summary>LoginServlet.java</summary><div style="display:contents" dir="auto"><p id="35a8db55-6aee-80a3-9b55-d210198f89e5" class="">后端逻辑，接收前端请求，处理用户登录的请求</p></div><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-80b3-a7e3-e1fe07f7a1a7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package com.hpc.javaweb1;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+
+/**
+ * Login Servlet: Handle user login request
+ * 登录处理器：处理用户登录请求
+ */
+@WebServlet(&quot;/login&quot;)
+public class LoginServlet extends HttpServlet {
+
+    /**
+     * Handle POST request (Form submission)
+     * 处理POST请求（表单提交）
+     */
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Set request encoding to UTF-8 (Solve Chinese messy code)
+        // 设置请求编码为UTF-8（解决中文乱码）
+        req.setCharacterEncoding(&quot;UTF-8&quot;);
+
+        // Get parameters from client form
+        // 获取客户端表单传递的参数
+        String username = req.getParameter(&quot;name&quot;);
+        String password = req.getParameter(&quot;pwd&quot;);
+
+        // Verify username
+        // 验证用户名
+        if (!username.equals(DBUtils.USERNAME)) {
+            // Set error message to request field
+            // 往request域存入错误提示信息
+            req.setAttribute(&quot;msg_1&quot;, ResponseEnum.USERNAME_ERROR.getMsg());
+
+            // Forward back to login page
+            // 请求转发回到登录页面
+            req.getRequestDispatcher(&quot;/login.jsp&quot;).forward(req, resp);
+            return; // End method, stop execution
+                    // 结束方法，终止后续执行
+        }
+
+        // Verify password
+        // 验证密码
+        if (!password.equals(DBUtils.PASSWORD)) {
+            // Set error message to request field
+            // 往request域存入错误提示信息
+            req.setAttribute(&quot;msg_2&quot;, ResponseEnum.PASSWORD_ERROR.getMsg());
+
+            // Forward back to login page
+            // 请求转发回到登录页面
+            req.getRequestDispatcher(&quot;/login.jsp&quot;).forward(req, resp);
+            return; // End method, stop execution
+                    // 结束方法，终止后续执行
+        }
+
+        // ===================== Login Success =====================
+        // ===================== 登录成功 =====================
+
+        // Get Session object
+        // 获取会话对象Session
+        HttpSession session = req.getSession();
+
+        // Store username in Session (Global valid during login)
+        // 将用户名存入Session（登录期间全局有效）
+        session.setAttribute(&quot;name&quot;, username);
+
+        // Set success tip
+        // 设置成功提示信息
+        req.setAttribute(&quot;msg_0&quot;, ResponseEnum.SUCCESS_TIP);
+
+        // Forward to homepage
+        // 转发到首页
+        req.getRequestDispatcher(&quot;/index.jsp&quot;).forward(req, resp);
+    }
+
+    /**
+     * Handle GET request
+     * 处理GET请求
+     */
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Unify processing logic, let GET call POST
+        // 统一处理逻辑，让GET请求调用POST方法
+        doPost(req, resp);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80fc-85d6-ddb24fb690bd" class="toggle"><li><details open=""><summary>MyServlet.java(LoginServlet的父类)</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-80eb-9b11-fdabdab7ca6a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package com.hpc.javaweb1;
+import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
+import java.io.IOException;
+
+// WebServlet 将/test映射到MyServlet类
+//@WebServlet(&quot;/test&quot;)
+public class MyServlet implements Servlet {
+    @Override
+    public void init(ServletConfig servletConfig) throws ServletException {
+
+    }
+
+    @Override
+    public ServletConfig getServletConfig() {
+        return null;
+    }
+
+    @Override
+    public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
+        // ========== 解决请求乱码（接收中文参数不乱码） ==========
+        servletRequest.setCharacterEncoding(&quot;UTF-8&quot;);
+        // ========== 解决响应乱码（返回中文不乱码） ==========
+        servletResponse.setContentType(&quot;text/html;charset=UTF-8&quot;);
+        String idStr = servletRequest.getParameter(&quot;id&quot;);
+        System.out.println(&quot;[+]接收到了客户端参数:&quot; + idStr);
+        servletResponse.getWriter().write(&quot;Hello World&quot;);
+    }
+
+    @Override
+    public String getServletInfo() {
+        return &quot;&quot;;
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80d4-8df1-c3bd7b9e930d" class="toggle"><li><details open=""><summary>DBUTtils(模拟数据库)</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-8013-952e-f8565b38c440" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package com.hpc.javaweb1;
+
+public class DBUtils {
+    public final static String USERNAME = &quot;admin&quot;;
+    public final static String PASSWORD = &quot;123123&quot;;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80aa-a466-cada4c3c5f71" class="toggle"><li><details open=""><summary>ResponseEnum</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-80ec-a9d3-c2f8de95874a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package com.hpc.javaweb1;
+
+public enum ResponseEnum {
+    USERNAME_ERROR(&quot;用户名错误&quot;),
+    PASSWORD_ERROR(&quot;密码错误&quot;),
+    SUCCESS_TIP(&quot;登录成功&quot;);
+
+    ResponseEnum(String msg) {
+        this.msg = msg;
+    }
+    public String getMsg() {
+        return this.msg;
+    }
+    private String msg;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h1 id="35a8db55-6aee-80ff-8414-f30792d1875a" class="">HttpServletResponse</h1></div><div style="display:contents" dir="auto"><p id="35a8db55-6aee-80c9-9a40-d35d21d80742" class="">表示响应，可以:</p></div><div style="display:contents" dir="ltr"><table id="35a8db55-6aee-8086-8b2e-e5ee787ca61f" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-80ca-af81-c565a312e73c"><th id="l}XO" class="simple-table-header-color simple-table-header" style="width:104.54464721679688px">对象</th><th id="uw^f" class="simple-table-header-color simple-table-header" style="width:278.9977722167969px">常用方法</th><th id="&gt;p=s" class="simple-table-header-color simple-table-header" style="width:130px">作用</th><th id="enWC" class="simple-table-header-color simple-table-header" style="width:294.3950958251953px">详细说明</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-8050-a787-fa78adb2b11f"><td id="l}XO" class="" style="width:104.54464721679688px"><strong>HttpServletResponse</strong></td><td id="uw^f" class="" style="width:278.9977722167969px"><code>resp.setContentType(&quot;text/html;charset=UTF-8&quot;)</code></td><td id="&gt;p=s" class="" style="width:130px">设置响应内容类型与编码</td><td id="enWC" class="" style="width:294.3950958251953px">告知浏览器响应数据格式和编码，<strong>解决页面中文乱码</strong></td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-802d-ad09-c4f7f59b13b7"><td id="l}XO" class="" style="width:104.54464721679688px"></td><td id="uw^f" class="" style="width:278.9977722167969px"><code>resp.setCharacterEncoding(&quot;UTF-8&quot;)</code></td><td id="&gt;p=s" class="" style="width:130px">设置响应字符编码</td><td id="enWC" class="" style="width:294.3950958251953px">只设置编码，配合 <code>setContentType</code> 使用</td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-8086-b9fa-ff80054c4c4e"><td id="l}XO" class="" style="width:104.54464721679688px"></td><td id="uw^f" class="" style="width:278.9977722167969px"><code>resp.getWriter().write()</code></td><td id="&gt;p=s" class="" style="width:130px">获取字符输出流</td><td id="enWC" class="" style="width:294.3950958251953px">向浏览器<strong>输出文本内容</strong>（页面打印文字）</td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-807b-b8f2-c6990fd6175e"><td id="l}XO" class="" style="width:104.54464721679688px"></td><td id="uw^f" class="" style="width:278.9977722167969px"><code>resp.sendRedirect(&quot;目标路径&quot;)</code></td><td id="&gt;p=s" class="" style="width:130px"><strong>重定向</strong></td><td id="enWC" class="" style="width:294.3950958251953px">客户端二次跳转，地址栏<strong>会变</strong>，不能携带 request 域数据</td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-804e-a24f-df0373a72c3a"><td id="l}XO" class="" style="width:104.54464721679688px"></td><td id="uw^f" class="" style="width:278.9977722167969px"><code>resp.setStatus(状态码)</code></td><td id="&gt;p=s" class="" style="width:130px">设置响应状态码</td><td id="enWC" class="" style="width:294.3950958251953px">手动设置 200、302、404、500 等状态码</td></tr></div><div style="display:contents" dir="ltr"><tr id="35a8db55-6aee-803c-99d4-f84d2d8bb1b8"><td id="l}XO" class="" style="width:104.54464721679688px"></td><td id="uw^f" class="" style="width:278.9977722167969px"><code>resp.addHeader(&quot;键&quot;,&quot;值&quot;)</code></td><td id="&gt;p=s" class="" style="width:130px">设置响应头</td><td id="enWC" class="" style="width:294.3950958251953px">设置缓存、跨域、刷新跳转等响应头信息</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><blockquote id="35a8db55-6aee-8011-83ae-f654cae3421f" class="">如果使用<code>write()</code>来返回前端数据，需要在后端嵌入大量html代码，很麻烦<br/><mark class="highlight-gray_background">因此有了JSP机制，本质是一个模板，在这个模板上可以用html类似格式写程序，<br/>JSP自动转换成一个Servlet，以response的形式返回给客户端。</mark></blockquote></div><div style="display:contents" dir="auto"><h1 id="35a8db55-6aee-80d1-a9b8-e4722f234f89" class="">EL表达式</h1></div><div style="display:contents" dir="auto"><p id="35a8db55-6aee-8081-8aad-d211b3dbe576" class="">EL表达式是用来简化JSP页面取值的，简化<code>request.getAttribute()</code></p></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-806a-9ea5-d780acf54804" class="toggle"><li><details open=""><summary>简化效果演示代码</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-80b7-8999-cc259559aeb0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;%
+    String name = (String) request.getAttribute(&quot;name&quot;);
+%&gt;
+&lt;%= name %&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="35a8db55-6aee-80cf-892b-e9cbf690cc3c" class="">可以简写成</p></div><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-8043-b065-f3d5fd9a96b4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">${name}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="35a8db55-6aee-8086-8b6d-d698dfa54fd2" class="">常用用法:</p></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8026-832a-c111afd9cf14" class="toggle"><li><details open=""><summary>取request域数据</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-806f-bc81-c63108ee3ec5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">req.setAttribute(&quot;msg&quot;, &quot;登录成功&quot;);
+-&gt;
+${msg}
+${requestScope.msg}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80ef-b848-c20c034568fd" class="toggle"><li><details open=""><summary>取session域数据</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-80a0-8117-d2f63c5cbde7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">session.setAttribute(&quot;name&quot;, &quot;张三&quot;);
+-&gt; 
+${name}
+${sessionScope.name}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80e6-aff7-e4fdcbcd47e7" class="toggle"><li><details open=""><summary>取对象属性</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-8028-b903-e60d0a19ac46" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">public class User {
+    private String username;
+    private Integer age;
+    // get/set
+}
+-&gt; Servlet存
+User user = new User();
+user.setUsername(&quot;李四&quot;);
+user.setAge(20);
+req.setAttribute(&quot;user&quot;, user);
+-&gt;
+${user.username}
+${user.age}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-805d-88e0-f02d0e521442" class="toggle"><li><details open=""><summary>运算</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-8096-9b0d-ecb8b65fe9a4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">算数
+${10 + 5}
+${10 * 2}
+关系
+${10 &gt; 5}
+${10 == 10}
+${10 != 5}
+逻辑
+${10&gt;5 &amp;&amp; 3&lt;4}
+${10&gt;5 || 3&lt;4}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-80b8-b22c-f3ab2b477b4e" class="toggle"><li><details open=""><summary>判空</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-80ee-94c7-c57579a193cc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">${empty name}       &lt;%-- 为空返回true --%&gt;
+${not empty name}   &lt;%-- 不为空返回true --%&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-80ce-9dc6-fafcc4aca068" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;%-- 有登录用户就显示欢迎，没有就跳转登录 --%&gt;
+&lt;c:if test=&quot;${not empty sessionScope.name}&quot;&gt;
+    欢迎：${name}
+&lt;/c:if&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35a8db55-6aee-8063-b162-f91042e90c73" class="toggle"><li><details open=""><summary>拿请求参数</summary><div style="display:contents" dir="auto"><pre id="35a8db55-6aee-803e-b5a7-d21632ba9a63" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">请求地址：login.jsp?name=admin&amp;pwd=123
+${param.name}
+${param.pwd}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="35c8db55-6aee-80a7-9891-ed8ea349edcb"/></div><div style="display:contents" dir="auto"><h1 id="35c8db55-6aee-8026-b4af-fea4594ebf26" class="">数据库</h1></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-807b-ab43-fab890f7396f" class="">Web: 前端(用户交互)→后端(业务逻辑)→数据库(数据持久化)</p></div><div style="display:contents" dir="auto"><h2 id="35c8db55-6aee-80af-87ee-e441f823296f" class="">数据库使用与概念</h2></div><div style="display:contents" dir="auto"><div style="display:contents" dir="ltr"><figure id="e888db55-6aee-8258-83cf-016787eeb296" class="link-to-page"><a href="https://www.notion.so/Database-e888db556aee825883cf016787eeb296?pvs=21"><img class="icon" src="../Database/codingbrowser_102152.webp"/>Database</a></figure></div></div><div style="display:contents" dir="auto"><hr id="35c8db55-6aee-808c-b414-c6122dd863ae"/></div><div style="display:contents" dir="auto"><h1 id="35c8db55-6aee-80d7-8178-e0561582c857" class="">JDBC</h1></div><div style="display:contents" dir="auto"><p id="35c8db55-6aee-80a6-b8e7-dbae2d01afbd" class="">Java Database Connectivity 是一个独立于特定数据库系统的，通用的SQL数据库存取和操作的公共接口JDBC不仅仅针对于一种数据库，针对多种数据库,不同数据库都可以使用JDBC来管理。（<mark class="highlight-orange"><mark class="highlight-gray_background">JDBC 就是 Java 程序和数据库之间的 “翻译官 + 接线板”</mark></mark>）</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-8079-af9a-e437d7e505cd" class="">Java → MySQL适用的接口 → MySQL</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-8093-8a1b-e8719295861c" class="">Java → Oracle合适的接口 → Oracle</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-8075-bb33-d570ab0b5d41" class="">JDBC分为两部分：</p></div><div style="display:contents" dir="auto"><ul id="3658db55-6aee-80a0-bed2-f3d174b58c5e" class="bulleted-list"><li style="list-style-type:disc">面向应用的API：开发者调用，接口</li></ul></div><div style="display:contents" dir="auto"><ul id="3658db55-6aee-80a5-b5ba-c60b4caaa18d" class="bulleted-list"><li style="list-style-type:disc">面向数据库的API：给开发商开发数据库驱动程序</li></ul></div><div style="display:contents" dir="auto"><h2 id="3658db55-6aee-808a-8edc-ec27bbe05a71" class="">JDBC API</h2></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-801e-b76e-dcdc09f0edfa" class="">DriverManager类：管理各种不同的JDBC驱动</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-80e7-afc2-fea23768bc7a" class="">Connection接口：连接MySQL数据库</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-80cf-b3f5-faafa3371409" class="">Statement接口：执行SQL语句</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-80e6-b753-ed700f23f26f" class="">ResultSet接口：接收结果集</p></div><div style="display:contents" dir="auto"><h2 id="3658db55-6aee-803c-b3e1-ef4bae533ac7" class="">JDBC 原理</h2></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-807a-a729-c72d7446d26a" class="">1、加载数据库驱动，Java程序的数据库的桥梁</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-80d0-bb89-cc507c04ffbc" class="">Java → insert → MySQL驱动 → MySQL的SQL语句</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-8022-a827-d3159dadd141" class="">2、获取Connection，一次连接</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-8081-a376-e3f392b484e3" class="">3、创建Statement，执行SQL</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-806a-aaaa-eb2fbb24d0d3" class="">4、ResultSet接收结果</p></div><div style="display:contents" dir="auto"><h2 id="3658db55-6aee-80db-bb37-c7b261d7bfd1" class="">常见错误</h2></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-80dd-afde-d4fc63e5a41b" class="">1、Unknown database：数据库名称写错了</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-8021-ae49-fdafdfd37d02" class="">2、Access denied for user &#x27;root&#x27;@&#x27;localhost&#x27; (using password: YES)：用户名或密码错误</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-8086-85b4-e32942066611" class="">3、No suitable driver for jdbc:mysql://localhost:3306/mytest1：数据库驱动未导入</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-8014-b182-cab88d5c71b9" class="">4、The server time zone value is unrecognized：MySQL 时区和 JDK 不匹配</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-801b-b02d-d54bb51f252d" class="">5、Cannot determine value type from string：字段是字符串，你用 getInt () 取</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-809e-b60e-ec062dd0b88b" class="">6、Parameter index out of range：索引越界 / 问号占位符数量不对</p></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-8014-91d0-c8cbba72a4e7" class="">7、NullPointerException：空指针异常，连接没获取成功就使用，ResultSet 为空还调用 next ()</p></div><div style="display:contents" dir="auto"><h2 id="3658db55-6aee-8007-b452-d835627696cb" class="">JDBC简单操作</h2></div><div style="display:contents" dir="auto"><ul id="3658db55-6aee-8092-a8ab-d8d6b045b142" class="block-color-purple_background toggle"><li><details open=""><summary>连接与CRUD操作</summary><div style="display:contents" dir="auto"><pre id="3658db55-6aee-8039-ba8f-ea1faf822974" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.io.IOException;
+import java.sql.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception{
+        // 连接数据库
+        // url，name，pwd
+        String url = &quot;jdbc:mysql://127.0.0.1:3306/mytest1&quot;;
+        String user = &quot;root&quot;;
+        String passwd = &quot;123.com.cn&quot;;
+        Connection connection = DriverManager.getConnection(url, user, passwd);
+//        System.out.println(connection);
+
+        // 创建sql
+        // 添加 删除 更改
+        String sql = &quot;insert into user(name, pwd) values(?, ?)&quot;;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, &quot;bbb&quot;); // 替换传递sql语句中的?
+        preparedStatement.setString(2, &quot;333&quot;); // 类似的还有setInt setDouble setLong setBoolean ...
+        int i = preparedStatement.executeUpdate(); // CRUD 中，在JDBC中update指 增删改 // 返回int类型，表示插入数据条数
+        System.out.println(i);
+
+        // 查询
+        String sql = &quot;select * from user where id = ?&quot;;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, 1);
+        ResultSet resultSet = preparedStatement.executeQuery(); // 返回值不同，用ResultSet接收
+        boolean next = resultSet.next();
+        if (next) {
+            int id =  resultSet.getInt(2);
+            String name = resultSet.getString(1);
+            String pwd = resultSet.getString(3);
+            System.out.println(id + name + pwd);
+        }
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3658db55-6aee-80c8-8257-cb9f67e6ccca" class="">JDBC处理事务</h2></div><div style="display:contents" dir="auto"><ul id="3658db55-6aee-808f-a811-c7220c4012bb" class="block-color-purple_background toggle"><li><details open=""><summary>事务代码回滚</summary><div style="display:contents" dir="auto"><pre id="3658db55-6aee-8055-809c-c06391d9a6f3" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import java.io.IOException;
+import java.sql.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception{
+        // 连接数据库
+        // url，name，pwd
+        String url = &quot;jdbc:mysql://127.0.0.1:3306/mytest1&quot;;
+        String user = &quot;root&quot;;
+        String passwd = &quot;123.com.cn&quot;;
+        Connection connection = DriverManager.getConnection(url, user, passwd);
+
+        // 创建SQL
+        try {
+            String sql = &quot;update user set money = ? where id = ?&quot;;
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, 500);
+            statement.setInt(2, 1);
+            statement.executeUpdate();
+//            System.out.println(10 /dfaswd 0); // 错误代码
+            PreparedStatement statement2 = connection.prepareStatement(sql);
+            statement2.setInt(1, 1500);
+            statement2.setInt(2, 2);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            // 事务回滚
+            connection.rollback();
+        }
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3658db55-6aee-802c-a9f9-c17566fe192d" class="">数据库连接池</h2></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-809c-8af7-dd0a5083b213" class="">字符串常量池，线程池，数据库连接池，都是池化思想，重复使用资源，做到资源的合理分配</p></div><div style="display:contents" dir="auto"><ul id="3658db55-6aee-80f3-81d0-f79b0b0e2173" class="block-color-purple_background toggle"><li><details open=""><summary>C3P0 jar包连接</summary><div style="display:contents" dir="auto"><pre id="3658db55-6aee-8080-ba70-dcaccf5417d5" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import java.sql.Connection;
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        ComboPooledDataSource cpds = new ComboPooledDataSource();
+        cpds.setDriverClass(&quot;com.mysql.cj.jdbc.Driver&quot;);
+        cpds.setJdbcUrl(&quot;jdbc:mysql://localhost:3306/mytest1&quot;);
+        cpds.setUser(&quot;root&quot;);
+        cpds.setPassword(&quot;root&quot;);
+        cpds.setInitialPoolSize(20);
+        cpds.setMinPoolSize(2);
+        cpds.setMaxPoolSize(40);
+        cpds.setAcquireIncrement(5);
+        Connection connection = cpds.getConnection();
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3658db55-6aee-80c5-a33b-ea4522a1b9ec" class="">DBUtils工具类</h2></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-8064-9b43-d19e8aa9114f" class="">原先直接使用原生的JDBC查询数据，需要手动封装，步骤繁琐。可以借助DBUtils工具帮助进行数据封装（也相当于对JDBC的封装）。</p></div><div style="display:contents" dir="auto"><ul id="3658db55-6aee-8098-8dd8-c5470b9d5380" class="toggle"><li><details open=""><summary>封装的User类</summary><div style="display:contents" dir="auto"><p id="3658db55-6aee-8068-96b6-d6336ad057da" class="">和数据库中的列名一致，有set get方法的空壳即可</p></div><div style="display:contents" dir="auto"><pre id="3658db55-6aee-80e0-8609-da0ea31e7658" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class User {
+    private Integer id;
+    private String name;
+    private String pwd;
+    private String money;
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3658db55-6aee-80de-94b0-cd08a0f338ad" class="block-color-purple_background toggle"><li><details open=""><summary>使用封装并查询</summary><div style="display:contents" dir="auto"><p id="3658db55-6aee-8033-9dbe-e6c034b27ea8" class="">自动把数据库数据 → 封装成 Java 对象（User）</p></div><div style="display:contents" dir="ltr"><table id="3658db55-6aee-8038-98ae-f6e9290e273b" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3658db55-6aee-80e9-a85f-de7ffb34761a"><th id="w^\z" class="simple-table-header-color simple-table-header">处理器</th><th id="^IZg" class="simple-table-header-color simple-table-header">作用</th><th id="YqDT" class="simple-table-header-color simple-table-header">返回值</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3658db55-6aee-8081-a21b-fbd1811bd20e"><td id="w^\z" class=""><strong>BeanHandler</strong></td><td id="^IZg" class="">查询<strong>单条数据</strong></td><td id="YqDT" class=""><strong>一个对象</strong> User</td></tr></div><div style="display:contents" dir="ltr"><tr id="3658db55-6aee-801d-a886-cf2a4c95e216"><td id="w^\z" class=""><strong>BeanListHandler</strong></td><td id="^IZg" class="">查询<strong>多条数据</strong></td><td id="YqDT" class=""><strong>集合</strong> List&lt;User&gt;</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="3658db55-6aee-80bf-9dea-f5d45c01b17a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+
+import java.sql.Connection;
+import java.util.List;
+
+public class Test2 {
+    public static void main(String[] args) throws Exception {
+        ComboPooledDataSource cpds = new ComboPooledDataSource();
+        cpds.setDriverClass(&quot;com.mysql.cj.jdbc.Driver&quot;);
+        cpds.setJdbcUrl(&quot;jdbc:mysql://localhost:3306/mytest1&quot;);
+        cpds.setUser(&quot;root&quot;);
+        cpds.setPassword(&quot;123.com.cn&quot;);
+        cpds.setInitialPoolSize(20);
+        cpds.setMinPoolSize(2);
+        cpds.setMaxPoolSize(40);
+        cpds.setAcquireIncrement(5);
+        Connection connection = cpds.getConnection();
+
+        QueryRunner runner = new QueryRunner();
+        String sql = &quot;select * from user where id = ?&quot;;
+        // 可以直接返回一个对象，简化之前的一个个解析出来 // 注意未 BeanHandler 为查询单条数据
+        User user = runner.query(connection, sql, new BeanHandler&lt;User&gt;(User.class), 1);
+
+        String sql1 = &quot;select * from user&quot;;
+        // BeanListHandler 为查询多条数据
+        List&lt;User&gt; list = runner.query(connection, sql1, new BeanListHandler&lt;&gt;(User.class));
+        for (User l: list) {
+            System.out.println(l);
+        }
+    }
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3658db55-6aee-80fd-a72a-eecd31061b49" class="">手写DBUtils工具类(轻量功能框架练习)</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3658db55-6aee-8028-b13d-f04113c42bf0" class="numbered-list" start="1"><li>定义QueryRunner类</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3658db55-6aee-800f-a857-c1b707f5855c" class="numbered-list" start="2"><li>query四个参数：Connection, SQL语句, 处理器(将ResultSet转换为Java Bean), SQL语句参数<div style="display:contents" dir="auto"><ol type="a" id="3658db55-6aee-80c5-84d8-cfe163a7e780" class="numbered-list" start="1"><li>参数非空校验(Connection, SQL语句, 处理器)</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3658db55-6aee-80c1-8b37-d4949075ae88" class="numbered-list" start="2"><li>使用JDBC的方式进行SQL查询</li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3658db55-6aee-8000-b109-d0e19e758883" class="numbered-list" start="3"><li>获取结果集ResultSet</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3658db55-6aee-8050-ac92-e4538a231b83" class="numbered-list" start="4"><li>调用处理器的 Handle 方法将ResultSet解析为对应的Java Bean</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3658db55-6aee-8031-9097-ce1ce9e14ba9" class="numbered-list" start="5"><li>返回封装好的Java Bean</li></ol></div><div style="display:contents" dir="auto"><ul id="3668db55-6aee-80b1-bc03-eb40c402d0c3" class="toggle"><li><details open=""><summary>User类映射数据库表</summary><div style="display:contents" dir="auto"><pre id="3668db55-6aee-80da-9f43-d38c86c76cf5" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class User {
+    private Integer id;
+    private String name;
+    private String pwd;
+    private String money;
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;User{&quot; +
+                &quot;id=&quot; + id +
+                &quot;, name=&#x27;&quot; + name + &#x27;\&#x27;&#x27; +
+                &quot;, pwd=&#x27;&quot; + pwd + &#x27;\&#x27;&#x27; +
+                &quot;, money=&#x27;&quot; + money + &#x27;\&#x27;&#x27; +
+                &#x27;}&#x27;;
+    }
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-80ea-8106-ce7648286888" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3668db55-6aee-800a-9a7a-d427167f322a" class="toggle"><li><details open=""><summary>MyQueryRunner 自定义JDBC执行器</summary><div style="display:contents" dir="auto"><pre id="3668db55-6aee-80cc-87d5-efcc75896895" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package db;
+
+import org.apache.commons.dbutils.ResultSetHandler;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ * 自定义的 JDBC 查询工具类
+ * 作用：简化 JDBC 操作，封装 预处理SQL、设置参数、执行查询、结果转换 等流程
+ * 对应 Apache DBUtils 中的 QueryRunner
+ */
+public class MyQueryRunner {
+
+    /**
+     * 执行查询操作（SELECT语句）
+     *
+     * @param connection 数据库连接对象
+     * @param sql        要执行的SQL语句，可以包含 ? 占位符
+     * @param rsh        结果集处理器（MyBeanHandler / MyBeanListHandler），
+     *                   负责将 ResultSet 转为 Java对象 或 List集合
+     * @param params     为SQL中的 ? 占位符传递的参数，可变参数，个数不限
+     * @return 返回处理好的结果对象（JavaBean 或 List）
+     * @param &lt;T&gt; 泛型，让方法可以返回任意类型的结果
+     * @throws MyException 自定义异常，参数非法时抛出
+     */
+    public &lt;T&gt; T query(Connection connection, String sql, ResultSetHandler&lt;T&gt; rsh, Object... params) throws MyException {
+
+        // ======================== 1. 参数合法性校验（防御性编程） ========================
+        // 如果数据库连接为空，抛出异常
+        if (connection == null) {
+            throw new MyException(&quot;[-] connection 数据库连接不能为空&quot;);
+        }
+        // 如果SQL语句为空，抛出异常
+        if (sql == null) {
+            throw new MyException(&quot;[-] sql 语句不能为空&quot;);
+        }
+        // 如果结果集处理器为空，无法封装结果，抛出异常
+        if (rsh == null) {
+            throw new MyException(&quot;[-] resultSetHandler 结果集处理器不能为空&quot;);
+        }
+
+        // 定义一个Object类型变量，用来接收最终封装好的结果（JavaBean / List）
+        Object result = null;
+
+        try {
+            // ======================== 2. 获取预编译语句对象 ========================
+            // connection.prepareStatement(sql)：
+            // 对SQL进行预编译，返回 PreparedStatement 对象
+            // 优点：防止SQL注入，效率更高
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            // ======================== 3. 为SQL中的 ? 占位符赋值 ========================
+            // 如果用户传入了参数（params不为null），才进行赋值操作
+            if (params != null) {
+                // 获取参数的长度
+                int len = params.length;
+                // 遍历参数数组，依次为 ? 赋值
+                for (int i = 0; i &lt; len; i++) {
+                    // 判断当前参数的具体类型，调用对应的set方法
+                    // 如果参数是 Integer 类型
+                    if (params[i] instanceof Integer) {
+                        // 数据库下标从 1 开始，所以是 i+1
+                        preparedStatement.setInt(i + 1, (Integer) params[i]);
+                    }
+                    // 如果参数是 String 类型
+                    if (params[i] instanceof String) {
+                        preparedStatement.setString(i + 1, (String) params[i]);
+                    }
+                    // 注意：这里只支持了int和string，如需支持更多类型需继续添加判断
+                }
+            }
+
+            // ======================== 4. 执行SQL查询，获取结果集 ========================
+            // executeQuery()：专门执行查询语句，返回 ResultSet（数据库原始查询结果）
+            ResultSet rs = preparedStatement.executeQuery();
+
+            // ======================== 5. 核心：结果集转换 ========================
+            // 调用传入的处理器（MyBeanHandler/MyBeanListHandler）
+            // 将 原始的ResultSet结果集 转换为 我们需要的Java对象
+            result = rsh.handle(rs);
+
+        } catch (SQLException e) {
+            // 捕获SQL执行过程中产生的异常，包装为运行时异常抛出
+            throw new RuntimeException(&quot;SQL执行异常：&quot;, e);
+        }
+
+        // ======================== 6. 返回最终结果 ========================
+        // 将Object类型强转为泛型T，返回给调用者
+        return (T) result;
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3668db55-6aee-80ce-bbce-cf3267233f31" class="toggle"><li><details open=""><summary>MyException 自定义错误类</summary><div style="display:contents" dir="auto"><pre id="3668db55-6aee-80b5-96bb-ea150d39afda" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package db;
+
+public class MyException extends RuntimeException {
+    public MyException(String message) {
+        super(message);
+    }
+}
+		</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3668db55-6aee-80f1-884c-c91463289025" class="toggle"><li><details open=""><summary>MyBeanHandler 自定义处理单行数据集</summary><div style="display:contents" dir="auto"><pre id="3668db55-6aee-8083-a838-c00f797bfe3b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package db;
+
+import org.apache.commons.dbutils.ResultSetHandler;
+import java.lang.reflect.Field;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+
+/**
+ * 自定义结果集处理器
+ * 功能：将数据库查询返回的 **一行结果集（ResultSet）**
+ *      自动封装成 **一个 JavaBean 对象（如 User 对象）**
+ *
+ * 实现 DBUtils 提供的 ResultSetHandler&lt;T&gt; 接口
+ * T 代表要封装成的对象类型（例如 User）
+ */
+public class MyBeanHandler&lt;T&gt; implements ResultSetHandler&lt;T&gt; {
+
+    // 保存要封装的实体类的 字节码对象（例如 User.class）
+    // 作用：通过反射创建对象 + 给属性赋值
+    private final Class&lt;? extends T&gt; type;
+
+    /**
+     * 构造方法
+     * 使用时必须传入要封装的类，例如：
+     * new MyBeanHandler&lt;&gt;(User.class)
+     */
+    public MyBeanHandler(Class&lt;? extends T&gt; type) {
+        this.type = type;
+    }
+
+    /**
+     * 核心方法：由 DBUtils 自动调用
+     * 作用：把 ResultSet 结果集 → 转换成 JavaBean 对象
+     * @param resultSet 数据库查询返回的结果集
+     * @return 封装好的 JavaBean 对象
+     */
+    @Override
+    public T handle(ResultSet resultSet) throws SQLException {
+
+        // ==========================================
+        // 1. 移动结果集指针到第一行
+        // 如果没有数据（resultSet.next() = false），直接返回 null
+        // ==========================================
+        if (!resultSet.next()) {
+            return null;
+        }
+
+        try {
+            // ==========================================
+            // 2. 通过反射 创建一个空的 JavaBean 对象
+            // 等价于：User bean = new User();
+            // ==========================================
+            T bean = type.newInstance();
+
+            // ==========================================
+            // 3. 获取结果集元数据
+            // 包含：列名、列数、列类型等信息
+            // ==========================================
+            ResultSetMetaData metaData = resultSet.getMetaData();
+
+            // 获取当前结果集一共有多少列
+            int columnCount = metaData.getColumnCount();
+
+            // ==========================================
+            // 4. 遍历每一列，给 JavaBean 属性赋值
+            // 数据库下标从 1 开始，所以 i 从 1 开始
+            // ==========================================
+            for (int i = 1; i &lt;= columnCount; i++) {
+
+                // 获取当前列的 列名（如 id、name、pwd）
+                String columnName = metaData.getColumnName(i);
+
+                // 获取当前列的值（如 1、&quot;张三&quot;、&quot;123456&quot;）
+                Object value = resultSet.getObject(i);
+
+                try {
+                    // ======================================
+                    // 反射：根据列名找到实体类里对应的属性
+                    // 例如列名 id → 找到 User 类的 id 字段
+                    // ======================================
+                    Field field = type.getDeclaredField(columnName);
+
+                    // 开启暴力反射：允许访问 private 修饰的属性
+                    field.setAccessible(true);
+
+                    // ======================================
+                    // 给对象的属性赋值
+                    // 等价于：user.setId(1) / user.setName(&quot;张三&quot;)
+                    // ======================================
+                    field.set(bean, value);
+
+                } catch (NoSuchFieldException ignored) {
+                    // 如果列名和属性名不匹配，直接忽略，不报错
+                }
+            }
+
+            // 打印最终封装好的对象（方便调试）
+            System.out.println(bean);
+
+            // 返回封装完成的 JavaBean 对象
+            return bean;
+
+        } catch (Exception e) {
+            // 捕获反射异常，统一抛出运行时异常
+            throw new RuntimeException(&quot;Bean封装失败&quot;, e);
+        }
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3668db55-6aee-8074-8cd1-f90b2f20809c" class="toggle"><li><details open=""><summary>MyBeanHandler 自定义处理多行数据集</summary><div style="display:contents" dir="auto"><pre id="3668db55-6aee-807a-985e-f660ac98bd32" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package db;
+
+import org.apache.commons.dbutils.ResultSetHandler;
+import java.lang.reflect.Field;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 自定义结果集处理器
+ * 作用：将 JDBC 查询返回的 ResultSet（多行数据） 转换为 List&lt;JavaBean&gt;
+ * 实现 Apache DBUtils 提供的 ResultSetHandler 接口
+ * T：要封装的 JavaBean 类型（如 User、Admin 等）
+ */
+public class MyBeanListHandler&lt;T&gt; implements ResultSetHandler&lt;List&lt;T&gt;&gt; {
+
+    // 用来存储要封装的 字节码对象，例如 User.class
+    // final：一旦赋值不能修改
+    private final Class&lt;? extends T&gt; type;
+
+    /**
+     * 构造方法
+     * @param type 传入你要封装的实体类的字节码对象（User.class）
+     */
+    public MyBeanListHandler(Class&lt;? extends T&gt; type) {
+        this.type = type;
+    }
+
+    /**
+     * 核心重写方法：真正执行 结果集 → List&lt;T&gt; 的转换
+     * @param rs 数据库查询后返回的原始结果集（包含多行数据）
+     * @return 返回封装好的 JavaBean 集合 List&lt;T&gt;
+     * @throws SQLException SQL 异常
+     */
+    @Override
+    public List&lt;T&gt; handle(ResultSet rs) throws SQLException {
+        // 1. 创建一个空集合，用来存放封装好的多个 JavaBean 对象
+        List&lt;T&gt; list = new ArrayList&lt;&gt;();
+
+        // 2. 【核心循环】遍历结果集的每一行
+        // rs.next()：每次调用，光标向下移动一行
+        // 有数据返回 true，继续循环；没有数据返回 false，结束循环
+        while (rs.next()) {
+            try {
+                // 3. 通过【反射】创建一个空的 JavaBean 对象
+                // 等价于：User bean = new User();
+                T bean = type.newInstance();
+
+                // 4. 获取结果集的【元数据】（包含：列名、列数、列类型等信息）
+                ResultSetMetaData metaData = rs.getMetaData();
+
+                // 5. 获取当前结果集总共有多少列
+                int columnCount = metaData.getColumnCount();
+
+                // 6. 【内层循环】遍历当前行的每一列，给 JavaBean 赋值
+                // 数据库列下标从 1 开始，所以 i 从 1 开始
+                for (int i = 1; i &lt;= columnCount; i++) {
+                    // 根据下标获取【数据库列名】，如 id、name、pwd
+                    String columnName = metaData.getColumnName(i);
+
+                    // 根据下标获取【当前列的值】
+                    Object value = rs.getObject(i);
+
+                    try {
+                        // 7. 通过【反射】：根据列名找到实体类中对应的属性
+                        Field field = type.getDeclaredField(columnName);
+
+                        // 暴力反射：开启访问权限，允许给 private 修饰的属性赋值
+                        field.setAccessible(true);
+
+                        // 8. 【核心赋值】给 JavaBean 的属性设置值
+                        // 等价于：user.setId(1) / user.setName(&quot;张三&quot;)
+                        field.set(bean, value);
+
+                    } catch (NoSuchFieldException ignored) {
+                        // 如果数据库列名 和 实体类属性名不匹配，直接忽略，不报错
+                    }
+                }
+
+                // 9. 把封装好的 1 个 JavaBean 对象，添加到集合中
+                list.add(bean);
+
+            } catch (Exception e) {
+                // 捕获反射创建对象时的异常，包装后抛出
+                throw new SQLException(&quot;Bean 封装失败&quot;, e);
+            }
+        }
+
+        // 打印最终封装好的集合（方便调试）
+        System.out.println(&quot;封装结果：&quot; + list);
+
+        // 10. 返回装满了多个 JavaBean 的 List 集合
+        return list;
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3668db55-6aee-8065-a7a4-c4beca53c2ae"/></div><div style="display:contents" dir="auto"><p id="3668db55-6aee-807b-8bba-da4f733ce74f" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

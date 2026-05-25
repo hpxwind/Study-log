@@ -1,0 +1,904 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>交叉类型</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="0ac8db55-6aee-83ad-b4a1-019532b84fe1" class="page serif"><header><h1 class="page-title" dir="auto">交叉类型</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="6118db55-6aee-82aa-a957-8114e9de3a34" class="">交叉类型（<code>&amp;</code> 符号）是 TypeScript 中用于<mark class="highlight-orange"><strong>合并多个类型</strong></mark>的核心特性，它表示 “<mark class="highlight-orange">同时具备所有参与合并类型的属性和方法</mark>”，本质是 “类型的与（AND）关系”（对比联合类型 <code>|</code> 是 “类型的或（OR）关系”）。</p></div><div style="display:contents" dir="auto"><hr id="77c8db55-6aee-829e-a5fe-013aec0787b0"/></div><div style="display:contents" dir="auto"><ul id="4eb8db55-6aee-824f-8438-811b0a46c1be" class="toggle"><li><details open=""><summary>语法定义</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js" integrity="sha512-uOw7XYETzS/DPmmirpP5UCMihSDNMeyTS965J0/456OSPfxn9xEtHHjj5Q/5WefVdqyMfN/afmQnNpZd/tpkcA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js" integrity="sha512-xjGCJ9YxyZBfYTCHsEjkOZMoOse1W3cKMXv1szXrxs68myuXt0YTj3/xKPar6iDMlXzTUSEqwUxprWcyp+plaw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="15f8db55-6aee-8215-b853-818d5790b8bc" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">type 交叉类型名 = 类型A &amp; 类型B &amp; 类型C;</code></pre></div><div style="display:contents" dir="auto"><ul id="45c8db55-6aee-8306-8d2c-8155522cd8cb" class="bulleted-list"><li style="list-style-type:disc">含义：<code>交叉类型名</code> 的变量必须<strong>同时满足</strong>类型 A、类型 B、类型 C 的所有约束（拥有所有类型的属性 / 方法）。</li></ul></div><div style="display:contents" dir="auto"><ul id="3428db55-6aee-82df-9d9c-81cfea1198d0" class="bulleted-list"><li style="list-style-type:disc">关键：交叉类型是 “合并” 而非 “选择”，不存在 “二选一” 的情况。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5888db55-6aee-82ae-aee0-811668c57f6c" class="toggle"><li><details open=""><summary>合并接口/类型别名</summary><div style="display:contents" dir="auto"><p id="a6b8db55-6aee-8239-b1bf-013b9b1605de" class="">合并多个<mark class="highlight-orange">接口或类型别名的属性</mark>，实例必须包含<mark class="highlight-orange">所有类型的</mark><mark class="highlight-orange"><strong>全部属性</strong></mark>（包括必选和可选）。</p></div><div style="display:contents" dir="auto"><pre id="4178db55-6aee-828e-9917-8183189c076f" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 定义两个基础类型
+interface User {
+  id: number;
+  name: string;
+}
+
+interface Contact {
+  phone: string;
+  email?: string; // 可选属性
+}
+
+// 交叉类型：同时具备 User 和 Contact 的所有属性
+type UserWithContact = User &amp; Contact;
+
+// 合法实例：包含 User 的所有必选属性 + Contact 的必选属性（可选属性可省略）
+const user1: UserWithContact = {
+  id: 1,
+  name: &quot;张三&quot;,
+  phone: &quot;13800138000&quot;
+};
+
+// 合法实例：包含所有属性（包括可选属性）
+const user2: UserWithContact = {
+  id: 2,
+  name: &quot;李四&quot;,
+  phone: &quot;13900139000&quot;,
+  email: &quot;lisi@example.com&quot;
+};
+
+// 非法实例：缺少 User 的必选属性 name → 报错
+const user3: UserWithContact = {
+  id: 3,
+  phone: &quot;13700137000&quot; // 报错：Property &#x27;name&#x27; is missing
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a9e8db55-6aee-831e-b534-818b4d86aef5" class="toggle"><li><details open=""><summary>合并基本类型</summary><div style="display:contents" dir="auto"><p id="95e8db55-6aee-83e5-8b73-81ab10a610d1" class="">应用于<strong>基本类型</strong>（<code>string</code>、<code>number</code>、<code>boolean</code> 等）时，只有当<mark class="highlight-orange">所有类型</mark>完全一致时，结果才是该类型；否则结果为 <code>never</code>（无任何值能满足所有基本类型约束）</p></div><div style="display:contents" dir="auto"><pre id="1868db55-6aee-8246-8dd4-01a3ae65b77e" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 1. 所有类型一致 → 结果为该类型
+type StrAndStr = string &amp; string;
+let a: StrAndStr = &quot;hello&quot;; // 合法
+// let b: StrAndStr = 123; // 报错：Type &#x27;number&#x27; is not assignable to type &#x27;string&#x27;
+
+// 2. 类型不一致 → 结果为 never（无值能同时是 string 和 number）
+type StrAndNum = string &amp; number;
+// let c: StrAndNum = &quot;abc&quot;; // 报错：Type &#x27;string&#x27; is not assignable to type &#x27;never&#x27;
+// let d: StrAndNum = 123; // 报错：Type &#x27;number&#x27; is not assignable to type &#x27;never&#x27;
+
+// 3. 布尔值交叉 → 结果为 never（无值能同时是 true 和 false）
+type TrueAndFalse = true &amp; false; // 类型为 never</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8628db55-6aee-82d9-a44e-816e4a872a8b" class="toggle"><li><details open=""><summary>合并函数类型</summary><div style="display:contents" dir="auto"><p id="8938db55-6aee-8319-8593-012b6eea5072" class="">交叉类型可合并多个函数类型，结果是一个 “<mark class="highlight-orange">同时满足所有函数签名</mark>” 的函数 —— 即<mark class="highlight-orange"><strong>参数列表取交集（兼容所有函数的参数），返回值取交集</strong></mark><mark class="highlight-orange">。</mark></p></div><div style="display:contents" dir="auto"><pre id="e158db55-6aee-82d2-b8fa-017af602b97e" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 函数类型1：接收 string 参数，返回 number
+type Fn1 = (a: string) =&gt; number;
+// 函数类型2：接收 string | number 参数，返回 string
+type Fn2 = (a: string | number) =&gt; string;
+
+// 交叉类型：同时满足 Fn1 和 Fn2 的函数
+type CombinedFn = Fn1 &amp; Fn2;
+
+// 合法实现：
+// - 参数 a 必须兼容两个函数的参数（Fn1 要求 string，Fn2 要求 string|number → 取交集 string）
+// - 返回值必须兼容两个函数的返回值（number &amp; string → never？不，实际是“返回值需同时满足两个类型”，即 never，所以这里用断言绕开演示）
+const fn: CombinedFn = (a: string) =&gt; {
+  return 123 as number &amp; string; // 需要同时满足是字符串和数字
+};
+
+// 调用：参数必须是 string（兼容 Fn1 的约束）
+fn(&quot;hello&quot;); // 合法
+// fn(123); // 报错：Argument of type &#x27;number&#x27; is not assignable to parameter of type &#x27;string&#x27;</code></pre></div><div style="display:contents" dir="auto"><pre id="9648db55-6aee-8291-9ddc-81cfce9d648b" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">注意：函数交叉类型实际用得较少，
+更多用于 “函数重载” 或 “混合函数与对象属性”（如下方混入场景）。</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="03c8db55-6aee-8238-b41c-01affffccca8"/></div><div style="display:contents" dir="auto"><ul id="4ad8db55-6aee-83f2-b62a-013f8313e8f7" class="toggle"><li><details open=""><summary>交叉类型+联合类型</summary><div style="display:contents" dir="auto"><p id="c7c8db55-6aee-836b-9d36-8143b9ec1c33" class="">注意<mark class="highlight-orange">优先级</mark></p></div><div style="display:contents" dir="auto"><p id="4c78db55-6aee-8200-9fb0-81842092282b" class="">交叉类型的优先级高于联合类型，可通过括号改变优先级，实现 “更精细的类型约束”。</p></div><div style="display:contents" dir="auto"><pre id="8d48db55-6aee-82aa-a44d-0196cec522c6" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 需求：类型是 (User 且 Admin) 或 (Contact 且 Guest)
+interface Admin {
+  role: &quot;admin&quot;;
+}
+
+interface Guest {
+  role: &quot;guest&quot;;
+}
+
+// 错误写法：优先级问题 → (User 且 (Admin 或 Contact)) 且 Guest → 不符合需求
+// type MixedType = User &amp; Admin | Contact &amp; Guest;
+
+// 正确写法：用括号明确优先级
+type MixedType = (User &amp; Admin) | (Contact &amp; Guest);
+
+// 合法实例1：User + Admin
+const adminUser: MixedType = {
+  id: 1,
+  name: &quot;管理员&quot;,
+  role: &quot;admin&quot;
+};
+
+// 合法实例2：Contact + Guest
+const guestContact: MixedType = {
+  phone: &quot;13800138000&quot;,
+  role: &quot;guest&quot;
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5688db55-6aee-836a-b33b-81649498ed0a" class="toggle"><li><details open=""><summary>交叉类型处理可选属性与冲突属性</summary><div style="display:contents" dir="auto"><p id="eda8db55-6aee-83f1-8694-81795ac419e0" class="">1.可选属性合并</p></div><div style="display:contents" dir="auto"><p id="cd98db55-6aee-83ba-9343-81638d5074c1" class="">若多个类型有同名的<strong>可选属性</strong>，<mark class="highlight-orange">合并后仍为可选属性</mark>；若有<mark class="highlight-orange">一个</mark>类型的属性是<mark class="highlight-orange"><strong>必选</strong></mark>，合并后<mark class="highlight-orange">为必选属性</mark>（<mark class="highlight-blue">“必选” 优先级更高</mark>）。</p></div><div style="display:contents" dir="auto"><pre id="5b08db55-6aee-8291-81b4-011851214529" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">interface A {
+  x?: number;
+  y: string;
+}
+
+interface B {
+  x: number; // 必选
+  z?: boolean;
+}
+
+type C = A &amp; B;
+// C 的类型等价于：{ x: number; y: string; z?: boolean }
+const c: C = {
+  x: 1, // 必选（因 B 中 x 是必选）
+  y: &quot;hello&quot;
+};</code></pre></div><div style="display:contents" dir="auto"><p id="a068db55-6aee-8223-980d-01feb33e4502" class="">2.冲突属性合并</p></div><div style="display:contents" dir="auto"><p id="2758db55-6aee-821f-84ae-0122c574286b" class="">若多个类型<mark class="highlight-blue">有同名但</mark><mark class="highlight-blue"><strong>不同类型</strong></mark>的属性，合并后该属性的类型为 <mark class="highlight-orange">“所有类型的交叉”</mark>（可能是 <code>never</code>）。</p></div><div style="display:contents" dir="auto"><pre id="f738db55-6aee-8371-8f09-81300751763e" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">interface D {
+  x: string;
+}
+
+interface E {
+  x: number;
+}
+
+type F = D &amp; E;
+// F 的 x 属性类型是 string &amp; number → never
+const f: F = {
+  // x: &quot;abc&quot; → 报错：Type &#x27;string&#x27; is not assignable to type &#x27;never&#x27;
+  // x: 123 → 报错：Type &#x27;number&#x27; is not assignable to type &#x27;never&#x27;
+};</code></pre></div><div style="display:contents" dir="auto"><p id="d8b8db55-6aee-836c-ab04-019d1f82b8df" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f388db55-6aee-8224-886c-81de5737373b" class="toggle"><li><details open=""><summary>应用：混入（Mixin）模式</summary><div style="display:contents" dir="auto"><p id="bad8db55-6aee-83df-942a-0188ddd224e8" class="">交叉类型是实现 “混入（Mixin）” 的核心 —— 将<mark class="highlight-orange">多个类 / 对象的功能合并到一个类 / 对象中</mark>，实现代码复用。</p></div><div style="display:contents" dir="auto"><pre id="7ca8db55-6aee-822e-9600-01ca345c7553" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 定义两个混入函数（给类添加额外方法）
+function withLog&lt;T extends Constructor&gt;(Base: T) {
+  return class extends Base {
+    log() {
+      console.log(`Log: ${JSON.stringify(this)}`);
+    }
+  };
+}
+
+function withDelete&lt;T extends Constructor&gt;(Base: T) {
+  return class extends Base {
+    delete() {
+      console.log(`Deleted: ${this.id}`);
+    }
+  };
+}
+
+// 基础构造函数类型（约束混入的类必须有 id 属性）
+type Constructor = new (...args: any[]) =&gt; { id: number };
+
+// 基础类
+class BaseEntity {
+  constructor(public id: number) {}
+}
+
+// 交叉类型合并混入：同时具备 BaseEntity + withLog + withDelete 的功能
+const Entity = withLog(withDelete(BaseEntity));
+type EntityType = InstanceType&lt;typeof Entity&gt;; // 提取实例类型
+
+// 使用
+const entity = new Entity(1);
+entity.log(); // 调用 withLog 的方法
+entity.delete(); // 调用 withDelete 的方法
+console.log(entity.id); // 调用 BaseEntity 的属性</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="9c48db55-6aee-8218-9d55-8141d0d1d07c"/></div><div style="display:contents" dir="auto"><p id="c078db55-6aee-82e6-99d0-01cc10458b8f" class=""><strong>交叉类型 vs 联合类型</strong></p></div><div style="display:contents" dir="auto"><p id="b0e8db55-6aee-832c-bd9d-01c8fdc14af6" class="">| 特性                      |                  交叉类型（<code>&amp;</code>）           |                 联合类型（<code>|</code>）</p></div><div style="display:contents" dir="auto"><p id="2278db55-6aee-8227-b2dd-8194190cba2a" class=""> || ------------------- | ---------------------------------------- | ---------------------------------------- || </p></div><div style="display:contents" dir="auto"><p id="77f8db55-6aee-83cd-9a00-8125ada45fcc" class="">逻辑关系                | 与（AND）：同时满足所有类型 | 或（OR）：满足任意一个类型即可 || </p></div><div style="display:contents" dir="auto"><p id="6f78db55-6aee-832a-b1bc-01170e6a59ca" class="">实例化要求            | 必须包含所有类型的全部属性 / 方法 | 只需包含任意一个类型的属性 / 方法 || </p></div><div style="display:contents" dir="auto"><p id="d398db55-6aee-8364-a337-01441579e922" class="">基本类型合并结果 | 类型一致则为该类型，否则 <code>never</code> | 所有类型的集合（如 <code>string | number</code>） || </p></div><div style="display:contents" dir="auto"><p id="83f8db55-6aee-8358-9eef-015b21d8ed8b" class="">属性冲突处理 | 属性类型为交叉（可能是 <code>never</code>） | 属性类型为联合（如 <code>string | number</code>） || </p></div><div style="display:contents" dir="auto"><p id="f868db55-6aee-83f4-ad34-01e4b114b3d8" class="">典型场景 | 混入、扩展类型、合并接口 | 多类型可选（如函数参数多类型） |</p></div><div style="display:contents" dir="auto"><pre id="2b98db55-6aee-8375-a2cc-81b921576933" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">type A = { x: number };
+type B = { y: string };
+
+// 交叉类型：必须有 x 和 y
+type Intersection = A &amp; B;
+const inter: Intersection = { x: 1, y: &quot;a&quot; }; // 合法
+
+// 联合类型：有 x 或 y 即可
+type Union = A | B;
+const union1: Union = { x: 1 }; // 合法
+const union2: Union = { y: &quot;a&quot; }; // 合法
+const union3: Union = { x: 1, y: &quot;a&quot; }; // 也合法（兼容所有类型）</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

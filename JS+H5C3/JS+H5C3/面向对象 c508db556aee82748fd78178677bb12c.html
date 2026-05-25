@@ -1,0 +1,1068 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>面向对象</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c508db55-6aee-8274-8fd7-8178677bb12c" class="page mono"><header><h1 class="page-title" dir="auto">面向对象</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="2738db55-6aee-83e8-a997-81e90bc51a99" class="toggle"><li><details open=""><summary>this指针</summary><div style="display:contents" dir="auto"><p id="2778db55-6aee-82fb-b054-81f6a39edff1" class="">this指针，谁调用我，this就指向谁，</p></div><div style="display:contents" dir="auto"><p id="2d88db55-6aee-8276-9382-81f9afad0e5e" class="">在对象中，指向调用它的那一级对象</p></div><div style="display:contents" dir="auto"><p id="6188db55-6aee-830f-a1df-813d51ae0c37" class="">在事件中，指向调用它的事件</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="b598db55-6aee-82b6-93a5-015542cfc0ae" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">面向对象语言中 this 表示当前对象的一个引用。
+
+但在 JavaScript 中 this 不是固定不变的，它会随着执行环境的改变而改变。
+
+在方法中，this 表示该方法所属的对象。
+如果单独使用，this 表示全局对象。
+在函数中，this 表示全局对象。
+在函数中，在严格模式下，this 是未定义的(undefined)。
+在事件中，this 表示接收事件的元素。
+类似 call() 和 apply() 方法可以将 this 引用到任何对象。
+-----------------------------------------------------------------------------------------
+// this 表示 person 对象
+var person = {
+  firstName: &quot;John&quot;,
+  lastName : &quot;Doe&quot;,
+  id       : 5566,
+  fullName : function() {
+    return this.firstName + &quot; &quot; + this.lastName;
+  }
+};
+-----------------------------------------------------------------------------------------
+单独使用 this，则它指向全局(Global)对象。
+在浏览器中，window 就是该全局对象为 [object Window]:
+var x = this;
+-----------------------------------------------------------------------------------------
+严格模式下，如果单独使用，this 也是指向全局(Global)对象。
+&quot;use strict&quot;;
+var x = this;
+-----------------------------------------------------------------------------------------
+在函数中，函数的所属者默认绑定到 this 上。
+在浏览器中，window 就是该全局对象为 [object Window]:
+function myFunction() {
+  return this;
+}
+-----------------------------------------------------------------------------------------
+严格模式下函数是没有绑定到 this 上，这时候 this 是 undefined。
+&quot;use strict&quot;;
+function myFunction() {
+  return this;
+}
+-----------------------------------------------------------------------------------------
+在 HTML 事件句柄中，this 指向了接收事件的 HTML 元素：
+&lt;button onclick=&quot;this.style.display=&#x27;none&#x27;&quot;&gt;
+点我后我就消失了
+&lt;/button&gt;
+-----------------------------------------------------------------------------------------
+下面实例中，this 是 person 对象，person 对象是函数的所有者：
+
+var person = {
+  firstName  : &quot;John&quot;,
+  lastName   : &quot;Doe&quot;,
+  id         : 5566,
+  myFunction : function() {
+    return this;
+  }
+};
+
+显式函数绑定
+	在 JavaScript 中函数也是对象，对象则有方法，apply 和 call 就是函数对象的方法。这两个方法异常强大，他们允许切换函数执行的上下文环境（context），即 this 绑定的对象。
+	在下面实例中，当我们使用 person2 作为参数来调用 person1.fullName 方法时, this 将指向 person2, 即便它是 person1 的方法：
+var person1 = {
+  fullName: function() {
+    return this.firstName + &quot; &quot; + this.lastName;
+  }
+}
+var person2 = {
+  firstName:&quot;John&quot;,
+  lastName: &quot;Doe&quot;,
+}
+person1.fullName.call(person2);  // 返回 &quot;John Doe&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7598db55-6aee-8389-90b6-815cc40281d9" class="toggle"><li><details open=""><summary>改变this指针指向</summary><div style="display:contents" dir="auto"><p id="4f68db55-6aee-8351-95f4-81e17ca985bf" class="">call 直接执行函数，并且改变this指向，接收n个参数<br/>apply 直接执行函数，并且改变this指向，接收一个参数数组<br/>bind 返回一个函数，并且改变this指向</p></div><div style="display:contents" dir="auto"><pre id="1178db55-6aee-8283-9c56-01e6e9cb9f3f" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;button id=&quot;btn&quot;&gt;123&lt;/button&gt;
+&lt;script&gt;
+    var obj1 = {
+        name:&quot;oo1&quot;,
+        getName:function(a,b,c) {
+            console.log(&quot;getName1:&quot;,this.name)
+            console.log(&quot;参数&quot;, a,b,c) // arguments是一个类数组对象，包含传入的参数
+        }
+    }
+    var obj2 = {
+        name:&quot;oo2&quot;,
+        getName:function(arr) {
+            console.log(&quot;getName2:&quot;,this.name)
+            console.log(&quot;参数&quot;, arr)
+        }
+    }
+
+    obj1.getName()
+    obj2.getName()
+
+    // 强行让obj1中的this指向obj2
+
+    // call 执行函数，并改变this执行为函数的第一个参数
+    // call 可以传递n个参数
+    obj1.getName.call(obj2, 1, 2, 3)
+
+    obj1.getName.call(window)
+
+    // apply 执行函数，并改变this执行为函数的第一个参数
+    // apply 可以传递2个参数，第二个是一个数组
+    obj1.getName.apply(obj2, [123,123,123])
+
+    // bind 不会自动执行函数， 返回一个函数
+    var f = obj1.getName.bind(obj2)
+    console.log(f)
+    f(1,2,3)
+
+    // 点击时候执行函数
+    btn.onclick = handler.bind() // 绑定this指向window
+    function handler() {
+        console.log(&quot;按钮被点击了&quot;, this) // 指向window
+    }
+
+    // call 直接执行函数，并且改变this指向，接收n个参数
+    // apply 直接执行函数，并且改变this指向，接收一个参数数组
+    // bind 返回一个函数，并且改变this指向
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1798db55-6aee-83db-9eee-81d0014eebbb" class="toggle"><li><details open=""><summary>创建对象（ES5）</summary><div style="display:contents" dir="auto"><p id="0ce8db55-6aee-8348-815d-810b2268ebc9" class="">已知构造函数</p></div><div style="display:contents" dir="auto"><pre id="10e8db55-6aee-83af-8397-81552e4c8da6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 构造函数, 生成一个对象
+// new Object() ---&gt; Object()
+// new String() ---&gt; String()
+// new Number() ---&gt; Number()
+// new Boolean() ---&gt; Boolean()
+// new Array() ---&gt; Array()
+// new Date() ---&gt; Date()
+// new RegExp() ---&gt; RegExp()
+// new Function() ---&gt; Function()
+// new Error() ---&gt; Error()
+// new Math() ---&gt; Math()
+// new JSON() ---&gt; JSON()
+// new Promise() ---&gt; Promise()</code></pre></div><div style="display:contents" dir="auto"><p id="3948db55-6aee-8382-ab54-81c8f290113d" class="">自定义构造函数</p></div><div style="display:contents" dir="auto"><pre id="5138db55-6aee-8340-8312-01e812c68118" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">//自定义构造函数
+function createObj(name) {
+    this.name = name
+    this.meterial = []
+
+    this.cook = function () {
+        document.write(&quot;开始制作&quot; + this.name + &quot;&lt;br&gt;&quot;)
+    }
+}
+
+var obj1 = new createObj(&quot;蛋糕&quot;)
+document.write(obj1.cook() + &quot;&lt;br&gt;&quot;)
+
+</code></pre></div><div style="display:contents" dir="auto"><p id="55e8db55-6aee-8312-aab9-810dc2f48b7e" class="">// 构造函数默认返回一个对象，不写return<br/>// 构造函数尽量不要当作函数用，但是里面的this指向会出现问题</p></div><div style="display:contents" dir="auto"><p id="5738db55-6aee-83bc-90df-8198a58ba01c" class="">// 首字母大写</p></div><div style="display:contents" dir="auto"><p id="2118db55-6aee-820b-b5aa-814e2976afde" class="">// this指针，在没有调用时候，this的指向不确定，当实例化之后，实例对象已经生成，this指针指向实例对象。</p></div><div style="display:contents" dir="auto"><p id="8c18db55-6aee-828e-9439-01b7084812b7" class="">
+</p></div><div style="display:contents" dir="auto"><p id="2788db55-6aee-8233-b2ab-01284dd4515c" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fe38db55-6aee-8376-be14-8136d31d396a" class="toggle"><li><details open=""><summary>原型（ES5中类的实现方式）</summary><div style="display:contents" dir="auto"><ul id="1ba8db55-6aee-83a8-b8c9-01d8901edd3d" class="toggle"><li><details open=""><summary>ES5中类的基本结构：构造函数+原型</summary><div style="display:contents" dir="auto"><pre id="2738db55-6aee-83b8-b931-810f73d8da9a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 1. 创建构造函数 (相当于类的构造器)
+function Person(name, age) {
+    // 2. 实例属性
+    this.name = name;
+    this.age = age;
+    
+    // 3. 实例方法 (不推荐，每个实例都会创建新方法)
+    this.greet = function() {
+        return &quot;Hello, I&#x27;m &quot; + this.name;
+    };
+}
+
+// 4. 原型方法 (推荐，所有实例共享)
+Person.prototype.introduce = function() {
+    return &quot;My name is &quot; + this.name + &quot;, I&#x27;m &quot; + this.age;
+};
+
+// 5. 静态方法 (直接添加到构造函数)
+Person.species = function() {
+    return &quot;Homo sapiens&quot;;
+};
+
+// 创建实例
+var john = new Person(&quot;John&quot;, 30);
+console.log(john.greet());     // &quot;Hello, I&#x27;m John&quot;
+console.log(john.introduce()); // &quot;My name is John, I&#x27;m 30&quot;
+console.log(Person.species()); // &quot;Homo sapiens&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="78a8db55-6aee-8372-b3a1-01ad2969fb62" class="toggle"><li><details open=""><summary>原型链中的继承</summary><div style="display:contents" dir="auto"><pre id="c2e8db55-6aee-8354-9d83-012ba890fd57" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 父类
+function Animal(name) {
+    this.name = name;
+}
+Animal.prototype.eat = function() {
+    return this.name + &quot; is eating&quot;;
+};
+
+// 子类
+function Dog(name, breed) {
+    // 1. 调用父类构造函数
+    // this 指向当前Dog实例，相当于ES6中的super(name)
+    Animal.call(this, name);
+    this.breed = breed;
+}
+
+// 2. 设置原型链
+// 这相当于让 Dog.prototype 继承自 Animal.prototype
+// 这里使用赋值符号=，Dog.prototype包括构造函数在内的所有都与Animal.prototype相同，
+// 但实际上只是想要继承
+Dog.prototype = Object.create(Animal.prototype);
+
+// 3. 修复构造函数指向
+Dog.prototype.constructor = Dog;
+
+// 4. 添加子类方法
+Dog.prototype.bark = function() {
+    return &quot;Woof! I&#x27;m a &quot; + this.breed;
+};
+
+// 创建实例
+var rex = new Dog(&quot;Rex&quot;, &quot;Labrador&quot;);
+console.log(rex.eat());  // &quot;Rex is eating&quot; (继承自Animal)
+console.log(rex.bark()); // &quot;Woof! I&#x27;m a Labrador&quot; (子类方法)
+</code></pre></div><div style="display:contents" dir="auto"><p id="0918db55-6aee-832f-9004-814e1730acd4" class="">原型链关系图：</p></div><div style="display:contents" dir="auto"><pre id="7f58db55-6aee-82be-b99c-811d560154bf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">rex (Dog实例)
+  ├── __proto__ → Dog.prototype
+        ├── constructor → Dog
+        ├── bark() 
+        └── __proto__ → Animal.prototype
+               ├── constructor → Animal
+               └── eat()
+                    └── __proto__ → Object.prototype</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3e58db55-6aee-8260-ada5-815263c0b07e" class="toggle"><li><details open=""><summary>实现私有变量（闭包）</summary><div style="display:contents" dir="auto"><pre id="6dc8db55-6aee-8360-a7e2-0172c09fb9b1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function Counter() {
+    // 私有变量 (通过闭包实现)
+    var count = 0;
+    
+    // 公共方法
+    this.increment = function() {
+        return ++count;
+    };
+    
+    this.getValue = function() {
+        return count;
+    };
+}
+
+var counter = new Counter();
+console.log(counter.increment()); // 1
+console.log(counter.increment()); // 2
+console.log(counter.count);       // undefined (无法直接访问)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ed98db55-6aee-838a-b205-81da51d24372" class="toggle"><li><details open=""><summary>Getter/Setter 实现</summary><div style="display:contents" dir="auto"><p id="8b68db55-6aee-8311-b110-013e32748f93" class="">封装与访问器属性</p></div><div style="display:contents" dir="auto"><pre id="4498db55-6aee-8216-b57e-01c8129b2475" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function Rectangle(width, height) {
+		// 私有变量实现闭包
+    var _width = width;
+    var _height = height;
+    
+    // 定义只读 area 属性
+    Object.defineProperty(this, &quot;area&quot;, {
+        get: function() {
+            return _width * _height;
+        },
+        enumerable: true
+    });
+    
+    Object.defineProperty(this, &quot;width&quot;, {
+        get: function() { return _width; },
+        set: function(value) { 
+            if(value &gt; 0) _width = value; 
+        },
+        enumerable: true
+    });
+}
+
+var rect = new Rectangle(10, 5);
+console.log(rect.area); // 50
+rect.width = 20;
+console.log(rect.area); // 100</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aa48db55-6aee-82ec-bab6-81c2898a9fd9" class="toggle"><li><details open=""><summary>ES6中的类</summary><div style="display:contents" dir="auto"><p id="5be8db55-6aee-8331-a5f1-017e37988384" class="">与其他语言类似,结构：</p></div><div style="display:contents" dir="auto"><pre id="6258db55-6aee-8287-8e83-813cfd1d797c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Person {
+  // 构造函数（初始化实例的方法）
+  constructor(name, age) {
+    this.name = name; // 实例属性
+    this.age = age;
+  }
+每个类都有一个 constructor 方法，用于初始化实例。
+当通过 new 创建实例时，自动调用该方法。
+若未显式定义，默认会有一个空的构造函数。
+------------
+  // 实例方法（定义在原型上）
+  sayHello() {
+    console.log(`Hello, I&#x27;m ${this.name}, ${this.age} years old`);
+  }
+
+定义在类体中的方法（不含 static）会成为实例的原型方法，所有实例共享。
+方法中通过 this 访问实例属性。
+------------
+  // 静态方法（属于类本身，用static修饰）
+  static create(name, age) {
+    return new Person(name, age); // 静态方法通常用于创建实例或工具函数
+  }
+用 static 修饰的方法属于类本身，而非实例。
+只能通过类名调用（如 Person.create()），不能通过实例调用。
+常用于工具函数或实例创建工厂。
+}</code></pre></div><div style="display:contents" dir="auto"><p id="ebc8db55-6aee-8342-8ae3-815cc9112a41" class="">类的继承</p></div><div style="display:contents" dir="auto"><pre id="ff68db55-6aee-83b8-acca-813a6a5f9301" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 子类 Student 继承自 Person
+class Student extends Person {
+  constructor(name, age, major) {
+    // 必须先调用 super() 才能使用 this（super指向父类构造函数）
+在子类构造函数中，super() 用于调用父类的构造函数，必须在 this 之前调用。
+在子类方法中，super.方法名() 用于调用父类的对应方法。
+--------
+    super(name, age); 
+    this.major = major; // 子类新增属性
+  }
+
+  // 重写父类方法
+  sayHello() {
+    // 调用父类方法
+    super.sayHello(); 
+    console.log(`I&#x27;m studying ${this.major}`);
+  }
+
+  // 子类静态方法
+  static createStudent(name, age, major) {
+    return new Student(name, age, major);
+  }
+}
+
+// 使用子类
+const student = new Student(&quot;Charlie&quot;, 20, &quot;Computer Science&quot;);
+student.sayHello(); 
+// 输出：
+// Hello, I&#x27;m Charlie, 20 years old
+// I&#x27;m studying Computer Science</code></pre></div><div style="display:contents" dir="auto"><p id="7708db55-6aee-8396-8a5a-01329d75921e" class="">getter 和 setter</p></div><div style="display:contents" dir="auto"><pre id="6b18db55-6aee-83c3-95a7-81cff541152e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Person {
+  constructor(name) {
+    this._name = name; // 用下划线表示私有属性（约定）
+  }
+
+  // getter：读取 name 时触发
+  get name() {
+    return this._name.toUpperCase(); // 返回大写形式
+  }
+
+  // setter：设置 name 时触发
+  set name(newName) {
+    this._name = newName.trim(); // 去除首尾空格
+  }
+}
+
+const p = new Person(&quot;alice&quot;);
+console.log(p.name); // 输出：ALICE（触发getter）
+
+p.name = &quot;  bob  &quot;; // 触发setter
+console.log(p.name); // 输出：BOB</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

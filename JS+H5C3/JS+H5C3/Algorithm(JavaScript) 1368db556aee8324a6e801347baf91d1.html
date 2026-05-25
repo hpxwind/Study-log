@@ -1,0 +1,1617 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Algorithm(JavaScript)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1368db55-6aee-8324-a6e8-01347baf91d1" class="page mono"><header><h1 class="page-title" dir="auto"><strong>Algorithm(JavaScript)</strong></h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="6f88db55-6aee-82f1-baa9-01c55575bfcf" class="toggle"><li><details open=""><summary>算法题目</summary><div style="display:contents" dir="auto"><ul id="63a8db55-6aee-8245-b936-8173fef66d05" class="toggle"><li><details open=""><summary>LeetCode-49-字母异位词分组</summary><div style="display:contents" dir="auto"><p id="e9b8db55-6aee-822d-9b18-01e47d079d8f" class="">给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。</p></div><div style="display:contents" dir="auto"><p id="7c88db55-6aee-827d-812b-013d5c07e441" class=""><strong>示例 1:</strong></p></div><div style="display:contents" dir="auto"><p id="4448db55-6aee-82e3-990c-81e2d49ed66d" class=""><strong>输入:</strong> strs = [&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;]</p></div><div style="display:contents" dir="auto"><p id="0f28db55-6aee-83c9-8bac-010e1c7dc814" class=""><strong>输出: </strong>[[&quot;bat&quot;],[&quot;nat&quot;,&quot;tan&quot;],[&quot;ate&quot;,&quot;eat&quot;,&quot;tea&quot;]]</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="8918db55-6aee-83f1-a44f-01c13fc89139" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/**
+ * @param {string[]} strs
+ * @return {string[][]}
+ */
+var groupAnagrams = function(strs) {
+    var mp = new Map();
+    for (let e of strs) { // 提取出每一个字符
+        let temp = Array.from(e); // 将字符转换成数组[&quot;e&quot;,&quot;a&quot;,&quot;t&quot;]
+        temp.sort();// 排序，方便后面查找
+        let key=temp.toString(); //转换成字符串 // 不同顺序的会变的相同
+        let l=mp.get(key) ? mp.get(key) : new Array(); // 查找mp中是否保存过//是返回值，否则开辟一个值（为数组）
+        l.push(e);//l为返回的数组 // 将本次遍历的字符添加进去
+        mp.set(key, l);//更新mp
+    }
+    return Array.from(mp.values());// 以数组形式返回所有值即可
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d4f8db55-6aee-8219-977c-015384a0db59" class="toggle"><li><details open=""><summary>LeetCode-283-移动零</summary><div style="display:contents" dir="auto"><p id="a8a8db55-6aee-83e8-945f-8137d8bd3bb5" class="">给定一个数组 <code>nums</code>，编写一个函数将所有 <code>0</code> 移动到数组的末尾，同时保持非零元素的相对顺序。</p></div><div style="display:contents" dir="auto"><p id="5608db55-6aee-82cb-8132-01f45fcd75df" class=""><strong>请注意</strong> ，必须在不复制数组的情况下原地对数组进行操作。</p></div><div style="display:contents" dir="auto"><p id="b778db55-6aee-827f-908e-81a9d2334219" class=""><strong>示例 1:</strong></p></div><div style="display:contents" dir="auto"><pre id="aff8db55-6aee-83fa-b849-816b09d8bff0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">输入: nums =[0,1,0,3,12]输出:[1,3,12,0,0]</code></pre></div><div style="display:contents" dir="auto"><p id="cbd8db55-6aee-82df-b407-818ede6ba9c3" class=""><strong>示例 2:</strong></p></div><div style="display:contents" dir="auto"><pre id="7028db55-6aee-8211-9f3e-8162cf994405" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">输入: nums =[0]输出:[0]</code></pre></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js" integrity="sha512-namzGTZvHaug0jeipHRN2pMepMiJj+EbrloktVFlMYGnA0EwZhbdLeENjBYLCgoghVbZGinIz/FFYHmB0o3wLw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="b518db55-6aee-83b5-8560-0128f4cc6fb7" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var moveZeroes = function(nums) {
+    if (nums.length&lt;=1) return;
+    let i=0;
+    for (let j=0; j&lt;nums.length; j++) {
+        if (nums[j] !== 0) {
+            [nums[i], nums[j]] = nums[j], nums[i]];
+            i++
+        }
+    }
+};</code></pre></div><div style="display:contents" dir="auto"><p id="ab38db55-6aee-837a-9cd1-81ea704c0642" class=""><code>[nums[i], nums[j]] = nums[j], nums[i]];</code> </p></div><div style="display:contents" dir="auto"><p id="8f48db55-6aee-839b-a3cc-016ee9dab777" class="">实现类似c++中swap功能，并<mark class="highlight-purple">改变原数组</mark></p></div><div style="display:contents" dir="auto"><p id="4d08db55-6aee-8225-800e-01ca1fa227fb" class="">优化：</p></div><div style="display:contents" dir="auto"><pre id="5328db55-6aee-830c-ab20-015f6818e5fc" class="code code-wrap"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">添加如下代码：跳过连续的0
+while (i &lt; nums.length &amp;&amp; nums[i] !== 0) {
+    i++;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6588db55-6aee-82be-8c21-8129a22679e4" class="toggle"><li><details open=""><summary>LeetCode-46-全排列（回溯）</summary><div style="display:contents" dir="auto"><p id="b0e8db55-6aee-8314-83a7-010449d994ec" class="">给定一个不含重复数字的数组 <code>nums</code> ，返回其 <em>所有可能的全排列</em> 。你可以 <strong>按任意顺序</strong> 返回答案。</p></div><div style="display:contents" dir="auto"><pre id="cbe8db55-6aee-825a-b3cf-812d4e789a82" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">输入：nums = [1,2,3]
+输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]</code></pre></div><div style="display:contents" dir="auto"><pre id="1868db55-6aee-82a1-bc4a-81112c479421" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permute = function(nums) {
+    const res = [];
+    const curr = [];
+    const used = new Array(nums.length).fill(false);
+
+    function backtrack() {
+        if (curr.length === nums.length) {
+            res.push([...curr]);
+            return;
+        }
+
+        for (var i=0; i &lt;nums.length; i++) {
+            if (used[i]) continue;
+            used[i] = true;
+            curr.push(nums[i]);
+            backtrack();
+            curr.pop();
+            used[i]= false;
+        }
+    }
+    
+    backtrack();
+    return res;
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3748db55-6aee-83be-b43c-81015a0c5dfc" class="toggle"><li><details open=""><summary>LeetCode-869-重新排序得到2的幂（打表）</summary><div style="display:contents" dir="auto"><pre id="f228db55-6aee-8268-a845-814aa519e41c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var reorderedPowerOf2 = function(n) {
+    var powerOf2List = [];
+    for (var i = 0; i &lt;= 30; i++) {
+        var power = Math.pow(2, i);
+        var str = power.toString();
+        powerOf2List.push(str.split(&#x27;&#x27;).sort().join(&#x27;&#x27;));
+    }
+    var strN = n.toString();
+    var sortedN = strN.split(&#x27;&#x27;).sort().join(&#x27;&#x27;);
+    return powerOf2List.includes(sortedN);
+};</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="07d8db55-6aee-83c7-b44b-810a326f83d6" class="toggle"><li><details open=""><summary>数组中去重方法</summary><div style="display:contents" dir="auto"><p id="7128db55-6aee-83b5-80e4-81ef1d177003" class="">1、<code>indexOf()</code> 开辟新数组逐项匹配</p></div><div style="display:contents" dir="auto"><p id="b178db55-6aee-821a-bfb0-811f599b7b13" class="">2、<code>obj={}</code> 对象方法</p></div><div style="display:contents" dir="auto"><p id="9098db55-6aee-82d7-b467-81a899336c42" class="">3、<code>Set()</code> 结构方法</p></div><div style="display:contents" dir="auto"><pre id="e578db55-6aee-8393-99f4-01315321c545" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;script&gt;
+        var arr=[1,2,4,2,5,6,10,2,5,6,3,8,1,4,8,9,3,3,6,8,7,9,4,3,2,1,0,2,4,6,7,2,7,9];
+        var res = [];
+        // 方法一：利用indexOf逐项检索
+        // for (var i=0; i&lt;arr.length; i++) {
+        //     if (Array.isArray(arr) &amp;&amp; !(res.length===0) &amp;&amp; res.indexOf(arr[i])+1) {
+        //         continue;
+        //     } 
+        //     res.push(arr[i]);
+        // }
+
+        // 方法二：利用对象，哈希表
+        // var obj={};
+        // for (var i=0; i&lt;arr.length; i++) {
+        //     // (obj[arr[i]] || 0) 中 || 如果左边的值为假值，返回右边的值
+        //     // obj[arr[i]] 首次访问时通常是 undefined
+        //     obj[arr[i]]=(obj[arr[i]] || 0)+1;
+        // }
+        // for (var key in obj) {
+        //     res.push(Number(key));
+        // }
+
+        // 方法三：元组，Set
+        var set1 = new Set(arr);
+        console.log(set1);
+        var res = Array.from(set1);
+        console.log(res);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35f8db55-6aee-83b2-ac61-8159f278ecdc" class="toggle"><li><details open=""><summary>字符串操作</summary><div style="display:contents" dir="auto"><ul id="3008db55-6aee-83ed-b0a0-01f0b34564b4" class="toggle"><li><details open=""><summary>操作方法</summary><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-8231-a999-818d66941a3d" class="toggle"><li><details open=""><summary>1，charAt()</summary><div style="display:contents" dir="auto"><p id="1698db55-6aee-82b3-8df2-012741f8b702" class="">charAt(index)</p></div><div style="display:contents" dir="auto"><p id="3318db55-6aee-83b2-a907-013fc82bf286" class="">返回指定索引的字符，越界返回空字符</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4cd8db55-6aee-837c-a5bc-8137300eeeb4" class="toggle"><li><details open=""><summary>2，charCodeAt()</summary><div style="display:contents" dir="auto"><p id="5eb8db55-6aee-832c-af49-811fd163bba6" class="">charCodeAt(index)</p></div><div style="display:contents" dir="auto"><p id="b2a8db55-6aee-82c2-b809-812ee7c9bf37" class="">返回指定索引字符的Unicode编码（十进制）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2518db55-6aee-820b-9630-01fd9722f6e2" class="toggle"><li><details open=""><summary>3，codePointAt()</summary><div style="display:contents" dir="auto"><p id="5278db55-6aee-83ad-a99d-01ea0aebe335" class="">codePointAt(index)</p></div><div style="display:contents" dir="auto"><p id="ffc8db55-6aee-8321-958d-81f3b71fc5ed" class="">处理 Unicode 扩展平面字符（如 emoji），返回完整编码</p></div><div style="display:contents" dir="auto"><pre id="8a38db55-6aee-826e-b2a2-016eddcd1ca6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;😀&quot;.codePointAt(0); // 128512</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b358db55-6aee-83c0-a31c-011a56b955bb" class="toggle"><li><details open=""><summary>4，indexOf()</summary><div style="display:contents" dir="auto"><p id="89d8db55-6aee-82d4-ab29-81555eab89aa" class="">indexOf(searchValue, fromIndex)</p></div><div style="display:contents" dir="auto"><p id="b5c8db55-6aee-82ff-b591-01a04b5e1940" class="">从 fromIndex 开始查找子串首次出现的索引，找不到返回 -1</p></div><div style="display:contents" dir="auto"><pre id="3ac8db55-6aee-8209-b0fc-818da4a0dbf9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;ababa&quot;.indexOf(&quot;aba&quot;); // 0</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="21f8db55-6aee-82b1-9071-01ca9aee3f72" class="toggle"><li><details open=""><summary>5，lastIndexOf()</summary><div style="display:contents" dir="auto"><p id="9d68db55-6aee-8347-9b08-01edaa83326f" class="">lastIndexOf(searchValue, fromIndex)</p></div><div style="display:contents" dir="auto"><p id="e468db55-6aee-8311-aad3-81ab8607db75" class="">从 fromIndex 开始查找子串最后出现的索引，找不到返回 -1</p></div><div style="display:contents" dir="auto"><pre id="9078db55-6aee-82bb-bc79-01208c010ce8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;ababa&quot;.lastIndexOf(&quot;aba&quot;); // 2</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aad8db55-6aee-8376-b528-01e2e64d297b" class="toggle"><li><details open=""><summary>6，includes()</summary><div style="display:contents" dir="auto"><p id="f308db55-6aee-834f-be48-81bdee9b03cc" class="">includes(searchValue, fromIndex)</p></div><div style="display:contents" dir="auto"><p id="3f68db55-6aee-83de-9418-816bec4d1ff7" class="">判断字符串是否包含子串，返回布尔值</p></div><div style="display:contents" dir="auto"><pre id="c168db55-6aee-83b2-8a4f-81c5452ae5f4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;hello&quot;.includes(&quot;ll&quot;); // true</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5608db55-6aee-83c4-b13a-01614b9fbf70" class="toggle"><li><details open=""><summary>7，startsWith()</summary><div style="display:contents" dir="auto"><p id="bd08db55-6aee-82ba-807a-815f15b46e11" class="">startsWith(searchValue, fromIndex)</p></div><div style="display:contents" dir="auto"><p id="3d98db55-6aee-839c-94e0-012401592fc1" class="">判断字符串是否以子串开头，fromIndex 为起始位置（默认 0）</p></div><div style="display:contents" dir="auto"><pre id="c268db55-6aee-8360-9661-815023d4b73b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;hello&quot;.startsWith(&quot;he&quot;); // true</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6b68db55-6aee-83bc-8572-0117dbc2dda0" class="toggle"><li><details open=""><summary>8，endsWith()</summary><div style="display:contents" dir="auto"><p id="2958db55-6aee-83a1-8da7-81c5d90437b3" class="">endsWith(searchValue, length)</p></div><div style="display:contents" dir="auto"><p id="fda8db55-6aee-834b-98bb-81da1c33f00b" class="">判断字符串是否以子串结尾，length 为字符串长度（默认原长度）</p></div><div style="display:contents" dir="auto"><pre id="2428db55-6aee-831f-b499-819f31cb516d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;hello&quot;.endsWith(&quot;lo&quot;); // true</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8108db55-6aee-83b5-b07c-018f147465b5" class="toggle"><li><details open=""><summary>9，slice()</summary><div style="display:contents" dir="auto"><p id="60f8db55-6aee-828a-8ac6-016e719f974b" class="">slice(startIndex, endIndex)</p></div><div style="display:contents" dir="auto"><p id="3558db55-6aee-8326-a9e2-81414f93b28b" class="">从startIndex 截取到 endIndex（不包含endIndex）支持负数索引（从后往前，也可以理解字符长度加上负数）</p></div><div style="display:contents" dir="auto"><pre id="dad8db55-6aee-82d1-a336-81c94ad44b08" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;abcdef&quot;.slice(1, 4); // &quot;bcd&quot;
+&quot;abcdef&quot;.slice(-3); // &quot;def&quot;（从倒数第 3 位到结尾）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cc38db55-6aee-82fe-91a4-81250770c2cc" class="toggle"><li><details open=""><summary>10，substr()</summary><div style="display:contents" dir="auto"><p id="f618db55-6aee-82bb-a1d9-8165d923ddad" class="">substr(startIndex, length)</p></div><div style="display:contents" dir="auto"><p id="7018db55-6aee-832f-be7b-8138fd041a0a" class="">从 startIndex 开始截取 length 个字符（ES 标准不推荐，部分环境支持）</p></div><div style="display:contents" dir="auto"><pre id="b8f8db55-6aee-8284-86c7-01c2ea73d0eb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;abcdef&quot;.substr(1, 3); // &quot;bcd&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6158db55-6aee-830a-9808-8184c5dfed7e" class="toggle"><li><details open=""><summary>11，substring()</summary><div style="display:contents" dir="auto"><p id="3578db55-6aee-83bf-a252-813a86d1f1f6" class="">substring(startIndex, endIndex)</p></div><div style="display:contents" dir="auto"><p id="fa88db55-6aee-839b-be7d-01e10930ce8d" class="">类似 slice，但不支持负数索引，且 start &gt; end 时会自动交换</p></div><div style="display:contents" dir="auto"><pre id="5218db55-6aee-8231-8675-81c5664ed46f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;abcdef&quot;.substring(4, 1); // &quot;bcd&quot;（等价于 1-4）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c748db55-6aee-8330-86c1-014c1a9b11c9" class="toggle"><li><details open=""><summary>12，toLowerCase()</summary><div style="display:contents" dir="auto"><p id="2d18db55-6aee-83fa-ac1b-81fd3a4a4af2" class="">转小写字母</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3638db55-6aee-83c9-a529-81bd45aac951" class="toggle"><li><details open=""><summary>13，toUpperCase()</summary><div style="display:contents" dir="auto"><p id="3fc8db55-6aee-83ed-9b6c-814c01f1869e" class="">转大写字母</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6138db55-6aee-821c-b232-01f6963f45ef" class="toggle"><li><details open=""><summary>14，toLocaleUpperCase() / toLocaleLowerCase()</summary><div style="display:contents" dir="auto"><p id="5628db55-6aee-824b-8fd8-013522436e45" class="">基于本地语言转换（对特殊语言更准确）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5408db55-6aee-83f2-991c-01b076bcbc33" class="toggle"><li><details open=""><summary>15，toString()</summary><div style="display:contents" dir="auto"><p id="e0e8db55-6aee-82e4-9234-81e21133f671" class="">返回字符串本身（Object 包装类型使用）</p></div><div style="display:contents" dir="auto"><pre id="3cf8db55-6aee-83de-b29c-81492223928d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">new String(&quot;hi&quot;).toString(); // &quot;hi&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="74c8db55-6aee-8376-b77c-819c7a1346d9" class="toggle"><li><details open=""><summary>16，valueOf()</summary><div style="display:contents" dir="auto"><p id="bde8db55-6aee-82e5-813c-815ccee67924" class="">返回原始字符串值（Object 包装类型使用）</p></div><div style="display:contents" dir="auto"><pre id="a128db55-6aee-83d8-b58a-81cf75226012" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">new String(&quot;hi&quot;).valueOf(); // &quot;hi&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ec08db55-6aee-829a-bbb0-8196b534457e" class="toggle"><li><details open=""><summary>17，replace()</summary><div style="display:contents" dir="auto"><p id="3628db55-6aee-82a0-9c3d-013809627a12" class="">replace(searchValue, replacement)</p></div><div style="display:contents" dir="auto"><p id="d368db55-6aee-825e-8959-01755c2ee70d" class="">替换第一个匹配的子串（<code>searchValue</code> 可为字符串或正则，<code>replacement</code> 可为字符串或函数）</p></div><div style="display:contents" dir="auto"><pre id="74d8db55-6aee-82c6-87de-8178cbc54f4f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;abcabc&quot;.replace(&quot;a&quot;, &quot;x&quot;); // &quot;xbcabc&quot;
+&quot;abcabc&quot;.replace(/a/g, &quot;x&quot;); // &quot;xbcxbc&quot;（正则全局替换）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2ad8db55-6aee-82a8-8889-01452bb169c2" class="toggle"><li><details open=""><summary>18，replaceAll()</summary><div style="display:contents" dir="auto"><p id="7a58db55-6aee-8290-b19e-013fcc0bfd3b" class="">replaceAll(searchValue, replacement)</p></div><div style="display:contents" dir="auto"><p id="c0c8db55-6aee-8333-8ad1-01c4aa42686e" class="">替换所有匹配的子串（ES2021+，<code>searchValue</code> 为字符串时自动视为全局匹配）</p></div><div style="display:contents" dir="auto"><pre id="9fe8db55-6aee-836c-a742-01ca2c14a194" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">abcabc&quot;.replaceAll(&quot;a&quot;, &quot;x&quot;); // &quot;xbcxbc&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="afe8db55-6aee-8292-b1c5-81df8a231f6c" class="toggle"><li><details open=""><summary>19，split()</summary><div style="display:contents" dir="auto"><p id="9758db55-6aee-8294-a8d2-817f3fab49d4" class="">split(separator, limit)</p></div><div style="display:contents" dir="auto"><p id="2af8db55-6aee-83a6-b37f-8176cae3e8e7" class="">按 <code>separator</code>（字符串或正则）分割为数组，<code>limit</code> 限制返回数组长度</p></div><div style="display:contents" dir="auto"><pre id="f6c8db55-6aee-83e9-989c-01d87d2cf7f5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;a,b,c&quot;.split(&quot;,&quot;); // [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+&quot;a,b,c&quot;.split(&quot;,&quot;, 2); // [&quot;a&quot;, &quot;b&quot;]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7c88db55-6aee-8235-82b9-81a943ecd35a" class="toggle"><li><details open=""><summary>20，concat()</summary><div style="display:contents" dir="auto"><p id="1a78db55-6aee-83e1-95b4-812218de2c58" class="">concat(str1, str2, ..)</p></div><div style="display:contents" dir="auto"><p id="ce78db55-6aee-8324-9330-01ffd07ca01b" class="">拼接多个字符串，返回新字符串（推荐用 <code>+</code> 或模板字符串 <code>${}</code> 替代）</p></div><div style="display:contents" dir="auto"><pre id="5af8db55-6aee-83e2-8e54-8146b910a72c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;hello&quot;.concat(&quot; &quot;, &quot;world&quot;); // &quot;hello world&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="dce8db55-6aee-824a-aa7d-01cef4ca5060" class="toggle"><li><details open=""><summary>21，padStart()</summary><div style="display:contents" dir="auto"><p id="0108db55-6aee-82b5-b57a-81bed33f4b88" class="">padStart(targetLength, padString)</p></div><div style="display:contents" dir="auto"><p id="1558db55-6aee-83bd-8576-017da700c5c5" class="">在字符串开头填充 <code>padString</code>，直到总长度为 <code>targetLength</code></p></div><div style="display:contents" dir="auto"><pre id="ad98db55-6aee-8286-b82c-81a75cf12ec0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;5&quot;.padStart(2, &quot;0&quot;); // &quot;05&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a158db55-6aee-8296-b870-01181efed3ed" class="toggle"><li><details open=""><summary>22，padEnd()</summary><div style="display:contents" dir="auto"><p id="7488db55-6aee-82c2-8032-8145bc99e8df" class="">padEnd(targetLength, padString)</p></div><div style="display:contents" dir="auto"><p id="cde8db55-6aee-8386-940d-01faa8546d00" class="">在字符串结尾填充 <code>padString</code>，直到总长度为 <code>targetLength</code></p></div><div style="display:contents" dir="auto"><pre id="2228db55-6aee-83e0-809e-014fa5669ff7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;5&quot;.padEnd(2, &quot;0&quot;); // &quot;50&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1028db55-6aee-8346-8905-01e979a72314" class="toggle"><li><details open=""><summary>23，trim()</summary><div style="display:contents" dir="auto"><p id="e4b8db55-6aee-828d-94ad-81b3408ad6e6" class="">移除字符串前后的空白（空格、制表符 <code>\t</code>、换行符 <code>\n</code> 等）</p></div><div style="display:contents" dir="auto"><pre id="2d78db55-6aee-8343-9cf7-81e32d6e23cc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot; hello &quot;.trim(); // &quot;hello&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e548db55-6aee-820f-a819-8127a4113a8b" class="toggle"><li><details open=""><summary>24，trimStart() / trimLeft()</summary><div style="display:contents" dir="auto"><p id="6828db55-6aee-8316-8409-01c5982ff4c6" class="">仅移除字符串开头的空白</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d7d8db55-6aee-829c-81d5-01d2cb22de75" class="toggle"><li><details open=""><summary>25，trimEnd() / trimRight()</summary><div style="display:contents" dir="auto"><p id="3368db55-6aee-8336-bf96-81ab04a3bfa1" class="">仅移除字符串结尾的空白</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f018db55-6aee-8309-898d-815ec8d14c1f" class="toggle"><li><details open=""><summary>26，match()</summary><div style="display:contents" dir="auto"><p id="4198db55-6aee-839c-97a1-81a914b40487" class="">match(regexp)</p></div><div style="display:contents" dir="auto"><p id="9968db55-6aee-8354-9d35-813b12ff7d2f" class="">查找匹配的子串，返回匹配结果数组（正则带 <code>g</code> 时返回所有匹配，否则返回第一个匹配的详细信息）</p></div><div style="display:contents" dir="auto"><pre id="e938db55-6aee-82bc-8306-01cd05a1ebb5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;abc123def456&quot;.match(/\d+/g); // [&quot;123&quot;, &quot;456&quot;]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35d8db55-6aee-8247-8b66-81f711326cd6" class="toggle"><li><details open=""><summary>27，matchAll()</summary><div style="display:contents" dir="auto"><p id="36c8db55-6aee-8255-a284-0198a967258d" class="">matchAll(regexp)</p></div><div style="display:contents" dir="auto"><p id="88d8db55-6aee-838d-9f01-01ddf764a4f5" class="">返回所有匹配结果的迭代器（正则需带 <code>g</code>），适合获取捕获组信息</p></div><div style="display:contents" dir="auto"><pre id="1948db55-6aee-8348-8ff1-811ff1580ca5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[... &quot;a1b2c3&quot;.matchAll(/(\w)(\d)/g)]; // 包含捕获组的数组</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f038db55-6aee-83e3-a70f-018d349cf3e0" class="toggle"><li><details open=""><summary>28，search()</summary><div style="display:contents" dir="auto"><p id="0818db55-6aee-829c-bd4a-8157a912b21f" class="">search(regexp)</p></div><div style="display:contents" dir="auto"><p id="0098db55-6aee-831c-aef4-8122e60e2c04" class="">查找第一个匹配的索引，找不到返回 <code>-1</code>（类似 <code>indexOf</code> 但支持正则）</p></div><div style="display:contents" dir="auto"><pre id="65d8db55-6aee-820d-8034-81e60b55d7bb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;abc123&quot;.search(/\d/); // 3</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="79c8db55-6aee-83b6-8594-01a3719ca81f" class="toggle"><li><details open=""><summary>29，repeat()</summary><div style="display:contents" dir="auto"><p id="6c38db55-6aee-8290-9ff2-81c0f9b36e2c" class="">repeat(count)</p></div><div style="display:contents" dir="auto"><p id="8008db55-6aee-8348-ae9b-01e01cbcf9c0" class="">将字符串重复 <code>count</code> 次，<code>count</code> 为非负整数</p></div><div style="display:contents" dir="auto"><pre id="ff98db55-6aee-8311-b20b-817b6fcd1ac5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;ab&quot;.repeat(3); // &quot;ababab&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a288db55-6aee-83e2-b3c2-01175c71c629" class="toggle"><li><details open=""><summary>30，localeCompare()</summary><div style="display:contents" dir="auto"><p id="2f88db55-6aee-8249-b45d-810580865e47" class="">localeCompare(compareString)</p></div><div style="display:contents" dir="auto"><p id="a378db55-6aee-8304-a020-81b9ff6ac9ce" class="">比较两个字符串的排序顺序，返回负数（当前串在前）、0（相等）、正数（当前串在后）</p></div><div style="display:contents" dir="auto"><pre id="b488db55-6aee-8254-a8bf-015385b29a43" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;apple&quot;.localeCompare(&quot;banana&quot;); // -1</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="da08db55-6aee-8295-9e86-81b70292d7cb" class="toggle"><li><details open=""><summary>31，at()</summary><div style="display:contents" dir="auto"><p id="ede8db55-6aee-83e9-8a77-01053fd20f18" class="">at(index)</p></div><div style="display:contents" dir="auto"><p id="4228db55-6aee-83bb-8209-016ef2065d2b" class="">ES2022+，返回指定索引的字符（支持负数索引，比 <code>charAt</code> 更灵活）</p></div><div style="display:contents" dir="auto"><pre id="fc48db55-6aee-8245-9a6a-813d871c6ce9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&quot;hello&quot;.at(-1); // &quot;o&quot;（最后一个字符）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9c08db55-6aee-82f0-9dd8-014682f5f9e9" class="toggle"><li><details open=""><summary>32，sort()</summary><div style="display:contents" dir="auto"><p id="c298db55-6aee-8396-95ca-8128b598d141" class="">对字符串中的字符排序</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8cf8db55-6aee-833d-8123-01928c120792" class="toggle"><li><details open=""><summary>模板字符串</summary><div style="display:contents" dir="auto"><p id="b518db55-6aee-82fe-8fc8-81dbd5a7d3c6" class="">ES6中的模板</p></div><div style="display:contents" dir="auto"><pre id="9338db55-6aee-836e-8b56-81f24a3a2017" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 可以支持换行识别
+var ss = `
+	&lt;li&gt;1233&lt;/li&gt;
+	&lt;li&gt;1223&lt;/li&gt;
+	&lt;li&gt;1343&lt;/li&gt;
+`;
+
+// 支持嵌入变量
+var myname=&quot;keiw&quot;;
+var str = `my name is ${myname}`;
+
+// 内部可以镶嵌表达式
+var sum = `1+2=${1+2}`;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2c18db55-6aee-8219-a971-0144205b1a50" class="toggle"><li><details open=""><summary>数组操作</summary><div style="display:contents" dir="auto"><p id="15e8db55-6aee-820d-969d-81585e1517ec" class="">原文链接<a href="https://blog.csdn.net/qq_43223007/article/details/110201463">https://blog.csdn.net/qq_43223007/article/details/110201463</a></p></div><div style="display:contents" dir="auto"><ul id="2c08db55-6aee-83aa-8678-81aaf2db54a3" class="toggle"><li><details open=""><summary>数组创建</summary><div style="display:contents" dir="ltr"><table id="4718db55-6aee-8390-8568-818cb2ea4dce" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="2668db55-6aee-8311-9dd1-81b2b8f3a177"><th id="^y}R" class="simple-table-header-color simple-table-header"><strong>方法 / 方式</strong></th><th id="Ri\~" class="simple-table-header-color simple-table-header" style="width:272.0208282470703px"><strong>说明</strong></th><th id="zr@u" class="simple-table-header-color simple-table-header" style="width:369px"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="76b8db55-6aee-82d7-9d3b-01c9a42a8300"><td id="^y}R" class="">字面量 <code>[]</code></td><td id="Ri\~" class="" style="width:272.0208282470703px">最常用的创建方式，支持直接初始化元素</td><td id="zr@u" class="" style="width:369px"><code>const arr = [1, 2, 3];</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8808db55-6aee-82af-9684-8180c13f32ef"><td id="^y}R" class="">构造函数 <code>new Array()</code></td><td id="Ri\~" class="" style="width:272.0208282470703px">可传长度或元素（传单个数字时为长度）</td><td id="zr@u" class="" style="width:369px"><code>new Array(3); // [empty × 3]new Array(1, 2); // [1, 2]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3898db55-6aee-82bb-8cf1-016de33a8480"><td id="^y}R" class=""><code>Array.of()</code></td><td id="Ri\~" class="" style="width:272.0208282470703px">ES6 新增，将参数转为数组（无论参数数量，均作为元素，解决构造函数的歧义）</td><td id="zr@u" class="" style="width:369px"><code>Array.of(3); // [3]Array.of(1, 2); // [1, 2]</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8dc8db55-6aee-83f7-958f-8109396a47d1"><td id="^y}R" class=""><code>Array.from()</code></td><td id="Ri\~" class="" style="width:272.0208282470703px">ES6 新增，将类数组 / 可迭代对象（如 <code>NodeList</code>、字符串）转为数组</td><td id="zr@u" class="" style="width:369px"><code>Array.from(&quot;abc&quot;); // [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]Array.from([1, 2], x =&gt; x*2); // [2, 4]</code>（第二个参数为映射函数）</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ba98db55-6aee-820f-8241-81d6f54a51fd" class="toggle"><li><details open=""><summary>方法操作（增删改查）</summary><div style="display:contents" dir="auto"><ul id="a298db55-6aee-8380-8ca2-818486e84b0f" class="toggle"><li><details open=""><summary>1，push() </summary><div style="display:contents" dir="auto"><p id="24c8db55-6aee-83c7-9195-81da739dfb5e" class="">在数组<strong>最后一位</strong><em>添加</em>一个或多个元素,并返回新数组的长度,改变原数组.(添加多个元素用逗号隔开)</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a288db55-6aee-83f8-90e5-0115add2e035" class="toggle"><li><details open=""><summary>2，unshift()</summary><div style="display:contents" dir="auto"><p id="cb98db55-6aee-838e-9309-0126cec11d4a" class="">在数组<strong>第一位</strong><em>添加</em>一个或多个元素，并返回新数组的长度，改变原数组。(添加多个元素用逗号隔开)</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ff48db55-6aee-8247-824d-81aa3007dc5c" class="toggle"><li><details open=""><summary>3，pop()</summary><div style="display:contents" dir="auto"><p id="0bc8db55-6aee-8267-a94f-8177e59d70c8" class="">删除数组的最后一位，并且<strong>返回删除的数据</strong>，会改变原来的数组。(该方法不接受参数,且每次只能删除最后一个)</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aa68db55-6aee-83ce-a419-01018b10b933" class="toggle"><li><details open=""><summary>4，shift()</summary><div style="display:contents" dir="auto"><p id="1d18db55-6aee-8273-8851-813cd8e2fd66" class="">删除数组的第一位数据，并且<strong>返回被删除的数据</strong>，会改变原来的数组。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7468db55-6aee-83cd-9fc4-81677ce4921c" class="toggle"><li><details open=""><summary>5，reverse()</summary><div style="display:contents" dir="auto"><p id="6d58db55-6aee-83ce-a6fb-010a0411cf15" class="">将数组的数据进行反转，并且返回反转后的数组，会改变原数组</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1378db55-6aee-829a-9015-0119b8ba614b" class="toggle"><li><details open=""><summary>6，sort()</summary><div style="display:contents" dir="auto"><p id="f238db55-6aee-82d1-9a6d-813912be3b31" class="">方法用于对数组的元素进行排序,并返回数组。默认排序顺序是根据<a href="https://so.csdn.net/so/search?q=%E5%AD%97%E7%AC%A6%E4%B8%B2&amp;spm=1001.2101.3001.7020">字符串</a>Unicode码点。</p></div><div style="display:contents" dir="auto"><p id="be28db55-6aee-83b4-8c7c-01e5c9ac7ed9" class="">语法： arr.sort(function(a,b))<br/>参数： <strong>function可选。</strong>用来指定按某种顺序进行排列的函数。如果省略，元素按照转换为的字符串的诸个字符的Unicode位点进行排序。<br/>具体用法：</p></div><div style="display:contents" dir="auto"><p id="30c8db55-6aee-83bc-b772-81983fc6e81e" class="">如果 <code>function(a, b) {return: a - b;} ，=&gt; a - b &gt; 0</code> 那么 a 会被排列到 b 之前; (从小到大排序)<br/>如果 <code>function(a, b) {return: b - a;} ，=&gt; b - a &gt; 0</code> 那么b会被排列到 a 之前； (从大到小排序) </p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="83d8db55-6aee-830d-be41-01e4753abe96" class="toggle"><li><details open=""><summary>7，join()</summary><div style="display:contents" dir="auto"><p id="7c68db55-6aee-8388-b904-018dca72d8d7" class="">用特定的字符,将数组拼接形成字符串 (默认&quot;,&quot;)</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3a48db55-6aee-83bf-a433-81527da82259" class="toggle"><li><details open=""><summary>8，toString()</summary><div style="display:contents" dir="auto"><p id="e648db55-6aee-820c-ab21-815d1a5a4c46" class="">直接将数组转换为字符串,并且返回转换后的新数组,不改变原数组,与join();方法不添加任何参数 相同.</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c8c8db55-6aee-83ca-af69-81ec12949746" class="toggle"><li><details open=""><summary>9，valueOf()</summary><div style="display:contents" dir="auto"><p id="3d38db55-6aee-83ed-ad2d-01f289cbfe87" class="">返回数组的原始值（一般情况下其实就是数组自身）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f348db55-6aee-8287-91d8-014fa2cf13c9" class="toggle"><li><details open=""><summary>10，indexOf() &amp; lastIndexOf()</summary><div style="display:contents" dir="auto"><p id="5028db55-6aee-83d4-801a-019d8d42f3ed" class="">查询某个元素在数组中第一次出现的位置 存在该元素,返回下标,不存在 返回 -1</p></div><div style="display:contents" dir="auto"><p id="5288db55-6aee-8315-a66b-81056216b0c8" class=""><strong>lastIndexOf()为最后一次</strong>出现的位置</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5508db55-6aee-8396-99f3-81c06dd3407f" class="toggle"><li><details open=""><summary>11，includes()</summary><div style="display:contents" dir="auto"><p id="afa8db55-6aee-83ce-adc9-01f4131bf6f9" class="">用来判断一个数组是否包含一个指定的值，如果是返回 true，否则false。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4c68db55-6aee-82e8-a619-819b189b695c" class="toggle"><li><details open=""><summary>12，find() &amp; findIndex()</summary><div style="display:contents" dir="auto"><p id="9258db55-6aee-834a-953d-81bbf975e018" class="">find(callback(current, index, array), thisArg)</p></div><div style="display:contents" dir="auto"><p id="f418db55-6aee-827b-af71-81cf1624014e" class="">findIndex(callback(current, index, array), thisArg)</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="1328db55-6aee-832a-a0b3-01451838f882" class="code code-wrap"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">const numbers = [1, 3, 5, 8, 10, 12];
+
+// 查找第一个偶数的索引
+const firstEvenIndex = numbers.findIndex(function(current) {
+  return current % 2 === 0; // 条件：当前元素是偶数
+});
+
+console.log(firstEvenIndex); // 输出：3（因为 numbers[3] = 8 是第一个第一个偶数）</code></pre></div><div style="display:contents" dir="auto"><p id="b9e8db55-6aee-82dd-a43a-81e5c16b6189" class="">遍历数组 每次循环 执行回调函数,回调函数接受一个条件 返回满足条件的第一个元素,不存在则返回undefined.</p></div><div style="display:contents" dir="auto"><p id="10a8db55-6aee-836c-b86d-0189037d8813" class="">参数:</p></div><div style="display:contents" dir="auto"><p id="fa48db55-6aee-8327-809f-01e57daa0c6c" class="">item:必须 , 循环当前元素</p></div><div style="display:contents" dir="auto"><p id="bc08db55-6aee-838d-9dbf-813b3f6c1335" class="">index:可选 , 循环当前下标</p></div><div style="display:contents" dir="auto"><p id="f0e8db55-6aee-82ad-8866-01fd4608140d" class="">array:可选 , 当前元素所属的数组对象</p></div><div style="display:contents" dir="auto"><p id="ef38db55-6aee-83e0-90a3-8149bb8e3394" class=""><strong>findIndex() 则是返回满足条件的</strong><mark class="highlight-red"><strong>下标</strong></mark></p></div><div style="display:contents" dir="auto"><p id="4a68db55-6aee-8203-9231-0151eebd2b01" class="">注意<br/>findIndex();和indexOf();不同 (刚接触时乍一看和indexOf()怎么一模一样,仔细看了下才发现大有不同)<br/>indexOf是传入一个值.找到了也是返回索引,没有找到也是返回-1 ,属于ES5<br/>findIndex是传入一个测试条件,也就是函数,找到了返回当前项索引,没有找到返回-1. 属于ES6</p></div><div style="display:contents" dir="auto"><p id="b298db55-6aee-8386-b5a7-013b0c80f63c" class=""><mark class="highlight-red">注意</mark><br/><em>findIndex();和indexOf();不同 (刚接触时乍一看和indexOf()怎么一模一样,仔细看了下才发现大有不同)<br/>indexOf是传入一个值.找到了也是返回索引,没有找到也是返回-1 ,属于ES5<br/>findIndex是传入一个测试条件,也就是函数,找到了返回当前项索引,没有找到返回-1. 属于ES6</em></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5718db55-6aee-8317-be13-01339e358bcc" class="toggle"><li><details open=""><summary>13，flat()</summary><div style="display:contents" dir="auto"><p id="d558db55-6aee-82c7-9da7-0107fdebff7e" class="">用于将嵌套的数组&quot;拉平&quot;,<mark class="highlight-red">将多维数组降维</mark>。该方法返回一个新数组，对原数据没有影响。</p></div><div style="display:contents" dir="auto"><p id="94d8db55-6aee-8355-bd32-017b7fdd95af" class="">默认拉平一次 如果想自定义拉平此处 需要手动传参 ,<mark class="highlight-red">如果想全都拉平 传 Infinity</mark>。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a5e8db55-6aee-833b-9e51-81de671b9e40" class="toggle"><li><details open=""><summary>14，fill()</summary><div style="display:contents" dir="auto"><p id="3388db55-6aee-825b-b24c-814b0ce60dbe" class="">fill(val, start?, end?)</p></div><div style="display:contents" dir="auto"><p id="6b68db55-6aee-830b-ab34-81652c964b9a" class="">直接修改原数组，从start开始到end（不包含end）填充val。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b1b8db55-6aee-8288-8eba-81d8b318905b" class="toggle"><li><details open=""><summary>15，copyWithin()</summary><div style="display:contents" dir="auto"><p id="6098db55-6aee-83b8-9e6c-01e911eef250" class="">copyWithin(tartget, start, end)</p></div><div style="display:contents" dir="auto"><p id="0758db55-6aee-8373-9595-01dcd2e13cb0" class="">从 start 到 end（不包含end）的元素复制到 target 索引开始的位<mark class="highlight-yellow_background">置</mark></p></div><div style="display:contents" dir="auto"><p id="1478db55-6aee-8312-88d5-0193b595ce44" class=""><mark class="highlight-yellow_background">会覆盖原数组内容。</mark></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1248db55-6aee-83c4-8567-014ed1160ae1" class="toggle"><li><details open=""><summary>16，toString()</summary><div style="display:contents" dir="auto"><p id="2058db55-6aee-82c8-a4a3-8104d55aae97" class="">将数组转为字符串（等价于join(””)）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2f68db55-6aee-8315-b44b-016a9c13de37" class="toggle"><li><details open=""><summary>17，toLocaleString()</summary><div style="display:contents" dir="auto"><p id="8f08db55-6aee-8346-9d5c-8115fb6a479f" class="">按本地格式将数组转为字符串（如数字 / 日期的本地化显示）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="76d8db55-6aee-8287-9d53-01f4a8b0a390" class="toggle"><li><details open=""><summary>18，flatMap()</summary><div style="display:contents" dir="auto"><p id="15f8db55-6aee-83e4-9277-8101756cfaca" class="">flatMap(callback, thisArg)</p></div><div style="display:contents" dir="auto"><p id="6228db55-6aee-82df-96d5-0150ba3883dc" class="">先执行 <code>map</code>，再对结果执行 <code>flat(1)</code>（等价于 <code>map(...).flat(1)</code>）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="01e8db55-6aee-82c1-b911-817516f2267d" class="toggle"><li><details open=""><summary>19，map()</summary><div style="display:contents" dir="auto"><p id="8338db55-6aee-8279-83ae-01d93885bae8" class="">map(callback(current, index, array), thisArg)</p></div><div style="display:contents" dir="auto"><p id="a5a8db55-6aee-8392-a8b9-01a0df24e11e" class="">对每个元素执行回调，返回处理后的新数组（长度与原数组相同）</p></div><div style="display:contents" dir="auto"><pre id="fde8db55-6aee-82cb-b864-81b1fc0e5752" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const arr = [1, 2, 3];
+const doubled = arr.map(num =&gt; num * 2); // [2, 4, 6]（原数组不变）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4708db55-6aee-8343-be52-01ef6fe50a40" class="toggle"><li><details open=""><summary>20，filter()</summary><div style="display:contents" dir="auto"><p id="2218db55-6aee-8372-801e-813b76d13e23" class="">filter(callback(current, index, array), thisArg)</p></div><div style="display:contents" dir="auto"><p id="d498db55-6aee-82b1-a79e-8142e0013ab9" class=""><strong>返回符合条件的元素组成的新数组</strong></p></div><div style="display:contents" dir="auto"><p id="c628db55-6aee-824a-931a-814723f6843e" class="">保留回调返回 <code>true</code> 的元素</p></div><div style="display:contents" dir="auto"><pre id="7478db55-6aee-830a-bbf0-819dd73788a2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const arr = [1, 2, 3, 4];
+const evens = arr.filter(num =&gt; num % 2 === 0); // [2, 4]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ac98db55-6aee-837a-9ca2-01e859a7566a" class="toggle"><li><details open=""><summary>21，Array.isArray()</summary><div style="display:contents" dir="auto"><p id="18c8db55-6aee-83bc-a30d-81c896897966" class="">Array.isArray(value)</p></div><div style="display:contents" dir="auto"><p id="c778db55-6aee-82f5-85e0-01ff5df4055e" class="">一种静态方法，判断value是否为数组</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6268db55-6aee-83c0-b0ec-8129158d7c2f" class="toggle"><li><details open=""><summary>22，扩展运算符…</summary><div style="display:contents" dir="auto"><p id="f0f8db55-6aee-82ca-899e-01aa061caf0f" class="">复制数组或合并数组（浅拷贝）</p></div><div style="display:contents" dir="auto"><pre id="d8d8db55-6aee-82cf-bc38-81473cce4811" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const arr = [1, 2];
+const copy = [...arr]; // [1, 2]（复制）
+const merged = [...arr, 3, 4]; // [1, 2, 3, 4]（合并）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4dc8db55-6aee-8336-84b4-81790aa13ea1" class="toggle"><li><details open=""><summary>23，数组解构[a, b]=arr</summary><div style="display:contents" dir="auto"><p id="b418db55-6aee-83c6-a3c8-81df1d8b60b6" class="">从数组中提取元素赋值给变量</p></div><div style="display:contents" dir="auto"><pre id="56d8db55-6aee-821d-9bff-815a9cf5e3f1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const [first, second] = [1, 2, 3]; // first=1, second=2</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="2bb8db55-6aee-830c-8673-81f77f201e53"/></div><div style="display:contents" dir="auto"><ol type="1" id="5328db55-6aee-83a1-9229-81db422819cc" class="numbered-list" start="1"><li><strong>是否修改原数组</strong>：<div style="display:contents" dir="auto"><ul id="4a58db55-6aee-8276-8cf6-017578df9dc7" class="bulleted-list"><li style="list-style-type:disc">会修改原数组的方法：<code>push</code>、<code>pop</code>、<code>unshift</code>、<code>shift</code>、<code>splice</code>、<code>sort</code>、<code>reverse</code>、<code>fill</code>、<code>copyWithin</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="9148db55-6aee-8200-b7d8-01dad6dabefd" class="bulleted-list"><li style="list-style-type:disc">不修改原数组的方法：<code>map</code>、<code>filter</code>、<code>find</code>、<code>every</code>、<code>some</code>、<code>reduce</code>、<code>join</code>、<code>flat</code>、<code>flatMap</code> 等。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="9ae8db55-6aee-83de-b9d2-01979b8373ca" class="numbered-list" start="2"><li><strong>浅拷贝特性</strong>：数组的复制（如 <code>[...arr]</code>、<code>arr.slice()</code>）是浅拷贝，若元素是对象 / 数组，修改副本会影响原数组。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0dc8db55-6aee-827d-9455-81bc34aa651b" class="numbered-list" start="3"><li><strong>空元素（empty）</strong>：数组中未初始化的元素（如 <code>[1, , 3]</code>）会被多数方法跳过（如 <code>forEach</code>、<code>map</code> 不处理 empty）。</li></ol></div><div style="display:contents" dir="auto"><ul id="1dc8db55-6aee-8329-8626-011b2928f08b" class="toggle"><li><details open=""><summary>代码演示</summary><div style="display:contents" dir="auto"><pre id="78d8db55-6aee-82e1-8ccd-8178ce6da0c4" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;script&gt;
+        var arr = [1, 2, 3];
+        // push后面追加元素
+        // 返回值是数组的长度
+        var res = arr.push(4);
+        console.log(&quot;return:&quot;, res);
+
+        // pop删除尾部元素
+        // 返回删除的元素
+        var res = arr.push(&quot;iloss&quot;);
+        var respop = arr.pop();
+        console.log(arr);
+        console.log(&quot;return:&quot;, respop);
+
+        // unshift 前面追加元素
+        // 返回值 长度
+        var res = arr.unshift(&quot;heiehi&quot;)
+        console.log(res);
+        console.log(arr);
+
+        // shift 删除前面的元素
+        // 返回值是删除的元素值
+        var resshift = arr.shift()
+        console.log(resshift);
+
+        // splice 删除任意位置
+        // 如果有两个参数：
+        // 第一个参数：删除位置的下标，第二个参数，删除个数
+        // 返回值为 删除元素组成的数组
+        // 第三个参数往后：是删除后添加的元素，
+        // 如果第二个参数是0，就只添加元素
+        var resSplice = arr.splice(1, 1);
+        console.log(arr);
+        console.log(resSplice);
+        var resAdd = arr.splice(1,2,&quot;1dshau&quot;, &quot;ssss&quot;);
+        console.log(arr);
+        console.log(resAdd);
+
+        // arr = [1, &#x27;1dshau&#x27;, &#x27;ssss&#x27;]
+
+        // reverse 颠倒顺序
+        var arr2 = [1, 2, 3, 4, 5, 6];
+        arr2.reverse()
+        console.log(arr2);
+
+        // sort 自动排序
+        // 默认按照数字最高位数排序
+        // 按照数字排序，需要传入一个回调函数
+        // sort会影响原数组
+        var arr3 = [1, 8, 24, 6, 9, 32, 100, 3, -1];
+        console.log(arr3);
+        arr3.sort();
+        console.log(arr3); // [-1, 1, 100, 24, 3, 32, 6, 8, 9]
+        arr3.sort(function(a, b){ // [-1, 1, 3, 6, 8, 9, 24, 32, 100]
+            return a-b; // 正序
+        });
+        console.log(arr3);
+
+        // concat 拼接数组
+        // concat 可以有很多数组，最终返回值是这些数组于作用对象的拼接结果
+        // 如果不添加参数，是复制数组（复杂结构注意）
+        var a1=[1,2,3];
+        var a2=[4,5,6];
+        var resA1_A2 =a1.concat(a2);
+        console.log(a1, a2, resA1_A2);
+
+        // join 数组-&gt;字符串
+        // 参数是添加连接字符
+        var ar = [1,2,3,4,5];
+        console.log(ar.join(&quot;-&quot;));
+
+        var a=[];
+        for (var i=0; i&lt;5; i++) {
+            a.push(&quot;&lt;li&gt;&quot;+i+&quot;&lt;/li&gt;&quot;);
+        }
+        document.write(a.join(&quot;&quot;));
+
+        // slice 截取，不会改变原数组
+        // 截取参数左闭右开
+        // 如果是负数，-1对应最后一个元素，
+        // 如果是负数，可以理解为数组长度加上该负数
+        var arr=[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;];
+        var arr2 = arr.slice(0,2);
+        console.log(arr, arr2);
+
+        // indexOf 正向查找第一个找到的值
+        // 如果找不到，返回-1
+        // 如果找到了，返回值的位置
+        // 如果有多个值，添加第二个参数，查找第几个
+        // lastIndexOf 从后向前逆向查找第一个
+        var res = arr.indexOf(&quot;c&quot;);
+        console.log(res);
+
+        // map 映射
+        var arr=[1,2,6,3,4,5];
+        var arr2 = arr.map(function(item){
+            return item*item;
+        });
+        console.log(arr2);
+
+        var names = [&quot;xiaoming&quot;, &quot;lihong&quot;, &quot;zhangbin&quot;];
+        var arr2 = names.map(function(item){
+            return &quot;&lt;li&gt;&quot;+item+&quot;&lt;/li&gt;&quot;;
+        });
+        console.log(arr2);
+        document.write(arr2.join(&quot;&quot;));
+
+        // filter 过滤
+        var arr = [111, 222 ,333, 444];
+        var arr2 = arr.filter(function(item){
+            return item &gt; 223; // 返回bool值
+        });
+        console.log(arr2);
+
+        // every 每一个都要满足条件，才为true，否则为false
+        var arr=[20,200,33,89];
+        var arr2 = arr.every(function(item){
+            return item &gt; 90;
+        });
+        console.log(arr2);
+
+        // some 只要有一个满足条件，就为true，否则false
+        var arr2=arr.some(function(item){
+            return item &lt; 1;
+        });
+        console.log(arr2);
+
+        // find 寻找指定元素
+        // 只能找到第一项
+        // filter可以找到所有
+        var arr = [
+            {
+                name:&quot;语文&quot;,
+                grade:90
+            },
+            {
+                name:&quot;数学&quot;,
+                grade:77
+            },
+            {
+                name:&quot;英语&quot;,
+                grade:100
+            },
+            {
+                name:&quot;体育&quot;,
+                grade:100
+            }
+        ];
+        var arr2 = arr.find(function(item){
+            return item.grade === 100;
+        });
+        console.log(arr2);
+
+        // reduce 叠加计算
+        // 参数prev 是上一次的叠加结果，item是本次的
+        var arr=[1,2,3,4,5,6,7];
+        var arr2 =arr.reduce(function(prev, item){
+            return prev + item;
+        }, 0);
+        console.log(arr2);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3a58db55-6aee-8226-9051-01d2c2ccc352" class="toggle"><li><details open=""><summary>二维数组创建</summary><div style="display:contents" dir="auto"><p id="9eb8db55-6aee-82c7-a936-8107a6d52081" class="">1、动态创建</p></div><div style="display:contents" dir="auto"><pre id="e598db55-6aee-82bc-8cc6-01df7c9e10d9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 创建 3 行 4 列的空二维数组
+const rows = 3;
+const cols = 4;
+const emptyMatrix = [];
+
+for (let i = 0; i &lt; rows; i++) {
+  emptyMatrix[i] = new Array(cols).fill(0); // 初始化每行并填充默认值（如0）
+}
+
+// 结果：[[0,0,0,0], [0,0,0,0], [0,0,0,0]]</code></pre></div><div style="display:contents" dir="auto"><p id="62d8db55-6aee-82cb-aa60-81c47c5b757b" class="">2、Array.from()+箭头函数</p></div><div style="display:contents" dir="auto"><pre id="f088db55-6aee-8331-85d6-818625e12d34" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const rows = 3;
+const cols = 4;
+const matrix = Array.from({length:rows}, () =&gt; new Array(cols).fill(0));
+// [[0,0,0,0], [0,0,0,0], [0,0,0,0]]</code></pre></div><div style="display:contents" dir="auto"><p id="2168db55-6aee-83ff-8be2-01b09034aedc" class="">3、Array(n).fill().map()</p></div><div style="display:contents" dir="auto"><pre id="e958db55-6aee-824a-b904-01b724108938" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const matrix = Array(2).fill().map(() =&gt; Array(3).fill(0));
+// [[0,0,0], [0,0,0]]</code></pre></div><div style="display:contents" dir="auto"><p id="98b8db55-6aee-831e-9604-01f2cc0c40a5" class="">4、不规则二维数组创建</p></div><div style="display:contents" dir="auto"><pre id="6f58db55-6aee-834e-87ed-01f8b1a7ea69" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const irregularMatrix = Array.from({length:3}, (_, rowIndex) =&gt; 
+		Array.from({length:rowIndex+1}, (_, colIndex) =&gt; colIndex)
+);</code></pre></div><div style="display:contents" dir="auto"><p id="d448db55-6aee-82bd-8961-0143e85bf939" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="edf8db55-6aee-833d-8423-01f31ed698c4" class="toggle"><li><details open=""><summary>多维数组创建</summary><div style="display:contents" dir="auto"><p id="1db8db55-6aee-829b-9d02-81d935baa7a8" class="">1、创建三维数组</p></div><div style="display:contents" dir="auto"><pre id="c3c8db55-6aee-8319-8e26-81a9c66739bf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const cube = Array.from({length:2}, () =&gt;
+		Array.from({length:2}, () =&gt;
+				Array.from(2).fill(0)
+		)
+);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a208db55-6aee-830d-8c33-81fb87538b04" class="toggle"><li><details open=""><summary>数组遍历方法</summary><div style="display:contents" dir="auto"><ul id="4308db55-6aee-839a-a7a6-0187469954b8" class="toggle"><li><details open=""><summary>for(){}</summary><div style="display:contents" dir="auto"><pre id="2d58db55-6aee-838a-b0b6-812e253831bc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (var i=0; i&lt;filterarray.length; i++) {
+	alert(filterarray[i]);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="81d8db55-6aee-820a-987f-0113d6d823b7" class="toggle"><li><details open=""><summary>for... in</summary><div style="display:contents" dir="auto"><pre id="e318db55-6aee-822f-a3fc-013ce36dbe0a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var obj={a:1, b:2, c:3};
+for (var i in obj) {
+	console.log(&#x27;key:&#x27;, i);
+	console.log(&#x27;val:&#x27;, obj[i]);
+}
+// 其中 obj为循环的对象， i 为对象中的“键名”。如果对象是数组，那么i就是坐标。</code></pre></div><div style="display:contents" dir="auto"><p id="bd58db55-6aee-835a-8c27-81f35dd5af52" class="">任何对象都继承了Object对象，或者其它对象，继承的类的属性是默认不可遍历的，<code>for... in</code>循环遍历的时候会跳过，但是这个属性是可以更改为可以遍历的，那么就会造成遍历到不属于自身的属性。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="23a8db55-6aee-8263-8f0c-81cd59bfc29e" class="toggle"><li><details open=""><summary>for…of</summary><div style="display:contents" dir="auto"><p id="40c8db55-6aee-8256-8c91-01b0ad75501c" class="">遍历数组、字符串、Set、Map 等</p></div><div style="display:contents" dir="auto"><pre id="5908db55-6aee-83ea-b43c-819e43d4b93f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const arr=[1, 2, 3];
+for (const num of arr) {
+		console.log(num); // 1,2,3
+}
+for (const char of &#x27;hello&#x27;) {
+		console.log(char); // &#x27;h&#x27;, &#x27;e&#x27;, &#x27;l&#x27;, &#x27;l&#x27;, &#x27;o&#x27;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4d18db55-6aee-8346-9263-8197727d086c" class="toggle"><li><details open=""><summary>forEach()</summary><div style="display:contents" dir="auto"><p id="f1d8db55-6aee-830f-8acd-81d87550fd0e" class="">forEach方法不返回值，只用来操作数据</p></div><div style="display:contents" dir="auto"><p id="1738db55-6aee-837f-bf78-819376b21708" class="">forEach的用法与map方法一致</p></div><div style="display:contents" dir="auto"><pre id="2428db55-6aee-8216-9fde-816be8a9c64c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function log(element, index, array) {
+		console.log(&#x27;[&#x27;+index+&#x27;]=&#x27;+element);
+};
+[2, 5, 9].forEach(log);
+// [2, 5, 9]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0318db55-6aee-826e-9575-81931af5aea3" class="toggle"><li><details open=""><summary>for await…of (异步迭代) </summary><div style="display:contents" dir="auto"><pre id="3de8db55-6aee-82ca-9c6b-8128c7b37a6d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">async function* generateNumbers() {
+	yield 1;
+	await new Promose(resolve =&gt; setTineout(resolve, 1000));
+	yield 2;
+}
+(async () =&gt; {
+	for await (const num of generateNumbers()){
+		console.log(num); // 依次输出1（延时1秒后）2
+	}
+})();</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6ac8db55-6aee-8222-ad6d-011c3a43ef78" class="toggle"><li><details open=""><summary>map()</summary><div style="display:contents" dir="auto"><p id="0df8db55-6aee-822e-b787-815cf5265227" class="">map方法将数组的所有成员依次传入参数函数，然后把每一次的执行结果组成一个新数组返回。</p></div><div style="display:contents" dir="auto"><p id="d978db55-6aee-83c5-b4c2-81fab43bf07e" class=""><mark class="highlight-red">注意：是返回一个新数组，而不会改变原数组。</mark></p></div><div style="display:contents" dir="auto"><pre id="0c18db55-6aee-83e4-ad0a-814d23baf334" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var numbers = [1, 2, 3];
+numbers.map(function (n) {
+		return n+1;
+}); // [2, 3, 4]
+numbers // [1, 2, 3]</code></pre></div><div style="display:contents" dir="auto"><p id="b778db55-6aee-834d-a09e-0163075512ff" class="">map方法<strong>接受一个函数作为参数。</strong></p></div><div style="display:contents" dir="auto"><p id="9248db55-6aee-8207-80dd-8122b143f956" class="">该函数调用时，map方法向它传入三个参数：</p></div><div style="display:contents" dir="auto"><p id="3298db55-6aee-8349-b67b-018eaf4f3745" class="">当前成员(elem)、当前位置(index)和数组本身(arr)。如：</p></div><div style="display:contents" dir="auto"><pre id="63f8db55-6aee-8347-a4b4-81bd7a1f977d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[1, 2, 3].map(function(elem, index, arr){
+		return elem * index;
+}); // [0, 2, 6]</code></pre></div><div style="display:contents" dir="auto"><p id="a178db55-6aee-82b2-b2b8-814a90e59ea9" class="">map()循环还可以<strong>接受第二个参数</strong>，用来绑定回调函数内部的this变量，将回调函数内部的this对象，指向第二个参数，间接操作这个参数（一般是数组）。</p></div><div style="display:contents" dir="auto"><pre id="d778db55-6aee-82e1-83ab-01995e4678ec" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var arr=[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;];
+[1, 2].map(function (e){
+	return this[e];
+}, arr); // [&#x27;b&#x27;, &#x27;c&#x27;]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="35f8db55-6aee-8306-bbba-81e08779535d" class="toggle"><li><details open=""><summary>filter()</summary><div style="display:contents" dir="auto"><p id="8b68db55-6aee-831a-8ba7-812f2b9fddb3" class="">用于过滤数组成员，满足条件的成员组成一个新数组返回。</p></div><div style="display:contents" dir="auto"><p id="5378db55-6aee-8254-87ca-81007386683d" class="">参数是一个函数，所有数组成员依次执行该函数，返回结果为true的成员组成一个新数组返回。</p></div><div style="display:contents" dir="auto"><p id="cb88db55-6aee-8351-8372-015bb76df5af" class="">该方法<strong>不会改变原数组</strong>。</p></div><div style="display:contents" dir="auto"><pre id="0fd8db55-6aee-821c-b628-814fe05d488e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[1, 2, 3, 4, 5].filter(function (elem, index, arr){
+		return index%2===0;
+}); // [1, 3, 5]</code></pre></div><div style="display:contents" dir="auto"><p id="7a98db55-6aee-82e1-8845-814e249e28c3" class="">filter方法也可以接受第二个参数，用来绑定参数函数内部的this变量.</p></div><div style="display:contents" dir="auto"><pre id="7438db55-6aee-8379-ad00-01809a374267" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var obj={MAX:3};
+var myf=function(item){
+		if (item &gt; this.MAX) return true;
+};
+var arr=[2, 8, 3, 4, 1, 3, 2, 9];
+arr.filter(myf, obj) // [8, 4, 9]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="85b8db55-6aee-837f-a8c1-01ecefb83f09" class="toggle"><li><details open=""><summary>some()，every() </summary><div style="display:contents" dir="auto"><p id="eb98db55-6aee-8279-8356-81314db66050" class=""><strong>统计数组是否满足某个条件, 返回一个布尔值，表示判断数组成员是否符合某种条件。</strong></p></div><div style="display:contents" dir="auto"><p id="f5a8db55-6aee-83ac-88f8-0122f2c36d85" class="">接受一个函数作为参数，所有数组成员依次执行该函数。</p></div><div style="display:contents" dir="auto"><p id="f8c8db55-6aee-8359-82cc-012b1dee32a3" class="">该函数接受三个参数：当前成员、当前位置和整个数组，然后返回一个布尔值。</p></div><div style="display:contents" dir="auto"><p id="2e18db55-6aee-8255-ad15-81a604bc6afd" class=""><code>some</code>方法是只要一个成员的返回值是<code>true</code>，则整个<code>some</code>方法的返回值就是<code>true</code>，否则返回<code>false</code>。</p></div><div style="display:contents" dir="auto"><pre id="8348db55-6aee-83b3-88e5-01f165ddf196" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var arr=[1, 2, 3, 4, 5];
+arr.some(function (elem, index, arr) {
+		return elem &gt;=3;
+}); // true</code></pre></div><div style="display:contents" dir="auto"><p id="5978db55-6aee-826d-96c8-0192c3fe74e8" class=""><code>every</code>方法则相反，所有成员的返回值都是<code>true</code>，整个<code>every</code>方法才返回<code>true</code>，否则返回<code>false</code>。</p></div><div style="display:contents" dir="auto"><pre id="7428db55-6aee-83fe-98d0-0150a5c5b4d0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var arr=[1, 2, 3, 4, 5];
+arr.some(function (elem, index, arr) {
+		return elem &gt;=3;
+}); // false</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3c08db55-6aee-8203-8c85-01a04abc5338" class="toggle"><li><details open=""><summary>reduce()，reduceRight() </summary><div style="display:contents" dir="auto"><p id="4fb8db55-6aee-83fb-b277-01742be8f10e" class=""><strong>可依次处理数组的每个成员</strong></p></div><div style="display:contents" dir="auto"><p id="2cd8db55-6aee-828f-bf9b-81fa90ffc922" class=""> <code>reduce</code>方法和<code>reduceRight</code>方法依次处理数组的每个成员，最终累计为一个值。<br/>差别是，<code>reduce</code>是从左到右处理（从第一个成员到最后一个成员）<br/><code>reduceRight</code>则是从右到左（从最后一个成员到第一个成员），其他完全一样。</p></div><div style="display:contents" dir="auto"><pre id="c888db55-6aee-83b6-8250-01b6045b47a6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[1, 2, 3, 4, 5].reduce(function(a, b){
+		console.log(a, b);
+		return a+b;
+});
+// 1 2
+// 3 3
+// 6 4
+// 10 5
+// 最后结果：15</code></pre></div><div style="display:contents" dir="auto"><p id="74a8db55-6aee-827e-9e4f-81eb6044ea13" class=""><code>reduce</code>方法和<code>reduceRight</code>方法的第一个参数都是一个函数。该函数接受以下四个参数。</p></div><div style="display:contents" dir="auto"><ol type="1" id="ab68db55-6aee-83d3-996a-0171e2d2ceb2" class="numbered-list" start="1"><li>累积变量，默认为数组的第一个成员</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2638db55-6aee-8391-be67-814eb57ff068" class="numbered-list" start="2"><li>当前变量，默认为数组的第二个成员</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="edc8db55-6aee-834e-a0a8-81bc3b2cc44a" class="numbered-list" start="3"><li>当前位置（从0开始）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="67e8db55-6aee-8396-bdfa-818fc3b22ac0" class="numbered-list" start="4"><li>原数组</li></ol></div><div style="display:contents" dir="auto"><p id="8f08db55-6aee-83d2-a612-01b704f83fb5" class=""> 如果要对累积变量指定初值，可以把它放在<code>reduce</code>方法和<code>reduceRight</code>方法的第二个参数。</p></div><div style="display:contents" dir="auto"><pre id="0978db55-6aee-8377-91da-8121126ef7e1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[1, 2, 3, 4, 5].reduce(function(a, b){
+		console.log(a, b);
+		return a+b;
+}, 10); // 25</code></pre></div><div style="display:contents" dir="auto"><p id="ca28db55-6aee-8331-972d-01c2be661b28" class="">找出字符串最长的数组成员</p></div><div style="display:contents" dir="auto"><pre id="1758db55-6aee-8210-afdb-819b79f1b19e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function findLongest(entries) {
+	return entries.reduce(function (longest, entry){
+		return entry.length &gt; longest.length ? entry : longest;
+	}, &#x27;&#x27;);
+}
+findLongest([&#x27;aaa&#x27;,&#x27;bb&#x27;,&#x27;c&#x27;]) // &quot;aaa&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f018db55-6aee-82e4-acc3-812e4ba35083" class="toggle"><li><details open=""><summary>Object.key() </summary><div style="display:contents" dir="auto"><p id="4bc8db55-6aee-834c-a69d-81cb70f40359" class=""><code>Object.keys</code>方法的参数是一个对象，返回一个数组。</p></div><div style="display:contents" dir="auto"><p id="f098db55-6aee-8377-8bad-013c39644d2a" class="">该数组的成员都是该对象自身的（而不是继承的）所有属性名（键值key），且<mark class="highlight-pink"><strong>只返回可枚举的属性</strong></mark>。</p></div><div style="display:contents" dir="auto"><pre id="e988db55-6aee-8398-85ee-814b1dd2d62f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var obj={
+	p1: 123,
+	p2: 456
+};
+Object.keys(obj) // [&quot;p1&quot;, &quot;p2&quot;]</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8678db55-6aee-822c-97f4-0168b20b8bce" class="toggle"><li><details open=""><summary>Object.getOwnPropertyNames() </summary><div style="display:contents" dir="auto"><p id="6378db55-6aee-82a7-b79b-01f7846eaca9" class="">与<code>Object.keys</code>类似，也是接受一个对象作为参数，返回一个数组，包含了该对象自身的所有属性名。</p></div><div style="display:contents" dir="auto"><p id="7cf8db55-6aee-8318-9bc8-81d03e6e120f" class="">但它能返回<mark class="highlight-pink">不可枚举的属性</mark>。</p></div><div style="display:contents" dir="auto"><pre id="6288db55-6aee-8239-88ee-01ca34f850b5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var obj = {
+  p1: 123,
+  p2: 456
+};
+ // length 属性不可枚举
+Object.keys(obj).length // 2
+Object.getOwnPropertyNames(obj).length // 2</code></pre></div></details></li></ul></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1688db55-6aee-83b6-a71f-8163b4624589" class="toggle"><li><details open=""><summary>数字操作</summary><div style="display:contents" dir="auto"><ul id="99f8db55-6aee-83aa-a6e3-818e00d3d509" class="toggle"><li><details open=""><summary>NaN &amp; Infinity</summary><div style="display:contents" dir="auto"><p id="95a8db55-6aee-8338-96dc-0183774f60d3" class=""><code><strong>NaN</strong></code>：表示 “非数字”（Not a Number），用于标识无效的数字运算结果</p></div><div style="display:contents" dir="auto"><pre id="0bf8db55-6aee-8290-b595-817e611c6cb5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">0 / 0; // NaN
+parseInt(&quot;abc&quot;); // NaN</code></pre></div><div style="display:contents" dir="auto"><p id="4018db55-6aee-82c2-834e-813a9ad125ee" class="">NaN不等于任何值，包括自己</p></div><div style="display:contents" dir="auto"><pre id="a498db55-6aee-82d1-be04-015a5ee84363" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">NaN === NaN; // false
+isNaN(NaN); // true
+isNaN(&quot;abc&quot;); // true（会先尝试转换为数字）</code></pre></div><div style="display:contents" dir="auto"><p id="cb58db55-6aee-828e-af13-016d6830102c" class=""><code><strong>Infinity</strong></code>：表示 “无穷大”，用于超出数值范围的运算</p></div><div style="display:contents" dir="auto"><pre id="e968db55-6aee-82c2-b1e9-015ab24d69df" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">1 / 0; // Infinity
+-1 / 0; // -Infinity
+// 判断是否是无限大
+isFinite(Infinity); // false
+isFinite(123); // true</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0208db55-6aee-834a-a039-01be77344c75" class="toggle"><li><details open=""><summary>转换成整数类型</summary><div style="display:contents" dir="auto"><ul id="39f8db55-6aee-820e-8dab-01439901768b" class="toggle"><li><details open=""><summary>1、Number() 通用转换类型</summary><div style="display:contents" dir="auto"><pre id="ebc8db55-6aee-835c-9301-01aebd7a93f4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Number(&quot;123&quot;); // 123
+Number(&quot;12.3&quot;); // 12.3
+Number(&quot;&quot;); // 0
+Number(&quot;abc&quot;); // NaN（转换失败）
+Number(true); // 1
+Number(false); // 0
+Number(null); // 0
+Number(undefined); // NaN</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1c28db55-6aee-836d-84bb-019a52b4c2a9" class="toggle"><li><details open=""><summary>2、parseInt() 解析整数</summary><div style="display:contents" dir="auto"><pre id="7428db55-6aee-825f-865e-0157c23e1e69" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">parseInt(&quot;123&quot;); // 123
+parseInt(&quot;12.3&quot;); // 12（忽略小数部分）
+parseInt(&quot;12abc&quot;); // 12（只解析开头的数字）
+parseInt(&quot;abc12&quot;); // NaN（开头非数字）
+parseInt(&quot;11&quot;, 2); // 3（按二进制解析 &quot;11&quot;）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a888db55-6aee-8282-ade7-81a36fec2382" class="toggle"><li><details open=""><summary>3、parseFloat() 解析浮点数</summary><div style="display:contents" dir="auto"><pre id="f4f8db55-6aee-82ff-8b50-017fc5bb4bee" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">parseFloat(&quot;12.3&quot;); // 12.3
+parseFloat(&quot;12.3abc&quot;); // 12.3
+parseFloat(&quot;123&quot;); // 123（整数也会解析为浮点数）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d758db55-6aee-836b-835a-014d28bad7b2" class="toggle"><li><details open=""><summary>4、隐式转换</summary><div style="display:contents" dir="auto"><pre id="2918db55-6aee-831b-95bf-016501f751ae" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">+&quot;123&quot;; // 123（+ 号触发数字转换）
+&quot;12&quot; - 0; // 12</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1db8db55-6aee-82eb-a8ab-81abba05a12e" class="toggle"><li><details open=""><summary>5、转换布尔值</summary><div style="display:contents" dir="auto"><pre id="b9a8db55-6aee-8271-86a2-01b7361ca750" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Boolean(0); // false
+Boolean(NaN); // false
+Boolean(1); // true
+Boolean(-123); // true
+Boolean(3.14); // true</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8448db55-6aee-83c2-800d-0121845ef2d6" class="toggle"><li><details open=""><summary>.toFixed(x) 指定数字保留几位小数</summary><div style="display:contents" dir="auto"><p id="f5e8db55-6aee-8260-80af-812eb7f17818" class="">保留x为小数</p></div><div style="display:contents" dir="auto"><p id="d3c8db55-6aee-82fe-9c08-0132506bf8a1" class="">返回的是字符串，需要减去0操作之后，再加其他数字</p></div><div style="display:contents" dir="auto"><pre id="4ee8db55-6aee-82a0-b953-01d682f6fc7c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var p = 123.231231
+var sum=p.toFixed(2)-0+111
+console.log(p) // 123.23
+console.log(sum) // 234.23</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0a78db55-6aee-836b-a6cf-01b26cf84306" class="toggle"><li><details open=""><summary>Number.isNaN(x) 判断是不是NaN</summary><div style="display:contents" dir="auto"><pre id="e5d8db55-6aee-828b-bba9-817b5d2a4a30" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Number.isNaN(NaN); // true
+Number.isNaN(&quot;abc&quot;); // false（与 isNaN() 不同，不转换类型）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1a48db55-6aee-838a-9d41-01a588cec6d8" class="toggle"><li><details open=""><summary>Number.isInteger(x) 判断是不是整数</summary><div style="display:contents" dir="auto"><pre id="17c8db55-6aee-824b-8bee-0156ad72a0b7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Number.isInteger(123); // true
+Number.isInteger(123.0); // true（123.0 本质是整数）
+Number.isInteger(123.4); // false</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1fd8db55-6aee-8249-b773-01951877e3f2" class="toggle"><li><details open=""><summary>Math方法</summary><div style="display:contents" dir="auto"><p id="fd38db55-6aee-83f4-9d99-81823210c255" class="">1、Math.random() 随机数(0~1)</p></div><div style="display:contents" dir="auto"><p id="2c18db55-6aee-8248-9f87-013344555e0b" class="">2、[min, max) 范围的随机整数<div class="indented"><div style="display:contents" dir="auto"><pre id="d9d8db55-6aee-8269-9279-81b78c23b15e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function getRandomInt(min, max) {
+		return Math.floor(Math.random() * (max-min) + min);
+}</code></pre></div></div></p></div><div style="display:contents" dir="auto"><p id="e358db55-6aee-82f7-a766-81de88af2c7c" class="">3、Math.round() 四舍五入</p></div><div style="display:contents" dir="auto"><p id="a358db55-6aee-8256-a75a-0163c949fbce" class="">4、Math.ceil() &amp; floor 向上取整&amp;向下取整</p></div><div style="display:contents" dir="auto"><p id="3438db55-6aee-8395-9f8a-01f91f70efbf" class="">5、Math.abs() 绝对值</p></div><div style="display:contents" dir="auto"><p id="0d98db55-6aee-8249-bb82-01ded50dcc6c" class="">6、Math.sqrt() 取平方根</p></div><div style="display:contents" dir="auto"><p id="2838db55-6aee-82c1-b57d-010361ffdbcc" class="">7、Math.pow() 取次幂</p></div><div style="display:contents" dir="auto"><p id="e3a8db55-6aee-827d-8e76-81f56a45441e" class="">8、Math.max() &amp; min() 多参数最大值 &amp; 最小值</p></div><div style="display:contents" dir="auto"><p id="b818db55-6aee-82e6-8c5c-0166fc631d3e" class="">9、Math.PI Π的值</p></div><div style="display:contents" dir="auto"><p id="0368db55-6aee-83da-b4ce-01198d152028" class="">10、Math.sin() / Math.cos()</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c1f8db55-6aee-83a5-b8c5-01b920bd1d18" class="toggle"><li><details open=""><summary>时间对象操作</summary><div style="display:contents" dir="auto"><ul id="6138db55-6aee-83e3-ae75-01c482a2d689" class="toggle"><li><details open=""><summary>创建时间对象</summary><div style="display:contents" dir="auto"><pre id="6de8db55-6aee-82d9-8df1-812b29491a7b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 无参数
+const now = new Data();
+
+// 时间戳(毫秒级别)
+const timestamp = 1621489200000; // 对应2021-05-20 00:00:00 UTC
+const date = new Date(timestamp);
+
+// 日期字符串
+const date1 = new Date(&quot;2024-05-20&quot;); // 默认为当天00:00:00（本地时区）
+const date2 = new Date(&quot;2024-05-20T12:30:45&quot;); // 包含时分秒
+const date3 = new Date(&quot;2024-05-20T12:30:45+08:00&quot;); // 带时区偏移（+08:00为北京时间）
+
+// 年月日时分秒传入
+// 2024年5月20日 15:30:20
+const date = new Date(2024, 4, 20, 15, 30, 20); </code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d578db55-6aee-8228-b2f3-014ffa53a14c" class="toggle"><li><details open=""><summary>Date方法操作</summary><div style="display:contents" dir="auto"><ul id="9598db55-6aee-8237-9dc7-019b799326c1" class="toggle"><li><details open=""><summary>1，getFullYear() / getMonth() / getDate() / getDay() / getHours() / getMinutes() /getSeconds() / getMilliseconds()</summary><div style="display:contents" dir="ltr"><table id="4208db55-6aee-829f-b4f2-0189b0eb7f9a" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="8098db55-6aee-82a4-9883-016d3c281df9"><td id=":IrT" class=""><code>getFullYear()</code></td><td id="f]c|" class=""><code>getUTCFullYear()</code></td><td id="ETnb" class="">获取年份</td><td id="Jj`~" class="" style="width:165.8567657470703px">2024</td></tr></div><div style="display:contents" dir="ltr"><tr id="cb08db55-6aee-8253-9e60-811799324f20"><td id=":IrT" class=""><code>getMonth()</code></td><td id="f]c|" class=""><code>getUTCMonth()</code></td><td id="ETnb" class="">获取月份（0-11）</td><td id="Jj`~" class="" style="width:165.8567657470703px">4（表示 5 月）</td></tr></div><div style="display:contents" dir="ltr"><tr id="5dd8db55-6aee-831f-9202-01c00722277a"><td id=":IrT" class=""><code>getDate()</code></td><td id="f]c|" class=""><code>getUTCDate()</code></td><td id="ETnb" class="">获取日期（1-31）</td><td id="Jj`~" class="" style="width:165.8567657470703px">20</td></tr></div><div style="display:contents" dir="ltr"><tr id="dc48db55-6aee-8279-8bb2-8167fa9444b5"><td id=":IrT" class=""><code>getDay()</code></td><td id="f]c|" class=""><code>getUTCDay()</code></td><td id="ETnb" class="">获取星期（0-6，0 = 周日）</td><td id="Jj`~" class="" style="width:165.8567657470703px">1（表示周一）</td></tr></div><div style="display:contents" dir="ltr"><tr id="cd68db55-6aee-837e-9944-01c491afe035"><td id=":IrT" class=""><code>getHours()</code></td><td id="f]c|" class=""><code>getUTCHours()</code></td><td id="ETnb" class="">获取小时（0-23）</td><td id="Jj`~" class="" style="width:165.8567657470703px">15</td></tr></div><div style="display:contents" dir="ltr"><tr id="9178db55-6aee-82d7-b3c9-012b32c7cd60"><td id=":IrT" class=""><code>getMinutes()</code></td><td id="f]c|" class=""><code>getUTCMinutes()</code></td><td id="ETnb" class="">获取分钟（0-59）</td><td id="Jj`~" class="" style="width:165.8567657470703px">30</td></tr></div><div style="display:contents" dir="ltr"><tr id="4438db55-6aee-82ff-a4b2-8134dfd2ea13"><td id=":IrT" class=""><code>getSeconds()</code></td><td id="f]c|" class=""><code>getUTCSeconds()</code></td><td id="ETnb" class="">获取秒（0-59）</td><td id="Jj`~" class="" style="width:165.8567657470703px">20</td></tr></div><div style="display:contents" dir="ltr"><tr id="81a8db55-6aee-82ef-a020-81c7fbbbaa5a"><td id=":IrT" class=""><code>getMilliseconds()</code></td><td id="f]c|" class=""><code>getUTCMilliseconds()</code></td><td id="ETnb" class="">获取毫秒（0-999）</td><td id="Jj`~" class="" style="width:165.8567657470703px">123</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8e98db55-6aee-8237-95c7-8185da132d4e" class="toggle"><li><details open=""><summary>2，getTime()</summary><div style="display:contents" dir="auto"><p id="9728db55-6aee-8299-94dc-0116cb017fd0" class="">获取是俺戳（毫秒级别）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="de88db55-6aee-838d-a8fc-81339187334c" class="toggle"><li><details open=""><summary>3，getTimezoneOffset()</summary><div style="display:contents" dir="auto"><p id="f068db55-6aee-827f-b744-812e05bc7cd2" class="">本地时间与UTC的时差</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="da08db55-6aee-835c-a7e1-81054063347e" class="toggle"><li><details open=""><summary>4，setFullYear(year) / setMonth(month) / setDate(day) / setHours(hour) / setMinutes(min) / setSeconds(sec) / setMilliseconds(ms)</summary><div style="display:contents" dir="ltr"><table id="1388db55-6aee-82cc-aa18-01b696594b11" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="40a8db55-6aee-83e8-9f60-01bd6dd9c5f9"><th id="CQAC" class="simple-table-header-color simple-table-header" style="width:223.3333282470703px"><strong>方法（本地时间）</strong></th><th id="tpHc" class="simple-table-header-color simple-table-header" style="width:267.4361877441406px"><strong>方法（UTC 时间）</strong></th><th id="sMiA" class="simple-table-header-color simple-table-header" style="width:201.90625px"><strong>说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="e018db55-6aee-8225-b6e2-01a8417f9111"><td id="CQAC" class="" style="width:223.3333282470703px"><code>setFullYear(year)</code></td><td id="tpHc" class="" style="width:267.4361877441406px"><code>setUTCFullYear(year)</code></td><td id="sMiA" class="" style="width:201.90625px">设置年份</td></tr></div><div style="display:contents" dir="ltr"><tr id="7518db55-6aee-831d-9dd0-01bf5fbf7e6f"><td id="CQAC" class="" style="width:223.3333282470703px"><code>setMonth(month)</code></td><td id="tpHc" class="" style="width:267.4361877441406px"><code>setUTCMonth(month)</code></td><td id="sMiA" class="" style="width:201.90625px">设置月份（0-11）</td></tr></div><div style="display:contents" dir="ltr"><tr id="5068db55-6aee-824a-aa0d-0191a92c11b4"><td id="CQAC" class="" style="width:223.3333282470703px"><code>setDate(day)</code></td><td id="tpHc" class="" style="width:267.4361877441406px"><code>setUTCDate(day)</code></td><td id="sMiA" class="" style="width:201.90625px">设置日期（1-31）</td></tr></div><div style="display:contents" dir="ltr"><tr id="2e98db55-6aee-8225-8fd0-016b4a5d3f80"><td id="CQAC" class="" style="width:223.3333282470703px"><code>setHours(hour)</code></td><td id="tpHc" class="" style="width:267.4361877441406px"><code>setUTCHours(hour)</code></td><td id="sMiA" class="" style="width:201.90625px">设置小时（0-23）</td></tr></div><div style="display:contents" dir="ltr"><tr id="2fb8db55-6aee-83e9-be7f-8145850ca3a7"><td id="CQAC" class="" style="width:223.3333282470703px"><code>setMinutes(min)</code></td><td id="tpHc" class="" style="width:267.4361877441406px"><code>setUTCMinutes(min)</code></td><td id="sMiA" class="" style="width:201.90625px">设置分钟（0-59）</td></tr></div><div style="display:contents" dir="ltr"><tr id="6978db55-6aee-8397-a539-81c39a0b05ed"><td id="CQAC" class="" style="width:223.3333282470703px"><code>setSeconds(sec)</code></td><td id="tpHc" class="" style="width:267.4361877441406px"><code>setUTCSeconds(sec)</code></td><td id="sMiA" class="" style="width:201.90625px">设置秒（0-59）</td></tr></div><div style="display:contents" dir="ltr"><tr id="18a8db55-6aee-833c-be65-0149ed8d1a7f"><td id="CQAC" class="" style="width:223.3333282470703px"><code>setMilliseconds(ms)</code></td><td id="tpHc" class="" style="width:267.4361877441406px"><code>setUTCMilliseconds(ms)</code></td><td id="sMiA" class="" style="width:201.90625px">设置毫秒（0-999）</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2a48db55-6aee-8250-8382-81e534a8115a" class="toggle"><li><details open=""><summary>5，setTime()</summary><div style="display:contents" dir="auto"><p id="1d48db55-6aee-8206-9cae-81a4747eaa06" class="">setTime(timestamp)</p></div><div style="display:contents" dir="auto"><p id="0d88db55-6aee-825b-b4b2-01689a119515" class="">通过时间戳设置时间</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c6a8db55-6aee-83c3-b2ed-81c952d1b941" class="toggle"><li><details open=""><summary>6，toString()</summary><div style="display:contents" dir="auto"><p id="7d88db55-6aee-8291-8abd-81e0e39b6234" class="">返回完整字符串（包含时区）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b5b8db55-6aee-8206-afbf-016f639a26d6" class="toggle"><li><details open=""><summary>其他操作</summary><div style="display:contents" dir="ltr"><table id="a1c8db55-6aee-82c9-be9b-018757eae95b" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="4088db55-6aee-822e-bd7c-01d1e895bea4"><td id="\Lnl" class=""><code>toLocaleString()</code></td><td id="^b&gt;Q" class="" style="width:235px">本地格式的日期和时间（受浏览器语言 / 地区影响）</td><td id="&lt;Wrq" class="" style="width:337.9986877441406px">&quot;2024/5/20 15:30:20&quot;（中文环境）</td></tr></div><div style="display:contents" dir="ltr"><tr id="5c98db55-6aee-8227-938c-01aed57167af"><td id="\Lnl" class=""><code>toLocaleDateString()</code></td><td id="^b&gt;Q" class="" style="width:235px">本地格式的日期</td><td id="&lt;Wrq" class="" style="width:337.9986877441406px">&quot;2024/5/20&quot;</td></tr></div><div style="display:contents" dir="ltr"><tr id="9c08db55-6aee-8216-bb06-81a4b687087c"><td id="\Lnl" class=""><code>toLocaleTimeString()</code></td><td id="^b&gt;Q" class="" style="width:235px">本地格式的时间</td><td id="&lt;Wrq" class="" style="width:337.9986877441406px">&quot;15:30:20&quot;</td></tr></div><div style="display:contents" dir="ltr"><tr id="3118db55-6aee-8388-b54f-81a9f34bb4a4"><td id="\Lnl" class=""><code>toISOString()</code></td><td id="^b&gt;Q" class="" style="width:235px">ISO 8601 格式（UTC 时间，带时区 Z）</td><td id="&lt;Wrq" class="" style="width:337.9986877441406px">&quot;2024-05-20T07:30:20.123Z&quot;</td></tr></div><div style="display:contents" dir="ltr"><tr id="ce18db55-6aee-8368-8afa-81db3a2092f6"><td id="\Lnl" class=""><code>toUTCString()</code></td><td id="^b&gt;Q" class="" style="width:235px">UTC 时间字符串</td><td id="&lt;Wrq" class="" style="width:337.9986877441406px">&quot;Mon, 20 May 2024 07:30:20 GMT&quot;</td></tr></div><div style="display:contents" dir="ltr"><tr id="8db8db55-6aee-8319-a443-814e8f0af8d0"><td id="\Lnl" class=""><code>toDateString()</code></td><td id="^b&gt;Q" class="" style="width:235px">简化的日期字符串（不含时间）</td><td id="&lt;Wrq" class="" style="width:337.9986877441406px">&quot;Mon May 20 2024&quot;</td></tr></div><div style="display:contents" dir="ltr"><tr id="1aa8db55-6aee-83e2-8178-81d4987115e4"><td id="\Lnl" class=""><code>toTimeString()</code></td><td id="^b&gt;Q" class="" style="width:235px">简化的时间字符串（含时区）</td><td id="&lt;Wrq" class="" style="width:337.9986877441406px">&quot;15:30:20 GMT+0800 (中国标准时间)&quot;</td></tr></div></tbody></table></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bf48db55-6aee-8376-8322-0146bf71f971" class="toggle"><li><details open=""><summary>定时器</summary><div style="display:contents" dir="auto"><ul id="2a68db55-6aee-823d-a5b6-81bff9426276" class="toggle"><li><details open=""><summary>1，setTimeout() / clearTimeout()</summary><div style="display:contents" dir="auto"><p id="4ce8db55-6aee-820b-b740-01905a95ffc1" class="">var time = setTimeout(func, time)</p></div><div style="display:contents" dir="auto"><p id="3ee8db55-6aee-82d5-bdaf-81ade2daefed" class="">clearTimeout(time)</p></div><div style="display:contents" dir="auto"><p id="8c08db55-6aee-82fd-b08f-81e7a201a55f" class="">注册定时器，一段时间time后，执行方法func</p></div><div style="display:contents" dir="auto"><p id="1338db55-6aee-822a-807c-8130bb07810a" class="">返回一个句柄，表示注册顺序</p></div><div style="display:contents" dir="auto"><pre id="fc18db55-6aee-8250-9447-013819addd84" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;button id=&quot;btn1&quot;&gt;清除time1&lt;/button&gt;
+
+var time1=setTimeout(function(){
+		console.log(&quot;hello&quot;);
+}, 2000);
+
+btn1.onclick = function() {
+    console.log(&quot;btn1 click&quot;);
+    clearTimeout(time1);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0d48db55-6aee-82ad-8a5c-01775dbb7d93" class="toggle"><li><details open=""><summary>2，setInterval() / clearTimeInterval()</summary><div style="display:contents" dir="auto"><p id="8d18db55-6aee-83f0-8a1d-81fd16ee6e43" class="">var time = setInterval(func, time)</p></div><div style="display:contents" dir="auto"><p id="6488db55-6aee-83e1-8316-8150db479599" class="">clearTimeInterval(time)</p></div><div style="display:contents" dir="auto"><p id="afd8db55-6aee-83fe-b499-818ced60c55b" class="">间隔定时器，每间隔time时间，执行一次func</p></div><div style="display:contents" dir="auto"><p id="5b18db55-6aee-82a7-8788-018831278b43" class="">返回一个句柄，表示注册顺序</p></div><div style="display:contents" dir="auto"><pre id="7e18db55-6aee-82eb-a774-814b2a59cb6f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;button id=&quot;btn2&quot;&gt;清除time2&lt;/button&gt;
+
+var time2=setInterval(function(){
+		console.log(&quot;akal&quot;, new Date());
+}, 1000);
+
+btn2.onclick = function(){
+    console.log(&quot;btn2 click&quot;);
+    clearInterval(time2);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7b28db55-6aee-83b2-9125-011f9abc9f78" class="toggle"><li><details open=""><summary>倒计时案例</summary><div style="display:contents" dir="auto"><p id="2778db55-6aee-83e2-b7dc-8157c2c8b6a9" class="">
+</p></div></details></li></ul></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="19c8db55-6aee-824e-85f9-017663329557" class="toggle"><li><details open=""><summary>逻辑符号</summary><div style="display:contents" dir="auto"><ul id="3398db55-6aee-83d5-bac9-010b185e81c6" class="toggle"><li><details open=""><summary>1、<code>&amp;&amp;</code> 逻辑与</summary><div style="display:contents" dir="auto"><p id="f178db55-6aee-823b-a081-010535bb10bd" class="">当左边的值为 “假值”（<code>undefined</code>、<code>null</code>、<code>0</code> 等）时，直接返回左边的值，不再执行右边的代码；</p></div><div style="display:contents" dir="auto"><p id="22a8db55-6aee-83af-a2ee-8162f906a7a0" class="">当左边的值为 “真值” 时，返回右边的值。</p></div><div style="display:contents" dir="auto"><pre id="d198db55-6aee-837e-a085-015f411632d9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const user = { name: &quot;张三&quot;, age: 20 };
+
+// 如果 user 存在，则获取 user.name（避免 null/undefined 报错）
+const userName = user &amp;&amp; user.name; // 结果：&quot;张三&quot;
+
+// 如果 user 不存在（假值），则返回 user 本身（避免报错）
+const invalidUser = null;
+const invalidName = invalidUser &amp;&amp; invalidUser.name; // 结果：null（不会报错）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0a68db55-6aee-82da-9bab-0128001e24bd" class="toggle"><li><details open=""><summary>2、<code>||</code> 逻辑或（与<code>&amp;&amp;</code> 相反）</summary><div style="display:contents" dir="auto"><p id="eeb8db55-6aee-8217-8dc8-01ec6746e038" class="">如果左边的值为 “假值”（<code>undefined</code>、<code>null</code>、<code>0</code>、<code>&quot;&quot;</code>、<code>false</code>、<code>NaN</code>），则返回右边的值。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fdc8db55-6aee-83c2-a1c5-01a528cfdd6e" class="toggle"><li><details open=""><summary>3、<code>??</code> 空值合并运算符</summary><div style="display:contents" dir="auto"><p id="e9f8db55-6aee-8354-b19f-010f50a79867" class="">专门用于处理 <code>null</code> 或 <code>undefined</code> 的默认值，<strong>仅当左边的值为 </strong><code><strong>null</strong></code><strong> 或 </strong><code><strong>undefined</strong></code><strong> 时，才返回右边的值</strong>（与 <code>||</code> 不同，<code>||</code> 会把 <code>0</code>、<code>&quot;&quot;</code> 等假值也当作 “无效”）。</p></div><div style="display:contents" dir="auto"><p id="0758db55-6aee-82c1-bff3-01d019f8aec8" class="">需要保留 <code>0</code>、<code>&quot;&quot;</code> 等合法假值时，比 <code>||</code> 更精确。</p></div><div style="display:contents" dir="auto"><pre id="ab38db55-6aee-830a-a06d-01a874b24761" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const score = 0;
+
+// 使用 || 时，0 被当作假值，返回默认值 60（不合理，因为 0 是合法分数）
+const result1 = score || 60; // 60
+
+// 使用 ?? 时，0 是有效 value，返回 0（更合理）
+const result2 = score ?? 60; // 0</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="63c8db55-6aee-82ac-a8c3-0142d6fd3af1" class="toggle"><li><details open=""><summary>4、<code>?:</code> 三元运算符</summary><div style="display:contents" dir="auto"><p id="3738db55-6aee-8248-a3d5-817b56bae2a3" class="">语法为 <code>条件 ? 表达式1 : 表达式2，</code>相当于简化的 <code>if-else</code>。<div class="indented"><div style="display:contents" dir="auto"><p id="7db8db55-6aee-82ea-997f-01bc7a947cd6" class="">条件为真时，执行表达式 1；</p></div><div style="display:contents" dir="auto"><p id="9518db55-6aee-823e-80d5-0121dee0f059" class="">条件为假时，执行表达式 2。</p></div></div></p></div><div style="display:contents" dir="auto"><pre id="77a8db55-6aee-830b-8794-013cdae0e6f4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const age = 17;
+
+// 判断是否成年
+const isAdult = age &gt;= 18 ? &quot;成年&quot; : &quot;未成年&quot;; // &quot;未成年&quot;
+
+// 结合默认值场景（类似 ||，但可自定义条件）
+const name = userInput ? userInput : &quot;匿名&quot;; // 等价于 name = userInput || &quot;匿名&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ea78db55-6aee-82a9-a848-01cd2456cb83" class="toggle"><li><details open=""><summary>5、<code>?.</code>可选链运算符</summary><div style="display:contents" dir="auto"><p id="0158db55-6aee-8283-8bac-0103c0bb0a64" class="">语法为 <code>obj?.prop</code> 或 <code>arr?.[index]</code>，用于安全访问嵌套对象 / 数组的属性，避免因中间值为 <code>null/undefined</code> 而报错。<div class="indented"><div style="display:contents" dir="auto"><p id="3638db55-6aee-82aa-9504-8163e2726f93" class="">如果左边的值为 <code>null/undefined</code>，则直接返回 <code>undefined</code>，不执行后续访问；</p></div><div style="display:contents" dir="auto"><p id="2488db55-6aee-8248-94d2-81f18245b3d6" class="">否则正常返回属性值。</p></div></div></p></div><div style="display:contents" dir="auto"><pre id="1488db55-6aee-839d-a4a7-015df0d321a6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const user = { info: { name: &quot;李四&quot; } };
+
+// 安全访问嵌套属性
+const userName = user?.info?.name; // &quot;李四&quot;
+
+// 当中间属性不存在时，返回 undefined（不报错）
+const invalidUser = null;
+const invalidName = invalidUser?.info?.name; // undefined
+
+// 配合 ?? 设置默认值
+const finalName = invalidName ?? &quot;未知用户&quot;; // &quot;未知用户&quot;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5bd8db55-6aee-82fb-94a1-012d2dd31090" class="toggle"><li><details open=""><summary>js中所有的输出与区别</summary><div style="display:contents" dir="auto"><ul id="e0f8db55-6aee-8330-b322-01888d0de6e6" class="toggle"><li><details open=""><summary>console.log() </summary><div style="display:contents" dir="auto"><p id="2938db55-6aee-8375-80b0-8115bbe24e83" class="">&gt;&gt;&gt;在控制台输出：</p></div><div style="display:contents" dir="auto"><p id="d948db55-6aee-83dc-9f0d-0167947c256d" class="">可输出字符串、数字、数组、对象等多种类型的数据。</p></div><div style="display:contents" dir="auto"><pre id="2518db55-6aee-8219-adb9-01244ed1041a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(&quot;hello, world!&quot;);
+console.log(&quot;Array:&quot;, [1, 2, 3, 4]);
+
+const name=&quot;a&quot;;
+const age=30;
+// 使用模板字符串（反引号 `）和占位符（${}）可以更方便地格式化输出。
+console.log(`Name: ${name}, age: ${age}`)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3d58db55-6aee-8317-8002-8150a407870a" class="toggle"><li><details open=""><summary>document.write()</summary><div style="display:contents" dir="auto"><p id="30f8db55-6aee-820e-85e7-01bd2e215fe5" class="">&gt;&gt;&gt; 在网页中输出：</p></div><div style="display:contents" dir="auto"><p id="b5d8db55-6aee-821f-b82a-8134ca338b4b" class="">可以直接在 HTML 文档中写入内容。但需要注意的是，这种方法会<mark class="highlight-pink"><strong>覆盖整个文档</strong></mark>，如果在文档加载后使用，会导致页面内容被清除。</p></div><div style="display:contents" dir="auto"><pre id="3208db55-6aee-826b-a5b0-01de2476916a" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;script&gt;
+		document.write(&quot;hello, man!&quot;);
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="de48db55-6aee-8385-8e18-812971ab5985" class="toggle"><li><details open=""><summary>innerHTML()</summary><div style="display:contents" dir="auto"><pre id="6938db55-6aee-820b-9ed4-811a9a7f8504" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;output&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+    document.getElementById(&quot;output&quot;).innerHTML = &quot;Hello, World!&quot;;
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="db28db55-6aee-8223-bd8e-81583839d4cb" class="">它允许你修改某个 HTML 元素的内容。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5fd8db55-6aee-836a-a3bd-0191f9ba7451" class="toggle"><li><details open=""><summary>textContent()</summary><div style="display:contents" dir="auto"><p id="3758db55-6aee-827b-9bbd-8156c915b95b" class="">与 <code>innerHTML</code> 类似，但 <code>textContent</code> 不会解析 HTML 标签，只会显示纯文本。</p></div><div style="display:contents" dir="auto"><pre id="1d38db55-6aee-835d-badc-01cb98f1fc99" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;output&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+		document.getElementById(&quot;output&quot;).textContent=&quot;hello&quot;;
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-8309-875f-016f500e201c" class="toggle"><li><details open=""><summary>alert()</summary><div style="display:contents" dir="auto"><p id="7398db55-6aee-83a0-be9e-81b2b5c6d3ec" class="">&gt;&gt;&gt;通过弹窗输出</p></div><div style="display:contents" dir="auto"><p id="4148db55-6aee-8347-950e-01aff1aac4ae" class="">会弹出一个对话框，显示指定的信息。虽然这种方法在调试时很常用，但在生产环境中应谨慎使用，以免影响用户体验。</p></div><div style="display:contents" dir="auto"><pre id="4c78db55-6aee-833a-aad9-019f537790e8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">alert(&quot;hello, guys!&quot;);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="eb28db55-6aee-83a8-bfc3-81f35fb46e80" class="toggle"><li><details open=""><summary>prompt() 和 confirm()</summary><div style="display:contents" dir="auto"><p id="8448db55-6aee-83bd-89c0-0124a378e470" class=""><code>prompt</code> 可以显示一个带有输入框的对话框，允许用户输入信息。</p></div><div style="display:contents" dir="auto"><p id="0098db55-6aee-824c-b17f-811182d441b9" class=""><code>confirm</code> 则显示一个带有“确定”和“取消”按钮的对话框。</p></div><div style="display:contents" dir="auto"><pre id="5da8db55-6aee-82cf-9d04-81496fca9989" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const userInput=prompt(&quot;Please enter your name:&quot;);
+console.log(userInput);
+
+const userConfirmed=confirm(&quot;Are you sure?&quot;);
+console.log(userConfirmed); // true or false</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="5388db55-6aee-820f-9725-813c83f5787e"/></div><div style="display:contents" dir="auto"><p id="0588db55-6aee-8284-b221-810714c8a3d0" class=""><code>console.log</code> 是调试和日志记录的首选方法，<code>document.write</code> 和 <code>innerHTML</code> 则用于在网页中显示内</p></div><div style="display:contents" dir="auto"><p id="0dd8db55-6aee-8338-a858-81c13bc5c2cf" class=""><code>alert</code>、<code>prompt</code> 和 <code>confirm</code> 则用于与用户进行简单的交互。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fdc8db55-6aee-8247-81c8-8162f2e2ca62" class="toggle"><li><details open=""><summary>Map()</summary><div style="display:contents" dir="auto"><ul id="c908db55-6aee-829c-a14d-017889cd4ab8" class="toggle"><li><details open=""><summary>创建与初始化</summary><div style="display:contents" dir="auto"><pre id="4758db55-6aee-820b-848a-8190f7dd399a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const map=new Map()
+---------
+const map2 = new Map([
+  [&#x27;name&#x27;, &#x27;Alice&#x27;],
+  [1, &#x27;number&#x27;],
+  [() =&gt; {}, &#x27;function&#x27;],
+  [{ id: 1 }, &#x27;object&#x27;]
+]);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0f48db55-6aee-8390-858f-81f474e12f69" class="toggle"><li><details open=""><summary>size</summary><div style="display:contents" dir="auto"><p id="0378db55-6aee-83c8-bade-81535adbaeb8" class="">返回键值对数量</p></div><div style="display:contents" dir="auto"><pre id="8ad8db55-6aee-82ca-bb36-01be7d44b17b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const map = new Map([[&#x27;a&#x27;, 1], [&#x27;b&#x27;, 2]]);
+console.log(map.size); // 输出：2</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6698db55-6aee-8247-ae83-01a5a6e6f495" class="toggle"><li><details open=""><summary>set()</summary><div style="display:contents" dir="auto"><p id="48f8db55-6aee-8231-8df3-01b8a2f362e6" class="">set(key, value) 添加/修改键值对</p></div><div style="display:contents" dir="auto"><pre id="6e38db55-6aee-833f-bff3-8159ac7677b6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const map = new Map();
+map.set(&#x27;name&#x27;, &#x27;Bob&#x27;);
+map.set(1, &#x27;one&#x27;)
+   .set(true, &#x27;boolean&#x27;) // 链式调用
+   .set(&#x27;name&#x27;, &#x27;Alice&#x27;); // 覆盖已有键
+
+console.log(map); // Map(3) { &#x27;name&#x27; =&gt; &#x27;Alice&#x27;, 1 =&gt; &#x27;one&#x27;, true =&gt; &#x27;boolean&#x27; }</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b558db55-6aee-838d-851b-817f6b9c05e1" class="toggle"><li><details open=""><summary>get()</summary><div style="display:contents" dir="auto"><p id="1188db55-6aee-83c4-8fd2-01ddf056764e" class="">get(key) 获取键对应的值，不存在返回undefined</p></div><div style="display:contents" dir="auto"><pre id="49b8db55-6aee-8241-bbcd-01b2b43289e2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const map = new Map([[&#x27;name&#x27;, &#x27;Alice&#x27;], [1, &#x27;number&#x27;]]);
+console.log(map.get(&#x27;name&#x27;)); // 输出：&#x27;Alice&#x27;
+console.log(map.get(2)); // 输出：undefined（键不存在）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8458db55-6aee-83af-a51d-0142b2397557" class="toggle"><li><details open=""><summary>has()</summary><div style="display:contents" dir="auto"><p id="fe88db55-6aee-8391-9a4f-81c831d9b84a" class="">has(key) 判断键是否存在,返回bool值</p></div><div style="display:contents" dir="auto"><pre id="5288db55-6aee-835e-8c9c-015aeb1fce36" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const map = new Map([[&#x27;name&#x27;, &#x27;Alice&#x27;]]);
+console.log(map.has(&#x27;name&#x27;)); // 输出：true
+console.log(map.has(&#x27;age&#x27;)); // 输出：false</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f218db55-6aee-8251-be18-013ac4430bb9" class="toggle"><li><details open=""><summary>delete()</summary><div style="display:contents" dir="auto"><p id="6a58db55-6aee-8389-8805-81be06e60f31" class="">delete(key) 删除指定键值对</p></div><div style="display:contents" dir="auto"><pre id="9268db55-6aee-825d-9778-81451032dcce" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const map = new Map([[&#x27;name&#x27;, &#x27;Alice&#x27;], [&#x27;age&#x27;, 20]]);
+console.log(map.delete(&#x27;age&#x27;)); // 输出：true（删除成功）
+console.log(map.delete(&#x27;gender&#x27;)); // 输出：false（键不存在）
+console.log(map); // Map(1) { &#x27;name&#x27; =&gt; &#x27;Alice&#x27; }</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="df88db55-6aee-82d5-8866-81f6e4cc9832" class="toggle"><li><details open=""><summary>clear()</summary><div style="display:contents" dir="auto"><p id="4108db55-6aee-82b5-9f58-01430ce2d42c" class="">clear() 清空所有键值对,无返回值</p></div><div style="display:contents" dir="auto"><pre id="d748db55-6aee-8286-80f2-81b5056aa1f5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const map = new Map([[&#x27;a&#x27;, 1], [&#x27;b&#x27;, 2]]);
+map.clear();
+console.log(map.size); // 输出：0（已清空）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8fb8db55-6aee-831a-96dd-81f7e54bdca6" class="toggle"><li><details open=""><summary>遍历方法</summary><div style="display:contents" dir="auto"><p id="b718db55-6aee-8286-9db3-816f1c80b200" class="">1、keys() 遍历所有键</p></div><div style="display:contents" dir="auto"><pre id="bc88db55-6aee-824e-b404-81b57444e9ef" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const map = new Map([[&#x27;name&#x27;, &#x27;Alice&#x27;], [&#x27;age&#x27;, 20]]);
+for (const key of map.keys()) {
+  console.log(key); // 依次输出：&#x27;name&#x27;、&#x27;age&#x27;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="cd38db55-6aee-82ac-9918-01e100bcd6eb" class="">2、values() 遍历所有值</p></div><div style="display:contents" dir="auto"><pre id="4668db55-6aee-823a-9833-0117f17b356d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const map = new Map([[&#x27;name&#x27;, &#x27;Alice&#x27;], [&#x27;age&#x27;, 20]]);
+for (const value of map.values()) {
+  console.log(value); // 依次输出：&#x27;Alice&#x27;、20
+}</code></pre></div><div style="display:contents" dir="auto"><p id="9198db55-6aee-8368-b64d-01382116eab1" class="">3、entries() 遍历所有键值对</p></div><div style="display:contents" dir="auto"><p id="dbc8db55-6aee-8217-86f8-815ba5b2d16a" class="">返回的迭代器包含 <code>[key, value]</code> 形式的数组（默认迭代器，可省略 <code>entries()</code>）</p></div><div style="display:contents" dir="auto"><pre id="9c78db55-6aee-83ca-a602-81f5de1b6993" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const map = new Map([[&#x27;name&#x27;, &#x27;Alice&#x27;], [&#x27;age&#x27;, 20]]);
+// 方式1：使用 entries()
+for (const [key, value] of map.entries()) {
+  console.log(`${key}: ${value}`); // &#x27;name: Alice&#x27;、&#x27;age: 20&#x27;
+}
+
+// 方式2：直接遍历（等价于 entries()）
+for (const [key, value] of map) {
+  console.log(`${key}: ${value}`); // 同上
+}</code></pre></div><div style="display:contents" dir="auto"><p id="d6a8db55-6aee-823f-9953-8122df670992" class="">4、forEach(callback, thisArg) 遍历并执行回调</p></div><div style="display:contents" dir="auto"><p id="b238db55-6aee-823e-9d36-81629c3197d6" class=""><code>callback</code> 接收三个参数：<code>value</code>（值）、<code>key</code>（键）、<code>map</code>（当前 Map 实例）。</p></div><div style="display:contents" dir="auto"><p id="e238db55-6aee-82d8-a5b8-8127297e0a45" class=""><code>thisArg</code>：指定回调中 <code>this</code> 的指向。</p></div><div style="display:contents" dir="auto"><pre id="cbb8db55-6aee-828e-af9a-81bb3022df3c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const map = new Map([[&#x27;name&#x27;, &#x27;Alice&#x27;], [&#x27;age&#x27;, 20]]);
+map.forEach((value, key, map) =&gt; {
+  console.log(`${key}=${value}`); // &#x27;name=Alice&#x27;、&#x27;age=20&#x27;
+});
+
+// 指定 thisArg
+const obj = { prefix: &#x27;数据：&#x27; };
+map.forEach(function(value) {
+  console.log(this.prefix + value); // &#x27;数据：Alice&#x27;、&#x27;数据：20&#x27;
+}, obj);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aec8db55-6aee-830b-8481-8197e7331d4d" class="toggle"><li><details open=""><summary>转换成数组</summary><div style="display:contents" dir="auto"><pre id="0168db55-6aee-824a-8fc6-81477215aae5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// Map 转数组（二维数组）
+const map = new Map([[&#x27;a&#x27;, 1], [&#x27;b&#x27;, 2]]);
+const arr = Array.from(map); // 或 [...map]
+console.log(arr); // [ [&#x27;a&#x27;, 1], [&#x27;b&#x27;, 2] ]
+
+// 数组转 Map
+const newMap = new Map(arr);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7cc8db55-6aee-836e-b6c2-814e93b82117" class="toggle"><li><details open=""><summary>转换成对象</summary><div style="display:contents" dir="auto"><pre id="c2d8db55-6aee-8281-ba45-012507cbbd25" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// Object 转 Map（仅支持字符串/Symbol 键）
+const obj = { name: &#x27;Alice&#x27;, age: 20 };
+const map = new Map(Object.entries(obj));
+console.log(map); // Map(2) { &#x27;name&#x27; =&gt; &#x27;Alice&#x27;, &#x27;age&#x27; =&gt; 20 }
+
+// Map 转 Object（键会被转为字符串）
+const newObj = Object.fromEntries(map);
+console.log(newObj); // { name: &#x27;Alice&#x27;, age: 20 }</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="cde8db55-6aee-8386-8b8f-01249b8a6489"/></div><div style="display:contents" dir="auto"><p id="e318db55-6aee-8348-8dc3-81ee82d12383" class=""><mark class="highlight-red">若以对象为键，只有</mark><mark class="highlight-red"><strong>引用相同</strong></mark><mark class="highlight-red">的对象才会被视为同一键（即使内容相同）。</mark></p></div><div style="display:contents" dir="auto"><pre id="5ae8db55-6aee-8237-a499-014d3b0e71bf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const obj1 = { id: 1 };
+const obj2 = { id: 1 }; // 与 obj1 内容相同但引用不同
+
+const map = new Map();
+map.set(obj1, &#x27;value1&#x27;);
+map.set(obj2, &#x27;value2&#x27;);
+
+console.log(map.get(obj1)); // &#x27;value1&#x27;
+console.log(map.get(obj2)); // &#x27;value2&#x27;（视为不同键）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0b68db55-6aee-826e-a881-8180e3bf4f7f" class="toggle"><li><details open=""><summary>函数的表达方式</summary><div style="display:contents" dir="auto"><ul id="6cc8db55-6aee-8376-b762-81170bab4339" class="toggle"><li><details open=""><summary>函数的声明和表达</summary><div style="display:contents" dir="auto"><pre id="8c98db55-6aee-82f9-b43f-0120566caaca" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 函数的声明
+function BindingIdentifier(){}
+// 命名函数表达式
+// BindingIdentifier对函数外部不可访问
+(function BindingIdentifier(){})
+// 匿名函数表达式
+(function(){})
+// 注意，匿名函数仍然可能有名称：</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aab8db55-6aee-8354-9386-81dc54032f77" class="toggle"><li><details open=""><summary>Function构造器</summary><div style="display:contents" dir="auto"><pre id="bef8db55-6aee-83d2-bfb1-8122740739df" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 使用稀少
+new Function(&#x27;x&#x27;, &#x27;y&#x27;, &#x27;return x*y&#x27;);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="59d8db55-6aee-834c-aec7-012fa3a82339" class="toggle"><li><details open=""><summary>not-so-anonymous函数声明</summary><div style="display:contents" dir="auto"><pre id="fb28db55-6aee-83e8-a1b6-019a18689754" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">新的匿名函数声明形式
+export default function(){}
+// 这个“名称”（指“default”）本身并不是有效的标识符，并且没有绑定在该匿名函数上。</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0cb8db55-6aee-8285-acbb-81f12d5bdf0f" class="toggle"><li><details open=""><summary>方法定义</summary><div style="display:contents" dir="auto"><pre id="d448db55-6aee-823a-97ee-01d0a5235682" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">定义了匿名和命名函数表达式作为属性的值。
+let object={
+	propertyName: function(){},
+};
+let object={
+	// (BindingIdentifier在这个函数中不可访问)
+	propertyName: function BindingIdentifier(){},
+};
+在ES5中引入了访问器属性定义
+let object={
+	get propertyName(){},
+	set propertyName(value){},
+};
+从ES2015开始，js提供了一个简单的语法来定义方法，
+这种方法包括文字属性名称和计算机属性名称形式，以及访问容器形式：
+let object={
+	propertyName(){},
+	[&quot;computedName&quot;](){},
+	get [&quot;computedAccessorName&quot;](){},
+	set [&quot;computedAccessorName&quot;](value){},
+};</code></pre></div><div style="display:contents" dir="auto"><p id="6c78db55-6aee-8299-8a87-018f0d16bdb1" class="">我们可以用这些新形式来作为类声明和表达式中的原型方法的定义：</p></div><div style="display:contents" dir="auto"><pre id="b258db55-6aee-8307-8591-813187e97a47" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 类声明 // 适用于静态方法
+class C {
+	static methodName(){}
+	static [&quot;computedName&quot;](){}
+	get [&quot;computedAccessorName&quot;](){},
+	set [&quot;computedAccessorName&quot;](value){},
+}
+// 类表达式
+let C = class {
+	methodName(){}
+	[&quot;computedName&quot;](){}
+	static get [&quot;computedAccessorName&quot;](){},
+	static set [&quot;computedAccessorName&quot;](value){},
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f4f8db55-6aee-8349-8d44-01fd91a76a02" class="toggle"><li><details open=""><summary>箭头函数</summary><div style="display:contents" dir="auto"><pre id="fd48db55-6aee-8367-8e76-81ff6d995f2b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 没有参数的赋值表达式
+(()=&gt;2**2);
+const result = (() =&gt; 2 ** 2)(); 
+// 立即执行，result = 4
+---------
+// 单个参数，忽略括号的赋值表达式
+(x=&gt;x**2);
+const square = x =&gt; x ** 2;
+square(3); // 返回 9
+---------
+// 单个参数，忽略括号直接跟函数体
+(x=&gt;{return x**2});
+const calculate = x =&gt; {
+  const temp = x * 2;
+  return temp ** 2;
+};
+---------
+// 括起来的参数列表和赋值表达式
+((x,y)=&gt;x**y);
+const power = (x, y) =&gt; x ** y;
+power(2, 3); // 返回 8
+未被括起来的形式——也就是没有圆括号的形式
+即：在箭头函数只能表现为只用一个标识符名称作为参数的形式。
+
+当箭头函数在异步函数或生成器中定义时，
+这个标识符名称需要以await或yeild作为前缀定义。
+
+箭头函数可以(也经常)出现在初始化值或属性定义的赋值中
+let foo=x=&gt;x**2;
+let object={
+	propertyName: x=&gt;x**2
+};</code></pre></div><div style="display:contents" dir="auto"><ul id="84e8db55-6aee-8367-844f-8162285f4b23" class="bulleted-list"><li style="list-style-type:disc">箭头函数没有自己的 <code>this</code>，<mark class="highlight-yellow">其 </mark><mark class="highlight-yellow"><code>this</code></mark><mark class="highlight-yellow"> 继承自</mark><mark class="highlight-yellow"><strong>外层作用域</strong></mark><mark class="highlight-yellow">（定义时的上下文），且</mark><mark class="highlight-yellow"><strong>永远不会改变</strong></mark>。</li></ul></div><div style="display:contents" dir="auto"><ul id="2ba8db55-6aee-83ea-92e1-81021bf78729" class="bulleted-list"><li style="list-style-type:disc">普通函数的 <code>this</code> 取决于调用方式（如谁调用、是否用 <code>new</code> 等），而箭头函数的 <code>this</code> 一旦确定就固定不变。</li></ul></div><div style="display:contents" dir="auto"><pre id="cbd8db55-6aee-829c-bd66-018b6214420f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const obj = {
+  name: &quot;张三&quot;,
+  // 普通函数：this 指向调用者（obj）
+  sayHi: function() {
+    console.log(this.name); // 输出：张三
+  },
+  // 箭头函数：this 继承自外层（全局作用域，非 obj）
+  sayHello: () =&gt; {
+    console.log(this.name); // 输出：undefined（浏览器中 this 指向 window）
+  }
+};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f0c8db55-6aee-836d-a2b1-010bc62c3ecb" class="toggle"><li><details open=""><summary>生成器</summary><div style="display:contents" dir="auto"><pre id="d6b8db55-6aee-82c9-8dec-01ec2c0bec7d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 生成器声明
+function *BindingIdentifer() {}
+// 另一种 not-so-anonymous 生成器声明
+export default function *() {}
+// 命名生成器表达式
+// (BindingIdentifier 对函数外部不可访问)
+(function *BindingIdentifier() {});
+// 匿名生成器表达式
+(function *() {});
+
+// 方法定义
+let object = {
+  *methodName() {},
+  *[&quot;computedName&quot;]() {},
+};
+// 类表达式和声明中的定义以及静态方法
+let C = class {
+  static *methodName() {}
+  *[&quot;computedName&quot;]() {}
+}
+class C {
+   *methodName() {}
+  static *[&quot;computedName&quot;]() {}
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c538db55-6aee-8385-b3e4-01a70c495c38" class="toggle"><li><details open=""><summary>异步函数</summary><div style="display:contents" dir="auto"><pre id="7398db55-6aee-839e-b119-816af75a72e8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 异步函数声明
+async function BindingIdentifier() { /**/ }
+// not-so-anonymous 异步函数声明
+export default async function() { /**/ }
+// 命名异步函数表达式
+// (BindingIdentifier is not accessible outside of this function)
+(async function BindingIdentifier() {});
+// 匿名异步函数表达式
+(async function() {});
+// 异步方法
+let object = {
+  async methodName() {},
+  async [&quot;computedName&quot;]() {},
+};
+// 静态方法
+// 类声明中的异步方法
+class C {
+  async methodName() {}
+  static async [&quot;computedName&quot;]() {}
+}
+let C = class {
+  async methodName() {}
+  static async [&quot;computedName&quot;]() {}
+};</code></pre></div><div style="display:contents" dir="auto"><p id="b328db55-6aee-83da-9312-810d58b77203" class="">Async函数语法为描述异步操作提供了一种干净而统一的方式。调用时，Async函数对象将返回一个Promise对象，这个对象将在异步函数返回时被解析。当包含一个<strong>await</strong>表达式时，异步函数可能暂停函数的执行，然后将其用作异步函数的返回值。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="86f8db55-6aee-8301-a6f0-01e0edd82c57" class="toggle"><li><details open=""><summary>箭头异步函数</summary><div style="display:contents" dir="auto"><pre id="95f8db55-6aee-8258-980c-017ec4cf15f4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 单个参数的赋值表达式
+(async x =&gt; x ** 2);
+// 单个参数的函数体
+(async x =&gt; { return x ** 2; });
+// 括起来的参数列表后跟赋值表达式
+(async (x, y) =&gt; x ** y);
+// 括起来的参数列表后跟函数体
+(async (x, y) =&gt; { return x ** y; });</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0e68db55-6aee-82f3-bab3-81df616d6100" class="toggle"><li><details open=""><summary>异步生成器</summary><div style="display:contents" dir="auto"><pre id="f128db55-6aee-82e9-921c-010b59ee1d17" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 异步生成器声明
+async function *BindingIdentifier() { /**/ }
+// not-so-anonymous 异步生成器声明
+export default async function *() {}
+// 异步生成器表达式
+// (BindingIdentifier在函数外部不可访问)
+(async function *BindingIdentifier() {});
+// 匿名函数表达式
+(async function *() {});
+// 方法定义
+let object = {
+  async *propertyName() {},
+  async *[&quot;computedName&quot;]() {},
+};
+
+// 静态方法
+// 类声明中的原型方法定义
+class C {
+  async *propertyName() {}
+  static async *[&quot;computedName&quot;](
+let C = class {
+  async *propertyName() {}
+  static async *[&quot;computedName&quot;]() {}
+}</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8d68db55-6aee-835b-bcc9-0123f97c01b7" class="toggle"><li><details open=""><summary>解构赋值</summary><div style="display:contents" dir="auto"><p id="0048db55-6aee-82a5-993b-01913f99147e" class="">快速的从对象和数组中获取里面的成员</p></div><div style="display:contents" dir="auto"><pre id="4da8db55-6aee-82f0-8fcc-81746d2517c1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var arr = [&quot;小明&quot;,&quot;小红&quot;,&quot;小李&quot;]
+let [x,y,z] = arr
+
+var a=1
+var b=2
+// 交换a和b
+var [a, b] = [b, a]
+
+var sss = [1,2,3,[4,5,[6]]]
+var [q,w,e,[r,t,[y]]] = sss
+
+obj = {
+		name:&quot;wsd&quot;,
+		age:23,
+		location:&quot;admin&quot;
+}
+let {name, age, location:mylocation} = obj
+console.log(mylocation) // admin
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8d78db55-6aee-822a-8a6d-0162ab4c7f2b" class="toggle"><li><details open=""><summary>展开运算符</summary><div style="display:contents" dir="auto"><p id="0a68db55-6aee-835b-8109-81c06c848d7c" class="">运算符：…</p></div><div style="display:contents" dir="auto"><pre id="15e8db55-6aee-833b-ab38-016601781ba2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// ...
+var a=[1,2,3]
+var b=[4,5,6]
+// console.log(a.concat(b))
+var c = [...a, ...b]
+// [1,2,3,4,5,6]
+var c = [a, b]
+// [[1,2,3],[4,5,6]]</code></pre></div><div style="display:contents" dir="auto"><p id="b2d8db55-6aee-8363-a2a4-01f10def85a9" class="">复制数组</p></div><div style="display:contents" dir="auto"><pre id="a648db55-6aee-821e-b3f0-8121a67ad023" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var a=[1,2,3]
+var b=a.concat()
+var b=a.slice()
+var b=[...a]</code></pre></div><div style="display:contents" dir="auto"><p id="d258db55-6aee-8398-8acd-012c83fc37a5" class="">…参数-实参-形参</p></div><div style="display:contents" dir="auto"><pre id="5608db55-6aee-83ee-8d59-01d8969117e2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var test = (a, b, ...arr) =&gt; {
+		console.log(arr) // [3,4,5]
+}
+test(1,2,3,4,5)
+
+
+var b=[1,2,3]
+var test = function(a, b, c) {
+		console.log(a, b, c)
+}
+test(...arr)</code></pre></div><div style="display:contents" dir="auto"><p id="f558db55-6aee-832a-989d-010e3e2326c0" class="">用途</p></div><div style="display:contents" dir="auto"><pre id="a378db55-6aee-83e2-a702-815e8352336e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 展开数组
+Math.min(...arr)
+
+// 为数组转换
+function test() {
+		var arr = [...arguments]
+		console.log(arr)
+}
+test(123,123,123,123)
+---
+var oli = document.querySelectorAll(&#x27;li&#x27;)
+var oliarr = [...oli]
+
+// 展开对象
+var obj1 = {
+		name:&quot;ker&quot;,
+		age:10
+}
+var obj2 = {
+		name:&quot;dsa&quot;,
+		location:&quot;dasddss&quot;
+}
+var obj = {
+		...obj1,
+		...obj2
+} // 后面的obj2中如果有obj1中重名的，会将obj1中的覆盖掉
+--------
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e5a8db55-6aee-82aa-bc13-016d04f29825" class="toggle"><li><details open=""><summary>原型链查找算法</summary><div style="display:contents" dir="auto"><ul id="13b8db55-6aee-83df-b5d5-81ffe863ebf6" class="bulleted-list"><li style="list-style-type:disc"><strong>单向性</strong>：原型链是单向的（子对象 → 父原型 → 顶层原型），父对象无法访问子对象的属性。</li></ul></div><div style="display:contents" dir="auto"><ul id="0e38db55-6aee-8366-9b17-81caf4461bff" class="bulleted-list"><li style="list-style-type:disc"><strong>就近原则</strong>：如果原型链中存在同名属性，<strong>距离当前对象最近的属性会被优先返回</strong>（不会继续向上查找）。</li></ul></div><div style="display:contents" dir="auto"><hr id="0ba8db55-6aee-8261-b0d5-0176af77c261"/></div><div style="display:contents" dir="auto"><p id="a998db55-6aee-82c5-8455-81116961a682" class="">实现：</p></div><div style="display:contents" dir="auto"><pre id="8d28db55-6aee-82e7-afcd-81653128952f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">/**
+ * 模拟链查找算法模拟实现
+ * @param {Object} obj 要查找属性的对象
+ * @param {string} key 要查找的属性名
+ * @returns {any} 找到的属性值或undefined
+ */
+function lookupProperty(obj, key) {
+    // 记录查找路径，用于演示
+    const lookupPath = [];
+    
+    // 当前正在检查的对象
+    let currentObj = obj;
+    
+    // 遍历原型链，直到到达null
+    while (currentObj !== null) {
+        // 记录当前检查的对象
+        lookupPath.push(currentObj);
+        
+        // 检查当前对象自身是否有该属性（不包括原型链）
+        if (Object.prototype.hasOwnProperty.call(currentObj, key)) {
+            console.log(`找到属性 &quot;${key}&quot;，查找路径：`);
+            lookupPath.forEach((o, i) =&gt; {
+                console.log(`  第${i+1}步：检查对象`, o);
+            });
+            return currentObj[key];
+        }
+        
+        // 沿原型链向上查找
+        currentObj = Object.getPrototypeOf(currentObj);
+    }
+    
+    // 遍历完整个原型链都未找到
+    console.log(`未找到属性 &quot;${key}&quot;，完整查找路径：`);
+    lookupPath.forEach((o, i) =&gt; {
+        console.log(`  第${i+1}步：检查对象`, o);
+    });
+    console.log(`  第${lookupPath.length+1}步：到达原型链终点 null`);
+    return undefined;
+}
+
+// 示例用法
+// 创建原型链：child → parent → grandparent → Object.prototype → null
+const grandparent = { g: &#x27;grandparent&#x27; };
+const parent = Object.create(grandparent);
+parent.p = &#x27;parent&#x27;;
+const child = Object.create(parent);
+child.c = &#x27;child&#x27;;
+
+console.log(&#x27;查找 child.c:&#x27;);
+console.log(&#x27;结果:&#x27;, lookupProperty(child, &#x27;c&#x27;), &#x27;\n&#x27;);
+// 输出：child（在自身找到）
+
+console.log(&#x27;查找 child.p:&#x27;);
+console.log(&#x27;结果:&#x27;, lookupProperty(child, &#x27;p&#x27;), &#x27;\n&#x27;);
+// 输出：parent（在parent原型找到）
+
+console.log(&#x27;查找 child.g:&#x27;);
+console.log(&#x27;结果:&#x27;, lookupProperty(child, &#x27;g&#x27;), &#x27;\n&#x27;);
+// 输出：grandparent（在grandparent原型找到）
+
+console.log(&#x27;查找 child.toString:&#x27;);
+console.log(&#x27;结果:&#x27;, lookupProperty(child, &#x27;toString&#x27;), &#x27;\n&#x27;);
+// 输出：[Function: toString]（在Object.prototype找到）
+
+console.log(&#x27;查找 child.unknown:&#x27;);
+console.log(&#x27;结果:&#x27;, lookupProperty(child, &#x27;unknown&#x27;));
+// 输出：undefined（整个原型链都未找到）
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="1b48db55-6aee-82d8-a906-810162101207" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

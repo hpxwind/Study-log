@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📒 知识笔记汇总</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e30;
+    --text: #e0e0e0;
+    --text-dim: #888;
+    --accent: #6c5ce7;
+    --accent2: #00cec9;
+    --accent3: #fd79a8;
+    --accent4: #fdcb6e;
+    --glow: rgba(108,92,231,0.35);
+  }
+
+  body {
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: none;
+  }
+  canvas#particleCanvas {
+    position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
+    width: 100%; height: 100%;
+  }
+  a, button, input, .card, .filter-btn { cursor: none; }
+
+  /* ── animated bg grid ── */
+  .bg-grid {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(108,92,231,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(108,92,231,.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+    animation: gridShift 20s linear infinite;
+  }
+  @keyframes gridShift { to { background-position: 64px 64px; } }
+
+  /* ── floating orbs ── */
+  .orb {
+    position: fixed; border-radius: 50%; filter: blur(100px); z-index: 0; pointer-events: none;
+    animation: orbFloat 12s ease-in-out infinite;
+  }
+  .orb.a { width: 420px; height: 420px; background: var(--accent); opacity: .07; top: -10%; left: -5%; }
+  .orb.b { width: 340px; height: 340px; background: var(--accent2); opacity: .06; bottom: -8%; right: -3%; animation-delay: -4s; animation-duration: 15s; }
+  .orb.c { width: 280px; height: 280px; background: var(--accent3); opacity: .05; top: 50%; left: 50%; animation-delay: -8s; animation-duration: 18s; }
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    33%  { transform: translate(60px,-40px) scale(1.08); }
+    66%  { transform: translate(-30px,20px) scale(.94); }
+  }
+
+  /* ── main layout ── */
+  .container { position: relative; z-index: 1; max-width: 1320px; margin: 0 auto; padding: 60px 36px 80px; }
+
+  /* ── header ── */
+  .header { text-align: left; margin-bottom: 44px; }
+  .header h1 {
+    font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 800; letter-spacing: 4px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent), var(--accent3), var(--accent2));
+    background-size: 300% 300%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleShimmer 4s ease-in-out infinite;
+    text-shadow: none;
+  }
+  @keyframes titleShimmer {
+    0%, 100% { background-position: 0% 50%; filter: drop-shadow(0 0 12px rgba(108,92,231,.4)); }
+    50%      { background-position: 100% 50%; filter: drop-shadow(0 0 28px rgba(0,206,201,.5)); }
+  }
+
+  /* ── toolbar (filters + search on same row) ── */
+  .toolbar {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+  .filter-btn {
+    background: var(--surface); color: var(--text-dim); border: 1px solid var(--border);
+    padding: 7px 18px; border-radius: 50px; cursor: none; font-size: .82rem;
+    transition: all .25s; letter-spacing: .5px; white-space: nowrap;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    color: #fff; border-color: var(--accent); background: rgba(108,92,231,.15);
+    box-shadow: 0 0 20px var(--glow);
+  }
+
+  /* ── card grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    position: relative; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px 22px; cursor: pointer; text-decoration: none; color: inherit;
+    transition: all .35s cubic-bezier(.4,0,.2,1);
+    overflow: hidden; display: flex; flex-direction: column; gap: 10px;
+  }
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .45s cubic-bezier(.4,0,.2,1);
+  }
+  .card:hover::before { transform: scaleX(1); }
+  .card:hover {
+    border-color: rgba(108,92,231,.5);
+    transform: translateY(-6px);
+    box-shadow: 0 18px 50px rgba(108,92,231,.18), 0 0 0 1px rgba(108,92,231,.15) inset;
+  }
+  .card:active { transform: translateY(-2px); }
+
+  .card-header { display: flex; align-items: center; gap: 12px; }
+  .card-icon {
+    width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center;
+    justify-content: center; font-size: 1.15rem; flex-shrink: 0;
+  }
+  .card h3 { font-size: 1.05rem; font-weight: 600; letter-spacing: -.3px; }
+  .card .desc { font-size: .8rem; color: var(--text-dim); line-height: 1.5; }
+  .card .meta {
+    display: flex; gap: 12px; font-size: .72rem; color: var(--text-dim);
+    border-top: 1px solid var(--border); padding-top: 10px; margin-top: auto;
+  }
+  .card .meta span { display: flex; align-items: center; gap: 5px; }
+
+  .card .glow-dot {
+    position: absolute; width: 180px; height: 180px; border-radius: 50%; opacity: 0;
+    transition: opacity .35s;
+  }
+  .card:hover .glow-dot { opacity: .06; }
+
+  /* category icon colours */
+  .ci-frontend  { background: rgba(0,206,201,.12); color: var(--accent2); }
+  .ci-backend   { background: rgba(108,92,231,.12); color: var(--accent); }
+  .ci-db        { background: rgba(253,121,168,.12); color: var(--accent3); }
+  .ci-security  { background: rgba(214,48,49,.12); color: #d63031; }
+  .ci-language  { background: rgba(253,203,110,.12); color: var(--accent4); }
+  .ci-devops     { background: rgba(85,239,196,.12); color: #55efc4; }
+
+  /* ── footer ── */
+  .footer { text-align: center; margin-top: 64px; color: var(--text-dim); font-size: .78rem; letter-spacing: .5px; }
+
+  /* ── scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #2a2a40; }
+
+  /* ── search ── */
+  .search-wrap { flex-shrink: 0; }
+  .search-input {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 50px;
+    padding: 8px 20px; color: var(--text); font-size: .88rem; width: 220px;
+    outline: none; transition: all .25s;
+  }
+  .search-input::placeholder { color: #555; }
+  .search-input:focus { border-color: var(--accent); box-shadow: 0 0 24px var(--glow); width: 260px; }
+
+  @media (max-width: 600px) {
+    .container { padding: 40px 16px 60px; }
+    .grid { grid-template-columns: 1fr; }
+    .toolbar { flex-direction: column; align-items: stretch; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particleCanvas"></canvas>
+<div class="bg-grid"></div>
+<div class="orb a"></div>
+<div class="orb b"></div>
+<div class="orb c"></div>
+
+<div class="container">
+  <!-- header -->
+  <header class="header">
+    <h1>知识笔记汇总</h1>
+  </header>
+
+  <!-- toolbar: filters + search same row -->
+  <div class="toolbar">
+    <div class="filters" id="filters"></div>
+    <div class="search-wrap">
+      <input type="text" class="search-input" id="search" placeholder="🔍 搜索..." autocomplete="off">
+    </div>
+  </div>
+
+  <!-- card grid -->
+  <div class="grid" id="grid"></div>
+
+  <!-- footer -->
+  <div class="footer">Click any card to open · 点击卡片跳转笔记</div>
+</div>
+
+<script>
+const notes = [
+  { dir:"Cybersecurity",    file:"Cybersecurity a0a8db556aee83be947f814fc90a83b4.html",  cat:"网络安全",  emoji:"🛡️", cls:"ci-security"   , desc:"网络安全攻防、渗透测试、漏洞分析等安全领域知识" },
+  { dir:"Database",         file:"Database e888db556aee825883cf016787eeb296.html",       cat:"数据库",    emoji:"🗄️", cls:"ci-db"         , desc:"MySQL、SQL优化、数据库设计与运维管理笔记" },
+  { dir:"Java",             file:"JAVA 5f28db556aee8305bc400162f6d0cbad.html",           cat:"编程语言",  emoji:"☕", cls:"ci-language"   , desc:"Java核心基础、JVM、并发编程、Spring框架" },
+  { dir:"JS+H5C3",          file:"JS+H5C3 38d8db556aee830bb9bc816b371f6dd8.html",        cat:"前端",      emoji:"🌐", cls:"ci-frontend"   , desc:"JavaScript、HTML5、CSS3 前端基础与进阶" },
+  { dir:"LargeModel&&Agent",file:"LargeModel&&Agent 2538db556aee83ccb552813733c8d1b6.html",cat:"AI与大模型",emoji:"🤖", cls:"ci-backend"   , desc:"大语言模型、AI Agent、Prompt Engineering" },
+  { dir:"Minecraft_Mod_Development", file:"Minecraft Mod Development 3678db556aee80c18198d6dbee78e6d0.html", cat:"游戏开发", emoji:"⛏️", cls:"ci-language" , desc:"我的世界模组开发、Forge/Fabric框架教程" },
+  { dir:"Nodejs",           file:"Nodejs 6398db556aee830ca8fd01d54f16f227.html",          cat:"后端",      emoji:"🟢", cls:"ci-backend"    , desc:"Node.js 运行时、Express、NestJS 服务端开发" },
+  { dir:"Python",           file:"Python f8c8db556aee83bf9d32811948c3c22d.html",          cat:"编程语言",  emoji:"🐍", cls:"ci-language"   , desc:"Python 基础、数据分析、爬虫与自动化脚本" },
+  { dir:"Redis",            file:"Redis cad8db556aee82b7952101fc08bb73dc.html",           cat:"数据库",    emoji:"⚡", cls:"ci-db"         , desc:"Redis 缓存、数据结构、集群与高可用方案" },
+  { dir:"Tailwindcss",      file:"Tailwindcss 1ee8db556aee83238fda814aad65c725.html",     cat:"前端",      emoji:"🎨", cls:"ci-frontend"   , desc:"Tailwind CSS 原子化 CSS 框架实用笔记" },
+  { dir:"TypeScript",       file:"TypeScript 7b58db556aee8219923b81261e412dd7.html",      cat:"编程语言",  emoji:"🔷", cls:"ci-language"   , desc:"TypeScript 类型系统、泛型、工程化实践" },
+  { dir:"Vue",              file:"VUE 1928db556aee8303b86201a5264346c4.html",             cat:"前端",      emoji:"💚", cls:"ci-frontend"   , desc:"Vue.js 3 全家桶、组件化开发与状态管理" }
+];
+
+let activeFilter = '全部';
+
+const grid = document.getElementById('grid');
+const filtersEl = document.getElementById('filters');
+const searchInput = document.getElementById('search');
+
+function renderFilters() {
+  const cats = ['全部', ...new Set(notes.map(n => n.cat))];
+  filtersEl.innerHTML = cats.map(c =>
+    `<button class="filter-btn${c===activeFilter?' active':''}" data-cat="${c}">${c}</button>`
+  ).join('');
+  filtersEl.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeFilter = btn.dataset.cat;
+      renderFilters();
+      renderCards();
+    });
+  });
+}
+
+function renderCards() {
+  const q = searchInput.value.toLowerCase().trim();
+  let filtered = notes;
+  if (activeFilter !== '全部') filtered = filtered.filter(n => n.cat === activeFilter);
+  if (q) filtered = filtered.filter(n =>
+    n.dir.toLowerCase().includes(q) || n.cat.toLowerCase().includes(q) || n.desc.toLowerCase().includes(q)
+  );
+
+  grid.innerHTML = filtered.map((n,i) => `
+    <a class="card" href="${encodeURIComponent(n.dir)}/${encodeURIComponent(n.file)}" style="animation: fadeUp .45s ${i*.05}s both;">
+      <div class="glow-dot" style="top:-40px;right:-40px;background:var(--accent);"></div>
+      <div class="glow-dot" style="bottom:-40px;left:-40px;background:var(--accent2);"></div>
+      <div class="card-header">
+        <div class="card-icon ${n.cls}">${n.emoji}</div>
+        <h3>${n.dir.replace(/_/g,' ').replace(/&&/g,' & ')}</h3>
+      </div>
+      <p class="desc">${n.desc}</p>
+      <div class="meta">
+        <span>📂 ${n.cat}</span>
+        <span>📄 笔记入口</span>
+      </div>
+    </a>
+  `).join('');
+}
+
+searchInput.addEventListener('input', renderCards);
+
+// inject keyframe
+const style = document.createElement('style');
+style.textContent = '@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}';
+document.head.appendChild(style);
+
+renderFilters();
+renderCards();
+
+/* ── mouse particles ── */
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let mouse = { x: -200, y: -200 };
+let frame = 0;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+document.addEventListener('mousemove', e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  frame++;
+
+  // spawn particles every 4 frames
+  if (mouse.x > 0 && frame % 4 === 0) {
+    particles.push({
+      x: mouse.x + (Math.random() - .5) * 8,
+      y: mouse.y + (Math.random() - .5) * 8,
+      vx: (Math.random() - .5) * 1.2,
+      vy: (Math.random() - .5) * 1.2 - 1,
+      life: 1,
+      size: Math.random() * 2.5 + 1,
+      hue: Math.random() * 60 + 250
+    });
+  }
+
+  // tiny cursor glow
+  if (mouse.x > 0) {
+    const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 30);
+    g.addColorStop(0, 'rgba(108,92,231,.2)');
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 30, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // particles
+  particles = particles.filter(p => p.life > 0);
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.life -= .025;
+    p.size *= .99;
+    ctx.fillStyle = `hsla(${p.hue}, 90%, 70%, ${p.life})`;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+  });
+
+  if (particles.length > 40) particles.splice(0, particles.length - 40);
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+</body>
+</html>

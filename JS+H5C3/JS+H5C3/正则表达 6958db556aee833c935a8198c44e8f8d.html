@@ -1,0 +1,894 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>正则表达</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6958db55-6aee-833c-935a-8198c44e8f8d" class="page mono"><header><h1 class="page-title" dir="auto">正则表达</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="1608db55-6aee-835c-8ade-0130085fe742" class="">正则表达式（RegExp）是用于匹配字符串中字符组合的模式。JavaScript 中的正则表达式通过 <code><strong>RegExp</strong></code> 对象实现</p></div><div style="display:contents" dir="auto"><ul id="4108db55-6aee-83c8-ae5b-81e6cc962703" class="toggle"><li><details open=""><summary>1、创建正则表达式</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="1cb8db55-6aee-834e-83dd-01917fbb9c9d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 字面量方式
+const regex1 = /pattern/flags;
+
+// 构造函数方式
+const regex2 = new RegExp(&#x27;pattern&#x27;, &#x27;flags&#x27;);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="eff8db55-6aee-82ad-8372-01ed3057968e" class="toggle"><li><details open=""><summary>2、常用元字符</summary><div style="display:contents" dir="auto"><pre id="0348db55-6aee-82e9-88ff-01bb604fd943" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">.      - 匹配除换行符外的任意字符
+\d     - 匹配数字（等价于 [0-9]）
+\w     - 匹配字母、数字或下划线（等价于 [A-Za-z0-9_]）
+\s     - 匹配空白字符（空格、制表符等）
+^      - 匹配字符串开头
+$      - 匹配字符串结尾
+[abc]  - 匹配方括号内的任意字符
+[^abc] - 匹配不在方括号内的任意字符
+a|b    - 匹配 a 或 b
+\D \W \S - 非\d \w \s</code></pre></div><div style="display:contents" dir="auto"><pre id="c898db55-6aee-826b-8f02-81a28b9033d6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// () 整体
+console.log(/(abc)+/.test(&quot;abcabc&quot;))
+
+// a|b 或 |
+// (asd|bcd)  | 匹配左右整体 有asd或bcd
+console.log(/a|b/.test(&quot;ac&quot;))
+
+// [] 代表1个 [abc] 匹配a，b，c中的一个
+console.log(/[abc]/.test(&quot;a&quot;))
+
+// /[adcdef]{3,5}/ 匹配3~5个adcdef中的字符
+// [a-zA-Z0-9_] === \w
+// [0-9] === \d
+console.log(/[adcdef]{3,5}/.test(&quot;abc&quot;))</code></pre></div><div style="display:contents" dir="auto"><pre id="7d18db55-6aee-8390-bfee-8143873af374" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 一位数子 \d ,连续两位 \d\d, 连续三位 \d\d\d
+var str = &quot;absc1&quot;
+var reg = /\d\d/
+// test为弱匹配，返回布尔值
+console.log(reg.test(str))
+
+// 一位非数字 \D
+var str2 = &quot;123213&quot;
+var reg2 = /\D/
+console.log(reg2.test(str2))
+
+// 一位空白内容 \s (空格 缩进 换行符号)
+var str3 = &quot;dnwamsd\ndwad&quot;
+var reg3 = /\s/
+console.log(reg3.test(str3)) 
+
+// 一位空白内容 \S
+var str4 = &quot;   \n1&quot;
+var reg4 = /\S/
+console.log(reg4.test(str4))
+
+// 一位字母或数字或下划线 \w
+var str5 = &quot;1a&quot;
+var reg5 = /\w/
+console.log(reg5.test(str5))
+
+// 一位非字母或数字或下划线 \W
+var str6 = &quot;{231{&quot;
+var reg6 = /\W\W/
+console.log(reg6.test(str6))
+
+// 任意内容(除了换行符) .
+var str7 = &quot;\n&quot;
+var reg7 = /./
+console.log(reg7.test(str7))
+
+// 开头必须匹配 ^\d 开头必须为数字， ^123 开头必须为123
+var str8 = &quot;123&quot;
+var reg8 = /^123/
+console.log(reg8.test(str8))
+
+// 结尾必须匹配 \d$ 结尾必须为数字， 123$ 结尾必须为123
+var str9 = &quot;123&quot;
+var reg9 = /123$/
+console.log(reg9.test(str9))</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="76a8db55-6aee-832d-a2ec-011b2772abd5" class="toggle"><li><details open=""><summary>3、量词</summary><div style="display:contents" dir="auto"><pre id="b398db55-6aee-82c1-b86f-81c6c9520405" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">*       - 匹配 0 次或多次
++       - 匹配 1 次或多次
+?       - 匹配 0 次或 1 次
+{n}     - 匹配 n 次
+{n,}    - 匹配至少 n 次
+{n,m}   - 匹配 n 到 m 次
+asd|da  - 匹配 asd 或 da整体
+()      - 匹配整体</code></pre></div><div style="display:contents" dir="auto"><pre id="a038db55-6aee-82c1-9559-01a71bf2e30d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// * 匹配多次 0~多次
+console.log(/\d*/.test(&quot;123&quot;))
+
+// + 至少出现 1 次
+console.log(/\d+/.test(&quot;a123&quot;))
+console.log(/\d+/.test(&quot;a&quot;))
+
+// ? 匹配0次或1次
+console.log(/\d?/.test(&quot;a112312&quot;))
+
+// {} 匹配指定次数 只能指定前面一个字符
+console.log(/\d{2}/.test(&quot;a1&quot;))
+console.log(/abc{2}/.test(&quot;abcc&quot;)) // true
+
+// {n, } &gt;= n次
+console.log(/\d{2,}/.test(&quot;a11&quot;))
+
+// {n, m} n~m次
+console.log(/\d{2,3}/.test(&quot;a111&quot;))</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0df8db55-6aee-8210-b1dd-81ed12fb5340" class="toggle"><li><details open=""><summary>4、标志</summary><div style="display:contents" dir="auto"><pre id="95e8db55-6aee-831f-be1f-81b356d41109" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">g - 全局匹配
+i - 忽略大小写
+m - 多行模式</code></pre></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="02a8db55-6aee-8380-a38d-01bb309c90f3" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">var datestr = &quot;time is from 2018-01-01 to 2019-7-02&quot;
+var reg = /(\d{4}-\d{2}-\d{2})+/
+// var reg = /(\d{4})-(\d{2})-(\d{2})+/ 这样写，exec可以单独捕获年月日
+var timeDate = reg.exec(datestr)
+console.log(timeDate[0].split(&quot;-&quot;), timeDate[1].split(&quot;-&quot;))
+
+var phoneNumber = &quot;alice phone number is 12345678901, my phone number is 45186158212 and windows phone number is 85696325410&quot;
+var reg2 = /\d{11}/g
+var phoneNumbers = []
+flag = true
+while (flag) {
+    var getPhoneNumber = reg2.exec(phoneNumber)
+    if (!getPhoneNumber) {
+        flag = false
+    } else {
+        phoneNumbers.push(getPhoneNumber[0])
+    }
+}
+console.log(phoneNumbers)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7828db55-6aee-8379-945e-012d6f208d72" class="toggle"><li><details open=""><summary>5、匹配方法</summary><div style="display:contents" dir="auto"><pre id="cbf8db55-6aee-8307-a973-0107395d7308" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">test()    - 测试是否匹配，返回布尔值 // test为弱匹配，返回布尔值
+exec()    - 执行匹配，返回匹配结果数组
+match()   - 字符串方法，返回匹配结果
+replace() - 字符串方法，替换匹配内容</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="8308db55-6aee-83b9-954e-0119b88d851b" class="toggle"><li><details open=""><summary>正则表达式的两大特性</summary><div style="display:contents" dir="auto"><p id="39b8db55-6aee-8331-a414-0177400fb93c" class="">1、懒惰：无法记住上一次位置。解决：可以使用全局标识符标识g</p></div><div style="display:contents" dir="auto"><p id="a598db55-6aee-833e-915f-01d7700a3df6" class="">2、贪婪：越多的比配越好。解决：非贪婪模式在结尾加 ? 如：<div class="indented"><div style="display:contents" dir="auto"><p id="a458db55-6aee-8371-8de5-8122da8dba6a" class="">*?  +?  ??  {n,}?  {n,m}?</p></div><div style="display:contents" dir="auto"><pre id="7b78db55-6aee-82c0-b686-01679173fd78" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var str = `&lt;p class=&quot;active&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/p&gt;`
+var myreg = /&lt;p.*&gt;/ // 如果是贪婪，匹配到的是&lt;p class=&quot;active&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/p&gt;，因为中间.*会尽可能多的匹配到最远的&gt;的位置
+var myreg2 = /&lt;p.*?&gt;/ // 非贪婪，匹配到的是&lt;p class=&quot;active&quot;&gt;</code></pre></div></div></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="de08db55-6aee-835d-b52a-013bae38b8bf" class="toggle"><li><details open=""><summary>正则与字符串方法</summary><div style="display:contents" dir="auto"><pre id="e4a8db55-6aee-8293-b6d3-010c940109de" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 与 replace 的结合
+var str  = &quot;dadsac&quot;
+var reg = /a/g
+var newstr = str.replace(reg,&quot;*&quot;)
+console.log(newstr)
+
+// 与 search 的结合
+console.log(str.search(reg))
+
+// match 
+console.log(str.match(reg))
+
+// split
+console.log(str.split(reg))</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e288db55-6aee-82b2-965f-810e14c42f41" class="toggle"><li><details open=""><summary>案例</summary><div style="display:contents" dir="auto"><ul id="c118db55-6aee-8229-9f49-01d8bfaaa411" class="toggle"><li><details open=""><summary>密码强度匹配：<code>/^(?=.*</code><em><code>[a-z])(?=.*</code></em><code>[A-Z])(?=.*</code><em><code>\d)(?=.*</code></em><code>[^\w]).{8,}$/</code></summary><div style="display:contents" dir="auto"><pre id="7da8db55-6aee-8340-a418-01479f9ef067" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">^ 和 $ 是锚点：^ 匹配字符串开头，$ 匹配字符串结尾，确保整个字符串都被规则约束（避免部分匹配）。
+---------
+(?=.*[a-z]) -&gt; 确保字符串中至少包含 1 个小写字母（无论位置在哪里，前面可以有任意字符）
+(?=...)：正向预查（零宽断言），表示 “从当前位置开始，后面的内容必须满足... 条件”，但不消耗字符（仅做判断）。
+.*：. 匹配任意单个字符（除换行符）
+[a-z]：字符类，匹配任意小写字母（a 到 z）
+-------------
+(?=.*[A-Z]) -&gt; 确保字符串中至少包含 1 个大写字母。
+-------------
+(?=.*\d) -&gt; 确保字符串中至少包含 1 个数字。
+--------
+(?=.*[^\w]) -&gt; 确保字符串中至少包含 1 个特殊字符。
+[\w_]：字符类，\w 等价于 [A-Za-z0-9_]
+[^\w]：特殊字符，非[A-Za-z0-9_]
+-------------
+.{8,} -&gt; 确保密码长度至少 8 位。
+. 匹配任意字符（除换行符）。
+{8,}：量词，表示匹配前面的字符至少 8 次（即总长度≥8）。</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3f28db55-6aee-83c6-87ff-01e718da8f02" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

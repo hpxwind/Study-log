@@ -1,0 +1,746 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>vue架构</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="8458db55-6aee-8253-82eb-01a905e6141a" class="page mono"><header><h1 class="page-title" dir="auto">vue架构</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="30c8db55-6aee-8265-ba81-01f5483a4eab" class="">Vue 是一套<strong>渐进式 JavaScript 框架</strong>，其架构设计围绕 “数据驱动视图” 和 “组件化” 核心思想，兼顾灵活性与性能。从底层核心到上层生态，Vue 的架构可分为<strong>核心运行时</strong>、<strong>编译系统</strong>、<strong>组件系统</strong>以及<strong>生态工具链</strong>四个主要层面，各部分既独立又协同工作。</p></div><div style="display:contents" dir="auto"><hr id="94a8db55-6aee-8205-8059-810ca30b944d"/></div><div style="display:contents" dir="auto"><p id="b908db55-6aee-8341-9115-01fee8696138" class="">Vue 的架构采用 “分层设计”，从底层到上层依次为：<code>响应式系统 → 虚拟 DOM → 模板编译 → 组件系统 → 生态工具</code></p></div><div style="display:contents" dir="auto"><p id="bcd8db55-6aee-8256-8689-8118efb32a0d" class="">这种分层设计的优势是：</p></div><div style="display:contents" dir="auto"><ul id="3c88db55-6aee-82ca-b6ac-01dd5dc66fe5" class="bulleted-list"><li style="list-style-type:disc">底层核心（响应式、虚拟 DOM）保证性能和跨平台能力；</li></ul></div><div style="display:contents" dir="auto"><ul id="5f48db55-6aee-834b-b90a-81bb17aac73d" class="bulleted-list"><li style="list-style-type:disc">上层 API（组件、模板）降低开发门槛；</li></ul></div><div style="display:contents" dir="auto"><ul id="40a8db55-6aee-8280-8285-815e51ab0788" class="bulleted-list"><li style="list-style-type:disc">各层可独立复用（如响应式系统可单独用于非 UI 场景）。</li></ul></div><div style="display:contents" dir="auto"><hr id="9148db55-6aee-8356-8853-013db73a9bfe"/></div><div style="display:contents" dir="auto"><ul id="bfe8db55-6aee-8274-925d-81d2fb1b5e38" class="toggle"><li><details open=""><summary>1、响应式系统(Reactivity System)</summary><div style="display:contents" dir="auto"><p id="78f8db55-6aee-82fc-883c-8113ac16d611" class=""><strong>作用</strong>：实现 “数据变化自动驱动视图更新”，是 Vue 数据驱动的核心。</p></div><div style="display:contents" dir="auto"><p id="03d8db55-6aee-8240-a263-0186dbd46672" class=""><strong>原理</strong>：通过拦截数据的读取和修改，建立数据与视图的依赖关系，当数据变化时自动通知依赖更新。</p></div><div style="display:contents" dir="auto"><h3 id="74a8db55-6aee-8395-804e-81fa877b8a6e" class=""><strong>Vue2 响应式实现（</strong><code><strong>Object.defineProperty</strong></code><strong>）</strong></h3></div><div style="display:contents" dir="auto"><ul id="4328db55-6aee-8308-ae36-01c4b8d4c2bd" class="bulleted-list"><li style="list-style-type:disc"><strong>拦截方式</strong>：通过 <code>Object.defineProperty</code> 重写对象的 <code>getter</code> 和 <code>setter</code>，拦截属性的 “读取” 和 “修改”。</li></ul></div><div style="display:contents" dir="auto"><ul id="b1c8db55-6aee-8221-92cf-01754bdbc8ad" class="bulleted-list"><li style="list-style-type:disc"><strong>依赖收集</strong>：当组件渲染时，会读取数据，触发 <code>getter</code>，此时将当前组件的 “渲染函数” 作为 “依赖” 收集到 “依赖管理器”（<code>Dep</code>）中。</li></ul></div><div style="display:contents" dir="auto"><ul id="7c28db55-6aee-829d-9060-81b20bd4e0e9" class="bulleted-list"><li style="list-style-type:disc"><strong>派发更新</strong>：当数据被修改时，触发 <code>setter</code>，依赖管理器会通知所有收集的依赖（渲染函数）重新执行，从而更新视图。</li></ul></div><div style="display:contents" dir="auto"><p id="3658db55-6aee-830b-b1dc-8185e4eb96c7" class=""><strong>局限</strong>：</p></div><div style="display:contents" dir="auto"><ul id="1498db55-6aee-83a6-89a1-01702b1b78d9" class="bulleted-list"><li style="list-style-type:disc">无法直接拦截数组索引修改（如 <code>arr[0] = 1</code>）和对象新增属性（如 <code>obj.newKey = 2</code>），需通过 <code>Vue.set</code> 或 <code>this.$set</code> 手动触发更新。</li></ul></div><div style="display:contents" dir="auto"><hr id="c6c8db55-6aee-82c6-932f-81569434c0d5"/></div><div style="display:contents" dir="auto"><hr id="8e88db55-6aee-83d8-8b5e-817c4758bd78"/></div><div style="display:contents" dir="auto"><h3 id="8bb8db55-6aee-8295-84b5-01c850c4c7ee" class=""><strong>Vue3 响应式实现（</strong><code><strong>Proxy</strong></code><strong>）</strong></h3></div><div style="display:contents" dir="auto"><ul id="9f88db55-6aee-829c-a6da-81e7d72a391d" class="bulleted-list"><li style="list-style-type:disc"><strong>拦截方式</strong>：使用 ES6 的 <code>Proxy</code> 代理整个对象（而非单个属性），可拦截更多操作（如 <code>get</code>、<code>set</code>、<code>deleteProperty</code>、<code>has</code> 等）。</li></ul></div><div style="display:contents" dir="auto"><ul id="4988db55-6aee-8211-b97a-81bed748b9d1" class="bulleted-list"><li style="list-style-type:disc"><strong>优势</strong>：<div style="display:contents" dir="auto"><ul id="5ab8db55-6aee-82ca-93a9-812c2710c725" class="bulleted-list"><li style="list-style-type:circle">原生支持拦截数组索引修改、对象新增 / 删除属性；</li></ul></div><div style="display:contents" dir="auto"><ul id="41c8db55-6aee-829f-96ce-019474b4d344" class="bulleted-list"><li style="list-style-type:circle">无需递归遍历对象所有属性（Proxy 代理的是对象本身，深层属性访问时动态代理），性能更优；</li></ul></div><div style="display:contents" dir="auto"><ul id="df28db55-6aee-828f-ba93-01663a0d111d" class="bulleted-list"><li style="list-style-type:circle">支持 <code>Map</code>、<code>Set</code> 等复杂数据结构。</li></ul></div></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f738db55-6aee-8251-afc4-81a7d799f71e" class="toggle"><li><details open=""><summary>2、虚拟DOM(Virtual DOM)</summary><div style="display:contents" dir="auto"><p id="6b98db55-6aee-83d8-8802-810a10a2db8d" class=""><strong>作用</strong>：通过 JavaScript 对象模拟真实 DOM 结构，减少直接操作 DOM 的性能开销（DOM 操作是前端性能瓶颈之一）。</p></div><div style="display:contents" dir="auto"><p id="aaa8db55-6aee-8256-bbd9-01a5b4ab60ff" class="">工作流程：</p></div><div style="display:contents" dir="auto"><ol type="1" id="cb48db55-6aee-8351-93cb-017ab580a840" class="numbered-list" start="1"><li><strong>生成虚拟 DOM</strong>：组件渲染时，将模板或渲染函数转换为虚拟 DOM 对象（一个描述 DOM 结构的 plain object，如 <code>{ tag: &#x27;div&#x27;, props: {}, children: [] }</code>）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b028db55-6aee-831a-9086-81e762d6140c" class="numbered-list" start="2"><li><strong>diff 算法对比</strong>：当数据变化时，生成新的虚拟 DOM，通过 “diff 算法” 对比新旧虚拟 DOM 的差异（只对比同级节点，降低复杂度）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2948db55-6aee-828a-a18a-81d1c6a8a796" class="numbered-list" start="3"><li><strong>补丁更新（patch）</strong>：根据差异计算最小操作量，只更新真实 DOM 中变化的部分，而非重新渲染整个页面。</li></ol></div><div style="display:contents" dir="auto"><p id="b528db55-6aee-8354-a994-8173c1b370ef" class=""><strong>Vue3 对虚拟 DOM 的优化</strong>：</p></div><div style="display:contents" dir="auto"><ul id="0b88db55-6aee-83ed-9a0a-817a4586ecd1" class="bulleted-list"><li style="list-style-type:disc"><strong>静态节点提升</strong>：编译时标记不会变化的节点（如纯文本），避免每次 diff 对比；</li></ul></div><div style="display:contents" dir="auto"><ul id="81f8db55-6aee-82bf-ab92-817494a84983" class="bulleted-list"><li style="list-style-type:disc"><strong>事件缓存</strong>：对相同事件处理函数（如 <code>@click=&quot;handleClick&quot;</code>）进行缓存，减少虚拟 DOM 节点的创建；</li></ul></div><div style="display:contents" dir="auto"><ul id="b6c8db55-6aee-83b2-85ae-8187a9b5466d" class="bulleted-list"><li style="list-style-type:disc"><strong>片段（Fragment）</strong>：支持组件返回多个根节点，无需额外包裹 <code>&lt;div&gt;</code>，减少真实 DOM 层级。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9758db55-6aee-826f-b3aa-0157d2f2faa9" class="toggle"><li><details open=""><summary>3、模板编译系统(Template Compiler)</summary><div style="display:contents" dir="auto"><p id="e768db55-6aee-823d-a917-015220f9a738" class=""><strong>作用</strong>：将开发者编写的 HTML 模板（如 <code>&lt;div&gt;{{ msg }}&lt;/div&gt;</code>）转换为可执行的渲染函数（<code>render</code> 函数），是 “模板语法” 的底层支撑。</p></div><div style="display:contents" dir="auto"><p id="9a28db55-6aee-8211-9026-815ff48fc9e7" class=""><strong>编译流程</strong>（三阶段）：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3018db55-6aee-83b9-ae8b-01682467753d" class="numbered-list" start="1"><li><strong>解析（Parse）</strong>：将模板字符串解析为抽象语法树（AST，描述模板结构的 JavaScript 对象），识别标签、指令（<code>v-if</code>、<code>v-for</code>）、插值（<code>{{ }}</code>）等。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6f18db55-6aee-82c0-969d-816b47196f78" class="numbered-list" start="2"><li><strong>优化（Optimize）</strong>：标记 AST 中的 “静态节点”（如不含变量的文本节点），这些节点在数据变化时不会重新渲染，diff 时可直接跳过。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="77e8db55-6aee-8289-aa5d-0135504acabd" class="numbered-list" start="3"><li><strong>生成（Generate）</strong>：将优化后的 AST 转换为渲染函数代码（字符串），最终执行生成虚拟 DOM。</li></ol></div><div style="display:contents" dir="auto"><p id="1e78db55-6aee-8397-8803-01afbede4b36" class=""><strong>示例</strong>：</p></div><div style="display:contents" dir="auto"><p id="6728db55-6aee-8319-a309-81bdd14b93eb" class="">模板 <code>&lt;p&gt;{{ msg }}&lt;/p&gt;</code> 会被编译为类似以下的渲染函数：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="f018db55-6aee-8342-8179-81dbb2726d11" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function render() {
+  return createVNode(&#x27;p&#x27;, null, [this.msg])
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="54d8db55-6aee-8302-bbf3-81d4514a9aa7" class="toggle"><li><details open=""><summary>4、组件系统(Component System)</summary><div style="display:contents" dir="auto"><p id="27f8db55-6aee-83d7-87cf-819888be92b4" class=""><strong>作用</strong>：将页面拆分为独立可复用的组件，是 Vue 模块化开发的核心。</p></div><div style="display:contents" dir="auto"><p id="c788db55-6aee-8385-98bd-01e33bf8ce79" class=""><strong>核心特性</strong>：</p></div><div style="display:contents" dir="auto"><ul id="a828db55-6aee-839d-9577-81e3f17dc5bf" class="bulleted-list"><li style="list-style-type:disc"><strong>组件注册</strong>：支持全局注册（<code>Vue.component</code>）和局部注册（组件选项的 <code>components</code> 属性）。</li></ul></div><div style="display:contents" dir="auto"><ul id="bda8db55-6aee-83a2-af3e-8176d2a89464" class="bulleted-list"><li style="list-style-type:disc"><strong>组件通信</strong>：<div style="display:contents" dir="auto"><ul id="f3e8db55-6aee-83c9-b70e-81146c55c7a7" class="bulleted-list"><li style="list-style-type:circle">父子通信：<code>props</code>（父传子） + <code>$emit</code>（子传父）；</li></ul></div><div style="display:contents" dir="auto"><ul id="ef58db55-6aee-8258-8617-818a861658cd" class="bulleted-list"><li style="list-style-type:circle">跨层级通信：<code>provide/inject</code>（依赖注入）；</li></ul></div><div style="display:contents" dir="auto"><ul id="bf98db55-6aee-8230-8891-81c65cabd76d" class="bulleted-list"><li style="list-style-type:circle">全局状态共享：Vuex/Pinia（状态管理库）。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="d7c8db55-6aee-8223-ad26-8152d79af5e3" class="bulleted-list"><li style="list-style-type:disc"><strong>生命周期</strong>：组件从创建到销毁的一系列钩子函数（如 <code>created</code>、<code>mounted</code>、<code>updated</code>、<code>unmounted</code>），用于在特定阶段执行逻辑。</li></ul></div><div style="display:contents" dir="auto"><ul id="6998db55-6aee-8396-a831-01991ec521a2" class="bulleted-list"><li style="list-style-type:disc"><strong>组件复用</strong>：通过 <code>mixin</code>（Vue2）或 <code>Composition API</code>（Vue3）提取公共逻辑。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3138db55-6aee-82fe-9b9e-81b5ef88fe01" class="toggle"><li><details open=""><summary>vue2/3架构差异</summary><div style="display:contents" dir="auto"><p id="20f8db55-6aee-8321-a5fd-81253bd3d092" class="">Vue3 对架构进行了彻底重构，核心目标是 “模块化”“性能优化” 和 “更好的 TypeScript 支持”：</p></div><div style="display:contents" dir="ltr"><table id="5c78db55-6aee-830d-a55f-8158a920d03a" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="1ec8db55-6aee-83f9-9491-819d76af7c1c"><th id="c=HN" class="simple-table-header-color simple-table-header"><strong>维度</strong></th><th id="RzyQ" class="simple-table-header-color simple-table-header"><strong>Vue2 架构</strong></th><th id="dCL&lt;" class="simple-table-header-color simple-table-header"><strong>Vue3 架构</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="9a18db55-6aee-83ce-9ef9-8164adaa9a1b"><td id="c=HN" class=""><strong>核心包结构</strong></td><td id="RzyQ" class="">整体打包（<code>vue.js</code> 包含所有功能）</td><td id="dCL&lt;" class="">模块化拆分（<code>@vue/reactivity</code>、<code>@vue/compiler-core</code> 等独立包，可按需引入）</td></tr></div><div style="display:contents" dir="ltr"><tr id="8408db55-6aee-8237-bd7a-016feab1536e"><td id="c=HN" class=""><strong>响应式系统</strong></td><td id="RzyQ" class=""><code>Object.defineProperty</code> 实现，有局限</td><td id="dCL&lt;" class=""><code>Proxy</code> 实现，支持更多数据类型和操作</td></tr></div><div style="display:contents" dir="ltr"><tr id="3b48db55-6aee-82e3-9ffd-01ae1e646289"><td id="c=HN" class=""><strong>API 风格</strong></td><td id="RzyQ" class="">选项式 API（<code>data</code>、<code>methods</code> 等）</td><td id="dCL&lt;" class="">组合式 API（<code>setup</code>、<code>ref</code>、<code>reactive</code> 等），逻辑复用更灵活</td></tr></div><div style="display:contents" dir="ltr"><tr id="0e18db55-6aee-8358-9ebd-01f4173576a0"><td id="c=HN" class=""><strong>虚拟 DOM</strong></td><td id="RzyQ" class="">基础 diff 算法，无编译时优化</td><td id="dCL&lt;" class="">结合编译时优化（静态提升、事件缓存等），diff 效率更高</td></tr></div><div style="display:contents" dir="ltr"><tr id="2818db55-6aee-82b6-ad06-01d314a8abc8"><td id="c=HN" class=""><strong>TypeScript 支持</strong></td><td id="RzyQ" class="">弱（需额外声明）</td><td id="dCL&lt;" class="">原生支持（架构设计时考虑类型推导）</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2568db55-6aee-8399-8cda-81b53d8c17a2" class="toggle"><li><details open=""><summary>生态工具链</summary><div style="display:contents" dir="auto"><p id="dbe8db55-6aee-83ca-8060-016a4f13c3b4" class="">vue 的架构不仅包含核心库，还配套了完善的工具链，形成完整生态：</p></div><div style="display:contents" dir="auto"><ol type="1" id="af18db55-6aee-8382-a504-812a7702a656" class="numbered-list" start="1"><li><strong>路由管理</strong>：Vue Router<div style="display:contents" dir="auto"><ul id="3a68db55-6aee-83b9-ab92-8134950b5552" class="bulleted-list"><li style="list-style-type:disc">基于组件的路由系统，支持嵌套路由、动态路由、路由守卫等，实现单页应用（SPA）的页面跳转。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3a58db55-6aee-8326-aaef-0157ca10442e" class="numbered-list" start="2"><li><strong>状态管理</strong>：Vuex（Vue2）/ Pinia（Vue3 推荐）<div style="display:contents" dir="auto"><ul id="e348db55-6aee-8329-9558-81d668d5785a" class="bulleted-list"><li style="list-style-type:disc">集中管理组件共享状态，解决跨组件通信复杂问题，支持状态变更追踪、模块化拆分。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="4178db55-6aee-8300-ab1f-81cd6e6ff894" class="numbered-list" start="3"><li><strong>构建工具</strong>：<div style="display:contents" dir="auto"><ul id="a448db55-6aee-83e6-8a15-01033e3e1596" class="bulleted-list"><li style="list-style-type:disc">Vue CLI：基于 Webpack 的零配置构建工具，集成开发服务器、代码分割、热更新等。</li></ul></div><div style="display:contents" dir="auto"><ul id="2a88db55-6aee-837d-8e0a-01c2c96751d5" class="bulleted-list"><li style="list-style-type:disc">Vite：Vue3 推荐的构建工具，基于 ES Module 原生支持，开发时启动更快、热更新更高效。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="c338db55-6aee-82b4-8c0b-0117dfcff220" class="numbered-list" start="4"><li><strong>UI 组件库</strong>：<div style="display:contents" dir="auto"><ul id="6118db55-6aee-8247-83d5-01cac8e98b5e" class="bulleted-list"><li style="list-style-type:disc">如 Element UI（Vue2）、Element Plus（Vue3）、Vuetify、Ant Design Vue 等，提供现成的高质量组件，加速开发。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6b38db55-6aee-8312-b9d1-010e73c1e3f9" class="numbered-list" start="5"><li><strong>调试工具</strong>：Vue Devtools<div style="display:contents" dir="auto"><ul id="2478db55-6aee-8242-9142-015d4f1c2366" class="bulleted-list"><li style="list-style-type:disc">浏览器插件，可查看组件层级、响应式数据变化、路由跳转记录等，方便调试。</li></ul></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1ac8db55-6aee-8274-a263-816f84c59b79" class="toggle"><li><details open=""><summary>设计理念 <strong>渐进式框架</strong></summary><div style="display:contents" dir="auto"><p id="d7a8db55-6aee-82a7-b560-81e01266fdec" class=""><mark class="highlight-yellow_background">分层设计+模块化</mark></p></div><div style="display:contents" dir="auto"><p id="0e28db55-6aee-8342-ad7c-013e17775806" class="">Vue 的架构设计体现了 “渐进式” 理念：</p></div><div style="display:contents" dir="auto"><ul id="a688db55-6aee-8269-9654-81b0f79e5a42" class="bulleted-list"><li style="list-style-type:disc">核心库只关注视图层，可单独使用；</li></ul></div><div style="display:contents" dir="auto"><ul id="6428db55-6aee-83d4-b469-811b1286bdf0" class="bulleted-list"><li style="list-style-type:disc">若需要路由，可引入 Vue Router；</li></ul></div><div style="display:contents" dir="auto"><ul id="6af8db55-6aee-83ef-a795-81a61ef9076b" class="bulleted-list"><li style="list-style-type:disc">若需要状态管理，可引入 Vuex/Pinia；</li></ul></div><div style="display:contents" dir="auto"><ul id="6058db55-6aee-838b-ba01-819933fffbcd" class="bulleted-list"><li style="list-style-type:disc">开发者可根据项目需求 “按需集成” 功能，而非一次性接受整个框架的所有特性。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="8568db55-6aee-82a0-9ead-81d8bb010382" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

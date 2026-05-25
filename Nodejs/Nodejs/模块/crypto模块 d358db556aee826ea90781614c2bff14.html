@@ -1,0 +1,885 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>crypto模块</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="d358db55-6aee-826e-a907-81614c2bff14" class="page mono"><header><h1 class="page-title" dir="auto">crypto模块</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="5298db55-6aee-82a8-867e-815514760350" class="toggle"><li><details open=""><summary>核心API</summary><div style="display:contents" dir="ltr"><table id="ed08db55-6aee-82a7-942c-018c96530086" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="cac8db55-6aee-829a-8475-012151eb362a"><th id="_`mQ" class="simple-table-header-color simple-table-header"><strong>功能类别</strong></th><th id="L\mU" class="simple-table-header-color simple-table-header"><strong>主要方法</strong></th><th id="{s@I" class="simple-table-header-color simple-table-header"><strong>说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="5918db55-6aee-8393-a918-01455e8454ee"><td id="_`mQ" class="">哈希</td><td id="L\mU" class=""><code>createHash(algorithm)</code></td><td id="{s@I" class="">创建哈希对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="a3a8db55-6aee-826d-976d-0104d8e03a05"><td id="_`mQ" class="">对称加密</td><td id="L\mU" class=""><code>createCipheriv(algorithm, key, iv)</code></td><td id="{s@I" class="">创建加密器（带 IV）</td></tr></div><div style="display:contents" dir="ltr"><tr id="b888db55-6aee-83ef-8630-810452c7f7f9"><td id="_`mQ" class=""></td><td id="L\mU" class=""><code>createDecipheriv(algorithm, key, iv)</code></td><td id="{s@I" class="">创建解密器（带 IV）</td></tr></div><div style="display:contents" dir="ltr"><tr id="bb58db55-6aee-82e3-afdf-01ec85958518"><td id="_`mQ" class="">非对称加密</td><td id="L\mU" class=""><code>generateKeyPairSync(type, options)</code></td><td id="{s@I" class="">生成密钥对</td></tr></div><div style="display:contents" dir="ltr"><tr id="d348db55-6aee-8204-b8f2-81a16e078edc"><td id="_`mQ" class=""></td><td id="L\mU" class=""><code>publicEncrypt(publicKey, data)</code></td><td id="{s@I" class="">公钥加密</td></tr></div><div style="display:contents" dir="ltr"><tr id="e568db55-6aee-8298-ab46-01d1c29b7ee7"><td id="_`mQ" class=""></td><td id="L\mU" class=""><code>privateDecrypt(privateKey, data)</code></td><td id="{s@I" class="">私钥解密</td></tr></div><div style="display:contents" dir="ltr"><tr id="0a38db55-6aee-83c7-a151-8111698a5034"><td id="_`mQ" class="">签名</td><td id="L\mU" class=""><code>createSign(algorithm)</code></td><td id="{s@I" class="">创建签名对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="2ab8db55-6aee-829f-ae1c-012a36bfbc0b"><td id="_`mQ" class=""></td><td id="L\mU" class=""><code>createVerify(algorithm)</code></td><td id="{s@I" class="">创建验证对象</td></tr></div><div style="display:contents" dir="ltr"><tr id="ee38db55-6aee-8357-9a1c-81ff4ce8d078"><td id="_`mQ" class="">随机数</td><td id="L\mU" class=""><code>randomBytes(size)</code></td><td id="{s@I" class="">生成加密安全的随机字节</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="28c8db55-6aee-82d1-9a89-013052d30a48" class="toggle"><li><details open=""><summary>哈希（hash）计算</summary><div style="display:contents" dir="auto"><p id="cb68db55-6aee-8329-9a4f-01e9a348071f" class="">哈希函数将任意长度的数据转换为固定长度的哈希值（摘要），具有不可逆性，常用于密码存储、数据校验。</p></div><div style="display:contents" dir="auto"><p id="a228db55-6aee-8320-9918-01a01ef63454" class=""><strong>常用算法</strong>：<code>md5</code>（不推荐，安全性低）、<code>sha1</code>、<code>sha256</code>、<code>sha512</code> 等。</p></div><div style="display:contents" dir="auto"><p id="c678db55-6aee-821f-8b43-812f46e3f49a" class=""><strong>示例：计算数据的 SHA256 哈希</strong></p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3a78db55-6aee-82e1-a44e-01e4d9eb015d" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">function calculateHash(data) {
+  // 创建哈希对象（指定算法）
+  const hash = crypto.createHash(&#x27;sha256&#x27;);
+  
+  // 更新要计算哈希的数据（可多次调用 update）
+  hash.update(data);
+  
+  // 生成哈希值（指定输出格式：hex/base64等）
+  return hash.digest(&#x27;hex&#x27;);
+}
+
+const data = &#x27;hello crypto&#x27;;
+const hashValue = calculateHash(data);
+console.log(&#x27;SHA256 哈希值：&#x27;, hashValue);
+// 输出类似：a26b18...（64位十六进制字符串）</code></pre></div><div style="display:contents" dir="auto"><p id="0948db55-6aee-830d-a2be-01e2c7dba0c9" class=""><strong>密码存储最佳实践</strong>：哈希时添加盐值（salt）防止彩虹表攻击</p></div><div style="display:contents" dir="auto"><pre id="9408db55-6aee-83fd-bbba-012ba4c60d06" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">function hashPassword(password) {
+  // 生成随机盐值
+  const salt = crypto.randomBytes(16).toString(&#x27;hex&#x27;);
+  
+  // 结合盐值计算哈希
+  const hash = crypto.createHash(&#x27;sha256&#x27;);
+  hash.update(password + salt);
+  const hashedPassword = hash.digest(&#x27;hex&#x27;);
+  
+  // 存储盐值和哈希值（验证时需要盐值）
+  return { salt, hashedPassword };
+}
+
+// 验证密码
+function verifyPassword(password, storedSalt, storedHash) {
+  const hash = crypto.createHash(&#x27;sha256&#x27;);
+  hash.update(password + storedSalt);
+  const inputHash = hash.digest(&#x27;hex&#x27;);
+  return inputHash === storedHash;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3208db55-6aee-8236-a545-01df417ac72c" class="toggle"><li><details open=""><summary>对称加密（AES）</summary><div style="display:contents" dir="auto"><p id="eee8db55-6aee-837d-a2f1-8184457b8d42" class="">对称加密使用同一个密钥进行加密和解密，速度快，适合大量数据加密。</p></div><div style="display:contents" dir="auto"><p id="eb58db55-6aee-838b-b33d-81c6b68a2cbb" class=""><strong>常用模式</strong>：<code>aes-128-cbc</code>、<code>aes-256-gcm</code>（推荐，带认证）等。</p></div><div style="display:contents" dir="auto"><p id="3c78db55-6aee-8219-8a21-812fe8f015c5" class=""><strong>示例：AES-GCM 加密解密</strong></p></div><div style="display:contents" dir="auto"><pre id="fe68db55-6aee-832d-b127-8199cf80ca73" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">function encrypt(text, key) {
+  // 生成随机初始化向量（IV）
+  const iv = crypto.randomBytes(12); // GCM模式推荐12字节IV
+  
+  // 创建加密器
+  const cipher = crypto.createCipheriv(&#x27;aes-256-gcm&#x27;, key, iv);
+  
+  // 加密数据
+  let encrypted = cipher.update(text, &#x27;utf8&#x27;, &#x27;hex&#x27;);
+  encrypted += cipher.final(&#x27;hex&#x27;);
+  
+  // 获取认证标签（GCM模式需要）
+  const authTag = cipher.getAuthTag().toString(&#x27;hex&#x27;);
+  
+  return { iv: iv.toString(&#x27;hex&#x27;), encryptedData: encrypted, authTag };
+}
+
+function decrypt(encryptedData, key, iv, authTag) {
+  // 创建解密器
+  const decipher = crypto.createDecipheriv(
+    &#x27;aes-256-gcm&#x27;,
+    key,
+    Buffer.from(iv, &#x27;hex&#x27;)
+  );
+  
+  // 设置认证标签
+  decipher.setAuthTag(Buffer.from(authTag, &#x27;hex&#x27;));
+  
+  // 解密数据
+  let decrypted = decipher.update(encryptedData, &#x27;hex&#x27;, &#x27;utf8&#x27;);
+  decrypted += decipher.final(&#x27;utf8&#x27;);
+  
+  return decrypted;
+}
+
+// 使用示例
+const key = crypto.scryptSync(&#x27;my-secret-key&#x27;, &#x27;salt&#x27;, 32); // 生成32字节密钥（AES-256）
+const text = &#x27;需要加密的敏感数据&#x27;;
+
+const encrypted = encrypt(text, key);
+console.log(&#x27;加密后：&#x27;, encrypted);
+
+const decrypted = decrypt(encrypted.encryptedData, key, encrypted.iv, encrypted.authTag);
+console.log(&#x27;解密后：&#x27;, decrypted); // 输出：需要加密的敏感数据</code></pre></div><div style="display:contents" dir="auto"><p id="de08db55-6aee-832f-8304-81bda2c3e14d" class=""><strong>注意</strong>：</p></div><div style="display:contents" dir="auto"><ul id="8b98db55-6aee-8360-bef5-01c7ff0e47b4" class="bulleted-list"><li style="list-style-type:disc">密钥长度需与算法匹配（如 <code>aes-256</code> 需要 32 字节密钥）</li></ul></div><div style="display:contents" dir="auto"><ul id="33d8db55-6aee-832a-97a6-81e6c8b7d81b" class="bulleted-list"><li style="list-style-type:disc">每次加密应使用随机 IV（初始化向量）</li></ul></div><div style="display:contents" dir="auto"><ul id="a2c8db55-6aee-8234-8de7-816c5cd5473c" class="bulleted-list"><li style="list-style-type:disc">GCM 模式提供认证功能，更安全</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c958db55-6aee-8266-a930-811ef32ad396" class="toggle"><li><details open=""><summary>非对称加密（RSA）</summary><div style="display:contents" dir="auto"><p id="9af8db55-6aee-83ae-8c74-016b53b8c425" class="">非对称加密使用公钥加密、私钥解密（或私钥签名、公钥验证），适合密钥交换、数字签名。</p></div><div style="display:contents" dir="auto"><p id="dca8db55-6aee-82dc-86c3-81881882cab4" class=""><strong>示例：RSA 密钥对生成与加密解密</strong></p></div><div style="display:contents" dir="auto"><pre id="19f8db55-6aee-83d8-a7b0-01724d4d2f6f" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 生成 RSA 密钥对
+function generateKeyPair() {
+  return crypto.generateKeyPairSync(&#x27;rsa&#x27;, {
+    modulusLength: 2048, // 密钥长度
+    publicKeyEncoding: {
+      type: &#x27;spki&#x27;,
+      format: &#x27;pem&#x27;
+    },
+    privateKeyEncoding: {
+      type: &#x27;pkcs8&#x27;,
+      format: &#x27;pem&#x27;
+    }
+  });
+}
+
+// 加密（使用公钥）
+function rsaEncrypt(text, publicKey) {
+  const buffer = Buffer.from(text, &#x27;utf8&#x27;);
+  const encrypted = crypto.publicEncrypt(publicKey, buffer);
+  return encrypted.toString(&#x27;base64&#x27;);
+}
+
+// 解密（使用私钥）
+function rsaDecrypt(encryptedText, privateKey) {
+  const buffer = Buffer.from(encryptedText, &#x27;base64&#x27;);
+  const decrypted = crypto.privateDecrypt(privateKey, buffer);
+  return decrypted.toString(&#x27;utf8&#x27;);
+}
+
+// 使用示例
+const { publicKey, privateKey } = generateKeyPair();
+const text = &#x27;通过RSA加密的信息&#x27;;
+
+const encrypted = rsaEncrypt(text, publicKey);
+console.log(&#x27;RSA加密后：&#x27;, encrypted);
+
+const decrypted = rsaDecrypt(encrypted, privateKey);
+console.log(&#x27;RSA解密后：&#x27;, decrypted);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0378db55-6aee-8315-89af-015edf6f911b" class="toggle"><li><details open=""><summary>数字签名</summary><div style="display:contents" dir="auto"><p id="ac78db55-6aee-8336-a930-819999cf5fab" class="">使用私钥签名数据，公钥验证签名，确保数据完整性和来源真实性。</p></div><div style="display:contents" dir="auto"><p id="3768db55-6aee-837b-a34b-01368ed4300d" class=""><strong>示例：RSA 签名与验证</strong></p></div><div style="display:contents" dir="auto"><pre id="36b8db55-6aee-83a5-ab9c-01485c956248" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 签名（私钥）
+function signData(data, privateKey) {
+  const sign = crypto.createSign(&#x27;sha256&#x27;);
+  sign.update(data);
+  sign.end();
+  return sign.sign(privateKey, &#x27;base64&#x27;); // 返回签名
+}
+
+// 验证（公钥）
+function verifySignature(data, signature, publicKey) {
+  const verify = crypto.createVerify(&#x27;sha256&#x27;);
+  verify.update(data);
+  verify.end();
+  return verify.verify(publicKey, signature, &#x27;base64&#x27;); // 返回布尔值
+}
+
+// 使用示例
+const { publicKey, privateKey } = generateKeyPair();
+const data = &#x27;需要签名的数据&#x27;;
+
+const signature = signData(data, privateKey);
+console.log(&#x27;签名：&#x27;, signature);
+
+const isValid = verifySignature(data, signature, publicKey);
+console.log(&#x27;签名验证结果：&#x27;, isValid); // 输出：true</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3a78db55-6aee-8309-b316-01617b4e783d" class="toggle"><li><details open=""><summary>随机数生成</summary><div style="display:contents" dir="auto"><p id="4d78db55-6aee-8248-a533-017a585aa720" class="">生成加密安全的随机数，用于密钥、盐值、IV 等场景。</p></div><div style="display:contents" dir="auto"><pre id="fc58db55-6aee-82aa-b8f3-01ee7dbf48bd" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">// 生成16字节随机数（128位）
+const randomBytes = crypto.randomBytes(16);
+console.log(&#x27;随机字节：&#x27;, randomBytes);
+console.log(&#x27;十六进制：&#x27;, randomBytes.toString(&#x27;hex&#x27;));
+console.log(&#x27;Base64：&#x27;, randomBytes.toString(&#x27;base64&#x27;));</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="15b8db55-6aee-8396-af32-015c55f18457" class="toggle"><li><details open=""><summary>注意</summary><div style="display:contents" dir="auto"><ol type="1" id="4838db55-6aee-833b-af29-0105fd0a0391" class="numbered-list" start="1"><li><strong>算法选择</strong>：避免使用不安全的算法（如 <code>md5</code>、<code>sha1</code>、<code>aes-ecb</code>）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="c3a8db55-6aee-8358-b8a0-01117fa363ac" class="numbered-list" start="2"><li><strong>密钥管理</strong>：密钥需安全存储，避免硬编码在代码中</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="90d8db55-6aee-82bc-afe2-8102b8dd7036" class="numbered-list" start="3"><li><strong>性能考量</strong>：非对称加密速度较慢，适合小数据（如密钥交换），大量数据优先用对称加密</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3a78db55-6aee-82e0-8212-01f9a7e90e03" class="numbered-list" start="4"><li><strong>错误处理</strong>：加密操作可能抛出错误（如密钥长度不匹配），需使用 <code>try/catch</code> 处理</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="9398db55-6aee-8311-9858-01e87aaa4ff3" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

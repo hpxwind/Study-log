@@ -1,0 +1,848 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>原生方法与技术</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="0dd8db55-6aee-838d-9344-81fceb6ee104" class="page serif"><header><h1 class="page-title" dir="auto">原生方法与技术</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="8648db55-6aee-8279-97f9-01c5bc4c9153" class="toggle"><li><details open=""><summary><code>hasOwnProperty(key)</code></summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="87d8db55-6aee-8306-8059-818bb0b7f3a6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">对象.hasOwnProperty(属性名);</code></pre></div><div style="display:contents" dir="auto"><ul id="1128db55-6aee-833e-bc74-819446edc064" class="bulleted-list"><li style="list-style-type:disc">参数 <code>属性名</code>：要检测的属性（字符串或 Symbol 类型）。</li></ul></div><div style="display:contents" dir="auto"><ul id="99b8db55-6aee-8206-8c4e-0105334748ff" class="bulleted-list"><li style="list-style-type:disc">返回值：<code>true</code>（自身包含该属性）/ <code>false</code>（不包含，或属性来自原型链）。</li></ul></div><div style="display:contents" dir="auto"><pre id="b758db55-6aee-837c-9990-818f64dc957d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 定义一个对象
+const person = {
+  name: &quot;张三&quot;,
+  age: 25
+};
+
+// 检测自身属性
+console.log(person.hasOwnProperty(&quot;name&quot;)); // true（name 是自身属性）
+console.log(person.hasOwnProperty(&quot;age&quot;));  // true（age 是自身属性）
+
+// 检测不存在的属性
+console.log(person.hasOwnProperty(&quot;gender&quot;)); // false
+
+// 检测原型链上的属性（如 toString 是 Object 原型的方法）
+console.log(person.hasOwnProperty(&quot;toString&quot;)); // false（toString 来自原型链）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0b78db55-6aee-82c8-9a38-810cea4b279c" class="toggle"><li><details open=""><summary><code>Object.prototype.hasOwnProperty.call(currentObj, key)</code></summary><div style="display:contents" dir="auto"><p id="9b88db55-6aee-8374-8b81-011aec25409c" class=""><mark class="highlight-blue"><strong>安全检查对象自身是否包含指定属性</strong></mark>的标准写法，核心作用是避免原型链干扰，精准判断属性是否属于对象 “自己”（而非继承自原型）。</p></div><div style="display:contents" dir="auto"><ul id="8d18db55-6aee-83e2-b8a7-01c804e4fd98" class="toggle"><li><details open=""><summary><strong>为什么需要 </strong><code><strong>call</strong></code><strong>？直接用 </strong><code><strong>currentObj.hasOwnProperty(key)</strong></code><strong> 不行吗？</strong></summary><div style="display:contents" dir="auto"><p id="7918db55-6aee-83aa-a91e-01e89d31d2e4" class="">直接调用 <code>currentObj.hasOwnProperty(key)</code> 存在 <strong>2 个风险</strong>，而 <code>call</code> 能解决这些问题：</p></div><div style="display:contents" dir="auto"><h3 id="f808db55-6aee-83c0-babf-01b12340ece2" class=""><strong>风险 1：对象自身重写了 </strong><code><strong>hasOwnProperty</strong></code><strong> 方法</strong></h3></div><div style="display:contents" dir="auto"><p id="6468db55-6aee-8306-8ecb-81c5ba582f2a" class="">如果对象自己定义了名为 <code>hasOwnProperty</code> 的属性（覆盖了原型上的方法），直接调用会失效，甚至报错：</p></div><div style="display:contents" dir="auto"><pre id="79d8db55-6aee-8222-ac4b-01285c3aae4b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const badObj = {
+  name: &quot;Bob&quot;,
+  // 重写了 hasOwnProperty，变成普通属性（值为 123）
+  hasOwnProperty: 123
+};
+
+// 错误：badObj.hasOwnProperty 是数字，不是函数，调用会报错
+badObj.hasOwnProperty(&quot;name&quot;); // Uncaught TypeError: badObj.hasOwnProperty is not a function</code></pre></div><div style="display:contents" dir="auto"><h3 id="0098db55-6aee-83c2-a59d-012e34ddbded" class=""><strong>风险 2：对象的原型链被修改，</strong><code><strong>hasOwnProperty</strong></code><strong> 丢失</strong></h3></div><div style="display:contents" dir="auto"><p id="d298db55-6aee-83e7-a86b-81923ac8d66c" class="">如果对象的原型被设置为 <code>null</code>（或原型链上没有 <code>Object.prototype</code>），对象会失去 <code>hasOwnProperty</code> 方法：</p></div><div style="display:contents" dir="auto"><pre id="fb58db55-6aee-836d-967c-01691e7f6a80" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 创建一个原型为 null 的对象（完全没有继承任何方法）
+const noProtoObj = Object.create(null);
+noProtoObj.age = 20;
+
+// 错误：noProtoObj 没有 hasOwnProperty 方法
+noProtoObj.hasOwnProperty(&quot;age&quot;); // Uncaught TypeError: noProtoObj.hasOwnProperty is not a function</code></pre></div><div style="display:contents" dir="auto"><h3 id="4768db55-6aee-83b5-8051-018cd39f6bfb" class=""><strong>用 </strong><code><strong>call</strong></code><strong> 解决：强制绑定 </strong><code><strong>this</strong></code><strong> 到目标对象</strong></h3></div><div style="display:contents" dir="auto"><p id="d918db55-6aee-8223-997b-81b1d32d1755" class=""><code>Object.prototype.hasOwnProperty.call(currentObj, key)</code> 的核心逻辑是：<strong>调用 </strong><code><strong>Object.prototype</strong></code><strong> 上的原始 </strong><code><strong>hasOwnProperty</strong></code><strong> 方法，并强制让该方法的 </strong><code><strong>this</strong></code><strong> 指向 </strong><code><strong>currentObj</strong></code>。</p></div><div style="display:contents" dir="auto"><p id="b638db55-6aee-8284-8bcf-816355426e64" class="">这样无论 <code>currentObj</code> 自身是否重写 <code>hasOwnProperty</code>、是否有原型，都能安全调用原始方法：</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9468db55-6aee-8252-aea7-01bc13a8a6ed" class="toggle"><li><details open=""><summary>函数闭包</summary><div style="display:contents" dir="auto"><pre id="7a28db55-6aee-825c-ac7e-81aafcea289a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 有返回值，且返回值是复杂类型，而且要赋值给外面的变量。
+function test() {
+    var name = &quot;zhangsun&quot;
+    var obj={
+        a:1,
+        b:2
+    }
+    return obj 
+}
+var res = test() // name被回收了， obj被赋值给res，执行空间被保留
+res = null // 回收obj 执行空间被回收
+
+// 闭包：
+// 函数返回一个函数，被外界所引用，
+// 这个内部函数就不会被销毁回收
+// 内部函数所用到的外部函数的变量也不会被销毁
+
+function outer() {
+    var name = &quot;zhangjian&quot;
+    return function inner () {
+        return name+&quot;12321&quot;
+    }
+}
+
+var func = outer()
+console.log(func());
+
+// 优点：让临时变量永驻内存
+// 缺点：内存泄漏（解决：func=null）
+
+// 封装
+function FetchContainer(url) {
+    return function (path) {
+        return fetch(url+path)
+    }
+}
+
+var fetcha = FetchContainer(&quot;https://api.githsub.com&quot;)
+fetcha(&quot;/aaaaaaa&quot;).then(res =&gt; res.json()).then(data =&gt; console.log(data))
+fetcha(&quot;/bbbbbbb&quot;).then(res =&gt; res.json()).then(data =&gt; console.log(data))</code></pre></div><div style="display:contents" dir="auto"><p id="1a68db55-6aee-82c3-966e-01539a1d51ae" class="">案例：</p></div><div style="display:contents" dir="auto"><p id="aae8db55-6aee-8288-8cbe-81d4236edd38" class="">1、记住列表的索引</p></div><div style="display:contents" dir="auto"><pre id="2698db55-6aee-83e9-979c-81a0de458ceb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;ul&gt;
+    &lt;li&gt;1111&lt;/li&gt;
+    &lt;li&gt;22222&lt;/li&gt;
+    &lt;li&gt;33333&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script&gt;
+    var oli = document.querySelectorAll(&#x27;li&#x27;);
+    for(var i=0; i&lt;oli.length; i++) {
+        oli[i].onclick = (function(index) {
+            return function() {
+                console.log(index);
+            }
+        })(i) // 匿名自执行函数
+    }
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="d428db55-6aee-82e8-b4eb-0103d85cb0e6" class="">2、函数防抖</p></div><div style="display:contents" dir="auto"><pre id="53a8db55-6aee-83a2-ab0a-01cc6c43f751" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">mysearch.oninput = (function () {
+    var timer = null
+    return function () {
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(function() {
+            console.log(&quot;231&quot;)
+        }, 500)
+    }
+})()</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6c18db55-6aee-83c5-9b64-012beba85a16" class="toggle"><li><details open=""><summary>防抖（debounce）</summary><div style="display:contents" dir="auto"><p id="6b68db55-6aee-8218-9414-019c75121473" class=""><em><strong>防抖（debounce）</strong></em> 高阶函数。在调用防抖函数后，提供的函数应该在一定延迟 <code>t</code> 后被调用。</p></div><div style="display:contents" dir="auto"><p id="5958db55-6aee-83e0-b2e1-8168787c16e5" class="">如果在 <code>t</code> 毫秒内再次调用防抖函数，提供的函数的执行应该被取消并重置计时器。</p></div><div style="display:contents" dir="auto"><pre id="6ca8db55-6aee-830f-aa28-81fc3fdb7ff1" class="code code-wrap"><code class="language-arduino" style="white-space:pre-wrap;word-break:break-all">/**
+ * @param {Function} fn
+ * @param {number} t milliseconds
+ * @return {Function}
+ */
+var debounce = function(fn, t) {
+    var timer = null // 设置定时器
+    return function(...args) {
+		    // 及时清除定时器
+        if (timer) clearTimeout(timer)
+        // 设置正常定时器
+        timer = setTimeout(()=&gt;{
+		        // 确保指针正确指向
+            fn.apply(this, args)
+            // 执行完毕，清除定时器
+            timer = null
+        }, t)
+    }
+};</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

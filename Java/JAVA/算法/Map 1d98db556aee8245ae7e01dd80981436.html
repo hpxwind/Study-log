@@ -1,0 +1,1076 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Map</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1d98db55-6aee-8245-ae7e-01dd80981436" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/webb3.jpg" style="object-position:center 50%"/><h1 class="page-title" dir="auto">Map</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h2 id="b6b8db55-6aee-8243-84cb-816f0a58b557" class="">创建和初始化</h2></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="4518db55-6aee-83a3-a6d0-01355cf5f215" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 1. 空Map
+Map&lt;String, Integer&gt; map1 = new HashMap&lt;&gt;();
+
+// 2. 指定初始容量
+Map&lt;String, Integer&gt; map2 = new HashMap&lt;&gt;(16);  // 初始容量16
+Map&lt;String, Integer&gt; map3 = new HashMap&lt;&gt;(16, 0.75f);  // 容量+负载因子
+
+// 3. 快速初始化
+Map&lt;String, Integer&gt; map4 = new HashMap&lt;String, Integer&gt;() {{
+    put(&quot;A&quot;, 1);
+    put(&quot;B&quot;, 2);
+    put(&quot;C&quot;, 3);
+}};
+
+// 4. 不可变Map
+Map&lt;String, Integer&gt; immutable1 = Map.of(&quot;A&quot;, 1, &quot;B&quot;, 2, &quot;C&quot;, 3);
+Map&lt;String, Integer&gt; immutable2 = Map.ofEntries(
+    Map.entry(&quot;A&quot;, 1),
+    Map.entry(&quot;B&quot;, 2),
+    Map.entry(&quot;C&quot;, 3)
+);
+
+// 5. 从现有Map创建
+Map&lt;String, Integer&gt; source = new HashMap&lt;&gt;();
+Map&lt;String, Integer&gt; copy = new HashMap&lt;&gt;(source);</code></pre></div><div style="display:contents" dir="auto"><h2 id="9ec8db55-6aee-834a-bad0-817d51010df2" class="">添加/更新元素</h2></div><div style="display:contents" dir="auto"><pre id="dc98db55-6aee-834f-9f76-81eb33114d24" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+
+// 1.1 添加键值对
+map.put(&quot;Apple&quot;, 10);      // 添加
+map.put(&quot;Banana&quot;, 5);
+map.put(&quot;Apple&quot;, 15);      // 更新，值变为15
+
+// 1.2 不存在才添加
+map.putIfAbsent(&quot;Orange&quot;, 8);  // 不存在则添加
+map.putIfAbsent(&quot;Apple&quot;, 20);  // 已存在，不修改
+
+// 1.3 批量添加
+Map&lt;String, Integer&gt; moreFruits = Map.of(&quot;Grape&quot;, 12, &quot;Mango&quot;, 7);
+map.putAll(moreFruits);s</code></pre></div><div style="display:contents" dir="auto"><h2 id="5b38db55-6aee-83f6-ae78-01783afa7266" class="">获取元素</h2></div><div style="display:contents" dir="auto"><pre id="8878db55-6aee-8363-abdb-01fd308f0ba9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;(Map.of(&quot;Apple&quot;, 10, &quot;Banana&quot;, 5));
+
+// 2.1 获取值
+Integer apples = map.get(&quot;Apple&quot;);      // 10
+Integer oranges = map.get(&quot;Orange&quot;);    // null
+Integer value = map.getOrDefault(&quot;Orange&quot;, 0);  // 不存在返回默认值0
+
+// 2.2 检查存在
+boolean hasApple = map.containsKey(&quot;Apple&quot;);     // true
+boolean hasValue5 = map.containsValue(5);        // true
+boolean isEmpty = map.isEmpty();                  // false
+int size = map.size();                           // 元素数量</code></pre></div><div style="display:contents" dir="auto"><h2 id="4b18db55-6aee-8237-9849-016bd7ecc9b5" class="">删除元素</h2></div><div style="display:contents" dir="auto"><pre id="cae8db55-6aee-8362-9b53-01d9320d31a7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;(Map.of(
+    &quot;Apple&quot;, 10, &quot;Banana&quot;, 5, &quot;Orange&quot;, 8, &quot;Grape&quot;, 12
+));
+
+// 3.1 按键删除
+Integer removed1 = map.remove(&quot;Apple&quot;);     // 删除键，返回10
+Integer removed2 = map.remove(&quot;Kiwi&quot;);      // 不存在，返回null
+
+// 3.2 键值匹配才删除
+boolean removed3 = map.remove(&quot;Banana&quot;, 5);  // true，键值匹配
+boolean removed4 = map.remove(&quot;Orange&quot;, 10); // false，值不匹配
+
+// 3.3 清空
+map.clear();  // 移除所有元素</code></pre></div><div style="display:contents" dir="auto"><h2 id="41c8db55-6aee-83ea-a5fa-01de3e3770ab" class="">遍历Map</h2></div><div style="display:contents" dir="auto"><pre id="8918db55-6aee-83de-96c5-810f69b8a138" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;(Map.of(&quot;A&quot;, 1, &quot;B&quot;, 2, &quot;C&quot;, 3));
+
+// 4.1 遍历Entry
+for (Map.Entry&lt;String, Integer&gt; entry : map.entrySet()) {
+    String key = entry.getKey();
+    Integer value = entry.getValue();
+    System.out.println(key + &quot;: &quot; + value);
+}
+
+// 4.2 遍历键
+for (String key : map.keySet()) {
+    System.out.println(&quot;Key: &quot; + key);
+    Integer value = map.get(key);
+}
+
+// 4.3 遍历值
+for (Integer value : map.values()) {
+    System.out.println(&quot;Value: &quot; + value);
+}
+
+// 4.4 使用迭代器
+Iterator&lt;Map.Entry&lt;String, Integer&gt;&gt; it = map.entrySet().iterator();
+while (it.hasNext()) {
+    Map.Entry&lt;String, Integer&gt; entry = it.next();
+    it.remove();  // 安全删除
+}
+
+// 4.5 Java 8+ 的forEach
+map.forEach((key, value) -&gt; System.out.println(key + &quot; = &quot; + value));
+map.entrySet().forEach(entry -&gt; 
+    System.out.println(entry.getKey() + &quot;: &quot; + entry.getValue())
+);</code></pre></div><div style="display:contents" dir="auto"><h2 id="2b68db55-6aee-831d-bf07-0128dc29fe8f" class="">compute 方法</h2></div><div style="display:contents" dir="auto"><pre id="47c8db55-6aee-82db-b60e-01d86c93d1ff" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+
+// 1.1 compute - 计算新值
+map.put(&quot;A&quot;, 1);
+map.compute(&quot;A&quot;, (key, oldValue) -&gt; oldValue + 1);  // A=2
+map.compute(&quot;B&quot;, (key, oldValue) -&gt; oldValue == null ? 1 : oldValue + 1);  // B=1
+
+// 1.2 computeIfAbsent - 不存在时计算
+map.computeIfAbsent(&quot;C&quot;, key -&gt; 10);  // C不存在，设为10
+map.computeIfAbsent(&quot;C&quot;, key -&gt; 20);  // C已存在，不修改
+
+// 复杂示例
+Map&lt;String, List&lt;String&gt;&gt; multiMap = new HashMap&lt;&gt;();
+multiMap.computeIfAbsent(&quot;fruits&quot;, k -&gt; new ArrayList&lt;&gt;()).add(&quot;apple&quot;);
+multiMap.computeIfAbsent(&quot;fruits&quot;, k -&gt; new ArrayList&lt;&gt;()).add(&quot;banana&quot;);
+
+// 1.3 computeIfPresent - 存在时计算
+map.put(&quot;D&quot;, 5);
+map.computeIfPresent(&quot;D&quot;, (key, oldValue) -&gt; oldValue * 2);  // D=10
+map.computeIfPresent(&quot;E&quot;, (key, oldValue) -&gt; oldValue + 1);  // E不存在，不操作</code></pre></div><div style="display:contents" dir="auto"><h2 id="b9b8db55-6aee-830e-bd09-01192a16cd40" class="">merge 方法</h2></div><div style="display:contents" dir="auto"><pre id="a1f8db55-6aee-82f2-ad68-818725b577dc" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+map.put(&quot;A&quot;, 1);
+map.put(&quot;B&quot;, 2);
+
+// 2.1 合并值
+map.merge(&quot;A&quot;, 1, Integer::sum);  // A=2 (1+1)
+map.merge(&quot;C&quot;, 1, Integer::sum);  // C不存在，设为1
+map.merge(&quot;B&quot;, 5, (oldVal, newVal) -&gt; oldVal - newVal);  // B=-3 (2-5)
+
+// 2.2 单词计数示例
+String text = &quot;apple banana apple orange banana apple&quot;;
+Map&lt;String, Integer&gt; wordCount = new HashMap&lt;&gt;();
+
+for (String word : text.split(&quot; &quot;)) {
+    wordCount.merge(word, 1, Integer::sum);
+}
+// 结果: {apple=3, banana=2, orange=1}</code></pre></div><div style="display:contents" dir="auto"><h2 id="6b78db55-6aee-83e0-9f67-812e4a567ff9" class="">replace 方法</h2></div><div style="display:contents" dir="auto"><pre id="f0d8db55-6aee-833a-960e-81625625cb8d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;(Map.of(&quot;A&quot;, 1, &quot;B&quot;, 2, &quot;C&quot;, 3));
+
+// 3.1 替换值
+Integer old1 = map.replace(&quot;A&quot;, 10);  // 返回1，A=10
+Integer old2 = map.replace(&quot;D&quot;, 20);  // 返回null，D不存在
+
+// 3.2 条件替换
+boolean replaced1 = map.replace(&quot;B&quot;, 2, 20);  // true，旧值匹配
+boolean replaced2 = map.replace(&quot;C&quot;, 5, 30);  // false，旧值不匹配
+
+// 3.3 批量替换
+map.replaceAll((key, value) -&gt; value * 2);  // 所有值乘以2
+map.replaceAll((key, value) -&gt; key.length() + value);  // 值加上键的长度</code></pre></div><div style="display:contents" dir="auto"><h2 id="8428db55-6aee-82bd-9f7b-8176910aacb3" class="">键、值、Entry集合</h2></div><div style="display:contents" dir="auto"><pre id="5da8db55-6aee-82e9-be2b-814e9b20ec8c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;(Map.of(&quot;A&quot;, 1, &quot;B&quot;, 2, &quot;C&quot;, 3));
+
+// 1.1 键集合
+Set&lt;String&gt; keys = map.keySet();  // 视图
+keys.remove(&quot;A&quot;);  // 会从map中移除A
+// keys.add(&quot;D&quot;);  // ❌ 不支持，因为没有对应的值
+
+// 1.2 值集合
+Collection&lt;Integer&gt; values = map.values();  // 视图
+values.remove(2);  // 会从map中移除值为2的条目
+// values.add(4);  // ❌ 不支持
+
+// 1.3 Entry集合
+Set&lt;Map.Entry&lt;String, Integer&gt;&gt; entries = map.entrySet();  // 视图
+entries.removeIf(entry -&gt; entry.getValue() &lt; 2);</code></pre></div><div style="display:contents" dir="auto"><h2 id="5438db55-6aee-82d2-adde-814554078b76" class="">试图修改</h2></div><div style="display:contents" dir="auto"><pre id="aaa8db55-6aee-8259-8a78-01def63a6e03" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;(Map.of(&quot;A&quot;, 1, &quot;B&quot;, 2, &quot;C&quot;, 3));
+
+// 2.1 通过keySet修改
+Set&lt;String&gt; keySet = map.keySet();
+keySet.remove(&quot;A&quot;);  // 移除键A
+keySet.retainAll(Arrays.asList(&quot;B&quot;, &quot;C&quot;));  // 只保留B和C
+// keySet.clear();  // 清空map
+
+// 2.2 通过values修改
+Collection&lt;Integer&gt; valueCol = map.values();
+valueCol.remove(2);  // 删除值为2的条目
+// valueCol.removeAll(Arrays.asList(1, 3));
+
+// 2.3 通过entrySet修改
+Set&lt;Map.Entry&lt;String, Integer&gt;&gt; entrySet = map.entrySet();
+entrySet.removeIf(entry -&gt; entry.getKey().equals(&quot;B&quot;));
+entrySet.forEach(entry -&gt; entry.setValue(entry.getValue() * 10));</code></pre></div><div style="display:contents" dir="auto"><h2 id="1698db55-6aee-8370-8b02-018bcc228ac5" class="">特殊Map实现：LinkedHashMap (保持顺序)</h2></div><div style="display:contents" dir="auto"><pre id="d268db55-6aee-825e-8429-01b6e30ae564" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 1.1 保持插入顺序
+Map&lt;String, Integer&gt; insertionOrder = new LinkedHashMap&lt;&gt;();
+insertionOrder.put(&quot;C&quot;, 3);
+insertionOrder.put(&quot;A&quot;, 1);
+insertionOrder.put(&quot;B&quot;, 2);
+// 遍历顺序: C -&gt; A -&gt; B
+
+// 1.2 LRU缓存实现
+class LRUCache&lt;K, V&gt; extends LinkedHashMap&lt;K, V&gt; {
+    private final int capacity;
+    
+    public LRUCache(int capacity) {
+        super(capacity, 0.75f, true);  // accessOrder=true
+        this.capacity = capacity;
+    }
+    
+    @Override
+    protected boolean removeEldestEntry(Map.Entry&lt;K, V&gt; eldest) {
+        return size() &gt; capacity;
+    }
+}
+
+LRUCache&lt;String, Integer&gt; cache = new LRUCache&lt;&gt;(3);
+cache.put(&quot;A&quot;, 1);
+cache.put(&quot;B&quot;, 2);
+cache.put(&quot;C&quot;, 3);
+cache.get(&quot;A&quot;);  // 访问A，A移动到末尾
+cache.put(&quot;D&quot;, 4);  // 移除最老的B
+// 当前顺序: C -&gt; A -&gt; D</code></pre></div><div style="display:contents" dir="auto"><h2 id="22f8db55-6aee-8287-bb3e-018d8513a7d4" class="">特殊Map实现：TreeMap (排序Map)</h2></div><div style="display:contents" dir="auto"><pre id="14e8db55-6aee-8240-8a46-01c75971f5c7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 2.1 自然排序
+TreeMap&lt;String, Integer&gt; treeMap = new TreeMap&lt;&gt;();
+treeMap.put(&quot;Zebra&quot;, 1);
+treeMap.put(&quot;Apple&quot;, 2);
+treeMap.put(&quot;Monkey&quot;, 3);
+// 按键排序: Apple, Monkey, Zebra
+
+// 2.2 自定义排序
+TreeMap&lt;String, Integer&gt; reverseMap = new TreeMap&lt;&gt;(Comparator.reverseOrder());
+TreeMap&lt;Student, Integer&gt; studentMap = new TreeMap&lt;&gt;(
+    Comparator.comparing(Student::getScore).reversed()
+              .thenComparing(Student::getName)
+);
+
+// 2.3 范围查询
+TreeMap&lt;Integer, String&gt; scores = new TreeMap&lt;&gt;(Map.of(
+    85, &quot;Alice&quot;, 92, &quot;Bob&quot;, 78, &quot;Charlie&quot;, 95, &quot;Diana&quot;
+));
+
+// 获取第一个/最后一个
+Map.Entry&lt;Integer, String&gt; first = scores.firstEntry();  // 78=Charlie
+Map.Entry&lt;Integer, String&gt; last = scores.lastEntry();    // 95=Diana
+
+// 小于/小于等于
+Integer lowerKey = scores.lowerKey(90);    // 85 (&lt;90的最大键)
+Integer floorKey = scores.floorKey(85);    // 85 (≤85的最大键)
+
+// 大于/大于等于
+Integer higherKey = scores.higherKey(90);  // 92 (&gt;90的最小键)
+Integer ceilingKey = scores.ceilingKey(85); // 85 (≥85的最小键)
+
+// 子Map
+SortedMap&lt;Integer, String&gt; headMap = scores.headMap(90);      // 键&lt;90
+SortedMap&lt;Integer, String&gt; tailMap = scores.tailMap(85);      // 键≥85
+SortedMap&lt;Integer, String&gt; subMap = scores.subMap(80, 95);    // 80≤键&lt;95</code></pre></div><div style="display:contents" dir="auto"><h2 id="eb58db55-6aee-82bb-aefa-01ddac3686a8" class="">Map之间的转换</h2></div><div style="display:contents" dir="auto"><pre id="b148db55-6aee-831c-8bec-81cf4bfb925b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; source = new HashMap&lt;&gt;(Map.of(&quot;A&quot;, 1, &quot;B&quot;, 2, &quot;C&quot;, 3));
+
+// 2.1 值转换
+Map&lt;String, String&gt; stringValues = new HashMap&lt;&gt;();
+source.forEach((k, v) -&gt; stringValues.put(k, &quot;Value: &quot; + v));
+
+// 2.2 键转换
+Map&lt;String, Integer&gt; upperKeys = new HashMap&lt;&gt;();
+source.forEach((k, v) -&gt; upperKeys.put(k.toUpperCase(), v));
+
+// 2.3 过滤
+Map&lt;String, Integer&gt; filtered = source.entrySet().stream()
+    .filter(entry -&gt; entry.getValue() &gt; 1)
+    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+// 2.4 分组
+Map&lt;Integer, List&lt;String&gt;&gt; grouped = source.entrySet().stream()
+    .collect(Collectors.groupingBy(
+        Map.Entry::getValue,
+        Collectors.mapping(Map.Entry::getKey, Collectors.toList())
+    ));</code></pre></div><div style="display:contents" dir="auto"><h2 id="3ac8db55-6aee-83f5-8be0-01f3c7b336cf" class="">转换为其他集合</h2></div><div style="display:contents" dir="auto"><pre id="fe48db55-6aee-8360-91dc-012eefdd69e6" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;(Map.of(&quot;A&quot;, 1, &quot;B&quot;, 2, &quot;C&quot;, 3));
+
+// 1.1 转List
+List&lt;String&gt; keys = new ArrayList&lt;&gt;(map.keySet());
+List&lt;Integer&gt; values = new ArrayList&lt;&gt;(map.values());
+List&lt;Map.Entry&lt;String, Integer&gt;&gt; entries = new ArrayList&lt;&gt;(map.entrySet());
+
+// 1.2 转Set
+Set&lt;String&gt; keySet = new HashSet&lt;&gt;(map.keySet());
+Set&lt;Integer&gt; valueSet = new HashSet&lt;&gt;(map.values());
+Set&lt;Map.Entry&lt;String, Integer&gt;&gt; entrySet = new HashSet&lt;&gt;(map.entrySet());
+
+// 1.3 转数组
+String[] keyArray = map.keySet().toArray(new String[0]);
+Integer[] valueArray = map.values().toArray(new Integer[0]);
+
+// 1.4 转不可变Map
+Map&lt;String, Integer&gt; immutable1 = Map.copyOf(map);
+Map&lt;String, Integer&gt; immutable2 = Collections.unmodifiableMap(map);</code></pre></div><div style="display:contents" dir="auto"><h2 id="2a78db55-6aee-8385-b07a-8197876faf52" class="">过滤和映射</h2></div><div style="display:contents" dir="auto"><pre id="3828db55-6aee-8203-adf8-019ddab1b113" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;(Map.of(&quot;Apple&quot;, 10, &quot;Banana&quot;, 5, &quot;Orange&quot;, 8));
+
+// 1.1 过滤
+Map&lt;String, Integer&gt; filtered = map.entrySet().stream()
+    .filter(entry -&gt; entry.getValue() &gt; 5)
+    .filter(entry -&gt; entry.getKey().startsWith(&quot;A&quot;))
+    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+// 1.2 映射
+Map&lt;String, String&gt; mapped = map.entrySet().stream()
+    .collect(Collectors.toMap(
+        entry -&gt; &quot;Fruit_&quot; + entry.getKey(),
+        entry -&gt; &quot;Count: &quot; + entry.getValue()
+    ));
+
+// 1.3 键值互换
+Map&lt;Integer, String&gt; swapped = map.entrySet().stream()
+    .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));</code></pre></div><div style="display:contents" dir="auto"><h2 id="2ca8db55-6aee-8229-aebc-0174034d1a11" class="">分组和分区</h2></div><div style="display:contents" dir="auto"><pre id="0368db55-6aee-830e-8e7b-814f1c56037f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">List&lt;String&gt; words = Arrays.asList(&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;date&quot;, &quot;elderberry&quot;);
+
+// 2.1 按长度分组
+Map&lt;Integer, List&lt;String&gt;&gt; byLength = words.stream()
+    .collect(Collectors.groupingBy(String::length));
+
+// 2.2 按条件分区
+Map&lt;Boolean, List&lt;String&gt;&gt; partitioned = words.stream()
+    .collect(Collectors.partitioningBy(w -&gt; w.startsWith(&quot;a&quot;)));
+
+// 2.3 复杂分组
+Map&lt;Integer, Long&gt; countByLength = words.stream()
+    .collect(Collectors.groupingBy(String::length, Collectors.counting()));
+
+Map&lt;Integer, Set&lt;String&gt;&gt; setByLength = words.stream()
+    .collect(Collectors.groupingBy(String::length, Collectors.toSet()));</code></pre></div><div style="display:contents" dir="auto"><h2 id="a748db55-6aee-83a3-ac2c-01c5847d34b8" class="">聚合操作</h2></div><div style="display:contents" dir="auto"><pre id="a078db55-6aee-82af-960b-819b3dea58e8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;(Map.of(&quot;A&quot;, 1, &quot;B&quot;, 2, &quot;C&quot;, 3, &quot;D&quot;, 4));
+
+// 3.1 统计
+IntSummaryStatistics stats = map.values().stream()
+    .mapToInt(Integer::intValue)
+    .summaryStatistics();
+
+System.out.println(&quot;Count: &quot; + stats.getCount());
+System.out.println(&quot;Sum: &quot; + stats.getSum());
+System.out.println(&quot;Min: &quot; + stats.getMin());
+System.out.println(&quot;Max: &quot; + stats.getMax());
+System.out.println(&quot;Average: &quot; + stats.getAverage());
+
+// 3.2 最大值/最小值
+Optional&lt;Map.Entry&lt;String, Integer&gt;&gt; maxEntry = map.entrySet().stream()
+    .max(Map.Entry.comparingByValue());
+
+Optional&lt;Map.Entry&lt;String, Integer&gt;&gt; minEntry = map.entrySet().stream()
+    .min(Map.Entry.comparingByValue());
+
+// 3.3 排序
+List&lt;Map.Entry&lt;String, Integer&gt;&gt; sorted = map.entrySet().stream()
+    .sorted(Map.Entry.&lt;String, Integer&gt;comparingByValue().reversed())
+    .collect(Collectors.toList());
+
+Map&lt;String, Integer&gt; sortedMap = map.entrySet().stream()
+    .sorted(Map.Entry.comparingByKey())
+    .collect(Collectors.toMap(
+        Map.Entry::getKey,
+        Map.Entry::getValue,
+        (e1, e2) -&gt; e1,  // 合并函数
+        LinkedHashMap::new  // 保持顺序
+    ));</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

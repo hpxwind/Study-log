@@ -1,0 +1,941 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>String</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="8578db55-6aee-82b8-bf8a-81c8c77db140" class="page sans"><header><h1 class="page-title" dir="auto">String</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h2 id="b068db55-6aee-83e4-b021-01f6beb226d8" class="">字符串创建</h2></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="5898db55-6aee-82c4-956c-0172ff80c802" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 直接创建
+String str1 = &quot;Hello&quot;;
+String str2 = new String(&quot;World&quot;);
+
+// 从字符数组创建
+char[] chars = {&#x27;H&#x27;, &#x27;i&#x27;};
+String str3 = new String(chars);
+String str4 = String.copyValueOf(chars);
+
+// 从字节数组创建
+byte[] bytes = {72, 101, 108, 108, 111};
+String str5 = new String(bytes, StandardCharsets.UTF_8);
+
+// 重复创建
+String str6 = &quot;Hi&quot;.repeat(3);  // &quot;HiHiHi&quot; (Java 11+)</code></pre></div><div style="display:contents" dir="auto"><h2 id="cc18db55-6aee-83d9-aa34-014f56efd67d" class="">字符串长度与判空</h2></div><div style="display:contents" dir="auto"><pre id="d788db55-6aee-8379-ad01-01f815c15ae9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">String str = &quot;Hello&quot;;
+int length = str.length();      // 5
+boolean isEmpty = str.isEmpty(); // false
+boolean isBlank = str.isBlank(); // false (Java 11+)，检查是否为空或仅包含空白字符</code></pre></div><div style="display:contents" dir="auto"><h2 id="c518db55-6aee-8272-8524-819a0c65fc0a" class="">字符串连接</h2></div><div style="display:contents" dir="auto"><pre id="c298db55-6aee-8278-b496-8142a0f8001f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 使用 + 运算符
+String result1 = &quot;Hello&quot; + &quot; &quot; + &quot;World&quot;;
+
+// 使用 concat()
+String result2 = &quot;Hello&quot;.concat(&quot; World&quot;);
+
+// 使用 StringBuilder/StringBuffer
+StringBuilder sb = new StringBuilder();
+sb.append(&quot;Hello&quot;).append(&quot; World&quot;);
+String result3 = sb.toString();
+
+// 使用 String.join() (Java 8+)
+String result4 = String.join(&quot;-&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;);  // &quot;a-b-c&quot;
+
+// 使用 String.format()
+String result5 = String.format(&quot;Name: %s, Age: %d&quot;, &quot;Alice&quot;, 25);</code></pre></div><div style="display:contents" dir="auto"><h2 id="6908db55-6aee-82ee-a430-81174dc533eb" class="">字符串比较</h2></div><div style="display:contents" dir="auto"><pre id="ee88db55-6aee-82fe-974b-81e3b027786d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">String s1 = &quot;Hello&quot;;
+String s2 = &quot;hello&quot;;
+String s3 = &quot;Hello&quot;;
+String s4 = new String(&quot;Hello&quot;);
+
+// 比较值
+boolean b1 = s1.equals(s2);        // false
+boolean b2 = s1.equalsIgnoreCase(s2); // true
+boolean b3 = s1.equals(s3);        // true
+
+// 比较引用
+boolean b4 = s1 == s3;             // true (字符串池)
+boolean b5 = s1 == s4;             // false (不同对象)
+
+// 字典序比较
+int cmp1 = s1.compareTo(s2);       // 负数 (H &lt; h)
+int cmp2 = s1.compareToIgnoreCase(s2); // 0
+
+// 内容比较
+boolean b6 = s1.contentEquals(s4); // true</code></pre></div><div style="display:contents" dir="auto"><h2 id="6ca8db55-6aee-8248-a860-01c48ee20464" class="">字符串查找</h2></div><div style="display:contents" dir="auto"><pre id="6d58db55-6aee-8335-a502-814e3695720e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">String str = &quot;Hello World, Hello Java&quot;;
+
+// 字符查找
+int index1 = str.indexOf(&#x27;o&#x27;);        // 4
+int index2 = str.indexOf(&#x27;o&#x27;, 5);      // 8 (从位置5开始)
+int index3 = str.lastIndexOf(&#x27;o&#x27;);    // 19
+int index4 = str.lastIndexOf(&#x27;o&#x27;, 10); // 8
+
+// 子串查找
+int index5 = str.indexOf(&quot;World&quot;);    // 6
+int index6 = str.lastIndexOf(&quot;Hello&quot;); // 13
+
+// 检查包含
+boolean contains = str.contains(&quot;Java&quot;); // true
+boolean starts = str.startsWith(&quot;Hello&quot;); // true
+boolean ends = str.endsWith(&quot;Java&quot;);     // true
+
+// 正则匹配
+boolean matches = str.matches(&quot;.*World.*&quot;); // true</code></pre></div><div style="display:contents" dir="auto"><h2 id="aef8db55-6aee-830e-ae72-817f83f46de1" class="">字符串提取</h2></div><div style="display:contents" dir="auto"><pre id="7108db55-6aee-83ce-98ce-81d889b9b1d9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">String str = &quot;Hello World&quot;;
+
+// 获取字符
+char ch = str.charAt(1);  // &#x27;e&#x27;
+
+// 获取子串
+String sub1 = str.substring(6);      // &quot;World&quot;
+String sub2 = str.substring(0, 5);    // &quot;Hello&quot;
+
+// 分割字符串
+String[] parts1 = str.split(&quot; &quot;);     // [&quot;Hello&quot;, &quot;World&quot;]
+String[] parts2 = str.split(&quot; &quot;, 2);  // [&quot;Hello&quot;, &quot;World&quot;]
+String[] parts3 = &quot;a,b,c&quot;.split(&quot;,&quot;); // [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+
+// 流式分割 (Java 8+)
+String[] parts4 = &quot;a,b,c&quot;.split(&quot;,&quot;);
+String first = parts4[0];  // &quot;a&quot;</code></pre></div><div style="display:contents" dir="auto"><h2 id="0508db55-6aee-835c-87c2-816f698eae9b" class="">字符串修改</h2></div><div style="display:contents" dir="auto"><pre id="e908db55-6aee-8217-9fc9-81a3a865bf4e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">String str = &quot;  Hello Java  &quot;;
+
+// 去除空白
+String trimmed = str.trim();                    // &quot;Hello Java&quot;
+String stripped = str.strip();                  // &quot;Hello Java&quot; (Java 11+)
+String strippedStart = str.stripLeading();      // &quot;Hello Java  &quot;
+String strippedEnd = str.stripTrailing();       // &quot;  Hello Java&quot;
+
+// 替换
+String replaced1 = str.replace(&#x27;a&#x27;, &#x27;o&#x27;);       // &quot;  Hello Jovo  &quot;
+String replaced2 = str.replace(&quot;Java&quot;, &quot;World&quot;); // &quot;  Hello World  &quot;
+String replaced3 = str.replaceAll(&quot;\\s+&quot;, &quot;-&quot;);  // &quot;--Hello-Java--&quot; (正则)
+String replaced4 = str.replaceFirst(&quot;\\s+&quot;, &quot;-&quot;); // &quot;- Hello Java  &quot; (正则)
+
+// 大小写转换
+String upper = str.toUpperCase();  // &quot;  HELLO JAVA  &quot;
+String lower = str.toLowerCase();  // &quot;  hello java  &quot;
+
+// 转义/反转
+String reversed = new StringBuilder(str).reverse().toString();  // &quot;  avaJ olleH  &quot;</code></pre></div><div style="display:contents" dir="auto"><h2 id="c348db55-6aee-8220-a9c2-81d654a220b8" class="">字符串转换</h2></div><div style="display:contents" dir="auto"><pre id="2028db55-6aee-833d-9875-81a4979401b1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">String str = &quot;123&quot;;
+
+// 转为字符数组
+char[] charArray = str.toCharArray();
+
+// 转为字节数组
+byte[] byteArray1 = str.getBytes();
+byte[] byteArray2 = str.getBytes(StandardCharsets.UTF_8);
+
+// 数值转换
+int intVal = Integer.parseInt(str);    // 123
+long longVal = Long.parseLong(str);    // 123L
+double doubleVal = Double.parseDouble(&quot;12.34&quot;);
+
+// 布尔转换
+boolean boolVal = Boolean.parseBoolean(&quot;true&quot;);
+
+// 格式化
+String formatted = String.format(&quot;Value: %d, Name: %s&quot;, 100, &quot;Alice&quot;);
+String formatted2 = &quot;Value: %d&quot;.formatted(100);  // Java 15+
+
+// 连接集合元素
+String joined = String.join(&quot;, &quot;, List.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;));  // &quot;A, B, C&quot;</code></pre></div><div style="display:contents" dir="auto"><h2 id="19f8db55-6aee-8216-9158-810bf5119423" class="">字符串格式化</h2></div><div style="display:contents" dir="auto"><pre id="4f78db55-6aee-8298-9f67-81c6637b6cda" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 基本格式化
+String s1 = String.format(&quot;Name: %s, Age: %d&quot;, &quot;Alice&quot;, 25);
+String s2 = String.format(&quot;Pi: %.2f&quot;, Math.PI);  // &quot;Pi: 3.14&quot;
+String s3 = String.format(&quot;Hex: %x, Octal: %o&quot;, 255, 255);  // &quot;Hex: ff, Octal: 377&quot;
+
+// 日期时间格式化
+Date now = new Date();
+String s4 = String.format(&quot;Time: %tH:%tM:%tS&quot;, now, now, now);
+
+// 文本对齐
+String s5 = String.format(&quot;|%-10s|&quot;, &quot;left&quot;);    // 左对齐
+String s6 = String.format(&quot;|%10s|&quot;, &quot;right&quot;);   // 右对齐</code></pre></div><div style="display:contents" dir="auto"><h2 id="8e18db55-6aee-83f4-9b0e-01a49d6b35b4" class="">正则表达式操作</h2></div><div style="display:contents" dir="auto"><pre id="dc08db55-6aee-83f9-94c1-01f122709849" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">String str = &quot;abc123def456&quot;;
+
+// 匹配
+boolean matches = str.matches(&quot;.*\\d+.*&quot;);  // true
+
+// 替换
+String replaced = str.replaceAll(&quot;\\d+&quot;, &quot;#&quot;);  // &quot;abc#def#&quot;
+
+// 分割
+String[] parts = str.split(&quot;\\d+&quot;);  // [&quot;abc&quot;, &quot;def&quot;, &quot;&quot;]
+
+// 查找所有匹配
+Pattern pattern = Pattern.compile(&quot;\\d+&quot;);
+Matcher matcher = pattern.matcher(str);
+while (matcher.find()) {
+    System.out.println(matcher.group());  // 123, 456
+}</code></pre></div><div style="display:contents" dir="auto"><h2 id="5408db55-6aee-83a7-b9de-011e781c91b1" class="">字符串池与intern()</h2></div><div style="display:contents" dir="auto"><pre id="e498db55-6aee-82d5-985b-811276c66041" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">String s1 = &quot;Hello&quot;;  // 字符串池
+String s2 = new String(&quot;Hello&quot;);  // 堆内存
+String s3 = s2.intern();  // 返回字符串池中的引用
+
+System.out.println(s1 == s2);  // false
+System.out.println(s1 == s3);  // true</code></pre></div><div style="display:contents" dir="auto"><h2 id="be98db55-6aee-8326-981b-018cdea1f46b" class="">性能优化技巧</h2></div><div style="display:contents" dir="auto"><pre id="0b78db55-6aee-839f-bb01-013faa02f18e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 1. 使用StringBuilder进行多次拼接
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i &lt; 1000; i++) {
+    sb.append(i);
+}
+String result = sb.toString();
+
+// 2. 使用StringJoiner (Java 8+)
+StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[&quot;, &quot;]&quot;);
+sj.add(&quot;A&quot;).add(&quot;B&quot;).add(&quot;C&quot;);
+System.out.println(sj);  // &quot;[A, B, C]&quot;
+
+// 3. 使用String.format()进行复杂格式化
+String formatted = String.format(&quot;%s: %d items at $%.2f each&quot;, 
+                                 &quot;Apples&quot;, 5, 1.99);
+
+// 4. 使用Apache Commons Lang或Guava的字符串工具类
+// StringUtils (Apache Commons)
+// Strings (Guava)</code></pre></div><div style="display:contents" dir="auto"><h2 id="01b8db55-6aee-82d4-9490-812620923291" class="">Java 11+ 新特性</h2></div><div style="display:contents" dir="auto"><pre id="35f8db55-6aee-82b8-8c6a-81ac3da94152" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// repeat() - 重复字符串
+String repeated = &quot;Hi&quot;.repeat(3);  // &quot;HiHiHi&quot;
+
+// isBlank() - 检查是否为空或仅包含空白字符
+boolean blank1 = &quot;&quot;.isBlank();      // true
+boolean blank2 = &quot;  &quot;.isBlank();    // true
+boolean blank3 = &quot; a &quot;.isBlank();   // false
+
+// strip(), stripLeading(), stripTrailing() - 去除空白
+String stripped = &quot;  hello  &quot;.strip();  // &quot;hello&quot;
+
+// lines() - 分割为行流
+String multiline = &quot;Line1\nLine2\nLine3&quot;;
+multiline.lines().forEach(System.out::println);
+
+// indent() - 缩进
+String indented = &quot;Hello&quot;.indent(2);  // &quot;  Hello\n&quot;
+
+// transform() - 转换
+String transformed = &quot;hello&quot;.transform(s -&gt; s.toUpperCase());  // &quot;HELLO&quot;
+
+// formatted() (Java 15+)
+String formatted = &quot;Value: %d&quot;.formatted(100);  // &quot;Value: 100&quot;</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

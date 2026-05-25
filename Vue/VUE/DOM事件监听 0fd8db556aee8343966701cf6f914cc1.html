@@ -1,0 +1,889 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>DOM事件监听</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="0fd8db55-6aee-8343-9667-01cf6f914cc1" class="page mono"><header><h1 class="page-title" dir="auto">DOM事件监听</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="dad8db55-6aee-8280-872c-01c8eb34b8b5" class="">在 Vue 中，事件处理器用于监听 DOM 事件（如点击、输入、滚动等）并触发相应逻辑，核心通过 <code>v-on</code> 指令（简写为 <code>@</code>）实现。事件处理器支持多种用法，包括绑定方法、内联语句、传递参数、修饰符等，以下是详细解析：</p></div><div style="display:contents" dir="auto"><hr id="c6c8db55-6aee-835f-b4e3-0154419011fd"/></div><div style="display:contents" dir="auto"><ul id="e628db55-6aee-8201-99c6-81fb99424aa4" class="toggle"><li><details open=""><summary>v-on 指令</summary><div style="display:contents" dir="auto"><p id="e738db55-6aee-8315-9992-016dfd2c69bd" class="">将事件触发的逻辑封装在组件方法中，通过方法名绑定，代码更清晰。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="c398db55-6aee-8271-8a5a-81d31640453a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;app&quot;&gt;
+  &lt;!-- 绑定方法（无参数） --&gt;
+  &lt;button @click=&quot;handleClick&quot;&gt;点击我&lt;/button&gt;
+  
+  &lt;!-- 绑定方法（带参数） --&gt;
+  &lt;button @click=&quot;handleGreet(&#x27;Vue2&#x27;)&quot;&gt;打招呼&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+new Vue({
+  el: &#x27;#app&#x27;,
+  methods: {
+    handleClick() {
+      console.log(&#x27;按钮被点击了&#x27;);
+    },
+    handleGreet(frame) {
+      console.log(`Hello, ${frame}!`);
+    }
+  }
+})
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="f0c8db55-6aee-82db-9fa9-016be99a0a4b" class="">示例（Vue3，组合式API）</p></div><div style="display:contents" dir="auto"><pre id="84b8db55-6aee-82ce-b9e4-01c13687ba75" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;app&quot;&gt;
+  &lt;button @click=&quot;handleClick&quot;&gt;点击我&lt;/button&gt;
+  &lt;button @click=&quot;handleGreet(&#x27;Vue3&#x27;)&quot;&gt;打招呼&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const { createApp } = Vue;
+createApp({
+  setup() {
+    const handleClick = () =&gt; {
+      console.log(&#x27;按钮被点击了&#x27;);
+    };
+    const handleGreet = (frame) =&gt; {
+      console.log(`Hello, ${frame}!`);
+    };
+    return { handleClick, handleGreet };
+  }
+}).mount(&#x27;#app&#x27;);
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="71e8db55-6aee-829e-a780-81011b892806" class="toggle"><li><details open=""><summary>内联语句（简单逻辑）</summary><div style="display:contents" dir="auto"><p id="cf58db55-6aee-83a3-a044-01149060d9fa" class="">直接在模板中写简单逻辑（如修改数据），无需定义方法。</p></div><div style="display:contents" dir="auto"><pre id="0e58db55-6aee-8252-ae15-810aa8222c14" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;app&quot;&gt;
+  &lt;p&gt;计数：{{ count }}&lt;/p&gt;
+  &lt;!-- 内联语句：直接修改数据 --&gt;
+  &lt;button @click=&quot;count++&quot;&gt;+1&lt;/button&gt;
+  &lt;button @click=&quot;count--&quot;&gt;-1&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+new Vue({
+  el: &#x27;#app&#x27;,
+  data() { return { count: 0 }; }
+})
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0d78db55-6aee-825a-bb79-01020229ce8c" class="toggle"><li><details open=""><summary>事件对象</summary><div style="display:contents" dir="ltr"><table id="5418db55-6aee-82d9-aea1-01c3aee473df" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="9158db55-6aee-8212-9931-8154913fd560"><th id="G]hM" class="simple-table-header-color simple-table-header"><strong>属性 / 方法</strong></th><th id="`G&lt;Q" class="simple-table-header-color simple-table-header"><strong>作用</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="cae8db55-6aee-8217-b2d6-0181c22ede0c"><td id="G]hM" class=""><code>event.target</code></td><td id="`G&lt;Q" class="">触发事件的 DOM 元素（如点击的按钮）</td></tr></div><div style="display:contents" dir="ltr"><tr id="0628db55-6aee-8260-ab78-01e4031cc45d"><td id="G]hM" class=""><code>event.type</code></td><td id="`G&lt;Q" class="">事件类型（如 &quot;click&quot;、&quot;keyup&quot;）</td></tr></div><div style="display:contents" dir="ltr"><tr id="22d8db55-6aee-823b-bffa-014654d92b44"><td id="G]hM" class=""><code>event.clientX</code>/<code>clientY</code></td><td id="`G&lt;Q" class="">鼠标点击时相对浏览器窗口的坐标</td></tr></div><div style="display:contents" dir="ltr"><tr id="2e68db55-6aee-826a-809b-01cc69490b09"><td id="G]hM" class=""><code>event.preventDefault()</code></td><td id="`G&lt;Q" class="">阻止事件默认行为（如阻止链接跳转）</td></tr></div><div style="display:contents" dir="ltr"><tr id="55a8db55-6aee-82ec-a870-01f7c905d713"><td id="G]hM" class=""><code>event.stopPropagation()</code></td><td id="`G&lt;Q" class="">阻止事件冒泡（不触发父元素同名事件）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="aac8db55-6aee-83f6-9169-010b6090f737" class="">当需要获取原生 DOM 事件对象（如鼠标位置、按键信息）时，可通过 <code>$event</code> 传递。</p></div><div style="display:contents" dir="auto"><p id="3038db55-6aee-83ae-a71a-815c3d70ccda" class=""><strong>1. 无参数时获取事件对象</strong></p></div><div style="display:contents" dir="auto"><pre id="7f88db55-6aee-82c5-8593-011cf106a1dd" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;button @click=&quot;showEvent&quot;&gt;点击查看事件对象&lt;/button&gt;
+
+&lt;script&gt;
+methods: {
+  showEvent(event) { // 方法第一个参数自动接收事件对象
+    console.log(event.target); // 触发事件的DOM元素（button）
+    console.log(event.type); // 事件类型（&quot;click&quot;）
+  }
+}
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="e6a8db55-6aee-8365-ba07-8168275c546d" class=""><strong>2. 带参数时获取事件对象</strong></p></div><div style="display:contents" dir="auto"><p id="8db8db55-6aee-835a-b4e6-01d02e498af7" class="">需显式传递 <code>$event</code> 作为参数：</p></div><div style="display:contents" dir="auto"><pre id="8a08db55-6aee-8332-963b-01f79c7fff60" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;button @click=&quot;handleWithParams(&#x27;参数&#x27;, $event)&quot;&gt;带参数+事件对象&lt;/button&gt;
+
+&lt;script&gt;
+methods: {
+  handleWithParams(msg, event) {
+    console.log(msg); // &quot;参数&quot;
+    console.log(event.clientX); // 鼠标点击的X坐标
+  }
+}
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2618db55-6aee-8361-af79-81ef6b82274f" class="toggle"><li><details open=""><summary>事件修饰符</summary><div style="display:contents" dir="auto"><p id="43a8db55-6aee-8263-84c2-01ec63a0c97a" class="">Vue 提供了<strong>事件修饰符</strong>，用于简化常见的事件处理逻辑（如阻止冒泡、阻止默认行为），修饰符通过 <code>.</code> 连接在事件名后。</p></div><div style="display:contents" dir="ltr"><table id="e4f8db55-6aee-83d4-a903-81a84780eccd" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="0d68db55-6aee-83e8-a9a5-81461deff0a7"><th id="G:o{" class="simple-table-header-color simple-table-header"><strong>修饰符</strong></th><th id="rXgN" class="simple-table-header-color simple-table-header"><strong>作用</strong></th><th id="viTu" class="simple-table-header-color simple-table-header"><strong>等价原生操作</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="83a8db55-6aee-8355-be90-01ca3f5dbc6a"><td id="G:o{" class=""><code>.stop</code></td><td id="rXgN" class="">阻止事件冒泡（不触发父元素同名事件）</td><td id="viTu" class=""><code>event.stopPropagation()</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="93e8db55-6aee-835a-8f55-81d30eea5cab"><td id="G:o{" class=""><code>.prevent</code></td><td id="rXgN" class="">阻止默认行为（如表单提交、链接跳转）</td><td id="viTu" class=""><code>event.preventDefault()</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3a68db55-6aee-82bb-a119-017bbfc29a26"><td id="G:o{" class=""><code>.self</code></td><td id="rXgN" class="">仅当事件在当前元素本身触发时才执行</td><td id="viTu" class="">-</td></tr></div><div style="display:contents" dir="ltr"><tr id="16a8db55-6aee-8271-be2d-8195bf432bc1"><td id="G:o{" class=""><code>.once</code></td><td id="rXgN" class="">事件仅触发一次</td><td id="viTu" class="">-</td></tr></div><div style="display:contents" dir="ltr"><tr id="b5e8db55-6aee-835e-bc41-010113914660"><td id="G:o{" class=""><code>.capture</code></td><td id="rXgN" class="">事件捕获模式（从外层到内层触发）</td><td id="viTu" class="">-</td></tr></div><div style="display:contents" dir="ltr"><tr id="4be8db55-6aee-8209-aaed-81c71a108999"><td id="G:o{" class=""><code>.passive</code></td><td id="rXgN" class="">优化滚动性能（不阻止默认滚动）</td><td id="viTu" class="">多用于 <code>touchmove</code> 等事件</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="fa38db55-6aee-8364-a630-8173e4c24797" class="">用法：</p></div><div style="display:contents" dir="auto"><p id="8b68db55-6aee-8377-a348-816e4aa13b9e" class=""><strong>说明</strong>：修饰符可链式使用，如 <code>@click.stop.prevent</code>（先阻止冒泡，再阻止默认行为）。</p></div><div style="display:contents" dir="auto"><pre id="d138db55-6aee-8338-85d9-01958ab567db" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;app&quot;&gt;
+  &lt;!-- 1. .stop：阻止冒泡 --&gt;
+  &lt;div @click=&quot;parentClick&quot; style=&quot;padding: 20px; border: 1px solid #000;&quot;&gt;
+    父元素
+    &lt;button @click.stop=&quot;childClick&quot;&gt;子按钮（.stop阻止冒泡）&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- 2. .prevent：阻止默认行为 --&gt;
+  &lt;a href=&quot;https://vuejs.org&quot; @click.prevent=&quot;handleLinkClick&quot;&gt;
+    点击不跳转（.prevent）
+  &lt;/a&gt;
+
+  &lt;!-- 3. .self：仅自身触发 --&gt;
+  &lt;div @click.self=&quot;onlySelf&quot; style=&quot;padding: 20px; border: 1px solid #000;&quot;&gt;
+    点击内部文字不触发，仅点击边框区域触发（.self）
+  &lt;/div&gt;
+
+  &lt;!-- 4. .once：仅触发一次 --&gt;
+  &lt;button @click.once=&quot;onceClick&quot;&gt;点击一次后失效（.once）&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+new Vue({
+  el: &#x27;#app&#x27;,
+  methods: {
+    parentClick() { console.log(&#x27;父元素被点击&#x27;); },
+    childClick() { console.log(&#x27;子按钮被点击&#x27;); },
+    handleLinkClick() { console.log(&#x27;链接被点击，但不跳转&#x27;); },
+    onlySelf() { console.log(&#x27;仅自身触发&#x27;); },
+    onceClick() { console.log(&#x27;只触发一次&#x27;); }
+  }
+})
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="21e8db55-6aee-8391-8fe0-01ca254e5697" class="toggle"><li><details open=""><summary>按键修饰符</summary><div style="display:contents" dir="auto"><p id="56f8db55-6aee-8310-961c-01554f6d0f0f" class="">用于监听键盘事件（如 <code>keydown</code>、<code>keyup</code>）时，过滤特定按键触发的事件。</p></div><div style="display:contents" dir="auto"><p id="8898db55-6aee-828d-a82e-8112094b1db6" class=""><strong>1. 内置按键别名</strong></p></div><div style="display:contents" dir="auto"><p id="acf8db55-6aee-8213-835f-014d56de28f4" class="">Vue 提供了常用按键的别名，无需记忆 keyCode：</p></div><div style="display:contents" dir="ltr"><table id="94c8db55-6aee-824f-9ced-81029e3923c2" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="f148db55-6aee-8329-803e-816236d6f522"><th id="Kxwr" class="simple-table-header-color simple-table-header"><strong>别名</strong></th><th id="WtyK" class="simple-table-header-color simple-table-header"><strong>对应按键</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="a508db55-6aee-82b4-8455-8157d07165fc"><td id="Kxwr" class=""><code>.enter</code></td><td id="WtyK" class="">回车键</td></tr></div><div style="display:contents" dir="ltr"><tr id="c058db55-6aee-8258-b317-81599c74b3e5"><td id="Kxwr" class=""><code>.tab</code></td><td id="WtyK" class="">Tab 键（需配合 <code>keydown</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="63c8db55-6aee-83be-a8fb-81b9c6860de0"><td id="Kxwr" class=""><code>.delete</code></td><td id="WtyK" class="">删除键（Delete/Backspace）</td></tr></div><div style="display:contents" dir="ltr"><tr id="c628db55-6aee-827c-b5c8-0117e4a521cf"><td id="Kxwr" class=""><code>.esc</code></td><td id="WtyK" class="">退出键</td></tr></div><div style="display:contents" dir="ltr"><tr id="ebd8db55-6aee-8391-9f80-0140262a06ba"><td id="Kxwr" class=""><code>.space</code></td><td id="WtyK" class="">空格键</td></tr></div><div style="display:contents" dir="ltr"><tr id="59e8db55-6aee-820a-aa15-016d44a31f02"><td id="Kxwr" class=""><code>.up</code>/<code>.down</code>/<code>.left</code>/<code>.right</code></td><td id="WtyK" class="">方向键</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="a688db55-6aee-8227-856f-8174c4b51b70" class="">用法：</p></div><div style="display:contents" dir="auto"><pre id="31e8db55-6aee-8229-8e30-010819962aa6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;div id=&quot;app&quot;&gt;
+  &lt;!-- 按Enter键触发 --&gt;
+  &lt;input 
+    type=&quot;text&quot; 
+    @keyup.enter=&quot;handleEnter&quot; 
+    placeholder=&quot;按Enter提交&quot;
+  &gt;
+
+  &lt;!-- 按Esc键触发 --&gt;
+  &lt;input 
+    type=&quot;text&quot; 
+    @keyup.esc=&quot;clearInput&quot; 
+    placeholder=&quot;按Esc清空&quot; 
+    v-model=&quot;inputVal&quot;
+  &gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+new Vue({
+  el: &#x27;#app&#x27;,
+  data() {
+    return { inputVal: &#x27;&#x27; };
+  },
+  methods: {
+    handleEnter() {
+      console.log(&#x27;输入内容：&#x27;, this.inputVal);
+    },
+    clearInput() {
+      this.inputVal = &#x27;&#x27;;
+    }
+  }
+})
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="ee38db55-6aee-8324-ac6d-01ada8bee075"/></div><div style="display:contents" dir="auto"><hr id="8778db55-6aee-8203-bd5f-01f0ac6f427b"/></div><div style="display:contents" dir="auto"><p id="a398db55-6aee-8312-bb14-81cda6a102f0" class="">自定义按键修饰符（仅Vue2）</p></div><div style="display:contents" dir="auto"><p id="eb68db55-6aee-83a0-9850-8133efa4c08a" class="">Vue2 中可通过 <code>config.keyCodes</code> 自定义按键别名（Vue3 已移除，需用按键名）：</p></div><div style="display:contents" dir="auto"><pre id="a568db55-6aee-8227-8932-0108d31187d1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// Vue2 自定义 F1 键修饰符
+Vue.config.keyCodes.f1 = 112;
+
+// 使用
+&lt;input @keyup.f1=&quot;handleF1&quot;&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2da8db55-6aee-83ae-a2b0-81779e240731" class="toggle"><li><details open=""><summary>鼠标修饰符</summary><div style="display:contents" dir="ltr"><table id="75c8db55-6aee-8337-a776-81c8a8617982" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="e498db55-6aee-8312-a458-816986d7b76d"><th id="K~[r" class="simple-table-header-color simple-table-header"><strong>修饰符</strong></th><th id="wM;k" class="simple-table-header-color simple-table-header"><strong>作用</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="ba18db55-6aee-835e-aafd-011624840cc2"><td id="K~[r" class=""><code>.left</code></td><td id="wM;k" class="">仅左键点击触发</td></tr></div><div style="display:contents" dir="ltr"><tr id="cfc8db55-6aee-8346-9407-81b69d77479f"><td id="K~[r" class=""><code>.right</code></td><td id="wM;k" class="">仅右键点击触发</td></tr></div><div style="display:contents" dir="ltr"><tr id="2d38db55-6aee-82b3-aad3-018d9a3c524c"><td id="K~[r" class=""><code>.middle</code></td><td id="wM;k" class="">仅中键（滚轮）点击触发</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="f408db55-6aee-8381-b572-016021636620" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;button @click.right=&quot;rightClick&quot;&gt;右键点击触发&lt;/button&gt;
+
+&lt;script&gt;
+methods: {
+  rightClick() {
+    console.log(&#x27;右键点击了按钮&#x27;);
+  }
+}
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="dd58db55-6aee-82f6-84fb-81a3dcf33827" class="toggle"><li><details open=""><summary><strong>Vue2 与 Vue3 事件处理的差异</strong></summary><div style="display:contents" dir="auto"><ol type="1" id="95b8db55-6aee-8223-97ae-017c6581cb0c" class="numbered-list" start="1"><li><strong>按键修饰符</strong>：Vue3 移除了 <code>keyCode</code> 支持，仅保留按键别名（如 <code>.enter</code>），且新增 <code>.exact</code> 修饰符（精确匹配按键组合）。例：<code>@click.ctrl.exact</code> 仅在按住 Ctrl 键且无其他键时触发。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="61d8db55-6aee-8216-9b04-01434a3ff862" class="numbered-list" start="2"><li><code><strong>v-on</strong></code><strong> 绑定多个事件</strong>：Vue3 支持对象语法绑定多个事件：<div style="display:contents" dir="auto"><pre id="8e08db55-6aee-8375-a124-015e28fa919d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;button v-on=&quot;{ click: handleClick, mouseenter: handleEnter }&quot;&gt;
+  多事件绑定
+&lt;/button&gt;</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><p id="3738db55-6aee-8220-af08-01dfe2d46026" class=""><br/>1. <strong>组件事件</strong>：<div class="indented"><div style="display:contents" dir="auto"><p id="eee8db55-6aee-8307-bdc0-01d8b726c41e" class="">Vue3 中组件自定义事件需通过 <code>emits</code> 选项声明（更规范），而 Vue2 无需声明。</p></div></div></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7408db55-6aee-8288-a15b-81e9ed21ff77" class="toggle"><li><details open=""><summary>核心原理</summary><div style="display:contents" dir="auto"><p id="f8c8db55-6aee-82f6-832c-81f642ff4b56" class="">Vue 的事件处理器本质是对原生 DOM 事件的封装：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3a78db55-6aee-83b4-94de-816547b7902c" class="numbered-list" start="1"><li>Vue 会在编译模板时，将 <code>@事件名</code> 转换为原生事件监听（如 <code>addEventListener</code>）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1b08db55-6aee-8205-9ede-01ed5be75ce2" class="numbered-list" start="2"><li>事件修饰符由 Vue 内部处理（如 <code>.stop</code> 对应调用 <code>event.stopPropagation()</code>），避免在业务代码中直接操作 DOM 事件对象，符合 Vue 的 “声明式” 理念。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="f2d8db55-6aee-83aa-954a-01f5c51f180f" class="numbered-list" start="3"><li>事件处理函数中的 <code>this</code>（Vue2 选项式 API）自动绑定为组件实例，方便访问 <code>data</code> 和 <code>methods</code>。</li></ol></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

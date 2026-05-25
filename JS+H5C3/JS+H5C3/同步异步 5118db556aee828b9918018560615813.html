@@ -1,0 +1,922 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>同步异步</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5118db55-6aee-828b-9918-018560615813" class="page mono"><header><h1 class="page-title" dir="auto">同步异步</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="dbb8db55-6aee-820b-8c52-0191bb8a619c" class="toggle"><li><details open=""><summary><mark class="highlight-default">同步与异步</mark></summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="e048db55-6aee-82ff-9771-81e9938dca93" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">程序的运行是同步的（同步不意味着所有步骤同时运行，而是指步骤在一个控制流序列中按顺序执行）。
+而异步的概念则是不保证同步的概念，也就是说，一个异步过程的执行将不再与原有的序列有顺序关系。
+简单来理解就是：同步按你的代码顺序执行，异步不按照代码顺序执行，异步的执行效率更高。
+如图：</code></pre></div><div style="display:contents" dir="ltr"><figure id="6ae8db55-6aee-82ae-9194-01c95bc54456" class="image"><a href="%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5/async-sync.png"><img style="width:710px" src="%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5/async-sync.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="c198db55-6aee-834b-94d0-81ce5ca522ec" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">回调函数
+	回调函数就是一个函数，它是在我们启动一个异步任务的时候就告诉它：等你完成了这个任务之后要干什么。这样一来主线程几乎不用关心异步任务的状态了，他自己会善始善终。
+如：程序等待3秒后自动执行 print 函数。
+setTimeout(print, 3000);
+//setTimeout 就是一个消耗时间较长（3 秒）的过程，它的第一个参数是个回调函数，第二个参数是毫秒数，这个函数执行之后会产生一个子线程，子线程会等待 3 秒，然后执行回调函数 &quot;print&quot;
+可以简写两个函数如下：
+setTimeout(function () {
+    document.getElementById(&quot;demo&quot;).innerHTML=&quot;RUNOOB!&quot;;
+}, 3000);
+-----------------------------------------------------------------------------------------
+注意：既然 setTimeout 会在子线程中等待 3 秒，在 setTimeout 函数执行之后主线程并没有停止，所以：
+setTimeout(function () {
+    document.getElementById(&quot;demo1&quot;).innerHTML=&quot;RUNOOB-1!&quot;;  // 三秒后子线程执行
+}, 3000);
+document.getElementById(&quot;demo2&quot;).innerHTML=&quot;RUNOOB-2!&quot;;      // 主线程先执行
+-----------------------------------------------------------------------------------------
+	除了 setTimeout 函数以外，异步回调广泛应用于 AJAX 编程。有关于 AJAX 详细请参见: https://www.runoob.com/ajax/ajax-tutorial.html。
+	XMLHttpRequest 常常用于请求来自远程服务器上的 XML 或 JSON 数据。一个标准的 XMLHttpRequest 对象往往包含多个回调：
+var xhr = new XMLHttpRequest();
+xhr.onload = function () {
+    // 输出接收到的文字数据
+    document.getElementById(&quot;demo&quot;).innerHTML=xhr.responseText;
+}
+xhr.onerror = function () {
+    document.getElementById(&quot;demo&quot;).innerHTML=&quot;请求出错&quot;;
+}
+// 发送异步 GET 请求
+xhr.open(&quot;GET&quot;, &quot;https://www.runoob.com/try/ajax/ajax_info.txt&quot;, true);
+xhr.send();</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e668db55-6aee-8231-bf83-81b7aae2846b" class="toggle"><li><details open=""><summary>回调地狱</summary><div style="display:contents" dir="auto"><p id="ce18db55-6aee-8327-8a48-81d142c64b2c" class="">当多个异步操作需要按顺序执行时，嵌套多层回调函数导致代码可读性差、维护困难的现象。</p></div><div style="display:contents" dir="auto"><p id="a648db55-6aee-8265-a1f2-01e8dc244bde" class="">JavaScript 是单线程语言，异步操作（如网络请求、定时器）不会阻塞主线程，而是通过<strong>回调函数</strong>在操作完成后触发后续逻辑。</p></div><div style="display:contents" dir="auto"><p id="59a8db55-6aee-82dc-a284-8174197d220a" class="">当多个异步操作存在依赖关系（如 “先请求 A，再用 A 的结果请求 B，再用 B 的结果请求 C”）时，就需要嵌套回调，层数越多，代码越像 “金字塔”，形成回调地狱。</p></div><div style="display:contents" dir="auto"><hr id="06c8db55-6aee-82dc-83a5-01b29c5b6a01"/></div><div style="display:contents" dir="auto"><p id="95e8db55-6aee-828b-9c8c-01ea94fa9627" class="">假设需要实现以下需求：</p></div><div style="display:contents" dir="auto"><ol type="1" id="4df8db55-6aee-8295-aa5b-818a9fcf781f" class="numbered-list" start="1"><li>先获取用户 ID（异步）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="8bd8db55-6aee-834b-b5d3-01110e6f676b" class="numbered-list" start="2"><li>用用户 ID 获取用户信息（异步）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="bb88db55-6aee-8362-b951-018cc73a9537" class="numbered-list" start="3"><li>用用户信息获取用户订单（异步）</li></ol></div><div style="display:contents" dir="auto"><p id="c448db55-6aee-826c-8b5d-017359ced3ac" class="">用传统回调函数实现会是这样：</p></div><div style="display:contents" dir="auto"><pre id="6d48db55-6aee-8363-bd2b-0189372d0123" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 模拟异步请求函数
+function getUserID(callback) {
+  setTimeout(() =&gt; {
+    const id = 1001;
+    callback(id); // 第一个回调：获取ID后执行
+  }, 1000);
+}
+
+function getUserInfo(id, callback) {
+  setTimeout(() =&gt; {
+    const info = { id: id, name: &quot;Alice&quot; };
+    callback(info); // 第二个回调：获取信息后执行
+  }, 1000);
+}
+
+function getOrders(info, callback) {
+  setTimeout(() =&gt; {
+    const orders = [{ id: 1, product: &quot;手机&quot; }, { id: 2, product: &quot;电脑&quot; }];
+    callback(orders); // 第三个回调：获取订单后执行
+  }, 1000);
+}
+
+// 按顺序执行异步操作（回调嵌套）
+getUserID((id) =&gt; {
+  console.log(&quot;用户ID：&quot;, id);
+  getUserInfo(id, (info) =&gt; {
+    console.log(&quot;用户信息：&quot;, info);
+    getOrders(info, (orders) =&gt; {
+      console.log(&quot;用户订单：&quot;, orders);
+      // 若还有更多步骤，会继续嵌套...
+    });
+  });
+});</code></pre></div><div style="display:contents" dir="auto"><hr id="b248db55-6aee-833a-8809-81379dad2d05"/></div><div style="display:contents" dir="auto"><p id="c0a8db55-6aee-83ec-910e-81f206e9cf4a" class="">可以通过Promise+then() 链式调用，</p></div><div style="display:contents" dir="auto"><p id="73b8db55-6aee-83d2-864f-01c0e70bcd20" class="">也可以用async/await语法糖</p></div><div style="display:contents" dir="auto"><p id="7718db55-6aee-82ad-a49e-01604f3de239" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="af28db55-6aee-83bb-be68-01e84f63e716" class="toggle"><li><details open=""><summary>Promise+then()</summary><div style="display:contents" dir="auto"><p id="0038db55-6aee-83d9-be6a-816fa2c65536" class="">本质上是一个<strong>容器</strong>，保存着某个未来才会结束的事件（通常是异步操作）的结果。</p></div><div style="display:contents" dir="ltr"><figure id="18f8db55-6aee-82ea-a2ee-01e808ec35d0" class="image"><a href="%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5/feb4c0cc-88c1-4507-915d-484f0a89c626.png"><img style="width:710px" src="%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5/feb4c0cc-88c1-4507-915d-484f0a89c626.png"/></a></figure></div><div style="display:contents" dir="auto"><hr id="a658db55-6aee-8339-aed4-81b1db4e6993"/></div><div style="display:contents" dir="auto"><p id="4338db55-6aee-83a4-95d8-81678285c9de" class=""><strong>状态</strong>：Promise 有三种状态，且状态一旦改变就不可逆：<div class="indented"><div style="display:contents" dir="auto"><p id="c0f8db55-6aee-826b-b3af-8128e60b6378" class=""><code>pending</code>（进行中）：初始状态，既不是成功也不是失败。</p></div><div style="display:contents" dir="auto"><p id="4ca8db55-6aee-8265-98e8-0143e2626db5" class=""><code>fulfilled</code>（已成功）：异步操作完成并返回结果。</p></div><div style="display:contents" dir="auto"><p id="3af8db55-6aee-82e2-8b96-81650ce9fb9a" class=""><code>rejected</code>（已失败）：异步操作出错或被拒绝。</p></div></div></p></div><div style="display:contents" dir="auto"><p id="3368db55-6aee-82db-b773-8173d0b92bf0" class=""><strong>作用</strong>：将异步操作以同步操作的流程表达出来，避免回调嵌套；提供统一的接口，让异步操作更容易控制。</p></div><div style="display:contents" dir="auto"><hr id="64b8db55-6aee-83ca-a5e2-81541be49574"/></div><div style="display:contents" dir="auto"><ul id="b128db55-6aee-8266-80cf-017068982376" class="toggle"><li><details open=""><summary>创建promise实例</summary><div style="display:contents" dir="auto"><p id="5e08db55-6aee-8364-8b3a-81a05481f771" class="">使用 <code>new Promise()</code> 构造函数创建 Promise 实例，接收一个函数作为参数，该函数有两个参数 <code>resolve</code> 和 <code>reject</code>（均为函数）：</p></div><div style="display:contents" dir="auto"><p id="9e78db55-6aee-8352-a21f-81a397123602" class=""><code>resolve</code>：将状态从 <code>pending</code> 改为 <code>fulfilled</code>，并将异步操作的结果作为参数传递出去。</p></div><div style="display:contents" dir="auto"><p id="bce8db55-6aee-837c-98c3-813b7c7e4c15" class=""><code>reject</code>：将状态从 <code>pending</code> 改为 <code>rejected</code>，并将错误信息作为参数传递出去。</p></div><div style="display:contents" dir="auto"><pre id="b618db55-6aee-831a-9d60-01867d5d5b33" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const promise = new Promise((resolve, reject) =&gt; {
+  // 模拟异步操作（如网络请求、定时器）
+  setTimeout(() =&gt; {
+    const success = true;
+    if (success) {
+      resolve(&quot;操作成功！&quot;); // 成功时调用 resolve
+    } else {
+      reject(new Error(&quot;操作失败！&quot;)); // 失败时调用 reject
+    }
+  }, 1000);
+});</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="eb48db55-6aee-833f-b12b-01255c08c940" class="toggle"><li><details open=""><summary>处理promise结果</summary><div style="display:contents" dir="auto"><p id="f1c8db55-6aee-8201-80b2-01361c905020" class="">通过 <code>then()</code> 处理成功的结果，<code>catch()</code> 处理失败的原因：</p></div><div style="display:contents" dir="auto"><p id="2e68db55-6aee-83c3-8990-81a90177569a" class=""><code>then()</code>：接收两个可选参数，分别是 <code>fulfilled</code> 和 <code>rejected</code> 状态的回调函数。</p></div><div style="display:contents" dir="auto"><p id="aeb8db55-6aee-8365-9f85-01ef068028a0" class=""><code>catch()</code>：专门处理 <code>rejected</code> 状态的回调，等价于 <code>then(null, onRejected)</code>。</p></div><div style="display:contents" dir="auto"><pre id="9c08db55-6aee-8337-a9fb-01256c5f41b0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">promise
+  .then((result) =&gt; {
+    // 处理成功的结果（resolve 传递的值）
+    console.log(result); // 输出：操作成功！
+  })
+  .catch((error) =&gt; {
+    // 处理失败的原因（reject 传递的错误）
+    console.error(error.message); // 输出：操作失败！（若 success 为 false）
+  });
+  
+</code></pre></div><div style="display:contents" dir="auto"><p id="1b88db55-6aee-8337-96cf-81a21079c4c6" class=""><code>finally()</code>：无论 Promise 状态是 <code>fulfilled</code> 还是 <code>rejected</code>，都会执行（ES2018 新增），常用于清理操作（如关闭加载动画）。</p></div><div style="display:contents" dir="auto"><pre id="8948db55-6aee-82fa-813a-817012589f16" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">new Promise((resolve, reject) =&gt; {
+  reject(new Error(&quot;主动报错&quot;));
+})
+  .then((res) =&gt; {
+    console.log(res); // 不会执行
+  })
+  .catch((err) =&gt; {
+    console.error(&quot;捕获错误：&quot;, err.message); // 输出：捕获错误：主动报错
+  })
+  .finally(() =&gt; {
+    console.log(&quot;无论成功失败都会执行&quot;); // 输出：无论成功失败都会执行
+  });</code></pre></div><div style="display:contents" dir="auto"><p id="4f08db55-6aee-82c2-aecc-81b111d802ec" class=""><code>then()</code>、<code>catch()</code>、<code>finally()</code> 中的回调函数都是异步执行的，会在同步代码执行完后再执行。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2958db55-6aee-82ab-b4a7-01bc4ea9525f" class="toggle"><li><details open=""><summary>promise其他方法</summary><div style="display:contents" dir="auto"><p id="3428db55-6aee-83d9-8201-010e4d08fc69" class="">1、Promise.race()</p></div><div style="display:contents" dir="auto"><p id="32f8db55-6aee-83aa-8482-0166db5f0558" class=""><code>Promise.race()</code> 接收一个 Promise 数组，<strong>只要有一个 Promise 状态改变（成功或失败）</strong>，就立即返回该结果。</p></div><div style="display:contents" dir="auto"><pre id="9c28db55-6aee-822d-b0a0-0161ee7a542f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const promise1 = new Promise((resolve) =&gt; setTimeout(() =&gt; resolve(1), 1000));
+const promise2 = new Promise((resolve) =&gt; setTimeout(() =&gt; resolve(2), 500));
+
+Promise.race([promise1, promise2])
+  .then((result) =&gt; {
+    console.log(result); // 输出：2（因为 promise2 更快完成）
+  });</code></pre></div><div style="display:contents" dir="auto"><p id="5888db55-6aee-833a-8397-01c7e5aebf1e" class="">2、Promise.all()</p></div><div style="display:contents" dir="auto"><p id="8f18db55-6aee-83b3-b95c-01520514cff5" class=""><code>Promise.all()</code> 接收一个 Promise 数组，当<strong>所有 Promise 都成功</strong>时，返回一个包含所有结果的数组；只要<strong>有一个失败</strong>，就立即返回该失败的原因。</p></div><div style="display:contents" dir="auto"><pre id="a0d8db55-6aee-8265-bb1d-0126346dbe32" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const promise1 = Promise.resolve(1);
+const promise2 = Promise.resolve(2);
+const promise3 = Promise.resolve(3);
+
+Promise.all([promise1, promise2, promise3])
+  .then((results) =&gt; {
+    console.log(results); // 输出：[1, 2, 3]（所有成功）
+  })
+  .catch((err) =&gt; {
+    console.error(err); // 若有一个失败，输出该错误
+  });</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c0d8db55-6aee-8205-b5cc-81cfddf24293" class="toggle"><li><details open=""><summary><mark class="highlight-default">Promise 常见问题</mark></summary><div style="display:contents" dir="auto"><p id="0658db55-6aee-8295-949b-8188cbabfd0b" class=""><strong>1. 避免 Promise 嵌套</strong></p></div><div style="display:contents" dir="auto"><h3 id="fd58db55-6aee-8339-b0ef-81587151e677" class=""><strong>2. 总是处理拒绝情况</strong></h3></div><div style="display:contents" dir="auto"><p id="f188db55-6aee-823e-8d82-810e4ee76b88" class="">忘记处理 Promise 的拒绝会导致&quot;未捕获的 Promise 拒绝&quot;错误。总是使用 <code>.catch()</code> 或 <code>try/catch</code>（在 async/await 中）来处理错误。</p></div><div style="display:contents" dir="auto"><h3 id="7688db55-6aee-83fa-a782-81367e7e0827" class=""><strong>3. Promise 不是可取消的</strong></h3></div><div style="display:contents" dir="auto"><p id="70e8db55-6aee-82a7-b819-013613d91998" class="">一旦创建，Promise 就无法取消。如果需要取消功能，可以考虑使用 AbortController 或其他模式。</p></div><div style="display:contents" dir="auto"><h3 id="f808db55-6aee-826b-a8e7-0164efb2653f" class=""><strong>4. 回答常见的问题（FAQ）</strong></h3></div><div style="display:contents" dir="auto"><p id="ebc8db55-6aee-83d2-815c-81ec4c048608" class=""><strong>Q: then、catch 和 finally 序列能否顺序颠倒？</strong></p></div><div style="display:contents" dir="auto"><p id="56e8db55-6aee-8281-8713-810a273bf6d1" class="">A: 可以，效果完全一样。但不建议这样做，最好按 then-catch-finally 的顺序编写程序。</p></div><div style="display:contents" dir="auto"><p id="d048db55-6aee-8235-8a27-81c1361915ab" class=""><strong>Q: 除了 then 块以外，其它两种块能否多次使用？</strong></p></div><div style="display:contents" dir="auto"><p id="5de8db55-6aee-8232-aefd-01c71b7f64b4" class="">A: 可以，finally 与 then 一样会按顺序执行，但是 catch 块只会执行第一个，除非 catch 块里有异常。所以最好只安排一个 catch 和 finally 块。</p></div><div style="display:contents" dir="auto"><p id="bd28db55-6aee-83d0-8daa-01116e51ff6c" class=""><strong>Q: then 块如何中断？</strong></p></div><div style="display:contents" dir="auto"><p id="b4b8db55-6aee-82b9-b8df-81b2969a887e" class="">A: then 块默认会向下顺序执行，return 是不能中断的，可以通过 throw 来跳转至 catch 实现中断。</p></div><div style="display:contents" dir="auto"><p id="73a8db55-6aee-824b-9a85-0186e64ff3f3" class=""><strong>Q: 什么时候适合用 Promise 而不是传统回调函数？</strong></p></div><div style="display:contents" dir="auto"><p id="18a8db55-6aee-830d-843a-01a34d12185c" class="">A: 当需要多次顺序执行异步操作的时候，例如，如果想通过异步方法先后检测用户名和密码，需要先异步检测用户名，然后再异步检测密码的情况下就很适合 Promise。</p></div><div style="display:contents" dir="auto"><p id="a538db55-6aee-83fa-bf38-016de0579dde" class=""><strong>Q: Promise 是一种将异步转换为同步的方法吗？</strong></p></div><div style="display:contents" dir="auto"><p id="7e18db55-6aee-8215-b453-8159349d8c34" class="">A: 完全不是。Promise 只不过是一种更良好的编程风格。</p></div><div style="display:contents" dir="auto"><p id="a828db55-6aee-8292-b649-81c99fadf1f1" class=""><strong>Q: 什么时候我们需要再写一个 then 而不是在当前的 then 接着编程？</strong></p></div><div style="display:contents" dir="auto"><p id="b3c8db55-6aee-82df-967b-81dd8b623b63" class="">A: 当你又需要调用一个异步任务的时候。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3ee8db55-6aee-82ed-a956-016a59deb57e" class="toggle"><li><details open=""><summary><mark class="highlight-default">async/await</mark></summary><div style="display:contents" dir="auto"><p id="54a8db55-6aee-826b-b57d-817e751ad281" class="">async只影响施加async函数的内部，外部不变</p></div><div style="display:contents" dir="auto"><p id="f4d8db55-6aee-838c-8e52-01f4c3c580af" class="">await 同步 promise对象</p></div><div style="display:contents" dir="auto"><div id="d5e8db55-6aee-8363-9e4a-01981545f07e" class="column-list"><div style="display:contents" dir="auto"><div id="0518db55-6aee-8374-be14-81038e9be6cd" style="width:50%" class="column"><div style="display:contents" dir="auto"><pre id="d908db55-6aee-831b-969b-817f9b0f9dc0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Promise代码：
+function getData() {
+  return new Promise((resolve, reject) =&gt; {
+    // 异步操作
+    setTimeout(() =&gt; resolve(&#x27;数据&#x27;), 1000);
+  });
+}
+getData()
+  .then(data =&gt; {
+    console.log(data);
+    return getMoreData(data);
+  })
+  .then(moreData =&gt; {
+    console.log(moreData);
+  })
+  .catch(error =&gt; {
+    console.error(error);
+  });</code></pre></div></div></div><div style="display:contents" dir="auto"><div id="55c8db55-6aee-83a4-bcd1-0187f77a89a6" style="width:50%" class="column"><div style="display:contents" dir="auto"><pre id="0478db55-6aee-8321-bee1-011321d8f1d8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">等价于async代码：
+async function fetchData() {
+  try {
+    const data = await getData();  // 等待第一个 Promise
+    console.log(data);
+    
+    const moreData = await getMoreData(data);  // 等待第二个 Promise
+    console.log(moreData);
+  } catch (error) {
+    console.error(error);  // 统一错误处理
+  }
+}
+
+fetchData();</code></pre></div></div></div></div></div><div style="display:contents" dir="auto"><pre id="ba08db55-6aee-8270-94a8-01be62da84f3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">async function test() {
+  console.log(&quot;111111&quot;)
+	var res = await pajax({
+		url
+		...
+		...
+	})
+	return res
+}
+test().then(res =&gt; {
+	console.log(&quot;res:&quot;, res)
+}).catch(err =&gt; {
+	console.log(&quot;err:&quot;, err)
+})
+console.log(&quot;2222222&quot;)
+----------------------------------
+结果：
+11111111
+22222222
+res</code></pre></div><div style="display:contents" dir="auto"><hr id="8488db55-6aee-8291-a781-01491148e858"/></div><div style="display:contents" dir="auto"><p id="aa28db55-6aee-829f-b850-81db11acad7e" class="">ansyc内部怎么捕获错误？</p></div><div style="display:contents" dir="auto"><p id="8288db55-6aee-8362-8015-81ce56a8e1d6" class="">使用try/catch</p></div><div style="display:contents" dir="auto"><pre id="3328db55-6aee-8312-bb4e-018eb4b603c7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">async function test() {
+  console.log(&quot;111111&quot;)
+	try {
+			var res1 = await pajax({
+				url1
+				...
+				...
+			})
+			var res2 = await pajax({
+				url2
+				...
+				...
+			})
+			console.log(&quot;succ&quot;)
+	} catch (err) {
+			console.log(err)
+	}
+	return res
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="da98db55-6aee-8257-a82d-01135c5ba5fe"/></div><div style="display:contents" dir="auto"><p id="9988db55-6aee-834e-86ba-015a7498d878" class="">对比：</p></div><div style="display:contents" dir="ltr"><table id="9ff8db55-6aee-8295-919a-8138fb918041" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="f408db55-6aee-8383-9baf-01b5d776871a"><td id="JqTl" class="">特性</td><td id="|ljB" class="" style="width:285.796875px">async/await</td><td id="Oil:" class="" style="width:246.61297607421875px">Promise then/catch</td></tr></div><div style="display:contents" dir="ltr"><tr id="93e8db55-6aee-83c2-8470-8125cfa30a6e"><td id="JqTl" class="">可读性</td><td id="|ljB" class="" style="width:285.796875px">高，类似同步代码</td><td id="Oil:" class="" style="width:246.61297607421875px">中，链式调用</td></tr></div><div style="display:contents" dir="ltr"><tr id="3ab8db55-6aee-82d3-8496-01cb9a1df33d"><td id="JqTl" class="">错误处理</td><td id="|ljB" class="" style="width:285.796875px">使用try/catch</td><td id="Oil:" class="" style="width:246.61297607421875px">使用.catch()</td></tr></div><div style="display:contents" dir="ltr"><tr id="4a68db55-6aee-8298-a796-01e1d28e4cd4"><td id="JqTl" class="">调试</td><td id="|ljB" class="" style="width:285.796875px">更容易，有明确的调用栈</td><td id="Oil:" class="" style="width:246.61297607421875px">较困难，调用栈可能不清晰</td></tr></div><div style="display:contents" dir="ltr"><tr id="f418db55-6aee-8394-9b83-815edc76ab3a"><td id="JqTl" class="">代码结构</td><td id="|ljB" class="" style="width:285.796875px">更扁平</td><td id="Oil:" class="" style="width:246.61297607421875px">嵌套或链式</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3f38db55-6aee-82ca-8061-813290252174" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

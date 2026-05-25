@@ -1,0 +1,994 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>花指令</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9928db55-6aee-82ef-9296-0149ab99184b" class="page sans"><header><h1 class="page-title" dir="auto">花指令</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="2ac8db55-6aee-832e-b013-013b2c2a6be1" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">	花指令时干扰反汇编引擎正常工作的指令片段，不影响程序本身的执行结果。
+	花指令可以干扰IDA等反汇编工具生成正确的反汇编代码，CFG(控制流图)，进一步干扰中间代码(IR)以及伪代码。</code></pre></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3478db55-6aee-8341-b5c2-81aac5c0d8eb" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">	如果有一个函数disAsm(addr)，该函数可以对指定地址addr反汇编一条指令，并将结果自动输出到屏幕。返回值是当前反汇编指令的长度。
+如何驱动disAsm对一个完整的函数反汇编？
+target = getFunctionAddress(main)
+targetEnd = getFunctionEnd(main)
+currentAddr = target
+while currentAddr &lt; targetEnd:
+	currentLen = disAsm(addr)
+	currentAddr += currentLen
+&quot;&quot;&quot;
+线性扫描：从入口开始，依次解析每一条跳转指令的目的地址(call,jmp等)，遇到分支指令不会递归进入分支，递归下降。
+思考🤔：如何构造欺骗，采用递归下降方法的反汇编引擎？
+&quot;&quot;&quot;</code></pre></div><div style="display:contents" dir="auto"><h3 id="aba8db55-6aee-82ba-993c-01b90c415abf" class=""><strong>花指令的识别</strong></h3></div><div style="display:contents" dir="auto"><p id="0e38db55-6aee-8275-875b-01f23554c745" class="">反汇编错误通常会有三个特征</p></div><div style="display:contents" dir="auto"><ol type="1" id="7568db55-6aee-82c9-add6-81f5a1c7c267" class="numbered-list" start="1"><li>call目的地址畸形</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="57e8db55-6aee-8380-8c0b-01bf700e5925" class="numbered-list" start="2"><li>跳转到某条指令的中间，IDA中形如地址+x的样子 （<code><strong>E9</strong></code><strong> 是跳转指令</strong>）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6168db55-6aee-82a6-a1e4-01d4becf55eb" class="numbered-list" start="3"><li>大量不常见、不合理的指令（由于反汇编错位而出现）</li></ol></div><div style="display:contents" dir="auto"><pre id="a5a8db55-6aee-8311-b0f7-0166cc203606" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">	x86指令集长度不固定，有的短（1字节）有的长（5字节）。如果巧妙构造，引导反汇编引擎解析一条错误的指令，扰乱解析指令的长度，就可以使反汇编引擎无法按照正确指令长度依次临界解析指令，导致反汇编出错。
+	如：JMP指令字节码构成：0xE9（1字节），目标地址-当前地址-5（4字节）
+0000 E9 00 00 00 00 jmp 0x005
+0005 0xCC           int 3
+0006 0xCC           int 3
+------------------------------
+0000 E9 00 00 00 00 jmp 0x006
+0005 0xE9           ......
+0006 0x50           push eax
+0007 0x53           push ebx
+0008 0x5B           pop ebx
+0009 B8 56 34 12 00 mov eax, 0x123456</code></pre></div><div style="display:contents" dir="auto"><pre id="de08db55-6aee-8240-8e1a-0106b5f88723" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">间接跳转
+在定长指令集中比较常见。如下：</code></pre></div><div style="display:contents" dir="ltr"><figure id="5748db55-6aee-8302-a2ac-81b50b47aad7" class="image"><a href="%E8%8A%B1%E6%8C%87%E4%BB%A4/Snipaste_2025-05-30_23-06-03.png"><img style="width:432.9921875px" src="%E8%8A%B1%E6%8C%87%E4%BB%A4/Snipaste_2025-05-30_23-06-03.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="41b8db55-6aee-823d-82ef-813ac791e1cf" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">指令数据复用花指令，如下：</code></pre></div><div style="display:contents" dir="ltr"><figure id="cb38db55-6aee-8322-8c93-01f38e8d2d00" class="image"><a href="%E8%8A%B1%E6%8C%87%E4%BB%A4/Snipaste_2025-05-30_23-08-27.png"><img style="width:432.9921875px" src="%E8%8A%B1%E6%8C%87%E4%BB%A4/Snipaste_2025-05-30_23-08-27.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="c358db55-6aee-8280-a79c-017e7f18fa65" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">分析花指令序列-&gt;花指令HEX串-&gt;替换成相同长度的nop指令
+建议使用010Editer一次性将花指令序列替换成nop
+注意：模式串太短谨慎替换，有可能将正常指令或数据替换。</code></pre></div><div style="display:contents" dir="auto"><p id="06b8db55-6aee-8244-a1f6-81147062722a" class="">
+</p></div><div style="display:contents" dir="auto"><hr id="83f8db55-6aee-83c8-871e-81c7de8923f2"/></div><div style="display:contents" dir="auto"><hr id="f0b8db55-6aee-83bd-a826-81ece7915960"/></div><div style="display:contents" dir="auto"><hr id="1748db55-6aee-8227-b4b0-81fa047c59cd"/></div><div style="display:contents" dir="auto"><p id="4dc8db55-6aee-8242-8c2a-816fead3f129" class="">
+</p></div><div style="display:contents" dir="auto"><p id="a008db55-6aee-821b-a4f3-010f5fdb59f1" class="">由于 IDA无法准确判断出<code>jz $+3;</code>这条指令一定跳转，因此将<code>.byte 0xE9;</code>识别成汇编指令导致反汇编错误。</p></div><div style="display:contents" dir="auto"><p id="0c18db55-6aee-82bc-b966-81e5863d7bf0" class="">将 0x1157 开始的代码按快捷键<code>U</code>undefine 然后在 0x1158 处按快捷键<code>C</code>将其识别为代码，此时反汇编结果正确。</p></div><div style="display:contents" dir="auto"><p id="c818db55-6aee-83c8-b476-01f6080d5bc7" class="">
+</p></div><div style="display:contents" dir="auto"><p id="b518db55-6aee-8269-b2cd-014c92ce7328" class="">通过Patch可以修改字节，使代码与其预期，即执行时的状态一致即可。</p></div><div style="display:contents" dir="ltr"><figure id="5768db55-6aee-83c1-9ae7-01455c40026d" class="image"><a href="%E8%8A%B1%E6%8C%87%E4%BB%A4/e5ad73083ebade517a7b57118344fa92.png"><img style="width:433px" src="%E8%8A%B1%E6%8C%87%E4%BB%A4/e5ad73083ebade517a7b57118344fa92.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="a988db55-6aee-8204-81e9-01014a5e9252" class="">比如可以将 0xE9 patch 成 0x90 使其反汇编为 nop 指令。</p></div><div style="display:contents" dir="auto"><p id="5198db55-6aee-835a-ba7a-014116f23b3e" class="">然后在 main 函数开始处按快捷键让 IDA 重新分析该函数。</p></div><div style="display:contents" dir="auto"><p id="76e8db55-6aee-8356-a36d-019503643f45" class="">
+</p></div><div style="display:contents" dir="auto"><p id="b968db55-6aee-8304-947c-81492b2dcc0c" class="">除了干扰<strong>反汇编</strong>的花指令以外，还有干扰<strong>反编译</strong>的花指令</p></div><div style="display:contents" dir="auto"><p id="e218db55-6aee-8214-a4c7-015bd27ad795" class="">在Options - General菜单中勾上<code>Stack pointer</code>选项可以查看每行指令执行之前的栈帧大小</p></div><div style="display:contents" dir="ltr"><figure id="6808db55-6aee-833d-841b-01a598d71298" class="image"><a href="%E8%8A%B1%E6%8C%87%E4%BB%A4/6460d79e6405b6464a502f52d80fd6c5.png"><img style="width:433px" src="%E8%8A%B1%E6%8C%87%E4%BB%A4/6460d79e6405b6464a502f52d80fd6c5.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="8838db55-6aee-834b-ab2b-0162b31ab28a" class=""><code>Alt + K</code> 可以修改某条指令对栈指针的影响，从而消除这条花指令对反编译的影响。</p></div><div style="display:contents" dir="auto"><p id="8f18db55-6aee-8261-99d3-81a4b8575d90" class="">
+</p></div><div style="display:contents" dir="auto"><p id="8f08db55-6aee-8366-8fc0-8155ab13c255" class="">用IDA打开hard_junkcode，可以发现main函数中存在花指令<code>jz + jnz + xxx</code>从上往下阅读可以发现一共有三处花指令，分别在<code>0x754</code>、<code>0x771</code>和<code>0x786</code>地址，类型如下图所示：</p></div><div style="display:contents" dir="ltr"><figure id="ced8db55-6aee-8222-bb32-8126eafe0c80" class="image"><a href="%E8%8A%B1%E6%8C%87%E4%BB%A4/89915511c4f65ef3aa16b2811916a257.png"><img style="width:433px" src="%E8%8A%B1%E6%8C%87%E4%BB%A4/89915511c4f65ef3aa16b2811916a257.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="f258db55-6aee-82b4-a729-8197318e2c9b" class="">观察三处花指令发现它们的机器码全都是</p></div><div style="display:contents" dir="auto"><p id="dd18db55-6aee-82db-a900-819158203546" class=""><code>740A7508E810000000EB04E8</code></p></div><div style="display:contents" dir="auto"><p id="7b78db55-6aee-82f4-9593-81b01dbe95ba" class="">这一串字节序列因此可以直接全局替换这一段内容为<code>0x90</code>，即<code>NOP</code>的机器码</p></div><div style="display:contents" dir="auto"><pre id="b078db55-6aee-827c-a996-810e404e9a39" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from ida_bytes import get_bytes, patch_bytes
+
+patch_bytes(0x740, get_bytes(0x740, 0x100).replace(bytes.fromhex(&quot;740A7508E810000000EB04E8&quot;), bytes.fromhex(&quot;90&quot; * 12)))</code></pre></div><div style="display:contents" dir="auto"><p id="2878db55-6aee-82d0-af3a-01200c0f4660" class="">
+</p></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-837e-b2ed-812536aaa8d1"/></div><div style="display:contents" dir="auto"><hr id="f188db55-6aee-829c-99c0-81201ade6d02"/></div><div style="display:contents" dir="auto"><hr id="23e8db55-6aee-8245-bc7d-0106482e99ec"/></div><div style="display:contents" dir="auto"><p id="78d8db55-6aee-8304-bc55-815458fa1a83" class="">
+</p></div><div style="display:contents" dir="auto"><p id="8098db55-6aee-83bb-bb24-81af8d55b028" class="">花指令的分类<br/>常见的花指令有以下几种</p></div><div style="display:contents" dir="auto"><ol type="1" id="b8e8db55-6aee-8320-bd87-810f1ffc4327" class="numbered-list" start="1"><li>jx + jnx</li></ol></div><div style="display:contents" dir="ltr"><figure id="bb28db55-6aee-829c-ad95-8176f85f4f28"><div class="source"><a href="https://www.notion.soundefined"></a></div></figure></div><div style="display:contents" dir="auto"><p id="e158db55-6aee-8368-919e-810b9a02ef5f" class="">用连续两条相反的条件跳转，或是通过stc/clc汇编指令来设置位，使条件跳转变为跳转</p></div><div style="display:contents" dir="auto"><ol type="1" id="6dd8db55-6aee-838b-a608-8158f535e10e" class="numbered-list" start="2"><li>call + pop</li></ol></div><div style="display:contents" dir="ltr"><figure id="3568db55-6aee-8203-bd7d-01147fc97eeb" class="image"><a href="%E8%8A%B1%E6%8C%87%E4%BB%A4/c7d8380eddc4b2182e29cd0cc6d9c9c6.png"><img style="width:433px" src="%E8%8A%B1%E6%8C%87%E4%BB%A4/c7d8380eddc4b2182e29cd0cc6d9c9c6.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="4148db55-6aee-83d9-a36d-81db9922452e" class="">用pop的方式来清除call的压栈，使栈平衡。从而用call实现jmp。IDA会认为call的目标地址为函数起始地址，导致函数创建错误</p></div><div style="display:contents" dir="auto"><ol type="1" id="3c48db55-6aee-8200-a3d3-811d402f5e15" class="numbered-list" start="3"><li>call + add esp, 4</li></ol></div><div style="display:contents" dir="ltr"><figure id="85a8db55-6aee-8334-ad4d-0122afc404e6" class="image"><a href="%E8%8A%B1%E6%8C%87%E4%BB%A4/e7de331dd227f7b6fd220792e0c680b2.png"><img style="width:433px" src="%E8%8A%B1%E6%8C%87%E4%BB%A4/e7de331dd227f7b6fd220792e0c680b2.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="da68db55-6aee-82fe-a638-8177671248d0" class="">用add esp的方式来清除call的压栈，使栈平衡。从而用call实现jmp。</p></div><div style="display:contents" dir="auto"><ol type="1" id="01a8db55-6aee-837c-8821-8114e595c27a" class="numbered-list" start="4"><li>call + add [esp], n + retn</li></ol></div><div style="display:contents" dir="ltr"><figure id="0258db55-6aee-82e2-affc-819dcef6e178" class="image"><a href="%E8%8A%B1%E6%8C%87%E4%BB%A4/82ea591e6fc4fdefbbda2486ba69f453.png"><img style="width:433px" src="%E8%8A%B1%E6%8C%87%E4%BB%A4/82ea591e6fc4fdefbbda2486ba69f453.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="8868db55-6aee-83b0-a197-814f202ffdc4" class="">用add [esp], n和retn的方式来改变返回地址。<br/></p></div><div style="display:contents" dir="auto"><hr id="8448db55-6aee-824e-8d9a-81ca646c8227"/></div><div style="display:contents" dir="auto"><hr id="6298db55-6aee-82c2-b632-81162a93795a"/></div><div style="display:contents" dir="auto"><hr id="4718db55-6aee-83a3-90ff-014252ce7ebe"/></div><div style="display:contents" dir="auto"><p id="6f98db55-6aee-8266-8627-814a1f682bcd" class=""><strong>利用脚本去除花指令 复杂处理</strong></p></div><div style="display:contents" dir="auto"><p id="b6c8db55-6aee-8279-84a7-81ef2be58d1d" class="">call + pop</p></div><div style="display:contents" dir="auto"><p id="f1a8db55-6aee-8354-9d24-818f356eba4a" class="">例如 0x00401F9B 处的花指令</p></div><div style="display:contents" dir="ltr"><figure id="eb78db55-6aee-82b2-92f8-0182f4f2b8fc" class="image"><a href="%E8%8A%B1%E6%8C%87%E4%BB%A4/2322837feea60f8d89b790c3059ed33e.png"><img style="width:1072.9921875px" src="%E8%8A%B1%E6%8C%87%E4%BB%A4/2322837feea60f8d89b790c3059ed33e.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="7298db55-6aee-82c5-b108-0156a60e6a7c" class="">另外还有 push eax + call + pop eax + pop eax 类型的。</p></div><div style="display:contents" dir="auto"><p id="ba98db55-6aee-826f-801a-81319f3a8382" class="">
+</p></div><div style="display:contents" dir="auto"><p id="a528db55-6aee-8263-8c23-81a2f8d7e4dc" class="">call + add esp, 4</p></div><div style="display:contents" dir="auto"><p id="2a48db55-6aee-8319-a397-01964a9259c4" class="">例如 0x00401F62 处的花指令</p></div><div style="display:contents" dir="ltr"><figure id="3f08db55-6aee-83ef-94c9-81cbe8747382" class="image"><a href="%E8%8A%B1%E6%8C%87%E4%BB%A4/e8cbeb3d7cb037cd3189d136ea2fe5a6.png"><img style="width:1072.984375px" src="%E8%8A%B1%E6%8C%87%E4%BB%A4/e8cbeb3d7cb037cd3189d136ea2fe5a6.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="f4f8db55-6aee-83f8-8e41-01b940f2b665" class="">
+</p></div><div style="display:contents" dir="auto"><p id="5848db55-6aee-83dc-87bf-01d1da3b256f" class="">call + add [esp], 6 + retn</p></div><div style="display:contents" dir="auto"><p id="e8c8db55-6aee-8282-9e78-01c40c6d17b7" class="">例如 0x00401FA3 处的花指令</p></div><div style="display:contents" dir="ltr"><figure id="9738db55-6aee-83df-9836-01d06c8131cb" class="image"><a href="%E8%8A%B1%E6%8C%87%E4%BB%A4/bf0eedae9f017772783a306ac571c77e.png"><img style="width:1072.9765625px" src="%E8%8A%B1%E6%8C%87%E4%BB%A4/bf0eedae9f017772783a306ac571c77e.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="fe08db55-6aee-835a-b3b7-81aeadb9cebf" class="">对于这种花指令，先用正则表达式<code> </code><mark class="highlight-teal_background"><code>/\x50\xE8(.{4})(.</code></mark><em><mark class="highlight-teal_background"><code>?)\x58\x58/</code></mark></em><em><mark class="highlight-teal_background"> 特判</mark></em><em><mark class="highlight-teal_background"><code> push eax + call + pop eax + pop eax </code></mark></em><em><mark class="highlight-teal_background">类型的</mark></em><em>，之后可用正则表达式 </em></p></div><div style="display:contents" dir="auto"><p id="c5d8db55-6aee-839e-b53c-01fcbac17132" class=""><em><code>/\xE8(.{4})(.</code></em><code>?)(\x83\xC4\x04|\x58|\x83\x04\x24\x06\xc3)/ </code>进行匹配，即 <code>\xE8 + 4字节立即数 + 任意长度字节的填充 + 后续特征字节 </code>。</p></div><div style="display:contents" dir="auto"><p id="4488db55-6aee-8379-840b-81100e0c28ba" class="">同时根据 call 地址的计算方式可知 call 还要确保立即数要等于后面字节填充的长度。</p></div><div style="display:contents" dir="auto"><pre id="dfc8db55-6aee-8201-ba50-01304da6e901" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def call_handler(s):
+    def work(pattern, s):
+        t = s[:]
+        for _ in range(end - start):
+            it = re.match(pattern, s[_:], flags=re.DOTALL)
+            if it is None: continue
+            if struct.unpack(&quot;&lt;I&quot;, it.group(1))[0] == len(it.group(2)):
+                l, r = it.span()
+                l += _
+                r += _
+                p(s[l:r])
+                t = t[:l] + b&quot;\x90&quot; * (r - l) + t[r:]
+        return t
+
+    s = work(rb&quot;\x50\xE8(.{4})(.*?)\x58\x58&quot;, s)
+    s = work(rb&quot;\xE8(.{4})(.*?)(\x83\xC4\x04|\x58|\x83\x04\x24\x06\xc3)&quot;, s)
+    return s</code></pre></div><div style="display:contents" dir="auto"><p id="a9b8db55-6aee-833d-9fef-019b5abd9320" class="">
+</p></div><div style="display:contents" dir="auto"><hr id="8338db55-6aee-82e6-9a88-01c052a93d6c"/></div><div style="display:contents" dir="auto"><hr id="6858db55-6aee-8214-9b68-011efade4ea4"/></div><div style="display:contents" dir="auto"><hr id="ba08db55-6aee-8206-a29a-812ec688d0c2"/></div><div style="display:contents" dir="auto"><p id="3a48db55-6aee-83ae-a987-01c587ce159b" class="">
+</p></div><div style="display:contents" dir="auto"><pre id="f508db55-6aee-83df-84ab-812baf86bcb1" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">简单花指令添加：
+void Function(int Input, int Output)
+{
+  Input++;
+  Output++;
+  Input+=Output;
+  printf(&quot;函数结果:%d,%d&quot;,Input,Output);
+}
+汇编结果：（正常）
+.text:0000000000401550                 push    rbp
+.text:0000000000401551                 mov     rbp, rsp
+.text:0000000000401554                 sub     rsp, 20h
+.text:0000000000401558                 mov     [rbp+Input], ecx
+.text:000000000040155B                 mov     [rbp+Output], edx
+.text:000000000040155E                 add     [rbp+Input], 1
+.text:0000000000401562                 add     [rbp+Output], 1
+.text:0000000000401566                 mov     eax, [rbp+Output]
+.text:0000000000401569                 add     [rbp+Input], eax
+.text:000000000040156C                 mov     eax, [rbp+Output]
+.text:000000000040156F                 mov     r8d, eax
+.text:0000000000401572                 mov     edx, [rbp+Input]
+.text:0000000000401575                 lea     rcx, Format     ; Format
+.text:000000000040157C                 call    printf
+.text:0000000000401581                 nop
+.text:0000000000401582                 add     rsp, 20h
+.text:0000000000401586                 pop     rbp
+.text:0000000000401587                 retn
+.text:0000000000401587 Function        endp
+-----------------------------------------------------------------------------------------
+void Function(int Input, int Output)
+{
+    _asm xor eax, eax
+    _asm test eax, eax
+    _asm  jz label1
+    _asm jnz label0
+    label0 :
+    _asm __emit   0e8h
+    label1 :
+    Input++;
+    Output++;
+    Input += Output;
+    printf(&quot;函数结果:%d,%d&quot;, Input, Output);
+}
+添加花指令结果：
+.text:004118E0                 push    ebp
+.text:004118E1                 mov     ebp, esp
+.text:004118E3                 sub     esp, 0D8h
+.text:004118E9                 push    ebx
+.text:004118EA                 push    esi
+.text:004118EB                 push    edi
+.text:004118EC
+.text:004118EC __$EncStackInitStart_2:
+.text:004118EC                 lea     edi, [ebp+var_18]
+.text:004118EF                 mov     ecx, 6
+.text:004118F4                 mov     eax, 0CCCCCCCCh
+.text:004118F9                 rep stosd
+.text:004118FB
+.text:004118FB __$EncStackInitEnd_2:                   ; JMC_flag
+.text:004118FB                 mov     ecx, offset _A296C4B5_001@c
+.text:00411900                 call    j_@__CheckForDebuggerJustMyCode@4 ; __CheckForDebuggerJustMyCode(x)
+.text:00411905                 nop
+.text:00411906                 mov     [ebp+a], 1
+.text:0041190D                 mov     [ebp+b], 3
+.text:00411914                 mov     eax, [ebp+b]
+.text:00411917                 push    eax             ; Output
+.text:00411918                 mov     ecx, [ebp+a]
+.text:0041191B                 push    ecx             ; Input
+.text:0041191C                 call    j__Function
+.text:00411921                 add     esp, 8
+.text:00411924                 xor     eax, eax
+.text:00411926                 pop     edi
+.text:00411927                 pop     esi
+.text:00411928                 pop     ebx
+.text:00411929                 add     esp, 0D8h
+.text:0041192F                 cmp     ebp, esp
+.text:00411931                 call    j___RTC_CheckEsp
+.text:00411936                 mov     esp, ebp
+.text:00411938                 pop     ebp
+.text:00411939                 retn
+.text:00411939 _main           endp
+效果如下：显示JUNPOUT()</code></pre></div><div style="display:contents" dir="auto"><p id="a378db55-6aee-8353-96a9-01affe2c5260" class="">
+</p></div><div style="display:contents" dir="ltr"><figure id="6998db55-6aee-8249-802f-814f46c0887a" class="image"><a href="%E8%8A%B1%E6%8C%87%E4%BB%A4/Snipaste_2025-05-31_01-25-51.png"><img style="width:709.9765625px" src="%E8%8A%B1%E6%8C%87%E4%BB%A4/Snipaste_2025-05-31_01-25-51.png"/></a></figure></div><div style="display:contents" dir="auto"><pre id="6f78db55-6aee-82e7-a9b9-81f55e7dfdb1" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">找到对应地址全部替换为90（nop）
+33 C0 85 C0 74 03 75 00 E8 -&gt; 90 90 90 90 90 90 90 90 90</code></pre></div><div style="display:contents" dir="auto"><p id="4c98db55-6aee-826d-ad2f-0167ab614ae4" class="">
+</p></div><div style="display:contents" dir="auto"><hr id="a2c8db55-6aee-8246-9892-815c58611d5b"/></div><div style="display:contents" dir="auto"><hr id="d658db55-6aee-83f9-acf7-017f9e9608ff"/></div><div style="display:contents" dir="auto"><hr id="b2a8db55-6aee-834c-83a8-81e6c03819b8"/></div><div style="display:contents" dir="auto"><p id="9f58db55-6aee-829a-b94c-81ebf7d60d23" class="">
+</p></div><div style="display:contents" dir="auto"><pre id="9138db55-6aee-82be-a034-81cb46605fa1" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">隐藏API
+	逆向分析工作人员往往就是通过API在极短时间内获取了大量信息，从而使他们成功定位目标程序的关键代码段。所以隐藏对API 的调用可以有效地提高程序的抗分析能力。
+例如一个简单的程序：
+ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int       nCmdShow)
+{
+  MessageBox(NULL,&quot;test&quot;,&quot;box&quot;,0);
+  return 0;
+}
+反汇编代码如下：
+.text:00401028                 mov     esi, esp
+.text:0040102A                 push    0               ; uType
+.text:0040102C                 push    offset Caption  ; &quot;Test&quot;
+.text:00401031                 push    offset Text     ; &quot;Reverse Me&quot;
+.text:00401036                 push    0               ; hWnd
+.text:00401038                 call    ds:MessageBoxA(x,x,x,x)
+-----------------------------------------------------------------------------------------
+目的是让反汇编的代码看不到 ds: MessageBoxA(x,x,x,x) 这样的提示。
+	最基本、最简单的方法：
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int       nCmdShow)
+{
+  /********************************************************
+  1. 定义字符串
+  ********************************************************/
+  TCHAR MsgBoxA[MAX_PATH]=&quot;MessageBoxA&quot;;
+
+  /********************************************************
+  2. 获取MessageBoxA的函数地址
+  ********************************************************/
+  HMODULE hMod=LoadLibrary(&quot;user32.dll&quot;);
+  MYFUNC func=(MYFUNC)GetProcAddress(hMod,MsgBoxA);//获取MessageBoxA的函数地址。
+  func(0,&quot;Reverse Me&quot;,&quot;Test&quot;,0);  //调用MessageBoxA函数。
+  FreeLibrary(hMod);
+  return 0;
+}
+IDA中（V5.4）
+.text:0040102E                 mov     eax, dword ptr ds:aMessageboxa ; &quot;MessageBoxA&quot;
+.text:00401033                 mov     dword ptr [ebp+ProcName], eax
+.text:00401039                 mov     ecx, dword ptr ds:aMessageboxa+4
+.text:0040103F                 mov     [ebp+var_100], ecx
+.text:00401045                 mov     edx, dword ptr ds:aMessageboxa+8
+.text:0040104B                 mov     [ebp+var_FC], edx
+.text:00401051                 mov     ecx, 3Eh
+.text:00401056                 xor     eax, eax
+.text:00401058                 lea     edi, [ebp+var_F8]
+.text:0040105E                 rep stosd
+.text:00401060                 mov     esi, esp
+.text:00401062                 push    offset LibFileName ; &quot;user32.dll&quot;
+.text:00401067                 call    ds:__imp__LoadLibraryA@4 ; LoadLibraryA(x)
+.text:0040106D                 cmp     esi, esp
+.text:0040106F                 call    __chkesp
+.text:00401074                 mov     [ebp+hLibModule], eax
+.text:0040107A                 mov     esi, esp
+.text:0040107C                 lea     eax, [ebp+ProcName]
+.text:00401082                 push    eax             ; lpProcName
+.text:00401083                 mov     ecx, [ebp+hLibModule]
+.text:00401089                 push    ecx             ; hModule
+.text:0040108A                 call    ds:__imp__GetProcAddress@8 ; GetProcAddress(x,x)
+.text:00401090                 cmp     esi, esp
+.text:00401092                 call    __chkesp
+.text:00401097                 mov     [ebp+var_10C], eax
+.text:0040109D                 mov     esi, esp
+.text:0040109F                 push    0
+.text:004010A1                 push    offset aTest    ; &quot;Test&quot;
+.text:004010A6                 push    offset aReverseMe ; &quot;Reverse Me&quot;
+.text:004010AB                 push    0
+.text:004010AD                 call    [ebp+var_10C]
+-----------------------------------------------------------------------------------------
+进行简单加密处理
+	隐藏字符串&quot;MessageBoxA&quot;，&quot;Reverse Me&quot;，&quot;Test&quot;
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int       nCmdShow)
+{
+  /********************************************************
+  1. 加密字符串
+  ********************************************************/
+  char MsgBoxA[]={0x5c,0x74,0x62,0x62,0x70,0x76,0x74,0x53,0x7e,0x69,0x50,0x00};
+  //字符串&quot;MessageBoxA&quot;的加密形式。
+  char lpText[]={0x43,0x74,0x67,0x74,0x63,0x62,0x74,0x31,0x5C,0x74,0x00}; 
+  //字符串&quot;Reverse Me&quot;的加密形式。
+  char lpCaption[]={0x45,0x74,0x62,0x65,0x00}; 
+  //字符串&quot;Test&quot;的加密形式。
+
+  /********************************************************
+  2. 解密字符串
+  ********************************************************/
+  for(int i=0;i&lt;strlen(MsgBoxA);i++)  
+    MsgBoxA[i]^=0x11;  //解密字符串&quot;MessageBoxA&quot;
+  for(i=0;i&lt;strlen(lpText);i++)    
+    lpText[i]^=0x11;  //解密字符串&quot;Reverse Me&quot;  
+  for(i=0;i&lt;strlen(lpCaption);i++)  
+    lpCaption[i]^=0x11;  //解密字符串&quot;Test&quot;
+
+  /********************************************************
+  3. 获取MessageBoxA的函数地址
+  ********************************************************/
+  HMODULE hMod=LoadLibrary(&quot;user32.dll&quot;);
+  if(hMod)
+  {
+    MYFUNC func=(MYFUNC)GetProcAddress(hMod,MsgBoxA); //获取MessageBoxA()的函数地址。
+    func(0,lpText,lpCaption,0);  //调用MessageBoxA函数。
+    FreeLibrary(hMod);
+  }
+  return 0;
+} 
+IDA中：
+.text:0040146E                 mov     edx, [ebp+arg_8]
+.text:00401471                 push    edx
+.text:00401472                 mov     eax, [ebp+arg_4]
+.text:00401475                 push    eax
+.text:00401476                 push    offset s_SecondChanceA ; &quot;Second Chance Assertion Failed: File %s&quot;...
+.text:0040147B                 lea     ecx, [ebp+OutputString]
+.text:00401481                 push    ecx
+.text:00401482                 call    dword_4235D0</code></pre></div><div style="display:contents" dir="auto"><p id="cc68db55-6aee-83dc-88ff-016442a5f8bb" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

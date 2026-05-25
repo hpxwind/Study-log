@@ -1,0 +1,888 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>文件类型</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="bfe8db55-6aee-834a-83a2-81133b4dbf62" class="page serif"><header><h1 class="page-title" dir="auto">文件类型</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="d358db55-6aee-8397-bdd7-81fdd4b4e3ca" class="">TypeScript（TS）的文件类型围绕「<mark class="highlight-orange">源代码编写、类型声明、编译配置、模块系统</mark>」四大核心场景设计，不同后缀的文件承担不同职责，且与 TS 编译器（<code>tsc</code>）、模块系统（ES Module/CommonJS）、开发场景（如 React、Node.js）深度绑定。</p></div><div style="display:contents" dir="auto"><hr id="a678db55-6aee-82af-9b02-01b45ccdc584"/></div><div style="display:contents" dir="auto"><ul id="3dc8db55-6aee-83ef-b4d5-01ce56e49354" class="toggle"><li><details open=""><summary><code>.ts</code> </summary><div style="display:contents" dir="auto"><p id="c748db55-6aee-8279-a86d-01b07271500e" class=""><strong>TypeScript 基础源文件（最常用）</strong></p></div><div style="display:contents" dir="auto"><p id="a288db55-6aee-821e-b6ef-81ac700a45bd" class="">TS 的<mark class="highlight-orange">默认源文件</mark>，用于编写<mark class="highlight-orange">非 React 场景</mark>的普通代码（如 Node.js 后端、工具函数、普通前端逻辑），支持 TS 所有核心特性（类型注解、泛型、映射类型等）。</p></div><div style="display:contents" dir="auto"><hr id="b088db55-6aee-83c9-9241-81d5c32061f3"/></div><div style="display:contents" dir="auto"><ul id="0b08db55-6aee-822c-b47e-01abfa26baf5" class="bulleted-list"><li style="list-style-type:disc">支持 TypeScript 完整语法（类型注解、接口、枚举、模块导出 / 导入等）；</li></ul></div><div style="display:contents" dir="auto"><ul id="ece8db55-6aee-82b2-a76b-0182ea42a3ca" class="bulleted-list"><li style="list-style-type:disc">不支持 JSX 语法（若写 JSX 会报错，需用 <code>.tsx</code>）；</li></ul></div><div style="display:contents" dir="auto"><ul id="5c18db55-6aee-82f7-b7ff-81066cb23ae2" class="bulleted-list"><li style="list-style-type:disc">模块系统可通过 <code>tsconfig.json</code> 配置（默认根据文件后缀或 <code>module</code> 选项自动识别）。</li></ul></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js" integrity="sha512-uOw7XYETzS/DPmmirpP5UCMihSDNMeyTS965J0/456OSPfxn9xEtHHjj5Q/5WefVdqyMfN/afmQnNpZd/tpkcA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js" integrity="sha512-xjGCJ9YxyZBfYTCHsEjkOZMoOse1W3cKMXv1szXrxs68myuXt0YTj3/xKPar6iDMlXzTUSEqwUxprWcyp+plaw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="e988db55-6aee-8308-b764-81796677b7dd" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// utils.ts（普通工具函数）
+interface User {
+  name: string;
+  age: number;
+}
+
+// 类型注解 + 函数导出
+export function formatUser(user: User): string {
+  return `姓名：${user.name}，年龄：${user.age}`;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="4468db55-6aee-8236-9265-0156b8ad0610" class="">默认编译为 <code>.js</code> 文件（如 <code>utils.ts</code> → <code>utils.js</code>），模块系统由 <code>tsconfig.json</code> 的 <code>module</code> 选项决定（如 <code>CommonJS</code>、<code>ESNext</code>）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c438db55-6aee-8308-9596-016425697002" class="toggle"><li><details open=""><summary><code>.tsx</code></summary><div style="display:contents" dir="auto"><p id="7398db55-6aee-823a-a90b-81a543a4fb2e" class=""><strong>支持 JSX 的 TypeScript 源文件（React 专属）</strong></p></div><div style="display:contents" dir="auto"><p id="2808db55-6aee-8317-ae0f-810626c4ae5b" class=""><mark class="highlight-orange">专门用于编写 React 组件</mark>（或其他支持 JSX 的框架，如 Vue 3 + JSX），同时支持 TS 类型特性和 JSX 语法。</p></div><div style="display:contents" dir="auto"><hr id="5758db55-6aee-82d1-8649-0131cb4446b5"/></div><div style="display:contents" dir="auto"><ul id="4668db55-6aee-8339-88b9-01bb95ef8024" class="bulleted-list"><li style="list-style-type:disc">完全兼容 <code>.ts</code> 的所有 TS 特性；</li></ul></div><div style="display:contents" dir="auto"><ul id="4d38db55-6aee-839e-9545-01e44cfc7c70" class="bulleted-list"><li style="list-style-type:disc">支持 JSX 语法（如 <code>&lt;div /&gt;</code>、组件渲染），TS 会对 JSX 进行类型检查（如组件属性类型校验）；</li></ul></div><div style="display:contents" dir="auto"><ul id="25b8db55-6aee-828d-aa3a-81c3589daf62" class="bulleted-list"><li style="list-style-type:disc">特殊规则：<code>JSX.Element</code> 是 JSX 表达式的默认返回类型；需引入 React（或通过 <code>jsxImportSource</code> 配置其他库）才能使用 JSX。</li></ul></div><div style="display:contents" dir="auto"><pre id="d198db55-6aee-83d6-8120-81a8959e740f" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// UserComponent.tsx
+import React from &#x27;react&#x27;;
+
+// 组件属性类型定义
+interface UserComponentProps {
+  user: User; // 复用上面定义的 User 接口
+  onClick: (name: string) =&gt; void;
+}
+
+// React 函数组件 + JSX + 类型校验
+export const UserComponent: React.FC&lt;UserComponentProps&gt; = ({ user, onClick }) =&gt; {
+  return (
+    &lt;div onClick={() =&gt; onClick(user.name)}&gt;
+      &lt;p&gt;{formatUser(user)}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+};</code></pre></div><div style="display:contents" dir="auto"><p id="2298db55-6aee-8273-b139-019d392df48c" class="">编译为 <code>.jsx</code> 或 <code>.js</code> 文件（由 <code>tsconfig.json</code> 的 <code>jsx</code> 选项决定，如 <code>react-jsx</code> 模式输出 <code>.js</code>）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3318db55-6aee-83b7-8367-81e3dc5de1fb" class="toggle"><li><details open=""><summary><code>.cts</code></summary><div style="display:contents" dir="auto"><p id="17b8db55-6aee-82a6-bc0c-01377773a18d" class=""><strong>CommonJS 模块的 TypeScript 源文件（Node.js 专属）</strong></p></div><div style="display:contents" dir="auto"><p id="5888db55-6aee-82fe-b81d-013ec065826c" class="">专门用于 Node.js 环境，明确使用 <strong>CommonJS 模块系统</strong>（<code>require</code>/<code>module.exports</code>）的 TS 源文件，解决 TS 中模块系统自动识别的歧义。</p></div><div style="display:contents" dir="auto"><hr id="ed78db55-6aee-822c-9812-01a7171375f5"/></div><div style="display:contents" dir="auto"><ul id="f258db55-6aee-83b1-b484-811a3ed62d48" class="bulleted-list"><li style="list-style-type:disc">支持 TS 完整语法；</li></ul></div><div style="display:contents" dir="auto"><ul id="9d78db55-6aee-838b-98c0-01767abe3536" class="bulleted-list"><li style="list-style-type:disc">模块系统固定为 CommonJS，无需在 <code>tsconfig.json</code> 中配置 <code>module</code>；</li></ul></div><div style="display:contents" dir="auto"><ul id="a718db55-6aee-82f0-bc4a-01a5ba5724c3" class="bulleted-list"><li style="list-style-type:disc">编译后输出 <code>.cjs</code> 文件（明确标识为 CommonJS 模块，Node.js 可直接运行）。</li></ul></div><div style="display:contents" dir="auto"><pre id="6ab8db55-6aee-825b-a704-019f66f0c8e5" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// node-utils.cts
+// CommonJS 导入（可省略 .ts 后缀）
+const { formatUser } = require(&#x27;./utils&#x27;);
+
+// CommonJS 导出
+module.exports = {
+  logUser: (user: User) =&gt; {
+    console.log(formatUser(user));
+  }
+};</code></pre></div><div style="display:contents" dir="auto"><p id="6818db55-6aee-8320-91ab-81bfca6bfa21" class=""><code>node-utils.cts</code> → <code>node-utils.cjs</code>（Node.js 直接执行：<code>node node-utils.cjs</code>）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7378db55-6aee-820b-aa42-81091e3056d0" class="toggle"><li><details open=""><summary><code>.mts</code></summary><div style="display:contents" dir="auto"><p id="7858db55-6aee-825d-9b72-81e278ef0add" class=""><strong>ES Module 模块的 TypeScript 源文件（通用）</strong></p></div><div style="display:contents" dir="auto"><p id="38e8db55-6aee-8371-9337-01cd01e9d00b" class="">明确<mark class="highlight-orange">使用 </mark><mark class="highlight-orange"><strong>ES Module 模块系统</strong></mark>（<code>import</code>/<code>export</code>）的 TS 源文件，适用于浏览器、Node.js 14+（支持 ESM）等场景，避免模块系统混淆。</p></div><div style="display:contents" dir="auto"><hr id="e358db55-6aee-825c-8b91-814524d56238"/></div><div style="display:contents" dir="auto"><ul id="2a68db55-6aee-8277-9794-815eaeef480e" class="bulleted-list"><li style="list-style-type:disc">支持 TS 完整语法；</li></ul></div><div style="display:contents" dir="auto"><ul id="ffc8db55-6aee-8222-adf8-817fc1381965" class="bulleted-list"><li style="list-style-type:disc">模块系统固定为 ES Module，与 <code>.ts</code> 的默认 ESM 模式一致，但通过后缀明确标识；</li></ul></div><div style="display:contents" dir="auto"><ul id="7d88db55-6aee-830a-bcf1-8178514c501e" class="bulleted-list"><li style="list-style-type:disc">编译后输出 <code>.mjs</code> 文件（明确标识为 ESM 模块，需 Node.js 启用 ESM 或浏览器直接引入）。</li></ul></div><div style="display:contents" dir="auto"><pre id="fa18db55-6aee-833a-bf21-01fbeef7f0f6" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// esm-utils.mts
+// ES Module 导入
+import { formatUser } from &#x27;./utils.ts&#x27;;
+
+// ES Module 导出
+export const logUser = (user: User) =&gt; {
+  console.log(formatUser(user));
+};</code></pre></div><div style="display:contents" dir="auto"><p id="1cb8db55-6aee-82ab-b3f2-81ec43329a1b" class=""><code>esm-utils.mts</code> → <code>esm-utils.mjs</code>（Node.js 执行需配置 <code>package.json</code> 的 <code>type: &quot;module&quot;</code>）。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="26a8db55-6aee-83bc-940e-818eb72c59e2"/></div><div style="display:contents" dir="auto"><hr id="afe8db55-6aee-829c-918d-01c49dd8c3d7"/></div><div style="display:contents" dir="auto"><p id="f5b8db55-6aee-82dd-8ae3-81c8b6f5571a" class="">类型声明文件（<code><strong>.d.ts</strong></code>）</p></div><div style="display:contents" dir="auto"><p id="6778db55-6aee-8228-a81f-813ebee2273a" class="">类型声明文件（Declaration File）的核心作用是「<mark class="highlight-red">提供类型信息，不包含具体实现代码</mark>」，用于：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3ca8db55-6aee-83a1-aa59-01afe427f0fd" class="numbered-list" start="1"><li>给 JS 文件添加类型提示；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="75e8db55-6aee-832d-9220-0138b55c1a55" class="numbered-list" start="2"><li>给第三方 JS 库（无 TS 类型）提供类型支持；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b038db55-6aee-82db-8cf0-01fc67f12702" class="numbered-list" start="3"><li>导出项目的公共类型，供其他模块复用。</li></ol></div><div style="display:contents" dir="auto"><p id="ad88db55-6aee-83dd-a187-01bd96659e38" class="">TS 编译器会自动识别 <code>.d.ts</code> 系列文件，且不会将其编译为 JS 文件（仅用于类型检查）。</p></div><div style="display:contents" dir="auto"><ul id="9618db55-6aee-8342-b570-81519a7a9f53" class="toggle"><li><details open=""><summary>基础声明文件 <code><strong>.d.ts</strong></code></summary><div style="display:contents" dir="auto"><p id="9a38db55-6aee-82ec-b5df-0156676ae02a" class="">通用类型声明文件，适用于大多数场景（如项目公共类型、JS 库类型补充）。</p></div><div style="display:contents" dir="auto"><hr id="1868db55-6aee-83df-93bd-8194bccd3e94"/></div><div style="display:contents" dir="auto"><ul id="a8f8db55-6aee-836e-a4bb-01772e117473" class="bulleted-list"><li style="list-style-type:disc">仅包含类型定义（接口、类型别名、枚举、模块声明等），无具体代码逻辑（如函数实现、变量赋值）；</li></ul></div><div style="display:contents" dir="auto"><ul id="b538db55-6aee-829c-a877-01a963b11ecc" class="bulleted-list"><li style="list-style-type:disc">支持 <code>declare</code> 关键字（声明全局类型、模块类型、第三方库类型）。</li></ul></div><div style="display:contents" dir="auto"><hr id="d838db55-6aee-82fd-b0e5-81da60a19c1f"/></div><div style="display:contents" dir="auto"><p id="f8c8db55-6aee-8321-ad2c-01195511a634" class="">1.项目公共类型到处</p></div><div style="display:contents" dir="auto"><pre id="8968db55-6aee-8323-b650-81a8fe944ace" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// types.d.ts（项目公共类型）
+export interface User {
+  name: string;
+  age: number;
+  address?: {
+    province: string;
+    city: string;
+  };
+}
+
+export type Gender = &#x27;male&#x27; | &#x27;female&#x27; | &#x27;other&#x27;;</code></pre></div><div style="display:contents" dir="auto"><p id="c3c8db55-6aee-8351-bcd0-0131f4f03b14" class="">其他文件可直接导入使用：</p></div><div style="display:contents" dir="auto"><div><div style="display:contents" dir="auto"><pre id="dac8db55-6aee-83d8-9343-01019b3d2f3d" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">import { User, Gender } from &#x27;./types&#x27;;
+const user: User = { name: &#x27;张三&#x27;, age: 20 };</code></pre></div></div></div><div style="display:contents" dir="auto"><p id="f108db55-6aee-8222-8121-01244d7274b1" class="">2.给JS文件天机啊类型声明</p></div><div style="display:contents" dir="auto"><p id="df48db55-6aee-83a7-a02a-8168f99f99ed" class="">若项目中存在 <code>.js</code> 文件，可通过同名 <code>.d.ts</code> 文件提供类型：</p></div><div style="display:contents" dir="auto"><pre id="6968db55-6aee-828d-b49d-014a41949210" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// utils.js（JS 文件，无类型）
+export function formatUser(user) {
+  return `姓名：${user.name}，年龄：${user.age}`;
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="1d58db55-6aee-83ab-9438-01e9bbed02cf" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// utils.d.ts（对应 JS 文件的类型声明）
+export interface User {
+  name: string;
+  age: number;
+}
+
+export declare function formatUser(user: User): string;</code></pre></div><div style="display:contents" dir="auto"><p id="2668db55-6aee-821a-978e-8157770d0a7c" class="">3.全局类型声明</p></div><div style="display:contents" dir="auto"><p id="28e8db55-6aee-82a4-9a05-8153c3324e3e" class="">若需在所有文件中直接使用类型（无需导入），可声明全局：</p></div><div style="display:contents" dir="auto"><pre id="b968db55-6aee-830c-b077-8198929f6089" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// global.d.ts（全局类型声明）
+declare global {
+  interface Window {
+    // 扩展 Window 对象的类型
+    appConfig: {
+      apiUrl: string;
+      timeout: number;
+    };
+  }
+
+  type JsonValue = string | number | boolean | null | object;
+}
+
+// 无需导出，全局可访问</code></pre></div><div style="display:contents" dir="auto"><p id="1018db55-6aee-8200-98d7-8136b78c7be3" class="">其他文件直接使用：</p></div><div style="display:contents" dir="auto"><pre id="ce68db55-6aee-8381-8efc-01f4ce5f51c3" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">console.log(window.appConfig.apiUrl); // 类型提示正常
+const data: JsonValue = { name: &#x27;张三&#x27; }; // 全局类型</code></pre></div><div style="display:contents" dir="auto"><p id="a6e8db55-6aee-826a-8088-8145ca2d92fd" class="">4.第三方JS库类型声明（无<code>@types</code>包时）</p></div><div style="display:contents" dir="auto"><p id="9d78db55-6aee-826a-9e90-816685fe00b4" class="">若使用的 JS 库（如 <code>xxx-lib</code>）无官方类型，可手动声明：</p></div><div style="display:contents" dir="auto"><pre id="dcb8db55-6aee-82fd-b75d-01777e85d33d" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// xxx-lib.d.ts（第三方库类型声明）
+declare module &#x27;xxx-lib&#x27; {
+  export function doSomething(arg: string): void;
+  export const version: string;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="f888db55-6aee-828f-8b70-81d63bfffb58" class="">导入使用时会有类型提示：</p></div><div style="display:contents" dir="auto"><pre id="b618db55-6aee-826d-8d91-01ca2a173f3f" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">import { doSomething } from &#x27;xxx-lib&#x27;;
+doSomething(&#x27;test&#x27;); // 类型提示：arg 为 string</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b468db55-6aee-8333-8406-01a2e6a9a6e9" class="toggle"><li><details open=""><summary>模块专属声明文件 <code><strong>.d.cts</strong></code><strong> / </strong><code><strong>.d.mts</strong></code></summary><div style="display:contents" dir="auto"><p id="b5d8db55-6aee-8363-bc11-816101564f89" class="">分别对应 <code>.cts</code>（CommonJS）和 <code>.mts</code>（ES Module）的类型声明文件，明确模块系统的类型适配。</p></div><div style="display:contents" dir="auto"><pre id="5238db55-6aee-8298-8097-81d9f7a1a4b5" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// node-utils.d.cts（对应 node-utils.cts 的类型声明）
+import type { User } from &#x27;./types&#x27;;
+declare function logUser(user: User): void;
+export = logUser; // CommonJS 风格导出类型</code></pre></div><div style="display:contents" dir="auto"><pre id="1498db55-6aee-8341-9606-8169654926d7" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// esm-utils.d.mts（对应 esm-utils.mts 的类型声明）
+import type { User } from &#x27;./types&#x27;;
+export declare function logUser(user: User): void; // ESM 风格导出类型</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4138db55-6aee-831a-a7ae-81139283e65b" class="toggle"><li><details open=""><summary>自动生成声明文件</summary><div style="display:contents" dir="auto"><p id="5088db55-6aee-8271-a832-01a94e63bc85" class="">无需手动编写 <code>.d.ts</code>，可通过 <code>tsconfig.json</code> 配置让 TS 编译器自动生成：</p></div><div style="display:contents" dir="auto"><pre id="7378db55-6aee-822c-adec-810b5ea8e6aa" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// tsconfig.json
+{
+  &quot;compilerOptions&quot;: {
+    &quot;declaration&quot;: true, // 编译时自动生成 .d.ts 文件
+    &quot;declarationDir&quot;: &quot;./types&quot;, // 声明文件输出目录
+    &quot;declarationMap&quot;: true // 生成 .d.ts.map 源映射文件（方便调试）
+  }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="d988db55-6aee-83a1-bce0-8136f2e6a523" class="">编译后，<code>utils.ts</code> 会自动生成 <code>utils.d.ts</code>，包含所有导出类型的声明。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f548db55-6aee-82cd-b9c6-01009b873676" class="toggle"><li><details open=""><summary>第三方库类型声明 <code>@type/xxx</code></summary><div style="display:contents" dir="auto"><p id="1a98db55-6aee-83ab-b8af-81d84efcea45" class="">大多数流行 JS 库（如 React、Vue、Node.js）的类型声明已由社区维护在 <code>@types</code> 仓库中，无需手动编写，直接安装即可</p></div><div style="display:contents" dir="auto"><pre id="13a8db55-6aee-83bd-88af-81586320f1a3" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all"># 安装 React 的类型声明
+npm install @types/react --save-dev
+
+# 安装 Node.js 的类型声明
+npm install @types/node --save-dev</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="0e18db55-6aee-8347-863d-81f2b4f30819"/></div><div style="display:contents" dir="auto"><p id="e8c8db55-6aee-83b0-83d0-819c9f83ffe4" class="">TS配置文件<strong>（</strong><code><strong>tsconfig.json</strong></code><strong> 系列）</strong></p></div><div style="display:contents" dir="auto"><p id="1368db55-6aee-832d-980a-81347a8fd48d" class=""><code>tsconfig.json</code> 是 TS 项目的核心配置文件，用于指定编译选项、文件包含 / 排除规则、模块系统、目标环境等。TS 编译器会自动查找项目根目录的 <code>tsconfig.json</code>，按配置执行编译和类型检查。</p></div><div style="display:contents" dir="auto"><ul id="d778db55-6aee-83ad-852f-0185e317dd54" class="toggle"><li><details open=""><summary>核心配置文件：<code>tsconfig.json</code></summary><div style="display:contents" dir="auto"><p id="04b8db55-6aee-83d4-b7b2-81a2d162220d" class="">项目默认配置文件，适用于大多数场景（前端、后端、全栈项目）。</p></div><div style="display:contents" dir="auto"><pre id="7708db55-6aee-8251-81f0-81e229976942" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;compilerOptions&quot;: {
+    // 目标 JS 版本（如 ES5、ES6、ESNext）
+    &quot;target&quot;: &quot;ESNext&quot;,
+    // 模块系统（CommonJS、ESNext、UMD 等）
+    &quot;module&quot;: &quot;ESNext&quot;,
+    // 模块解析策略（Node、Classic）
+    &quot;moduleResolution&quot;: &quot;Node&quot;,
+    // 输出目录（编译后的 JS 文件存放位置）
+    &quot;outDir&quot;: &quot;./dist&quot;,
+    // 源文件目录（TS 源文件存放位置）
+    &quot;rootDir&quot;: &quot;./src&quot;,
+    // 是否自动生成 .d.ts 声明文件
+    &quot;declaration&quot;: true,
+    // JSX 处理模式（react、react-jsx、preserve 等）
+    &quot;jsx&quot;: &quot;react-jsx&quot;,
+    // 严格模式（开启所有严格类型检查，推荐启用）
+    &quot;strict&quot;: true,
+    // 允许导入 JS 文件
+    &quot;allowJs&quot;: true,
+    // 检查 JS 文件的类型（需配合 allowJs 使用）
+    &quot;checkJs&quot;: true,
+    // 忽略类型声明文件的错误
+    &quot;skipLibCheck&quot;: true,
+    // 模块导入时是否允许省略后缀（如 .ts、.tsx）
+    &quot;moduleSuffixes&quot;: [&quot;.ts&quot;, &quot;.tsx&quot;, &quot;.js&quot;, &quot;.jsx&quot;]
+  },
+  // 需编译的文件（支持 glob 模式）
+  &quot;include&quot;: [&quot;./src/**/*&quot;],
+  // 排除的文件
+  &quot;exclude&quot;: [&quot;./node_modules&quot;, &quot;./dist&quot;],
+  // 继承其他配置文件（如社区通用配置、子配置）
+  &quot;extends&quot;: &quot;./tsconfig.base.json&quot;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="e038db55-6aee-8296-9e2c-01e14f8a1db5" class="">作用：</p></div><div style="display:contents" dir="auto"><ul id="8ca8db55-6aee-838d-89c3-8126eb50b525" class="bulleted-list"><li style="list-style-type:disc">统一项目的编译规则，避免不同开发者的编译差异；</li></ul></div><div style="display:contents" dir="auto"><ul id="ff68db55-6aee-83a4-8422-01946c523cad" class="bulleted-list"><li style="list-style-type:disc">控制 TS 类型检查的严格程度（如 <code>strict: true</code> 开启严格模式，减少类型隐患）；</li></ul></div><div style="display:contents" dir="auto"><ul id="c178db55-6aee-8376-abde-81ccd5f51408" class="bulleted-list"><li style="list-style-type:disc">指定输出目录、声明文件生成等，规范项目结构。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d688db55-6aee-8251-bbea-01af94c889c0" class="toggle"><li><details open=""><summary>子配置文件：<code><strong>tsconfig.node.json</strong></code><strong> / </strong><code><strong>tsconfig.app.json</strong></code></summary><div style="display:contents" dir="auto"><p id="6448db55-6aee-82a9-9ad6-01e1cc5b91c8" class="">适用于 monorepo 项目（如前端 + 后端、主应用 + 子应用），或需要区分不同环境（如开发 / 生产、Node.js/ 浏览器）的项目，用于拆分不同的配置规则。</p></div><div style="display:contents" dir="auto"><hr id="e3f8db55-6aee-837d-bc03-019b0b408ff2"/></div><div style="display:contents" dir="auto"><p id="99f8db55-6aee-83dc-82b0-813377bd9de6" class="">示例：（React+Node.js 全站项目）</p></div><div style="display:contents" dir="auto"><ul id="fe28db55-6aee-835c-bf28-814a8e3673cf" class="bulleted-list"><li style="list-style-type:disc"><code>tsconfig.app.json</code>：前端 React 应用配置（处理 <code>.tsx</code>、JSX、浏览器环境）；</li></ul></div><div style="display:contents" dir="auto"><ul id="fcb8db55-6aee-839c-9eba-012448c0fa08" class="bulleted-list"><li style="list-style-type:disc"><code>tsconfig.node.json</code>：Node.js 后端配置（处理 <code>.cts</code>、CommonJS、Node.js 环境）。</li></ul></div><div style="display:contents" dir="auto"><pre id="f068db55-6aee-83e0-8b09-01ae683bad20" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// tsconfig.node.json
+{
+  &quot;extends&quot;: &quot;./tsconfig.json&quot;,
+  &quot;compilerOptions&quot;: {
+    &quot;target&quot;: &quot;ES2020&quot;,
+    &quot;module&quot;: &quot;CommonJS&quot;,
+    &quot;outDir&quot;: &quot;./dist/node&quot;,
+    &quot;lib&quot;: [&quot;ES2020&quot;], // 适配 Node.js 环境的库
+    &quot;types&quot;: [&quot;node&quot;] // 引入 Node.js 类型声明
+  },
+  &quot;include&quot;: [&quot;./src/node/**/*&quot;],
+  &quot;exclude&quot;: [&quot;./src/app/**/*&quot;]
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c1a8db55-6aee-8333-b25b-01d5849a8d6b" class="toggle"><li><details open=""><summary>编译缓存文件：<code><strong>tsconfig.tsbuildinfo</strong></code></summary><div style="display:contents" dir="auto"><p id="0298db55-6aee-8266-8b84-01da6100d90b" class="">TS 增量编译的缓存文件，由编译器自动生成和更新，用于加速后续编译（避免重复编译未修改的文件）。</p></div><div style="display:contents" dir="auto"><hr id="8858db55-6aee-835d-a505-81491e3c45cc"/></div><div style="display:contents" dir="auto"><p id="64e8db55-6aee-822c-b94e-01da94448ca6" class="">特点：</p></div><div style="display:contents" dir="auto"><ul id="bce8db55-6aee-8365-a6ba-81c7b9df8385" class="bulleted-list"><li style="list-style-type:disc">无需手动修改，编译器自动管理；</li></ul></div><div style="display:contents" dir="auto"><ul id="d708db55-6aee-822f-b44e-01adc8494692" class="bulleted-list"><li style="list-style-type:disc">可加入 <code>.gitignore</code>（无需提交到代码仓库）；</li></ul></div><div style="display:contents" dir="auto"><ul id="6ee8db55-6aee-82f9-b2f9-016d9136e31b" class="bulleted-list"><li style="list-style-type:disc">启用增量编译需在 <code>tsconfig.json</code> 中配置：</li></ul></div><div style="display:contents" dir="auto"><pre id="eaa8db55-6aee-827e-9d5c-01b18af31abb" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&quot;compilerOptions&quot;: {
+  &quot;incremental&quot;: true, // 开启增量编译
+  &quot;tsBuildInfoFile&quot;: &quot;./tsconfig.tsbuildinfo&quot; // 缓存文件路径
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="a908db55-6aee-826e-a003-0141940c2052"/></div><div style="display:contents" dir="ltr"><table id="3518db55-6aee-8302-8109-81d0ac0a85a0" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="66b8db55-6aee-8201-bc77-81b5601fb013"><th id="Ogkm" class="simple-table-header-color simple-table-header"><strong>文件类型</strong></th><th id="nRWY" class="simple-table-header-color simple-table-header"><strong>默认模块系统</strong></th><th id="``CB" class="simple-table-header-color simple-table-header"><strong>编译输出</strong></th><th id="MPaE" class="simple-table-header-color simple-table-header"><strong>适用场景</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="ec78db55-6aee-833c-890c-013e5911c284"><td id="Ogkm" class=""><code>.ts</code></td><td id="nRWY" class="">ES Module</td><td id="``CB" class=""><code>.js</code></td><td id="MPaE" class="">浏览器、通用场景</td></tr></div><div style="display:contents" dir="ltr"><tr id="1d28db55-6aee-8222-b780-816e7fcf0230"><td id="Ogkm" class=""><code>.cts</code></td><td id="nRWY" class="">CommonJS</td><td id="``CB" class=""><code>.cjs</code></td><td id="MPaE" class="">Node.js 环境</td></tr></div><div style="display:contents" dir="ltr"><tr id="2118db55-6aee-83a1-a24c-81c8c8aa93b5"><td id="Ogkm" class=""><code>.mts</code></td><td id="nRWY" class="">ES Module</td><td id="``CB" class=""><code>.mjs</code></td><td id="MPaE" class="">明确 ESM 场景（浏览器 / Node.js 14+）</td></tr></div><div style="display:contents" dir="ltr"><tr id="0af8db55-6aee-83e4-b9f3-81b0a003ec33"><td id="Ogkm" class=""><code>.tsx</code></td><td id="nRWY" class="">ES Module</td><td id="``CB" class=""><code>.js</code>/<code>.jsx</code></td><td id="MPaE" class="">React 等 JSX 框架</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="5958db55-6aee-835e-94eb-01323f76b11f" class="">若项目使用 CommonJS（Node.js），优先用 <code>.cts</code> 或配置 <code>tsconfig.json</code> 的 <code>module: &quot;CommonJS&quot;</code>；</p></div><div style="display:contents" dir="auto"><p id="f928db55-6aee-82d5-a289-811309b8ade8" class="">若使用 ESM，优先用 <code>.mts</code> 或配置 <code>module: &quot;ESNext&quot;</code> + <code>package.json</code> 的 <code>type: &quot;module&quot;</code>；</p></div><div style="display:contents" dir="auto"><p id="dba8db55-6aee-828e-8f40-01eef632ef25" class="">避免混用不同模块系统的文件（如 <code>.cts</code> 导入 <code>.mts</code>），可能导致编译错误。</p></div><div style="display:contents" dir="auto"><p id="c0f8db55-6aee-8229-baa2-0145f59e0200" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

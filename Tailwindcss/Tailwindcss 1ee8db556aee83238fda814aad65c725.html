@@ -1,0 +1,1051 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Tailwindcss</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1ee8db55-6aee-8323-8fda-814aad65c725" class="page serif"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/rijksmuseum_jan_lievens_1627.jpg" style="object-position:center 60%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Tailwindcss/ODF.png"/></div><h1 class="page-title" dir="auto">Tailwindcss</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="3df8db55-6aee-82e3-ab9e-812480a04c8d" class="">Tailwind CSS 是一款 <mark class="highlight-red"><strong>实用优先（Utility-First）</strong></mark> 的 <mark class="highlight-red">CSS 框架</mark>，核心思想是通过<mark class="highlight-red">预定义的原子化工具类</mark>直接编写 HTML 样式，无需编写传统 CSS 文件。结合 Vite + Vue 使用时，能极大提升开发效率，同时保持样式灵活性。</p></div><div style="display:contents" dir="auto"><hr id="d258db55-6aee-8309-86fb-81d758929263"/></div><div style="display:contents" dir="auto"><ul id="3538db55-6aee-8356-a80b-811a900d28de" class="toggle"><li><details open=""><summary>安装（以vite/vue项目为例）</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js" integrity="sha512-uOw7XYETzS/DPmmirpP5UCMihSDNMeyTS965J0/456OSPfxn9xEtHHjj5Q/5WefVdqyMfN/afmQnNpZd/tpkcA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js" integrity="sha512-xjGCJ9YxyZBfYTCHsEjkOZMoOse1W3cKMXv1szXrxs68myuXt0YTj3/xKPar6iDMlXzTUSEqwUxprWcyp+plaw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="7308db55-6aee-8346-b070-01a40d64b09d" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">npm create vite@latest my-tailwindcss
+cd my-tailwindcss
+npm install tailwindcss @tailwindcss/vite
+// 项目启动
+npm rum dev</code></pre></div><div style="display:contents" dir="auto"><p id="fe08db55-6aee-8374-9f60-81e8d307704b" class="">配置<code>vite.config.js</code></p></div><div style="display:contents" dir="auto"><pre id="6d98db55-6aee-833f-a1a0-01738b054169" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">import { defineConfig } from &#x27;vite&#x27;
+import vue from &#x27;@vitejs/plugin-vue&#x27;
+import tailwindcss from &#x27;@tailwindcss/vite&#x27;
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [
+    vue(),
+    tailwindcss()
+  ],
+})
+</code></pre></div><div style="display:contents" dir="auto"><p id="1bd8db55-6aee-83c8-9586-81de917b2c81" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="4a98db55-6aee-8332-a99a-01adedbbc9a1"/></div><div style="display:contents" dir="auto"><p id="2e08db55-6aee-832f-9323-0178b341278b" class="">语法核心：Utility-First 工具类</p></div><div style="display:contents" dir="auto"><p id="b498db55-6aee-8293-b448-01edf178b6a5" class="">Tailwind 的核心是 <mark class="highlight-orange"><strong>原子化工具类</strong></mark>，<mark class="highlight-red">每个类对应一个具体的 CSS 样式</mark></p></div><div style="display:contents" dir="auto"><p id="2408db55-6aee-83c5-88fe-011584d9ece6" class="">所有工具类遵循统一命名规则：<code>属性-值</code></p></div><div style="display:contents" dir="auto"><ul id="2d78db55-6aee-822f-9522-810ad2bf1d82" class="toggle"><li><details open=""><summary>1.命名规则详解</summary><div style="display:contents" dir="ltr"><table id="05a8db55-6aee-826d-8ca6-012cabcf60e3" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="26d8db55-6aee-83fb-ba38-8199e6c19855"><th id="Ny_{" class="simple-table-header-color simple-table-header"><strong>结构</strong></th><th id="Ccax" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id="YZo:" class="simple-table-header-color simple-table-header"><strong>对应 CSS</strong></th><th id="mAlt" class="simple-table-header-color simple-table-header"><strong>说明</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="4e18db55-6aee-82f6-b60b-813371c9e34e"><td id="Ny_{" class=""><code>属性-值</code></td><td id="Ccax" class=""><code>text-xl</code></td><td id="YZo:" class=""><code>font-size: 1.25rem;</code></td><td id="mAlt" class="">基础工具类</td></tr></div><div style="display:contents" dir="ltr"><tr id="6198db55-6aee-826d-aa6f-01da44ecc26c"><td id="Ny_{" class=""><code>属性-变体-值</code></td><td id="Ccax" class=""><code>hover:text-blue-500</code></td><td id="YZo:" class=""><code>hover { color: #3b82f6; }</code></td><td id="mAlt" class="">状态变体（hover/focus 等）</td></tr></div><div style="display:contents" dir="ltr"><tr id="c718db55-6aee-82a8-8012-01e642d3558b"><td id="Ny_{" class=""><code>属性-响应式-值</code></td><td id="Ccax" class=""><code>md:text-2xl</code></td><td id="YZo:" class=""><code>@media (min-width:768px) { font-size:1.5rem; }</code></td><td id="mAlt" class="">响应式断点</td></tr></div><div style="display:contents" dir="ltr"><tr id="5068db55-6aee-835b-a9d0-810f125ccc57"><td id="Ny_{" class=""><code>属性-变体-响应式-值</code></td><td id="Ccax" class=""><code>hover:md:bg-green-500</code></td><td id="YZo:" class=""><code>@media (min-width:768px) { hover { background-color:#22c55e; } }</code></td><td id="mAlt" class=""></td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="79d8db55-6aee-8361-8ea9-018e7482653a" class="toggle"><li><details open=""><summary>2.基础工具类分类</summary><div style="display:contents" dir="auto"><ul id="e7f8db55-6aee-82d7-b525-81ee48810db4" class="toggle"><li><details open=""><summary>1.布局相关（<mark class="highlight-red">Layout</mark>）</summary><div style="display:contents" dir="auto"><p id="9e88db55-6aee-832a-841c-815e96a17434" class="">控制盒模型、定位、浮动、弹性布局等。</p></div><div style="display:contents" dir="ltr"><table id="a7a8db55-6aee-83b9-b3f9-01c51410c598" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="11c8db55-6aee-8249-a6cf-81d853d29ea0"><th id="W|BR" class="simple-table-header-color simple-table-header"><strong>工具类</strong></th><th id="\Gb{" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="ivJf" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id=";C=H" class="simple-table-header-color simple-table-header"><strong>对应 CSS</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="97e8db55-6aee-8310-b4e5-01d8942ea23d"><td id="W|BR" class=""><code>block</code></td><td id="\Gb{" class="">块级元素</td><td id="ivJf" class=""><code>&lt;div class=&quot;block&quot;&gt;</code></td><td id=";C=H" class=""><code>display: block</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="08c8db55-6aee-827e-987d-012b002b5007"><td id="W|BR" class=""><code>inline</code></td><td id="\Gb{" class="">行内元素</td><td id="ivJf" class=""><code>&lt;span class=&quot;inline&quot;&gt;</code></td><td id=";C=H" class=""><code>display: inline</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8e58db55-6aee-8355-8bd9-0186a3f99c4a"><td id="W|BR" class=""><code>inline-block</code></td><td id="\Gb{" class="">行内块元素</td><td id="ivJf" class=""><code>&lt;div class=&quot;inline-block&quot;&gt;</code></td><td id=";C=H" class=""><code>display: inline-block</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="9ed8db55-6aee-8302-9aef-81b62743f36a"><td id="W|BR" class=""><code>flex</code></td><td id="\Gb{" class="">弹性布局</td><td id="ivJf" class=""><code>&lt;div class=&quot;flex&quot;&gt;</code></td><td id=";C=H" class=""><code>display: flex</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3058db55-6aee-82b9-8b08-8105536656c2"><td id="W|BR" class=""><code>grid</code></td><td id="\Gb{" class="">网格布局</td><td id="ivJf" class=""><code>&lt;div class=&quot;grid&quot;&gt;</code></td><td id=";C=H" class=""><code>display: grid</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4938db55-6aee-827f-b1d3-81a0b97daf99"><td id="W|BR" class=""><code>static</code>/<code>relative</code>/<code>absolute</code>/<code>fixed</code>/<code>sticky</code></td><td id="\Gb{" class="">定位方式</td><td id="ivJf" class=""><code>&lt;div class=&quot;absolute&quot;&gt;</code></td><td id=";C=H" class=""><code>position: absolute</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3458db55-6aee-8307-9b6c-01660077acf8"><td id="W|BR" class=""><code>top-0</code>/<code>right-4</code>/<code>bottom-2</code>/<code>left-8</code></td><td id="\Gb{" class="">定位偏移</td><td id="ivJf" class=""><code>&lt;div class=&quot;absolute top-0 right-4&quot;&gt;</code></td><td id=";C=H" class=""><code>top: 0; right: 1rem</code>（1rem=4px）</td></tr></div><div style="display:contents" dir="ltr"><tr id="7d28db55-6aee-8312-bca4-0110473f19dc"><td id="W|BR" class=""><code>float-left</code>/<code>float-right</code></td><td id="\Gb{" class="">浮动</td><td id="ivJf" class=""><code>&lt;img class=&quot;float-left&quot;&gt;</code></td><td id=";C=H" class=""><code>float: left</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4f48db55-6aee-835d-9727-01e236bcdfc0"><td id="W|BR" class=""><code>clear-both</code></td><td id="\Gb{" class="">清除浮动</td><td id="ivJf" class=""><code>&lt;div class=&quot;clear-both&quot;&gt;</code></td><td id=";C=H" class=""><code>clear: both</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="4958db55-6aee-8300-9dea-01653fed926f"><td id="W|BR" class=""><code>overflow-hidden</code>/<code>overflow-auto</code>/<code>overflow-scroll</code></td><td id="\Gb{" class="">溢出处理</td><td id="ivJf" class=""><code>&lt;div class=&quot;overflow-auto&quot;&gt;</code></td><td id=";C=H" class=""><code>overflow: auto</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="dbf8db55-6aee-83ff-a35e-81bc81517e74" class=""><strong>Vue 示例（弹性布局）</strong>：</p></div><div style="display:contents" dir="auto"><pre id="1aa8db55-6aee-8354-a587-812afa773b4a" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;flex justify-center items-center h-64 bg-gray-100&quot;&gt;
+    &lt;div class=&quot;w-20 h-20 bg-blue-500&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><ul id="7818db55-6aee-8289-87ee-813e707b3d00" class="bulleted-list"><li style="list-style-type:disc"><code>justify-center</code>：主轴居中（flex 布局）</li></ul></div><div style="display:contents" dir="auto"><ul id="8358db55-6aee-8336-b3b3-8187217accef" class="bulleted-list"><li style="list-style-type:disc"><code>items-center</code>：交叉轴居中</li></ul></div><div style="display:contents" dir="auto"><ul id="95e8db55-6aee-83a2-b693-816e8543304a" class="bulleted-list"><li style="list-style-type:disc"><code>h-64</code>：高度 <code>16rem</code>（<code>h-{n}</code> 中 n 对应 <code>n*0.25rem</code>，64=16rem）</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aa28db55-6aee-8240-9651-0148901383b4" class="toggle"><li><details open=""><summary>2.尺寸相关（<mark class="highlight-red">Sizing</mark>）</summary><div style="display:contents" dir="auto"><p id="fdb8db55-6aee-82d3-989d-8137bd5440e9" class="">控制宽高、最小 / 最大宽高。</p></div><div style="display:contents" dir="ltr"><table id="3968db55-6aee-83cb-9c84-01e8c5b48db3" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="c0a8db55-6aee-831c-a678-816a0c046bf8"><th id="SBxs" class="simple-table-header-color simple-table-header"><strong>工具类</strong></th><th id="`&lt;c[" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="HZ:Z" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id="p&lt;IC" class="simple-table-header-color simple-table-header"><strong>对应 CSS</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="b108db55-6aee-8227-a432-81b945f23ba6"><td id="SBxs" class=""><code>w-0</code>~<code>w-full</code>/<code>w-screen</code></td><td id="`&lt;c[" class="">宽度</td><td id="HZ:Z" class=""><code>&lt;div class=&quot;w-32&quot;&gt;</code></td><td id="p&lt;IC" class=""><code>width: 8rem</code>（32*0.25rem）</td></tr></div><div style="display:contents" dir="ltr"><tr id="5ba8db55-6aee-83dc-b560-0169f8f63a1d"><td id="SBxs" class=""><code>h-0</code>~<code>h-full</code>/<code>h-screen</code></td><td id="`&lt;c[" class="">高度</td><td id="HZ:Z" class=""><code>&lt;div class=&quot;h-screen&quot;&gt;</code></td><td id="p&lt;IC" class=""><code>height: 100vh</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8898db55-6aee-8203-9511-81ee1b257d1f"><td id="SBxs" class=""><code>min-w-0</code>/<code>min-w-full</code></td><td id="`&lt;c[" class="">最小宽度</td><td id="HZ:Z" class=""><code>&lt;div class=&quot;min-w-full&quot;&gt;</code></td><td id="p&lt;IC" class=""><code>min-width: 100%</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="9f68db55-6aee-824d-af65-81ab76a3c4fe"><td id="SBxs" class=""><code>max-w-xs</code>/<code>max-w-sm</code>/<code>max-w-md</code>.../<code>max-w-full</code></td><td id="`&lt;c[" class="">最大宽度</td><td id="HZ:Z" class=""><code>&lt;div class=&quot;max-w-md&quot;&gt;</code></td><td id="p&lt;IC" class=""><code>max-width: 28rem</code>（md 断点宽度）</td></tr></div><div style="display:contents" dir="ltr"><tr id="1198db55-6aee-821d-b205-01af90328e12"><td id="SBxs" class=""><code>min-h-0</code>/<code>min-h-screen</code></td><td id="`&lt;c[" class="">最小高度</td><td id="HZ:Z" class=""><code>&lt;div class=&quot;min-h-screen&quot;&gt;</code></td><td id="p&lt;IC" class=""><code>min-height: 100vh</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="9d48db55-6aee-8250-a73c-014684f843ba"><td id="SBxs" class=""><code>max-h-full</code>/<code>max-h-screen</code></td><td id="`&lt;c[" class="">最大高度</td><td id="HZ:Z" class=""><code>&lt;div class=&quot;max-h-96&quot;&gt;</code></td><td id="p&lt;IC" class=""><code>max-height: 24rem</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="f5b8db55-6aee-83a8-a928-013c888dcd59" class=""><strong>Vue 示例（响应式宽度）</strong>：</p></div><div style="display:contents" dir="auto"><pre id="1b78db55-6aee-8317-ac63-01355914e2bd" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;w-full md:w-1/2 lg:w-1/3 mx-auto bg-gray-100 p-4&quot;&gt;
+    响应式宽度：移动端100%，平板50%，桌面33%
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="38f8db55-6aee-837c-a41e-81deefe9aa2e" class="toggle"><li><details open=""><summary>3.间距相关（<mark class="highlight-red">Spacing</mark>）</summary><div style="display:contents" dir="auto"><p id="3ab8db55-6aee-83cb-94b7-8146946a496b" class="">控制内边距（padding）和外边距（margin），命名规则：<code>p{方向}-{大小}</code>（padding）、<code>m{方向}-{大小}</code>（margin）。</p></div><div style="display:contents" dir="auto"><ul id="ffc8db55-6aee-8366-8bc0-016211a3f766" class="bulleted-list"><li style="list-style-type:disc">方向缩写：<code>t</code>（上）、<code>r</code>（右）、<code>b</code>（下）、<code>l</code>（左）、<code>x</code>（左右）、<code>y</code>（上下）、无方向（全方向）</li></ul></div><div style="display:contents" dir="auto"><ul id="6b38db55-6aee-82ce-906d-01a73315e216" class="bulleted-list"><li style="list-style-type:disc">大小值：<code>0</code>~<code>96</code>（步长 4，对应 <code>0</code>~<code>24rem</code>）、<code>auto</code>（自动间距）、<code>px</code>（1px）</li></ul></div><div style="display:contents" dir="ltr"><table id="3828db55-6aee-82c4-9f9b-016498b87e0a" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="7398db55-6aee-8341-891b-8132c1548c72"><th id="wSX\" class="simple-table-header-color simple-table-header"><strong>工具类</strong></th><th id="wl~d" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="qg:Y" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id="CZFt" class="simple-table-header-color simple-table-header"><strong>对应 CSS</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="2ac8db55-6aee-8203-8f47-81fa77acf962"><td id="wSX\" class=""><code>p-4</code></td><td id="wl~d" class="">全方向内边距 1rem</td><td id="qg:Y" class=""><code>&lt;div class=&quot;p-4&quot;&gt;</code></td><td id="CZFt" class=""><code>padding: 1rem</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c798db55-6aee-83f2-ba9d-81b991653438"><td id="wSX\" class=""><code>pt-6</code></td><td id="wl~d" class="">上内边距 1.5rem</td><td id="qg:Y" class=""><code>&lt;div class=&quot;pt-6&quot;&gt;</code></td><td id="CZFt" class=""><code>padding-top: 1.5rem</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6fc8db55-6aee-8340-a520-81bf14ab32a1"><td id="wSX\" class=""><code>px-8</code></td><td id="wl~d" class="">左右内边距 2rem</td><td id="qg:Y" class=""><code>&lt;div class=&quot;px-8&quot;&gt;</code></td><td id="CZFt" class=""><code>padding-left: 2rem; padding-right:2rem</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="66e8db55-6aee-8209-a0c6-01fd947de2c3"><td id="wSX\" class=""><code>py-2</code></td><td id="wl~d" class="">上下内边距 0.5rem</td><td id="qg:Y" class=""><code>&lt;div class=&quot;py-2&quot;&gt;</code></td><td id="CZFt" class=""><code>padding-top:0.5rem; padding-bottom:0.5rem</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6028db55-6aee-82b1-a770-81d53f32f4ff"><td id="wSX\" class=""><code>m-3</code></td><td id="wl~d" class="">全方向外边距 0.75rem</td><td id="qg:Y" class=""><code>&lt;div class=&quot;m-3&quot;&gt;</code></td><td id="CZFt" class=""><code>margin: 0.75rem</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ed68db55-6aee-838e-b4ad-01683955f051"><td id="wSX\" class=""><code>mr-5</code></td><td id="wl~d" class="">右外边距 1.25rem</td><td id="qg:Y" class=""><code>&lt;div class=&quot;mr-5&quot;&gt;</code></td><td id="CZFt" class=""><code>margin-right: 1.25rem</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7848db55-6aee-83e1-93ba-81aa637e48c8"><td id="wSX\" class=""><code>mx-auto</code></td><td id="wl~d" class="">左右自动外边距（居中）</td><td id="qg:Y" class=""><code>&lt;div class=&quot;mx-auto&quot;&gt;</code></td><td id="CZFt" class=""><code>margin-left: auto; margin-right: auto</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5868db55-6aee-8314-9dce-81e7fc19bbaa"><td id="wSX\" class=""><code>my-4</code></td><td id="wl~d" class="">上下外边距 1rem</td><td id="qg:Y" class=""><code>&lt;div class=&quot;my-4&quot;&gt;</code></td><td id="CZFt" class=""><code>margin-top:1rem; margin-bottom:1rem</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="c3d8db55-6aee-8247-9dbf-81ca7b4c740f" class=""><strong>Vue 示例（内外边距）</strong>：</p></div><div style="display:contents" dir="auto"><pre id="2388db55-6aee-8392-b670-81e6e7cadbd8" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;m-6 p-4 bg-blue-100&quot;&gt;
+    外边距 m-6（1.5rem），内边距 p-4（1rem）
+    &lt;div class=&quot;mt-4 pl-2 bg-white&quot;&gt;
+      上外边距 mt-4（1rem），左内边距 pl-2（0.5rem）
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0028db55-6aee-830a-ac19-01b682f8f2cf" class="toggle"><li><details open=""><summary>4.颜色相关（<mark class="highlight-red">Colors</mark>）</summary><div style="display:contents" dir="auto"><p id="a728db55-6aee-8282-8c75-81a66016d161" class="">Tailwind 内置 19 种颜色（如 <code>red</code>、<code>blue</code>、<code>green</code>、<code>gray</code> 等），每种颜色有 10 个亮度等级（<code>50</code>~<code>950</code>，数值越大颜色越深），命名规则：<code>属性-颜色-等级</code>。</p></div><div style="display:contents" dir="auto"><p id="9ae8db55-6aee-82d8-85d2-01a5f96e7e53" class="">( 查询颜色表 )</p></div><div style="display:contents" dir="ltr"><table id="ed78db55-6aee-8352-9843-81d429a8cfb9" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="43a8db55-6aee-8363-9bc0-01d4a81936cb"><th id="mQm|" class="simple-table-header-color simple-table-header"><strong>属性前缀</strong></th><th id="xRQ@" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="&lt;&lt;y]" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id="xwiM" class="simple-table-header-color simple-table-header"><strong>对应 CSS</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="8d18db55-6aee-82ba-ac8b-810cad83b136"><td id="mQm|" class=""><code>bg-</code></td><td id="xRQ@" class="">背景色</td><td id="&lt;&lt;y]" class=""><code>bg-red-500</code></td><td id="xwiM" class=""><code>background-color: #ef4444</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8148db55-6aee-8267-8868-810269baf49c"><td id="mQm|" class=""><code>text-</code></td><td id="xRQ@" class="">文字色</td><td id="&lt;&lt;y]" class=""><code>text-blue-700</code></td><td id="xwiM" class=""><code>color: #1d4ed8</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5768db55-6aee-8338-8486-81b206340c09"><td id="mQm|" class=""><code>border-</code></td><td id="xRQ@" class="">边框色</td><td id="&lt;&lt;y]" class=""><code>border-green-300</code></td><td id="xwiM" class=""><code>border-color: #86efac</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2be8db55-6aee-8388-934b-01ebaf7015d6"><td id="mQm|" class=""><code>hover:bg-</code></td><td id="xRQ@" class="">hover 背景色</td><td id="&lt;&lt;y]" class=""><code>hover:bg-yellow-400</code></td><td id="xwiM" class=""><code>hover { background-color: #facc15; }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a068db55-6aee-8213-9cff-81ac03d32627"><td id="mQm|" class=""><code>focus:ring-</code></td><td id="xRQ@" class="">focus 状态环形颜色</td><td id="&lt;&lt;y]" class=""><code>focus:ring-purple-500</code></td><td id="xwiM" class=""><code>focus { --tw-ring-color: #a855f7; }</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="3318db55-6aee-8392-85f1-018bc71ca658" class=""><strong>Vue 示例（颜色组合）</strong>：</p></div><div style="display:contents" dir="auto"><pre id="6238db55-6aee-82b0-9d25-0161e02518d5" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;bg-gray-100 text-gray-800 p-4 border-2 border-gray-300 hover:bg-gray-200 transition-colors&quot;&gt;
+    背景色 bg-gray-100，文字色 text-gray-800，边框色 border-gray-300，hover 变色
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c2c8db55-6aee-83b1-9494-016457e3fb32" class="toggle"><li><details open=""><summary>5.文字相关（<mark class="highlight-red">Typography</mark>）</summary><div style="display:contents" dir="auto"><p id="58c8db55-6aee-838d-8482-81089956a3ec" class="">控制字体、字号、字重、对齐方式、行高、文本装饰等。</p></div><div style="display:contents" dir="ltr"><table id="dc68db55-6aee-824a-90ee-01a7f8ba1b75" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="0a38db55-6aee-8342-bf69-81531bdf110d"><th id="R=Mx" class="simple-table-header-color simple-table-header"><strong>工具类</strong></th><th id="TDj^" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="v;cX" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id="PYyD" class="simple-table-header-color simple-table-header"><strong>对应 CSS</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3f18db55-6aee-83aa-8ff6-0173db120739"><td id="R=Mx" class=""><code>font-sans</code>/<code>font-serif</code>/<code>font-mono</code></td><td id="TDj^" class="">字体族</td><td id="v;cX" class=""><code>&lt;p class=&quot;font-mono&quot;&gt;</code></td><td id="PYyD" class=""><code>font-family: ui-monospace, SFMono-Regular, ...</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3708db55-6aee-8224-8c2b-014dbc93bdd4"><td id="R=Mx" class=""><code>text-xs</code>~<code>text-9xl</code></td><td id="TDj^" class="">字号（响应式）</td><td id="v;cX" class=""><code>&lt;h1 class=&quot;text-4xl&quot;&gt;</code></td><td id="PYyD" class=""><code>font-size: 2.25rem</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c988db55-6aee-83c7-9391-01bc1bd3fdd8"><td id="R=Mx" class=""><code>font-light</code>/<code>font-normal</code>/<code>font-bold</code>/<code>font-black</code></td><td id="TDj^" class="">字重</td><td id="v;cX" class=""><code>&lt;span class=&quot;font-bold&quot;&gt;</code></td><td id="PYyD" class=""><code>font-weight: 700</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="dce8db55-6aee-8236-bf30-01c6349672e0"><td id="R=Mx" class=""><code>text-left</code>/<code>text-center</code>/<code>text-right</code>/<code>text-justify</code></td><td id="TDj^" class="">文本对齐</td><td id="v;cX" class=""><code>&lt;p class=&quot;text-center&quot;&gt;</code></td><td id="PYyD" class=""><code>text-align: center</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ce78db55-6aee-8302-8474-8139de728344"><td id="R=Mx" class=""><code>leading-none</code>/<code>leading-tight</code>/<code>leading-normal</code>/<code>leading-loose</code></td><td id="TDj^" class="">行高</td><td id="v;cX" class=""><code>&lt;p class=&quot;leading-loose&quot;&gt;</code></td><td id="PYyD" class=""><code>line-height: 2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8f58db55-6aee-8243-a7de-81cba32c872a"><td id="R=Mx" class=""><code>text-underline</code>/<code>text-line-through</code></td><td id="TDj^" class="">文本装饰</td><td id="v;cX" class=""><code>&lt;span class=&quot;text-underline&quot;&gt;</code></td><td id="PYyD" class=""><code>text-decoration: underline</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a3d8db55-6aee-83e5-96cb-0144c8669c1e"><td id="R=Mx" class=""><code>text-uppercase</code>/<code>text-lowercase</code>/<code>text-capitalize</code></td><td id="TDj^" class="">文本转换</td><td id="v;cX" class=""><code>&lt;p class=&quot;text-uppercase&quot;&gt;</code></td><td id="PYyD" class=""><code>text-transform: uppercase</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c4e8db55-6aee-8367-aede-0130318369ea"><td id="R=Mx" class=""><code>tracking-tight</code>/<code>tracking-wide</code></td><td id="TDj^" class="">字间距</td><td id="v;cX" class=""><code>&lt;p class=&quot;tracking-wide&quot;&gt;</code></td><td id="PYyD" class=""><code>letter-spacing: 0.05em</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="d9f8db55-6aee-8225-a65e-012331d0a605"><td id="R=Mx" class=""><code>truncate</code></td><td id="TDj^" class="">文本溢出省略（单行）</td><td id="v;cX" class=""><code>&lt;p class=&quot;truncate&quot;&gt;</code></td><td id="PYyD" class=""><code>white-space: nowrap; overflow: hidden; text-overflow: ellipsis</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a7d8db55-6aee-83da-82ff-8162470a6d7b"><td id="R=Mx" class=""><code>line-clamp-3</code></td><td id="TDj^" class="">文本溢出省略（多行）</td><td id="v;cX" class=""><code>&lt;p class=&quot;line-clamp-3&quot;&gt;</code></td><td id="PYyD" class="">限制 3 行，超出省略（需配合 <code>overflow-hidden</code>）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="4da8db55-6aee-837d-9183-0180f4c43e61" class=""><strong>Vue 示例（文字样式）</strong>：</p></div><div style="display:contents" dir="auto"><pre id="1128db55-6aee-8362-9399-019136cd9ac9" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;max-w-md mx-auto&quot;&gt;
+    &lt;h2 class=&quot;text-2xl font-bold text-center text-blue-600 mb-2&quot;&gt;标题文字&lt;/h2&gt;
+    &lt;p class=&quot;text-gray-700 leading-relaxed line-clamp-3&quot;&gt;
+      这是一段测试文本，用于演示 Tailwind 的文字样式。line-clamp-3 会限制文本最多显示 3 行，超出部分用省略号表示。
+    &lt;/p&gt;
+    &lt;p class=&quot;mt-4 text-sm text-gray-500 italic&quot;&gt;
+      小字号 + 斜体 + 灰色文字
+    &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="9c18db55-6aee-82cf-947b-0137d7fc2a70" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="a4c8db55-6aee-8233-a333-01ceac3675d1" class="toggle"><li><details open=""><summary>6.边框相关（<mark class="highlight-red">Borders</mark>）</summary><div style="display:contents" dir="auto"><p id="8588db55-6aee-83c9-8c25-81beafbeb10e" class="">控制边框宽度、颜色、圆角、样式。</p></div><div style="display:contents" dir="ltr"><table id="dd98db55-6aee-8291-bc08-81cd8906cbc1" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="bf78db55-6aee-836d-9887-01b2c9507763"><th id="RLqY" class="simple-table-header-color simple-table-header"><strong>工具类</strong></th><th id="sfyD" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="Y`vR" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id="[v|;" class="simple-table-header-color simple-table-header"><strong>对应 CSS</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3bc8db55-6aee-82dd-8130-01bda20811ce"><td id="RLqY" class=""><code>border</code></td><td id="sfyD" class="">默认边框（1px 黑色）</td><td id="Y`vR" class=""><code>&lt;div class=&quot;border&quot;&gt;</code></td><td id="[v|;" class=""><code>border: 1px solid #e5e7eb</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a428db55-6aee-83a0-925e-01fe76af59ac"><td id="RLqY" class=""><code>border-2</code>/<code>border-4</code></td><td id="sfyD" class="">边框宽度</td><td id="Y`vR" class=""><code>&lt;div class=&quot;border-2&quot;&gt;</code></td><td id="[v|;" class=""><code>border-width: 2px</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7508db55-6aee-82cb-8dad-018bbdd93851"><td id="RLqY" class=""><code>border-t-2</code></td><td id="sfyD" class="">上边框宽度</td><td id="Y`vR" class=""><code>&lt;div class=&quot;border-t-2&quot;&gt;</code></td><td id="[v|;" class=""><code>border-top-width: 2px</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="69d8db55-6aee-83d2-8128-0198353a1ee2"><td id="RLqY" class=""><code>border-red-500</code></td><td id="sfyD" class="">边框颜色</td><td id="Y`vR" class=""><code>&lt;div class=&quot;border-red-500&quot;&gt;</code></td><td id="[v|;" class=""><code>border-color: #ef4444</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="5f68db55-6aee-82f8-903d-81ddb00504df"><td id="RLqY" class=""><code>rounded-none</code>/<code>rounded-sm</code>/<code>rounded</code>/<code>rounded-md</code>/<code>rounded-lg</code>/<code>rounded-full</code></td><td id="sfyD" class="">圆角</td><td id="Y`vR" class=""><code>&lt;div class=&quot;rounded-full&quot;&gt;</code></td><td id="[v|;" class=""><code>border-radius: 9999px</code>（圆形）</td></tr></div><div style="display:contents" dir="ltr"><tr id="2a28db55-6aee-8342-a89c-8125800f9ebf"><td id="RLqY" class=""><code>rounded-t-lg</code></td><td id="sfyD" class="">上圆角</td><td id="Y`vR" class=""><code>&lt;div class=&quot;rounded-t-lg&quot;&gt;</code></td><td id="[v|;" class=""><code>border-top-left-radius: 0.5rem; border-top-right-radius:0.5rem</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6518db55-6aee-8373-9fce-81d60b5c3e24"><td id="RLqY" class=""><code>border-dashed</code>/<code>border-dotted</code></td><td id="sfyD" class="">边框样式</td><td id="Y`vR" class=""><code>&lt;div class=&quot;border-dashed&quot;&gt;</code></td><td id="[v|;" class=""><code>border-style: dashed</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="b9d8db55-6aee-8287-8ea0-814117973d04"><td id="RLqY" class=""><code>ring-2</code>/<code>ring-blue-500</code></td><td id="sfyD" class="">环形边框（聚焦 / 高亮）</td><td id="Y`vR" class=""><code>&lt;input class=&quot;ring-2 ring-blue-500&quot;&gt;</code></td><td id="[v|;" class=""><code>--tw-ring-width: 2px; --tw-ring-color: #3b82f6</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="be98db55-6aee-8234-b38a-817ec681ce36" class=""><strong>Vue 示例（边框与圆角）</strong>：</p></div><div style="display:contents" dir="auto"><pre id="6bc8db55-6aee-8308-ad5e-8121b9a01ae5" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;w-32 h-32 border-4 border-green-500 rounded-lg bg-green-50 flex items-center justify-center&quot;&gt;
+    边框 4px + 圆角 lg + 背景色
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c8a8db55-6aee-8333-87b1-01cbb91bfb03" class="toggle"><li><details open=""><summary>7.背景相关（<mark class="highlight-red">Backgrounds</mark>）</summary><div style="display:contents" dir="auto"><p id="6c58db55-6aee-8368-8169-012974b11e96" class="">控制背景色、背景图片、背景大小、背景位置等。</p></div><div style="display:contents" dir="ltr"><table id="dec8db55-6aee-8305-9074-8155d5fa4588" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="dab8db55-6aee-8349-9cd1-81f843626205"><th id="uRSq" class="simple-table-header-color simple-table-header"><strong>工具类</strong></th><th id="b:Ns" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="e^u{" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id="s~|E" class="simple-table-header-color simple-table-header"><strong>对应 CSS</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="0108db55-6aee-822b-9cd4-81d088148b43"><td id="uRSq" class=""><code>bg-red-500</code></td><td id="b:Ns" class="">背景色</td><td id="e^u{" class=""><code>&lt;div class=&quot;bg-red-500&quot;&gt;</code></td><td id="s~|E" class=""><code>background-color: #ef4444</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="e308db55-6aee-82d1-a76e-01dac9da2db0"><td id="uRSq" class=""><code>bg-opacity-50</code></td><td id="b:Ns" class="">背景透明度</td><td id="e^u{" class=""><code>&lt;div class=&quot;bg-blue-500 bg-opacity-50&quot;&gt;</code></td><td id="s~|E" class=""><code>background-color: rgba(59, 130, 246, 0.5)</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="25d8db55-6aee-8284-9355-813bc7c14259"><td id="uRSq" class=""><code>bg-gradient-to-r</code></td><td id="b:Ns" class="">线性渐变（右向）</td><td id="e^u{" class=""><code>&lt;div class=&quot;bg-gradient-to-r from-blue-500 to-purple-500&quot;&gt;</code></td><td id="s~|E" class=""><code>background-image: linear-gradient(to right, #3b82f6, #a855f7)</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6ee8db55-6aee-8258-a8a3-015f1d077d8b"><td id="uRSq" class=""><code>bg-cover</code></td><td id="b:Ns" class="">背景图片覆盖</td><td id="e^u{" class=""><code>&lt;div class=&quot;bg-cover bg-center&quot; style=&quot;background-image: url(&#x27;xxx.jpg&#x27;)&quot;&gt;</code></td><td id="s~|E" class=""><code>background-size: cover; background-position: center</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1b08db55-6aee-82ad-916b-01d74880bc9a"><td id="uRSq" class=""><code>bg-repeat</code>/<code>bg-no-repeat</code></td><td id="b:Ns" class="">背景重复</td><td id="e^u{" class=""><code>&lt;div class=&quot;bg-no-repeat&quot;&gt;</code></td><td id="s~|E" class=""><code>background-repeat: no-repeat</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="db48db55-6aee-822c-8d8a-0117460859ae"><td id="uRSq" class=""><code>bg-fixed</code></td><td id="b:Ns" class="">背景固定</td><td id="e^u{" class=""><code>&lt;div class=&quot;bg-fixed&quot;&gt;</code></td><td id="s~|E" class=""></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="5ed8db55-6aee-8393-a85e-018253facb14" class=""><strong>Vue 示例（渐变背景）</strong>：</p></div><div style="display:contents" dir="auto"><pre id="12e8db55-6aee-827a-b285-81830944b24a" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;h-40 bg-gradient-to-br from-pink-400 via-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl&quot;&gt;
+    从粉到紫到靛蓝的渐变背景
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="b718db55-6aee-8258-92fd-8124a0e55f65" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4b78db55-6aee-83d0-918a-01d77cac8bbc" class="toggle"><li><details open=""><summary>8.阴影相关（<mark class="highlight-red">Shadows</mark>）</summary><div style="display:contents" dir="auto"><p id="e438db55-6aee-829d-aa0d-81fd9bacacc3" class="">控制阴影大小、颜色、透明度，默认支持 <code>shadow-sm</code>~<code>shadow-xl</code>，还有 <code>shadow-inner</code>（内阴影）、<code>shadow-none</code>（无阴影）。</p></div><div style="display:contents" dir="ltr"><table id="0198db55-6aee-83b6-b332-8101dc0bf4ea" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3d98db55-6aee-8270-beca-811df6ebe05c"><th id="RZw^" class="simple-table-header-color simple-table-header"><strong>工具类</strong></th><th id="v=b{" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="OJJQ" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id=":[x~" class="simple-table-header-color simple-table-header"><strong>对应 CSS（简化）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="e1f8db55-6aee-8299-b622-8168944deb88"><td id="RZw^" class=""><code>shadow</code></td><td id="v=b{" class="">默认阴影</td><td id="OJJQ" class=""><code>&lt;div class=&quot;shadow&quot;&gt;</code></td><td id=":[x~" class=""><code>box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1)</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="a8c8db55-6aee-82d0-8007-011ce010795c"><td id="RZw^" class=""><code>shadow-md</code></td><td id="v=b{" class="">中等阴影</td><td id="OJJQ" class=""><code>&lt;div class=&quot;shadow-md&quot;&gt;</code></td><td id=":[x~" class=""><code>box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1)</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="70d8db55-6aee-82ff-98c4-011e61184f00"><td id="RZw^" class=""><code>shadow-lg</code></td><td id="v=b{" class="">大阴影</td><td id="OJJQ" class=""><code>&lt;div class=&quot;shadow-lg&quot;&gt;</code></td><td id=":[x~" class=""><code>box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1)</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="ec48db55-6aee-830f-9cae-01fc0a5ee881"><td id="RZw^" class=""><code>shadow-inner</code></td><td id="v=b{" class="">内阴影</td><td id="OJJQ" class=""><code>&lt;div class=&quot;shadow-inner&quot;&gt;</code></td><td id=":[x~" class=""><code>box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.05)</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6c08db55-6aee-82d4-b331-01feae9ae194"><td id="RZw^" class=""><code>shadow-blue-500</code></td><td id="v=b{" class="">蓝色阴影</td><td id="OJJQ" class=""><code>&lt;div class=&quot;shadow-lg shadow-blue-500&quot;&gt;</code></td><td id=":[x~" class=""><code>box-shadow: 0 10px 15px -3px rgba(59,130,246,0.4)</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="a728db55-6aee-8211-a572-81c64c3cc966" class=""><strong>Vue 示例（阴影效果）</strong>：</p></div><div style="display:contents" dir="auto"><pre id="41d8db55-6aee-831f-8c0e-011219583914" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;w-40 h-40 bg-white rounded-lg shadow-xl hover:shadow-2xl transition-shadow mx-auto mt-10&quot;&gt;
+    hover 时阴影放大（过渡动画）
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e8e8db55-6aee-82bc-bce8-81bbd1865898" class="toggle"><li><details open=""><summary>9.过度与动画（<mark class="highlight-red">Transitions</mark> &amp; <mark class="highlight-red">Animations</mark>）</summary><div style="display:contents" dir="auto"><p id="3598db55-6aee-8286-b5a0-0189c9122400" class="">Tailwind 内置过渡和动画工具类，简化交互效果开发。</p></div><div style="display:contents" dir="auto"><p id="be78db55-6aee-83c4-ab02-011b88758f7f" class="">过度<strong>（</strong><mark class="highlight-orange"><strong>Transitions</strong></mark><strong>）</strong></p></div><div style="display:contents" dir="ltr"><table id="e8a8db55-6aee-8315-a35b-815baf58a917" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="0838db55-6aee-8398-97f7-81de2c576c45"><th id="ly&lt;S" class="simple-table-header-color simple-table-header"><strong>工具类</strong></th><th id="hMhv" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="AKiG" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id="YE}h" class="simple-table-header-color simple-table-header"><strong>对应 CSS</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="f028db55-6aee-830e-9828-01f60ef55100"><td id="ly&lt;S" class=""><code>transition</code></td><td id="hMhv" class="">默认过渡（all 0.3s）</td><td id="AKiG" class=""><code>&lt;div class=&quot;transition&quot;&gt;</code></td><td id="YE}h" class=""><code>transition: all 0.3s ease-in-out</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8e98db55-6aee-8317-84dc-8177ba416963"><td id="ly&lt;S" class=""><code>transition-colors</code></td><td id="hMhv" class="">仅颜色过渡</td><td id="AKiG" class=""><code>&lt;div class=&quot;transition-colors&quot;&gt;</code></td><td id="YE}h" class=""><code>transition-property: color, background-color, border-color...</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="fa28db55-6aee-8218-95fe-813183f0b284"><td id="ly&lt;S" class=""><code>transition-all</code></td><td id="hMhv" class="">所有属性过渡</td><td id="AKiG" class=""><code>&lt;div class=&quot;transition-all&quot;&gt;</code></td><td id="YE}h" class=""><code>transition-property: all</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="7ab8db55-6aee-8273-a598-81af38d4960a"><td id="ly&lt;S" class=""><code>duration-300</code>/<code>duration-500</code></td><td id="hMhv" class="">过渡时长</td><td id="AKiG" class=""><code>&lt;div class=&quot;duration-500&quot;&gt;</code></td><td id="YE}h" class=""><code>transition-duration: 500ms</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1ed8db55-6aee-83e2-b48e-01a70d6a8d5c"><td id="ly&lt;S" class=""><code>ease-in</code>/<code>ease-out</code>/<code>ease-in-out</code></td><td id="hMhv" class="">过渡曲线</td><td id="AKiG" class=""><code>&lt;div class=&quot;ease-in-out&quot;&gt;</code></td><td id="YE}h" class=""><code>transition-timing-function: ease-in-out</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6508db55-6aee-820f-a1b0-019667612c6a"><td id="ly&lt;S" class=""><code>delay-200</code></td><td id="hMhv" class="">过渡延迟</td><td id="AKiG" class=""><code>&lt;div class=&quot;delay-200&quot;&gt;</code></td><td id="YE}h" class=""><code>transition-delay: 200ms</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="4758db55-6aee-821a-b94a-81a55359d0fa" class="">动画（<mark class="highlight-orange"><strong>Animations</strong></mark>）</p></div><div style="display:contents" dir="auto"><p id="00a8db55-6aee-8295-8b52-810a3aa27ffe" class="">Tailwind 内置 <code>spin</code>（旋转）、<code>pulse</code>（呼吸）、<code>bounce</code>（弹跳）三种动画。</p></div><div style="display:contents" dir="ltr"><table id="d7b8db55-6aee-8380-8ed7-019560ab71f8" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="9f98db55-6aee-8248-8a12-016c0e90fb82"><th id="q]Px" class="simple-table-header-color simple-table-header"><strong>工具类</strong></th><th id="Oj~o" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="J&lt;Nx" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id="|gzO" class="simple-table-header-color simple-table-header"><strong>对应 CSS（简化）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="2838db55-6aee-8345-9bac-81210eca44ba"><td id="q]Px" class=""><code>animate-spin</code></td><td id="Oj~o" class="">旋转动画</td><td id="J&lt;Nx" class=""><code>&lt;div class=&quot;animate-spin&quot;&gt;</code></td><td id="|gzO" class=""><code>animation: spin 1s linear infinite</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1e88db55-6aee-828c-8a76-0110e9d36ed0"><td id="q]Px" class=""><code>animate-pulse</code></td><td id="Oj~o" class="">呼吸动画（透明度变化）</td><td id="J&lt;Nx" class=""><code>&lt;div class=&quot;animate-pulse&quot;&gt;</code></td><td id="|gzO" class=""><code>animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6028db55-6aee-83c4-9016-010c65a9f211"><td id="q]Px" class=""><code>animate-bounce</code></td><td id="Oj~o" class="">弹跳动画</td><td id="J&lt;Nx" class=""><code>&lt;div class=&quot;animate-bounce&quot;&gt;</code></td><td id="|gzO" class=""><code>animation: bounce 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="1138db55-6aee-82bb-a72b-01daa84ab415" class=""><strong>Vue 示例（过渡与动画）</strong>：</p></div><div style="display:contents" dir="auto"><pre id="2d28db55-6aee-8399-a139-811aa755ab04" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;flex gap-10 justify-center mt-10&quot;&gt;
+    &lt;!-- 过渡效果 --&gt;
+    &lt;div class=&quot;w-20 h-20 bg-blue-500 hover:bg-red-500 transition-colors duration-300 rounded&quot;&gt;&lt;/div&gt;
+    &lt;!-- 旋转动画 --&gt;
+    &lt;div class=&quot;w-20 h-20 border-4 border-t-blue-500 rounded-full animate-spin&quot;&gt;&lt;/div&gt;
+    &lt;!-- 呼吸动画 --&gt;
+    &lt;div class=&quot;w-20 h-20 bg-green-500 rounded animate-pulse&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="cb48db55-6aee-82e2-bf92-817e99a79deb" class="toggle"><li><details open=""><summary>10.交互相关（<mark class="highlight-red">Interactivity</mark>）</summary><div style="display:contents" dir="auto"><p id="46a8db55-6aee-8271-b06a-818fc2ff00d8" class="">控制鼠标指针、用户选择、焦点样式等。</p></div><div style="display:contents" dir="ltr"><table id="b4c8db55-6aee-82d7-b205-81cb0cc802a4" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="0f98db55-6aee-83b3-90b3-017437e8669e"><th id="|ool" class="simple-table-header-color simple-table-header"><strong>工具类</strong></th><th id="w|^m" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="mlBV" class="simple-table-header-color simple-table-header"><strong>示例</strong></th><th id="fP?F" class="simple-table-header-color simple-table-header"><strong>对应 CSS</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="c2b8db55-6aee-83e6-bf5b-816d54d57d43"><td id="|ool" class=""><code>cursor-pointer</code></td><td id="w|^m" class="">鼠标指针为手型</td><td id="mlBV" class=""><code>&lt;button class=&quot;cursor-pointer&quot;&gt;</code></td><td id="fP?F" class=""><code>cursor: pointer</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c638db55-6aee-8248-bc58-01688b25315c"><td id="|ool" class=""><code>cursor-default</code></td><td id="w|^m" class="">默认鼠标指针</td><td id="mlBV" class=""><code>&lt;div class=&quot;cursor-default&quot;&gt;</code></td><td id="fP?F" class=""><code>cursor: default</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c8a8db55-6aee-825c-8859-01402c8dcbab"><td id="|ool" class=""><code>select-none</code></td><td id="w|^m" class="">禁止文本选择</td><td id="mlBV" class=""><code>&lt;div class=&quot;select-none&quot;&gt;</code></td><td id="fP?F" class=""><code>user-select: none</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="49e8db55-6aee-82c0-9a8b-81de52879b1b"><td id="|ool" class=""><code>select-all</code></td><td id="w|^m" class="">点击全选文本</td><td id="mlBV" class=""><code>&lt;p class=&quot;select-all&quot;&gt;</code></td><td id="fP?F" class=""><code>user-select: all</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="8458db55-6aee-8397-bef4-81f5f2d924e5"><td id="|ool" class=""><code>focus:outline-none</code></td><td id="w|^m" class="">移除焦点默认轮廓</td><td id="mlBV" class=""><code>&lt;input class=&quot;focus:outline-none&quot;&gt;</code></td><td id="fP?F" class=""><code>outline: none</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="f238db55-6aee-8204-b208-01e43311dda1"><td id="|ool" class=""><code>focus:ring-2</code></td><td id="w|^m" class="">焦点环形样式</td><td id="mlBV" class=""><code>&lt;input class=&quot;focus:ring-2 focus:ring-blue-500&quot;&gt;</code></td><td id="fP?F" class=""><code>--tw-ring-width: 2px; --tw-ring-color: #3b82f6</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6558db55-6aee-8354-8557-81747ecac584"><td id="|ool" class=""><code>disabled:opacity-50</code></td><td id="w|^m" class="">禁用状态透明度</td><td id="mlBV" class=""><code>&lt;button disabled class=&quot;disabled:opacity-50&quot;&gt;</code></td><td id="fP?F" class=""><code>disabled { opacity: 0.5; }</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="2a68db55-6aee-8217-a3c4-811c1e698f5a"><td id="|ool" class=""><code>pointer-events-none</code></td><td id="w|^m" class="">禁止鼠标事件</td><td id="mlBV" class=""><code>&lt;div class=&quot;pointer-events-none&quot;&gt;</code></td><td id="fP?F" class=""></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="0d78db55-6aee-8354-a1ec-01832221b816" class=""><strong>Vue 示例（输入框焦点样式）</strong>：</p></div><div style="display:contents" dir="auto"><pre id="d0a8db55-6aee-83fc-8e54-814957e6a35e" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;input 
+    type=&quot;text&quot; 
+    class=&quot;px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent&quot;
+    placeholder=&quot;点击输入（聚焦有蓝色环形效果）&quot;
+  &gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9b68db55-6aee-8327-ae04-81da20a5152e" class="toggle"><li><details open=""><summary>3.响应式设计（<strong>Responsive Design</strong>）</summary><div style="display:contents" dir="auto"><p id="fba8db55-6aee-8391-9644-81d9eabc7887" class="">Tailwind 内置 5 个响应式断点（移动优先），通过<mark class="highlight-orange">断点前</mark>缀控制不同屏幕尺寸的样式，前缀需放在工具类最前面。</p></div><div style="display:contents" dir="auto"><p id="f2f8db55-6aee-8275-8684-819fa44b0ede" class="">1.默认断点</p></div><div style="display:contents" dir="ltr"><table id="3c78db55-6aee-827e-b885-01d6bfe0a9a6" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="5058db55-6aee-83ce-b538-019e02455b19"><th id="BcFj" class="simple-table-header-color simple-table-header"><strong>断点前缀</strong></th><th id="COPb" class="simple-table-header-color simple-table-header"><strong>屏幕尺寸（最小宽度）</strong></th><th id="IZJf" class="simple-table-header-color simple-table-header"><strong>适用设备</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="c598db55-6aee-830b-828a-81f2eee64cee"><td id="BcFj" class="">无前缀</td><td id="COPb" class="">&lt; 640px</td><td id="IZJf" class="">移动端（手机）</td></tr></div><div style="display:contents" dir="ltr"><tr id="cbb8db55-6aee-822c-8bfe-0185341cd0f9"><td id="BcFj" class=""><code>sm:</code></td><td id="COPb" class="">≥ 640px</td><td id="IZJf" class="">小屏幕手机</td></tr></div><div style="display:contents" dir="ltr"><tr id="d848db55-6aee-8326-9675-81baf170a97d"><td id="BcFj" class=""><code>md:</code></td><td id="COPb" class="">≥ 768px</td><td id="IZJf" class="">平板（竖屏）</td></tr></div><div style="display:contents" dir="ltr"><tr id="89c8db55-6aee-8250-9bf5-01051fccddcd"><td id="BcFj" class=""><code>lg:</code></td><td id="COPb" class="">≥ 1024px</td><td id="IZJf" class="">平板（横屏）/ 桌面</td></tr></div><div style="display:contents" dir="ltr"><tr id="f1d8db55-6aee-823a-9775-01835aba9b64"><td id="BcFj" class=""><code>xl:</code></td><td id="COPb" class="">≥ 1280px</td><td id="IZJf" class="">大屏幕桌面</td></tr></div><div style="display:contents" dir="ltr"><tr id="65d8db55-6aee-833f-b2de-011c94a363ff"><td id="BcFj" class=""><code>2xl:</code></td><td id="COPb" class="">≥ 1536px</td><td id="IZJf" class="">超大屏幕桌面</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="d558db55-6aee-8365-8bdb-0153a53cc205" class="">2.使用规则</p></div><div style="display:contents" dir="auto"><ul id="3018db55-6aee-820f-b887-016ca9e62c0d" class="bulleted-list"><li style="list-style-type:disc">移动优先：无前缀的工具类默认作用于移动端，断点前缀仅作用于大于等于该尺寸的设备</li></ul></div><div style="display:contents" dir="auto"><ul id="be28db55-6aee-82bd-bfd6-81fd26036d26" class="bulleted-list"><li style="list-style-type:disc">顺序无关：但建议按「从小到大」的顺序编写（便于阅读）</li></ul></div><div style="display:contents" dir="auto"><ul id="8348db55-6aee-82cb-a780-8172598a3ee6" class="bulleted-list"><li style="list-style-type:disc">可组合：多个断点前缀可叠加使用</li></ul></div><div style="display:contents" dir="auto"><pre id="c9d8db55-6aee-83a3-a133-818b5d516dd8" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4&quot;&gt;
+    &lt;!-- 移动端1列，小屏2列，平板3列，桌面4列 --&gt;
+    &lt;div class=&quot;bg-gray-100 p-4 rounded-md shadow&quot;&gt;卡片1&lt;/div&gt;
+    &lt;div class=&quot;bg-gray-100 p-4 rounded-md shadow&quot;&gt;卡片2&lt;/div&gt;
+    &lt;div class=&quot;bg-gray-100 p-4 rounded-md shadow&quot;&gt;卡片3&lt;/div&gt;
+    &lt;div class=&quot;bg-gray-100 p-4 rounded-md shadow&quot;&gt;卡片4&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="91b8db55-6aee-8398-9fb5-813cef03e1aa" class="toggle"><li><details open=""><summary>4.状态变体（<strong>State Variants</strong>）</summary><div style="display:contents" dir="auto"><p id="d618db55-6aee-8381-9d56-010fdd451ce4" class="">Tailwind 支持为元素的不同状态（如 <code>hover</code>、<code>focus</code>、<code>active</code> 等）添加样式，通过状态前缀控制，前缀需放在工具类最前面（响应式前缀之后）。</p></div><div style="display:contents" dir="auto"><p id="4a78db55-6aee-8352-8fbe-015e34226978" class="">1.常用状态前缀</p></div><div style="display:contents" dir="ltr"><table id="4108db55-6aee-8369-87ee-8183a162af54" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="4838db55-6aee-83ff-a2d7-010e2d6254e9"><th id="=Tn&lt;" class="simple-table-header-color simple-table-header"><strong>状态前缀</strong></th><th id="bvMi" class="simple-table-header-color simple-table-header"><strong>适用元素</strong></th><th id="c^to" class="simple-table-header-color simple-table-header"><strong>功能</strong></th><th id="SXJF" class="simple-table-header-color simple-table-header"><strong>示例</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="5d78db55-6aee-82d9-8ee0-8195ae291039"><td id="=Tn&lt;" class=""><code>hover:</code></td><td id="bvMi" class="">所有元素</td><td id="c^to" class="">鼠标悬停状态</td><td id="SXJF" class=""><code>hover:bg-blue-500</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="c1d8db55-6aee-825b-8153-0181608be093"><td id="=Tn&lt;" class=""><code>focus:</code></td><td id="bvMi" class="">表单元素、链接</td><td id="c^to" class="">元素聚焦状态</td><td id="SXJF" class=""><code>focus:ring-2</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="1018db55-6aee-83fb-913d-01d3492a29f0"><td id="=Tn&lt;" class=""><code>active:</code></td><td id="bvMi" class="">所有元素</td><td id="c^to" class="">元素激活状态（点击时）</td><td id="SXJF" class=""><code>active:bg-blue-700</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="da38db55-6aee-83d7-bbd6-01f31dbb0eee"><td id="=Tn&lt;" class=""><code>disabled:</code></td><td id="bvMi" class="">表单元素、按钮</td><td id="c^to" class="">元素禁用状态</td><td id="SXJF" class=""><code>disabled:opacity-50</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="d838db55-6aee-82b4-a4e7-8117cc4b48be"><td id="=Tn&lt;" class=""><code>visited:</code></td><td id="bvMi" class="">链接</td><td id="c^to" class="">链接已访问状态</td><td id="SXJF" class=""><code>visited:text-purple-600</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="9af8db55-6aee-8270-9e39-815b031ba97e"><td id="=Tn&lt;" class=""><code>checked:</code></td><td id="bvMi" class="">复选框、单选框</td><td id="c^to" class="">元素选中状态</td><td id="SXJF" class=""><code>checked:bg-green-500</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="6308db55-6aee-83e3-b16e-0127f01f3984"><td id="=Tn&lt;" class=""><code>focus-within:</code></td><td id="bvMi" class="">容器元素</td><td id="c^to" class="">容器内有聚焦元素时</td><td id="SXJF" class=""><code>focus-within:bg-gray-100</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="dcb8db55-6aee-8329-bf95-81ab474decdf"><td id="=Tn&lt;" class=""><code>dark:</code></td><td id="bvMi" class="">所有元素</td><td id="c^to" class="">深色模式下</td><td id="SXJF" class=""><code>dark:bg-gray-800</code>（需启用深色模式）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="a678db55-6aee-83ec-bedb-818f009725fd" class="">2.使用规则</p></div><div style="display:contents" dir="auto"><ul id="7288db55-6aee-833c-b0ea-01499a070445" class="bulleted-list"><li style="list-style-type:disc">状态前缀可与响应式前缀组合（响应式前缀在前，状态前缀在后）：<code>md:hover:bg-red-500</code></li></ul></div><div style="display:contents" dir="auto"><ul id="a2f8db55-6aee-8239-8971-817aceeb3ef5" class="bulleted-list"><li style="list-style-type:disc">多个状态前缀可叠加：<code>hover:focus:ring-4</code></li></ul></div><div style="display:contents" dir="auto"><ul id="28e8db55-6aee-8206-a157-81d5d081857d" class="bulleted-list"><li style="list-style-type:disc">部分状态需配合特定元素（如 <code>checked:</code> 仅用于表单控件）</li></ul></div><div style="display:contents" dir="auto"><pre id="6028db55-6aee-824b-baf6-8149243b8aef" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;button class=&quot;px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 active:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-50 transition-colors&quot;&gt;
+    按钮状态示例
+  &lt;/button&gt;
+  &lt;input type=&quot;checkbox&quot; class=&quot;w-5 h-5 rounded checked:bg-green-500&quot;&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="1e58db55-6aee-8374-b04c-01d1d860edc2"/></div><div style="display:contents" dir="auto"><p id="ceb8db55-6aee-82e8-b487-813febfbd140" class="">高级用法：自定义配置与扩展</p></div><div style="display:contents" dir="auto"><p id="fe08db55-6aee-82d2-8658-8143ff0f3634" class="">Tailwind 支持通过 <code>tailwind.config.js</code> 扩展默认主题、添加自定义工具类，满足项目个性化需求。</p></div><div style="display:contents" dir="auto"><ul id="3c68db55-6aee-82fd-91cb-01166418c90d" class="toggle"><li><details open=""><summary>扩展默认主体（<code><strong>theme.extend</strong></code>）</summary><div style="display:contents" dir="auto"><p id="ff98db55-6aee-824f-8a2b-017ff1e9b4b1" class="">在 <code>theme.extend</code> 中添加的配置会与默认主题合并（而非覆盖），常用扩展项：<code>colors</code>、<code>fonts</code>、<code>spacing</code>、<code>breakpoints</code>、<code>borderRadius</code> 等。</p></div><div style="display:contents" dir="auto"><p id="62b8db55-6aee-83fb-9af3-81132fdc341c" class="">示例：扩展颜色，字体，间距</p></div><div style="display:contents" dir="auto"><pre id="c468db55-6aee-83af-b825-01095e950b2a" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// tailwind.config.js
+export default {
+  content: [&quot;./index.html&quot;, &quot;./src/**/*.{vue,js,ts}&quot;],
+  theme: {
+    extend: {
+      // 扩展颜色（添加自定义品牌色）
+      colors: {
+        primary: &quot;#165DFF&quot;, // 品牌主色
+        secondary: &quot;#FF7D00&quot;, // 品牌辅助色
+        neutral: {
+          100: &quot;#F5F7FA&quot;,
+          200: &quot;#E4E7ED&quot;,
+          900: &quot;#1D2129&quot;,
+        },
+      },
+      // 扩展字体（添加自定义字体）
+      fontFamily: {
+        sans: [&quot;Inter&quot;, &quot;system-ui&quot;, &quot;sans-serif&quot;],
+        display: [&quot;Montserrat&quot;, &quot;sans-serif&quot;], // 自定义标题字体
+      },
+      // 扩展间距（添加自定义尺寸）
+      spacing: {
+        &quot;128&quot;: &quot;32rem&quot;, // w-128 = 32rem
+        &quot;144&quot;: &quot;36rem&quot;,
+      },
+      // 扩展响应式断点（添加 3xl 断点）
+      screens: {
+        &quot;3xl&quot;: &quot;1920px&quot;,
+      },
+      // 扩展圆角
+      borderRadius: {
+        &quot;xl&quot;: &quot;1rem&quot;,
+        &quot;2xl&quot;: &quot;1.5rem&quot;,
+      },
+    },
+  },
+  plugins: [],
+};</code></pre></div><div style="display:contents" dir="auto"><p id="ead8db55-6aee-82d3-9ff5-812cf64cc2c2" class="">使用自定义主题：</p></div><div style="display:contents" dir="auto"><pre id="34f8db55-6aee-830d-af94-81e10458c383" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;bg-primary text-white p-8 rounded-2xl font-display&quot;&gt;
+    自定义品牌色 bg-primary + 自定义字体 font-display + 自定义圆角 rounded-2xl
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="aea8db55-6aee-82b3-b205-8104bb9bb309" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9188db55-6aee-83fc-9a5c-01107d86df42" class="toggle"><li><details open=""><summary>自定义工具类（<code><strong>@layer utilities</strong></code>）</summary><div style="display:contents" dir="auto"><p id="a688db55-6aee-8394-ae1b-014dfb1b812c" class="">通过 <code>@layer utilities</code> 在 CSS 文件中<mark class="highlight-orange">添加自定义</mark>原子化工具类，Tailwind 会自动处理前缀（如响应式、状态变体）。</p></div><div style="display:contents" dir="auto"><p id="00d8db55-6aee-83ef-8a27-819a961d172a" class="">示例：添加自定义工具类</p></div><div style="display:contents" dir="auto"><pre id="5608db55-6aee-8325-a371-81af37b43f4e" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">/* src/assets/main.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 自定义工具类（放在 @tailwind utilities 之后） */
+@layer utilities {
+  /* 文字渐变 */
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  /* 内容垂直居中（需父容器为 flex） */
+  .content-center {
+    align-content: center;
+  }
+  /* 自定义阴影 */
+  .shadow-custom {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="ee98db55-6aee-830e-a1ea-812288a9a3db" class="">使用自定义工具类：</p></div><div style="display:contents" dir="auto"><pre id="d168db55-6aee-82ad-b599-0128678953f0" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;flex h-64 bg-gray-100 content-center&quot;&gt;
+    &lt;h2 class=&quot;text-3xl font-bold text-gradient bg-gradient-to-r from-primary to-secondary shadow-custom&quot;&gt;
+      文字渐变 + 自定义阴影
+    &lt;/h2&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="e968db55-6aee-836c-83d6-010b6b4d09a3" class="toggle"><li><details open=""><summary>自定义组件类（<code><strong>@layer components</strong></code>）</summary><div style="display:contents" dir="auto"><p id="95a8db55-6aee-8269-b1d9-01d36457034c" class="">通过 <code>@layer components</code> 提取可复用的组件样式（如按钮、卡片），避免重复编写工具类组合。</p></div><div style="display:contents" dir="auto"><p id="1038db55-6aee-8223-8b69-01891592e334" class=""><strong>示例：自定义组件类</strong></p></div><div style="display:contents" dir="auto"><pre id="19c8db55-6aee-8290-bbb9-01cf297095d3" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">/* src/assets/main.css */
+@layer components {
+  /* 自定义按钮组件 */
+  .btn {
+    @apply px-6 py-3 rounded-md font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary/90 focus:ring-primary/50;
+  }
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-secondary/90 focus:ring-secondary/50;
+  }
+  /* 自定义卡片组件 */
+  .card {
+    @apply bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow;
+  }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="17d8db55-6aee-83ac-9adf-81b4b23509e8" class="">使用自定义组件类：</p></div><div style="display:contents" dir="auto"><pre id="1168db55-6aee-8376-8c8e-8198966e3106" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;card max-w-md mx-auto&quot;&gt;
+    &lt;h3 class=&quot;text-xl font-bold mb-4&quot;&gt;自定义卡片&lt;/h3&gt;
+    &lt;p class=&quot;text-gray-600 mb-6&quot;&gt;使用 @layer components 提取的卡片样式&lt;/p&gt;
+    &lt;div class=&quot;flex gap-4&quot;&gt;
+      &lt;button class=&quot;btn btn-primary&quot;&gt;主按钮&lt;/button&gt;
+      &lt;button class=&quot;btn btn-secondary&quot;&gt;辅助按钮&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3918db55-6aee-83c0-b6e8-01927ab7e478" class="">注：<code>@apply</code> 用于在自定义样式中引入 Tailwind 工具类，简化代码。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5dd8db55-6aee-8285-a2ac-01799ab17878" class="toggle"><li><details open=""><summary>启用神色模式（<code><strong>Dark Mode</strong></code>）</summary><div style="display:contents" dir="auto"><p id="d1b8db55-6aee-8279-bf7b-01842fbcbdbd" class="">Tailwind 支持深色模式，需在 <code>tailwind.config.js</code> 中配置，然后通过 <code>dark:</code> 前缀控制深色样式。</p></div><div style="display:contents" dir="auto"><p id="2c88db55-6aee-83ff-b673-01390af731d2" class=""><strong>步骤 1：配置深色模式</strong></p></div><div style="display:contents" dir="auto"><pre id="6e28db55-6aee-820f-a1cd-015cc43c3494" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// tailwind.config.js
+export default {
+  darkMode: &quot;class&quot;, // 基于 class 切换（推荐，灵活控制）
+  // darkMode: &#x27;media&#x27; // 基于系统主题自动切换
+  content: [&quot;./index.html&quot;, &quot;./src/**/*.{vue,js,ts}&quot;],
+  theme: { extend: {} },
+  plugins: [],
+};</code></pre></div><div style="display:contents" dir="auto"><p id="81d8db55-6aee-828d-ba77-8154d016941f" class=""><strong>步骤 2：在 Vue 中控制深色模式</strong></p></div><div style="display:contents" dir="auto"><p id="4fd8db55-6aee-8300-bea1-815dffd2a275" class="">通过给根元素（如 <code>html</code> 或 <code>body</code>）添加 <code>dark</code> 类切换深色模式：</p></div><div style="display:contents" dir="auto"><pre id="1298db55-6aee-82af-bfdf-810e156520b9" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div class=&quot;min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors&quot;&gt;
+    &lt;h1 class=&quot;text-2xl font-bold p-6&quot;&gt;深色模式示例&lt;/h1&gt;
+    &lt;button @click=&quot;toggleDarkMode&quot; class=&quot;px-4 py-2 bg-primary text-white rounded-md&quot;&gt;
+      {{ isDarkMode ? &quot;切换浅色模式&quot; : &quot;切换深色模式&quot; }}
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref, watchEffect } from &quot;vue&quot;;
+
+// 初始化深色模式（从本地存储读取）
+const isDarkMode = ref(localStorage.getItem(&quot;darkMode&quot;) === &quot;true&quot;);
+
+// 切换深色模式
+const toggleDarkMode = () =&gt; {
+  isDarkMode.value = !isDarkMode.value;
+  localStorage.setItem(&quot;darkMode&quot;, isDarkMode.value);
+};
+
+// 监听深色模式变化，给 html 标签添加/移除 dark 类
+watchEffect(() =&gt; {
+  if (isDarkMode.value) {
+    document.documentElement.classList.add(&quot;dark&quot;);
+  } else {
+    document.documentElement.classList.remove(&quot;dark&quot;);
+  }
+});
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="ecd8db55-6aee-82e1-beb5-011ff421eaf7" class="toggle"><li><details open=""><summary>使用插件（<code><strong>Plugins</strong></code>）</summary><div style="display:contents" dir="auto"><p id="2a18db55-6aee-8206-91c5-810a8a3ad42d" class="">Tailwind 生态有丰富的插件，可扩展更多功能（如表单样式、图标、动画等）。</p></div><div style="display:contents" dir="auto"><p id="8a58db55-6aee-8325-b7ae-015314b8df92" class=""><strong>示例：安装并使用 </strong><code><strong>@tailwindcss/forms</strong></code><strong>（优化表单样式）</strong></p></div><div style="display:contents" dir="auto"><p id="0db8db55-6aee-83e2-91d2-01541bf19b9d" class="">安装插件：</p></div><div style="display:contents" dir="auto"><pre id="6578db55-6aee-838a-b44a-018147bcd1ef" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">npm install -D @tailwindcss/forms</code></pre></div><div style="display:contents" dir="auto"><p id="34e8db55-6aee-8328-a0ae-01b701386366" class="">配置插件：</p></div><div style="display:contents" dir="auto"><pre id="61d8db55-6aee-8208-aaa7-81834fb74ef9" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// tailwind.config.js
+export default {
+  content: [&quot;./index.html&quot;, &quot;./src/**/*.{vue,js,ts}&quot;],
+  theme: { extend: {} },
+  plugins: [require(&quot;@tailwindcss/forms&quot;)], // 引入插件
+};</code></pre></div><div style="display:contents" dir="auto"><p id="a3b8db55-6aee-8289-a63f-014ac33f9a10" class="">使用效果：表单元素（输入框、下拉框、复选框等）会自动应用优化后的样式，无需手动编写。</p></div><div style="display:contents" dir="auto"><p id="b7e8db55-6aee-82fd-bfb8-81ff64aa4968" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="01a8db55-6aee-8223-a324-81a9a487500f"/></div><div style="display:contents" dir="auto"><p id="3148db55-6aee-8368-982c-01985846a289" class=""><strong>Vite Vue 中的实战技巧</strong></p></div><div style="display:contents" dir="auto"><ul id="1448db55-6aee-829d-974b-81a60367fc7a" class="toggle"><li><details open=""><summary>动态绑定工具类（Vue 模板语法）</summary><div style="display:contents" dir="auto"><p id="bcb8db55-6aee-83c1-85fb-01eb603d291a" class="">在 Vue 中通过 <code>:class</code> 动态绑定工具类，支持对象、数组、计算属性语法。</p></div><div style="display:contents" dir="auto"><p id="c948db55-6aee-8252-b995-019bfef04bee" class=""><strong>示例 1：对象语法（条件绑定）</strong></p></div><div style="display:contents" dir="auto"><pre id="e0c8db55-6aee-8286-aa1d-812a57cce5f2" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div :class=&quot;{
+    &#x27;bg-green-500&#x27;: isSuccess,
+    &#x27;bg-red-500&#x27;: !isSuccess,
+    &#x27;text-white&#x27;: true,
+    &#x27;p-4 rounded-md&#x27;: true
+  }&quot;&gt;
+    {{ isSuccess ? &quot;操作成功&quot; : &quot;操作失败&quot; }}
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+const isSuccess = ref(true);
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="a308db55-6aee-82de-8cef-8163206fcc2c" class=""><strong>示例 2：数组语法（组合绑定）</strong></p></div><div style="display:contents" dir="auto"><pre id="f778db55-6aee-83c2-a130-817dd836c2d9" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div :class=&quot;[
+    &#x27;p-4 rounded-md&#x27;,
+    isSuccess ? &#x27;bg-green-500 text-white&#x27; : &#x27;bg-red-500 text-white&#x27;
+  ]&quot;&gt;
+    动态样式组合
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="5168db55-6aee-837a-b503-81442d4456cf" class=""><strong>示例 3：计算属性（复杂逻辑）</strong></p></div><div style="display:contents" dir="auto"><pre id="2478db55-6aee-83d2-8fd1-018a4ed0c536" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div :class=&quot;cardClass&quot;&gt;复杂动态样式&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+const type = ref(&quot;primary&quot;);
+const size = ref(&quot;large&quot;);
+
+const cardClass = computed(() =&gt; {
+  return [
+    &quot;rounded-md shadow-md p-4&quot;,
+    type.value === &quot;primary&quot; ? &quot;bg-primary text-white&quot; : &quot;bg-gray-100 text-gray-800&quot;,
+    size.value === &quot;large&quot; ? &quot;text-xl h-24&quot; : &quot;text-base h-16&quot;,
+  ];
+});
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="6678db55-6aee-8335-ab5e-814e36ece2c4" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c808db55-6aee-8330-8b36-81667f9bafc4" class="toggle"><li><details open=""><summary>提取可复用组件（Vue SFC）</summary><div style="display:contents" dir="auto"><p id="d0f8db55-6aee-82b8-8077-01aedf7beb45" class="">结合 Tailwind 工具类和 Vue 组件化，提取通用组件（如按钮、卡片、表单），提升复用率。</p></div><div style="display:contents" dir="auto"><p id="0aa8db55-6aee-8364-ba9e-0141da210762" class=""><strong>示例：通用按钮组件（</strong><code><strong>src/components/Button.vue</strong></code><strong>）</strong></p></div><div style="display:contents" dir="auto"><pre id="a2b8db55-6aee-838f-b52b-0117e54aa180" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;button
+    :class=&quot;[
+      &#x27;px-4 py-2 rounded-md font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2&#x27;,
+      variant === &#x27;primary&#x27; ? &#x27;bg-primary text-white hover:bg-primary/90 focus:ring-primary/50&#x27; : &#x27;&#x27;,
+      variant === &#x27;secondary&#x27; ? &#x27;bg-secondary text-white hover:bg-secondary/90 focus:ring-secondary/50&#x27; : &#x27;&#x27;,
+      variant === &#x27;outline&#x27; ? &#x27;border border-gray-300 text-gray-700 hover:bg-gray-100&#x27; : &#x27;&#x27;,
+      disabled ? &#x27;opacity-50 cursor-not-allowed&#x27; : &#x27;&#x27;,
+      size === &#x27;large&#x27; ? &#x27;px-6 py-3 text-lg&#x27; : &#x27;&#x27;,
+      size === &#x27;small&#x27; ? &#x27;px-3 py-1 text-sm&#x27; : &#x27;&#x27;,
+    ]&quot;
+    :disabled=&quot;disabled&quot;
+    @click=&quot;$emit(&#x27;click&#x27;)&quot;
+  &gt;
+    &lt;slot&gt;&lt;/slot&gt;
+  &lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+const props = defineProps({
+  variant: {
+    type: String,
+    default: &quot;primary&quot;,
+    validator: (v) =&gt; [&quot;primary&quot;, &quot;secondary&quot;, &quot;outline&quot;].includes(v),
+  },
+  size: {
+    type: String,
+    default: &quot;default&quot;,
+    validator: (v) =&gt; [&quot;large&quot;, &quot;default&quot;, &quot;small&quot;].includes(v),
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+defineEmits([&quot;click&quot;]);
+&lt;/script&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="f748db55-6aee-83cd-a2fb-818989da3fae" class="">使用组件：</p></div><div style="display:contents" dir="auto"><pre id="8728db55-6aee-830f-9960-815c42926b90" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;Button variant=&quot;primary&quot; size=&quot;large&quot; @click=&quot;handleClick&quot;&gt;
+    主按钮（大尺寸）
+  &lt;/Button&gt;
+  &lt;Button variant=&quot;outline&quot; size=&quot;small&quot; class=&quot;ml-4&quot;&gt;
+    轮廓按钮（小尺寸）
+  &lt;/Button&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+const handleClick = () =&gt; alert(&quot;按钮点击&quot;);
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5e08db55-6aee-83ba-8703-81e6f0c4eab2" class="toggle"><li><details open=""><summary>优化打包体积</summary><div style="display:contents" dir="auto"><p id="8378db55-6aee-832e-bad0-010a57e490c4" class="">Tailwind 3 默认启用 JIT（即时编译）模式，仅打包项目中实际使用的工具类，体积优化极佳。若需进一步优化：</p></div><div style="display:contents" dir="auto"><ul id="eed8db55-6aee-83d5-a705-8157294ca76b" class="bulleted-list"><li style="list-style-type:disc">确保 <code>tailwind.config.js</code> 的 <code>content</code> 配置正确（仅扫描必要文件）</li></ul></div><div style="display:contents" dir="auto"><ul id="0f18db55-6aee-82ce-bf11-816446b7e03e" class="bulleted-list"><li style="list-style-type:disc">避免过度使用 <code>@apply</code> 提取大量未复用的样式</li></ul></div><div style="display:contents" dir="auto"><ul id="cc38db55-6aee-822d-a47f-8161771fa089" class="bulleted-list"><li style="list-style-type:disc">使用 <code>purgecss</code>（Tailwind 3 已内置，无需额外配置）</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="5058db55-6aee-82f8-bbc1-01129266a183" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

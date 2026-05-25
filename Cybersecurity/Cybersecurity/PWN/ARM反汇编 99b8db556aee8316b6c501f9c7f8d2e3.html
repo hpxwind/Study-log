@@ -1,0 +1,755 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>ARM反汇编</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="99b8db55-6aee-8316-b6c5-01f9c7f8d2e3" class="page serif"><header><h1 class="page-title" dir="auto">ARM反汇编</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="2048db55-6aee-831d-97e0-810766c4f8c1" class="toggle"><li><details open=""><summary>基础指令</summary><div style="display:contents" dir="auto"><ol type="1" id="5108db55-6aee-828d-94a7-01aa9deb6103" class="numbered-list" start="1"><li>跳转指令<div style="display:contents" dir="auto"><p id="1008db55-6aee-8221-a272-01f1d3e9971f" class="">B 无条件跳转</p></div><div style="display:contents" dir="auto"><p id="ac08db55-6aee-838e-88f6-81fc7903b014" class="">BL 带链接的 无条件跳转</p></div><div style="display:contents" dir="auto"><p id="c658db55-6aee-8218-a8ef-012d5089c030" class="">BX 带状态切换的 无条件跳转</p></div><div style="display:contents" dir="auto"><p id="baf8db55-6aee-83f9-aed1-0104aac7f526" class="">BLX 带链接和状态切换的 无条件跳转</p></div><div style="display:contents" dir="auto"><p id="c8f8db55-6aee-82ca-bb65-01d241c6a0ec" class="">B loc_地址</p></div><div style="display:contents" dir="auto"><p id="7ba8db55-6aee-82be-afc3-81380ded189e" class="">BNE,BEQ</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="f978db55-6aee-83ba-be3f-8181af819516" class="numbered-list" start="2"><li>存储器与寄存器交互数据指令（核心）<div style="display:contents" dir="auto"><p id="e568db55-6aee-82f5-b4ac-81bde0f41a4c" class="">寄存器（主存，内存）</p></div><div style="display:contents" dir="auto"><p id="8008db55-6aee-8362-ad93-81db7b265f9c" class="">寄存器中存放的数据：可以是字符串，数，也可以是一个地址，可存放各种各样的数据</p></div><div style="display:contents" dir="auto"><p id="4918db55-6aee-824c-9a15-8180605183cf" class="">存储地址单元：地址（如：0x00004000）与地址中存在的值</p></div><div style="display:contents" dir="auto"><p id="d188db55-6aee-8242-b68b-811cb09bded3" class="">
+</p></div><div style="display:contents" dir="auto"><p id="bb98db55-6aee-8372-a573-0113329ced7f" class="">LDR：从存储器中加载数据到寄存器 ← Load</p></div><div style="display:contents" dir="auto"><p id="89a8db55-6aee-822c-b657-81eb841c5cea" class="">LDR R8, [R9, #04] R8 为待加载数据的寄存器，加载值为R9+0x4所指向的存储单元</p></div><div style="display:contents" dir="auto"><p id="1e48db55-6aee-832a-a157-01c596b6e257" class="">
+</p></div><div style="display:contents" dir="auto"><p id="2b58db55-6aee-8259-af63-8185cc9a3b93" class="">STR：将寄存器中的数据存储到寄存器 → Store</p></div><div style="display:contents" dir="auto"><p id="d778db55-6aee-8259-ad05-8180728b2151" class="">STR R8, [R9, #04] 将R8寄存器的数据存储到R9+0x4执行的存储单元中</p></div><div style="display:contents" dir="auto"><p id="0768db55-6aee-83b4-83bf-01bcef30e6cf" class="">
+</p></div><div style="display:contents" dir="auto"><p id="f2a8db55-6aee-836b-8004-8141ae22b12e" class="">LDM：将存储器的数据加载到一个寄存器列表</p></div><div style="display:contents" dir="auto"><p id="e0b8db55-6aee-8249-a964-0165cc696988" class="">LDM R0, {R1-R3} 将R0指向的存储单元的数据一次加载到R1,R2,R3的存储单元</p></div><div style="display:contents" dir="auto"><p id="b0a8db55-6aee-82e0-841f-01083babd13f" class="">
+</p></div><div style="display:contents" dir="auto"><p id="93a8db55-6aee-83d6-8b9c-811f394f0ac2" class="">STM：将一个寄存器列表的数据存储到指定的寄存器</p></div><div style="display:contents" dir="auto"><p id="6268db55-6aee-83e2-9a47-818bdeab3c3c" class="">
+</p></div><div style="display:contents" dir="auto"><p id="53c8db55-6aee-83b3-aac3-0172a1e49e9c" class="">PUSH：将寄存器的值推入堆栈</p></div><div style="display:contents" dir="auto"><p id="da38db55-6aee-83cc-8094-01c3f207c7e7" class="">POP：将堆栈值推出到寄存器</p></div><div style="display:contents" dir="auto"><p id="e4f8db55-6aee-8279-be39-819799f96a5c" class="">
+</p></div><div style="display:contents" dir="auto"><p id="dae8db55-6aee-82b0-b162-814878fa9013" class="">SWP：将寄存器与存储器之间的数据进行交换</p></div><div style="display:contents" dir="auto"><p id="ab68db55-6aee-83ae-a4b5-8142bd7cb572" class="">SWP R1, R1 [R0] 将R1寄存器与R0指向的存储单元的内容进行交换</p></div><div style="display:contents" dir="auto"><p id="11e8db55-6aee-8366-b420-81d8c2d5c950" class="">
+</p></div><div style="display:contents" dir="auto"><p id="4148db55-6aee-8327-b06b-81b1bbbaa4e0" class="">堆，队列：数据解构，栈是竖的，后进先出，且只能从栈顶依次填入数据</p></div><div style="display:contents" dir="auto"><p id="6458db55-6aee-83de-8c8c-81e0979049c0" class="">
+</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="8538db55-6aee-83c9-afe3-0180bb42b77b" class="numbered-list" start="3"><li>数据传送指令<div style="display:contents" dir="auto"><p id="4cd8db55-6aee-832e-8ebb-81f59d14fb7e" class="">MOV：将立即数或寄存器的数据传送到目标寄存器</p></div><div style="display:contents" dir="auto"><p id="d228db55-6aee-8261-86c2-81c9d5699af5" class="">MOV R0, #8 R0=0x8</p></div><div style="display:contents" dir="auto"><p id="daa8db55-6aee-8384-a0c9-01d03594046b" class="">
+</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3728db55-6aee-82dc-80ee-01113ec65792" class="numbered-list" start="4"><li>数据算数运算符<div style="display:contents" dir="auto"><p id="ea98db55-6aee-8327-9006-01e3563e60de" class="">ADD SUB MUL DIV</p></div><div style="display:contents" dir="auto"><p id="5b18db55-6aee-8351-a7d9-011c9f0b2955" class="">有符号，无符号运算：带进位运算</p></div><div style="display:contents" dir="auto"><p id="c008db55-6aee-83d6-9bcc-01266058884e" class="">
+</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3608db55-6aee-82ce-9e8c-012a74fd4359" class="numbered-list" start="5"><li>数据逻辑运算指令<div style="display:contents" dir="auto"><p id="8f98db55-6aee-833b-8a0c-81a8252c5f8e" class="">AND  ORR  EOR  LSL  LSR</p></div><div style="display:contents" dir="auto"><p id="7ff8db55-6aee-826c-9f40-81252a3f0cd1" class=""> 与   或   异或  逻辑左移  逻辑右移</p></div><div style="display:contents" dir="auto"><p id="de08db55-6aee-82f4-89f9-01a71ae2b260" class="">位移：实质是乘除，类似小数点的移动位置（小数点左移，数变小，小数点右移动，数变大）</p></div><div style="display:contents" dir="auto"><p id="0b88db55-6aee-8354-ba19-0178f7c21c06" class="">逻辑左移：实质是二进制的移动，左移，数变大，右移，数变小</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2c98db55-6aee-837e-bb6a-01ad1d86199a" class="numbered-list" start="6"><li>比较指令<div style="display:contents" dir="auto"><p id="6968db55-6aee-8377-bb93-011c0b59f669" class="">CMP：比较</p></div><div style="display:contents" dir="auto"><p id="9838db55-6aee-8263-b03a-01aaa097b789" class="">CMP R0, #0 R0寄存器中的值与0比较</p></div><div style="display:contents" dir="auto"><p id="8bb8db55-6aee-83d7-939c-81fdfd2751c8" class="">标志位：如z位，这个都可以在动态调试时候，寄存器窗口看到</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="a0f8db55-6aee-83a9-9465-81172f56eff1" class="numbered-list" start="7"><li>其他指令<div style="display:contents" dir="auto"><p id="eba8db55-6aee-82d9-a03b-81380b140fb6" class="">伪处理器指令：SWT（切换用户模式）</p></div><div style="display:contents" dir="auto"><p id="fd38db55-6aee-834f-9a21-81318c71b40e" class="">伪指令：DCB=</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="5428db55-6aee-8343-a69d-01483556f9d0" class="numbered-list" start="8"><li>寄存器寻址方式<div style="display:contents" dir="auto"><p id="3748db55-6aee-82ee-a0fd-013fdd56eadc" class="">立即寻址：MOV R0, #1234 R0=0x1234</p></div><div style="display:contents" dir="auto"><p id="9ed8db55-6aee-8307-8046-01c39acc9bd2" class="">寄存器寻址：MOV R0, R1 R0=R1</p></div><div style="display:contents" dir="auto"><p id="9638db55-6aee-8335-9325-0199b2e26d2c" class="">寄存器位移寻址：MOV R0, R1 LSL #2 R0=R1*4</p></div><div style="display:contents" dir="auto"><p id="c548db55-6aee-839d-8fcb-01511124de30" class="">寄存器间接寻址：LDR R0, [R1] 将R1寄存器中的值作为地址，取出地址中的值赋予R0</p></div><div style="display:contents" dir="auto"><p id="df48db55-6aee-82cf-a432-812daf6e71f1" class="">寄存器间接基址偏移寻址：LDR R0, [R1, #-4] 将R1寄存器的值-0x4的值作为地址，取出地址中的值给R0</p></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fb68db55-6aee-831a-b04b-8122397bbf1a" class="toggle"><li><details open=""><summary>基础寄存器</summary><div style="display:contents" dir="auto"><p id="12f8db55-6aee-8270-8cca-8191c8cba060" class="">ARM寄存器按照功能可分为 <strong>通用寄存器，程序状态寄存器（PSR） 专用寄存器</strong> 三大类，</p></div><div style="display:contents" dir="auto"><hr id="0558db55-6aee-825d-b1c3-01c401acf797"/></div><div style="display:contents" dir="auto"><ul id="1e78db55-6aee-82e6-84aa-018d9efb3475" class="toggle"><li><details open=""><summary>通用寄存器</summary><div style="display:contents" dir="auto"><p id="2808db55-6aee-8208-bd84-011fd93ecc65" class="">通用寄存器用于存储数据或地址，</p></div><div style="display:contents" dir="auto"><p id="8388db55-6aee-83b4-a6fd-81954eac4861" class="">共 16 个（R0~R15），</p></div><div style="display:contents" dir="auto"><p id="e338db55-6aee-833c-95a8-812525dc9cad" class="">其中 <mark class="highlight-orange">R15 是程序计数器</mark>（PC），</p></div><div style="display:contents" dir="auto"><p id="0828db55-6aee-830b-b22e-815265285fd0" class="">其余为<mark class="highlight-orange">通用数据 / 地址寄存器</mark>。</p></div><div style="display:contents" dir="auto"><hr id="8668db55-6aee-8340-9418-81ca1d6ad242"/></div><div style="display:contents" dir="auto"><p id="e568db55-6aee-82ba-8f27-012602cb01ca" class="">但在不同的<mark class="highlight-orange">处理模式</mark>下，部分寄存器会被 “银行化Banked”</p></div><div style="display:contents" dir="auto"><p id="5e18db55-6aee-8201-936a-815bd5b9991f" class="">即不同模式下访问的是该寄存器的不同物理副本，用于隔离不同模式的数据</p></div><div style="display:contents" dir="auto"><hr id="25f8db55-6aee-83da-bc2d-01ab9c4af344"/></div><div style="display:contents" dir="auto"><p id="c768db55-6aee-82a5-b605-0100ef3eca7d" class="">1、基本通用寄存器：（R0-R7）</p></div><div style="display:contents" dir="auto"><p id="3698db55-6aee-82ac-b543-010e857c8ffe" class="">  所有处理器模式下均可见，且无银行化（物理上只有一套），称为 “未备份寄存器”。</p></div><div style="display:contents" dir="auto"><p id="9a88db55-6aee-83fd-a2dc-01659f483555" class="">  用于传递函数参数、存储临时数据（如局部变量）。</p></div><div style="display:contents" dir="auto"><p id="08f8db55-6aee-8328-8afa-811698879ae6" class="">  遵循 ARM 函数调用规范（ATPCS）：R0~R3 用于传递前 4 个函数参数，函数返回值存于 R0。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="de98db55-6aee-825d-a3c3-811044efd953" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">MOV R0, #10       ; R0 = 10（作为函数参数）
+ADD R1, R2, R3    ; R1 存储 R2+R3 的结果（临时数据）</code></pre></div><div style="display:contents" dir="auto"><hr id="29e8db55-6aee-826c-abb5-012069609fbc"/></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="bd88db55-6aee-831a-98be-81f2de073989" class="toggle"><li><details open=""><summary>备份通用寄存器：（R8-R14）</summary><div style="display:contents" dir="auto"><p id="0a58db55-6aee-82e1-827e-8152e79c60f0" class="">在部分特权模式下会被银行化（有独立副本），避免模式切换时数据冲突。</p></div><div style="display:contents" dir="auto"><ul id="dc28db55-6aee-83b3-8397-812c3a3fb12a" class="bulleted-list"><li style="list-style-type:disc">R8~R12：仅在 <strong>FIQ 模式</strong> 下有专用副本（R8_fiq~R12_fiq），其他模式共用一套。</li></ul></div><div style="display:contents" dir="auto"><ul id="9838db55-6aee-82f2-8337-01bab2bf42d3" class="bulleted-list"><li style="list-style-type:disc">R13~R14：几乎所有特权模式（除系统模式）都有专用副本（如 R13_svc、R14_irq 等）。</li></ul></div><div style="display:contents" dir="auto"><p id="d338db55-6aee-8336-a676-813b70533245" class=""><strong>各寄存器功能</strong>：<div class="indented"><div style="display:contents" dir="auto"><ul id="ded8db55-6aee-826b-9f85-811d3f990771" class="bulleted-list"><li style="list-style-type:disc"><strong>R8~R12</strong>：存储临时数据，因 FIQ 模式有专用副本，适合快速中断处理（无需保存现场）。</li></ul></div><div style="display:contents" dir="auto"><ul id="9a38db55-6aee-837d-bf64-0112d8e242dd" class="bulleted-list"><li style="list-style-type:disc"><strong>R13（SP，栈指针）</strong>：<div style="display:contents" dir="auto"><p id="89d8db55-6aee-8280-a9c3-81e55a7acfab" class="">用于指向当前模式的栈顶地址，不同模式有各自的 SP（如 SP_irq 是 IRQ 模式的栈指针）。</p></div><div style="display:contents" dir="auto"><p id="7498db55-6aee-838f-8b14-01e01212abfa" class="">示例：<code>STMFD SP!, {R0-R3}</code>（将 R0~R3 压入当前模式的栈）。</p></div></li></ul></div><div style="display:contents" dir="auto"><ul id="ed28db55-6aee-83a4-8fd4-81a5563e0121" class="bulleted-list"><li style="list-style-type:disc"><strong>R14（LR，链接寄存器）</strong>：<div style="display:contents" dir="auto"><p id="beb8db55-6aee-83b2-8eee-0176f4c65e97" class="">存储函数调用的返回地址（如 <code>BL Sub</code> 会将下一条指令地址存入 LR，以便从 Sub 函数返回）。</p></div><div style="display:contents" dir="auto"><p id="edc8db55-6aee-8354-84fe-8128b49d7bb1" class="">不同模式的 LR 用于保存该模式下的返回地址（如 IRQ 模式的 LR_irq 保存中断处理完成后的返回地址）。</p></div><div style="display:contents" dir="auto"><p id="0328db55-6aee-83cd-ad5e-01faa616b55f" class="">示例：<code>BL func</code>（调用 func 前，LR = 当前 PC + 4）</p></div></li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="9dd8db55-6aee-83b1-bfed-818cb47e7a39" class="">3、R15（PC, 程序计数器）</p></div><div style="display:contents" dir="auto"><p id="1d28db55-6aee-835e-a574-01fe52f9bc84" class="">存储下一条要执行的指令地址，是程序流程的核心寄存器。</p></div><div style="display:contents" dir="auto"><p id="4e58db55-6aee-82d8-a0d6-01fac19822eb" class="">  ARM 指令是 32 位（4 字节对齐），因此 PC 的值始终是 <code>当前指令地址 + 8</code>（因流水线机制，读取 PC 时已预取后续指令）。</p></div><div style="display:contents" dir="auto"><p id="1538db55-6aee-83fb-bbbd-812f0618760b" class="">  修改 PC 的值可实现程序跳转（如 <code>MOV PC, LR</code> 实现函数返回，等价于 <code>BX LR</code>）。</p></div><div style="display:contents" dir="auto"><pre id="60c8db55-6aee-83e5-81ab-8163deeda5b9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">MOV PC, R0    ; 跳转到 R0 指向的地址执行</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6d68db55-6aee-82cd-a97d-81e038a324f2" class="toggle"><li><details open=""><summary>程序状态寄存器（PSR）</summary><div style="display:contents" dir="auto"><p id="b528db55-6aee-8348-a518-81eb18460bec" class="">PSR 用于存储程序运行的状态信息（如标志位、当前模式），ARMv7 中<mark class="highlight-orange">有 4 个 PSR，均为 32 位</mark>：</p></div><div style="display:contents" dir="auto"><ul id="0ff8db55-6aee-836a-a75d-0139753139c5" class="bulleted-list"><li style="list-style-type:disc"><strong>CPSR（当前程序状态寄存器）</strong>：所有模式可见，记录当前程序的状态（标志位、模式等）。</li></ul></div><div style="display:contents" dir="auto"><ul id="08a8db55-6aee-83d2-a02c-017845f43e9e" class="bulleted-list"><li style="list-style-type:disc"><strong>SPSR（保存程序状态寄存器）</strong>：仅特权模式可见，用于保存进入该模式前的 CPSR 值（以便退出时恢复）。不同模式有各自的 SPSR（如 SPSR_irq 对应 IRQ 模式）。</li></ul></div><div style="display:contents" dir="auto"><hr id="96d8db55-6aee-8310-9b11-819a846f4286"/></div><div style="display:contents" dir="auto"><p id="c738db55-6aee-831f-899f-81628b869afd" class="">CPSR的结构与关键位</p></div><div style="display:contents" dir="auto"><p id="d7a8db55-6aee-8212-900c-01f620f988b6" class="">CPSR 按位可分为 4 个域（32 位）：</p></div><div style="display:contents" dir="auto"><pre id="de08db55-6aee-833f-8e95-81fc8f4f1fd4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">31  30  29  28  | 27 ~ 8 | 7 ~ 0
+N   Z   C   V   | 保留位  | I F T M[4:0]</code></pre></div><div style="display:contents" dir="auto"><p id="42e8db55-6aee-8346-a52b-8192795d3a16" class=""><strong>标志位（N、Z、C、V）</strong>：反映算术 / 逻辑运算结果，是条件执行的基础：<div class="indented"><div style="display:contents" dir="auto"><p id="cf18db55-6aee-8295-a56a-01570038f7fc" class=""><code>N（Negative）</code>：结果为负则置 1（有符号数）。</p></div><div style="display:contents" dir="auto"><p id="cae8db55-6aee-8304-acd7-815e963d4198" class=""><code>Z（Zero）</code>：结果为 0 则置 1。</p></div><div style="display:contents" dir="auto"><p id="8a68db55-6aee-8223-a437-81a2f234b6aa" class=""><code>C（Carry）</code>：无符号加法进位或减法无借位时置 1。</p></div><div style="display:contents" dir="auto"><p id="ac88db55-6aee-82b7-bcc9-01ccc1378e3d" class=""><code>V（Overflow）</code>：有符号数运算溢出时置 1。</p></div><div style="display:contents" dir="auto"><p id="d468db55-6aee-8323-99ea-014cae0e09b0" class="">示例：<code>ADDS R0, R1, R2</code>（带 <code>S</code> 后缀，更新 CPSR 的 N/Z/C/V）。</p></div></div></p></div><div style="display:contents" dir="auto"><p id="4de8db55-6aee-8337-8329-015baa70c6a1" class=""><strong>控制位（I、F、T、M [4:0]）</strong>：<div class="indented"><div style="display:contents" dir="auto"><p id="5158db55-6aee-82cf-aefb-01d564d986ab" class=""><code>I</code>：IRQ 中断屏蔽位（I=1 禁止 IRQ 中断）。</p></div><div style="display:contents" dir="auto"><p id="a708db55-6aee-82f9-9928-01dab57678c1" class=""><code>F</code>：FIQ 中断屏蔽位（F=1 禁止 FIQ 中断）。</p></div><div style="display:contents" dir="auto"><p id="bfa8db55-6aee-8215-b8e9-010ff3127b6f" class=""><code>T</code>：Thumb 状态位（T=1 表示当前为 Thumb 模式，执行 16 位指令；T=0 为 ARM 模式，执行 32 位指令）。</p></div><div style="display:contents" dir="auto"><p id="f6a8db55-6aee-8388-b9a0-8177df6b103f" class=""><code>M[4:0]</code>：模式位（5 位），决定处理器当前模式（如用户模式、IRQ 模式等，共 7 种有效模式）。</p></div></div></p></div><div style="display:contents" dir="auto"><h3 id="f2d8db55-6aee-821b-ac02-01cff72bcfed" class=""><strong>访问 PSR 的指令</strong></h3></div><div style="display:contents" dir="auto"><ul id="97f8db55-6aee-8332-8ecf-810b2384053b" class="bulleted-list"><li style="list-style-type:disc"><strong>MRS（Move from Status Register）</strong>：读取 PSR 到通用寄存器（如读取 CPSR）：<div style="display:contents" dir="auto"><p id="3418db55-6aee-8244-ae6d-8181e7180722" class=""><code>MRS R0, CPSR    ; R0 = CPSR 的值</code></p></div></li></ul></div><div style="display:contents" dir="auto"><ul id="98d8db55-6aee-823a-86f7-81d0c8e9063a" class="bulleted-list"><li style="list-style-type:disc"><strong>MSR（Move to Status Register）</strong>：将通用寄存器的值写入 PSR（仅特权模式可写控制位）：<div style="display:contents" dir="auto"><p id="2028db55-6aee-82f0-9648-01984b08ba9f" class=""><code>MSR CPSR_c, R0  ; 将 R0 的值写入 CPSR 的控制域（c 表示控制位，即 I/F/T/M 位）</code></p></div></li></ul></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b0e8db55-6aee-8291-9070-81a6cb56ec8e" class="toggle"><li><details open=""><summary>处理器模式</summary><div style="display:contents" dir="auto"><p id="6ad8db55-6aee-8276-a894-012afb35e947" class="">ARM处理器的核心作用</p></div><div style="display:contents" dir="auto"><ol type="1" id="2498db55-6aee-8399-9fef-816b3bcbe1f8" class="numbered-list" start="1"><li><strong>权限隔离</strong>：区分 “用户程序”（低权限）和 “操作系统 / 驱动”（高权限），防止用户程序误操作硬件或内核资源。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1268db55-6aee-82f6-8e9c-01bcdbbc2fa5" class="numbered-list" start="2"><li><strong>异常处理</strong>：为中断、系统调用、错误等异常事件分配独立模式，确保异常处理代码有专属的寄存器和栈空间，不干扰正常程序运行。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="f998db55-6aee-830f-a992-018ee15db43a" class="numbered-list" start="3"><li><strong>上下文保护</strong>：不同模式下的 “银行化寄存器（Banked Registers）”（如栈指针、链接寄存器）是独立的物理副本，切换模式时无需手动保存这些寄存器，提升效率。</li></ol></div><div style="display:contents" dir="ltr"><table id="eca8db55-6aee-8387-ad43-01ae3463d0dd" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="12a8db55-6aee-826b-959b-819a62d02c19"><th id="j{b|" class="simple-table-header-color simple-table-header"><strong>模式</strong></th><th id="xcWo" class="simple-table-header-color simple-table-header"><strong>简称</strong></th><th id="~iFm" class="simple-table-header-color simple-table-header"><strong>M[4:0]</strong></th><th id="&lt;?D}" class="simple-table-header-color simple-table-header"><strong>用途</strong></th><th id="dyT;" class="simple-table-header-color simple-table-header"><strong>可见的特殊寄存器（除通用寄存器外）</strong></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="0028db55-6aee-825d-a40b-8140eacc67c2"><td id="j{b|" class="">用户模式</td><td id="xcWo" class="">usr</td><td id="~iFm" class="">10000</td><td id="&lt;?D}" class="">普通程序运行</td><td id="dyT;" class="">无 SPSR（非特权模式）</td></tr></div><div style="display:contents" dir="ltr"><tr id="cc58db55-6aee-8226-b519-01d4a92e62cc"><td id="j{b|" class="">系统模式</td><td id="xcWo" class="">sys</td><td id="~iFm" class="">11111</td><td id="&lt;?D}" class="">操作系统特权操作</td><td id="dyT;" class="">无 SPSR（共用用户模式的 R13~R14）</td></tr></div><div style="display:contents" dir="ltr"><tr id="b0c8db55-6aee-83e9-8a74-8134ec99af30"><td id="j{b|" class="">快中断模式</td><td id="xcWo" class="">fiq</td><td id="~iFm" class="">10001</td><td id="&lt;?D}" class="">快速中断处理</td><td id="dyT;" class="">R8_fiq~R12_fiq、LR_fiq、SPSR_fiq</td></tr></div><div style="display:contents" dir="ltr"><tr id="bc18db55-6aee-83be-99a2-014070cbbf61"><td id="j{b|" class="">中断模式</td><td id="xcWo" class="">irq</td><td id="~iFm" class="">10010</td><td id="&lt;?D}" class="">普通中断处理</td><td id="dyT;" class="">LR_irq、SPSR_irq</td></tr></div><div style="display:contents" dir="ltr"><tr id="e6a8db55-6aee-83af-920d-8104a2ce7341"><td id="j{b|" class="">管理模式</td><td id="xcWo" class="">svc</td><td id="~iFm" class="">10011</td><td id="&lt;?D}" class="">系统调用（SWI）</td><td id="dyT;" class="">LR_svc、SPSR_svc</td></tr></div><div style="display:contents" dir="ltr"><tr id="db18db55-6aee-83e4-9722-013ffc6bdad7"><td id="j{b|" class="">中止模式</td><td id="xcWo" class="">abt</td><td id="~iFm" class="">10111</td><td id="&lt;?D}" class="">内存访问错误处理</td><td id="dyT;" class="">LR_abt、SPSR_abt</td></tr></div><div style="display:contents" dir="ltr"><tr id="d128db55-6aee-8352-9f73-81a96b9f16a4"><td id="j{b|" class="">未定义模式</td><td id="xcWo" class="">und</td><td id="~iFm" class="">11011</td><td id="&lt;?D}" class="">未定义指令处理</td><td id="dyT;" class="">LR_und、SPSR_und</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ul id="b608db55-6aee-83fc-b1ec-81cb7fe7d02a" class="bulleted-list"><li style="list-style-type:disc"><strong>特权模式</strong>：除用户模式外，其余均为特权模式，可访问所有寄存器和硬件资源。</li></ul></div><div style="display:contents" dir="auto"><ul id="ae98db55-6aee-8327-a5cd-8181ad2c5dd2" class="bulleted-list"><li style="list-style-type:disc"><strong>异常模式</strong>：fiq、irq、svc、abt、und 模式（因异常事件进入，有 SPSR 保存状态）。</li></ul></div><div style="display:contents" dir="auto"><hr id="b968db55-6aee-8280-a015-01dba253e8cf"/></div><div style="display:contents" dir="auto"><ol type="1" id="0568db55-6aee-8203-9da3-81accf26aca2" class="numbered-list" start="1"><li><strong>用户模式（User）</strong><div style="display:contents" dir="auto"><ul id="47f8db55-6aee-826d-b664-810d0eadb2bd" class="bulleted-list"><li style="list-style-type:disc">唯一的<strong>非特权模式</strong>，用户应用程序默认运行在此模式，不能直接修改 CPSR 的控制位或访问特权寄存器（如 SPSR）。</li></ul></div><div style="display:contents" dir="auto"><ul id="8b78db55-6aee-830d-ba6f-01ea91d8d811" class="bulleted-list"><li style="list-style-type:disc">若需访问硬件或内核资源，必须通过 <code>SWI</code> 指令切换到管理模式（系统调用）。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ce68db55-6aee-8339-bf70-0111e3e4ced1" class="numbered-list" start="2"><li><strong>快中断模式（FIQ）</strong><div style="display:contents" dir="auto"><ul id="9de8db55-6aee-8318-8083-8128379ac189" class="bulleted-list"><li style="list-style-type:disc">为 “快速中断” 设计，拥有专属的 <code>R8_fiq~R12_fiq</code> 寄存器（其他模式共用 R8~R12），中断处理时无需保存这些寄存器，减少上下文切换时间。</li></ul></div><div style="display:contents" dir="auto"><ul id="36f8db55-6aee-82eb-ba44-01a62a2fd0b7" class="bulleted-list"><li style="list-style-type:disc">优先级高于 IRQ 模式，适合处理对响应速度要求极高的事件（如 1MHz 定时器中断）。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="4068db55-6aee-83a1-a07e-812f525eac35" class="numbered-list" start="3"><li><strong>管理模式（SVC）</strong><div style="display:contents" dir="auto"><ul id="2da8db55-6aee-8240-9a96-818aa675a2fb" class="bulleted-list"><li style="list-style-type:disc">操作系统内核的主要运行模式，用户程序通过 <code>SWI #imm</code> 指令（软件中断）进入此模式，请求内核服务（如 <code>SWI #0</code> 可能对应 “读取文件” 系统调用）。</li></ul></div><div style="display:contents" dir="auto"><ul id="31b8db55-6aee-836f-af27-813046b1c49d" class="bulleted-list"><li style="list-style-type:disc">内核在此模式下执行特权操作（如修改页表、访问 I/O 端口），完成后返回用户模式。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="5b28db55-6aee-8361-85b0-01306c59b8d1" class="numbered-list" start="4"><li><strong>系统模式（System）</strong><div style="display:contents" dir="auto"><ul id="af88db55-6aee-82c0-8dcc-81820b969a11" class="bulleted-list"><li style="list-style-type:disc">特权模式，但不属于异常模式（无 SPSR），复用用户模式的 R13~R14 寄存器，方便内核访问用户空间的数据（如进程的栈）。</li></ul></div><div style="display:contents" dir="auto"><ul id="7c48db55-6aee-83f9-91c5-01ae1455b68e" class="bulleted-list"><li style="list-style-type:disc">通常用于操作系统内核线程的运行（与用户模式共享寄存器，减少切换开销）。</li></ul></div></li></ol></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

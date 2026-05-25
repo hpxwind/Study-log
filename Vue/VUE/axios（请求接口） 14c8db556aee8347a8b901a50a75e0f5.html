@@ -1,0 +1,1006 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>axios（请求接口）</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="14c8db55-6aee-8347-a8b9-01a50a75e0f5" class="page mono"><header><h1 class="page-title" dir="auto">axios（请求接口）</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="bd78db55-6aee-83a2-9225-819de2bc1b21" class="">xios 是一个基于 Promise 的 HTTP 客户端，主要用于浏览器和 <mark class="highlight-orange">Node.js 环境中发送 HTTP 请求</mark>。它具有简洁的 API、拦截请求 / 响应、转换数据、取消请求等强大功能，是前端开发中最常用的请求工具之一，尤其在 Vue 项目中被广泛使用</p></div><div style="display:contents" dir="auto"><hr id="b3e8db55-6aee-83be-9231-81af544b0bc1"/></div><div style="display:contents" dir="auto"><ul id="57a8db55-6aee-838d-88a9-81c60b93cb89" class="toggle"><li><details open=""><summary>核心特性</summary><div style="display:contents" dir="auto"><ol type="1" id="1018db55-6aee-837d-911f-01d813e5b42f" class="numbered-list" start="1"><li><strong>支持 Promise API</strong>：可配合 <code>async/await</code> 语法，让异步请求代码更简洁。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6c68db55-6aee-8231-9347-01e25c68dbd6" class="numbered-list" start="2"><li><strong>拦截请求和响应</strong>：能在请求发送前或响应返回后统一处理（如添加 token、处理错误）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="0ad8db55-6aee-820f-86ef-81ed69ff5869" class="numbered-list" start="3"><li><strong>转换请求 / 响应数据</strong>：自动转换 JSON 数据，也可自定义转换规则。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="6438db55-6aee-831c-b9d5-812c62f47a2b" class="numbered-list" start="4"><li><strong>取消请求</strong>：支持取消正在进行的请求（如页面跳转时取消未完成的请求）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="7d88db55-6aee-8294-9f24-01dff15951e2" class="numbered-list" start="5"><li><strong>自动转换请求头</strong>：根据请求数据自动设置 <code>Content-Type</code>（如 <code>application/json</code>）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="bbc8db55-6aee-8275-82e7-812458b4604b" class="numbered-list" start="6"><li><strong>客户端防御 XSRF</strong>：支持设置 XSRF 令牌，提升安全性。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9368db55-6aee-824c-9aa0-81b2cfc3001b" class="toggle"><li><details open=""><summary>基本请求示例</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="f388db55-6aee-8325-8201-8198485cc235" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">import axios from &#x27;axios&#x27;;
+
+// 1. GET 请求（获取数据）
+axios.get(&#x27;/api/user&#x27;, {
+  params: { id: 1 } // URL 参数（会拼接到 URL 后：/api/user?id=1）
+})
+.then(response =&gt; { 
+  console.log(&#x27;请求成功&#x27;, response.data); // 响应数据在 response.data 中
+})
+.catch(error =&gt; {
+  console.log(&#x27;请求失败&#x27;, error);
+});
+
+// 2. POST 请求（提交数据）
+axios.post(&#x27;/api/user&#x27;, {
+  name: &#x27;张三&#x27;,
+  age: 20
+})
+.then(response =&gt; {
+  console.log(&#x27;提交成功&#x27;, response.data);
+})
+.catch(error =&gt; {
+  console.log(&#x27;提交失败&#x27;, error);
+});
+
+// 3. 通用请求方法（支持所有 HTTP 方法）
+axios({
+  method: &#x27;put&#x27;, // 请求方法：get/post/put/delete 等
+  url: &#x27;/api/user/1&#x27;, // 请求 URL
+  data: { name: &#x27;李四&#x27; } // 请求体数据（post/put 等方法用）
+})
+.then(response =&gt; { ... })
+.catch(error =&gt; { ... });</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="f5e8db55-6aee-8362-a480-8110dcb50fc6" class="toggle"><li><details open=""><summary>配合async/await使用（推荐）</summary><div style="display:contents" dir="auto"><pre id="4ee8db55-6aee-835d-b7ff-015d7c6c655d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">async function getUser() {
+  try {
+    // 等待请求完成，直接获取响应数据
+    const response = await axios.get(&#x27;/api/user&#x27;, { params: { id: 1 } });
+    console.log(&#x27;用户数据&#x27;, response.data);
+    return response.data;
+  } catch (error) {
+    console.log(&#x27;请求失败&#x27;, error);
+    throw error; // 向上层抛出错误
+  }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="aa78db55-6aee-83a4-8976-81144e0fcc5b" class="toggle"><li><details open=""><summary>在vue中axios的使用</summary><div style="display:contents" dir="auto"><p id="9d88db55-6aee-837b-98f1-01112b43ad60" class="">在 Vue 项目中，通常会对 Axios 进行<strong>全局配置</strong>或<strong>封装</strong>，以便在所有组件中统一使用，减少重复代码。</p></div><div style="display:contents" dir="auto"><hr id="6ed8db55-6aee-8392-8939-81dcdffff2d2"/></div><div style="display:contents" dir="auto"><ul id="38d8db55-6aee-8358-9f07-818ec5ff5256" class="toggle"><li><details open=""><summary>1、全局配置</summary><div style="display:contents" dir="auto"><p id="d998db55-6aee-8229-8247-01502efabfc0" class="">通过 <code>axios.defaults</code> 设置全局默认配置（如基础 URL、超时时间等），避免每个请求重复配置。</p></div><div style="display:contents" dir="auto"><pre id="ed98db55-6aee-83a7-aa72-81f2c8847418" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// main.js
+import Vue from &#x27;vue&#x27;;
+import axios from &#x27;axios&#x27;;
+import App from &#x27;./App.vue&#x27;;
+
+// 全局配置
+axios.defaults.baseURL = &#x27;https://api.example.com&#x27;; // 基础 URL（所有请求会自动拼接在前面）
+axios.defaults.timeout = 5000; // 超时时间（5秒）
+axios.defaults.headers.common[&#x27;Authorization&#x27;] = &#x27;Bearer &#x27; + localStorage.getItem(&#x27;token&#x27;); // 全局请求头（如 token）
+axios.defaults.headers.post[&#x27;Content-Type&#x27;] = &#x27;application/json&#x27;; // POST 请求默认 Content-Type
+
+// 将 axios 挂载到 Vue 原型上，方便组件中使用
+Vue.prototype.$axios = axios;
+
+new Vue({
+  render: h =&gt; h(App)
+}).$mount(&#x27;#app&#x27;);</code></pre></div><div style="display:contents" dir="auto"><p id="70a8db55-6aee-8209-adab-01edc0987e3b" class="">在组件中使用：</p></div><div style="display:contents" dir="auto"><pre id="3578db55-6aee-82b0-9036-012d8e66c745" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;用户列表&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  mounted() {
+    // 通过 this.$axios 调用（已包含全局配置）
+    this.getUserList();
+  },
+  methods: {
+    async getUserList() {
+      try {
+        const response = await this.$axios.get(&#x27;/users&#x27;); // 实际请求 URL：https://api.example.com/users
+        console.log(&#x27;用户列表&#x27;, response.data);
+      } catch (error) {
+        console.log(&#x27;获取失败&#x27;, error);
+      }
+    }
+  }
+};
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d148db55-6aee-83ef-88ce-81f6623fee9a" class="toggle"><li><details open=""><summary>2、拦截器（请求/响应拦截）</summary><div style="display:contents" dir="auto"><p id="b408db55-6aee-83b0-8543-8183b4c6afe6" class="">拦截器用于在请求发送前或响应返回后做统一处理（如添加 token、处理 401 错误），是 Vue 项目中必备的功能。</p></div><div style="display:contents" dir="auto"><p id="4ce8db55-6aee-8387-9281-0134249f9a26" class=""><strong>创建拦截器（推荐封装为单独文件）</strong>：</p></div><div style="display:contents" dir="auto"><p id="baa8db55-6aee-83d9-b109-81fd27b75927" class="">新建 <code>src/utils/request.js</code>：</p></div><div style="display:contents" dir="auto"><pre id="1f68db55-6aee-83c3-8453-817a29ede250" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">import axios from &#x27;axios&#x27;;
+
+// 创建 axios 实例（可自定义配置，避免污染全局 axios）
+const request = axios.create({
+  baseURL: &#x27;https://api.example.com&#x27;,
+  timeout: 5000
+});
+
+// 1. 请求拦截器（请求发送前执行）
+request.interceptors.request.use(
+  config =&gt; {
+    // 示例：添加 token 到请求头
+    const token = localStorage.getItem(&#x27;token&#x27;);
+    if (token) {
+      config.headers.Authorization = &#x27;Bearer &#x27; + token;
+    }
+    return config; // 必须返回 config，否则请求会被拦截
+  },
+  error =&gt; {
+    // 请求出错（如网络错误）
+    return Promise.reject(error);
+  }
+);
+
+// 2. 响应拦截器（响应返回后执行）
+request.interceptors.response.use(
+  response =&gt; {
+    // 只返回响应数据（简化使用）
+    return response.data;
+  },
+  error =&gt; {
+    // 处理错误状态码
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          // 401：未授权（token 过期或无效），跳转登录页
+          localStorage.removeItem(&#x27;token&#x27;);
+          window.location.href = &#x27;/login&#x27;;
+          break;
+        case 404:
+          console.log(&#x27;接口不存在&#x27;);
+          break;
+        case 500:
+          console.log(&#x27;服务器错误&#x27;);
+          break;
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default request; // 导出封装后的实例</code></pre></div><div style="display:contents" dir="auto"><p id="9c98db55-6aee-8221-9050-819379c6b8ce" class=""><strong>在 Vue 组件中使用封装的 request</strong>：</p></div><div style="display:contents" dir="auto"><pre id="dda8db55-6aee-8349-a20c-01171de3b453" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;用户详情&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import request from &#x27;@/utils/request&#x27;; // 引入封装的请求工具
+
+export default {
+  methods: {
+    async getUserDetail(id) {
+      try {
+        // 直接获取响应数据（响应拦截器已处理 response.data）
+        const data = await request.get(&#x27;/user&#x27;, { params: { id } });
+        console.log(&#x27;用户详情&#x27;, data);
+      } catch (error) {
+        console.log(&#x27;错误&#x27;, error);
+      }
+    }
+  }
+};
+&lt;/script&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6468db55-6aee-83d5-9e4a-81a442b987b8" class="toggle"><li><details open=""><summary>3、处理跨域问题（Vue开发环境）</summary><div style="display:contents" dir="auto"><p id="3a68db55-6aee-8234-b83b-01d537d89a4e" class="">在 Vue 开发中，若前端（如 <code>http://localhost:8080</code>）与后端接口（如 <code>https://api.example.com</code>）不在同一域名，会出现跨域错误。可通过 Vue CLI 的代理配置解决。</p></div><div style="display:contents" dir="auto"><p id="acb8db55-6aee-82b0-a7b6-8113f85867ea" class=""><strong>配置 </strong><code><strong>vue.config.js</strong></code>：</p></div><div style="display:contents" dir="auto"><pre id="0958db55-6aee-82c1-92d9-01391adc5d06" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">module.exports = {
+  devServer: {
+    proxy: {
+      // 匹配所有以 /api 开头的请求
+      &#x27;/api&#x27;: {
+        target: &#x27;https://api.example.com&#x27;, // 目标服务器地址
+        changeOrigin: true, // 开启跨域（伪装请求来源为目标服务器）
+        pathRewrite: {
+          &#x27;^/api&#x27;: &#x27;&#x27; // 去掉 URL 中的 /api 前缀（如 /api/user → 实际请求 /user）
+        }
+      }
+    }
+  }
+};</code></pre></div><div style="display:contents" dir="auto"><p id="2fa8db55-6aee-8340-afcb-818a7f2b7f84" class=""><strong>组件中使用</strong>：</p></div><div style="display:contents" dir="auto"><pre id="e8d8db55-6aee-82de-90dc-011f2bbb454f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// 请求 URL 写 /api/user，会被代理到 https://api.example.com/user
+request.get(&#x27;/api/user&#x27;, { params: { id: 1 } });</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="b408db55-6aee-8222-bdeb-01fbdc8b1037" class="toggle"><li><details open=""><summary>4、vue3中使用axios</summary><div style="display:contents" dir="auto"><p id="1f88db55-6aee-83e2-b25b-818d41320446" class="">Vue 3 中取消了 <code>Vue.prototype</code> 挂载方式，推荐使用 <strong>Provide/Inject</strong> 或直接在组件中导入使用。</p></div><div style="display:contents" dir="auto"><p id="82a8db55-6aee-828e-b91b-812ad949b022" class=""><strong>示例（Vue 3 + Composition API）</strong>：</p></div><div style="display:contents" dir="auto"><pre id="14a8db55-6aee-8203-a661-01a62ffff83e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">&lt;template&gt;
+  &lt;div&gt;{{ user.name }}&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref, onMounted } from &#x27;vue&#x27;;
+import request from &#x27;@/utils/request&#x27;;
+
+const user = ref({});
+
+onMounted(async () =&gt; {
+  try {
+    const data = await request.get(&#x27;/user/1&#x27;);
+    user.value = data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+&lt;/script&gt;</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6458db55-6aee-8302-b8f0-816420e0ad16" class="toggle"><li><details open=""><summary>常见问题与解决</summary><div style="display:contents" dir="auto"><p id="b3d8db55-6aee-83a4-ae3b-01e93ea8c850" class="">1、POST请求参数格式错误</p></div><div style="display:contents" dir="auto"><p id="99e8db55-6aee-8288-b278-01c8fd92a448" class="">若后端需要 <code>form-data</code> 格式（如文件上传），需手动设置请求头并转换数据：</p></div><div style="display:contents" dir="auto"><pre id="b208db55-6aee-8322-8241-8151a775105f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">import qs from &#x27;qs&#x27;; // 需安装 qs：npm install qs
+
+// 方式1：使用 qs 转换为 form-data 格式
+request.post(&#x27;/upload&#x27;, qs.stringify({ name: &#x27;张三&#x27; }), {
+  headers: { &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27; }
+});
+
+// 方式2：使用 FormData（适合文件上传）
+const formData = new FormData();
+formData.append(&#x27;name&#x27;, &#x27;张三&#x27;);
+formData.append(&#x27;file&#x27;, file); // file 为文件对象
+request.post(&#x27;/upload&#x27;, formData, {
+  headers: { &#x27;Content-Type&#x27;: &#x27;multipart/form-data&#x27; }
+});</code></pre></div><div style="display:contents" dir="auto"><p id="ced8db55-6aee-836d-a927-8153a329fcad" class="">2、取消请求</p></div><div style="display:contents" dir="auto"><p id="a3c8db55-6aee-82c8-9147-8116fdc9d343" class="">用于取消未完成的请求（如切换标签页时）：</p></div><div style="display:contents" dir="auto"><pre id="9428db55-6aee-8285-b791-011f14d58740" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">import axios from &#x27;axios&#x27;;
+
+// 创建取消令牌
+const source = axios.CancelToken.source();
+
+// 发送请求时关联令牌
+request.get(&#x27;/user&#x27;, { cancelToken: source.token })
+  .catch(error =&gt; {
+    if (axios.isCancel(error)) {
+      console.log(&#x27;请求已取消&#x27;, error.message);
+    }
+  });
+
+// 取消请求（如在组件销毁时）
+source.cancel(&#x27;用户主动取消请求&#x27;);</code></pre></div><div style="display:contents" dir="auto"><p id="5148db55-6aee-838c-8d6f-81e2d0d3c6fe" class="">3、并发请求</p></div><div style="display:contents" dir="auto"><p id="68b8db55-6aee-83c0-a9af-01ab7c17858e" class="">同时发送多个请求，全部完成后再处理：</p></div><div style="display:contents" dir="auto"><pre id="c468db55-6aee-8334-b87b-816b0369855a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">async function getMultipleData() {
+  const [userRes, listRes] = await Promise.all([
+    request.get(&#x27;/user/1&#x27;),
+    request.get(&#x27;/list&#x27;)
+  ]);
+  console.log(&#x27;用户数据&#x27;, userRes);
+  console.log(&#x27;列表数据&#x27;, listRes);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="6158db55-6aee-82ee-a1ad-818800eb9b63"/></div><div style="display:contents" dir="auto"><ul id="8b28db55-6aee-83e7-a25a-81aa39504ee5" class="toggle"><li><details open=""><summary>axios二次封装</summary><div style="display:contents" dir="auto"><p id="eb28db55-6aee-837d-bc7c-818363db009a" class="">在src下创建utils文件夹，定义一个专门接收一个地址来的数据</p></div><div style="display:contents" dir="auto"><p id="fa98db55-6aee-82ff-b294-01ad5d8f332f" class="">这样其他功能文件只需要调用这个文件就可以得到数据了</p></div><div style="display:contents" dir="auto"><p id="bb08db55-6aee-8345-8e23-01cf7850e811" class=""><code>src/utils/request.js</code></p></div><div style="display:contents" dir="auto"><pre id="7128db55-6aee-83f8-9cae-81a704e1b058" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">import axios from &#x27;axios&#x27;
+
+// axios 二次 封装
+
+// 2. 创建axios对象
+const  service = axios.create({
+    baseURL: &#x27;https://api.example.com&#x27;
+})
+
+// 3. 请求拦截器 ==&gt; 前端给后端发送数据 [ 没有到后端 ]
+// 拦截器 ==&gt; 在发送请求之前做些什么（ headers给后端传递token ）
+service.interceptors.request.use( config =&gt; {
+    console.log(&quot;3&quot;)
+    return config
+}, error =&gt; {
+    Promise.reject(error)
+})
+
+
+// 4.  相应拦截器 ==&gt; 后端给前端返回数据 [ 前端到后端了 ]
+service.interceptors.response.use(
+    (response) =&gt; {
+        console.log(&quot;4&quot;)
+        return response.data
+    },
+    error =&gt; {
+        return Promise.reject(new Error(error.response.data))
+    }
+)
+
+export default service</code></pre></div><div style="display:contents" dir="auto"><hr id="b368db55-6aee-827e-aa20-81fe1a96ec2b"/></div><div style="display:contents" dir="auto"><p id="f8a8db55-6aee-826d-ae1c-011cd4b3fac5" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="1eb8db55-6aee-836a-b15d-812efbadb555" class="toggle"><li><details open=""><summary>解耦</summary><div style="display:contents" dir="auto"><p id="7e88db55-6aee-8232-b9db-81e71141a310" class="">同一个API接口的数据可能被多个功能使用</p></div><div style="display:contents" dir="auto"><p id="9ea8db55-6aee-835e-acd7-81f75be7ead0" class="">在解耦文件中调用二次封装的文件，将不同功能的数据细分，提供一个导出，</p></div><div style="display:contents" dir="auto"><p id="6e18db55-6aee-833f-86ce-81ca568d68b8" class="">为其他功能文件提供使用</p></div><div style="display:contents" dir="auto"><pre id="1ae8db55-6aee-83c6-8bc2-0108787ff860" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">import request  from &#x27;@/utils/request&#x27;
+// API接口解耦 ==&gt; 模块化
+// 因为很多模块都用到了request中的API，所以这里进行功能分解再封装
+// 这样是前端接收的时候就方便使用
+
+export function getSliders()  {
+    return  request({
+        url: &#x27;/api/sliders/getSliders&#x27;
+    })
+}
+
+export function course()  {
+    return  request({
+        url: &#x27;/api/sliders/courses&#x27;
+    })
+}
+</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

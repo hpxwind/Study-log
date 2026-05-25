@@ -1,0 +1,754 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>基础面试问题</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1068db55-6aee-83d0-87e9-01473fa7bbfc" class="page serif"><header><h1 class="page-title" dir="auto">基础面试问题</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><hr id="2fe8db55-6aee-8208-8607-01dd7278ffa4"/></div><div style="display:contents" dir="auto"><h3 id="17f8db55-6aee-83f6-946b-010f867c54ec" class="">🔑 <strong>1. Vuex 基础概念</strong></h3></div><div style="display:contents" dir="auto"><ul id="68b8db55-6aee-8330-a723-01bda00a5855" class="bulleted-list"><li style="list-style-type:disc"><strong>Q1: Vuex 是什么？它解决了什么问题？</strong><div style="display:contents" dir="auto"><p id="53e8db55-6aee-82c3-a83c-81328ee35372" class="">Vuex 是一个专为 Vue.js 应用程序开发的<strong>状态管理模式 + 库</strong>。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化 。</p></div><div style="display:contents" dir="auto"><p id="4b28db55-6aee-827b-b863-81f2dcff1864" class=""><strong>解决的核心问题</strong>是：</p></div><div style="display:contents" dir="auto"><ul id="f868db55-6aee-8372-847d-01c6e907e232" class="bulleted-list"><li style="list-style-type:circle"><strong>多个组件依赖于同一状态</strong>时，多层嵌套组件传参繁琐，兄弟组件间状态传递困难。</li></ul></div><div style="display:contents" dir="auto"><ul id="80c8db55-6aee-82f2-b5fc-81590efa9931" class="bulleted-list"><li style="list-style-type:circle"><strong>来自不同组件的行为需要变更同一状态</strong>，以往通过父子组件直接引用或事件来变更和同步状态的多份拷贝，模式脆弱，导致代码难以维护 。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="f928db55-6aee-8328-9b7d-01d128bf4a4b" class="bulleted-list"><li style="list-style-type:disc"><strong>Q2: Vuex 有哪五种核心属性？</strong><div style="display:contents" dir="auto"><p id="bf28db55-6aee-82e1-a4ef-81a35f075dc2" class="">分别是 <strong>State、Getters、Mutations、Actions、Modules</strong> 。</p></div></li></ul></div><div style="display:contents" dir="auto"><ul id="96f8db55-6aee-83d7-9098-01abcccff192" class="bulleted-list"><li style="list-style-type:disc"><strong>Q3: 为什么 Vuex 的状态是响应式的？</strong><div style="display:contents" dir="auto"><p id="0218db55-6aee-83c9-9008-814876a11319" class="">Vuex 的 Store 状态是响应式的，这源于 Vue.js 的响应式系统。当状态发生变化时，所有依赖此状态的 Vue 组件都会自动高效更新 。</p></div></li></ul></div><div style="display:contents" dir="auto"><h3 id="8ff8db55-6aee-8244-bcb5-01b4e50dba9c" class="">📦 <strong>2. 核心属性详解</strong></h3></div><div style="display:contents" dir="auto"><ul id="9718db55-6aee-83be-b26c-01e384fd78ed" class="bulleted-list"><li style="list-style-type:disc"><strong>Q4: State 的作用和访问方式？</strong><div style="display:contents" dir="auto"><ul id="90d8db55-6aee-82ba-b7b4-01097bed032d" class="bulleted-list"><li style="list-style-type:circle"><strong>作用</strong>：State 是唯一的数据源，用于存储应用的全局状态（数据），相当于组件中的 <code>data</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="8758db55-6aee-8387-93be-01f5c2d68489" class="bulleted-list"><li style="list-style-type:circle"><strong>访问方式</strong>：<div style="display:contents" dir="auto"><ol type="1" id="67e8db55-6aee-825f-914d-01f9b5865464" class="numbered-list" start="1"><li>在组件中直接通过 <code>this.$store.state.xxx</code>访问。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="ce98db55-6aee-823e-8cc0-014935af4858" class="numbered-list" start="2"><li>使用 <code>mapState</code>辅助函数将 state 映射为组件的计算属性，简化书写，尤其在需要引入多个状态时非常方便 。</li></ol></div></li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="02e8db55-6aee-8377-938c-8139ab844ff1" class="bulleted-list"><li style="list-style-type:disc"><strong>Q5: Getters 的作用和特性？</strong><div style="display:contents" dir="auto"><ul id="d6a8db55-6aee-8311-9f19-0127bea3ac1a" class="bulleted-list"><li style="list-style-type:circle"><strong>作用</strong>：Getters 类似于 Vue 组件中的<strong>计算属性（computed）</strong>，用于从 state 中派生出一些新的状态（例如对列表进行过滤、计数或格式化数据） 。</li></ul></div><div style="display:contents" dir="auto"><ul id="e4f8db55-6aee-82d1-a6e1-81efe6dd4a64" class="bulleted-list"><li style="list-style-type:circle"><strong>特性</strong>：Getter 的返回值会根据它的依赖被缓存起来，且只有在它的依赖值发生了改变之后才会重新计算。Getter 方法可以接受 <code>state</code>作为第一个参数，也可以接受其他 getters 作为第二个参数 。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="1c88db55-6aee-823f-bcec-8167419579de" class="bulleted-list"><li style="list-style-type:disc"><strong>Q6: Mutations 的特性是什么？为什么必须是同步函数？</strong><div style="display:contents" dir="auto"><ul id="3b98db55-6aee-839d-b17b-81ee25c7b7ae" class="bulleted-list"><li style="list-style-type:circle"><strong>特性</strong>：Mutations 是<strong>更改 Vuex 的 store 中状态的唯一方法</strong>。每个 mutation 都有一个字符串的 <strong>事件类型 (type)</strong> 和一个 <strong>回调函数 (handler)</strong>。Mutation 必须是<strong>同步函数</strong> 。</li></ul></div><div style="display:contents" dir="auto"><ul id="66d8db55-6aee-8310-bb55-81124e210a0a" class="bulleted-list"><li style="list-style-type:circle"><strong>必须同步的原因</strong>：为了确保状态的变更是可追踪的。Vue DevTools 需要为每一个 mutation 捕获状态快照。如果 mutation 支持异步操作，调试工具将无法知道状态是何时更新的，使得调试变得困难 。在组件中通过 <code>this.$store.commit(&#x27;mutationName&#x27;, payload)</code>提交 mutation。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="d318db55-6aee-8256-80d5-0170daa985e8" class="bulleted-list"><li style="list-style-type:disc"><strong>Q7: Actions 与 Mutations 的核心区别是什么？</strong><div style="display:contents" dir="auto"><ul id="cf98db55-6aee-8397-9aa2-0157f09402fc" class="bulleted-list"><li style="list-style-type:circle"><strong>职责不同</strong>：Actions 负责<strong>处理业务逻辑和异步操作</strong>（如 API 请求），而 Mutations 负责<strong>修改状态</strong>。</li></ul></div><div style="display:contents" dir="auto"><ul id="eb08db55-6aee-82b4-b702-011166920fc6" class="bulleted-list"><li style="list-style-type:circle"><strong>同步/异步</strong>：Actions <strong>可以包含任意异步操作</strong>，Mutations <strong>必须是同步的</strong>。</li></ul></div><div style="display:contents" dir="auto"><ul id="22a8db55-6aee-82f4-a1c2-81d84ebbd669" class="bulleted-list"><li style="list-style-type:circle"><strong>触发方式</strong>：Actions 通过 <code>dispatch</code>方法触发，Mutations 通过 <code>commit</code>方法提交。</li></ul></div><div style="display:contents" dir="auto"><ul id="6ec8db55-6aee-8383-acae-81aad07e291b" class="bulleted-list"><li style="list-style-type:circle"><strong>参数</strong>：Action 函数接收一个与 store 实例具有相同方法和属性的 <code>context</code>对象（包含 <code>commit</code>, <code>state</code>, <code>getters</code>等），而 Mutation 函数第一个参数是 <code>state</code>。Action 中通过 <code>context.commit</code>来提交 mutation，从而间接修改 state。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><h3 id="f688db55-6aee-82e2-944c-81c0c6061ab0" class="">🧩 <strong>3. 模块化 (Modules) 与高级用法</strong></h3></div><div style="display:contents" dir="auto"><ul id="81b8db55-6aee-8280-88b2-8134a16f616c" class="bulleted-list"><li style="list-style-type:disc"><strong>Q8: 为什么要使用 Modules？</strong><div style="display:contents" dir="auto"><p id="fa28db55-6aee-8213-a1a1-0154dc85e0cb" class="">当应用变得非常复杂时，store 对象可能会变得非常臃肿。Vuex 允许我们将 store 分割成<strong>模块（module）</strong>，每个模块拥有自己的 state、mutations、actions、getters，甚至是嵌套子模块，使得代码结构更清晰，易于维护 。</p></div></li></ul></div><div style="display:contents" dir="auto"><ul id="0a88db55-6aee-831c-8f15-81070ac82728" class="bulleted-list"><li style="list-style-type:disc"><strong>Q9: 什么是命名空间 (namespaced)？</strong><div style="display:contents" dir="auto"><p id="6ac8db55-6aee-82e0-a407-01054f657d2a" class="">默认情况下，模块内部的 action、mutation 和 getter 是注册在<strong>全局命名空间</strong>的，这可能导致不同模块的成员名称冲突。通过添加 <code>namespaced: true</code>可以使该模块成为带命名空间的模块，其所有内容都会自动根据模块注册的路径调整命名。在组件中访问时需要带上路径，例如 <code>this.$store.commit(&#x27;moduleA/mutationName&#x27;)</code>。</p></div></li></ul></div><div style="display:contents" dir="auto"><ul id="cb08db55-6aee-8392-abdd-0187416e246d" class="bulleted-list"><li style="list-style-type:disc"><strong>Q10: 页面刷新后 Vuex 数据丢失怎么办？</strong><div style="display:contents" dir="auto"><p id="a128db55-6aee-8332-950f-01682f77d965" class="">因为 Vuex 的状态数据是保存在内存中的，页面刷新会重置 JavaScript 运行时环境。解决方案是<strong>状态持久化</strong>：</p></div><div style="display:contents" dir="auto"><ol type="1" id="bca8db55-6aee-830d-b005-81a7522556c3" class="numbered-list" start="1"><li>利用浏览器的本地存储（localStorage 或 sessionStorage），在页面刷新前（如监听 <code>beforeunload</code>事件）将状态保存，在应用初始化时再读取并替换回 store。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3578db55-6aee-8217-8c2b-81727cf93fbe" class="numbered-list" start="2"><li>使用现成的插件，如 <code><strong>vuex-persistedstate</strong></code>，可以更方便地实现此功能 。</li></ol></div></li></ul></div><div style="display:contents" dir="auto"><h3 id="df18db55-6aee-836d-a508-81d760998df8" class="">⚙️ <strong>4. 实践与原理</strong></h3></div><div style="display:contents" dir="auto"><ul id="6508db55-6aee-838e-bc45-01bbaf3e1198" class="bulleted-list"><li style="list-style-type:disc"><strong>Q11: Ajax 请求应该写在组件的 methods 还是 Vuex 的 actions 中？</strong><div style="display:contents" dir="auto"><p id="1a98db55-6aee-820d-965e-0189ee4fb1da" class="">这取决于请求数据的用途：</p></div><div style="display:contents" dir="auto"><ul id="bd58db55-6aee-8256-a3c2-81cd360f1c41" class="bulleted-list"><li style="list-style-type:circle">如果请求来的数据<strong>不会被其他组件公用，仅在当前组件内使用</strong>，那么写在组件的 methods 中即可。</li></ul></div><div style="display:contents" dir="auto"><ul id="9368db55-6aee-833b-8c2e-0197b5f52e4b" class="bulleted-list"><li style="list-style-type:circle">如果数据<strong>很大概率需要被其他组件复用</strong>，则应该将请求放在 Vuex 的 action 中，便于管理和复用 。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="a138db55-6aee-828e-a717-81156d103b3d" class="bulleted-list"><li style="list-style-type:disc"><strong>Q12: 如何在组件中使用 v-model 绑定 Vuex 的状态？</strong><div style="display:contents" dir="auto"><p id="e428db55-6aee-838b-80d0-01512d0b6a04" class="">直接使用 <code>v-model=&quot;this.$store.state.obj.prop&quot;</code>是不符合 Vuex 数据流规范的。正确做法是使用计算属性的 getter 和 setter：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="d968db55-6aee-83d0-9036-81e1ae9f2f9e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">computed: {
+  message: {
+    get() {
+      return this.$store.state.message;
+    },
+    set(value) {
+      this.$store.commit(&#x27;updateMessage&#x27;, value);
+    }
+  }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="12a8db55-6aee-8336-a3d5-01a33d06b322" class="">然后在模板中：<code>&lt;input v-model=&quot;message&quot;&gt;</code>。</p></div></li></ul></div><div style="display:contents" dir="auto"><ul id="82e8db55-6aee-82e4-8213-81c3fb1928a3" class="bulleted-list"><li style="list-style-type:disc"><strong>Q13: Vuex 的严格模式是什么？</strong><div style="display:contents" dir="auto"><p id="a1d8db55-6aee-83f6-a09a-814462426abd" class="">在创建 store 时设置 <code>strict: true</code>即可开启严格模式。在严格模式下，任何<strong>非 mutation 函数引起的状态变更</strong>都会抛出错误，这能保证所有的状态变更都能被调试工具跟踪到，有助于代码的规范性和可调试性。<strong>注意不要在生产环境开启</strong>，以避免性能损失 。</p></div></li></ul></div><div style="display:contents" dir="auto"><h3 id="4768db55-6aee-83da-97a4-016df9b93b8d" class="">🔄 <strong>5. Vuex 与 Pinia</strong></h3></div><div style="display:contents" dir="auto"><ul id="0d88db55-6aee-8261-8258-0197f73a5e04" class="bulleted-list"><li style="list-style-type:disc"><strong>Q14: Vuex 和 Pinia 有什么区别？如何选择？</strong><div style="display:contents" dir="auto"><p id="5118db55-6aee-83cf-87b1-0166da7f91a6" class=""><strong>Pinia</strong> 是官方推荐的下一代 Vue 状态管理库，可看作是 Vuex 5。</p></div><div style="display:contents" dir="auto"><ul id="e808db55-6aee-8318-8ec8-010993ff353d" class="bulleted-list"><li style="list-style-type:circle"><strong>API 设计</strong>：Pinia 的 API 更简洁，<strong>移除了 Mutation</strong>，允许在 Action 中直接进行同步和异步操作来修改状态。对 TypeScript 的支持更好。</li></ul></div><div style="display:contents" dir="auto"><ul id="2068db55-6aee-8261-b357-0173d95f37a8" class="bulleted-list"><li style="list-style-type:circle"><strong>模块化</strong>：Pinia 天生支持模块化，每个 store 都是独立的，无需复杂的嵌套模块。</li></ul></div><div style="display:contents" dir="auto"><ul id="ccb8db55-6aee-82d6-9ec0-01cbd3c08786" class="bulleted-list"><li style="list-style-type:circle"><strong>选择建议</strong>：<strong>新项目强烈推荐使用 Pinia</strong>。对于现有的 Vue 2 老项目，如果不需要升级到 Vue 3，可继续使用 Vuex；若计划升级，可逐步将 Vuex 替换为 Pinia 。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><hr id="3e98db55-6aee-82c3-b80e-0118c7cbbc12"/></div><div style="display:contents" dir="auto"><h1 id="c448db55-6aee-8212-aa6e-01355292c876" class="">记录</h1></div><div style="display:contents" dir="auto"><ul id="ef18db55-6aee-8339-916e-01b42ccb5ba6" class="bulleted-list"><li style="list-style-type:disc"><strong>Vuex中的state可以修改吗？</strong><div style="display:contents" dir="auto"><ul id="6178db55-6aee-830f-a334-813cf9825e29" class="bulleted-list"><li style="list-style-type:circle">可以通过<code>this.store.state.xxx</code> 来修改</li></ul></div><div style="display:contents" dir="auto"><ul id="1ea8db55-6aee-83be-b7d0-01375930ef06" class="bulleted-list"><li style="list-style-type:circle">可以通过<code>mutations</code> 或<code>actions</code> 方法来修改</li></ul></div><div style="display:contents" dir="auto"><ul id="9538db55-6aee-82eb-b043-01d2938500f5" class="bulleted-list"><li style="list-style-type:circle">无法通过<code>mapState</code> 方法来修改（<code>mapState</code> 没有<code>get</code>和<code>set</code>）</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><p id="4348db55-6aee-8234-bbfe-013e347bbae7" class="">
+</p></div><div style="display:contents" dir="auto"><ul id="f358db55-6aee-8316-806e-81e0c842d6d0" class="bulleted-list"><li style="list-style-type:disc"><strong>Vuex的持久化存储？</strong></li></ul></div><div style="display:contents" dir="auto"><p id="fbf8db55-6aee-8353-9dc6-81d771949b14" class=""><mark class="highlight-orange"><mark class="highlight-pink_background">切记VUEX本身是一个存放数据的地方，并不是持久化记录数据的，但可以做持久化存储，有两种方式实现：</mark></mark><div class="indented"><div style="display:contents" dir="auto"><ul id="5d78db55-6aee-8215-9ad1-01d30973dce5" class="bulleted-list"><li style="list-style-type:disc">自己写<code>localStorage</code> </li></ul></div><div style="display:contents" dir="auto"><ul id="f098db55-6aee-8361-862c-01c7355d1cd7" class="bulleted-list"><li style="list-style-type:disc">使用插件<code> vuex-persistedstate</code></li></ul></div><div style="display:contents" dir="auto"><pre id="95d8db55-6aee-831d-af37-818ad515d096" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">npm  install --save vuex-persistedstate</code></pre></div><div style="display:contents" dir="auto"><p id="ce88db55-6aee-8351-b507-8150672ed0d1" class="">使用手册：<a href="https://www.npmjs.com/package/vuex-persistedstate">vuex-persistedstate - npm</a></p></div></div></p></div><div style="display:contents" dir="auto"><p id="c128db55-6aee-82a4-813b-013725215bba" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

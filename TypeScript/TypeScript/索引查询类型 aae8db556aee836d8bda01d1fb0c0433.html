@@ -1,0 +1,907 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>索引查询类型</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="aae8db55-6aee-836d-8bda-01d1fb0c0433" class="page mono"><header><h1 class="page-title" dir="auto">索引查询类型</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="cc48db55-6aee-833b-a62a-01db70acd2bb" class="">索引查询类型（又称「索引访问类型」）是 TypeScript 类型系统中<mark class="highlight-orange"><strong>提取已有类型中子类型</strong></mark>的核心工具，通过「索引语法」从<mark class="highlight-orange">对象、数组、元组或联合类型中</mark>获取指定属性 / 元素的类型。其核心价值是<mark class="highlight-red"><strong>复用已有类型的子结构、实现类型动态推导、提升类型关联性</strong></mark><strong>与安全性</strong>，也是映射类型、泛型工具类型的基础依赖。</p></div><div style="display:contents" dir="auto"><p id="c1f8db55-6aee-8282-a01c-01ba4fe72443" class="">索引查询类型的本质是：<mark class="highlight-orange"><strong>通过「索引表达式」访问目标类型（</strong></mark><mark class="highlight-red"><code><strong>T</strong></code></mark><mark class="highlight-orange"><strong>）中对应索引的类型</strong></mark>，类比 JavaScript 中通过「对象。属性」「数组 [下标]」访问值，索引查询类型是「类型层面的访问操作」。</p></div><div style="display:contents" dir="auto"><hr id="8ff8db55-6aee-8330-887e-01cccda24dc1"/></div><div style="display:contents" dir="auto"><ul id="20f8db55-6aee-837b-8cef-815006cdbb7c" class="toggle"><li><details open=""><summary>基本语法</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js" integrity="sha512-uOw7XYETzS/DPmmirpP5UCMihSDNMeyTS965J0/456OSPfxn9xEtHHjj5Q/5WefVdqyMfN/afmQnNpZd/tpkcA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js" integrity="sha512-xjGCJ9YxyZBfYTCHsEjkOZMoOse1W3cKMXv1szXrxs68myuXt0YTj3/xKPar6iDMlXzTUSEqwUxprWcyp+plaw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="e858db55-6aee-82de-ba80-81f269ae4018" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">T[K]</code></pre></div><div style="display:contents" dir="auto"><ul id="3438db55-6aee-82d4-967e-812390bb84af" class="bulleted-list"><li style="list-style-type:disc"><code>T</code>：目标类型（可以是对象类型、数组类型、元组类型、联合类型等）。</li></ul></div><div style="display:contents" dir="auto"><ul id="8d58db55-6aee-83aa-bee8-81103bd1ebe5" class="bulleted-list"><li style="list-style-type:disc"><code>K</code>：索引表达式（必须是 <code>T</code> 中<strong>有效索引的类型</strong>，如对象的属性名类型、数组的数字索引类型）。</li></ul></div><div style="display:contents" dir="auto"><ul id="97e8db55-6aee-82f8-8cef-8110448a419f" class="bulleted-list"><li style="list-style-type:disc">结果：<code>T</code> 中索引为 <code>K</code> 对应的类型。</li></ul></div><div style="display:contents" dir="auto"><p id="e418db55-6aee-822d-a7e8-01aac5e4948c" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="fcc8db55-6aee-82ad-ab07-816b690a100e" class="toggle"><li><details open=""><summary>核心逻辑</summary><div style="display:contents" dir="auto"><p id="af18db55-6aee-8276-a8d2-81c78b67cda4" class="">索引查询的核心是「类型层面的查找」：</p></div><div style="display:contents" dir="auto"><ul id="6068db55-6aee-8326-b833-811ec9be2416" class="bulleted-list"><li style="list-style-type:disc">若 <code>T</code> 是对象类型，<code>K</code> 需是 <code>T</code> 的属性名类型（<code>keyof T</code> 的子集），返回该属性的类型；</li></ul></div><div style="display:contents" dir="auto"><ul id="0d78db55-6aee-8206-a9a6-01e2ee70eb4e" class="bulleted-list"><li style="list-style-type:disc">若 <code>T</code> 是数组 / 元组类型，<code>K</code> 可以是 <code>number</code>（数组的数字索引）或具体数字（元组的位置索引），返回对应元素的类型；</li></ul></div><div style="display:contents" dir="auto"><ul id="5068db55-6aee-8308-9d7e-81343d981fbf" class="bulleted-list"><li style="list-style-type:disc">若 <code>T</code> 是联合类型，<code>K</code> 需是所有联合成员共有的属性名类型，返回所有成员对应属性的类型联合。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="5408db55-6aee-82a8-9ba9-0107230c5f55" class="toggle"><li><details open=""><summary>访问对象类型的属性类型</summary><div style="display:contents" dir="auto"><p id="5108db55-6aee-83c1-ac3d-0164e48f4ac8" class="">最常用场景：从接口 / 对象类型中<mark class="highlight-orange">提取单个或多个属性</mark>的类型。</p></div><div style="display:contents" dir="auto"><p id="04b8db55-6aee-826a-9dcb-0139d82cad85" class="">1.提取单个属性类型</p></div><div style="display:contents" dir="auto"><pre id="c668db55-6aee-82b3-b4d6-81f0a8e24d3a" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 源对象类型
+interface User {
+  name: string;
+  age: number;
+  address: {
+    province: string;
+    city: string;
+  };
+  isActive?: boolean; // 可选属性
+}
+
+// 提取单个属性的类型：User[&quot;name&quot;] → string
+type UserNameType = User[&quot;name&quot;]; // string
+
+// 提取可选属性的类型：自动包含 undefined
+type IsActiveType = User[&quot;isActive&quot;]; // boolean | undefined
+
+// 提取嵌套对象的属性类型：User[&quot;address&quot;] → 嵌套对象类型
+type AddressType = User[&quot;address&quot;]; // { province: string; city: string }</code></pre></div><div style="display:contents" dir="auto"><p id="a0a8db55-6aee-8308-a9e2-016bde276279" class="">2.提取多个属性的类型（联合索引）</p></div><div style="display:contents" dir="auto"><p id="7a78db55-6aee-8271-ac65-81c12c2f5dc4" class="">当 <code>K</code> 是「属性名联合类型」时，返回多个属性类型的联合：</p></div><div style="display:contents" dir="auto"><pre id="f838db55-6aee-8259-88f9-815208ae78ba" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 提取 &quot;name&quot; 和 &quot;age&quot; 的类型：string | number
+type NameOrAgeType = User[&quot;name&quot; | &quot;age&quot;]; // string | number
+
+// 结合 keyof T：提取所有属性的类型联合
+type AllUserPropTypes = User[keyof User]; 
+// string | number | { province: string; city: string } | boolean | undefined</code></pre></div><div style="display:contents" dir="auto"><p id="c448db55-6aee-83cb-bbfd-81aa467b7fc2" class="">3.通过类型别名作为索引</p></div><div style="display:contents" dir="auto"><p id="bd18db55-6aee-83bc-8da1-81dfef725704" class="">索引表达式 <code>K</code> 可复用类型别名，提升灵活性：</p></div><div style="display:contents" dir="auto"><pre id="6618db55-6aee-825e-9e43-813dbafea1e1" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">type TargetProp = &quot;name&quot; | &quot;address&quot;;
+// 提取 TargetProp 对应的属性类型：string | { province: string; city: string }
+type TargetPropTypes = User[TargetProp];</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="9728db55-6aee-82e0-ac73-0146a6b95934" class="toggle"><li><details open=""><summary>访问数组/元组类型的元素类型</summary><div style="display:contents" dir="auto"><p id="6b98db55-6aee-8292-9eeb-812c6bf823d2" class="">数组和元组的索引查询核心是「<mark class="highlight-orange">数字索引</mark>」的应用，需区分数组（动态长度）和元组（固定长度）的差异。</p></div><div style="display:contents" dir="auto"><p id="7828db55-6aee-83c1-98bb-816d6256e4d8" class="">1.数组类型：提取元素类型</p></div><div style="display:contents" dir="auto"><p id="8908db55-6aee-8333-861f-011a5fb1778c" class="">数组类型的索引是 <code>number</code>（所有数字下标共享同一元素类型），因此用 <code>T[number]</code> 提取元素类型：</p></div><div style="display:contents" dir="auto"><pre id="4ee8db55-6aee-8396-a4b0-81f24b49c0ec" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 数组类型
+type NumberArray = number[];
+type StringArray = Array&lt;string&gt;;
+
+// 提取数组元素类型：NumberArray[number] → number
+type NumType = NumberArray[number]; // number
+
+// 提取泛型数组的元素类型：StringArray[number] → string
+type StrType = StringArray[number]; // string
+
+// 复杂数组：提取嵌套类型
+type UserArray = User[];
+type UserArrayItem = UserArray[number]; // 等价于 User 类型</code></pre></div><div style="display:contents" dir="auto"><p id="18f8db55-6aee-8350-8a44-0180db4ad07d" class="">2.元组类型：提取指定位置/所有元素类型</p></div><div style="display:contents" dir="auto"><p id="be98db55-6aee-83e0-8ed3-01c0502cebc4" class="">元组是「固定长度、元素类型可能不同」的数组，支持两种索引方式：</p></div><div style="display:contents" dir="auto"><ul id="6578db55-6aee-8334-a0c1-81402cf53eb5" class="bulleted-list"><li style="list-style-type:disc">具体数字索引：提取对应位置的元素类型；</li></ul></div><div style="display:contents" dir="auto"><ul id="fbc8db55-6aee-83ca-a7a6-816e4e824df9" class="bulleted-list"><li style="list-style-type:disc"><code>number</code> 索引：提取所有元素类型的联合。</li></ul></div><div style="display:contents" dir="auto"><pre id="c1f8db55-6aee-8308-ab7a-01182edfa766" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 元组类型
+type Point = [number, string, boolean]; // 索引 0: number, 1: string, 2: boolean
+
+// 提取指定位置的元素类型：Point[0] → number
+type XType = Point[0]; // number
+type YType = Point[1]; // string
+
+// 提取所有元素类型的联合：Point[number] → number | string | boolean
+type PointItemTypes = Point[number]; // number | string | boolean
+
+// 错误示例：元组索引不能超出长度（TypeScript 会报错）
+type InvalidIndex = Point[3]; // 报错：索引 3 超出元组长度 3</code></pre></div><div style="display:contents" dir="auto"><p id="4358db55-6aee-8371-a98b-81562f0e9213" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3fd8db55-6aee-8267-8042-812519628115" class="toggle"><li><details open=""><summary>访问联合类型的属性类型</summary><div style="display:contents" dir="auto"><p id="e698db55-6aee-8276-b6df-81ca6ffea411" class="">若 <code>T</code> 是联合类型，<code>K</code> 必须是「所有联合成员共有的属性名」，返回所有成员对应属性的类型联合（遵循「分配律」）。</p></div><div style="display:contents" dir="auto"><pre id="79a8db55-6aee-82ec-9991-8181c76a7554" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 联合类型（共享 id 和 name 属性）
+type Student = { id: number; name: string; grade: number };
+type Teacher = { id: number; name: string; subject: string };
+type Person = Student | Teacher;
+
+// 提取共有属性 id 的类型：number（所有成员的 id 都是 number）
+type PersonIdType = Person[&quot;id&quot;]; // number
+
+// 提取共有属性 name 的类型：string（所有成员的 name 都是 string）
+type PersonNameType = Person[&quot;name&quot;]; // string
+
+// 提取非共有属性：报错（grade 不是 Teacher 的属性，subject 不是 Student 的属性）
+type InvalidProp = Person[&quot;grade&quot;]; // 报错：Property &#x27;grade&#x27; does not exist on type &#x27;Person&#x27;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d668db55-6aee-83d0-801f-01af4d025f81" class="toggle"><li><details open=""><summary>嵌套索引访问（深层提取）</summary><div style="display:contents" dir="auto"><p id="41c8db55-6aee-82e3-a5bc-0103a5ab600d" class="">支持多层索引链式访问，从嵌套结构中提取深层子类型：</p></div><div style="display:contents" dir="auto"><pre id="2298db55-6aee-834b-91a3-01a0a70f53d1" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 从 User → address → city 提取类型：string
+type UserCityType = User[&quot;address&quot;][&quot;city&quot;]; // string
+
+// 结合数组和对象：提取数组中对象的深层属性
+type UserArrayCityType = UserArray[number][&quot;address&quot;][&quot;city&quot;]; // string
+
+// 结合元组和对象：提取元组中指定位置对象的属性
+type PointTuple = [User, Student];
+type TupleFirstUserAge = PointTuple[0][&quot;age&quot;]; // number（元组第 0 项是 User，提取 age）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="c778db55-6aee-8358-80d1-81ba7db0d67e"/></div><div style="display:contents" dir="auto"><ul id="db78db55-6aee-8396-a042-016f1e75ed15" class="toggle"><li><details open=""><summary>结合泛型：动态提取属性类型</summary><div style="display:contents" dir="auto"><p id="0348db55-6aee-830b-84c2-81ba1b6e51e1" class="">通过泛型参数接收「属性名」，实现通用的属性类型提取工具，提升类型复用性。</p></div><div style="display:contents" dir="auto"><pre id="b788db55-6aee-8347-8da8-018dfcd71ec0" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 泛型工具：提取 T 中 K 属性的类型（K 必须是 T 的属性名）
+type GetPropType&lt;T, K extends keyof T&gt; = T[K];
+
+// 使用：提取 User 的 name 属性类型
+type UserName = GetPropType&lt;User, &quot;name&quot;&gt;; // string
+
+// 提取 User 的 address 属性类型
+type UserAddress = GetPropType&lt;User, &quot;address&quot;&gt;; // { province: string; city: string }
+
+// 提取数组的元素类型（K 为 number）
+type ArrayItem&lt;T extends any[]&gt; = GetPropType&lt;T, number&gt;;
+type NumArrayItem = ArrayItem&lt;number[]&gt;; // number</code></pre></div><div style="display:contents" dir="auto"><p id="b308db55-6aee-8257-a58a-01285efd7daf" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="13c8db55-6aee-8395-913f-81d308a7f1b8" class="toggle"><li><details open=""><summary>结合条件类型：过滤/转换属性类型</summary><div style="display:contents" dir="auto"><p id="0e48db55-6aee-828f-9d65-812f6b76f6f7" class="">通过条件类型判断索引对应的类型，实现「类型过滤」或「动态转换」。</p></div><div style="display:contents" dir="auto"><pre id="4c48db55-6aee-8289-a2dc-81e618d8fc16" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 工具类型：提取 T 中类型为 string 的属性名
+type StringPropNames&lt;T&gt; = {
+  [K in keyof T]: T[K] extends string ? K : never;
+}[keyof T]; // 索引访问：提取所有非 never 的属性名（never 会被自动过滤）
+
+// 使用：获取 User 中类型为 string 的属性名
+type UserStringProps = StringPropNames&lt;User&gt;; // &quot;name&quot; | &quot;address.province&quot;？不，实际是 &quot;name&quot;（address 是对象类型）
+// 修正：User 中 string 类型的属性是 name、address.province、address.city？
+// 上述工具仅处理浅层属性，深层需递归，结合索引访问可实现：
+
+// 递归提取所有 string 类型的属性名（浅层+深层）
+type DeepStringPropNames&lt;T&gt; = T extends object 
+  ? {
+      [K in keyof T]: 
+        T[K] extends string ? K : 
+        T[K] extends object ? `${string &amp; K}.${DeepStringPropNames&lt;T[K]&gt;}` : 
+        never;
+    }[keyof T]
+  : never;
+
+// 使用：提取 User 中所有 string 类型的属性名（含深层）
+type UserDeepStringProps = DeepStringPropNames&lt;User&gt;; // &quot;name&quot; | &quot;address.province&quot; | &quot;address.city&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="c3f8db55-6aee-82b0-9b9b-0174cb0052f9" class="toggle"><li><details open=""><summary>结合映射类型：遍历+提取（呼应映射类型知识点）</summary><div style="display:contents" dir="auto"><p id="1d38db55-6aee-8260-b412-01467cf02301" class="">映射类型的核心是「遍历属性」，而索引查询类型（<code>T[K]</code>）是「提取属性类型」的关键，二者是天然的组合（之前映射类型中的 <code>[K in keyof T]: T[K]</code> 正是此组合）。</p></div><div style="display:contents" dir="auto"><pre id="5458db55-6aee-82a6-a8a2-8132f4052fd1" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 映射类型 + 索引访问：将 T 中所有属性转为其类型的数组
+type PropToArr&lt;T&gt; = {
+  [K in keyof T]: T[K][]; // 索引访问 T[K]，转为数组类型
+};
+
+// 使用：User 的所有属性转为对应类型的数组
+type UserPropArr = PropToArr&lt;User&gt;;
+// {
+//   name: string[];
+//   age: number[];
+//   address: { province: string; city: string }[];
+//   isActive?: (boolean | undefined)[];
+// }</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="19d8db55-6aee-837f-94f7-81e3dbe164a2" class="toggle"><li><details open=""><summary>访问基本类型的原型属性类型</summary><div style="display:contents" dir="auto"><p id="1e98db55-6aee-8237-b9ca-01856acc87e1" class=""><code>keyof</code> 可获取基本类型（如 <code>string</code>、<code>number</code>）的原型属性名，结合索引访问可提取其原型方法 / 属性的类型。</p></div><div style="display:contents" dir="auto"><pre id="aa58db55-6aee-82bc-a8d8-01ab1960fa6a" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 提取 string 类型的 length 属性类型：number
+type StringLengthType = string[&quot;length&quot;]; // number
+
+// 提取 string 类型的 slice 方法类型：(start?: number | undefined, end?: number | undefined) =&gt; string
+type StringSliceType = string[&quot;slice&quot;]; 
+
+// 提取 number 类型的 toFixed 方法类型：(fractionDigits?: number | undefined) =&gt; string
+type NumberToFixedType = number[&quot;toFixed&quot;];</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="a728db55-6aee-82ff-a2de-01213a6119db"/></div><div style="display:contents" dir="auto"><ul id="a5f8db55-6aee-8302-8f08-81345152b499" class="toggle"><li><details open=""><summary>提取API响应的字段类型</summary><div style="display:contents" dir="auto"><p id="f948db55-6aee-8345-bd9f-818194fc3cc1" class="">后端返回的复杂响应类型中，提取前端所需的特定字段类型，避免重复定义。</p></div><div style="display:contents" dir="auto"><pre id="9b08db55-6aee-8229-a87d-01467916ffb2" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// API 响应类型
+interface ApiResponse {
+  code: number;
+  message: string;
+  data: {
+    userList: User[];
+    total: number;
+  };
+}
+
+// 提取 data 字段类型
+type ResponseData = ApiResponse[&quot;data&quot;]; // { userList: User[]; total: number }
+
+// 提取 userList 字段类型
+type UserList = ApiResponse[&quot;data&quot;][&quot;userList&quot;]; // User[]
+
+// 提取 userList 中单个用户的类型
+type ApiUser = UserList[number]; // User</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="7558db55-6aee-8315-a919-01e5b8f766f1" class="toggle"><li><details open=""><summary>实现类型安全的属性访问函数</summary><div style="display:contents" dir="auto"><p id="0dc8db55-6aee-82a8-ae72-01c288fa61db" class="">通过泛型 + 索引查询，封装通用的属性访问函数，确保访问的属性存在且类型正确。</p></div><div style="display:contents" dir="auto"><pre id="2b88db55-6aee-8305-9394-01a65a68b996" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 类型安全的属性访问函数：获取 obj 中 key 对应的属性值
+function getProp&lt;T, K extends keyof T&gt;(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+// 使用：
+const user: User = { name: &quot;张三&quot;, age: 20, address: { province: &quot;北京&quot;, city: &quot;北京&quot; } };
+
+const userName = getProp(user, &quot;name&quot;); // string（类型自动推导）
+const userAge = getProp(user, &quot;age&quot;); // number
+const userCity = getProp(user, &quot;address&quot;).city; // string
+
+// 错误用法：访问不存在的属性，TypeScript 报错
+const userGender = getProp(user, &quot;gender&quot;); // 报错：Argument of type &#x27;gender&#x27; is not assignable to parameter of type &#x27;keyof User&#x27;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="2688db55-6aee-8238-8423-81d491533903" class="toggle"><li><details open=""><summary>复用嵌套/数组子类型，减少重复定义</summary><div style="display:contents" dir="auto"><p id="3688db55-6aee-8319-a1ce-81584ff4d5b4" class="">当类型结构复杂时，通过索引访问提取子类型，避免重复书写嵌套结构。</p></div><div style="display:contents" dir="auto"><pre id="82f8db55-6aee-825c-8483-012c0ea0c785" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 无需重复定义 Address 类型，从 User 中提取
+type Address = User[&quot;address&quot;]; // { province: string; city: string }
+
+// 无需重复定义 User 数组元素类型，从数组类型中提取
+type UserFromArray = (User[])[&quot;number&quot;]; // User</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="0a68db55-6aee-83bf-97de-81acec4109d1" class="toggle"><li><details open=""><summary>配合类型守卫实现动态类型判断</summary><div style="display:contents" dir="auto"><p id="1528db55-6aee-8276-92e3-01de1ce627b4" class="">结合索引访问和类型守卫，判断对象属性的类型，提升代码安全性。</p></div><div style="display:contents" dir="auto"><pre id="dee8db55-6aee-8237-8f98-01bcd1be6f7b" class="code code-wrap"><code class="language-tsx" style="white-space:pre-wrap;word-break:break-all">// 判断 obj 的 key 属性是否为 string 类型
+function isPropString&lt;T, K extends keyof T&gt;(obj: T, key: K): obj is T &amp; { [P in K]: string } {
+  return typeof obj[key] === &quot;string&quot;;
+}
+
+// 使用：
+if (isPropString(user, &quot;name&quot;)) {
+  user.name.toUpperCase(); // 安全：name 被推导为 string 类型
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="b7a8db55-6aee-837d-8a01-0158c3b5d636"/></div><div style="display:contents" dir="auto"><ul id="a498db55-6aee-8356-aa71-017d21037ca2" class="toggle"><li><details open=""><summary>注意点</summary><div style="display:contents" dir="auto"><ol type="1" id="efc8db55-6aee-83c9-a7a6-01d8e9f5f93e" class="numbered-list" start="1"><li><strong>索引必须是目标类型的有效索引</strong><code>K</code> 必须是 <code>keyof T</code> 的子集（或 <code>number</code> 对于数组），否则 TypeScript 会报错。❌ 错误示例：<code>User[&quot;gender&quot;]</code>（gender 不是 User 的属性）；✅ 正确示例：<code>User[&quot;name&quot;]</code>（name 是 User 的属性）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="8538db55-6aee-822b-9e72-015eafd04102" class="numbered-list" start="2"><li><strong>联合类型的索引访问遵循分配律</strong>若 <code>T</code> 是联合类型，<code>T[K]</code> 会对每个联合成员执行索引访问，最终返回类型联合。示例：<code>(Student | Teacher)[&quot;id&quot;]</code> → <code>Student[&quot;id&quot;] | Teacher[&quot;id&quot;]</code> → <code>number | number</code> → <code>number</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3d18db55-6aee-83c9-aa81-01f5344381b0" class="numbered-list" start="3"><li><strong>可选属性的索引访问会包含 undefined</strong>若属性是可选的（<code>?</code>），索引访问的结果会自动添加 <code>undefined</code> 类型（即使属性本身没有显式声明）。示例：<code>User[&quot;isActive&quot;]</code> → <code>boolean | undefined</code>（而非单纯 <code>boolean</code>）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3128db55-6aee-839d-9ba8-0112956433b8" class="numbered-list" start="4"><li><strong>元组的索引不能超出长度</strong>元组是固定长度的，使用超出长度的数字索引会报错（数组无此限制，因数组长度动态）。❌ 错误示例：<code>[number, string][2]</code>（元组长度为 2，索引 2 无效）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1538db55-6aee-83b7-8cb7-019f7180a190" class="numbered-list" start="5"><li><code><strong>keyof</strong></code><strong> 对基本类型的处理</strong>基本类型（<code>string</code>、<code>number</code>）的 <code>keyof</code> 会返回其原型属性 / 方法的名称（如 <code>length</code>、<code>slice</code>），因此可通过索引访问其原型类型，但需注意实际用途（通常用于工具类型封装）。</li></ol></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
