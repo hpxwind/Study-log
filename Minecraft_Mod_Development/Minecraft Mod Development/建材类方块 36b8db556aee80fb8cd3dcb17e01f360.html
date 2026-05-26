@@ -1,0 +1,981 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>建材类方块</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="36b8db55-6aee-80fb-8cd3-dcb17e01f360" class="page mono"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/texturelabs_paper_253S.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🎼</span></div><h1 class="page-title" dir="auto">建材类方块</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="36b8db55-6aee-800a-a873-d94eefa4a40e" class="">首先注册方块</h1></div><div style="display:contents" dir="auto"><p id="36b8db55-6aee-80f4-a1d5-e598329d0f2c" class="">在com.hpxwind.tutorial.block.ModBlocks.java中添加</p></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-8096-8c98-eb2cb1f45a5d" class="toggle"><li><details open=""><summary>注册一系列自定义方块(ModBlocks.java)</summary><div style="display:contents" dir="auto"><p id="36b8db55-6aee-80cf-b8be-d514a32e5d2c" class="">文件定义了楼梯、台阶、按钮、压力板、栅栏门、栅栏、墙、门、陷阱门，<br/>全部基于你自定义的 <code>ICE_ETHER_BLOCK</code> 冰以太方块扩展。</p></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-8034-bb7c-f596df197bed" class="toggle"><li><details open=""><summary>ModBlocks.java</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="36b8db55-6aee-8038-b815-f2d968184a57" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static final RegistryObject&lt;StairBlock&gt; ICE_ETHER_STAIRS =
+            registerBlock(&quot;ice_ether_stairs&quot;,
+                    () -&gt; new StairBlock(() -&gt; ICE_ETHER_BLOCK.get().defaultBlockState(), BlockBehaviour.Properties.of()
+                            .strength(3.0F, 6.0F)));
+
+    public static final RegistryObject&lt;SlabBlock&gt; ICE_ETHER_SLAB =
+            registerBlock(&quot;ice_ether_slab&quot;,
+                    () -&gt; new SlabBlock(BlockBehaviour.Properties.of()
+                            .strength(2.0F, 5.0F)));
+
+    public static final RegistryObject&lt;ButtonBlock&gt; ICE_ETHER_BUTTON =
+            registerBlock(&quot;ice_ether_button&quot;,
+                    () -&gt; new ButtonBlock(BlockBehaviour.Properties.of()
+                            .strength(3.0f, 2.0f), BlockSetType.OAK, 40, false));
+
+    public static final RegistryObject&lt;PressurePlateBlock&gt; ICE_ETHER_PRESSURE_PLATE =
+            registerBlock(&quot;ice_ether_pressure_plate&quot;,
+                    () -&gt; new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of()
+                            .strength(1.0f, 2.0f), BlockSetType.OAK));
+
+    public static final RegistryObject&lt;FenceGateBlock&gt; ICE_ETHER_FENCE_GATE =
+            registerBlock(&quot;ice_ether_fance_gate&quot;,
+                    () -&gt; new FenceGateBlock(BlockBehaviour.Properties.of()
+                            .strength(1.0f, 2.0f), WoodType.OAK));
+
+    public static final RegistryObject&lt;FenceBlock&gt; ICE_ETHER_FENCE =
+            registerBlock(&quot;ice_ether_gate&quot;,
+                    () -&gt; new FenceBlock(BlockBehaviour.Properties.of()
+                            .strength(1.0f, 2.0f)));
+
+    public static final RegistryObject&lt;WallBlock&gt; ICE_ETHER_WALL =
+            registerBlock(&quot;ice_ether_wall&quot;,
+                    () -&gt; new WallBlock(BlockBehaviour.Properties.of()
+                            .strength(3.0f, 5.0f)));
+
+    public static final RegistryObject&lt;DoorBlock&gt; ICE_ETHER_DOOR =
+            registerBlock(&quot;ice_ether_door&quot;,
+                    () -&gt; new DoorBlock(BlockBehaviour.Properties.of()
+                            .strength(3.0f, 5.0f)
+                            .noOcclusion(), BlockSetType.IRON)); // IRON只能红石打开
+
+    public static final RegistryObject&lt;TrapDoorBlock&gt; ICE_ETHER_TRAPDOOR =
+            registerBlock(&quot;ice_ether_trapdoor&quot;,
+                    () -&gt; new TrapDoorBlock(BlockBehaviour.Properties.of()
+                            .strength(3.0f, 2.0f), BlockSetType.OAK));
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36b8db55-6aee-8033-868c-c8691424c8d6"/></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-804c-be33-fc399efdeb60" class="numbered-list" start="1"><li>StairBlock:楼梯:<code>.strength(3.0F, 6.0F)</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-8004-b383-f26cc1dea926" class="numbered-list" start="2"><li>SlabBlock:台阶:<code>.strength(2.0F, 5.0F)</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-80cd-aaed-ed31a2915d9e" class="numbered-list" start="3"><li>ButtonBlock:按钮:<div style="display:contents" dir="auto"><pre id="36b8db55-6aee-804c-bc48-c0155cf3bdef" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">() -&gt; new ButtonBlock(BlockBehaviour.Properties.of().strength(3.0f, 2.0f),
+            BlockSetType.OAK,40,false)</code></pre></div><div style="display:contents" dir="auto"><ol type="a" id="36b8db55-6aee-801b-8808-da897296d23d" class="numbered-list" start="1"><li><code>Properties</code>：属性</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="36b8db55-6aee-802b-82da-cf8c396bcfbe" class="numbered-list" start="2"><li><code>BlockSetType.OAK</code>：木质按钮（决定声音、材质行为）</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="36b8db55-6aee-809e-984b-c97fc22225d8" class="numbered-list" start="3"><li><code>40</code>：按下后<strong>恢复延迟</strong>（tick）</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="36b8db55-6aee-805c-a8f4-eb9dc98cb051" class="numbered-list" start="4"><li><code>false</code>：不是木质压力板行为</li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-8012-9c10-c89004789125" class="numbered-list" start="4"><li>PressurePlateBlock:压力板:<div style="display:contents" dir="auto"><pre id="36b8db55-6aee-80d9-b8af-f5809587eb49" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">() -&gt; new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING,
+            BlockBehaviour.Properties.of().strength(1.0f, 2.0f),
+            BlockSetType.OAK)</code></pre></div><div style="display:contents" dir="auto"><ol type="a" id="36b8db55-6aee-80f7-b70a-cd75dc28799a" class="numbered-list" start="1"><li><code>EVERYTHING</code>：玩家、怪物、物品、实体都能触发</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="36b8db55-6aee-806e-8078-ea0c889f29ee" class="numbered-list" start="2"><li><code>BlockSetType.OAK</code>：声音、行为类型</li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-80c1-a888-c1660c38fa36" class="numbered-list" start="5"><li>FenceGateBlock:栅栏门:<code>.strength(1.0f, 2.0f)</code>/<code>WoodType.OAK</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-80c8-8b7e-dfa4817def54" class="numbered-list" start="6"><li>FenceBlock:栅栏:<code>.strength(1.0f, 2.0f)</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-8002-9d38-ec6563cee9e3" class="numbered-list" start="7"><li>WallBlock:墙:<code>.strength(3.0f, 5.0f)</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-80e4-b468-e45cca7444d7" class="numbered-list" start="8"><li>DoorBlock:门:<div style="display:contents" dir="auto"><pre id="36b8db55-6aee-8049-8d6c-ea0d4a098c28" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">() -&gt; new DoorBlock(BlockBehaviour.Properties.of().strength(3.0f, 5.0f).noOcclusion(),
+            BlockSetType.IRON)</code></pre></div><div style="display:contents" dir="auto"><ol type="a" id="36b8db55-6aee-8038-b111-ec04d15b2f8a" class="numbered-list" start="1"><li><code>noOcclusion()</code>：不遮挡视线与光线</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="36b8db55-6aee-8079-b85e-c7a69e0192bd" class="numbered-list" start="2"><li><code>BlockSetType.IRON</code>：<strong>铁门，只能用红石打开</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="36b8db55-6aee-8045-a8a4-e67826b89830" class="numbered-list" start="3"><li>想做木门就用：<code>BlockSetType.OAK</code></li></ol></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-8041-a9f1-f4a291f4d70f" class="numbered-list" start="9"><li>TrapDoorBlock:陷阱门:<code>.strength(1.0f, 2.0f)</code>/<code>BlockSetType.IRON</code></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><h1 id="36b8db55-6aee-800e-98ed-d2235ff6d741" class="">添加数据到Provider</h1></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-80b4-8844-fbf8757062fe" class="toggle"><li><details open=""><summary>战利品表(ModBlockLootTablesProvider.java)</summary><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-80e7-8dbb-cee54ed910ac" class="toggle"><li><details open=""><summary>ModBlockLootTablesProvider.java</summary><div style="display:contents" dir="auto"><pre id="36b8db55-6aee-8046-8cb7-fc982b61e0c0" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">dropSelf(ModBlocks.ICE_ETHER_STAIRS.get());
+add(ModBlocks.ICE_ETHER_SLAB.get(),
+        block -&gt; createSlabItemTable(ModBlocks.ICE_ETHER_SLAB.get()));
+dropSelf(ModBlocks.ICE_ETHER_BUTTON.get());
+dropSelf(ModBlocks.ICE_ETHER_WALL.get());
+dropSelf(ModBlocks.ICE_ETHER_FENCE.get());
+dropSelf(ModBlocks.ICE_ETHER_FENCE_GATE.get());
+dropSelf(ModBlocks.ICE_ETHER_PRESSURE_PLATE.get());
+dropSelf(ModBlocks.ICE_ETHER_TRAPDOOR.get());
+add(ModBlocks.ICE_ETHER_DOOR.get(),
+        block -&gt; createDoorTable(ModBlocks.ICE_ETHER_DOOR.get()));</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36b8db55-6aee-808b-8454-cbe312250934"/></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-808b-aefc-f7346ce1bf73" class="bulleted-list"><li style="list-style-type:disc"><code><strong>dropSelf()</strong></code>：方块被破坏时，<strong>直接掉落自己</strong>（90% 方块都用这个）</li></ul></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-8021-b748-fa208c5546c3" class="bulleted-list"><li style="list-style-type:disc"><code><strong>add(..., createXXXTable())</strong></code>：方块有<strong>特殊掉落规则</strong>，不能直接掉自己，必须用自定义表</li></ul></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-80d1-abcc-d85a1647fa54" class="numbered-list" start="1"><li>门:不能掉落方块,而是掉落物品<div style="display:contents" dir="auto"><pre id="36b8db55-6aee-8040-b997-e0519c51c87d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">add(门方块, block -&gt; createDoorTable(门方块));</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-8078-ba80-cc98c91ac51e" class="numbered-list" start="2"><li>台阶:双台阶被打破 → 要掉落 <strong>2 个台阶物品</strong><div style="display:contents" dir="auto"><pre id="36b8db55-6aee-80e5-a785-db714a92f0c7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">add(台阶, block -&gt; createSlabItemTable(台阶));</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><pre id="36b8db55-6aee-80c0-a229-d2e4aabe0f85" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 楼梯：掉自己 ✅
+dropSelf(ModBlocks.ICE_ETHER_STAIRS.get());
+
+// 台阶：特殊规则（双台阶掉两个）✅
+add(ModBlocks.ICE_ETHER_SLAB.get(), block -&gt; createSlabItemTable(ModBlocks.ICE_ETHER_SLAB.get()));
+
+// 按钮：掉自己 ✅
+dropSelf(ModBlocks.ICE_ETHER_BUTTON.get());
+
+// 墙：掉自己 ✅
+dropSelf(ModBlocks.ICE_ETHER_WALL.get());
+
+// 栅栏：掉自己 ✅
+dropSelf(ModBlocks.ICE_ETHER_FENCE.get());
+
+// 栅栏门：掉自己 ✅
+dropSelf(ModBlocks.ICE_ETHER_FENCE_GATE.get());
+
+// 压力板：掉自己 ✅
+dropSelf(ModBlocks.ICE_ETHER_PRESSURE_PLATE.get());
+
+// 陷阱门：掉自己 ✅
+dropSelf(ModBlocks.ICE_ETHER_TRAPDOOR.get());
+
+// 门：特殊规则（掉物品，不掉方块）✅
+add(ModBlocks.ICE_ETHER_DOOR.get(), block -&gt; createDoorTable(ModBlocks.ICE_ETHER_DOOR.get()));</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-809a-91c7-e38a40c85162" class="toggle"><li><details open=""><summary>状态生成(ModBlockStateProvider.java)</summary><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-8095-9fd8-fbe54c184102" class="toggle"><li><details open=""><summary>ModBlockStateProvider.java</summary><div style="display:contents" dir="auto"><pre id="36b8db55-6aee-80fd-9794-d71c1a83f446" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Override
+protected void registerStatesAndModels() {
+    simpleBlockWithItem(ModBlocks.ICE_ETHER_BLOCK.get(), cubeAll(ModBlocks.ICE_ETHER_BLOCK.get()));
+    simpleBlockWithItem(ModBlocks.RAW_ICE_ETHER_BLOCK.get(), cubeAll(ModBlocks.RAW_ICE_ETHER_BLOCK.get()));
+    simpleBlockWithItem(ModBlocks.ICE_ETHER_ORE.get(), cubeAll(ModBlocks.ICE_ETHER_ORE.get()));
+
+    stairsBlock(ModBlocks.ICE_ETHER_STAIRS.get(), blockTexture(ModBlocks.ICE_ETHER_BLOCK.get()));
+    slabBlock(ModBlocks.ICE_ETHER_SLAB.get(), blockTexture(ModBlocks.ICE_ETHER_BLOCK.get()), blockTexture(ModBlocks.ICE_ETHER_BLOCK.get()));
+    buttonBlock(ModBlocks.ICE_ETHER_BUTTON.get(), blockTexture(ModBlocks.ICE_ETHER_BLOCK.get()));
+    pressurePlateBlock(ModBlocks.ICE_ETHER_PRESSURE_PLATE.get(), blockTexture(ModBlocks.ICE_ETHER_BLOCK.get()));
+    fenceBlock(ModBlocks.ICE_ETHER_FENCE.get(), blockTexture(ModBlocks.ICE_ETHER_BLOCK.get()));
+    fenceGateBlock(ModBlocks.ICE_ETHER_FENCE_GATE.get(), blockTexture(ModBlocks.ICE_ETHER_BLOCK.get()));
+    wallBlock(ModBlocks.ICE_ETHER_WALL.get(), blockTexture(ModBlocks.ICE_ETHER_BLOCK.get()));
+    doorBlockWithRenderType(
+            ModBlocks.ICE_ETHER_DOOR.get(),
+            modLoc(&quot;block/ice_ether_door_bottom&quot;),
+            modLoc(&quot;block/ice_ether_door_top&quot;),
+            &quot;cutout&quot;
+    );
+    trapdoorBlockWithRenderType(
+            ModBlocks.ICE_ETHER_TRAPDOOR.get(),
+            modLoc(&quot;block/ice_ether_trapdoor&quot;),
+            true,
+            &quot;cutout&quot;
+    );
+
+    blockItem(ModBlocks.ICE_ETHER_STAIRS);
+    blockItem(ModBlocks.ICE_ETHER_SLAB);
+    blockItem(ModBlocks.ICE_ETHER_PRESSURE_PLATE);
+    blockItem(ModBlocks.ICE_ETHER_FENCE_GATE);
+    blockItem(ModBlocks.ICE_ETHER_TRAPDOOR,&quot;_bottom&quot;);
+}
+
+private &lt;T extends Block&gt; void blockItem(RegistryObject&lt;T&gt; block) {
+    simpleBlockItem(block.get(), new ModelFile.UncheckedModelFile(TutorialMod.MOD_ID + &quot;:block/&quot; + block.getId().getPath()));
+}
+
+private &lt;T extends Block&gt; void blockItem(RegistryObject&lt;T&gt; block, String append) {
+    simpleBlockItem(block.get(), new ModelFile.UncheckedModelFile(TutorialMod.MOD_ID + &quot;:block/&quot; + block.getId().getPath() + append));
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36b8db55-6aee-80d3-b62b-dbfac36abd3f"/></div><div style="display:contents" dir="auto"><p id="36b8db55-6aee-808b-b0a5-d8cad0bfb2d4" class="block-color-purple_background">请注意门，陷阱门这些多状态的物品（方块模型 ≠ 物品栏模型）</p></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-80ff-8619-d31447f4655a" class="numbered-list" start="1"><li>如下这些方法是 Forge <strong>内置封装好的</strong><div style="display:contents" dir="auto"><pre id="36b8db55-6aee-8046-bf29-c6baa4c8a29e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">stairsBlock(...)
+slabBlock(...)
+buttonBlock(...)
+pressurePlateBlock(...)
+fenceBlock(...)
+fenceGateBlock(...)
+wallBlock(...)</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-804a-a24f-e44b62b9a7db" class="numbered-list" start="2"><li>而门有两个部分，无法直接生成<div style="display:contents" dir="auto"><pre id="36b8db55-6aee-8085-a21e-f3e29ae0c891" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">门（Door）门有两个独立部分：
+1.下半部门 door_bottom
+2.上半部门 door_top
+它们是两个完全不同的模型 + 两张不同纹理, 因此必须写成
+doorBlockWithRenderType(
+    门,
+    底部纹理,
+    顶部纹理,
+    渲染类型 // &quot;cutout&quot;  // 镂空渲染
+);</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-804e-b98d-f64d36469d00" class="numbered-list" start="3"><li>而陷阱门有开启/关闭，上下表面，朝向，必须指定渲染层等特殊需求，无法直接生成<div style="display:contents" dir="auto"><pre id="36b8db55-6aee-801a-b455-ff0b026f1587" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">trapdoorBlockWithRenderType(
+    陷阱门,
+    纹理,
+    true,        // 是否木质
+    &quot;cutout&quot;     // 镂空渲染
+);
+blockItem(陷阱门, &quot;_bottom&quot;); // 物品显示底部模型</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-8061-a9c2-f162809630d7" class="numbered-list" start="4"><li>最下面的blockItem<div style="display:contents" dir="auto"><p id="36b8db55-6aee-8011-929c-fb34082e878e" class="block-color-purple_background">有些方块的物品模型，不能直接用方块模型,比如：楼梯（inventory 模型是特殊的）台阶 栅栏 栅栏门 陷阱门 门, 它们在<strong>物品栏里显示的模型</strong>，和放在世界里的方块模型<strong>不一样</strong>。</p></div><div style="display:contents" dir="auto"><pre id="36b8db55-6aee-807e-a3b9-e11810b47eed" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">private &lt;T extends Block&gt; void blockItem(RegistryObject&lt;T&gt; block) {
+    simpleBlockItem(block.get(), new ModelFile.UncheckedModelFile(TutorialMod.MOD_ID + &quot;:block/&quot; + block.getId().getPath()));
+}
+
+private &lt;T extends Block&gt; void blockItem(RegistryObject&lt;T&gt; block, String append) {
+    simpleBlockItem(block.get(), new ModelFile.UncheckedModelFile(TutorialMod.MOD_ID + &quot;:block/&quot; + block.getId().getPath() + append));
+}</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><p id="36b8db55-6aee-8030-b00a-dff0416b894e" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-802e-9e04-c58e1821dcd0" class="toggle"><li><details open=""><summary>标签注册(ModBlockTagsProvider.java)</summary><div style="display:contents" dir="auto"><p id="36b8db55-6aee-804a-889a-e867d76c70fd" class="">用于给方块物品分组，让游戏能<strong>一次性识别所有同类方块</strong></p></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-80c6-9245-fc251ea35b6b" class="toggle"><li><details open=""><summary>ModBlockTagsProvider.java</summary><div style="display:contents" dir="auto"><pre id="36b8db55-6aee-80ca-9888-fd39e1531811" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">tag(ModBlockTags.ORE_TAGS)
+          .add(ModBlocks.ICE_ETHER_ORE.get())
+                                  .addTag(BlockTags.COAL_ORES)
+        .addTag(BlockTags.IRON_ORES)
+        .addTag(BlockTags.GOLD_ORES)
+        .addTag(BlockTags.DIAMOND_ORES)
+        .addTag(BlockTags.EMERALD_ORES)
+        .addTag(BlockTags.LAPIS_ORES)
+        .addTag(BlockTags.REDSTONE_ORES);
+
+tag(BlockTags.FENCES)
+        .add(ModBlocks.ICE_ETHER_FENCE.get());
+tag(BlockTags.FENCE_GATES)
+        .add(ModBlocks.ICE_ETHER_FENCE_GATE.get());
+tag(BlockTags.WALLS)
+        .add(ModBlocks.ICE_ETHER_WALL.get());</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36b8db55-6aee-80d9-a68e-ede320985825"/></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-8014-aecd-fe3f015d2a44" class="numbered-list" start="1"><li>FENCE_GATES:这是栅栏门,能开关、能连接栅栏、能被红石激活。<div style="display:contents" dir="auto"><pre id="36b8db55-6aee-80dd-b465-d886e2a95490" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">tag(BlockTags.FENCE_GATES)
+        .add(ModBlocks.ICE_ETHER_FENCE_GATE.get());</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-8064-9a41-cf6811a8e537" class="numbered-list" start="2"><li>WALLS:这是墙:墙才能互相连接、正确堆叠、正确渲染。<div style="display:contents" dir="auto"><pre id="36b8db55-6aee-80ab-aa78-c4b4bfe0bce2" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">tag(BlockTags.WALLS)
+        .add(ModBlocks.ICE_ETHER_WALL.get());</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><blockquote id="36b8db55-6aee-806b-aa15-ed215a1faa9f" class="block-color-purple_background">FENCE_GATES,FENCES,WALLS 是游戏原本就有的,直接附加标签，就可以让自定义的物品继承原有的属性</blockquote></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-80bf-b1c4-efe71ed696f0" class="toggle"><li><details open=""><summary>语言注册(ModEnUsLangProvider.java)</summary><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-80f0-a6e1-d3836a3e3544" class="toggle"><li><details open=""><summary>ModEnUsLangProvider.java</summary><div style="display:contents" dir="auto"><pre id="36b8db55-6aee-8043-8e4f-d0430211f15e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">add(ModBlocks.ICE_ETHER_DOOR .get(), &quot;Ice Ether Door&quot;);
+add(ModBlocks.ICE_ETHER_STAIRS .get(), &quot;Ice Ether Stairs&quot;);
+add(ModBlocks.ICE_ETHER_FENCE .get(), &quot;Ice Ether Fence&quot;);
+add(ModBlocks.ICE_ETHER_TRAPDOOR .get(), &quot;Ice Ether Trapdoor&quot;);
+add(ModBlocks.ICE_ETHER_SLAB .get(), &quot;Ice Ether Slab&quot;);
+add(ModBlocks.ICE_ETHER_BUTTON.get(), &quot;Ice Ether Button&quot;);
+add(ModBlocks.ICE_ETHER_FENCE_GATE.get(), &quot;Ice Ether Fence Gate&quot;);
+add(ModBlocks.ICE_ETHER_PRESSURE_PLATE.get(), &quot;Ice Ether Pressure Plate&quot;);
+add(ModBlocks.ICE_ETHER_WALL.get(), &quot;Ice Ether Wall&quot;);</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-8099-86b0-d9f1fc6ce1ab" class="toggle"><li><details open=""><summary>物品栏模型(ModItemModelsProvider.java)</summary><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-8071-a1a4-cbb1786a2d25" class="toggle"><li><details open=""><summary>ModItemModelsProvider.java</summary><div style="display:contents" dir="auto"><pre id="36b8db55-6aee-8061-b7a6-f5c6325284dc" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Override
+protected void registerModels() {
+    basicItem(ModItems.ICE_ETHER.get());
+    basicItem(ModItems.RAW_ICE_ETHER.get());
+//        basicItem(ModItems.CARDBOARD.get());
+
+    basicItem(ModItems.CORN.get());
+    basicItem(ModItems.STRAWBERRY.get());
+    basicItem(ModItems.CHEESE.get());
+
+    basicItem(ModItems.ANTHRACITE.get());
+
+    basicItem(ModItems.PROSPECTOR.get());
+
+    buttonItem(ModBlocks.ICE_ETHER_BUTTON, ModBlocks.ICE_ETHER_BLOCK);
+    fenceItem(ModBlocks.ICE_ETHER_FENCE, ModBlocks.ICE_ETHER_BLOCK);
+    wallItem(ModBlocks.ICE_ETHER_WALL, ModBlocks.ICE_ETHER_BLOCK);
+
+    basicItem(ModBlocks.ICE_ETHER_DOOR.get().asItem());
+}
+private &lt;T extends Block&gt; void buttonItem(RegistryObject&lt;T&gt; block, RegistryObject&lt;Block&gt; base) {
+    this.withExistingParent(block.getId().getPath(), mcLoc(&quot;block/button_inventory&quot;))
+            .texture(&quot;texture&quot;, ResourceLocation.fromNamespaceAndPath(TutorialMod.MOD_ID,
+                    &quot;block/&quot; + base.getId().getPath()));
+}
+
+private &lt;T extends Block&gt; void fenceItem(RegistryObject&lt;T&gt; block, RegistryObject&lt;Block&gt; base) {
+    this.withExistingParent(block.getId().getPath(), mcLoc(&quot;block/fence_inventory&quot;))
+            .texture(&quot;texture&quot;, ResourceLocation.fromNamespaceAndPath(TutorialMod.MOD_ID,
+                    &quot;block/&quot; + base.getId().getPath()));
+}
+
+private &lt;T extends Block&gt; void wallItem(RegistryObject&lt;T&gt; block, RegistryObject&lt;Block&gt; base) {
+    this.withExistingParent(block.getId().getPath(), mcLoc(&quot;block/wall_inventory&quot;))
+            .texture(&quot;wall&quot;, ResourceLocation.fromNamespaceAndPath(TutorialMod.MOD_ID,
+                    &quot;block/&quot; + base.getId().getPath()));
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36b8db55-6aee-805d-b161-f34efd63c8a7"/></div><div style="display:contents" dir="auto"><p id="36b8db55-6aee-8015-a35d-c5e0050b7ac5" class="">按钮、栅栏、墙在物品栏里的模型是特殊的、独立的、固定的</p></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-80b2-9bf0-f778ae8e2ecf" class="numbered-list" start="1"><li>button_inventory:按钮<div style="display:contents" dir="auto"><p id="36b8db55-6aee-800c-ab56-d560e3c14c2e" class="">在世界里的按钮是：贴在墙上的小方块</p></div><div style="display:contents" dir="auto"><p id="36b8db55-6aee-80a4-bf38-ce07dfb9ce4d" class="">但<strong>物品栏里</strong>的按钮模型是:button_inventory → 这是一个<strong>固定的特殊模型</strong>，不是方块模型</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-80ca-9576-d93a2d5b0924" class="numbered-list" start="2"><li>fence_inventory:栅栏<div style="display:contents" dir="auto"><p id="36b8db55-6aee-80b1-acd5-c8eeab6730b9" class="">世界里栅栏是 3D 立体栅栏</p></div><div style="display:contents" dir="auto"><p id="36b8db55-6aee-8004-a26e-e79824e3d061" class="">但<strong>物品栏里</strong>显示的是：fence_inventory → 一个扁平的图标模型</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-806c-a43a-dcc3493aa976" class="numbered-list" start="3"><li>wall_inventory:墙<div style="display:contents" dir="auto"><p id="36b8db55-6aee-8059-9a11-d7af76e140e2" class="">世界里墙是高低不平的连接墙</p></div><div style="display:contents" dir="auto"><p id="36b8db55-6aee-80c9-a920-fd0300d02306" class="">但<strong>物品栏里</strong>是：wall_inventory → 也是固定特殊模型</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36b8db55-6aee-802e-85c5-c74ecd3e8df8" class="numbered-list" start="4"><li>这三个特殊的方法：<div style="display:contents" dir="auto"><pre id="36b8db55-6aee-801b-ac25-d2203da318b6" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">private &lt;T extends Block&gt; void fenceItem(RegistryObject&lt;T&gt; block, RegistryObject&lt;Block&gt; base) {
+    this.withExistingParent(block.getId().getPath(), mcLoc(&quot;block/fence_inventory&quot;))  // 继承原版栅栏物品模型
+            .texture(&quot;texture&quot;, 材质位置);  // 使用你的自定义方块材质
+}</code></pre></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-8052-b737-dff1e7e337a2" class="bulleted-list"><li style="list-style-type:disc"><strong>继承原版物品模型</strong><code>button_inventory</code> / <code>fence_inventory</code> / <code>wall_inventory</code></li></ul></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-803a-a273-c641ae6010cb" class="bulleted-list"><li style="list-style-type:disc"><strong>替换成你的材质</strong>让模型显示你的冰以太方块纹理</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><pre id="36b8db55-6aee-8046-805d-f6c61f400dca" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 普通物品 → 直接 basicItem
+basicItem(ModItems.CORN.get());
+basicItem(ModItems.STRAWBERRY.get());
+basicItem(ModItems.CHEESE.get());
+basicItem(ModItems.ANTHRACITE.get());
+basicItem(ModItems.PROSPECTOR.get());
+
+// 三个特殊物品模型 → 必须特殊写
+buttonItem(按钮方块, 基础方块);
+fenceItem(栅栏方块, 基础方块);
+wallItem(墙方块, 基础方块);
+
+// 门物品 → 普通物品，直接 basicItem
+basicItem(门方块.asItem());</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-80d3-b93e-f159746f32cc" class="toggle"><li><details open=""><summary>添加到构造文件中(ModCreativeModeTabs.java)</summary><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-80f3-9e9c-f4fb39b5859d" class="toggle"><li><details open=""><summary>ModCreativeModeTabs.java</summary><div style="display:contents" dir="auto"><pre id="36b8db55-6aee-80d7-a6c8-e0a9a614c226" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">pOutput.accept(ModBlocks.ICE_ETHER_FENCE.get());
+pOutput.accept(ModBlocks.ICE_ETHER_BUTTON .get());
+pOutput.accept(ModBlocks.ICE_ETHER_SLAB.get());
+pOutput.accept(ModBlocks.ICE_ETHER_STAIRS.get());
+pOutput.accept(ModBlocks.ICE_ETHER_DOOR.get());
+pOutput.accept(ModBlocks.ICE_ETHER_PRESSURE_PLATE.get());
+pOutput.accept(ModBlocks.ICE_ETHER_FENCE_GATE.get());
+pOutput.accept(ModBlocks.ICE_ETHER_TRAPDOOR.get());
+pOutput.accept(ModBlocks.ICE_ETHER_WALL.get());</code></pre></div><div style="display:contents" dir="auto"><p id="36b8db55-6aee-8046-a275-db93888f6ef2" class="">
+</p></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36b8db55-6aee-8027-ba92-d32bfcf7b9be" class="toggle"><li><details open=""><summary>最后添加门素材图片</summary><div style="display:contents" dir="auto"><p id="36b8db55-6aee-8030-9b11-daf800646f4d" class="">只用添加门的图片（因为其他的素材都是继承ice_ether_block的）</p></div><div style="display:contents" dir="auto"><p id="36b8db55-6aee-8054-bf72-ebea3af14e70" class="">ice_ether_door_bottom.png, ice_ether_door_top.png到textures.block中</p></div><div style="display:contents" dir="auto"><p id="36b8db55-6aee-80ae-8958-c83d7b52ed9f" class="">ice_ether_door.png 到textures.item中</p></div><div style="display:contents" dir="auto"><p id="36b8db55-6aee-80a4-a914-c18d4af94196" class="">即可</p></div><div style="display:contents" dir="ltr"><figure id="36b8db55-6aee-8042-a4ac-d01a183c4657" class="image"><a href="%E5%BB%BA%E6%9D%90%E7%B1%BB%E6%96%B9%E5%9D%97/Snipaste_2026-05-25_22-32-32.png"><img style="width:363px" src="%E5%BB%BA%E6%9D%90%E7%B1%BB%E6%96%B9%E5%9D%97/Snipaste_2026-05-25_22-32-32.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="36b8db55-6aee-80a6-9e6a-ef636abee0e4" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36b8db55-6aee-80cf-9c3c-c5e71acf1e3c"/></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
