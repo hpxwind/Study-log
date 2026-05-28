@@ -1195,5 +1195,508 @@ public class TestController {
         // 返回视图名，交由视图解析器拼接页面
         return &quot;index&quot;;
     }
-}</code></pre></div></details></li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-80f2-8e0e-e1926b174f10" class="block-color-purple_background numbered-list" start="4"><li>用户请求整个流程<div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-80b7-8b91-f387f56d8e79" class="numbered-list" start="1"><li>客户端浏览器发起请求，访问地址形如<code>http://localhost:8080/项目名/index</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-8048-b822-e306ecdd26f3" class="numbered-list" start="2"><li>服务器读取<code>web.xml</code>配置，匹配到拦截规则<code>/</code>，将所有请求交给 SpringMVC 核心调度器<code>DispatcherServlet</code>处理。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-80d0-9cb9-f582bcaf78a2" class="numbered-list" start="3"><li>调度器根据配置参数，加载读取<code>springmvc.xml</code>框架配置文件。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-8009-87b2-fcbb3c67b271" class="numbered-list" start="4"><li>配置文件执行包扫描，检索到<code>com.southwind.test</code>包下标注<code>@Controller</code>的控制器类，并将其交由 Spring 容器管理。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-802a-814a-d6437732169b" class="numbered-list" start="5"><li>框架通过注解驱动功能，匹配请求路径与控制器中<code>@RequestMapping(&quot;/index&quot;)</code>映射地址，定位到对应处理方法。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-80fc-8daf-c6e18fd9f9c5" class="numbered-list" start="6"><li>执行 index 方法，控制台打印日志，方法执行完毕返回视图名称<code>index</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-8011-a3bf-f7f53f4607fe" class="numbered-list" start="7"><li>视图解析器按照前缀、后缀配置，拼接得到真实页面路径<code>/index.jsp</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-8039-b720-ddcf39551fde" class="numbered-list" start="8"><li>服务器跳转至对应 jsp 页面，最终页面内容响应返回给浏览器展示。</li></ol></div></li></ol></div><div style="display:contents" dir="auto"><p id="3688db55-6aee-801d-b5e4-cea99cd7cba7" class="">
+}</code></pre></div></details></li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3688db55-6aee-80f2-8e0e-e1926b174f10" class="block-color-purple_background numbered-list" start="4"><li>用户请求整个流程<div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-80b7-8b91-f387f56d8e79" class="numbered-list" start="1"><li>客户端浏览器发起请求，访问地址形如<code>http://localhost:8080/项目名/index</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-8048-b822-e306ecdd26f3" class="numbered-list" start="2"><li>服务器读取<code>web.xml</code>配置，匹配到拦截规则<code>/</code>，将所有请求交给 SpringMVC 核心调度器<code>DispatcherServlet</code>处理。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-80d0-9cb9-f582bcaf78a2" class="numbered-list" start="3"><li>调度器根据配置参数，加载读取<code>springmvc.xml</code>框架配置文件。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-8009-87b2-fcbb3c67b271" class="numbered-list" start="4"><li>配置文件执行包扫描，检索到<code>com.southwind.test</code>包下标注<code>@Controller</code>的控制器类，并将其交由 Spring 容器管理。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-802a-814a-d6437732169b" class="numbered-list" start="5"><li>框架通过注解驱动功能，匹配请求路径与控制器中<code>@RequestMapping(&quot;/index&quot;)</code>映射地址，定位到对应处理方法。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-80fc-8daf-c6e18fd9f9c5" class="numbered-list" start="6"><li>执行 index 方法，控制台打印日志，方法执行完毕返回视图名称<code>index</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-8011-a3bf-f7f53f4607fe" class="numbered-list" start="7"><li>视图解析器按照前缀、后缀配置，拼接得到真实页面路径<code>/index.jsp</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="a" id="3688db55-6aee-8039-b720-ddcf39551fde" class="numbered-list" start="8"><li>服务器跳转至对应 jsp 页面，最终页面内容响应返回给浏览器展示。</li></ol></div></li></ol></div><div style="display:contents" dir="auto"><hr id="3688db55-6aee-801d-b5e4-cea99cd7cba7"/></div><div style="display:contents" dir="auto"><h2 id="36e8db55-6aee-800b-ada2-d01850079af8" class="">Spring MVC传参数</h2></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80de-8ee9-ff520d5bf0ae" class="">Spring MVC会自动对request中的参数进行解析，类型转换，开发者只需要在方法定义声明需要的参数类型格式，Spring MVC会自动对参数进行解析和转换。</p></div><div style="display:contents" dir="auto"><hr id="36e8db55-6aee-80e1-8c9f-cc6cd246237d"/></div><div style="display:contents" dir="auto"><h2 id="36e8db55-6aee-8049-9f67-ec8bdf15079b" class="">Spring MVC的返回</h2></div><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-8099-8bea-dc2d1f004de4" class="numbered-list" start="1"><li>视图，定义方法返回值类型为String，返回视图名称，同时结合视图解析器，将真正的视图资源返回给调用者</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-8002-b1c4-ed5c28e354da" class="numbered-list" start="2"><li>数据JSON，需要在方法定义处添加@RequestBody, 方法中直接返回数据</li></ol></div><div style="display:contents" dir="auto"><blockquote id="36e8db55-6aee-801e-88ac-ec91acb7ab50" class="block-color-purple_background">返回视图是前后端不分离的单体架构，返回JSON数据前后端分离的架构。</blockquote></div><div style="display:contents" dir="auto"><h3 id="36e8db55-6aee-80c7-aeba-d6f474220e55" class="">单体架构</h3></div><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-80ae-97ac-e356241ec8f7" class="numbered-list" start="1"><li>返回视图</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-8074-bb8b-c1e1e20f8fa5" class="numbered-list" start="2"><li>同时把数据带回前端</li></ol></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-803c-b408-df6a3e4db0be" class="toggle"><li><details open=""><summary>TestController.java</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-80b5-a9bb-e06e02e40a1f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 控制器返回页面名称
+@Controller
+public class DemoController {
+    @GetMapping(&quot;/test&quot;)
+    public String test(HttpServletRequest request) {
+        request.setAttribute(&quot;name&quot;, &quot;张三&quot;);
+        // 返回 JSP 视图名，后端渲染页面
+        return &quot;index&quot;; 
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="36e8db55-6aee-80d5-b35a-ce514b74d91b" class="">分离架构</h3></div><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-80d7-98d1-f1041b9e8238" class="numbered-list" start="1"><li>返回 JSON</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-80a3-9495-d96de6e3dd0b" class="numbered-list" start="2"><li>JSON数据是返回给前端</li></ol></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-80e6-b185-eb3ca2d6102a" class="toggle"><li><details open=""><summary>TestController.java</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-8069-b6d4-d32534195fd8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 直接返回数据
+@RestController
+public class DemoController {
+    @GetMapping(&quot;/test&quot;)
+    public Map&lt;String, String&gt; test() {
+        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;name&quot;, &quot;张三&quot;);
+        // 返回 JSON 数据
+        return map; 
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36e8db55-6aee-80e1-b0af-ed743b026fba"/></div><div style="display:contents" dir="auto"><h1 id="36e8db55-6aee-8016-a8c6-cee3e84f9be3" class="">MyBatis</h1></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80d2-bdcc-e005ed29855c" class="">MyBatis是当前主流的ORM架构</p></div><div style="display:contents" dir="auto"><h2 id="36e8db55-6aee-80b2-8f97-c71a73897f69" class="">MyBatis基本流程</h2></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-80de-baa1-cf310af219e7" class="toggle"><li><details open=""><summary>引入包依赖 pom.xml</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-8081-b919-ed3381d6925a" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;dependency&gt;
+    &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+    &lt;version&gt;3.4.5&lt;/version&gt;
+  &lt;/dependency&gt;
+
+  &lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;version&gt;8.0.30&lt;/version&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-8055-875f-e9d385ccbe7e" class="toggle"><li><details open=""><summary>数据库连接环境配置打印与mapper文件 resources.config.xml</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-805b-a7e6-e16470a75406" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE configuration PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+
+&lt;!-- MyBatis 核心配置文件根标签 --&gt;
+&lt;configuration&gt;
+
+    &lt;!-- ======================== 全局行为配置 ======================== --&gt;
+    &lt;settings&gt;
+        &lt;!-- 配置 MyBatis 日志实现：控制台打印 SQL 语句（开发调试必备） --&gt;
+        &lt;setting name=&quot;logImpl&quot; value=&quot;STDOUT_LOGGING&quot;/&gt;
+    &lt;/settings&gt;
+
+    &lt;!-- ======================== 环境配置 ======================== --&gt;
+    &lt;!-- 可以配置多套环境，default 指定当前使用的环境 --&gt;
+    &lt;environments default=&quot;development&quot;&gt;
+        &lt;!-- 开发环境配置 --&gt;
+        &lt;environment id=&quot;development&quot;&gt;
+            &lt;!-- 事务管理类型：使用 JDBC 原生事务管理 --&gt;
+            &lt;transactionManager type=&quot;JDBC&quot;&gt;&lt;/transactionManager&gt;
+
+            &lt;!-- 数据源类型：POOLED 表示使用 MyBatis 自带的数据库连接池 --&gt;
+            &lt;dataSource type=&quot;POOLED&quot;&gt;
+                &lt;!-- MySQL 8.x 驱动类 --&gt;
+                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;
+                &lt;!-- 数据库连接 URL：指定 IP、端口、数据库名 mytest2 --&gt;
+                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mytest2&quot;/&gt;
+                &lt;!-- 数据库登录用户名 --&gt;
+                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
+                &lt;!-- 数据库登录密码 --&gt;
+                &lt;property name=&quot;password&quot; value=&quot;123.com.cn&quot;/&gt;
+            &lt;/dataSource&gt;
+        &lt;/environment&gt;
+    &lt;/environments&gt;
+
+    &lt;!-- ======================== Mapper 映射器 ======================== --&gt;
+    &lt;mappers&gt;
+        &lt;!-- 加载 Mapper XML 映射文件：指定文件路径 --&gt;
+        &lt;mapper resource=&quot;com/southwind/test/mapper/NewsMapper.xml&quot;&gt;&lt;/mapper&gt;
+    &lt;/mappers&gt;
+&lt;/configuration&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8092-8728-d0f2df24fab7" class="">默认无法读取java类中的xml，只能读取resources类中的，需要添加一个配置文件在pom.xml</p></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-8086-aeea-f1926e115d87" class="toggle"><li><details open=""><summary>添加读取java类中的xml配置 pom.xml</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-80a7-beed-c8d86524e9ca" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;build&gt;
+	&lt;resources&gt;
+		&lt;resource&gt;
+		  &lt;directory&gt;src/main/java&lt;/directory&gt;
+		  &lt;includes&gt;
+		    &lt;include&gt;**/*.xml&lt;/include&gt;
+		  &lt;/includes&gt;
+		&lt;/resource&gt;
+	&lt;/resources&gt;
+&lt;/build&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-803e-82c1-da42698182cc" class="">随后创建Mapper接口与对应的xml文件</p></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-8061-86d6-fd9d703b057d" class="toggle"><li><details open=""><summary>com.southwind.test.mapper.NewsMapper.java</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-8052-95c0-f37387cd211a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.mapper;
+
+import com.southwind.test.News;
+
+public interface NewsMapper {
+    public int add(News news);
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-804e-bf02-d1f376c0def4" class="toggle"><li><details open=""><summary>resources.com.southwind.test.mapper.NewsMapper.xml</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-808e-8aa7-e6e857efbbd6" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+&lt;!--
+    Mapper 映射文件根标签
+    namespace：命名空间，必须对应 对应的 Mapper 接口的全类名
+    作用：绑定接口与 XML，实现方法与 SQL 对应
+--&gt;
+&lt;mapper namespace=&quot;com.southwind.test.mapper.NewsMapper&quot;&gt;
+
+    &lt;!--
+        新增数据标签：insert 表示插入操作
+        id：对应接口中的方法名（必须一致）
+        parameterType：参数类型，传入的 News 实体对象（全类名）
+    --&gt;
+    &lt;insert id=&quot;add&quot; parameterType=&quot;com.southwind.test.News&quot;&gt;
+        &lt;!-- 新增 SQL 语句：#{属性名} 自动从 News 对象中取值 --&gt;
+        insert into sys_news(title, content, createtime, opername)
+        values(#{title}, #{content}, #{createtime}, #{opername})
+    &lt;/insert&gt;
+
+&lt;/mapper&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-803f-8b09-f8ecf42004b5" class="">最后测试Test</p></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-80b4-a091-c8567ae491d3" class="toggle"><li><details open=""><summary>Test.java</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-80f3-9d35-e721d1cb70e8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import com.southwind.test.mapper.NewsMapper;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import java.io.InputStream;
+import java.util.Date;
+
+/**
+ * MyBatis 测试类
+ * 功能：测试向数据库插入新闻数据
+ */
+public class Test {
+    public static void main(String[] args) {
+        // 1. 加载 MyBatis 核心配置文件 config.xml（获取文件输入流）
+        InputStream resourceAsStream = Test.class.getClassLoader().getResourceAsStream(&quot;config.xml&quot;);
+        
+        // 2. 创建 SqlSessionFactory 建造者对象
+        SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+        
+        // 3. 使用配置文件，构建 SqlSessionFactory（核心工厂，用于创建会话）
+        SqlSessionFactory factory = builder.build(resourceAsStream);
+        
+        // 4. 打开数据库会话（连接），相当于获取 JDBC 连接
+        SqlSession session = factory.openSession();
+
+        // 5. 获取 Mapper 接口的代理对象（MyBatis 动态生成实现类）
+        NewsMapper mapper = session.getMapper(NewsMapper.class);
+        
+        // 6. 创建 News 实体对象，封装要插入的数据
+        News news = new News();
+        news.setTitle(&quot;测试&quot;);           // 标题
+        news.setContent(&quot;测试测试&quot;);     // 内容
+        news.setCreatetime(new Date());  // 创建时间（当前系统时间）
+        news.setOpername(&quot;testadmin&quot;);   // 操作人
+
+        // 7. 调用 Mapper 方法执行插入操作，返回受影响的行数
+        int add = mapper.add(news);
+        
+        // 8. 打印受影响行数（1 表示插入成功）
+        System.out.println(add);
+        
+        // 9. 提交事务（MyBatis 默认手动提交，必须写！）
+        session.commit();
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-804c-bc81-fc542ecd970f" class="toggle"><li><details open=""><summary><mark class="highlight-yellow"><mark class="highlight-purple_background"><strong>MyBites梳理流程</strong></mark></mark></summary><div style="display:contents" dir="ltr"><figure id="36e8db55-6aee-80a1-a606-df336605df0e" class="image"><a href="Spring/5339510c-6a13-4319-abfb-0e6698d9ee65.png"><img style="width:666.0267944335938px" src="Spring/5339510c-6a13-4319-abfb-0e6698d9ee65.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80ab-949d-c3b1ee7b4da1" class="block-color-purple_background">1. 核心配置文件 <code>config.xml</code><mark class="highlight-yellow">（MyBatis 的 “大脑”）</mark><div class="indented"><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8053-a265-c4b57b6db4df" class="block-color-purple_background">它包含数据库连接信息（url、driver、username、password）、事务配置、日志等全局设置。</p></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8003-a2da-dde4daa0eb77" class="block-color-purple_background">图里它有两个关键箭头：<div class="indented"><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-80d9-95f3-d5422da94216" class="numbered-list" start="1"><li>箭头 1 → <strong>DB（数据库）</strong>：<code>config.xml</code> 里的 <code>&lt;environments&gt;</code> 配置，直接决定了 MyBatis 怎么连接到你的 MySQL。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-8077-bc79-d60332280a30" class="numbered-list" start="2"><li>箭头 2 → <strong>MyBatis 核心容器</strong>：它会把自己的配置加载到 MyBatis 里，告诉 MyBatis 去哪里找 <code>Mapper.xml</code>。</li></ol></div></div></p></div></div></p></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-808d-92f5-edcc7e0c73c7" class="block-color-purple_background">2. <code>Mapper.xml</code><mark class="highlight-yellow">（SQL 语句的 “载体”）</mark><div class="indented"><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80e1-8f40-c1db8d2f3661" class="block-color-purple_background">它里面写了具体的增删改查 SQL，比如你写的 <code>insert into sys_news ...</code>。</p></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80e0-a211-ed7ae0a95132" class="block-color-purple_background">图里它的箭头 → <strong>Mapper 代理</strong>：MyBatis 会把 XML 里的 SQL 和 <code>Mapper</code> 接口绑定起来，让代理对象知道 “调用这个方法时，要执行哪条 SQL”。</p></div></div></p></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8056-8a07-eaabcf058f6e" class="block-color-purple_background">3. <code>Mapper</code> 接口（<code>NewsMapper.java</code>）<div class="indented"><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80e0-b588-e23c1e55de73" class="block-color-purple_background">这是一个纯 Java 接口，只有方法声明，没有实现，比如 <code>int add(News news);</code>。</p></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8098-9785-c53b1598eaad" class="block-color-purple_background">图里它的箭头 → <strong>Mapper 代理</strong>：你调用 <code>session.getMapper(NewsMapper.class)</code> 时，MyBatis 会<strong>动态生成一个代理对象</strong>，帮你实现这个接口。</p></div></div></p></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8001-a827-c147565cd476" class="block-color-purple_background">4. <code>Mapper 代理</code><mark class="highlight-yellow">（MyBatis 给你生成的 “干活的人”）</mark><div class="indented"><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80bc-b77d-e68ff9682ec6" class="block-color-purple_background">这是 MyBatis 动态生成的实现类，你看不见它的源码，但它是真正干活的：<div class="indented"><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-8095-8655-eb132775c42f" class="bulleted-list"><li style="list-style-type:disc">接收你调用接口方法时传的参数（比如 <code>News</code> 对象）；</li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-80a2-8e7f-f8e736a6aee3" class="bulleted-list"><li style="list-style-type:disc">找到 <code>Mapper.xml</code> 里对应的 SQL；</li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-80d7-bcf2-c5b20540ece6" class="bulleted-list"><li style="list-style-type:disc">把参数塞进 SQL 里；</li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-8032-822d-fa382d6c8c08" class="bulleted-list"><li style="list-style-type:disc">用 <code>config.xml</code> 里的数据库连接，把 SQL 发给数据库执行；</li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-804c-a03b-d6fcc0b01890" class="bulleted-list"><li style="list-style-type:disc">把数据库返回的结果（比如受影响行数）再返回给你。</li></ul></div></div></p></div></div></p></div><div style="display:contents" dir="auto"><hr id="36e8db55-6aee-8076-80d2-d54e47a2203d"/></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-80a2-b007-cd69aff5196d" class="toggle"><li><details open=""><summary>用户触发流程</summary><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-80e1-9f24-c0a9212efb9f" class="numbered-list" start="1"><li><strong>加载 </strong><code><strong>config.xml</strong></code>：你的 <code>Test</code> 类先读取 <code>config.xml</code>，MyBatis 拿到数据库配置和 <code>Mapper.xml</code> 路径。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-80ab-ac76-e0bdd90688c5" class="numbered-list" start="2"><li><strong>构建 </strong><code><strong>SqlSessionFactory</strong></code>：工厂对象创建好，里面包含了所有配置信息。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-80d8-b754-c4ccb7bd1c66" class="numbered-list" start="3"><li><strong>打开 </strong><code><strong>SqlSession</strong></code>：拿到数据库会话，相当于 JDBC 的 <code>Connection</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-808e-a06d-f366f4b6ea40" class="numbered-list" start="4"><li><strong>获取 </strong><code><strong>Mapper</strong></code><strong> 代理对象</strong>：<code>session.getMapper(NewsMapper.class)</code> 让 MyBatis 生成代理，把 <code>NewsMapper.java</code> 和 <code>NewsMapper.xml</code> 绑定。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-8006-ac12-ea3c254cd72f" class="numbered-list" start="5"><li><strong>调用接口方法 </strong><code><strong>mapper.add(news)</strong></code>：代理对象拿到你的 <code>News</code> 对象，找到 XML 里的 <code>insert</code> SQL，把参数拼进去，发给数据库执行。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="36e8db55-6aee-8082-bcfe-f883a568a9b4" class="numbered-list" start="6"><li><strong>提交事务 </strong><code><strong>session.commit()</strong></code>：事务提交，数据真正写入数据库。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36e8db55-6aee-80c4-9b30-f273ade7f0dd"/></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80f1-aecd-e614cdb51236" class="block-color-purple_background">在NewsMapper.java中还可以按照如下方法写，但是依然需要resources.com.southwind.test.mapper.NewsMapper.xml 文件存在（里面可以没有内容）。</p></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8020-a01b-f6cfd8ec8716" class="">因为MyBatis <strong>不会自动扫描接口，他需要通过xml找到对应的Newspaper接口,进而创造代理。</strong></p></div><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-808d-a636-ee5eabb0e548" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public interface NewsMapper {
+    @Insert({&quot;insert into sys_news(title, content, createtime, opername) values(#{title}, #{content}, #{createtime}, #{opername})&quot;})
+    public int add(News news);
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="36e8db55-6aee-80b9-8a77-cc18b195857a"/></div><div style="display:contents" dir="auto"><h2 id="36e8db55-6aee-8051-b8f4-dc05272b00b7" class="">数据库语句</h2></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80c1-95e7-e64e39988eee" class="">单表查询</p></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-8091-9ac7-e22c9eb06644" class="toggle"><li><details open=""><summary>实用注入形式的增删改查 NewsMapper.java</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-805e-8d9a-e32302ff2049" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public interface NewsMapper {
+    @Insert({&quot;insert into sys_news(title, content, createtime, opername) values(#{title}, #{content}, #{createtime}, #{opername})&quot;})
+    public int add(News news);
+
+    @Update({&quot;update sys_news set title = #{title},createtime=#{createtime},opername=#{opername} where id=#{id}&quot;})
+    public int update(News news);
+
+    @Delete({&quot;delete from sys_news where id=#{id}&quot;})
+    public int delete(int id);
+
+    @Select({&quot;select * from sys_news where id=#{id}&quot;})
+    public News findById(int id);
+
+    @Select({&quot;select * from sys_news&quot;})
+    public List&lt;News&gt; findAll();
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8046-9d64-f7674c16b550" class="">多表查询（注释写法）</p></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80ba-a33f-fe31d9e9a7d5" class="">有两个表Department 和Employee</p></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-80d3-9af2-e84166845628" class="toggle"><li><details open=""><summary>表结构</summary><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8042-a4f5-d37265d5f742" class="">Department </p></div><div style="display:contents" dir="ltr"><table id="36e8db55-6aee-80c7-9177-d83b74ba995a" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-80c6-ba89-c8816d2de5c6"><th id="qY:E" class="simple-table-header-color simple-table-header">字段名</th><th id=":NUo" class="simple-table-header-color simple-table-header">数据类型</th><th id="|k]j" class="simple-table-header-color simple-table-header">约束</th><th id="x:qu" class="simple-table-header-color simple-table-header">字段说明</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-8009-ac1d-f5ab7c747048"><td id="qY:E" class="">id</td><td id=":NUo" class="">INT</td><td id="|k]j" class="">主键、自增</td><td id="x:qu" class="">部门唯一 ID</td></tr></div><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-807b-aaec-ea341a5dba95"><td id="qY:E" class="">dept_name</td><td id=":NUo" class="">VARCHAR(50)</td><td id="|k]j" class="">非空</td><td id="x:qu" class="">部门名称</td></tr></div><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-8089-9b36-f90bc8f363e9"><td id="qY:E" class="">location</td><td id=":NUo" class="">VARCHAR(100)</td><td id="|k]j" class="">可为空</td><td id="x:qu" class="">部门办公地点</td></tr></div><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-80ba-8c4e-fe07a3b329eb"><td id="qY:E" class="">manager</td><td id=":NUo" class="">VARCHAR(30)</td><td id="|k]j" class="">可为空</td><td id="x:qu" class="">部门负责人</td></tr></div><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-806f-baf1-c31a3ebe4344"><td id="qY:E" class="">remark</td><td id=":NUo" class="">VARCHAR(255)</td><td id="|k]j" class="">可为空</td><td id="x:qu" class="">部门备注信息</td></tr></div><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-8059-9a26-fbfb54a0897c"><td id="qY:E" class="">create_time</td><td id=":NUo" class="">DATETIME</td><td id="|k]j" class="">默认当前时间</td><td id="x:qu" class="">部门创建时间</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80b4-8538-e3172828f720" class="">Employee</p></div><div style="display:contents" dir="ltr"><table id="36e8db55-6aee-802b-acb3-c0873ff31c75" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-80c2-ad92-f522e742ee68"><th id="j]:t" class="simple-table-header-color simple-table-header">字段名</th><th id=";Q;C" class="simple-table-header-color simple-table-header">数据类型</th><th id="]KIQ" class="simple-table-header-color simple-table-header">约束</th><th id="pGZR" class="simple-table-header-color simple-table-header">字段说明</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-80c8-b4c6-e9ef5859d97d"><td id="j]:t" class="">id</td><td id=";Q;C" class="">INT</td><td id="]KIQ" class="">主键、自增</td><td id="pGZR" class="">员工唯一 ID</td></tr></div><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-8027-a431-ff82c19c91d2"><td id="j]:t" class="">emp_name</td><td id=";Q;C" class="">VARCHAR(30)</td><td id="]KIQ" class="">非空</td><td id="pGZR" class="">员工姓名</td></tr></div><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-8021-9f72-cea875d939ed"><td id="j]:t" class="">age</td><td id=";Q;C" class="">INT</td><td id="]KIQ" class="">可为空</td><td id="pGZR" class="">员工年龄</td></tr></div><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-8017-881f-f5f9182e0a74"><td id="j]:t" class="">gender</td><td id=";Q;C" class="">CHAR(1)</td><td id="]KIQ" class="">可为空</td><td id="pGZR" class="">性别：1 - 男，2 - 女</td></tr></div><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-809d-9c8b-f08de6c74554"><td id="j]:t" class="">phone</td><td id=";Q;C" class="">VARCHAR(20)</td><td id="]KIQ" class="">可为空</td><td id="pGZR" class="">联系电话</td></tr></div><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-80f9-b44d-dc2db7e4fbc7"><td id="j]:t" class="">dept_id</td><td id=";Q;C" class="">INT</td><td id="]KIQ" class="">外键</td><td id="pGZR" class="">关联部门表 <code>department.id</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-807d-a704-f189d5b45028"><td id="j]:t" class="">address</td><td id=";Q;C" class="">VARCHAR(255)</td><td id="]KIQ" class="">可为空</td><td id="pGZR" class="">家庭住址</td></tr></div><div style="display:contents" dir="ltr"><tr id="36e8db55-6aee-8094-bea2-c21e69c5ebcb"><td id="j]:t" class="">create_time</td><td id=";Q;C" class="">DATETIME</td><td id="]KIQ" class="">默认当前时间</td><td id="pGZR" class="">员工入职时间</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-8045-b04f-f6e3b44af307" class="block-color-purple_background toggle"><li><details open=""><summary>java…mapper.DepartmentMapper.java</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-8030-a006-d3b22dfa669a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.mapper;
+
+import com.southwind.test.Department;
+import com.southwind.test.Employee;
+import org.apache.ibatis.annotations.Many;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+
+/**
+ * 部门 Mapper 接口
+ * 负责：单表查询 + 一对多关联查询
+ */
+public interface DepartmentMapper {
+
+    // ======================== 方法 1：根据ID查部门（给【一对一】调用） ========================
+    /**
+     * 作用：根据部门ID 查询 单个部门信息
+     * 场景：EmployeeMapper 中【一对一查询员工+所属部门】时，会调用这个方法
+     *
+     * 为什么必须写 @Results？
+     * 因为：数据库字段名 和 Java实体属性名 不一致！
+     * 数据库：dept_name    实体：deptName
+     * 数据库：create_time  实体：createTime
+     * MyBatis 默认不会自动驼峰转换 → 不写映射就会是 null！
+     */
+    @Select(&quot;select * from department where id = #{deptId}&quot;)
+    @Results({
+            // 数据库列名 dept_name  → 映射到 → 实体属性 deptName
+            @Result(column = &quot;dept_name&quot;, property=&quot;deptName&quot;),
+            // 数据库列名 create_time → 映射到 → 实体属性 createTime
+            @Result(column = &quot;create_time&quot;, property = &quot;createTime&quot;)
+    })
+    Department getDeptById(Integer deptId);
+
+    // ======================== 方法 2：根据ID查部门 + 旗下所有员工（一对多） ========================
+    /**
+     * 作用：查询 1个部门 + 该部门下所有员工（一对多查询）
+     * 一个部门 → 多个员工 → 所以用 @Many
+     */
+    @Select(&quot;select * from department where id = #{deptId}&quot;)
+    @Results({
+            // 主键映射（必须加 id=true，提高效率）
+            @Result(id = true, column = &quot;id&quot;, property = &quot;id&quot;),
+
+            // 普通字段映射：数据库列 → 实体属性
+            @Result(column = &quot;dept_name&quot;, property = &quot;deptName&quot;),
+            @Result(column = &quot;location&quot;, property = &quot;location&quot;),
+            @Result(column = &quot;manager&quot;, property = &quot;manager&quot;),
+            @Result(column = &quot;remark&quot;, property = &quot;remark&quot;),
+            @Result(column = &quot;create_time&quot;, property = &quot;createTime&quot;),
+
+            /**
+             * 一对多 核心映射！
+             * property = &quot;employeeList&quot;：Department实体中的集合属性名
+             * column = &quot;id&quot;：把当前部门表的 id 列的值，当作参数传给子查询
+             * many = @Many：表示一对多（返回多个结果 → 集合）
+             * select：指定调用哪个 Mapper 的哪个方法
+             *
+             * 执行流程：
+             * 1. 先查 department 得到部门 id=1
+             * 2. 自动调用 EmployeeMapper.getEmpByDeptId(1)
+             * 3. 把查到的员工列表 → 塞进 Department.employeeList
+             */
+            @Result(
+                    property = &quot;employeeList&quot;,
+                    column = &quot;id&quot;,
+                    many = @Many(select = &quot;com.southwind.test.mapper.EmployeeMapper.getEmpByDeptId&quot;)
+            )
+    })
+    Department getDeptAndEmp(Integer deptId);
+
+    // ======================== 方法 3：根据部门ID查所有员工（给【一对多】调用） ========================
+    /**
+     * 作用：根据部门ID，查询该部门下所有员工
+     * 场景：被上面的【一对多查询】调用
+     * 这里没有 @Results 为什么？
+     * 因为 employee 表的字段和实体属性 已经在 EmployeeMapper 里映射好了！
+     */
+    @Select(&quot;select * from employee where dept_id = #{deptId}&quot;)
+    List&lt;Employee&gt; getEmpByDeptId(Integer deptId);
+}</code></pre></div><div style="display:contents" dir="auto"><blockquote id="36e8db55-6aee-80d9-96cd-f4a513702b68" class=""><code>@Result(column = &quot;dept_name&quot;, property = &quot;deptName&quot;)</code>:告诉MyBatis怎么把数据库的值放进Java对象里(名字不一样→必须写)</blockquote></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-807a-b76b-ca24f4c064fe" class="toggle"><li><details open=""><summary>resources…DepartmentMapper.xml 写法</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-8040-80c0-e56f37550fb1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+&lt;!-- 命名空间必须对应接口全类名 --&gt;
+&lt;mapper namespace=&quot;com.southwind.test.mapper.DepartmentMapper&quot;&gt;
+
+    &lt;!-- 1. 根据部门ID查询部门（给一对一关联调用） --&gt;
+    &lt;select id=&quot;getDeptById&quot; parameterType=&quot;int&quot; resultType=&quot;com.southwind.test.Department&quot;&gt;
+        select * from department where id = #{deptId}
+    &lt;/select&gt;
+
+    &lt;!-- 2. 根据部门ID查询部门 + 旗下所有员工（一对多） --&gt;
+    &lt;resultMap id=&quot;DeptAndEmpMap&quot; type=&quot;com.southwind.test.Department&quot;&gt;
+        &lt;id column=&quot;id&quot; property=&quot;id&quot;/&gt;
+        &lt;result column=&quot;dept_name&quot; property=&quot;deptName&quot;/&gt;
+        &lt;result column=&quot;location&quot; property=&quot;location&quot;/&gt;
+        &lt;result column=&quot;manager&quot; property=&quot;manager&quot;/&gt;
+        &lt;result column=&quot;remark&quot; property=&quot;remark&quot;/&gt;
+        &lt;result column=&quot;create_time&quot; property=&quot;createTime&quot;/&gt;
+        
+        &lt;!-- 一对多：关联查询员工列表 --&gt;
+        &lt;collection property=&quot;employeeList&quot;
+                    column=&quot;id&quot;
+                    select=&quot;com.southwind.test.mapper.EmployeeMapper.getEmpByDeptId&quot;/&gt;
+    &lt;/resultMap&gt;
+
+    &lt;select id=&quot;getDeptAndEmp&quot; parameterType=&quot;int&quot; resultMap=&quot;DeptAndEmpMap&quot;&gt;
+        select * from department where id = #{deptId}
+    &lt;/select&gt;
+
+    &lt;!-- 3. 根据部门ID查询员工（给一对多关联调用） --&gt;
+    &lt;select id=&quot;getEmpByDeptId&quot; parameterType=&quot;int&quot; resultType=&quot;com.southwind.test.Employee&quot;&gt;
+        select * from employee where dept_id = #{deptId}
+    &lt;/select&gt;
+
+&lt;/mapper&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-80b6-8700-e20572daeacb" class="block-color-purple_background toggle"><li><details open=""><summary>java…mapper.EmployeeMapper.java</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-808f-bf5a-e64a3c33243f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.mapper;
+
+import com.southwind.test.Department;
+import com.southwind.test.Employee;
+import org.apache.ibatis.annotations.One;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+
+/**
+ * 员工表 Mapper
+ * 功能：
+ * 1. 根据员工ID查询员工 + 所属部门（一对一关联查询）
+ * 2. 根据部门ID查询该部门下所有员工（给部门一对多调用）
+ */
+public interface EmployeeMapper {
+
+    // ===================== 1. 一对一查询：查询员工 + 所属部门 =====================
+    /**
+     * 需求：
+     * 根据员工ID查询员工信息，并且把【员工所属的部门】一起查出来
+     *
+     * 关系：
+     * 多个员工 ← 对应 → 一个部门
+     * 员工 → 部门 是【一对一】关系
+     */
+    @Select(&quot;select * from employee where id = #{empId}&quot;)
+    @Results({
+        // ======================================
+        // 主键映射：id=true 表示这是主键字段
+        // column = 数据库列名
+        // property = 实体类属性名
+        // ======================================
+        @Result(id = true, column = &quot;id&quot;, property = &quot;id&quot;),
+
+        // 数据库列 emp_name → 映射到实体属性 empName
+        @Result(column = &quot;emp_name&quot;, property = &quot;empName&quot;),
+
+        // 数据库列 age → 映射到实体属性 age
+        @Result(column = &quot;age&quot;, property = &quot;age&quot;),
+
+        // 数据库列 gender → 映射到实体属性 gender
+        @Result(column = &quot;gender&quot;, property = &quot;gender&quot;),
+
+        // 数据库列 phone → 映射到实体属性 phone
+        @Result(column = &quot;phone&quot;, property = &quot;phone&quot;),
+
+        // 数据库列 dept_id → 映射到实体属性 deptId
+        @Result(column = &quot;dept_id&quot;, property = &quot;deptId&quot;),
+
+        // 数据库列 address → 映射到实体属性 address
+        @Result(column = &quot;address&quot;, property = &quot;address&quot;),
+
+        // 数据库列 create_time → 映射到实体属性 createTime
+        @Result(column = &quot;create_time&quot;, property = &quot;createTime&quot;),
+
+        // ======================================
+        // 【一对一 关 联 查 询 核 心】
+        // 作用：查询员工的同时，自动查询所属部门
+        // ======================================
+        @Result(
+            // property = &quot;department&quot;
+            // 表示：把查询到的部门对象，赋值给 Employee 类中的 department 属性
+            property = &quot;department&quot;,
+
+            // column = &quot;dept_id&quot;
+            // 表示：把员工表的 dept_id 字段值，当作参数传给【部门查询方法】
+            // 也就是：拿 部门ID 去查部门
+            column = &quot;dept_id&quot;,
+
+            // one = @One
+            // 表示：这是【一对一】关联查询
+            // 因为一个员工只属于一个部门
+            one = @One(
+                // select = &quot;调用哪个Mapper的哪个方法&quot;
+                // 这里调用 DepartmentMapper 里的 getDeptById 方法
+                select = &quot;com.southwind.test.mapper.DepartmentMapper.getDeptById&quot;
+            )
+        )
+    })
+    Employee getEmpAndDept(Integer empId);
+
+    // ===================== 2. 根据部门ID查询该部门下所有员工 =====================
+    /**
+     * 作用：
+     * 根据部门ID，查询这个部门下的所有员工
+     *
+     * 谁会调用？
+     * DepartmentMapper 中的【一对多查询】会调用它
+     *
+     * 为什么这里不用 @Results？
+     * 因为：
+     * 1. 简单查询，只返回员工列表
+     * 2. 字段映射已经在上面的方法中完成
+     * 3. MyBatis 可以自动封装
+     */
+    @Select(&quot;select * from employee where dept_id = #{deptId}&quot;)
+    List&lt;Employee&gt; getEmpByDeptId(Integer deptId);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-8007-9a5a-c98585a12173" class="toggle"><li><details open=""><summary>resources…EmployeeMapper.xml 写法</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-8016-b823-e9f195fd7968" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+&lt;!-- 命名空间 = 接口全类名 --&gt;
+&lt;mapper namespace=&quot;com.southwind.test.mapper.EmployeeMapper&quot;&gt;
+
+    &lt;!-- ======================== 1. 查询员工 + 所属部门（一对一） ======================== --&gt;
+    &lt;resultMap id=&quot;EmpAndDeptResultMap&quot; type=&quot;com.southwind.test.Employee&quot;&gt;
+        &lt;id column=&quot;id&quot; property=&quot;id&quot;/&gt;
+        &lt;result column=&quot;emp_name&quot; property=&quot;empName&quot;/&gt;
+        &lt;result column=&quot;age&quot; property=&quot;age&quot;/&gt;
+        &lt;result column=&quot;gender&quot; property=&quot;gender&quot;/&gt;
+        &lt;result column=&quot;phone&quot; property=&quot;phone&quot;/&gt;
+        &lt;result column=&quot;dept_id&quot; property=&quot;deptId&quot;/&gt;
+        &lt;result column=&quot;address&quot; property=&quot;address&quot;/&gt;
+        &lt;result column=&quot;create_time&quot; property=&quot;createTime&quot;/&gt;
+
+        &lt;!-- 一对一关联查询：对应注解 @One --&gt;
+        &lt;association
+            property=&quot;department&quot;
+            column=&quot;dept_id&quot;
+            select=&quot;com.southwind.test.mapper.DepartmentMapper.getDeptById&quot;
+        /&gt;
+    &lt;/resultMap&gt;
+
+    &lt;select id=&quot;getEmpAndDept&quot; parameterType=&quot;int&quot; resultMap=&quot;EmpAndDeptResultMap&quot;&gt;
+        select * from employee where id = #{empId}
+    &lt;/select&gt;
+
+    &lt;!-- ======================== 2. 根据部门ID查员工（给一对多调用） ======================== --&gt;
+    &lt;select id=&quot;getEmpByDeptId&quot; parameterType=&quot;int&quot; resultType=&quot;com.southwind.test.Employee&quot;&gt;
+        select * from employee where dept_id = #{deptId}
+    &lt;/select&gt;
+
+&lt;/mapper&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80f5-8dd4-d182f8c0384f" class="">对应的类</p></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-802a-8b98-c7a97e2dcb21" class="toggle"><li><details open=""><summary>Department.java</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-8055-a83d-cdee521ecf2c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+import java.util.Date;
+import java.util.List;
+
+@Data
+public class Department {
+    private Integer id;         // 部门ID
+    private String deptName;    // 部门名称
+    private String location;    // 位置
+    private String manager;     // 负责人
+    private String remark;      // 备注
+    private Date createTime;    // 创建时间
+
+    // 一对多：一个部门包含多个员工
+    private List&lt;Employee&gt; employeeList;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8047-9d28-d93e504d30de" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-808f-921a-c6c4036b46cf" class="toggle"><li><details open=""><summary>Employee.java</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-8040-9c2c-f1572a03498a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class Employee {
+    private Integer id;         // 员工ID
+    private String empName;     // 姓名
+    private Integer age;        // 年龄
+    private String gender;     // 性别
+    private String phone;      // 电话
+    private Integer deptId;    // 部门ID
+    private String address;   // 住址
+    private Date createTime;  // 入职时间
+
+    // 一对一：一个员工属于一个部门
+    private Department department;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8047-b414-f08c170756f0" class="">添加resources.config.xml配置文件</p></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-80f6-a267-c187b14120dc" class="toggle"><li><details open=""><summary>config.xml</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-8062-a924-e5920e95bd7b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;mappers&gt;
+        &lt;!-- 加载 Mapper XML 映射文件：指定文件路径 --&gt;
+        &lt;mapper class=&quot;com.southwind.test.mapper.NewsMapper&quot;/&gt;
+        &lt;mapper class=&quot;com.southwind.test.mapper.EmployeeMapper&quot;/&gt;
+        &lt;mapper class=&quot;com.southwind.test.mapper.DepartmentMapper&quot;/&gt;
+    &lt;/mappers&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80b6-bc9d-c028a6f66620" class="">测试文件</p></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-80ef-b075-dd8e337cdff9" class="toggle"><li><details open=""><summary>Test.java</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-8068-9877-f4c9cf18729c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import com.southwind.test.mapper.DepartmentMapper;
+import com.southwind.test.mapper.EmployeeMapper; // 加这行
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+public class Test {
+    public static void main(String[] args) {
+        try {
+            // 加载配置文件
+            SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+                    .build(Resources.getResourceAsReader(&quot;config.xml&quot;));
+            SqlSession session = factory.openSession(true);
+
+            // 1. 测试一对一：查询员工及所属部门
+            EmployeeMapper empMapper = session.getMapper(EmployeeMapper.class);
+            Employee emp = empMapper.getEmpAndDept(1);
+            System.out.println(&quot;===== 员工+所属部门 =====&quot;);
+            System.out.println(emp);
+            System.out.println(&quot;所属部门：&quot; + emp.getDepartment().getDeptName());
+
+            // 2. 测试一对多：查询部门及所有员工
+            DepartmentMapper deptMapper = session.getMapper(DepartmentMapper.class);
+            Department dept = deptMapper.getDeptAndEmp(1);
+            System.out.println(&quot;\n===== 部门+旗下员工 =====&quot;);
+            System.out.println(dept);
+
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36e8db55-6aee-8011-9971-dfe959b1029e"/></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8038-ba89-cfab49b4408e" class="">
 </p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
