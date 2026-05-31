@@ -1214,7 +1214,7 @@ public class DemoController {
         // 返回 JSON 数据
         return map; 
     }
-}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36e8db55-6aee-80e1-b0af-ed743b026fba"/></div><div style="display:contents" dir="auto"><h1 id="36e8db55-6aee-8016-a8c6-cee3e84f9be3" class="">MyBatis</h1></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-80d2-bdcc-e005ed29855c" class="">MyBatis是当前主流的ORM架构</p></div><div style="display:contents" dir="auto"><h2 id="36e8db55-6aee-80b2-8f97-c71a73897f69" class="">MyBatis基本流程</h2></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-80de-baa1-cf310af219e7" class="toggle"><li><details open=""><summary>引入包依赖 pom.xml</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-8081-b919-ed3381d6925a" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;dependency&gt;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36e8db55-6aee-80e1-b0af-ed743b026fba"/></div><div style="display:contents" dir="auto"><h1 id="36e8db55-6aee-8016-a8c6-cee3e84f9be3" class="">MyBatis</h1></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8027-9ac9-d6e06781e011" class=""><strong>MyBatis</strong> 是一款<strong>开源的持久层框架</strong>，专门用来简化 Java 程序操作数据库的代码，是当前主流的ORM架构。</p></div><div style="display:contents" dir="auto"><h2 id="36e8db55-6aee-80b2-8f97-c71a73897f69" class="">MyBatis基本流程</h2></div><div style="display:contents" dir="auto"><ul id="36e8db55-6aee-80de-baa1-cf310af219e7" class="toggle"><li><details open=""><summary>引入包依赖 pom.xml</summary><div style="display:contents" dir="auto"><pre id="36e8db55-6aee-8081-b919-ed3381d6925a" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;dependency&gt;
     &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
     &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
     &lt;version&gt;3.4.5&lt;/version&gt;
@@ -1698,5 +1698,407 @@ public class Test {
             e.printStackTrace();
         }
     }
-}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36e8db55-6aee-8011-9971-dfe959b1029e"/></div><div style="display:contents" dir="auto"><p id="36e8db55-6aee-8038-ba89-cfab49b4408e" class="">
-</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="36e8db55-6aee-8011-9971-dfe959b1029e"/></div><div style="display:contents" dir="auto"><h2 id="36e8db55-6aee-8038-ba89-cfab49b4408e" class="">MyBatis延迟加载</h2></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8080-9a6a-e2ef08c35ba5" class="">(Lazy Loading 懒加载)是针对<strong>多表关联查询</strong>的核心优化机制：<mark class="highlight-purple_background">查询主表数据时，不会立刻加载关联表数据；只有当代码主动访问关联对象 / 集合的属性时，才会额外执行 SQL 加载关联数据，可以降低内存与IO开销。</mark></p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80ad-90ee-d13f88a9dc15" class="toggle"><li><details open=""><summary>立即加载与懒加载区别</summary><div style="display:contents" dir="auto"><p id="3718db55-6aee-8011-b517-d46230cfaa3a" class="">立即加载：查询主对象时，<strong>一次性通过联表查询 / 多条 SQL 把主表 + 所有关联表数据全部加载</strong>。<div class="indented"><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80ae-a357-c3fbe09b8ce3" class="bulleted-list"><li style="list-style-type:disc">特点：一次查询拿到所有数据，后续访问关联属性无需再查库</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80ba-b551-d05408024604" class="bulleted-list"><li style="list-style-type:disc">适用：每次查询主数据<strong>必然要使用关联数据</strong></li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80e3-aef4-e0c3beac5716" class="">懒加载：查询主对象时<strong>只查主表</strong>，关联数据先不加载；<strong>访问关联属性时才触发二次查询</strong><div class="indented"><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8055-a449-fc6dfd379639" class="bulleted-list"><li style="list-style-type:disc">特点：按需加载，减少无效查询</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80fe-830a-e66d49286cf4" class="bulleted-list"><li style="list-style-type:disc">适用：大部分场景<strong>不需要使用关联数据</strong>，仅少数场景需要</li></ul></div></div></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8002-8036-d0ff73ef79ce" class="toggle"><li><details open=""><summary>MyBatis 延迟加载基于 <strong>CGLIB 动态代理</strong> 实现：</summary><div style="display:contents" dir="auto"><ul id="3718db55-6aee-801b-85da-d42c4066aaef" class="bulleted-list"><li style="list-style-type:disc">开启懒加载后，MyBatis 不会直接返回原生实体对象，而是返回<strong>代理对象</strong>；</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8042-8774-dae857e25dd5" class="bulleted-list"><li style="list-style-type:disc">当代码调用<strong>关联属性的 getter 方法</strong>时，代理对象拦截请求；</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8058-a6c4-d254f2479e04" class="bulleted-list"><li style="list-style-type:disc">拦截后自动执行预定义的关联查询 SQL，加载数据并注入到关联属性中；</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80ae-8e78-ff31cedd612e" class="bulleted-list"><li style="list-style-type:disc">后续再次访问该关联属性，不会重复查库（数据已缓存）。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="3718db55-6aee-80a3-b94d-f020de9ff6cf" class="block-color-purple_background">强制要求：<strong>实体类必须提供getter/setter方法(@Data)</strong>，否则代理无法拦截，懒加载直接失效。</blockquote></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80e5-b53f-c4e81ff2d600" class="">全局核心配置以及解释：</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-807c-a446-db27234de7a1" class="toggle"><li><details open=""><summary>mybatis-config.xml</summary><div style="display:contents" dir="auto"><p id="3718db55-6aee-802b-b11a-e4d577707bda" class="">延迟加载的总开关与行为控制，全部配置在<code>&lt;settings&gt;</code>标签内，共 3 个核心参数。</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-80d6-be6a-dba22be1764d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;configuration&gt;
+    &lt;settings&gt;
+        &lt;!-- 1. 全局延迟加载总开关：默认 false（关闭），true 开启全局懒加载 --&gt;
+        &lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;
+
+        &lt;!-- 2. 积极懒加载：默认 true（老版本默认行为） --&gt;
+        &lt;setting name=&quot;aggressiveLazyLoading&quot; value=&quot;false&quot;/&gt;
+
+        &lt;!-- 3. 触发懒加载的方法列表：默认 equals,clone,hashCode,toString --&gt;
+        &lt;setting name=&quot;lazyLoadTriggerMethods&quot; value=&quot;equals,clone,hashCode&quot;/&gt;
+    &lt;/settings&gt;
+&lt;/configuration&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80b0-aa3f-f37f4a41cc04" class=""><strong>lazyLoadingEnabled</strong><div class="indented"><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f7-8b42-ca91ce3b8f17" class="bulleted-list"><li style="list-style-type:disc"><code>true</code>：全局所有 <code>association/collection</code> 关联统一开启延迟加载；</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8087-909d-e8d6c8d638eb" class="bulleted-list"><li style="list-style-type:disc"><code>false</code>（默认）：全局关闭，所有关联立即加载。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80b0-99b0-d8aeffff0da3" class=""><strong>aggressiveLazyLoading（重点）</strong><div class="indented"><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8062-b498-e7daf3e9722f" class="bulleted-list"><li style="list-style-type:disc"><code>true</code>（默认）：<strong>积极懒加载</strong>。只要调用<strong>主对象的任意方法</strong>，就会一次性加载所有关联数据，失去 “按需加载” 意义；</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8051-abda-f215def8c663" class="bulleted-list"><li style="list-style-type:disc"><code>false</code>（推荐配置）：<strong>按需懒加载</strong>。只有<strong>真正访问关联对象的属性 /getter</strong>，才会触发加载。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8091-8f22-f6bac2a8bbf8" class=""><strong>lazyLoadTriggerMethods</strong>指定哪些方法会<strong>强制触发延迟加载</strong>（不受 <code>aggressiveLazyLoading=false</code> 限制）。<div class="indented"><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f2-93e2-d53064891a84" class="bulleted-list"><li style="list-style-type:disc">默认值：<code>equals,clone,hashCode,toString</code></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80fe-8681-e62ab56ff7d8" class="bulleted-list"><li style="list-style-type:disc">场景：即使只打印主对象 <code>System.out.println(user)</code>（调用 <code>toString()</code>），也会加载所有关联数据；</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8009-bda2-ff2cb362dd7a" class="bulleted-list"><li style="list-style-type:disc">优化：可移除 <code>toString</code>，避免打印对象时误触发懒加载。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><hr id="3718db55-6aee-802d-9c5d-c895c01081a7"/></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-807b-b1db-c88cd78aa06d" class=""><code>association</code>（一对一）、<code>collection</code>（一对多）标签支持 <code>fetchType</code> 属性，<strong>局部单独控制当前关联的加载方式</strong>，优先级高于全局配置：</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80c7-b35e-d38cef1ca700" class="bulleted-list"><li style="list-style-type:disc"><code>fetchType=&quot;lazy&quot;</code>：当前关联延迟加载；</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-803b-94e9-c4b4257fcece" class="bulleted-list"><li style="list-style-type:disc"><code>fetchType=&quot;eager&quot;</code>（默认）：当前关联立即加载。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80c8-8154-fe0ce0093026" class="">案例：</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8064-bb65-f18e52be116c" class="toggle"><li><details open=""><summary>用户(User)用户身份(IdCard)订单(Order)数据库创建</summary><div style="display:contents" dir="auto"><p id="3718db55-6aee-8040-96af-c62fc4dfc39b" class="">实体类</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80d5-95f7-fc0abbe1a734" class="toggle"><li><details open=""><summary>User.java</summary><div style="display:contents" dir="auto"><pre id="3718db55-6aee-8006-bc15-fab385ed929b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+import java.util.List;
+
+
+@Data
+public class User {
+
+    private String username;
+    private Integer id;
+
+    private IdCard idCard;
+    private List&lt;Order&gt; orders;
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80c9-867f-d9222af167be" class="toggle"><li><details open=""><summary>IdCard.java</summary><div style="display:contents" dir="auto"><pre id="3718db55-6aee-80dd-babf-f4b5019f8dc2" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+@Data
+public class IdCard {
+    private Integer id;
+    private String cardNo;
+    private Integer userId;
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8017-9a2e-e5542070d7ef" class="toggle"><li><details open=""><summary>Order.java</summary><div style="display:contents" dir="auto"><pre id="3718db55-6aee-80c9-aff5-e6fc52092008" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+@Data
+public class Order {
+    private Integer id;
+    private Integer userId;
+    private String orderName;
+
+}
+</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8005-af81-e5aeee42445e" class="toggle"><li><details open=""><summary>映射接口定义 UserMapper.java</summary><div style="display:contents" dir="auto"><pre id="3718db55-6aee-80fc-8292-d14697fb3515" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.mapper;
+
+import com.southwind.test.User;
+
+public interface UserMapper {
+    User getUserById(Integer id);
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80d1-8066-edd1f320ce40" class="toggle"><li><details open=""><summary>SQL语句定义文件 UserMapper.xml</summary><div style="display:contents" dir="auto"><pre id="3718db55-6aee-8055-9375-cacb828d1ddb" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!-- MyBatis Mapper文件头部声明，固定格式，指定文档类型与约束 --&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+&lt;!-- 
+    namespace：命名空间，**必须和对应的Mapper接口全类名完全一致**
+    作用：将当前XML文件与 Java 接口 com.southwind.test.mapper.UserMapper 进行绑定
+    MyBatis 通过该属性找到对应的接口，实现方法与SQL的映射
+--&gt;
+&lt;mapper namespace=&quot;com.southwind.test.mapper.UserMapper&quot;&gt;
+
+    &lt;!-- ===================== 一对一关系：用户 + 身份证 ===================== --&gt;
+    &lt;!-- 
+        resultMap：自定义结果映射集
+        id：映射集唯一标识，供下方select标签引用
+        type：指定该映射最终要封装的实体类全类名
+        作用：手动关联数据库查询字段 和 Java实体类属性，同时配置表之间关联关系、延迟加载
+    --&gt;
+    &lt;resultMap id=&quot;UserResultMap&quot; type=&quot;com.southwind.test.User&quot;&gt;
+        &lt;!-- 
+            id标签：映射数据库主键字段
+            column：数据库表中的字段名
+            property：Java实体类User中对应的属性名
+        --&gt;
+        &lt;id column=&quot;id&quot; property=&quot;id&quot;/&gt;
+        &lt;!-- 
+            result标签：映射普通非主键字段
+            column：数据库字段名
+            property：Java实体类属性名
+        --&gt;
+        &lt;result column=&quot;username&quot; property=&quot;username&quot;/&gt;
+
+        &lt;!-- 
+            association：一对一关联标签
+            适用场景：当前实体包含【单个】关联对象（一个用户对应一张身份证）
+            property：User实体中关联对象的属性名 idCard
+            select：分步查询，指定第二步要执行的SQL所在位置，格式：接口全类名.方法名
+                    表示调用 UserMapper 接口中的 getCardByUserId 方法执行关联查询
+            column：将当前查询出的数据库字段 id 作为参数，传给第二步SQL
+            fetchType=&quot;lazy&quot;：局部设置当前关联关系开启延迟加载
+                              只有代码主动访问 idCard 属性时，才执行第二步SQL
+        --&gt;
+        &lt;association
+                property=&quot;idCard&quot;
+                select=&quot;com.southwind.test.mapper.UserMapper.getCardByUserId&quot;
+                column=&quot;id&quot;
+                fetchType=&quot;lazy&quot;/&gt;
+    &lt;/resultMap&gt;
+
+    &lt;!-- ===================== 一对多关系：用户 + 多个订单 ===================== --&gt;
+    &lt;!-- 
+        新的结果映射集，专门用于「用户 + 订单集合」的一对多查询
+        id：唯一标识，与下方select标签对应
+        type：依旧封装到 User 实体类
+    --&gt;
+    &lt;resultMap id=&quot;UserOrderResultMap&quot; type=&quot;com.southwind.test.User&quot;&gt;
+        &lt;!-- 映射用户表主键 id --&gt;
+        &lt;id column=&quot;id&quot; property=&quot;id&quot;/&gt;
+        &lt;!-- 映射用户表普通字段 username --&gt;
+        &lt;result column=&quot;username&quot; property=&quot;username&quot;/&gt;
+
+        &lt;!-- 
+            collection：一对多关联标签
+            适用场景：当前实体包含【集合】类型关联数据（一个用户对应多个订单）
+            property：User实体中集合属性名 orderList（List&lt;Order&gt;）
+            select：分步查询，指定第二步执行的方法：接口全类名.方法名
+            column：把当前查询的用户id，作为参数传给订单查询SQL
+            fetchType=&quot;lazy&quot;：局部延迟加载，访问 orderList 集合时才执行订单查询SQL
+        --&gt;
+        &lt;collection
+                property=&quot;orderList&quot;
+                select=&quot;com.southwind.test.mapper.UserMapper.getOrderByUserId&quot;
+                column=&quot;id&quot;
+                fetchType=&quot;lazy&quot;/&gt;
+    &lt;/resultMap&gt;
+
+    &lt;!-- ===================== SQL语句：一对一查询主SQL ===================== --&gt;
+    &lt;!-- 
+        select：查询标签，用于编写查询SQL
+        id：方法名，**必须和Mapper接口中的方法名完全一致**
+             Java代码调用接口方法时，会匹配该id执行内部SQL
+        resultMap：引用上方自定义的结果映射集 UserResultMap
+                   表示查询结果按照 UserResultMap 规则封装对象
+    --&gt;
+    &lt;select id=&quot;getUserById&quot; resultMap=&quot;UserResultMap&quot;&gt;
+        &lt;!-- 原生MySQL语句：根据用户id查询用户信息 --&gt;
+        SELECT id, username FROM user WHERE id = #{id}
+    &lt;/select&gt;
+
+    &lt;!-- ===================== SQL语句：一对一 分步关联查询（查身份证） ===================== --&gt;
+    &lt;!-- 
+        id：对应接口中 getCardByUserId 方法
+        resultType：直接指定返回值实体类全类名，简单查询可简写，无需resultMap
+    --&gt;
+    &lt;select id=&quot;getCardByUserId&quot; resultType=&quot;com.southwind.test.IdCard&quot;&gt;
+        &lt;!-- 根据用户id查询对应的身份证信息，#{userId} 接收上层传递的参数 --&gt;
+        SELECT id, card_no, user_id FROM id_card WHERE user_id = #{userId}
+    &lt;/select&gt;
+
+    &lt;!-- ===================== SQL语句：一对多查询主SQL ===================== --&gt;
+    &lt;!-- 
+        id：对应接口中 getUserWithOrder 方法
+        resultMap：引用一对多专用映射集 UserOrderResultMap
+    --&gt;
+    &lt;select id=&quot;getUserWithOrder&quot; resultMap=&quot;UserOrderResultMap&quot;&gt;
+        &lt;!-- 根据id查询用户基础信息 --&gt;
+        SELECT id, username FROM user WHERE id = #{id}
+    &lt;/select&gt;
+
+    &lt;!-- ===================== SQL语句：一对多 分步关联查询（查订单） ===================== --&gt;
+    &lt;!-- 
+        id：对应接口中 getOrderByUserId 方法
+        resultType：返回订单实体，多条数据会自动封装为List集合
+    --&gt;
+    &lt;select id=&quot;getOrderByUserId&quot; resultType=&quot;com.southwind.test.Order&quot;&gt;
+        &lt;!-- 根据用户id查询该用户下所有订单 --&gt;
+        SELECT id, order_name, user_id FROM orders WHERE user_id = #{userId}
+    &lt;/select&gt;
+
+&lt;/mapper&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f4-bfba-db491e587f67" class="toggle"><li><details open=""><summary>懒加载开启配置文件 config.xml</summary><div style="display:contents" dir="auto"><p id="3718db55-6aee-80bc-997d-d29c364c8c77" class="">解释在上面 mybatis-config.xml 文件中</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-8023-8f4e-d6e50bdae444" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;
+&lt;setting name=&quot;aggressiveLazyLoading&quot; value=&quot;false&quot;/&gt;
+&lt;!-- 移除toString，避免打印对象误触发懒加载 --&gt;
+&lt;setting name=&quot;lazyLoadTriggerMethods&quot; value=&quot;equals,clone,hashCode&quot;/&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8019-8b8d-eccaf9cce958" class="">记得映射SQL语句文件位置：</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-80dd-a174-ea06cebbc78a" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;mapper class=&quot;com.southwind.test.mapper.UserMapper&quot;/&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-807e-be6f-eacadb2b1829" class="toggle"><li><details open=""><summary>Test.java</summary><div style="display:contents" dir="auto"><pre id="3718db55-6aee-8013-a34d-f4ee6161c2a8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+        .build(Resources.getResourceAsReader(&quot;config.xml&quot;));
+SqlSession session = factory.openSession(true);
+
+UserMapper mapper = session.getMapper(UserMapper.class);
+User user = mapper.getUserById(1);
+System.out.println(user);
+session.close();</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3718db55-6aee-809f-9209-c03e4466e72c"/></div><div style="display:contents" dir="auto"><h2 id="3718db55-6aee-806e-bd93-d36a3550b53c" class="">mappers中的class/resource/namespace</h2></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-809d-a536-da4c7dd148a9" class="toggle"><li><details open=""><summary><code>&lt;mapper resource=&quot;文件路径&quot;&gt;</code>:<strong>根据相对路径加载Mapper XML文件</strong>，直接定位<code>.xml</code></summary><div style="display:contents" dir="auto"><ul id="3718db55-6aee-806f-8433-e327b0ae1dd6" class="bulleted-list"><li style="list-style-type:disc">写在<code>mybatis-config.xml</code>的<code>&lt;mappers&gt;</code>内</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-803c-9d59-f52625d157b3" class="bulleted-list"><li style="list-style-type:disc">路径分隔符用 <code><strong>/</strong></code></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80b0-bc43-f60070a12121" class="bulleted-list"><li style="list-style-type:disc">从 <code>src/main/resources</code> 根目录开始写路径</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80dd-9d29-c5312242afb6" class="bulleted-list"><li style="list-style-type:disc">必须写完整文件名 + <code>.xml</code> 后缀</li></ul></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-8016-aa64-c511b7f4a4ca" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;!-- mybatis-config.xml --&gt;
+&lt;mappers&gt;
+  &lt;mapper resource=&quot;com/southwind/test/mapper/UserMapper.xml&quot;/&gt;
+&lt;/mappers&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8026-a62e-f66bfa75bcb4" class="">适用于</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-805e-89c7-de358fd52bb2" class="bulleted-list"><li style="list-style-type:disc">项目标准结构：<strong>XML 统一放在 </strong><code><strong>resources</strong></code><strong> 目录</strong>（企业主流）</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8003-a9ee-d87568887c3b" class="bulleted-list"><li style="list-style-type:disc">不需要关心接口位置，只需要保证 XML 路径正确</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8093-b544-cdbe8bbbea1b" class="toggle"><li><details open=""><summary><code>&lt;mapper class=&quot;接口全类名&quot;&gt;</code>:<strong>根据Java Mapper接口全类名,反向去找对应的XML</strong></summary><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8026-9f63-f4b69ba46658" class="bulleted-list"><li style="list-style-type:disc">同样写在 <code>mybatis-config.xml</code> 的 <code>&lt;mappers&gt;</code> 内部</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80c5-80aa-e2ef3cb451be" class="bulleted-list"><li style="list-style-type:disc">填写 <strong>Mapper 接口的完整包名 + 类名</strong>（用 <code>.</code> 分隔包）</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80ac-a58f-f5a7244c74cf" class="bulleted-list"><li style="list-style-type:disc">不写文件路径、不写 <code>.xml</code></li></ul></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-809d-b4f6-dd5fea69a591" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;!-- mybatis-config.xml --&gt;
+&lt;mappers&gt;
+  &lt;mapper class=&quot;com.southwind.test.mapper.UserMapper&quot;/&gt;
+&lt;/mappers&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8099-9ede-d9ff57a66401" class="">适用于</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f8-a9b6-fa8face73f1a" class="bulleted-list"><li style="list-style-type:disc">XML 和 Java 接口<strong>同目录存放</strong>（你现在这种结构）</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f1-85b7-db966d8d3bfd" class="bulleted-list"><li style="list-style-type:disc">不想手写 XML 路径，靠接口自动关联 XML</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8089-94e9-fe9e4b72cc16" class="toggle"><li><details open=""><summary><code>namespace=&quot;接口全类名”</code>唯一作用:把当前XML文件和Java Mapper接口进行绑定</summary><div style="display:contents" dir="auto"><p id="3718db55-6aee-80d7-915f-d595bc7c2122" class="">Mapper XML 的根标签上：</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-801a-add9-d8a41af58918" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;!-- UserMapper.xml --&gt;
+&lt;mapper namespace=&quot;com.southwind.test.mapper.UserMapper&quot;&gt;
+  &lt;!-- SQL、resultMap ... --&gt;
+&lt;/mapper&gt;</code></pre></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8059-9512-edb04fcedd9c" class="bulleted-list"><li style="list-style-type:disc"><strong>值必须 = Mapper 接口全类名</strong>，一个字符都不能错</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80cd-a596-ce3c36badea5" class="bulleted-list"><li style="list-style-type:disc">和 XML 放在哪个目录无关，只和 Java 接口有关</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8032-9a00-c93f11e27182" class="bulleted-list"><li style="list-style-type:disc">MyBatis 靠它建立：<code>接口方法</code> ↔ <code>XML 中 id=&quot;xxx&quot; 的SQL</code> 的映射</li></ul></div></details></li></ul></div><div style="display:contents" dir="ltr"><table id="3718db55-6aee-8021-b145-eb7dc3f8ed12" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-8046-9283-f9a2de76f96f"><th id="`~`B" class="simple-table-header-color simple-table-header">配置项</th><th id="DmOR" class="simple-table-header-color simple-table-header">书写位置</th><th id="eR&gt;@" class="simple-table-header-color simple-table-header">填写内容</th><th id=":|[|" class="simple-table-header-color simple-table-header">核心作用</th><th id="VIK;" class="simple-table-header-color simple-table-header">分隔符</th><th id="s;TZ" class="simple-table-header-color simple-table-header">典型使用场景</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-80fb-9e08-d064a267310d"><td id="`~`B" class=""><code>resource</code></td><td id="DmOR" class="">全局配置 <code>&lt;mappers&gt;</code></td><td id="eR&gt;@" class="">XML 文件路径 + .xml</td><td id=":|[|" class="">直接加载 XML 文件</td><td id="VIK;" class=""><code>/</code></td><td id="s;TZ" class="">XML 放 <code>resources</code>（主流）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-8034-9b80-d7f26745aa71"><td id="`~`B" class=""><code>class</code></td><td id="DmOR" class="">全局配置 <code>&lt;mappers&gt;</code></td><td id="eR&gt;@" class="">Mapper 接口全类名</td><td id=":|[|" class="">通过接口反向查找 XML</td><td id="VIK;" class=""><code>.</code></td><td id="s;TZ" class="">XML 与接口同目录</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-80ee-93ee-e2537c15e3ae"><td id="`~`B" class=""><code>namespace</code></td><td id="DmOR" class="">Mapper XML 根标签</td><td id="eR&gt;@" class="">Mapper 接口全类名</td><td id=":|[|" class="">绑定 XML 和 Java 接口</td><td id="VIK;" class=""><code>.</code></td><td id="s;TZ" class="">所有 XML 必须配置</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="3718db55-6aee-80bd-8df9-ce4204d3d785"/></div><div style="display:contents" dir="auto"><h2 id="3718db55-6aee-80a6-a75e-eb99aaf4aa4f" class="">MyBatis缓存</h2></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80ce-8dbc-eef0b782c58f" class="">如何提升运行效率？实用缓存，减少Java程序和数据库的交互次数，从而提升程序的运行效率。</p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80fa-a044-c4002a8efb5f" class="">当查询出数据后，将数据保存到缓存中，当下一次需要实用同样数据的时候，直接从缓存中取出数据即可。</p></div><div style="display:contents" dir="auto"><h3 id="3718db55-6aee-805c-a9b7-e2be6cbcb4d1" class="">一级缓存</h3></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-806b-8ed5-d7ea06f25060" class="">默认开启，无需手动配置，在同一个sqlsession中缓存</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8021-89d1-dfebcd2c66f7" class="toggle"><li><details open=""><summary>详细</summary><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80cb-961a-f84e702dbff5" class="bulleted-list"><li style="list-style-type:disc"><strong>所属范围</strong>：<code>SqlSession</code> 级别（一次数据库会话）</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-801d-a19f-f546961213dc" class="bulleted-list"><li style="list-style-type:disc"><strong>默认状态</strong>：<strong>默认开启</strong>，全局开关无法关闭，只能清空 / 失效</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80bc-a715-cc8dcfd25459" class="bulleted-list"><li style="list-style-type:disc"><strong>存储位置</strong>：内存，和当前 <code>SqlSession</code> 绑定</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80a0-befd-df9af2b3083a" class="bulleted-list"><li style="list-style-type:disc"><strong>生命周期</strong>：<div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-804a-9733-e324449388e4" class="numbered-list" start="1"><li>打开 <code>SqlSession</code> → 执行查询，结果存入一级缓存</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-8013-98fe-e7a23f55b0d7" class="numbered-list" start="2"><li>同会话内，<strong>相同 SQL + 相同参数</strong> 再次查询，走缓存</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-8053-9d84-d34ca777ea26" class="numbered-list" start="3"><li><code>SqlSession</code> 关闭 / 提交 / 回滚 → 一级缓存<strong>自动清空</strong></li></ol></div></li></ul></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80f8-97ed-c3a060a3be1e" class="">执行流程：</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8054-b1d4-c92f17c17c95" class="bulleted-list"><li style="list-style-type:disc">第一次查询：查数据库 → 结果放入一级缓存</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8095-9fd3-e33b02832177" class="bulleted-list"><li style="list-style-type:disc">同 <code>SqlSession</code>、同 SQL、同参数：直接读缓存，不访问数据库</li></ul></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80cc-b487-c559246017d6" class="">失效场景：满足任意一条，缓存清空，下次重新查库：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-8057-927f-ed96a5f6a759" class="block-color-purple_background numbered-list" start="1"><li>执行 <strong>增 / 删 / 改（INSERT/UPDATE/DELETE）</strong> 操作（不管操作哪张表）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-8084-8e7e-fe816e4076fc" class="block-color-purple_background numbered-list" start="2"><li>手动调用 <code>sqlSession.clearCache()</code> 清空缓存</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-8029-a953-d098df208b5f" class="block-color-purple_background numbered-list" start="3"><li>会话关闭：<code>sqlSession.close()</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-805a-8f24-fb1be479b212" class="block-color-purple_background numbered-list" start="4"><li>不同 <code>SqlSession</code> 之间，一级缓存互不共享</li></ol></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-80e9-b5f5-fd15cde08188" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static void main(String[] args) throws IOException {
+    InputStream is = Resources.getResourceAsStream(&quot;mybatis-config.xml&quot;);
+    SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(is);
+    // 同一个 SqlSession
+    SqlSession session = factory.openSession();
+    UserMapper mapper = session.getMapper(UserMapper.class);
+
+    // 第1次查询：访问数据库，存入一级缓存
+    User user1 = mapper.getUserById(1);
+    System.out.println(user1);
+
+    // 第2次查询：同SqlSession、同SQL参数 → 走一级缓存，不查库
+    User user2 = mapper.getUserById(1);
+    System.out.println(user2);
+
+    // 手动清空缓存
+    session.clearCache();
+
+    // 第3次查询：缓存已清空 → 重新访问数据库
+    User user3 = mapper.getUserById(1);
+    System.out.println(user3);
+
+    session.close();
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="3718db55-6aee-801e-aa76-d039eac7a33e" class="">二级缓存</h3></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80e9-b17c-e0055baacfb9" class="">Mapper 级别，手动开启，在一级缓存失效后会话关闭，将数据写入二级缓存</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f2-88b8-fde60d175867" class="toggle"><li><details open=""><summary>详细</summary><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f4-8780-ee760c668296" class="bulleted-list"><li style="list-style-type:disc"><strong>所属范围</strong>：<code>Mapper 命名空间（namespace）</code> 级别</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8020-9b6b-c3cc6a69fc77" class="bulleted-list"><li style="list-style-type:disc"><strong>默认状态</strong>：<strong>默认关闭</strong>，需要手动开启</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8005-a7c8-e26943244828" class="bulleted-list"><li style="list-style-type:disc"><strong>生命周期</strong>：跨 <code>SqlSession</code>，多个会话共享缓存</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-809b-a627-e6201b01aa4c" class="bulleted-list"><li style="list-style-type:disc"><strong>存储位置</strong>：内存，作用域是整个 Mapper XML 对应的命名空间</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f8-9ab5-cfb0cb423862" class="bulleted-list"><li style="list-style-type:disc">数据流转：数据库 → 一级缓存 → <strong>会话关闭后数据写入二级缓存</strong></li></ul></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8015-b837-e7794b3b1d63" class="">失效场景:</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-800a-8df5-dcd0b4e8079a" class="bulleted-list"><li style="list-style-type:disc">当前 <code>namespace</code> 下执行 <strong>增 / 删 / 改</strong> 操作 → 清空该命名空间下所有二级缓存</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80b3-8b3d-c9191e2bfc39" class="bulleted-list"><li style="list-style-type:disc">手动 <code>sqlSession.clearCache()</code>：只清空一级缓存，<strong>不影响二级缓存</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8032-af4d-d2298528017e" class="bulleted-list"><li style="list-style-type:disc">不同 <code>namespace</code>（不同 Mapper）缓存相互隔离，互不干扰</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8063-967e-ea69459656f0" class="block-color-purple_background toggle"><li><details open=""><summary>开启流程</summary><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-80a0-809d-c190f255dac7" class="numbered-list" start="1"><li>全局配置开启二级缓存总开关<div style="display:contents" dir="auto"><p id="3718db55-6aee-804b-b4a6-cc5be334737e" class="">在 <code>mybatis-config.xml</code> 的 <code>&lt;settings&gt;</code> 中添加：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3718db55-6aee-8056-a2d0-fabb909f0275" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;settings&gt;
+    &lt;!-- 开启二级缓存总开关，默认 true（高版本MyBatis默认开启，建议显式写上） --&gt;
+    &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;
+&lt;/settings&gt;</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-80f4-9dac-c5d94f972901" class="numbered-list" start="2"><li>在Mapper XML中开启当前命名空间缓存<div style="display:contents" dir="auto"><p id="3718db55-6aee-804d-9583-c2e1b07d6841" class="">在你的 <code>UserMapper.xml</code> 根标签下添加 <code>&lt;cache/&gt;</code> 标签：</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-80bd-b6ae-f4edbdf6f77e" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;mapper namespace=&quot;com.southwind.test.mapper.UserMapper&quot;&gt;
+    &lt;!-- 开启当前 namespace 的二级缓存 --&gt;
+    &lt;cache/&gt;
+
+    &lt;!-- 下方原有 resultMap、SQL 不变 --&gt;
+&lt;/mapper&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8083-a508-e4bb231b4aa8" class=""><code>&lt;cache/&gt;</code> 默认配置说明：</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f1-b41d-d2cd79b1f937" class="bulleted-list"><li style="list-style-type:disc">使用 LRU 淘汰策略</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8027-8eb0-fc91e0cf3907" class="bulleted-list"><li style="list-style-type:disc">缓存可读写</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80fd-8407-c9ef57ea4349" class="bulleted-list"><li style="list-style-type:disc">刷新间隔、缓存大小使用默认值</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-803a-a296-e56377b9f94d" class="numbered-list" start="3"><li>实体类实现序列化接口<div style="display:contents" dir="auto"><p id="3718db55-6aee-8061-b9a6-e6f125ea8c31" class="">二级缓存会将对象序列化存储，<strong>实体必须实现 </strong><code><strong>java.io.Serializable</strong></code></p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-80ed-81b2-c422f241e915" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">// User.java
+@Data
+public class User implements Serializable {
+    private Integer id;
+    private String username;
+    private IdCard idCard;
+    private List&lt;Order&gt; orderList;
+}
+
+// IdCard.java
+@Data
+public class IdCard implements Serializable {
+    private Integer id;
+    private String cardNo;
+    private Integer userId;
+}
+
+// Order.java
+@Data
+public class Order implements Serializable {
+    private Integer id;
+    private String orderName;
+    private Integer userId;
+}</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-8082-a5f8-d5c2dabf8a86" class="numbered-list" start="4"><li>自定义规则（自定义）<div style="display:contents" dir="auto"><pre id="3718db55-6aee-80a6-b18d-d83b0723e911" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;!--
+eviction：缓存淘汰策略
+  LRU：最近最少使用（默认）
+  FIFO：先进先出
+flushInterval：缓存刷新间隔(毫秒)，为空则不自动刷新
+size：缓存存放对象最大数量
+readOnly：只读，true=只读(性能高)，false=可读写(默认)
+--&gt;
+&lt;cache
+    eviction=&quot;LRU&quot;
+    flushInterval=&quot;60000&quot;
+    size=&quot;512&quot;
+    readOnly=&quot;true&quot;/&gt;</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-80a0-b209-cde0ae7addcf" class="numbered-list" start="5"><li>局部关闭二级缓存（某一条不想二级缓存）<div style="display:contents" dir="auto"><pre id="3718db55-6aee-8070-9f2b-dcb86defcc1b" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;getUserById&quot; resultMap=&quot;UserResultMap&quot; useCache=&quot;false&quot;&gt;
+    SELECT id, username FROM user WHERE id = #{id}
+&lt;/select&gt;</code></pre></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-807b-9fc7-cdbdbfa46e2e" class="toggle"><li><details open=""><summary>执行流程</summary><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80ab-abf2-f9254f80fd62" class="bulleted-list"><li style="list-style-type:disc">第一个 <code>SqlSession</code> 查询 → 查库 → 数据存入<strong>一级缓存</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8000-97a1-f89139d0a414" class="bulleted-list"><li style="list-style-type:disc"><code>SqlSession.close()</code> 关闭会话 → <strong>一级缓存数据刷入二级缓存</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80c4-bbf9-cf372f66a146" class="bulleted-list"><li style="list-style-type:disc">新的 <code>SqlSession</code> 执行相同查询 → 优先从<strong>二级缓存</strong>取数据，不查库</li></ul></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80e0-9b9d-c07524a2a009" class="">演示：</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-80df-a498-f526e1dcc310" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">public static void main(String[] args) throws IOException {
+    InputStream is = Resources.getResourceAsStream(&quot;mybatis-config.xml&quot;);
+    SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(is);
+
+    // 会话1
+    SqlSession session1 = factory.openSession();
+    UserMapper mapper1 = session1.getMapper(UserMapper.class);
+    User user1 = mapper1.getUserById(1);
+    System.out.println(user1);
+    session1.close(); // 关闭会话，数据写入二级缓存
+
+    // 会话2（全新 SqlSession）
+    SqlSession session2 = factory.openSession();
+    UserMapper mapper2 = session2.getMapper(UserMapper.class);
+    // 跨会话，直接读取二级缓存，不执行SQL
+    User user2 = mapper2.getUserById(1);
+    System.out.println(user2);
+    session2.close();
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-807f-9bec-f9de53e502f9" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="3718db55-6aee-8035-899b-cd3a0efa8149" class="">对比</h3></div><div style="display:contents" dir="ltr"><table id="3718db55-6aee-8069-94a8-d68123a6926a" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-8005-afa8-c1ebfc48c884"><th id="@lFd" class="simple-table-header-color simple-table-header">对比项</th><th id="SMWD" class="simple-table-header-color simple-table-header">一级缓存</th><th id="{ReT" class="simple-table-header-color simple-table-header">二级缓存</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-8007-b6fc-d2fc6629d87a"><td id="@lFd" class="">作用域</td><td id="SMWD" class="">SqlSession（单次会话）</td><td id="{ReT" class="">Mapper Namespace（跨会话）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-809c-9ba7-e87766baf95e"><td id="@lFd" class="">默认状态</td><td id="SMWD" class="">默认开启，无法关闭</td><td id="{ReT" class="">默认关闭，需手动开启</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-8008-8e11-c86de2008e29"><td id="@lFd" class="">共享性</td><td id="SMWD" class="">会话内独享，跨会话不共享</td><td id="{ReT" class="">所有会话共享</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-8027-9ddb-d61397b500e8"><td id="@lFd" class="">清空时机</td><td id="SMWD" class="">会话关闭、DML、手动 clearCache</td><td id="{ReT" class="">当前命名空间执行 DML 时清空</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-8081-8854-d1ce8cb78c45"><td id="@lFd" class="">依赖序列化</td><td id="SMWD" class="">不需要</td><td id="{ReT" class=""><mark class="highlight-teal_background"><strong>实体必须实现 Serializable</strong></mark></td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-8004-85a4-ca43f0fa4296"><td id="@lFd" class="">优先级</td><td id="SMWD" class="">高于二级缓存</td><td id="{ReT" class="">低于一级缓存</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="3718db55-6aee-8092-8f6f-c4a4f54dca01"/></div><div style="display:contents" dir="auto"><h2 id="3718db55-6aee-802e-80ec-eecba211ddc4" class="">MyBatis动态SQL</h2></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80ea-a010-e0d3b6095ddd" class="">动态 SQL 是 MyBatis 核心功能之一，<strong>根据运行时参数动态拼接、裁剪 SQL 语句</strong>，解决传统硬编码 SQL 多条件查询、判空拼接、分支逻辑等问题</p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-806b-b58a-c24f7cc0988e" class="">常用标签：<code>if</code>、<code>where</code>、<code>trim</code>、<code>choose/when/otherwise</code>、<code>foreach</code>、<code>set</code>、<code>bind</code>，结合实战场景逐一讲解，附完整可运行代码</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8068-824d-d58d8ed3d9b8" class="toggle"><li><details open=""><summary>实体类(User)</summary><div style="display:contents" dir="auto"><pre id="3718db55-6aee-801b-bb10-ce9f344554d4" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">@Data
+public class User implements Serializable {
+    private Integer id;
+    private String username;
+}</code></pre></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8099-a2fb-c9017a1f1eab" class="toggle"><li><details open=""><summary>IdCard.java</summary><div style="display:contents" dir="auto"><pre id="3718db55-6aee-80a6-800e-d8df8dbade96" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+@Data
+public class IdCard {
+    private Integer id;
+    private String cardNo;
+    private Integer userId;
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-807a-91e3-dc82d6cd8bf5" class="toggle"><li><details open=""><summary>Order.java</summary><div style="display:contents" dir="auto"><pre id="3718db55-6aee-8024-b81e-eb4ea6ad5c46" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+@Data
+public class Order {
+    private Integer id;
+    private Integer userId;
+    private String orderName;
+
+}
+</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f2-a93d-fd14dfa1abb3" class="toggle"><li><details open=""><summary>UserMapper.java接口</summary><div style="display:contents" dir="auto"><pre id="3718db55-6aee-8061-bba4-c2d3f08caa91" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">public interface UserMapper {
+    // 多条件动态查询
+    List&lt;User&gt; findUser(User user);
+    // 更新动态字段
+    int updateUser(User user);
+    // 批量删除
+    int batchDelete(@Param(&quot;ids&quot;) List&lt;Integer&gt; ids);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="3718db55-6aee-80cf-9ab2-c335293f475a" class="">前置说明：基于现有<code>user</code>、<code>id_card</code>、<code>orders</code>表与实体，直接可用</blockquote></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f5-ba54-e5091ba4355f" class="toggle"><li><details open=""><summary><code>&lt;if&gt;</code>条件判断</summary><div style="display:contents" dir="auto"><p id="3718db55-6aee-80d6-b8ec-eb9fdf1dbcd9" class="">单分支判断，<strong>参数不为空 / 不为空字符串时，拼接对应 SQL 片段</strong></p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8081-a8ab-ea95d889e009" class="">多用于：多条件模糊查询、可选查询参数</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-8024-b2dc-e62663fe6613" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;if test=&quot;判断条件&quot;&gt;
+    SQL 片段
+&lt;/if&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80b3-8b11-e64e44ba310c" class="">test判断表达式，支持OGNL表达式</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f2-bc66-ff2b6e3f61bc" class="bulleted-list"><li style="list-style-type:disc">判空：username ≠ null and username ≠ ‘’</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-800c-b790-f8330625801c" class="bulleted-list"><li style="list-style-type:disc">数值判断：id ≠ null</li></ul></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8077-a6e3-eca050ec9bb1" class="">多条件查询id</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-803e-b6b1-d265d6545571" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;findUser&quot; resultType=&quot;com.southwind.test.User&quot;&gt;
+    SELECT id, username FROM user
+    WHERE 1=1
+    &lt;!-- 如果 id 有值，拼接 id 查询条件 --&gt;
+    &lt;if test=&quot;id != null&quot;&gt;
+        AND id = #{id}
+    &lt;/if&gt;
+    &lt;!-- 如果 username 非空，拼接模糊查询 --&gt;
+    &lt;if test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+        AND username LIKE CONCAT(&#x27;%&#x27;,#{username},&#x27;%&#x27;)
+    &lt;/if&gt;
+&lt;/select&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80e6-9f25-f70acd38bac3" class="">测试场景</p></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8087-ad7f-e6fa21855378" class="bulleted-list"><li style="list-style-type:disc">不传参数：执行 <code>SELECT id,username FROM user WHERE 1=1</code>，查询全表</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8062-92d4-cd9ee7acc9ca" class="bulleted-list"><li style="list-style-type:disc">只传 <code>id=1</code>：拼接 <code>AND id = 1</code></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8076-9f16-fbc68a981bb3" class="bulleted-list"><li style="list-style-type:disc">只传 <code>username=&#x27;hpc&#x27;</code>：拼接模糊查询</li></ul></div><div style="display:contents" dir="auto"><blockquote id="3718db55-6aee-8085-834f-fab1628723d1" class="">问题：手动写 <code>WHERE 1=1</code> 是为了避免多个 <code>if</code> 同时不生效，出现 <code>WHERE</code> 关键字悬空语法错误。</blockquote></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8037-a9b3-d8ce0f9b5fd0" class="toggle"><li><details open=""><summary><code>&lt;where&gt;</code>只能处理where关键字</summary><div style="display:contents" dir="auto"><p id="3718db55-6aee-8045-809d-d552ca4aa7a7" class="">替代手动 <code>WHERE 1=1</code>，<strong>自动识别条件、自动剔除多余的 </strong><code><strong>AND / OR</strong></code>，语法更优雅。</p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8048-aa91-dcc5b50c14c6" class="">规则：<div class="indented"><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-80d1-9a74-fce76cbfc398" class="numbered-list" start="1"><li>只有内部 <code>&lt;if&gt;</code> 条件成立，才会生成 <code>WHERE</code> 关键字</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-80a8-8b4d-f2e94fbfc335" class="numbered-list" start="2"><li>自动移除条件<strong>开头</strong>多余的 <code>AND</code> / <code>OR</code></li></ol></div></div></p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-801a-83a4-ed26c403d3d6" class="">对if中的进行改写</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-8036-9b10-f91b482631c6" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;findUser&quot; resultType=&quot;com.southwind.test.User&quot;&gt;
+    SELECT id, username FROM user
+    &lt;where&gt;
+        &lt;if test=&quot;id != null&quot;&gt;
+            AND id = #{id}
+        &lt;/if&gt;
+        &lt;if test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+            AND username LIKE CONCAT(&#x27;%&#x27;,#{username},&#x27;%&#x27;)
+        &lt;/if&gt;
+    &lt;/where&gt;
+&lt;/select&gt;</code></pre></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8012-94d9-fbf52b4b841d" class="bulleted-list"><li style="list-style-type:disc">无任何条件：不生成 <code>WHERE</code>，SQL 正常</li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80bd-bb1e-e950decc0f9d" class="bulleted-list"><li style="list-style-type:disc">有条件：自动拼接 <code>WHERE</code> + 条件，<strong>去掉开头多余 AND</strong></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-808b-9c5d-e0dabcb6af08" class="toggle"><li><details open=""><summary><code>&lt;trim&gt;</code>自定义截取/拼接</summary><div style="display:contents" dir="auto"><p id="3718db55-6aee-80a7-bdca-f8bb5dd19809" class="">通用格式化标签，可替代 <code>where</code>、<code>set</code>，<strong>自定义前缀、后缀、移除指定前缀 / 后缀字符</strong></p></div><div style="display:contents" dir="ltr"><table id="3718db55-6aee-8046-b368-d5bb31d0512d" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-8078-bc38-ee05acff221d"><th id="I\zZ" class="simple-table-header-color simple-table-header" style="width:220.06027221679688px">属性</th><th id="&gt;YUT" class="simple-table-header-color simple-table-header" style="width:388px">说明</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-803a-9e16-f7489aabae02"><td id="I\zZ" class="" style="width:220.06027221679688px"><code>prefix</code></td><td id="&gt;YUT" class="" style="width:388px">整体添加前缀（如 <code>WHERE</code>、<code>SET</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-8025-adc2-d9257144b0c8"><td id="I\zZ" class="" style="width:220.06027221679688px"><code>prefixOverrides</code></td><td id="&gt;YUT" class="" style="width:388px">移除开头指定字符（如 <code>AND</code>、<code>OR</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-8054-b35c-e16eb676932e"><td id="I\zZ" class="" style="width:220.06027221679688px"><code>suffix</code></td><td id="&gt;YUT" class="" style="width:388px">整体添加后缀</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-80a7-b01d-f07c9c648f0e"><td id="I\zZ" class="" style="width:220.06027221679688px"><code>suffixOverrides</code></td><td id="&gt;YUT" class="" style="width:388px">移除结尾指定字符（如 <code>,</code> 逗号）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-808f-b028-ea0bea7623e1" class="">用trim实现where效果</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-80af-a008-dc610748ab4f" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;findUser&quot; resultType=&quot;com.southwind.test.User&quot;&gt;
+    SELECT id, username FROM user
+    &lt;trim prefix=&quot;WHERE&quot; prefixOverrides=&quot;AND|OR&quot;&gt;
+        &lt;if test=&quot;id != null&quot;&gt;
+            AND id = #{id}
+        &lt;/if&gt;
+        &lt;if test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+            AND username LIKE CONCAT(&#x27;%&#x27;,#{username},&#x27;%&#x27;)
+        &lt;/if&gt;
+    &lt;/trim&gt;
+&lt;/select&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-802d-b7ec-e127a129aa01" class="toggle"><li><details open=""><summary><code>&lt;set&gt;</code>动态更新字段</summary><div style="display:contents" dir="auto"><p id="3718db55-6aee-8005-8eec-c5634f1476f9" class="">用于<code>update</code>语句，<strong>动态拼接更新字段，自动移除末尾多余逗号</strong><code><strong>,</strong></code></p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80d7-baf6-cf792e39d059" class="">场景：只更新传入的非空字段，其余字段保持不变</p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80ae-b8eb-e451fb79ba42" class="">案例，动态更新用户：</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-800a-a668-d891c1eb83f2" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;update id=&quot;updateUser&quot;&gt;
+    UPDATE user
+    &lt;set&gt;
+        &lt;if test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+            username = #{username},
+        &lt;/if&gt;
+    &lt;/set&gt;
+    WHERE id = #{id}
+&lt;/update&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8015-b227-e9b95fd8abc7" class="">逻辑：<div class="indented"><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-80b3-a242-f50cdf6b5dd0" class="numbered-list" start="1"><li><code>username</code> 非空 → 拼接 <code>username = ?,</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-80f0-a4c2-f0e4fe645c94" class="numbered-list" start="2"><li><code>&lt;set&gt;</code> 自动删除<strong>最后面多余的逗号</strong>，避免 SQL 语法报错</li></ol></div></div></p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8085-ab02-f6629c85f9fa" class="">等价trim写法:</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-808a-a659-d7036fc082a3" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;update id=&quot;updateUser&quot;&gt;
+    UPDATE user
+    &lt;trim prefix=&quot;SET&quot; suffixOverrides=&quot;,&quot;&gt;
+        &lt;if test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+            username = #{username},
+        &lt;/if&gt;
+    &lt;/trim&gt;
+    WHERE id = #{id}
+&lt;/update&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-80f9-984e-c27318014dd9" class="toggle"><li><details open=""><summary><code>&lt;choose&gt; &lt;when&gt; &lt;otherwise&gt;</code>多分支判断</summary><div style="display:contents" dir="auto"><p id="3718db55-6aee-80e6-b4b7-e871e58f85d3" class="">等价 Java 中<code>switch-case-default</code>，<strong>多选一，只会执行一个分支.</strong></p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80b8-b8fb-cc8243c277d9" class="">场景：优先级查询（有 id 查 id，有用户名查用户名，都没有查全部）</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-8040-9265-d7977c062c14" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;choose&gt;
+    &lt;when test=&quot;条件1&quot;&gt;SQL片段&lt;/when&gt;
+    &lt;when test=&quot;条件2&quot;&gt;SQL片段&lt;/when&gt;
+    &lt;otherwise&gt;都不满足时执行&lt;/otherwise&gt;
+&lt;/choose&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80f1-b53d-c89613b08f3d" class="">案例：</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-80e1-b3cf-cb2c4dadc367" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;findUser&quot; resultType=&quot;com.southwind.test.User&quot;&gt;
+    SELECT id, username FROM user
+    &lt;where&gt;
+        &lt;choose&gt;
+            &lt;when test=&quot;id != null&quot;&gt;
+                id = #{id}
+            &lt;/when&gt;
+            &lt;when test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+                username LIKE CONCAT(&#x27;%&#x27;,#{username},&#x27;%&#x27;)
+            &lt;/when&gt;
+            &lt;!-- 都不传参数，查询所有 --&gt;
+            &lt;otherwise&gt;
+                1=1
+            &lt;/otherwise&gt;
+        &lt;/choose&gt;
+    &lt;/where&gt;
+&lt;/select&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-80f5-b6c1-f6ad7085252c" class="">执行规则：从上到下匹配，<strong>匹配到第一个满足条件的分支就结束.</strong></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-800a-a82d-f34397074d2f" class="toggle"><li><details open=""><summary><code>&lt;foreach&gt;</code>遍历集合（批量操作核心）</summary><div style="display:contents" dir="auto"><p id="3718db55-6aee-80de-b3a8-f27142d6def5" class="">遍历数组、List 集合，常用于 <strong>IN 查询、批量新增、批量删除</strong></p></div><div style="display:contents" dir="ltr"><table id="3718db55-6aee-80e7-bcd4-f776d3370247" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-80bb-be02-de6af114529c"><th id="Utgh" class="simple-table-header-color simple-table-header" style="width:157px">属性</th><th id="lUeT" class="simple-table-header-color simple-table-header" style="width:429px">说明</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-80b2-bf02-d9b98105e545"><td id="Utgh" class="" style="width:157px"><code>collection</code></td><td id="lUeT" class="" style="width:429px">集合类型：List 写 <code>list</code> / 加了 <code>@Param</code> 写参数名</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-801c-95df-eaad99356bde"><td id="Utgh" class="" style="width:157px"><code>item</code></td><td id="lUeT" class="" style="width:429px">遍历后单个元素别名</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-80ec-b4e8-d2617e749924"><td id="Utgh" class="" style="width:157px"><code>open</code></td><td id="lUeT" class="" style="width:429px">遍历整体<strong>开头</strong>拼接字符</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-809e-954d-dc4bc0b1b474"><td id="Utgh" class="" style="width:157px"><code>close</code></td><td id="lUeT" class="" style="width:429px">遍历整体<strong>结尾</strong>拼接字符</td></tr></div><div style="display:contents" dir="ltr"><tr id="3718db55-6aee-8015-9a77-d95d1669afec"><td id="Utgh" class="" style="width:157px"><code>separator</code></td><td id="lUeT" class="" style="width:429px">元素之间的<strong>分隔符</strong></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-80f8-bc6a-fae91f6804e6" class="numbered-list" start="1"><li>场景1：IN 查询（根据多个 id 查询）<div style="display:contents" dir="auto"><pre id="3718db55-6aee-803d-a12e-cdf90e470f29" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;findUserByIds&quot; resultType=&quot;com.southwind.test.User&quot;&gt;
+    SELECT id, username FROM user
+    WHERE id IN
+    &lt;foreach collection=&quot;ids&quot; item=&quot;uid&quot; open=&quot;(&quot; close=&quot;)&quot; separator=&quot;,&quot;&gt;
+        #{uid}
+    &lt;/foreach&gt;
+&lt;/select&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8038-9f27-c02250e12083" class="">最终拼接 SQL：<code>WHERE id IN (1,2,3)</code></p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3718db55-6aee-80eb-a94a-f9b7ab6849f8" class="numbered-list" start="2"><li>场景2：批量删除（最常用）<div style="display:contents" dir="auto"><p id="3718db55-6aee-80e3-b2ad-fae257ab26e4" class="">接口方法：</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-800f-b49d-ea0644f77bd2" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">int batchDelete(@Param(&quot;ids&quot;) List&lt;Integer&gt; ids);</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-802c-8471-e0bd154ea8bd" class="">XML：</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-809d-a05f-fe2ed81623fd" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;delete id=&quot;batchDelete&quot;&gt;
+    DELETE FROM user WHERE id IN
+    &lt;foreach collection=&quot;ids&quot; item=&quot;uid&quot; open=&quot;(&quot; close=&quot;)&quot; separator=&quot;,&quot;&gt;
+        #{uid}
+    &lt;/foreach&gt;
+&lt;/delete&gt;</code></pre></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3718db55-6aee-8014-a8eb-eea287036eb7" class="toggle"><li><details open=""><summary><code>&lt;bind&gt;</code>绑定变量</summary><div style="display:contents" dir="auto"><p id="3718db55-6aee-8043-bcc1-f2e42cf56309" class="">自定义变量，<strong>解决数据库模糊查询兼容问题</strong>（不同数据库拼接 <code>%</code> 语法不同），统一写法</p></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-800d-827d-f30061b80cf9" class="">示例：模糊查询通用写法</p></div><div style="display:contents" dir="auto"><pre id="3718db55-6aee-8025-8820-e38f70038f1e" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;findUser&quot; resultType=&quot;com.southwind.test.User&quot;&gt;
+    &lt;!-- 绑定变量 pattern，拼接前后 % --&gt;
+    &lt;bind name=&quot;pattern&quot; value=&quot;&#x27;%&#x27; + username + &#x27;%&#x27;&quot;/&gt;
+    SELECT id, username FROM user
+    &lt;where&gt;
+        &lt;if test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+            username LIKE #{pattern}
+        &lt;/if&gt;
+    &lt;/where&gt;
+&lt;/select&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3718db55-6aee-8044-a371-d3e1af3853e0" class="">优势：不再使用 <code>CONCAT</code>，适配 MySQL、Oracle 等多种数据库</p></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
