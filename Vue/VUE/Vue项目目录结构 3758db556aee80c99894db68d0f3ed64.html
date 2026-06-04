@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>esList修复</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Vue项目目录结构</title><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -740,42 +740,36 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="2718db55-6aee-83d1-b11b-018f9e4beca4" class="page sans"><header><h1 class="page-title" dir="auto">esList修复</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="45b8db55-6aee-82ec-ae9b-818773d66602" class="">ESLint插件用于自动查找语法中的格式问题</p></div><div style="display:contents" dir="auto"><p id="2f88db55-6aee-836f-9bb4-810194fdf39b" class="">要让 ESLint 自动纠正代码中的语法错误和风格问题，需要结合 <strong>VS Code 配置</strong> 和 <strong>ESLint 规则</strong> 实现</p></div><div style="display:contents" dir="auto"><hr id="7418db55-6aee-835e-86f1-01ee44fbd1a8"/></div><div style="display:contents" dir="auto"><ul id="f188db55-6aee-8215-8205-012dcf1cd27d" class="toggle"><li><details open=""><summary>确保依赖和插件的安装</summary><div style="display:contents" dir="auto"><p id="0bf8db55-6aee-8241-9539-81bb0d58426c" class="">确保已安装 ESLint 及相关解析器（如 Vue 项目需要 <code>vue-eslint-parser</code>、<code>@babel/eslint-parser</code> 等）：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="eee8db55-6aee-82ce-a40d-01f18fc3c43b" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all"># 安装核心依赖
-npm install eslint --save-dev
-# Vue 项目额外安装
-npm install vue-eslint-parser @babel/eslint-parser eslint-plugin-vue --save-dev</code></pre></div><div style="display:contents" dir="auto"><p id="d258db55-6aee-8210-8629-81836e0b39b8" class=""><strong>VS Code 插件</strong>：安装官方 <code>ESLint</code> 插件（Microsoft 发布），用于在编辑器中集成 ESLint 功能。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="6818db55-6aee-825f-8209-01f566439219" class="toggle"><li><details open=""><summary>配置ESLint自动修复规则</summary><div style="display:contents" dir="auto"><p id="9258db55-6aee-83c8-878a-01e1e082a389" class="">在 ESLint 配置文件（<code>.eslintrc.js</code> 或 <code>.eslintrc.json</code>）中，确保需要自动修复的规则被启用。</p></div><div style="display:contents" dir="auto"><p id="d388db55-6aee-8284-ae67-8109d05e48ed" class="">大部分 <strong>代码风格类规则</strong>（如缩进、引号、分号）支持自动修复</p></div><div style="display:contents" dir="auto"><p id="2938db55-6aee-83e7-95b4-013fc54dfea5" class=""><strong>逻辑错误类规则</strong>（如未定义变量）无法自动修复</p></div><div style="display:contents" dir="auto"><p id="00f8db55-6aee-82ec-94e9-814888437e87" class="">示例<code>.eslintrc.js</code>：</p></div><div style="display:contents" dir="auto"><pre id="9648db55-6aee-83c6-ace9-81f6ce6fc00e" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">module.exports = {
-  root: true,
-  env: { node: true },
-  extends: [
-    &#x27;plugin:vue/essential&#x27;, // Vue 基础规则
-    &#x27;eslint:recommended&#x27;    // ESLint 推荐规则
-  ],
-  parserOptions: {
-    parser: &#x27;@babel/eslint-parser&#x27;
-  },
-  rules: {
-    // 支持自动修复的规则示例
-    &#x27;indent&#x27;: [&#x27;error&#x27;, 2], // 缩进 2 空格（自动修复）
-    &#x27;quotes&#x27;: [&#x27;error&#x27;, &#x27;single&#x27;], // 单引号（自动修复）
-    &#x27;semi&#x27;: [&#x27;error&#x27;, &#x27;always&#x27;], // 强制分号（自动修复）
-    &#x27;no-trailing-spaces&#x27;: &#x27;error&#x27;, // 禁止行尾空格（自动修复）
-    &#x27;space-before-function-paren&#x27;: [&#x27;error&#x27;, &#x27;never&#x27;], // 函数括号前无空格（自动修复）
-    // 其他规则...
-  }
-};</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="4548db55-6aee-8236-ab37-815697459494" class="toggle"><li><details open=""><summary>配置VS Code自动保存时候修复</summary><div style="display:contents" dir="auto"><p id="8cc8db55-6aee-8224-881e-011a636cdee2" class="">通过 VS Code 的设置，实现 <strong>保存文件时自动触发 ESLint 修复</strong></p></div><div style="display:contents" dir="auto"><ol type="1" id="44c8db55-6aee-8298-9378-012459a74e72" class="numbered-list" start="1"><li>打开 VS Code 配置文件：<div style="display:contents" dir="auto"><ul id="2158db55-6aee-834f-88dc-01529fd7f68d" class="bulleted-list"><li style="list-style-type:disc">方式 1：按 <code>Ctrl+,</code>（或 <code>Cmd+,</code>）打开设置，搜索 <code>codeActionsOnSave</code>。</li></ul></div><div style="display:contents" dir="auto"><ul id="2e08db55-6aee-830c-b1da-01eba6653fa3" class="bulleted-list"><li style="list-style-type:disc">方式 2：在项目根目录创建 <code>.vscode/settings.json</code>（仅作用于当前项目）。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="51d8db55-6aee-83d4-92b1-81d3c4f53060" class="numbered-list" start="2"><li>添加自动修复配置：</li></ol></div><div style="display:contents" dir="auto"><pre id="f528db55-6aee-8207-9bee-81f902243bb5" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">// .vscode/settings.json
-{
-  // 保存时自动修复 ESLint 问题
-  &quot;editor.codeActionsOnSave&quot;: {
-    &quot;source.fixAll.eslint&quot;: true
-  },
-  // 确保 ESLint 对 Vue 文件生效
-  &quot;eslint.validate&quot;: [
-    &quot;javascript&quot;,
-    &quot;javascriptreact&quot;,
-    &quot;vue&quot;
-  ]
-}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="d348db55-6aee-8350-be90-814a317c9187" class="toggle"><li><details open=""><summary>手动触发修复（可选）</summary><div style="display:contents" dir="auto"><p id="cc28db55-6aee-834a-930e-81a07727413a" class="">如果需要手动修复当前文件或项目：</p></div><div style="display:contents" dir="auto"><ol type="1" id="6de8db55-6aee-8376-a403-0181aff92b68" class="numbered-list" start="1"><li><strong>修复当前文件</strong>：<div style="display:contents" dir="auto"><ul id="cdb8db55-6aee-8378-abf0-0179a4723a48" class="bulleted-list"><li style="list-style-type:disc">按 <code>Ctrl+Shift+P</code>（或 <code>Cmd+Shift+P</code>）打开命令面板。</li></ul></div><div style="display:contents" dir="auto"><ul id="be38db55-6aee-83d3-b926-01d726cec79b" class="bulleted-list"><li style="list-style-type:disc">输入 <code>ESLint: Fix all auto-fixable Problems</code> 并执行。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="4048db55-6aee-8220-9790-8149b285e19d" class="numbered-list" start="2"><li><strong>修复整个项目</strong>：在 <code>package.json</code> 中添加脚本：</li></ol></div><div style="display:contents" dir="auto"><pre id="7848db55-6aee-8335-bc41-01a6c1935729" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">{
-  &quot;scripts&quot;: {
-    &quot;lint:fix&quot;: &quot;eslint --fix src/&quot; // 修复 src 目录下的所有文件
-  }
-}</code></pre></div><div style="display:contents" dir="auto"><p id="1898db55-6aee-8230-b0fc-01d6f55e84ec" class="">执行命令：</p></div><div style="display:contents" dir="auto"><pre id="e498db55-6aee-8217-b4c8-01d0172fb92d" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">npm run lint:fix</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+</style></head><body><article id="3758db55-6aee-80c9-9894-db68d0f3ed64" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/met_william_morris_1875.jpg" style="object-position:center 0%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🚌</span></div><h1 class="page-title" dir="auto">Vue项目目录结构</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3758db55-6aee-80a2-b746-e062aaea8a3d" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">vue-project
+├── .vitepress/          # 可选：项目文档目录（vitepress文档站点）
+├── public/              # 静态资源（不会被打包编译）
+├── src/                 # 源代码主目录（核心）
+│   ├── api/             # 接口请求统一管理
+│   ├── assets/          # 编译型静态资源（图片、css、字体，打包压缩）
+│   ├── components/     # 公共全局组件
+│   │   ├── common/      # 通用基础组件：按钮、弹窗、输入框
+│   │   └── business/   # 业务复用组件：订单卡片、商品列表
+│   ├── composables/     # Vue3组合式函数(hook)，替代vue2 mixin
+│   ├── router/          # 路由配置 vue-router
+│   │   ├── index.ts     # 路由实例、路由守卫
+│   │   └── modules/    # 分模块路由
+│   ├── store/           # 状态管理 Pinia/Vuex
+│   │   ├── index.ts     # store入口
+│   │   └── modules/    # 分模块仓库（用户、商品、订单）
+│   ├── styles/          # 全局样式：重置样式、变量、全局scss
+│   ├── utils/           # 工具函数：日期格式化、加密、通用方法
+│   ├── views/           # 页面视图（路由对应的页面）
+│   │   └── Home/
+│   │       └── index.vue
+│   ├── App.vue          # 根组件
+│   ├── main.ts          # 项目入口文件
+│   └── env.d.ts        # ts环境类型声明
+├── .env                 # 环境变量-通用
+├── .env.development     # 开发环境变量 npm run dev
+├── .env.production      # 生产环境变量 npm run build
+├── .eslintrc.js         # Eslint代码校验配置
+├── .gitignore           # git忽略文件配置
+├── index.html           # 项目入口html模板
+├── package.json         # 依赖、脚本命令
+├── tsconfig.json        # TS编译配置
+└── vite.config.ts       # Vite打包、代理、插件配置</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
