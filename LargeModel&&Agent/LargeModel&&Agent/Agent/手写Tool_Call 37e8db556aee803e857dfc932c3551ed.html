@@ -1,0 +1,995 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>手写Tool_Call</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="37e8db55-6aee-803e-857d-fc932c3551ed" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/met_canaletto_1720.jpg" style="object-position:center 100%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🗜️</span></div><h1 class="page-title" dir="auto">手写Tool_Call</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="37e8db55-6aee-8082-9774-de440417a093" class="">目录结构和执行顺序</h1></div><div style="display:contents" dir="auto"><ul id="37e8db55-6aee-807d-aaa2-f114e1d5ca5b" class="toggle"><li><details open=""><summary>目录结构</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="37e8db55-6aee-80ca-b85b-da58315afa30" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">tool_call_demo/
+├── config/
+│   └── tool_registry.py     # 工具注册、元信息定义
+├── tools/
+│   ├── __init__.py
+│   ├── calculator.py        # 计算器工具实现
+│   └── time_tool.py         # 时间工具实现
+├── core/
+│   ├── __init__.py
+│   ├── prompt_builder.py    # 构造system提示词
+│   ├── parser.py            # 解析模型输出、提取工具调用
+│   └── agent.py             # 主调度：对话循环、执行工具、多轮推理
+├── mock_llm.py              # 模拟大模型接口（可替换真实OpenAI/本地模型）
+└── test_main.py             # 独立测试入口文件</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="37f8db55-6aee-80ba-b67c-c1f6cbcb528e" class="toggle"><li><details open=""><summary>执行顺序图</summary><div style="display:contents" dir="auto"><pre id="37f8db55-6aee-80e1-931a-fab3e1b61a31" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">用户 → LLM：提交问题
+LLM 内部判断
+├─ 不需要工具 → LLM → 用户：输出答案，结束
+└─ 需要工具
+    LLM → 调度器：下发tool调用参数
+    调度器 → 工具：校验参数、执行
+    工具 → 调度器：返回结果/异常
+    调度器 → LLM：回填结果到上下文
+    LLM二次判断
+    ├─ 信息足够 → LLM→用户：整合回答
+    ├─ 信息不足、没到最大轮数 → 重复工具调用流程
+    └─ 达到调用上限 → LLM→用户：有限内容回复</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="37e8db55-6aee-8001-a8ca-d4128a28cbf6"/></div><div style="display:contents" dir="auto"><h1 id="37e8db55-6aee-80c7-a18a-f2b35a2c7315" class="">Config</h1></div><div style="display:contents" dir="auto"><ul id="37e8db55-6aee-8053-8a4a-c70afc41d583" class="toggle"><li><details open=""><summary>tool_registry.py</summary><div style="display:contents" dir="auto"><pre id="37e8db55-6aee-807f-85a4-d669244a0161" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">from tools.calculator import calculator
+from tools.time_tool import get_current_time
+
+TOOL_REGISTRY = {
+    &quot;calculator&quot;: {
+        &quot;func&quot;: calculator,
+        &quot;description&quot;: &quot;简单的四则运算器&quot;,
+        &quot;parameters&quot;: {
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;properties&quot;: {
+                &quot;num1&quot;: {
+                    &quot;type&quot;: &quot;number&quot;,
+                    &quot;description&quot;:&quot;运算的第一个数字&quot;,
+                },
+                &quot;num2&quot;: {
+                    &quot;type&quot;: &quot;number&quot;,
+                    &quot;description&quot;:&quot;运算的第二个数字&quot;,
+                },
+                &quot;operator&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;:&quot;运算符号&quot;,
+                    &quot;enum&quot;:[&quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;/&quot;]
+                }
+            }
+        },
+        &quot;required&quot;:[&quot;num1&quot;, &quot;num2&quot;,&quot;operator&quot;]
+    },
+    &quot;get_current_time&quot;: {
+        &quot;func&quot;: get_current_time,
+        &quot;description&quot;: &quot;获取当前时间&quot;,
+        &quot;parameters&quot;: {
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;properties&quot;: {}
+        },
+        &quot;required&quot;: []
+    }
+}
+
+def get_openai_tools():
+    &quot;&quot;&quot;
+    转换成openai工具定义格式,转换成OpenAi标准tools数组格式
+    - 对于大模型API，各种兼容接口接收的参数是固定的，需要一个转换器将自定义的转换为合法的，如下：
+    [
+        {
+            &quot;type&quot;: &quot;function&quot;,
+            &quot;function&quot;: {
+            &quot;name&quot;: &quot;工具名&quot;,
+            &quot;description&quot;: &quot;工具描述&quot;,
+            &quot;parameters&quot;: {schema结构}
+            }
+        }
+    ]
+    &quot;&quot;&quot;
+    openai_tools = [] # 对象数组
+    for name, info in TOOL_REGISTRY.items():
+        openai_tools.append({
+            &quot;type&quot;: &quot;function&quot;,
+            &quot;function&quot;: {
+                &quot;name&quot;: name,
+                &quot;description&quot;: info[&quot;description&quot;],
+                &quot;parameters&quot;: info[&quot;parameters&quot;]
+            }
+        })
+    return openai_tools</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="37e8db55-6aee-80c4-8873-ff640314eb0d" class="">整个项目<strong>核心映射枢纽</strong>：</p></div><div style="display:contents" dir="auto"><ol type="1" id="37e8db55-6aee-80e6-9b3b-e844231a8a12" class="numbered-list" start="1"><li><strong>对内绑定</strong>：字典 <code>TOOL_REGISTRY</code> 键 = 工具名称，值包含真实执行函数、功能描述、参数 JSON 结构；后续代码靠工具名快速找到要运行的函数。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="37e8db55-6aee-8062-96dd-d4f64c524490" class="numbered-list" start="2"><li><strong>对外格式化</strong>：函数 <code>get_openai_tools()</code>，组装成大模型 API 能识别的标准 <code>tools</code> 数组格式。</li></ol></div><div style="display:contents" dir="auto"><blockquote id="37e8db55-6aee-8067-b308-d2d412bb1fcf" class="">新增工具只需要在这里注册一行，调度层完全不用改代码；<br/>所有参数约束统一在这里维护，一处修改全局生效。</blockquote></div><div style="display:contents" dir="auto"><hr id="37e8db55-6aee-806f-a0bf-fe0c9bc38aaa"/></div><div style="display:contents" dir="auto"><h1 id="37e8db55-6aee-802e-8c9c-c3f680827207" class="">Tools</h1></div><div style="display:contents" dir="auto"><ul id="37e8db55-6aee-805f-833a-daed42e03bfd" class="toggle"><li><details open=""><summary>calculator.py</summary><div style="display:contents" dir="auto"><pre id="37e8db55-6aee-801c-9a3f-cfc5cba44db2" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">
+def calculator(num1: float, num2: float, operator: str) -&gt; str:
+    &quot;&quot;&quot;四则运算计算器&quot;&quot;&quot;
+    if operator == &quot;+&quot;:
+        res = num1 + num2
+    elif operator == &quot;-&quot;:
+        res = num1 - num2
+    elif operator == &quot;*&quot;:
+        res = num1 * num2
+    elif operator == &quot;/&quot;:
+        if num2 == 0:
+            return &quot;错误：除数不能为0&quot;
+        res = num1 / num2
+    else:
+        return f&quot;不支持运算符：{operator}&quot;
+    return f&quot;计算结果：{num1} {operator} {num2} = {res}&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="37e8db55-6aee-803f-8a2f-cdce0f03499a" class="toggle"><li><details open=""><summary>time_tool.py</summary><div style="display:contents" dir="auto"><pre id="37e8db55-6aee-803f-9c24-d9f5040d17aa" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">from datetime import datetime
+
+def get_current_time() -&gt; str:
+    &quot;&quot;&quot;获取当前系统时间&quot;&quot;&quot;
+    now = datetime.now().strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)
+    return f&quot;当前系统时间：{now}&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="37e8db55-6aee-80ae-bcd1-c900d516b4bd" class="">具体的工具定义与实现。</p></div><div style="display:contents" dir="auto"><hr id="37e8db55-6aee-8005-b45c-c92b8fff5373"/></div><div style="display:contents" dir="auto"><h1 id="37e8db55-6aee-8000-b75f-c77bc54c41ce" class="">Core</h1></div><div style="display:contents" dir="auto"><p id="37e8db55-6aee-800f-ab7e-ce73d1b38062" class="block-color-blue_background">核心调度层：ToolCall 流程逻辑中枢：所有 AI 对话、解析、循环调度的业务逻辑全部收拢在这里，和底层工具、模型客户端解耦</p></div><div style="display:contents" dir="auto"><ul id="37e8db55-6aee-805b-ac00-dbfc1d74923d" class="toggle"><li><details open=""><summary>agent.py</summary><div style="display:contents" dir="auto"><p id="37e8db55-6aee-80d3-b09b-e56abcb04476" class="">整个 ToolCall 的<strong>总控制器（Agent 大脑）</strong></p></div><div style="display:contents" dir="auto"><ul id="37e8db55-6aee-8001-94c8-d4ec8f4ea67c" class="bulleted-list"><li style="list-style-type:disc">读取.env 配置的最大循环次数，防止无限调用死循环；</li></ul></div><div style="display:contents" dir="auto"><ul id="37e8db55-6aee-80fb-962f-ee99db1543f3" class="bulleted-list"><li style="list-style-type:disc">维护全局对话上下文 <code>messages</code>，严格遵循 OpenAI 三角色（user/assistant/tool）；</li></ul></div><div style="display:contents" dir="auto"><ul id="37e8db55-6aee-8017-8e51-d58893ae2c39" class="bulleted-list"><li style="list-style-type:disc">循环流程：请求模型 → 判断是否调用工具 → 批量执行工具 → 把结果回填上下文 → 二次推理；</li></ul></div><div style="display:contents" dir="auto"><ul id="37e8db55-6aee-80b1-9033-df7d049f7da8" class="bulleted-list"><li style="list-style-type:disc">支持多工具并行调用、多轮连续调用；超出轮数强制兜底输出回答。</li></ul></div><div style="display:contents" dir="auto"><pre id="37e8db55-6aee-8096-90bd-ca288c1ff3db" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">import os
+from dotenv import load_dotenv
+from mock_llm import chat_completion
+from config.tool_registry import get_openai_tools
+from core.parser import parse_tool_calls, execute_single_tool
+
+load_dotenv()
+MAX_LOOP = int(os.getenv(&quot;MAX_TOOL_LOOP&quot;))
+
+def run_agent(user_query: str):
+    messages = [
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_query}
+    ]
+    openai_tools = get_openai_tools()
+    loop = 0
+
+    while loop &lt; MAX_LOOP:
+        # 向大模型发送当前全部对话 + 工具
+        resp = chat_completion(messages=messages, tools=openai_tools)
+        choice = resp.choices[0]
+        assistant_msg = choice.message
+
+        # 模型 不需要调用工具，直接结束返回答案
+        if not assistant_msg.tool_calls:
+            return assistant_msg.content.strip()
+
+        # 存在工具调用，解析任务
+        call_tasks = parse_tool_calls(assistant_msg)
+        if not call_tasks:
+            return assistant_msg.content.strip()
+
+        # 把模型助手消息加入对话历史，等待工具结果
+        messages.append(assistant_msg.model_dump())
+
+        for task in call_tasks:
+            cid = task[&quot;call_id&quot;]
+            fname = task[&quot;name&quot;]
+            fargs = task[&quot;args&quot;]
+            print(f&quot;[调用工具] {fname} 参数:{fargs}&quot;)
+            res = execute_single_tool(fname, fargs)
+            print(f&quot;[工具结果] {res}\n&quot;)
+            messages.append({
+                &quot;role&quot;: &quot;tool&quot;,
+                &quot;tool_call_id&quot;: cid,
+                &quot;name&quot;: fname,
+                &quot;content&quot;: str(res)
+            })
+
+        loop += 1
+
+    # 如果在MAX_LOOP轮次后仍未得到最终答案，则返回最后一次模型回复的内容
+    final_resp = chat_completion(messages=messages)
+    return final_resp.choices[0].message.content.strip()</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="37e8db55-6aee-805f-a4b0-fbcfff04a9b0" class="toggle"><li><details open=""><summary>parser.py</summary><div style="display:contents" dir="auto"><p id="37e8db55-6aee-8086-bed6-c5b6b02ffb89" class="">两大核心方法，负责翻译模型输出、落地本地执行：</p></div><div style="display:contents" dir="auto"><ol type="1" id="37e8db55-6aee-8005-b3d3-fbb33d354459" class="numbered-list" start="1"><li><code>parse_tool_calls</code>：解析大模型返回的结构化 <code>tool_calls</code> 对象，提取 call_id、工具名、参数字典；过滤非法不存在的工具。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="37e8db55-6aee-80b2-ba96-c68bf7343ff8" class="numbered-list" start="2"><li><code>execute_single_tool</code>：根据工具名查表拿到函数，解包参数运行；全局捕获运行异常，错误转为字符串返回给 AI，防止程序崩溃。</li></ol></div><div style="display:contents" dir="auto"><pre id="37e8db55-6aee-80ba-881f-ce9be31df3dd" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">from config.tool_registry import TOOL_REGISTRY
+import json
+
+def parse_tool_calls(assistant_msg):
+    &quot;&quot;&quot;
+    从assistant消息里提取所有工具调用\n
+    assistant_msg，OpenAI SDK 返回的消息对象: response.choices[0].message 对象\n
+    返回列表 [{id, name, args_dict}]
+    &quot;&quot;&quot;
+    tool_calls = assistant_msg.tool_calls
+    if not tool_calls:
+        return []
+
+    call_list = []
+    for call in tool_calls:
+        func_name = call.function.name
+        args_str = call.function.arguments
+        call_id = call.id
+
+        try:
+            args = json.loads(args_str)
+        except json.JSONDecodeError:
+            args = {}
+
+        if func_name in TOOL_REGISTRY:
+            call_list.append({
+                &quot;call_id&quot;: call_id,
+                &quot;name&quot;: func_name,
+                &quot;args&quot;: args
+            })
+    return call_list
+
+def execute_single_tool(func_name: str, args: dict):
+    &quot;&quot;&quot;执行本地单个工具的函数&quot;&quot;&quot;
+    tool_info = TOOL_REGISTRY[func_name]
+    func = tool_info[&quot;func&quot;]
+    try:
+        return func(**args)
+    except Exception as e:
+        return f&quot;工具执行异常: {str(e)}&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="37e8db55-6aee-800a-bffc-d597afe5dd08" class="toggle"><li><details open=""><summary>prompt_builder.py</summary><div style="display:contents" dir="auto"><p id="37e8db55-6aee-80b9-a9d8-dcb0e5249c5b" class=""><strong>仅适用于 Prompt 手写 JSON 模式</strong></p></div><div style="display:contents" dir="auto"><p id="37e8db55-6aee-800f-828b-cbc5ec426a19" class="">（简易版 ToolCall）<br/>作用：读取注册表工具信息，拼接一段完整 System 提示词，告诉 AI 有哪些工具、输出 JSON 调用格式。</p></div><div style="display:contents" dir="auto"><pre id="37e8db55-6aee-80d4-a33f-f7130a3215f4" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">import json
+from config.tool_registry import TOOL_REGISTRY as tool_registry
+
+def build_system_prompt() -&gt; str:
+    &quot;&quot;&quot;拼接工具列表生成系统提示词&quot;&quot;&quot;
+    tool_descriptions = []
+    for tool_name, tool_info in tool_registry.items():
+        tool_descriptions.append({
+            &quot;name&quot;: tool_name,
+            &quot;description&quot;: tool_info[&quot;description&quot;],
+            &quot;parameters&quot;: tool_info[&quot;parameters&quot;]
+        })
+    system_prompt = &quot;&quot;&quot;
+        你是一个智能助手，可以调用以下工具来帮助用户完成任务：
+        {json.dumps(tool_descriptions, indent=4, ensure_ascii=False)}
+        当你需要使用工具时，请按照以下格式回复：
+        1. 需要计算，查询时间必须调用工具：普通闲聊直接自然文本回答
+        2. 调用工具时候只输出纯**json格式**，无多余文字，注释，换行干扰，格式如下：
+        {{&quot;tool_name&quot;: &quot;工具名称&quot;, &quot;parameters&quot;: {工具参数}}}
+        3. 禁止输出json格式内容
+        4. 工具调用后，等待工具返回结果，再继续后续对话
+    &quot;&quot;&quot;    
+    return system_prompt</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="37e8db55-6aee-8075-bd6f-c6fa4388adca"/></div><div style="display:contents" dir="auto"><h1 id="37e8db55-6aee-806f-a24d-e4fec721943e" class="">mock_llm.py</h1></div><div style="display:contents" dir="auto"><ul id="37e8db55-6aee-806a-b2cb-cc5c959c1173" class="toggle"><li><details open=""><summary>code</summary><div style="display:contents" dir="auto"><p id="37e8db55-6aee-80c8-8400-ffd07ab6d559" class="">模拟大模型请求客户端，用于离线调试、无 API 密钥测试。内部写死判断逻辑，用户问计算 / 时间就返回模拟的 tool_calls 结构，普通问题返回文本。<strong>切换真实 API 只需要替换这个文件</strong></p></div><div style="display:contents" dir="auto"><p id="37e8db55-6aee-802a-9577-fac59718f8ad" class="">（替换成 llm_client.py 真实 OpenAI/DeepSeek/Ollama 请求代码），agent 调度代码一行不动。</p></div><div style="display:contents" dir="auto"><pre id="37e8db55-6aee-8035-be86-fcd5b6e70ef8" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">import os
+from dotenv import load_dotenv
+from openai import OpenAI
+
+# 加载.env
+load_dotenv()
+
+# 初始化客户端
+client = OpenAI(
+    api_key=os.getenv(&quot;LLM_API_KEY&quot;),
+    base_url=os.getenv(&quot;LLM_BASE_URL&quot;)
+)
+MODEL_NAME = os.getenv(&quot;LLM_MODEL&quot;)
+
+def chat_completion(messages, tools=None):
+    &quot;&quot;&quot;
+    调用大模型接口，支持传入tools函数定义
+    :param messages: 对话上下文列表
+    :param tools: 工具schema数组
+    :return: openai返回完整response对象
+    &quot;&quot;&quot;
+    kwargs = {
+        &quot;model&quot;: MODEL_NAME,
+        &quot;messages&quot;: messages,
+    }
+    # 有工具定义才带上tools参数
+    if tools:
+        kwargs[&quot;tools&quot;] = tools
+        kwargs[&quot;tool_choice&quot;] = &quot;auto&quot;
+
+    resp = client.chat.completions.create(**kwargs)
+    return resp</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="37e8db55-6aee-805c-9ae0-e6e02b09691b" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
