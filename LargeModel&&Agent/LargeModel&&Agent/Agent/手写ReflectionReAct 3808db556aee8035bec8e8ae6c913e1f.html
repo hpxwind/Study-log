@@ -1,0 +1,2249 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>手写ReflectionReAct</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3808db55-6aee-8035-bec8-e8ae6c913e1f" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/rijksmuseum_avercamp_1608.jpg" style="object-position:center 70%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">⛵</span></div><h1 class="page-title" dir="auto">手写ReflectionReAct</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><blockquote id="3808db55-6aee-800a-a830-fa360b9193ba" class="block-color-blue_background">所有注释都在代码中,注释都是ai生成</blockquote></div><div style="display:contents" dir="auto"><h1 id="3808db55-6aee-8066-8cbf-f144671133cc" class="">目录结构与工作流程</h1></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-80c1-a4ad-cf4d140a240e" class="toggle"><li><details open=""><summary>目录结构</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3808db55-6aee-8098-b307-d2c1fec8b040" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">react_agent_demo/
+├── config/
+│   ├── __init__.py
+│   └── tool_registry.py
+├── tools/
+│   ├── __init__.py
+│   ├── order_check.py      # 订单核验工具（易出错，反射重调用典型）
+│   └── schedule_query.py   # 日程查询工具（参数格式坑多）
+├── core/
+│   ├── __init__.py
+│   ├── prompt_builder.py
+│   ├── output_parser.py
+│   └── react_agent.py
+├── mock_llm.py
+└── test_main.py</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-8063-bb51-dc43d7cf0b34" class="toggle"><li><details open=""><summary>执行流程图</summary><div style="display:contents" dir="auto"><pre id="3808db55-6aee-8026-b49b-de73872dcaf6" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">用户 → Agent：提交问题
+循环（未到最大轮数）：
+    1. Reason推理阶段
+        Agent拼接历史上下文 → 喂LLM
+        LLM输出：Thought + Action / FinalAnswer
+    2. 分支判断
+    ├─ 分支A：输出FinalAnswer（即将收尾）
+    │   2.1 【Reflection终答校验】LLM反思检查答案：
+    │       校验点：计算对错、资料匹配、有无幻觉、是否答非所问、参数是否齐全
+    │   2.2 反思两种结果：
+    │       ✅ 校验无误 → 直接返回答案给用户，流程结束
+    │       ❌ 发现错误/缺信息 → 作废本次答案，回到Reason重新规划工具调用
+    └─ 分支B：输出Action调用工具
+        2.1 执行工具，拿到Observation
+        2.2 【Reflection工具反思】LLM复盘本次调用：
+            检查：工具选的对不对、参数填错没、返回内容能不能回答问题
+        2.3 反思判定：
+            ├─ 信息充足、调用无误 → 写入完整一轮记录(Thought/Action/Observation)，进入下一轮Reason
+            └─ 参数错误/工具选错/返回无效数据 → 不写入有效历史，本轮作废，重新推理修正调用
+循环上限耗尽 → 返回超限提示</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-8049-9d97-d225d74937ec" class="toggle"><li><details open=""><summary>函数执行依赖图</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3808db55-6aee-80fe-849c-e3076df5dbc2" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">test_main.py
+  │
+  ├── MockLLM()                      ← mock_llm.py（LLM API 适配器）
+  │
+  └── ReActAgentWithReflection()     ← core/react_agent.py（Agent 核心）
+        │
+        ├── import tools.order_check     ─┐
+        ├── import tools.schedule_query   ├──→ @register_tool 装饰器执行
+        │                                ─┘    ↓ 写入 TOOL_REGISTRY
+        │
+        ├── build_system_prompt()     ← core/prompt_builder.py（Prompt 构建器）
+        │     │                             │
+        │     ├── get_tool_prompt_desc() ───┤
+        │     ├── get_tool_hints_text()  ───┤← config/tool_registry.py（注册中心）
+        │     └── get_all_tool_names()  ────┘
+        │
+        ├── parse_llm_output()        ← core/output_parser.py（输出解析器）
+        │
+        ├── execute_tool()            ────→ config/tool_registry.py → tools/*.py
+        │
+        └── get_tool_hints()          ────→ config/tool_registry.py
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3808db55-6aee-8040-861b-dc24ff484feb"/></div><div style="display:contents" dir="auto"><h1 id="3808db55-6aee-80a2-ad88-e9e8e193389b" class="">Config</h1></div><div style="display:contents" dir="auto"><p id="3808db55-6aee-8062-9244-ee4851b76003" class="">工具注册工厂，通过修饰器的方式来注册工具，舍弃之前的大字典注册</p></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-805f-8f83-f8b238205682" class="toggle"><li><details open=""><summary>tool_registry.py</summary><div style="display:contents" dir="auto"><pre id="3808db55-6aee-800e-a03e-d719857461e6" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+tool_registry.py — 工具注册中心
+
+【模块作用】
+整个 Reflection ReAct 框架的&quot;工具总线&quot;。
+所有可被 Agent 调用的工具都通过 @register_tool 装饰器注册到此模块的
+TOOL_REGISTRY 全局字典中。其他模块（prompt_builder、react_agent）不直接
+import 具体工具函数，而是通过此模块提供的查询/执行接口间接访问工具，
+从而实现&quot;工具与框架解耦&quot;——新增工具只需写 @register_tool，无需改框架代码。
+
+【核心设计】
+- TOOL_REGISTRY: 全局字典，key=工具名, value={handler, desc, params, hints}
+- hints 机制：每个工具声明自己的&quot;常见坑/校验规则&quot;，由 prompt_builder 动态注入
+  到 system prompt，由 react_agent 在 reflection 提示中动态引用，
+  替代了原来在 prompt 中硬编码业务数据的问题。
+
+【被谁依赖】
+- tools/order_check.py    → 调用 register_tool 注册自己
+- tools/schedule_query.py → 调用 register_tool 注册自己
+- core/prompt_builder.py  → 调用 get_tool_prompt_desc / get_tool_hints_text / get_all_tool_names
+- core/react_agent.py      → 调用 execute_tool / get_tool_hints
+&quot;&quot;&quot;
+
+from typing import Dict, Any, Callable, List
+
+# ---------------------------------------------------------------------------
+# 全局工具注册表
+# 结构: { 工具名: { &quot;handler&quot;: 可调用函数, &quot;desc&quot;: 描述, &quot;params&quot;: 参数说明, &quot;hints&quot;: 提示列表 } }
+# 所有用 @register_tool 装饰的函数都会被自动录入此字典
+# ---------------------------------------------------------------------------
+TOOL_REGISTRY: Dict[str, Dict[str, Any]] = {}
+
+
+def register_tool(
+    name: str,
+    desc: str,
+    params: Dict[str, str],
+    hints: List[str] = None,
+):
+    &quot;&quot;&quot;
+    工具注册装饰器工厂——将一个普通函数注册为 Agent 可调用的工具。
+
+    【函数作用】
+    以装饰器形式将函数及其元数据（描述、参数、提示）写入 TOOL_REGISTRY，
+    使 Agent 框架能自动发现、描述、调用该工具。
+
+    【参数说明】
+    - name   : 工具唯一标识名，Agent 在 Action 中以此名称调用工具。
+               来源：由工具开发者自行定义，需保证全局唯一。
+    - desc   : 工具功能的一句话描述，会被拼入 system prompt 告知 LLM。
+               来源：由工具开发者根据工具功能撰写。
+    - params : 参数说明字典 {参数名: &quot;类型+说明&quot;}，用于 prompt 展示和格式校验。
+               来源：由工具开发者根据函数签名撰写。
+    - hints  : 工具使用提示/常见坑列表，动态注入到 prompt 指导 LLM 反思。
+               这是本框架解决&quot;prompt 硬编码&quot;问题的关键——每个工具自己声明
+               自己的注意事项，框架从 registry 动态获取，无需在 prompt 模板里写死。
+               来源：由工具开发者根据业务经验撰写。
+
+    【谁会调用】
+    此函数是装饰器工厂，由各工具模块在定义函数时使用：
+    - tools/order_check.py    → @register_tool(name=&quot;check_order&quot;, ...)
+    - tools/schedule_query.py → @register_tool(name=&quot;get_schedule&quot;, ...)
+
+    【返回值】
+    返回装饰器函数 wrapper，wrapper 返回原函数本身（不改变函数行为）。
+
+    【关键代码解析】
+    wrapper 内部：
+      TOOL_REGISTRY[name] = { &quot;handler&quot;: func, &quot;desc&quot;: desc, &quot;params&quot;: params, &quot;hints&quot;: hints or [] }
+      → 将函数和元数据一起存入全局注册表，key 为工具名。
+      → hints 默认为空列表，工具不提供 hints 时不会报错。
+    &quot;&quot;&quot;
+    def wrapper(func: Callable):
+        # 将函数连同元数据一起写入全局注册表
+        TOOL_REGISTRY[name] = {
+            &quot;handler&quot;: func,       # 实际可调用的函数，execute_tool 时通过此字段调用
+            &quot;desc&quot;: desc,           # 工具描述，用于 prompt 中告知 LLM 此工具的用途
+            &quot;params&quot;: params,       # 参数说明，用于 prompt 中展示参数格式
+            &quot;hints&quot;: hints or [],   # 使用提示/常见坑，用于动态注入 prompt 指导反思
+        }
+        return func  # 装饰器不改变原函数行为，原函数仍可正常被 Python 直接调用
+    return wrapper
+
+
+def get_tool_prompt_desc() -&gt; str:
+    &quot;&quot;&quot;
+    生成工具列表的 prompt 文本，用于注入到 system prompt 中告知 LLM 有哪些工具可用。
+
+    【函数作用】
+    遍历 TOOL_REGISTRY，将每个工具的名称、描述、参数格式化为
+    &quot;- check_order: 核验订单... 参数(order_id: str, pay_amount: int)&quot; 形式，
+    拼成多行文本，供 prompt_builder 填入模板的 {tool_list} 占位符。
+
+    【参数】
+    无参数，直接从全局 TOOL_REGISTRY 读取。
+
+    【谁会调用】
+    - core/prompt_builder.py → build_system_prompt() 中调用，将结果填入 prompt 模板
+
+    【关键代码解析】
+    p_str = &quot;, &quot;.join(f&quot;{k}: {v}&quot; for k, v in meta[&quot;params&quot;].items())
+      → 将 params 字典 {order_id: &quot;str&quot;, pay_amount: &quot;int&quot;} 拼为
+        &quot;order_id: str 订单编号, pay_amount: int 用户填报支付金额&quot;
+    blocks.append(f&quot;- {name}: {meta[&#x27;desc&#x27;]} 参数({p_str})&quot;)
+      → 每个工具一行，格式: &quot;- 工具名: 描述 参数(参数列表)&quot;
+    &quot;&quot;&quot;
+    blocks = []
+    for name, meta in TOOL_REGISTRY.items():
+        # 将参数字典拼接为 &quot;key: value, key: value&quot; 格式
+        p_str = &quot;, &quot;.join(f&quot;{k}: {v}&quot; for k, v in meta[&quot;params&quot;].items())
+        # 每个工具生成一行描述
+        blocks.append(f&quot;- {name}: {meta[&#x27;desc&#x27;]} 参数({p_str})&quot;)
+    return &quot;\n&quot;.join(blocks)
+
+
+def get_tool_hints_text() -&gt; str:
+    &quot;&quot;&quot;
+    汇总所有工具的 hints 文本，用于注入到 system prompt 的&quot;工具使用提示&quot;区域。
+
+    【函数作用】
+    遍历 TOOL_REGISTRY，将每个工具的 hints 列表用分号连接，
+    格式化为 &quot;- check_order: hint1; hint2; hint3&quot; 形式。
+    如果没有任何工具提供 hints，返回&quot;无&quot;。
+
+    【参数】
+    无参数，直接从全局 TOOL_REGISTRY 读取。
+
+    【谁会调用】
+    - core/prompt_builder.py → build_system_prompt() 中调用，将结果填入 {tool_hints} 占位符
+
+    【关键代码解析】
+    if meta[&quot;hints&quot;]:
+      → 只有提供了 hints 的工具才会被列出，没有 hints 的工具不占篇幅
+    hints_str = &quot;; &quot;.join(meta[&quot;hints&quot;])
+      → 同一工具的多条 hints 用分号连接，避免换行过多
+    return &quot;\n&quot;.join(lines) if lines else &quot;无&quot;
+      → 空时返回&quot;无&quot;而非空串，让 LLM 明确知道没有额外提示
+    &quot;&quot;&quot;
+    lines = []
+    for name, meta in TOOL_REGISTRY.items():
+        if meta[&quot;hints&quot;]:
+            # 同一工具的多条 hints 用分号连接
+            hints_str = &quot;; &quot;.join(meta[&quot;hints&quot;])
+            lines.append(f&quot;- {name}: {hints_str}&quot;)
+    return &quot;\n&quot;.join(lines) if lines else &quot;无&quot;
+
+
+def get_tool_hints(tool_name: str) -&gt; List[str]:
+    &quot;&quot;&quot;
+    获取单个工具的 hints 列表，用于 reflection 提示中动态注入当前工具的校验规则。
+
+    【函数作用】
+    根据工具名从 TOOL_REGISTRY 中取出该工具的 hints 列表。
+    与 get_tool_hints_text() 不同，此函数返回原始列表（非格式化文本），
+    便于 react_agent 在构建 reflection 提示时只注入当前工具的提示，
+    而非全部工具的提示——避免信息过载。
+
+    【参数说明】
+    - tool_name : 要查询的工具名称，来源为 Agent 当前轮解析出的 parsed.action_name
+
+    【谁会调用】
+    - core/react_agent.py → _build_reflect_prompt() 中调用，
+      将当前调用工具的 hints 注入到 reflection 提示的&quot;校验提示&quot;部分
+
+    【返回值】
+    List[str] — 该工具的 hints 列表；工具不存在时返回空列表 []
+    &quot;&quot;&quot;
+    if tool_name in TOOL_REGISTRY:
+        return TOOL_REGISTRY[tool_name].get(&quot;hints&quot;, [])
+    return []
+
+
+def get_all_tool_names() -&gt; List[str]:
+    &quot;&quot;&quot;
+    获取所有已注册工具的名称列表，用于 prompt 中提示 LLM 有几个工具、分别叫什么。
+
+    【函数作用】
+    从 TOOL_REGISTRY 的 keys 中提取工具名列表，
+    供 prompt_builder 在模板中填充&quot;可用工具共 N 个：xxx、yyy&quot;。
+
+    【参数】
+    无参数。
+
+    【谁会调用】
+    - core/prompt_builder.py → build_system_prompt() 中调用，
+      用 &quot;、&quot;.join(get_all_tool_names()) 生成工具名枚举，
+      用 len(get_all_tool_names()) 获取工具数量
+
+    【返回值】
+    List[str] — 所有注册工具名的列表，如 [&quot;check_order&quot;, &quot;get_schedule&quot;]
+    &quot;&quot;&quot;
+    return list(TOOL_REGISTRY.keys())
+
+
+def execute_tool(tool_name: str, kwargs: Dict[str, Any]) -&gt; str:
+    &quot;&quot;&quot;
+    执行指定工具，并返回其结果字符串。
+
+    【函数作用】
+    Agent 解析出 Action 后，调用此函数执行对应工具。
+    内部从 TOOL_REGISTRY 取出 handler 函数，用 **kwargs 展开参数调用，
+    并将返回值转为字符串。异常不会上抛，而是返回 [ToolRunErr] 前缀的错误信息，
+    让 Agent 能通过 Observation 感知到工具执行失败。
+
+    【参数说明】
+    - tool_name : 要执行的工具名，来源为 Agent 解析 LLM 输出得到的 parsed.action_name
+    - kwargs    : 传给工具函数的参数字典，来源为 Agent 解析 LLM 输出得到的 parsed.action_args
+                  如 {&quot;order_id&quot;: &quot;ORD001&quot;, &quot;pay_amount&quot;: 300}
+
+    【谁会调用】
+    - core/react_agent.py → run() 主循环中，解析到 Action 后调用
+      obs = execute_tool(parsed.action_name, parsed.action_args)
+
+    【关键代码解析】
+    if tool_name not in TOOL_REGISTRY:
+        return f&quot;[ToolError] 无此工具:{tool_name}&quot;
+      → 工具名不在注册表中时，返回错误信息而非抛异常，
+        Agent 可在 Observation 中看到&quot;无此工具&quot;并自行修正
+
+    res = TOOL_REGISTRY[tool_name][&quot;handler&quot;](**kwargs)
+      → **kwargs 将字典展开为关键字参数传给实际函数，
+        如 handler(order_id=&quot;ORD001&quot;, pay_amount=300)
+
+    except Exception as e:
+        return f&quot;[ToolRunErr] {str(e)}&quot;
+      → 工具执行异常（如参数类型错误）同样不抛异常，
+        返回 [ToolRunErr] 前缀信息，Agent 可在反思中纠正
+    &quot;&quot;&quot;
+    if tool_name not in TOOL_REGISTRY:
+        # 工具不存在 → 返回错误标记，让 Agent 通过 Observation 感知
+        return f&quot;[ToolError] 无此工具: {tool_name}&quot;
+    try:
+        # 从注册表取出 handler 函数，用字典展开调用
+        res = TOOL_REGISTRY[tool_name][&quot;handler&quot;](**kwargs)
+        return str(res)  # 统一转为字符串，方便 Agent 作为 Observation 处理
+    except Exception as e:
+        # 工具执行异常 → 返回错误标记而非抛异常，保持 Agent 循环稳定
+        return f&quot;[ToolRunErr] {str(e)}&quot;
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3808db55-6aee-80c2-81f1-cc73ec2b28fb"/></div><div style="display:contents" dir="auto"><h1 id="3808db55-6aee-804c-a5ab-ead0fdc6d91b" class="">Tools</h1></div><div style="display:contents" dir="auto"><p id="3808db55-6aee-805a-a844-d4a2e1d20b77" class="">工具的定义文件夹</p></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-802a-9973-d9af74aeaebf" class="toggle"><li><details open=""><summary><strong>__init</strong>__.py</summary><div style="display:contents" dir="auto"><pre id="3808db55-6aee-8049-9a92-daf76fe510ea" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+tools/__init__.py — 工具包初始化
+
+【模块作用】
+将 tools 包下的所有工具模块导入到包命名空间，使其在被 import 时
+触发各工具模块级别的 @register_tool 装饰器执行，完成工具注册。
+
+【设计说明】
+Python 的 import 机制保证：当执行 `import tools.order_check` 时，
+会先执行 `tools/__init__.py`，再执行 `tools/order_check.py`。
+因此这里 from .order_check import check_order 的目的不是&quot;使用&quot; check_order，
+而是触发 order_check.py 模块加载，使其 @register_tool 装饰器执行，
+将工具注册到 TOOL_REGISTRY。
+
+同理，core/react_agent.py 中也有 `import tools.order_check` 的写法，
+目的是相同的——确保在 Agent 运行前所有工具已注册完毕。
+
+【被谁依赖】
+- core/react_agent.py → `import tools.order_check` / `import tools.schedule_query`
+  触发此 __init__.py 执行（如果之前未 import 过 tools 包）
+&quot;&quot;&quot;
+
+from .order_check import check_order        # 触发 @register_tool → 注册 check_order
+from .schedule_query import get_schedule    # 触发 @register_tool → 注册 get_schedule
+
+__all__ = [&quot;check_order&quot;, &quot;get_schedule&quot;]
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-8015-a84d-d58451d2b031" class="toggle"><li><details open=""><summary>order_check.py</summary><div style="display:contents" dir="auto"><pre id="3808db55-6aee-80e6-b942-dfcb1a2cad43" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+order_check.py — 订单核验工具
+
+【模块作用】
+提供 check_order 工具函数，核验订单的支付金额和状态。
+此模块被 import 时，模块级别的 @register_tool 装饰器会自动执行，
+将 check_order 注册到 config/tool_registry.py 的 TOOL_REGISTRY 中。
+
+【核心设计】
+- ORDER_DB : 模拟订单数据库（实际项目中替换为真实数据库查询）
+- @register_tool 的 hints 参数声明了此工具的常见坑：
+  1. pay_amount 必须与实际金额一致 → 否则会返回&quot;金额不匹配&quot;
+  2. order_id 必须存在 → 否则会返回&quot;校验失败&quot;
+  3. 注意订单状态 → 已退款/待付款等状态需关注
+  这些 hints 会被动态注入到 prompt 中，替代原来硬编码的&quot;ORD001金额=299&quot;
+
+【被谁依赖】
+- tools/__init__.py → from .order_check import check_order（触发注册）
+- core/react_agent.py → import tools.order_check（触发注册）
+&quot;&quot;&quot;
+
+from config.tool_registry import register_tool
+
+# ---------------------------------------------------------------------------
+# 模拟订单数据库
+# 实际项目中替换为真实数据库查询（如 MySQL / MongoDB / API 调用等）
+# ---------------------------------------------------------------------------
+ORDER_DB = {
+    &quot;ORD001&quot;: {&quot;goods&quot;: &quot;机械键盘&quot;, &quot;real_pay&quot;: 299, &quot;status&quot;: &quot;已付款&quot;},
+    &quot;ORD002&quot;: {&quot;goods&quot;: &quot;无线鼠标&quot;, &quot;real_pay&quot;: 89, &quot;status&quot;: &quot;待付款&quot;},
+    &quot;ORD003&quot;: {&quot;goods&quot;: &quot;显示器支架&quot;, &quot;real_pay&quot;: 159, &quot;status&quot;: &quot;已退款&quot;}
+}
+
+
+@register_tool(
+    name=&quot;check_order&quot;,
+    desc=&quot;核验订单支付金额与状态，必须同时传入订单号order_id、用户填写金额pay_amount&quot;,
+    params={
+        &quot;order_id&quot;: &quot;str 订单编号&quot;,
+        &quot;pay_amount&quot;: &quot;int 用户填报支付金额&quot;
+    },
+    hints=[
+        # hint 1: 金额匹配规则——LLM 在反思时如果看到&quot;金额不匹配&quot;的 Observation，
+        #         应该想到&quot;可能是 pay_amount 填错了&quot;，而非盲目重试
+        &quot;pay_amount必须与订单实际金额完全一致，否则会金额不匹配报错&quot;,
+        # hint 2: 订单号存在性——LLM 在反思时应检查 order_id 是否拼写正确
+        &quot;order_id必须存在于系统内，不存在的订单号会校验失败&quot;,
+        # hint 3: 状态关注——即使金额匹配，订单状态也需要纳入最终答案
+        &quot;注意订单状态，已退款/待付款等状态需一并关注&quot;,
+    ]
+)
+def check_order(order_id: str, pay_amount):
+    &quot;&quot;&quot;
+    核验订单的支付金额与状态。
+
+    【函数作用】
+    根据订单号查找订单，比对用户填写的支付金额与实际金额是否一致，
+    返回核验结果字符串。此函数被 @register_tool 装饰后，
+    由 tool_registry.execute_tool() 通过 TOOL_REGISTRY[&quot;check_order&quot;][&quot;handler&quot;] 调用。
+
+    【参数说明】
+    - order_id   : 订单编号，如 &quot;ORD001&quot;
+                   来源：Agent 从 LLM 输出中解析的 action_args[&quot;order_id&quot;]
+    - pay_amount : 用户填报的支付金额
+                   来源：Agent 从 LLM 输出中解析的 action_args[&quot;pay_amount&quot;]
+                   注意：LLM 输出经 output_parser 解析后，纯数字已转为 int
+
+    【谁会调用】
+    - config/tool_registry.py → execute_tool() 中通过
+      TOOL_REGISTRY[&quot;check_order&quot;][&quot;handler&quot;](**kwargs) 间接调用
+
+    【关键代码解析】
+    pay_amount = int(pay_amount)
+      → 防御性类型转换，确保 pay_amount 是 int（即使 LLM 输出的是字符串数字）
+
+    if order_id not in ORDER_DB:
+        return f&quot;校验失败：不存在订单{order_id}&quot;
+      → 订单不存在时直接返回失败，不抛异常，
+        让 Agent 通过 Observation 看到&quot;不存在&quot;并可能修正订单号
+
+    if real != pay_amount:
+        return f&quot;金额不匹配！订单标准实付{real}，用户实付{pay_amount}，订单状态：{status}&quot;
+      → 金额不匹配时返回详细信息（含实际金额），触发 LLM 反思&quot;金额填错了&quot;
+      → 这是 Reflection 机制最有价值的场景——LLM 看到不匹配后会主动修正 pay_amount
+    &quot;&quot;&quot;
+    # 防御性类型转换，保证数值比较时类型一致
+    pay_amount = int(pay_amount)
+
+    # 检查订单是否存在
+    if order_id not in ORDER_DB:
+        return f&quot;校验失败：不存在订单{order_id}&quot;
+
+    # 取出订单的实际金额和状态
+    real = ORDER_DB[order_id][&quot;real_pay&quot;]
+    status = ORDER_DB[order_id][&quot;status&quot;]
+
+    # 比对金额是否一致
+    if real != pay_amount:
+        # 金额不匹配 → 返回详细信息，提示 LLM 反思修正
+        # 包含&quot;标准实付&quot;和&quot;用户实付&quot;的对比，帮助 LLM 理解错误原因
+        return f&quot;金额不匹配！订单标准实付{real}，用户实付{pay_amount}，订单状态：{status}&quot;
+
+    # 金额匹配 → 返回核验通过的完整信息
+    return f&quot;校验通过，商品：{ORDER_DB[order_id][&#x27;goods&#x27;]}，标准实付{real}，用户实付{pay_amount}，订单状态：{status}&quot;
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-80ee-9f02-f2aa84fa2279" class="toggle"><li><details open=""><summary>schedule_query.py</summary><div style="display:contents" dir="auto"><pre id="3808db55-6aee-808d-a44e-ec509ff23c13" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+schedule_query.py — 日程查询工具
+
+【模块作用】
+提供 get_schedule 工具函数，根据姓名和日期查询日程安排。
+此模块被 import 时，模块级别的 @register_tool 装饰器会自动执行，
+将 get_schedule 注册到 config/tool_registry.py 的 TOOL_REGISTRY 中。
+
+【核心设计】
+- SCHEDULE_DB : 模拟日程数据库（实际项目中替换为真实数据库查询）
+- @register_tool 的 hints 参数声明了此工具的常见坑：
+  1. 日期格式必须 YYYY-MM-DD → 否则查不到数据
+  2. 姓名准确性 → 子串匹配可能误匹配
+  3. date 留空行为 → 返回所有日期日程
+  这些 hints 会被动态注入到 prompt 中，指导 LLM 正确填写参数
+
+【被谁依赖】
+- tools/__init__.py → from .schedule_query import get_schedule（触发注册）
+- core/react_agent.py → import tools.schedule_query（触发注册）
+&quot;&quot;&quot;
+
+from config.tool_registry import register_tool
+
+# ---------------------------------------------------------------------------
+# 模拟日程数据库
+# 外层 key 为日期（YYYY-MM-DD 格式），值为该日期的日程列表
+# 实际项目中替换为真实数据库查询
+# ---------------------------------------------------------------------------
+SCHEDULE_DB = {
+    &quot;2026-06-15&quot;: [
+        {&quot;user&quot;: &quot;张三&quot;, &quot;time&quot;: &quot;09:00&quot;, &quot;event&quot;: &quot;项目评审会&quot;},
+        {&quot;user&quot;: &quot;李四&quot;, &quot;time&quot;: &quot;14:00&quot;, &quot;event&quot;: &quot;客户对接&quot;}
+    ],
+    &quot;2026-06-16&quot;: [
+        {&quot;user&quot;: &quot;张三&quot;, &quot;time&quot;: &quot;10:00&quot;, &quot;event&quot;: &quot;技术方案编写&quot;},
+        {&quot;user&quot;: &quot;王五&quot;, &quot;time&quot;: &quot;16:00&quot;, &quot;event&quot;: &quot;设备调试&quot;}
+    ]
+}
+
+
+@register_tool(
+    name=&quot;get_schedule&quot;,
+    desc=&quot;查询人员日程，date必须是YYYY-MM-DD标准格式，user为姓名；date留空则返回全部日期数据&quot;,
+    params={
+        &quot;user&quot;: &quot;str 人员姓名&quot;,
+        &quot;date&quot;: &quot;str 日期，格式YYYY-MM-DD，可空&quot;
+    },
+    hints=[
+        # hint 1: 日期格式——这是最常见的参数错误，用户说&quot;6月15号&quot;而 LLM
+        #         可能写成 &quot;6-15&quot; 或 &quot;06-15&quot;，必须转为 &quot;2026-06-15&quot;
+        &quot;date格式必须严格为YYYY-MM-DD，其他格式会查不到数据&quot;,
+        # hint 2: 姓名匹配——使用 in 操作做子串匹配，&quot;张&quot;会匹配&quot;张三&quot;
+        &quot;user为姓名全称或子串匹配，注意姓名准确性&quot;,
+        # hint 3: date 留空行为——LLM 需要知道不传 date 时的默认行为
+        &quot;date留空会返回该用户所有日期日程&quot;,
+    ]
+)
+def get_schedule(user: str, date: str = None):
+    &quot;&quot;&quot;
+    查询指定人员的日程安排。
+
+    【函数作用】
+    根据姓名（必填）和日期（选填）查询日程，返回匹配的日程列表文本。
+    此函数被 @register_tool 装饰后，由 tool_registry.execute_tool()
+    通过 TOOL_REGISTRY[&quot;get_schedule&quot;][&quot;handler&quot;] 调用。
+
+    【参数说明】
+    - user : 人员姓名，支持子串匹配（使用 in 操作符）
+             来源：Agent 从 LLM 输出中解析的 action_args[&quot;user&quot;]
+    - date : 日期，格式必须为 YYYY-MM-DD；为 None 时查询所有日期
+             来源：Agent 从 LLM 输出中解析的 action_args[&quot;date&quot;]
+             注意：如果 LLM 没有输出 date 参数，action_args 中不会有此 key，
+             execute_tool(**kwargs) 时 date 使用默认值 None
+
+    【谁会调用】
+    - config/tool_registry.py → execute_tool() 中通过
+      TOOL_REGISTRY[&quot;get_schedule&quot;][&quot;handler&quot;](**kwargs) 间接调用
+
+    【关键代码解析】
+    target_dates = SCHEDULE_DB.keys() if not date else [date]
+      → date 为 None 时遍历所有日期，否则只查指定日期
+
+    if user in item[&quot;user&quot;]:
+      → 子串匹配：如 user=&quot;张&quot; 会匹配 item[&quot;user&quot;]=&quot;张三&quot;
+        这是有意设计——宽松匹配避免因姓名不全而查无结果
+
+    if not res_list:
+        return f&quot;未找到{user}匹配日程&quot;
+      → 没有匹配结果时返回提示信息，而非空串或异常，
+        让 Agent 通过 Observation 看到&quot;未找到&quot;并可能修正参数
+    &quot;&quot;&quot;
+    res_list = []
+
+    # 确定要查询的日期范围：date 为 None → 所有日期；否则只查指定日期
+    target_dates = SCHEDULE_DB.keys() if not date else [date]
+
+    for d in target_dates:
+        if d not in SCHEDULE_DB:
+            # 日期不在数据库中 → 提示无日程（而非跳过，让 LLM 知道日期无效）
+            res_list.append(f&quot;日期{d}无任何日程&quot;)
+            continue
+        for item in SCHEDULE_DB[d]:
+            # 子串匹配：user 是 item[&quot;user&quot;] 的子串即算匹配
+            if user in item[&quot;user&quot;]:
+                res_list.append(f&quot;【{d} {item[&#x27;time&#x27;]}】{item[&#x27;event&#x27;]}&quot;)
+
+    # 没有任何匹配 → 返回提示而非空串
+    if not res_list:
+        return f&quot;未找到{user}匹配日程&quot;
+
+    # 多条结果用换行拼接
+    return &quot;\n&quot;.join(res_list)
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3808db55-6aee-804d-be86-dfa181aae633"/></div><div style="display:contents" dir="auto"><h1 id="3808db55-6aee-80f2-9fb4-efd283a5f85d" class="">Core</h1></div><div style="display:contents" dir="auto"><p id="3808db55-6aee-80b5-a94e-ca37631e624d" class="">核心部分，有输入输出的规则，提示的构建，agent核心思考循环</p></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-80d8-ad63-e4dfeb0aa71c" class="toggle"><li><details open=""><summary>output_parser.py</summary><div style="display:contents" dir="auto"><pre id="3808db55-6aee-80d6-98be-db97f9d40e0a" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+output_parser.py — LLM 输出解析器
+
+【模块作用】
+将 LLM 的原始文本输出解析为结构化的 ReActOutput 对象。
+这是 Agent 循环中&quot;理解 LLM 想做什么&quot;的关键环节——LLM 输出一段文本，
+解析器从中提取 Thought / Action / Reflection / FinalAnswer 等结构化字段。
+
+【核心设计：段落级解析】
+旧版逐行解析存在致命缺陷：Reflection/Thought 的内容经常跨多行，
+逐行解析只能捕获 &quot;Reflection:&quot; 后的第一行，后续行被当作&quot;无标记行&quot;丢弃。
+新版改为&quot;段落级解析&quot;：
+  1. 用正则找到所有段落标记（Thought: / Action: / Reflection: / FinalAnswer:）
+  2. 每个段落的内容 = 从标记结束位置到下一个标记开始位置之间的全部文本
+  3. 这样 Reflection: 后的多行内容全部被正确捕获
+
+【被谁依赖】
+- core/react_agent.py → _generate_with_retry() 中调用 parse_llm_output() 解析 LLM 输出
+&quot;&quot;&quot;
+
+import re
+from typing import Optional, Dict
+
+
+class ReActOutput:
+    &quot;&quot;&quot;
+    LLM 输出的结构化表示对象。
+
+    【类作用】
+    将 LLM 的自由文本输出解析为 5 个结构化字段，供 Agent 主循环判断下一步动作：
+    - thought      : LLM 的推理过程，决定 Agent 是否有有效输出
+    - action_name  : LLM 要调用的工具名，决定 Agent 是否执行工具
+    - action_args  : LLM 传给工具的参数，决定工具如何执行
+    - final_answer : LLM 给出的最终答案，非空时 Agent 直接返回结果
+    - reflection    : LLM 的反思内容，供下一轮 Thought 参考历史错误
+
+    【字段默认值设计】
+    - thought/final_answer 默认空/None → 区分&quot;LLM没输出&quot;和&quot;LLM输出了内容&quot;
+    - reflection 默认 None（非硬编码兜底字符串）→ 让调用方能区分&quot;没有反思&quot;和&quot;反思了但内容短&quot;
+    &quot;&quot;&quot;
+
+    def __init__(
+        self,
+        thought: str = &quot;&quot;,
+        action_name: Optional[str] = None,
+        action_args: Optional[Dict] = None,
+        final_answer: Optional[str] = None,
+        reflection: Optional[str] = None,
+    ):
+        # thought: 推理文本，strip 去除首尾空白；空字符串表示 LLM 未输出 Thought
+        self.thought = thought.strip() if thought else &quot;&quot;
+        # action_name: 工具名，None 表示 LLM 未输出 Action
+        self.action_name = action_name
+        # action_args: 工具参数字典，空字典表示无参数
+        self.action_args = action_args or {}
+        # final_answer: 最终答案，None 表示 LLM 未输出 FinalAnswer
+        self.final_answer = final_answer.strip() if final_answer else None
+        # reflection: 反思文本，None 表示 LLM 未输出 Reflection
+        # 注意：默认为 None 而非硬编码字符串，让调用方能判断&quot;是否真的反思了&quot;
+        self.reflection = reflection.strip() if reflection else None
+
+
+# ---------------------------------------------------------------------------
+# 段落标记正则表达式
+#
+# 【作用】在 LLM 原始输出中定位所有段落开头标记的位置
+# 【匹配模式】
+#   ^(Thought\s*[:：]|Action\s*[:：]|FinalAnswer\s*[:：]|Reflection\s*[:：])
+#
+# ^              → 行首（配合 re.MULTILINE，每行都独立匹配 ^）
+# Thought\s*[:：] → 匹配 &quot;Thought:&quot; 或 &quot;Thought：&quot;（支持中英文冒号，中间可有空格）
+# re.MULTILINE   → 让 ^ 匹配每行行首而非整个字符串开头
+# re.IGNORECASE  → 大小写不敏感，&quot;thought:&quot; / &quot;THOUGHT:&quot; 都能匹配
+#
+# 为什么不用逐行 split？因为 Reflection/Thought 内容常跨多行，
+# 逐行处理无法正确收集多行段落，只能用 finditer 定位标记位置再切割。
+# ---------------------------------------------------------------------------
+_SECTION_RE = re.compile(
+    r&#x27;^(Thought\s*[:：]|Action\s*[:：]|FinalAnswer\s*[:：]|Reflection\s*[:：])&#x27;,
+    re.MULTILINE | re.IGNORECASE,
+)
+
+
+def _parse_action(action_text: str, out: ReActOutput):
+    &quot;&quot;&quot;
+    解析 Action 段落文本，提取工具名和参数，写入 ReActOutput 对象。
+
+    【函数作用】
+    Action 段落格式为 &quot;tool_name(key=&#x27;val&#x27;, num=123)&quot;，
+    此函数从中提取工具名和参数字典，填充到 out.action_name 和 out.action_args。
+
+    【参数说明】
+    - action_text : Action 标记后的全部内容文本
+                    来源：parse_llm_output() 中，Action 标记到下一个标记之间的文本
+    - out         : 待填充的 ReActOutput 对象
+                    来源：parse_llm_output() 中创建的空 ReActOutput
+
+    【谁会调用】
+    - parse_llm_output() → 当解析到 label == &quot;action&quot; 时调用
+
+    【关键代码解析】
+    first_line = text.split(&#x27;\\n&#x27;)[0].strip()
+      → Action 只占一行，取第一行避免多行干扰
+
+    name_match = re.match(r&quot;^([a-zA-Z0-9_]+)&quot;, first_line)
+      → 从行首提取工具名（字母数字下划线），如 &quot;check_order&quot;
+
+    if arg_part.startswith(&quot;(&quot;) and arg_part.endswith(&quot;)&quot;):
+        inner = arg_part[1:-1].strip()
+      → 去掉外层小括号，得到参数内部文本
+      → 也支持 {} 大括号格式（兼容 LLM 可能输出的两种格式）
+
+    kv = re.match(r&quot;[&#x27;\&quot;]?([a-zA-Z0-9_]+)[&#x27;\&quot;]?\s*[:=]\s*[&#x27;\&quot;]?(.*?)[&#x27;\&quot;]?$&quot;, p)
+      → 匹配 &quot;key=&#x27;value&#x27;&quot; 或 &quot;key=value&quot; 或 &quot;key: value&quot; 格式的键值对
+      → 键名两端的引号可选，值两端的引号可选
+
+    if v.isdigit():
+        v = int(v)
+      → 纯数字字符串转为 int，如 &quot;300&quot; → 300，
+        保证传给工具函数时类型正确（pay_amount 需要 int）
+    &quot;&quot;&quot;
+    text = action_text.strip()
+    # Action 只占一行，取第一行避免后续无关内容干扰
+    first_line = text.split(&#x27;\n&#x27;)[0].strip()
+
+    # 从行首提取工具名（字母、数字、下划线组成）
+    name_match = re.match(r&quot;^([a-zA-Z0-9_]+)&quot;, first_line)
+    if not name_match:
+        return  # 无法识别工具名，跳过
+
+    act_name = name_match.group(1)       # 提取到的工具名，如 &quot;check_order&quot;
+    arg_part = first_line[len(act_name):].strip()  # 工具名之后的部分，如 &quot;(order_id=&#x27;ORD001&#x27;, pay_amount=300)&quot;
+
+    # 去掉外层括号，提取参数内部文本
+    inner = &quot;&quot;
+    if arg_part.startswith(&quot;(&quot;) and arg_part.endswith(&quot;)&quot;):
+        # 小括号格式: tool(key=&#x27;val&#x27;)  ← 这是 prompt 要求的标准格式
+        inner = arg_part[1:-1].strip()
+    elif arg_part.startswith(&quot;{&quot;) and arg_part.endswith(&quot;}&quot;):
+        # 大括号格式: tool{key=&#x27;val&#x27;}  ← LLM 有时会给出的格式，兼容处理
+        inner = arg_part[1:-1].strip()
+
+    # 解析参数键值对
+    args = {}
+    if inner:
+        # 按逗号分割各参数，如 &quot;order_id=&#x27;ORD001&#x27;, pay_amount=300&quot;
+        parts = re.split(r&quot;,\s*&quot;, inner)
+        for p in parts:
+            # 匹配 key=&#x27;value&#x27; / key=&quot;value&quot; / key=value / key: value 等格式
+            kv = re.match(r&quot;[&#x27;\&quot;]?([a-zA-Z0-9_]+)[&#x27;\&quot;]?\s*[:=]\s*[&#x27;\&quot;]?(.*?)[&#x27;\&quot;]?$&quot;, p)
+            if kv:
+                k = kv.group(1).strip()   # 参数名，如 &quot;order_id&quot;
+                v = kv.group(2).strip()   # 参数值，如 &quot;ORD001&quot; 或 &quot;300&quot;
+                if v.isdigit():
+                    v = int(v)            # 纯数字字符串转为 int，保证类型正确
+                args[k] = v
+
+    # 将解析结果写入 ReActOutput 对象
+    out.action_name = act_name
+    out.action_args = args
+
+
+def parse_llm_output(text: str) -&gt; ReActOutput:
+    &quot;&quot;&quot;
+    基于段落标记的多行 LLM 输出解析器。
+
+    【函数作用】
+    将 LLM 的原始文本输出解析为 ReActOutput 对象。
+    核心算法：先用正则找到所有段落标记（Thought:/Action:/Reflection:/FinalAnswer:），
+    再按标记位置切割文本，每个段落从标记结束到下一个标记开始之间的全部内容
+    都归属于该段落。这样多行的 Reflection/Thought 内容都能被完整捕获。
+
+    【参数说明】
+    - text : LLM 的原始输出文本
+             来源：self.llm.generate(self.chat_history) 返回的 resp_text
+
+    【谁会调用】
+    - core/react_agent.py → _generate_with_retry() 中调用：
+      res = parse_llm_output(resp_text)
+
+    【关键代码解析】
+    matches = list(_SECTION_RE.finditer(raw))
+      → 找到所有段落标记的匹配对象列表，每个 match 包含标记位置和文本
+
+    content_start = match.end()
+      → 当前段落内容从标记结束位置开始（跳过 &quot;Thought:&quot; 本身）
+
+    content_end = matches[i + 1].start() if i + 1 &lt; len(matches) else len(raw)
+      → 当前段落内容到下一个标记开始位置结束（或到文本末尾）
+      → 这就是&quot;段落级解析&quot;的核心——两个标记之间的全部文本归属前一个段落
+
+    label = re.sub(r&#x27;[:：]&#x27;, &#x27;&#x27;, match.group(1).strip()).lower()
+      → 去掉冒号、转小写，统一为 &quot;thought&quot; / &quot;action&quot; / &quot;reflection&quot; / &quot;finalanswer&quot;
+    &quot;&quot;&quot;
+    out = ReActOutput()
+    raw = text.strip()
+
+    # 空输出 → 标记为空白，让调用方触发重试
+    if not raw:
+        out.thought = &quot;输出空白，请严格按格式书写&quot;
+        return out
+
+    # 找到所有段落标记的位置
+    matches = list(_SECTION_RE.finditer(raw))
+
+    if not matches:
+        # 没找到任何已知标记 → LLM 可能输出了纯文本，整段当作 thought
+        # 这样调用方至少能拿到内容，不至于完全丢弃 LLM 的输出
+        out.thought = raw
+        return out
+
+    # 遍历每个段落标记，提取标记之间的内容
+    for i, match in enumerate(matches):
+        # 去掉冒号、转小写，统一标记名：如 &quot;Thought:&quot; → &quot;thought&quot;
+        label = re.sub(r&#x27;[:：]&#x27;, &#x27;&#x27;, match.group(1).strip()).lower()
+
+        # 当前段落内容 = 从标记结束位置 → 下一个标记开始位置（或文本末尾）
+        content_start = match.end()
+        content_end = matches[i + 1].start() if i + 1 &lt; len(matches) else len(raw)
+        content = raw[content_start:content_end].strip()
+
+        # 根据标记类型将内容写入对应字段
+        if label == &quot;thought&quot;:
+            out.thought = content
+        elif label == &quot;action&quot;:
+            _parse_action(content, out)  # Action 需要额外解析工具名和参数
+        elif label == &quot;reflection&quot;:
+            out.reflection = content      # Reflection 多行内容全部捕获
+        elif label == &quot;finalanswer&quot;:
+            out.final_answer = content    # FinalAnswer 多行内容全部捕获
+
+    return out
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-804c-b59e-f88ba5b51678" class="toggle"><li><details open=""><summary>prompt_builder.py</summary><div style="display:contents" dir="auto"><pre id="3808db55-6aee-8061-8d8e-e7141af048a2" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+prompt_builder.py — 系统 Prompt 动态构建器
+
+【模块作用】
+根据是否开启 Reflection 模式，动态拼装 system prompt。
+核心思路：prompt 模板中所有&quot;业务特定内容&quot;（工具列表、工具提示、工具数量、工具名称）
+全部通过占位符 {tool_list} {tool_hints} {tool_count} {tool_names} 从 tool_registry
+动态获取，而非硬编码在模板里。新增/删除工具时，无需修改此文件。
+
+【两个模板】
+- REFLECT_ON_TPL  : 开启 Reflection 的完整模板，包含三段式 Reflection 格式说明
+- REFLECT_OFF_TPL : 关闭 Reflection 的精简模板，仅保留 Thought/Action/FinalAnswer 格式
+
+【被谁依赖】
+- core/react_agent.py → run() 中调用 build_system_prompt() 获取 system prompt
+&quot;&quot;&quot;
+
+from config.tool_registry import get_tool_prompt_desc, get_tool_hints_text, get_all_tool_names
+
+# ---------------------------------------------------------------------------
+# 开启 Reflection 的系统 prompt 模板
+#
+# 【设计要点】
+# 1. {tool_list}  — 工具列表，由 get_tool_prompt_desc() 动态生成
+# 2. {tool_hints} — 工具使用提示，由 get_tool_hints_text() 动态汇总
+# 3. {tool_count} — 工具总数，由 len(get_all_tool_names()) 动态计算
+# 4. {tool_names} — 工具名称枚举，由 &quot;、&quot;.join(get_all_tool_names()) 动态拼接
+#
+# 以上四个占位符替代了原来写死的&quot;ORD001金额=299&quot;&quot;工具只有两个&quot;等硬编码。
+# 模板中的 {{key:val}} 是 Python format 的转义写法，实际输出 {key:val}，
+# 用于在 prompt 中告诉 LLM &quot;禁止使用大括号格式&quot;。
+# ---------------------------------------------------------------------------
+REFLECT_ON_TPL = &quot;&quot;&quot;
+你是ReAct自省Agent，对话里的Reflection内容必须全部记住，不能遗忘之前的错误。
+可用工具列表：
+{tool_list}
+
+一、调用工具输出格式（只能二选一结构）
+1）调用工具：
+Thought: 梳理所有任务、历史错误、下一步计划
+Action: 工具名(参数名=&#x27;字符串&#x27;,数字参数直接写数字不加引号)
+禁止使用{{key:val}}大括号格式
+
+2）全部任务完成才可以结束：
+FinalAnswer: 汇总全部任务信息
+
+二、Reflection固定三段模板（工具返回后强制写）
+Reflection:
+1.本次工具调用是否成功、参数有无错误
+2.已完成任务 / 待完成任务清单
+3.精确写出下一轮Action
+
+工具使用提示（各工具常见坑/校验规则）：
+{tool_hints}
+
+可用工具共{tool_count}个：{tool_names}，所有任务涉及的工具都完成后才能输出FinalAnswer。
+&quot;&quot;&quot;
+
+# ---------------------------------------------------------------------------
+# 关闭 Reflection 的系统 prompt 模板
+#
+# 【设计要点】
+# 与 ON 模板的区别：
+# 1. 无 Reflection 格式说明，明确&quot;禁止输出Reflection&quot;
+# 2. 格式说明更精简，只保留 Thought + Action / FinalAnswer 二选一
+# 3. 仍保留 {tool_hints}，即使不反思，LLM 也需要知道工具常见坑避免犯错
+#
+# 不需要 {tool_count}/{tool_names}，因为非反射模式下 LLM 不需要主动追踪任务完成度
+# ---------------------------------------------------------------------------
+REFLECT_OFF_TPL = &quot;&quot;&quot;
+你是ReAct Agent，按固定格式调用工具完成任务。
+可用工具列表：
+{tool_list}
+
+输出格式（只能二选一）：
+
+1）调用工具：
+Thought: 分析当前任务和下一步
+Action: 工具名(参数名=&#x27;字符串&#x27;,数字参数直接写数字不加引号)
+
+2）全部任务完成后：
+FinalAnswer: 汇总全部任务结果
+
+严格规则：
+1.Action只用小括号()，禁止使用大括号{{}}格式
+2.禁止输出Reflection
+3.所有任务全部完成才能输出FinalAnswer
+
+工具使用提示：
+{tool_hints}
+&quot;&quot;&quot;
+
+
+def build_system_prompt(enable_reflection: bool) -&gt; str:
+    &quot;&quot;&quot;
+    根据是否开启 Reflection 模式，动态构建 system prompt。
+
+    【函数作用】
+    从 tool_registry 获取最新的工具列表、提示文本、工具名称和数量，
+    填入对应的 prompt 模板占位符，返回完整的 system prompt 字符串。
+    每次调用都从 registry 实时读取，保证新增工具后无需修改此函数。
+
+    【参数说明】
+    - enable_reflection : 是否开启 Reflection 自省模式
+                         来源：ReActAgentWithReflection.__init__ 的 self.enable_reflection
+                         True  → 使用 REFLECT_ON_TPL（含三段式 Reflection 格式）
+                         False → 使用 REFLECT_OFF_TPL（精简版，禁止 Reflection）
+
+    【谁会调用】
+    - core/react_agent.py → run() 方法中调用：
+      sys_prompt = build_system_prompt(self.enable_reflection)
+
+    【关键代码解析】
+    tool_text = get_tool_prompt_desc()
+      → 获取格式化的工具列表文本，如:
+        &quot;- check_order: 核验订单... 参数(order_id: str, pay_amount: int)&quot;
+
+    tool_hints = get_tool_hints_text()
+      → 获取汇总的工具提示文本，如:
+        &quot;- check_order: pay_amount必须与订单实际金额一致; order_id必须存在&quot;
+
+    tool_names = &quot;、&quot;.join(get_all_tool_names())
+      → 获取工具名枚举，如: &quot;check_order、get_schedule&quot;
+
+    tool_count = len(get_all_tool_names())
+      → 获取工具数量，如: 2
+
+    filled = REFLECT_ON_TPL.format(tool_list=..., tool_hints=..., ...)
+      → 用 str.format() 将占位符替换为实际文本，生成最终 system prompt
+    &quot;&quot;&quot;
+    # 从注册表动态获取所有需要的信息——这是&quot;去硬编码&quot;的核心
+    tool_text = get_tool_prompt_desc()      # 工具列表描述
+    tool_hints = get_tool_hints_text()      # 工具使用提示汇总
+    tool_names = &quot;、&quot;.join(get_all_tool_names())  # 工具名枚举
+    tool_count = len(get_all_tool_names())         # 工具总数
+
+    if enable_reflection:
+        # 开启反思模式 → 填充完整模板（含 Reflection 格式、工具数量/名称）
+        filled = REFLECT_ON_TPL.format(
+            tool_list=tool_text,
+            tool_hints=tool_hints,
+            tool_names=tool_names,
+            tool_count=tool_count,
+        )
+    else:
+        # 关闭反思模式 → 填充精简模板（无 Reflection，无工具数量/名称）
+        filled = REFLECT_OFF_TPL.format(
+            tool_list=tool_text,
+            tool_hints=tool_hints,
+        )
+    return filled
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-80ee-95b1-d1dc3e434624" class="toggle"><li><details open=""><summary>react_agent.py</summary><div style="display:contents" dir="auto"><pre id="3808db55-6aee-8001-bc0d-d5f9dfccf8fc" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+react_agent.py — 带 Reflection 自省能力的 ReAct Agent 核心
+
+【模块作用】
+实现完整的 ReAct (Reasoning + Acting) 循环，并可选地加入 Reflection（反思/自省）
+机制。Agent 在每一轮循环中：
+  1. Reason  — 调用 LLM 生成 Thought + Action / FinalAnswer
+  2. Act     — 执行工具获得 Observation
+  3. Reflect — （可选）让 LLM 反思本次调用成败、任务进度、下一步动作
+  4. 将反思结果存入对话历史，下一轮 LLM 能看到历史反思避免重复犯错
+
+【核心设计】
+- _generate_with_retry() : 带重试的安全生成器，解析失败时注入原始输出让 LLM 自行纠正
+- _build_reflect_prompt() : 动态构建 reflection 提示，注入当前工具的 hints
+- 对话历史完整记录 Thought/Action/Observation/Reflection，供 LLM 多轮推理
+
+【被谁依赖】
+- test_main.py → 创建 ReActAgentWithReflection 实例并调用 run()
+
+【重要 import 说明】
+import tools.order_check
+import tools.schedule_query
+  → 这两个 import 的目的不是&quot;使用&quot;这两个模块的函数，
+    而是触发它们模块级别的 @register_tool 装饰器执行，
+    将 check_order 和 get_schedule 注册到 TOOL_REGISTRY 中。
+    如果不 import，注册表中就没有任何工具，Agent 无法调用。
+&quot;&quot;&quot;
+
+from typing import List, Dict
+
+# 触发工具注册——import 即注册，不需要使用模块中的函数
+import tools.order_check      # 执行 @register_tool → TOOL_REGISTRY[&quot;check_order&quot;] = ...
+import tools.schedule_query   # 执行 @register_tool → TOOL_REGISTRY[&quot;get_schedule&quot;] = ...
+
+from .prompt_builder import build_system_prompt
+from .output_parser import parse_llm_output, ReActOutput
+from config.tool_registry import execute_tool, get_tool_hints
+
+
+class ReActAgentWithReflection:
+    &quot;&quot;&quot;
+    带 Reflection 自省能力的 ReAct Agent。
+
+    【类作用】
+    封装完整的 ReAct+Reflection 循环逻辑：
+    - 管理 chat_history 对话历史
+    - 调用 LLM 生成推理和动作
+    - 解析 LLM 输出，执行工具
+    - 可选地触发 LLM 反思，将反思存入历史
+
+    【实例化参数】
+    - llm              : LLM 接口对象，需实现 generate(chat_history) -&gt; str 方法
+                         来源：test_main.py 中创建的 MockLLM() 实例
+    - enable_reflection : 是否开启 Reflection 模式
+                         True  → 每次工具调用后强制 LLM 反思，反思内容存入历史
+                         False → 标准无反思 ReAct，工具返回后直接进入下一轮
+    - max_loop         : 最大循环轮数，防止无限循环
+    - debug            : 是否打印 LLM 原始输出，用于调试解析问题
+    &quot;&quot;&quot;
+
+    def __init__(self, llm, enable_reflection: bool = True, max_loop: int = 5, debug: bool = False):
+        self.llm = llm                                # LLM 接口，调用其 generate() 方法获取回复
+        self.enable_reflection = enable_reflection     # 是否开启反思模式
+        self.max_loop = max_loop                       # 最大循环次数，防止无限循环
+        self.debug = debug                             # 是否打印 LLM 原始输出（调试用）
+        self.chat_history: List[Dict[str, str]] = []   # 对话历史，每次 run() 时清空重建
+
+    def _add_msg(self, role: str, content: str):
+        &quot;&quot;&quot;
+        向对话历史追加一条消息。
+
+        【函数作用】
+        封装 self.chat_history.append()，统一消息格式为 {&quot;role&quot;: ..., &quot;content&quot;: ...}，
+        与 OpenAI Chat API 的 messages 格式一致，直接传给 LLM。
+
+        【参数说明】
+        - role    : 消息角色，&quot;system&quot; / &quot;user&quot; / &quot;assistant&quot;
+                    来源：由各调用处根据消息类型指定
+        - content : 消息内容文本
+                    来源：system prompt / 用户提问 / LLM 回复 / 纠错提示 / 反思提示等
+
+        【谁会调用】
+        - run()                   → 追加 system prompt、用户问题、工具调用记录、反思记录
+        - _generate_with_retry()  → 追加解析失败时的原始输出和纠错提示
+        &quot;&quot;&quot;
+        self.chat_history.append({&quot;role&quot;: role, &quot;content&quot;: content})
+
+    def _log_debug(self, tag: str, text: str):
+        &quot;&quot;&quot;
+        条件打印调试信息。
+
+        【函数作用】
+        当 self.debug=True 时，打印带标签的调试信息（截取前500字符避免刷屏）。
+        主要用于观察 LLM 原始输出，排查解析器为何解析失败。
+
+        【参数说明】
+        - tag  : 调试标签，如 &quot;LLM-RAW&quot;，便于在输出中定位
+                 来源：调用处硬编码
+        - text : 要打印的内容，通常是 LLM 的原始回复
+                 来源：self.llm.generate() 的返回值
+
+        【谁会调用】
+        - _generate_with_retry() → 打印 LLM 每次的原始输出
+        &quot;&quot;&quot;
+        if self.debug:
+            # 截取前500字符，避免超长 LLM 输出刷屏
+            print(f&quot;[DEBUG {tag}] {text[:500]}&quot;)
+
+    def _generate_with_retry(self, enforce_reflect=False) -&gt; tuple:
+        &quot;&quot;&quot;
+        统一安全生成器——调用 LLM 并解析输出，解析失败时自动重试。
+
+        【函数作用】
+        调用 LLM 生成文本，用 parse_llm_output() 解析为 ReActOutput。
+        如果解析结果不符合要求（如 Thought 为空、Reflection 为空），
+        则将 LLM 原始输出注入对话历史 + 追加格式纠错提示，让 LLM 自行纠正，
+        最多重试 retry_cnt 次。重试耗尽时用 LLM 原始输出构造兜底结果。
+
+        【参数说明】
+        - enforce_reflect : 是否强制要求 Reflection 输出
+                            False（默认）→ 要求 Thought 或 FinalAnswer 非空
+                            True          → 要求 Reflection 文本长度 &gt; 5
+                            来源：run() 主循环中根据当前阶段传入
+                                  - 正常思考阶段 → enforce_reflect=False
+                                  - 反思阶段     → enforce_reflect=True
+
+        【谁会调用】
+        - run() → 每轮循环调用两次：
+                  1. _generate_with_retry(enforce_reflect=False) → 获取 Thought+Action
+                  2. _generate_with_retry(enforce_reflect=True)   → 获取 Reflection（仅反思模式）
+
+        【返回值】
+        tuple (ReActOutput, raw_text)
+          - ReActOutput : 解析后的结构化输出
+          - raw_text    : LLM 最后一次的原始输出，用于兜底时注入历史
+
+        【关键代码解析】
+        self._add_msg(&quot;assistant&quot;, resp_text)
+          → 解析失败时，先把 LLM 的原始输出以 assistant 角色加入历史，
+            这样 LLM 在重试时能看到自己上一次写了什么，理解纠错提示的上下文
+
+        self._add_msg(&quot;user&quot;, &quot;格式错误！必须以 Thought: 开头...&quot;)
+          → 然后追加格式纠错提示，告诉 LLM 应该怎么输出
+
+        fallback.thought = last_raw if last_raw.strip() else &quot;推理：...&quot;
+          → 重试耗尽时，用 LLM 的原始输出作为兜底 thought，
+            而非无意义的泛文本。这样下一轮 LLM 至少能看到上次的意图
+        &quot;&quot;&quot;
+        retry_cnt = 2  # 最多重试 2 次
+        last_raw = &quot;&quot;  # 记录最后一次 LLM 原始输出，用于兜底
+
+        for i in range(retry_cnt):
+            # 调用 LLM 生成回复
+            resp_text = self.llm.generate(self.chat_history)
+            last_raw = resp_text  # 保存原始输出
+            self._log_debug(&quot;LLM-RAW&quot;, resp_text)  # debug 模式下打印原始输出
+
+            # 解析 LLM 输出为结构化对象
+            res = parse_llm_output(resp_text)
+
+            # ---- 普通思考阶段：检查 Thought 或 FinalAnswer ----
+            if not enforce_reflect:
+                if res.thought or res.final_answer:
+                    # 解析成功 → 直接返回
+                    return res, last_raw
+                # 解析失败 → 将原始输出注入历史，让 LLM 看到自己写了什么
+                self._add_msg(&quot;assistant&quot;, resp_text)
+                # 追加格式纠错提示，告诉 LLM 正确的输出格式
+                self._add_msg(&quot;user&quot;, &quot;格式错误！必须以 Thought: 开头写出推理，然后 Action: 调用工具 或 FinalAnswer: 返回答案&quot;)
+
+            # ---- 反思阶段：检查 Reflection ----
+            else:
+                if res.reflection and len(res.reflection.strip()) &gt; 5:
+                    # 反思内容有效（非空且超过5字符）→ 返回
+                    return res, last_raw
+                # 反思解析失败 → 同样注入原始输出 + 纠错提示
+                self._add_msg(&quot;assistant&quot;, resp_text)
+                self._add_msg(&quot;user&quot;, &quot;格式错误！必须以 Reflection: 开头，写三段：1.调用成败 2.任务进度 3.下一步Action&quot;)
+
+        # 重试耗尽 → 用 LLM 原始输出构造兜底结果
+        # 优先使用原始输出而非无意义泛文本，让下一轮 LLM 至少能看到上次的意图
+        fallback = ReActOutput()
+        if enforce_reflect:
+            fallback.reflection = last_raw if last_raw.strip() else &quot;复盘：检查工具参数是否有误，核对已完成与未完成任务，修正下一步调用&quot;
+        else:
+            fallback.thought = last_raw if last_raw.strip() else &quot;推理：修正错误参数，补齐未完成任务&quot;
+        return fallback, last_raw
+
+    def _build_reflect_prompt(self, obs: str, action_name: str) -&gt; str:
+        &quot;&quot;&quot;
+        根据当前工具调用的 Observation 和工具 hints，动态构建 reflection 提示。
+
+        【函数作用】
+        在工具执行后，构建一段&quot;要求 LLM 反思&quot;的提示文本。
+        关键设计：动态注入当前工具的 hints（常见坑/校验规则），
+        让 LLM 在反思时有明确的校验标准，而不是泛泛地&quot;检查参数&quot;。
+
+        【参数说明】
+        - obs        : 工具执行的 Observation 结果文本
+                       来源：execute_tool(parsed.action_name, parsed.action_args) 的返回值
+        - action_name: 当前调用的工具名
+                       来源：Agent 解析 LLM 输出得到的 parsed.action_name
+
+        【谁会调用】
+        - run() → 开启反思模式时，工具执行后调用：
+          reflect_req = self._build_reflect_prompt(obs, parsed.action_name)
+
+        【关键代码解析】
+        hints = get_tool_hints(action_name)
+          → 从 tool_registry 获取当前工具的 hints 列表，
+            如 check_order → [&quot;pay_amount必须与实际金额一致&quot;, &quot;order_id必须存在&quot;, ...]
+
+        hints_section = &quot;（校验提示：&quot; + &quot;；&quot;.join(hints) + &quot;）&quot;
+          → 将 hints 用分号连接后加上前缀，如:
+            &quot;（校验提示：pay_amount必须与实际金额一致；order_id必须存在；注意订单状态）&quot;
+          → 如果没有 hints，hints_section 为空串，不影响提示结构
+
+        &quot;必须以 Reflection: 开头输出。&quot;
+          → 明确告诉 LLM 输出格式，减少解析失败概率
+        &quot;&quot;&quot;
+        # 从注册表获取当前工具的 hints
+        hints = get_tool_hints(action_name)
+        hints_section = &quot;&quot;
+        if hints:
+            # 将 hints 拼为校验提示段落
+            hints_section = &quot;（校验提示：&quot; + &quot;；&quot;.join(hints) + &quot;）&quot;
+
+        return f&quot;&quot;&quot;观测结果：{obs}
+硬性三条规则：
+1. 写出本次调用成功/失败原因{hints_section}；
+2. 罗列已做完、没做完的所有任务；
+3. 输出唯一下一步要执行的Action。
+必须以 Reflection: 开头输出。&quot;&quot;&quot;
+
+    def run(self, user_query: str) -&gt; str:
+        &quot;&quot;&quot;
+        Agent 主循环——执行完整的 ReAct+Reflection 推理流程。
+
+        【函数作用】
+        接收用户问题，构建 system prompt，进入 Thought→Action→Observation→(Reflection)
+        循环，直到 LLM 输出 FinalAnswer 或达到最大循环次数。
+
+        【参数说明】
+        - user_query : 用户的问题文本
+                       来源：test_main.py 中的 user_question
+
+        【谁会调用】
+        - test_main.py → agent_reflect.run(user_question)
+
+        【执行流程】
+        1. 清空历史，构建 system prompt，添加用户问题
+        2. 循环 max_loop 次：
+           a. 调用 _generate_with_retry(enforce_reflect=False) 获取 Thought+Action
+           b. 如有 FinalAnswer → 直接返回
+           c. 如有 Action → 执行工具获得 Observation
+              - 开启反思 → 构建 reflection 提示 → 获取 Reflection → 存入历史
+              - 关闭反思 → 简洁提示继续
+           d. 如无 Action → 追加纠错提示
+        3. 达到最大循环 → 返回超限提示
+
+        【关键代码解析】
+        self.chat_history.clear()
+          → 每次 run 清空历史，避免多次调用之间历史串扰
+
+        sys_prompt = build_system_prompt(self.enable_reflection)
+          → 根据是否开启反思，动态构建不同的 system prompt
+
+        parsed, raw = self._generate_with_retry(enforce_reflect=False)
+          → 返回元组 (ReActOutput, raw_text)，raw 用于兜底
+
+        self._add_msg(&quot;assistant&quot;, f&quot;Thought: {parsed.thought}\nAction: ...\nObservation: {obs}&quot;)
+          → 将完整的 Thought+Action+Observation 作为 assistant 消息存入历史，
+            让 LLM 在后续轮次能看到之前的推理过程和工具结果
+
+        self._add_msg(&quot;assistant&quot;, f&quot;Reflection: {reflect_out.reflection}&quot;)
+          → 将反思内容作为 assistant 消息存入历史，
+            下一轮 LLM 在 Thought 阶段能看到之前的反思，避免重复犯错
+        &quot;&quot;&quot;
+        # 1. 初始化：清空历史、构建 system prompt、添加用户问题
+        self.chat_history.clear()
+        sys_prompt = build_system_prompt(self.enable_reflection)
+        self._add_msg(&quot;system&quot;, sys_prompt)   # system 消息：定义 Agent 角色和输出格式
+        self._add_msg(&quot;user&quot;, user_query)      # user 消息：用户的问题
+
+        loop = 0
+        while loop &lt; self.max_loop:
+            loop += 1
+            print(f&quot;\n========== 第{loop}轮 ==========&quot;)
+
+            # 2a. 正常思考阶段：调用 LLM 获取 Thought + Action / FinalAnswer
+            parsed, raw = self._generate_with_retry(enforce_reflect=False)
+            print(f&quot;Thought: {parsed.thought}&quot;)
+
+            # 2b. 如果 LLM 输出了 FinalAnswer → 任务完成，直接返回
+            if parsed.final_answer:
+                return parsed.final_answer
+
+            # 2c. 如果 LLM 输出了 Action → 执行工具
+            if parsed.action_name and parsed.action_args:
+                print(f&quot;Action: {parsed.action_name}{parsed.action_args}&quot;)
+
+                # 执行工具，获取 Observation
+                obs = execute_tool(parsed.action_name, parsed.action_args)
+                print(f&quot;Observation: {obs}&quot;)
+
+                # 将本轮完整的 Thought+Action+Observation 记入对话历史
+                # 注意：作为 assistant 消息，让 LLM 知道这是&quot;自己的&quot;输出
+                self._add_msg(&quot;assistant&quot;, f&quot;Thought: {parsed.thought}\nAction: {parsed.action_name}{parsed.action_args}\nObservation: {obs}&quot;)
+
+                if self.enable_reflection:
+                    # ---- 反思模式 ----
+                    # 动态构建 reflection 提示（注入当前工具的 hints）
+                    reflect_req = self._build_reflect_prompt(obs, parsed.action_name)
+                    self._add_msg(&quot;user&quot;, reflect_req)
+
+                    # 调用 LLM 生成 Reflection（带强校验重试）
+                    reflect_out, reflect_raw = self._generate_with_retry(enforce_reflect=True)
+                    print(f&quot;Reflection: {reflect_out.reflection}&quot;)
+
+                    # 将反思内容存入对话历史，供下一轮 Thought 参考
+                    # 作为 assistant 消息，让 LLM 在下一轮能看到自己之前的反思
+                    self._add_msg(&quot;assistant&quot;, f&quot;Reflection: {reflect_out.reflection}&quot;)
+                else:
+                    # ---- 无反思模式 ----
+                    # 简洁提示 LLM 继续思考，包含 Observation 结果
+                    self._add_msg(&quot;user&quot;, f&quot;Observation: {obs}\n继续思考下一步，必须输出 Thought: 和 Action: 或 FinalAnswer:&quot;)
+                continue
+
+            # 2d. 既没有 FinalAnswer 也没有 Action → 追加纠错提示
+            self._add_msg(&quot;user&quot;, &quot;必须输出 Thought: + Action: 调用工具，或者 FinalAnswer: 返回最终答案&quot;)
+
+        # 达到最大循环次数，返回超限提示
+        return f&quot;达到最大循环{self.max_loop}轮，终止&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3808db55-6aee-8053-b7fe-d49d2e655a6a"/></div><div style="display:contents" dir="auto"><h1 id="3808db55-6aee-8066-b186-c90ef3650590" class="">mock_llm.py</h1></div><div style="display:contents" dir="auto"><p id="3808db55-6aee-80e3-9ef1-d5dffb567232" class="">大模型的定义，api引入</p></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-80de-8091-c037fdb6b736" class="toggle"><li><details open=""><summary>code</summary><div style="display:contents" dir="auto"><pre id="3808db55-6aee-80f3-b203-dbaa9dc484c8" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+mock_llm.py — LLM API 适配器
+
+【模块作用】
+封装对 OpenAI 兼容 API（如 OpenAI / DeepSeek / 通义千问等）的 HTTP 调用，
+提供统一的 generate(chat_history) -&gt; str 接口，供 ReActAgentWithReflection 调用。
+配置通过 .env 文件读取，支持不同的 API 提供商。
+
+【被谁依赖】
+- test_main.py → 创建 MockLLM() 实例，传入 ReActAgentWithReflection
+
+【配置说明】
+在项目根目录的 .env 文件中配置：
+  LLM_API_KEY    = &quot;sk-xxx&quot;         # API 密钥
+  LLM_BASE_URL   = &quot;https://api.xxx.com/v1&quot;  # API 基础 URL
+  LLM_MODEL      = &quot;gpt-4o-mini&quot;   # 模型名称
+  LLM_TEMPERATURE = &quot;0.1&quot;          # 生成温度（越低越确定性）
+&quot;&quot;&quot;
+
+import requests
+import os
+from dotenv import load_dotenv
+from typing import List, Dict
+
+# 加载 .env 环境变量——在模块导入时执行一次
+load_dotenv()
+
+
+class MockLLM:
+    &quot;&quot;&quot;
+    OpenAI 兼容 API 适配器。
+
+    【类作用】
+    将 OpenAI Chat Completions API 封装为简单的 generate() 方法，
+    接收对话历史列表，返回 LLM 生成的文本内容。
+    所有 Agent 只需调用 generate() 即可获取 LLM 回复，无需关心 HTTP 细节。
+
+    【为什么叫 MockLLM】
+    历史命名——最初可能用于 mock 测试，后来改为调用真实 API。
+    实际上这是一个真正的 LLM 客户端，不是 mock。
+    &quot;&quot;&quot;
+
+    def __init__(self):
+        &quot;&quot;&quot;
+        初始化 LLM 客户端，从环境变量读取配置。
+
+        【参数】
+        无显式参数，从 .env 文件读取：
+        - LLM_API_KEY     : API 密钥，用于 Authorization 头
+        - LLM_BASE_URL    : API 基础 URL，如 &quot;https://api.openai.com/v1&quot;
+        - LLM_MODEL       : 模型名称，如 &quot;gpt-4o-mini&quot;
+        - LLM_TEMPERATURE : 生成温度，默认 0.1（低温度 = 更确定的输出）
+
+        【关键代码解析】
+        self.headers = { &quot;Authorization&quot;: f&quot;Bearer {self.api_key}&quot;, ... }
+          → 每次请求都携带 Bearer Token 认证
+        &quot;&quot;&quot;
+        self.api_key = os.getenv(&quot;LLM_API_KEY&quot;)
+        self.base_url = os.getenv(&quot;LLM_BASE_URL&quot;)
+        self.model_name = os.getenv(&quot;LLM_MODEL&quot;)
+        self.temperature = float(os.getenv(&quot;LLM_TEMPERATURE&quot;, &quot;0.1&quot;))
+
+        # HTTP 请求头——Bearer Token 认证 + JSON 内容类型
+        self.headers = {
+            &quot;Authorization&quot;: f&quot;Bearer {self.api_key}&quot;,
+            &quot;Content-Type&quot;: &quot;application/json&quot;
+        }
+
+    def generate(self, chat_history: List[Dict[str, str]]) -&gt; str:
+        &quot;&quot;&quot;
+        调用 LLM API 生成回复。
+
+        【函数作用】
+        将完整的对话历史发送给 LLM API，获取模型生成的回复文本。
+        这是整个 Agent 系统中唯一与 LLM 交互的入口。
+
+        【参数说明】
+        - chat_history : 对话历史列表，格式为 [{&quot;role&quot;: &quot;system/user/assistant&quot;, &quot;content&quot;: &quot;...&quot;}]
+                         来源：ReActAgentWithReflection.chat_history
+                         包含 system prompt、用户问题、历史 Thought/Action/Observation/Reflection
+
+        【谁会调用】
+        - core/react_agent.py → _generate_with_retry() 中调用：
+          resp_text = self.llm.generate(self.chat_history)
+
+        【返回值】
+        str — LLM 生成的文本内容（已 strip）
+              成功时返回模型回复文本，如 &quot;Thought: 分析...\nAction: check_order(...)&quot;
+              失败时返回 &quot;LLM API 请求失败: 错误信息&quot;
+
+        【关键代码解析】
+        payload = { &quot;model&quot;: ..., &quot;messages&quot;: chat_history, &quot;temperature&quot;: ..., &quot;stream&quot;: False }
+          → 构造 OpenAI Chat Completions API 的请求体
+          → stream=False 表示同步请求，等待完整回复而非流式返回
+
+        resp.raise_for_status()
+          → HTTP 状态码非 2xx 时抛异常，被下方 except 捕获
+
+        data[&quot;choices&quot;][0][&quot;message&quot;][&quot;content&quot;].strip()
+          → 从 API 响应中提取模型回复文本
+          → choices[0] 取第一个候选回复（n=1 时只有一个）
+          → message.content 取助手消息内容
+
+        except Exception as e:
+            return f&quot;LLM API 请求失败: {str(e)}&quot;
+          → 所有异常统一返回错误字符串而非抛异常，
+            让 Agent 循环不会被中断，LLM 可能在下一轮重试成功
+        &quot;&quot;&quot;
+        # 构造 API 请求体
+        payload = {
+            &quot;model&quot;: self.model_name,         # 使用的模型名称
+            &quot;messages&quot;: chat_history,          # 完整对话历史
+            &quot;temperature&quot;: self.temperature,   # 生成温度
+            &quot;stream&quot;: False                    # 非流式，等待完整响应
+        }
+        try:
+            # 发送 POST 请求到 Chat Completions API
+            resp = requests.post(
+                url=f&quot;{self.base_url}/chat/completions&quot;,  # 拼接完整 API 路径
+                headers=self.headers,                       # 认证头
+                json=payload,                               # 请求体
+                timeout=60                                   # 60秒超时
+            )
+            resp.raise_for_status()  # HTTP 错误时抛异常
+
+            # 解析 API 响应，提取模型回复内容
+            data = resp.json()
+            content = data[&quot;choices&quot;][0][&quot;message&quot;][&quot;content&quot;].strip()
+            return content
+
+        except Exception as e:
+            # 所有异常统一返回错误字符串，不中断 Agent 循环
+            return f&quot;LLM API 请求失败: {str(e)}&quot;
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3808db55-6aee-8096-b707-e19c0a3300fe"/></div><div style="display:contents" dir="auto"><h1 id="3808db55-6aee-801d-be00-c2aa8cd4dcd3" class="">执行流程</h1></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-80f8-b32b-f434058f8cf4" class="toggle"><li><details open=""><summary>启动阶段</summary><div style="display:contents" dir="auto"><pre id="3808db55-6aee-80fc-92ef-ef02b8abf753" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">Python 启动 test_main.py
+  │
+  │ ① from mock_llm import MockLLM
+  │    → MockLLM 类加载，从 .env 读取 API 配置
+  │
+  │ ② from core.react_agent import ReActAgentWithReflection
+  │    → react_agent.py 模块加载
+  │      │
+  │      ├── import tools.order_check
+  │      │    → order_check.py 加载
+  │      │    → @register_tool 执行 → TOOL_REGISTRY[&quot;check_order&quot;] = {handler, desc, params, hints}
+  │      │
+  │      └── import tools.schedule_query
+  │           → schedule_query.py 加载
+  │           → @register_tool 执行 → TOOL_REGISTRY[&quot;get_schedule&quot;] = {handler, desc, params, hints}
+  │
+  │ 此时 TOOL_REGISTRY = {
+  │     &quot;check_order&quot;: {..., hints: [&quot;金额必须一致&quot;, &quot;订单必须存在&quot;, &quot;注意状态&quot;]},
+  │     &quot;get_schedule&quot;: {..., hints: [&quot;日期格式YYYY-MM-DD&quot;, &quot;姓名子串匹配&quot;, &quot;date留空查全部&quot;]}
+  │ }
+  │
+  │ ③ 创建 Agent 实例：ReActAgentWithReflection(llm, enable_reflection=True)
+  │    → 保存 llm、enable_reflection、max_loop、debug
+  │    → chat_history 初始化为空列表
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-808b-8af4-ca467dc6796f" class="toggle"><li><details open=""><summary><strong>run()主循环执行流程</strong></summary><div style="display:contents" dir="auto"><pre id="3808db55-6aee-8046-a5cd-ec9137345b7c" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">agent.run(&quot;帮我核对ORD001订单信息,付款金额为300，同时查询张三6月15号的日程安排&quot;)
+│
+├── chat_history.clear()                    ← 清空历史
+├── build_system_prompt(True)               ← 动态构建 system prompt
+│     ├── get_tool_prompt_desc()            ← 从 TOOL_REGISTRY 生成工具列表文本
+│     ├── get_tool_hints_text()             ← 汇总所有工具 hints
+│     └── REFLECT_ON_TPL.format(...)        ← 填充模板占位符
+│
+├── _add_msg(&quot;system&quot;, sys_prompt)          ← 历史: [system: 完整Prompt]
+├── _add_msg(&quot;user&quot;, user_query)            ← 历史: [system, user: 用户问题]
+│
+└── while loop &lt; max_loop:
+      │
+      │ ═══════════ 第1轮 ═══════════
+      │
+      ├── _generate_with_retry(enforce_reflect=False)
+      │     │
+      │     ├── llm.generate(chat_history)   ← 调用 LLM API
+      │     │     返回: &quot;Thought: 需要核对ORD001订单...\nAction: check_order(order_id=&#x27;ORD001&#x27;, pay_amount=300)&quot;
+      │     │
+      │     └── parse_llm_output(resp_text)  ← 段落级解析
+      │           ├── _SECTION_RE.finditer()  ← 找到 Thought: 和 Action: 标记
+      │           ├── Thought → out.thought = &quot;需要核对ORD001订单...&quot;
+      │           └── Action → _parse_action()
+      │                 ├── act_name = &quot;check_order&quot;
+      │                 └── args = {&quot;order_id&quot;: &quot;ORD001&quot;, &quot;pay_amount&quot;: 300}
+      │
+      │   parsed.final_answer = None → 继续
+      │   parsed.action_name = &quot;check_order&quot; → 执行工具
+      │
+      ├── execute_tool(&quot;check_order&quot;, {&quot;order_id&quot;:&quot;ORD001&quot;, &quot;pay_amount&quot;:300})
+      │     └── TOOL_REGISTRY[&quot;check_order&quot;][&quot;handler&quot;](order_id=&quot;ORD001&quot;, pay_amount=300)
+      │           → ORDER_DB[&quot;ORD001&quot;][&quot;real_pay&quot;]=299 ≠ 300
+      │           → 返回 &quot;金额不匹配！订单标准实付299，用户实付300，订单状态：已付款&quot;
+      │
+      │   obs = &quot;金额不匹配！订单标准实付299，用户实付300...&quot;
+      │
+      ├── _add_msg(&quot;assistant&quot;, &quot;Thought: ...\nAction: check_order...\nObservation: 金额不匹配...&quot;)
+      │                                     ← 把本轮完整过程记入历史
+      │
+      │   ★ enable_reflection=True → 进入反思分支 ★
+      │
+      ├── _build_reflect_prompt(obs, &quot;check_order&quot;)
+      │     ├── get_tool_hints(&quot;check_order&quot;)  ← 获取当前工具 hints
+      │     │     → [&quot;金额必须一致&quot;, &quot;订单必须存在&quot;, &quot;注意状态&quot;]
+      │     └── 返回: &quot;观测结果：金额不匹配...硬性三条规则...校验提示：金额必须一致；...&quot;
+      │
+      ├── _add_msg(&quot;user&quot;, reflect_req)       ← 追加反思提示
+      │
+      ├── _generate_with_retry(enforce_reflect=True)  ← 反思专用调用
+      │     ├── llm.generate(chat_history)    ← LLM 看到&quot;金额不匹配&quot;+hints → 反思
+      │     │     返回: &quot;Reflection: 1.调用失败，pay_amount应为299而非300...\n2.订单待完成，日程待完成\n3.下一轮修正pay_amount=299重试&quot;
+      │     │
+      │     └── parse_llm_output(resp_text)
+      │           └── Reflection 多行内容被完整捕获
+      │
+      └── _add_msg(&quot;assistant&quot;, &quot;Reflection: 1.调用失败...2.订单待完成...3.下一轮修正...&quot;)
+                                           ← 反思存入历史！下一轮 LLM 能看到
+      │
+      │ ═══════════ 第2轮 ═══════════
+      │
+      │   LLM 看到历史中的 Reflection → 知道 pay_amount=300 是错的
+      │   → 输出 &quot;Action: check_order(order_id=&#x27;ORD001&#x27;, pay_amount=299)&quot;
+      │   → execute_tool → &quot;校验通过，商品：机械键盘，标准实付299...&quot;
+      │   → Reflection: &quot;1.订单校验成功 2.日程查询待完成 3.下一轮查询日程&quot;
+      │
+      │ ═══════════ 第3轮 ═══════════
+      │
+      │   LLM 看到历史 → 知道订单已完成，还需查日程
+      │   → 输出 &quot;Action: get_schedule(user=&#x27;张三&#x27;, date=&#x27;2026-06-15&#x27;)&quot;
+      │   → execute_tool → &quot;【2026-06-15 09:00】项目评审会&quot;
+      │   → Reflection: &quot;1.日程查询成功 2.全部任务完成 3.可输出FinalAnswer&quot;
+      │
+      │ ═══════════ 第4轮 ═══════════
+      │
+      │   LLM → &quot;FinalAnswer: 订单ORD001校验通过...张三6月15日日程：项目评审会...&quot;
+      │
+      └── return parsed.final_answer  ← 结束
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3808db55-6aee-8009-bff7-cf29f790e46d" class="toggle"><li><details open=""><summary><strong>数据流总结</strong></summary><div style="display:contents" dir="auto"><pre id="3808db55-6aee-80cb-8d14-feebc47f2517" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">用户问题
+  ↓
+┌─────────────────────────────────────────────────┐
+│                  Agent 主循环                     │
+│                                                   │
+│  chat_history ──→ LLM ──→ 原始文本 ──→ 解析器     │
+│       ↑                                  ↓        │
+│       │         ReActOutput                       │
+│       │           ↓                               │
+│       │    ┌──────┴──────┐                        │
+│       │    ↓             ↓                        │
+│       │  Action?     FinalAnswer?                 │
+│       │    ↓             ↓                        │
+│       │  execute_tool  直接返回 ✅                  │
+│       │    ↓                                       │
+│       │  Observation                               │
+│       │    ↓                                       │
+│       │  Reflection?                               │
+│       │  ├── Yes → LLM反思 → 存入历史 ──→ 回到↑   │
+│       │  └── No  → 简洁提示继续 ──→ 回到↑         │
+│       │                                           │
+└───────┴───────────────────────────────────────────┘
+</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
