@@ -1,0 +1,1832 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>三种Plan&amp;&amp;Execute模式</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3818db55-6aee-8020-9da6-c739f31cfdcb" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/gradients_11.jpg" style="object-position:center 40%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🚇</span></div><h1 class="page-title" dir="auto">三种Plan&amp;&amp;Execute模式</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><blockquote id="3818db55-6aee-8095-9954-ce9fa3fa827f" class="">只展示核心代码，其余与ReAct几乎无异</blockquote></div><div style="display:contents" dir="auto"><h1 id="3818db55-6aee-8048-ad1d-c4d220259384" class="">Core</h1></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-8086-a85d-ec3822945549" class="">LLM返回文本 → output_parser解析 → 规划器拿到thought/动作/计划 → BasePlanner执行工具</p></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-8007-b756-c84721c821c1" class="toggle"><li><details open=""><summary>react_agent.py</summary><div style="display:contents" dir="auto"><p id="3818db55-6aee-808e-9c49-e3d51500576a" class="">无变化</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3818db55-6aee-8078-963a-cdad148bc19e" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from typing import Dict, List, Union, Optional
+import json
+from core.prompt_builder import build_react_full_prompt
+from core.output_parser import parse_llm_response
+from config.tool_registry import get_tool_function
+import mock_llm
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# 全局标记常量，统一管控格式
+TAG_THOUGHT = &quot;Thought&quot;
+TAG_ACTION = &quot;Action&quot;
+TAG_OBSERVATION = &quot;Observation&quot;
+TAG_FINAL = &quot;FinalAnswer&quot;
+SPLIT_SEP = &quot;\n=====单轮分割=====\n&quot;
+
+# 结构化历史单轮类型
+RoundRecord = Dict[str, Union[str, Dict, None]]
+
+class ReActCoreAgent:
+    def __init__(self, max_tool_loop: int=5):
+        self.MAX_TOOL_LOOP = max_tool_loop
+        # 结构化历史：每一轮 {thought, action, observation}
+        self.history: List[RoundRecord] = []
+
+    def format_history_for_prompt(self) -&gt; str:
+        &quot;&quot;&quot;结构化历史转为Prompt可读字符串&quot;&quot;&quot;
+        block_list = []
+        # 内存里存的是字典列表，大模型只能读字符串，所以需要序列化拼接
+        for rec in self.history:
+            act_str = json.dumps(rec[&quot;action&quot;], ensure_ascii=False) if rec[&quot;action&quot;] else &quot;&quot;
+            block = (
+                f&quot;{TAG_THOUGHT}:{rec[&#x27;thought&#x27;]}\n&quot;
+                f&quot;{TAG_ACTION}:{act_str}\n&quot;
+                f&quot;{TAG_OBSERVATION}:{rec[&#x27;observation&#x27;]}&quot;
+            )
+            block_list.append(block)
+        return SPLIT_SEP.join(block_list)
+
+    def run_tool_and_get_obs(self, tool_name: str, params: dict) -&gt; str:
+        &quot;&quot;&quot;通用工具执行，动态解参，无硬编码if&quot;&quot;&quot;
+        tool_func = get_tool_function(tool_name) # 拿到工具的函数名
+        if not callable(tool_func):
+            return f&quot;{TAG_OBSERVATION}错误：不存在工具 {tool_name}&quot;
+        try:
+            # 字典参数一键解包传给工具函数
+            result = tool_func(**params)
+            return str(result)
+        except Exception as e:
+            return f&quot;{TAG_OBSERVATION}执行异常：{repr(e)}&quot;
+
+    def solve(self, question: str) -&gt; str:
+        # 完整 ReAct 循环
+        print(f&quot;=====开始处理问题：{question}=====\n&quot;)
+        for loop_step in range(self.MAX_TOOL_LOOP):
+            step_num = loop_step + 1
+            print(f&quot;----------第{step_num}轮ReAct迭代----------&quot;)
+            try:
+                # 1. Reason 推理
+                hist_str = self.format_history_for_prompt()
+                prompt = build_react_full_prompt(question, hist_str)
+                llm_raw_out = mock_llm.call_model(prompt)
+                thought, action_info, final_ans = parse_llm_response(llm_raw_out)
+                print(f&quot;【{TAG_THOUGHT}】{thought}&quot;)
+
+                # 分支1：直接给出最终答案，结束循环
+                if final_ans is not None and final_ans.strip():
+                    print(f&quot;\n✅ ReAct迭代结束，{TAG_FINAL}：{final_ans}&quot;)
+                    return final_ans.strip()
+
+                # 分支2：调用工具
+                if action_info is not None:
+                    tool_name, params = action_info
+                    print(f&quot;【{TAG_ACTION}】工具:{tool_name} 参数:{params}&quot;)
+                    # 2.Act + 3.Observe
+                    observation = self.run_tool_and_get_obs(tool_name, params)
+                    print(f&quot;【{TAG_OBSERVATION}】{observation}\n&quot;)
+
+                    # 存入结构化历史
+                    self.history.append({
+                        &quot;thought&quot;: thought,
+                        &quot;action&quot;: {&quot;name&quot;: tool_name, &quot;parameters&quot;: params},
+                        &quot;observation&quot;: observation
+                    })
+
+            except Exception as e:
+                err_msg = f&quot;本轮推理异常跳过：{repr(e)}&quot;
+                print(f&quot;⚠️ {err_msg}\n&quot;)
+                # 异常填充空记录防止流程断裂
+                self.history.append({
+                    &quot;thought&quot;: f&quot;解析出错:{e}&quot;,
+                    &quot;action&quot;: None,
+                    &quot;observation&quot;: err_msg
+                })
+        # 循环耗尽
+        return f&quot;⚠️ 已达最大{self.MAX_TOOL_LOOP}轮迭代，未能生成有效答案&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-80d0-9f01-e166f9b7b7ea" class="toggle"><li><details open=""><summary>prompt_builder.py</summary><div style="display:contents" dir="auto"><p id="3818db55-6aee-809a-b800-ce78011b8ce2" class=""><strong>三种规划器专属提示词工厂</strong>，专门为 <code>ChainPlanner</code>（链式ReAct）、<code>HolisticPlanner</code>（整体规划）、<code>HierarchicalPlanner</code>（分层规划）动态生成各自专属 Prompt；</p></div><div style="display:contents" dir="auto"><pre id="3818db55-6aee-8087-8ad4-ea1f48de8f9e" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+prompt_builder.py — Prompt 构建器
+==================================
+为三种规划模式生成不同风格的 Prompt：
+
+  1. build_chain_prompt()                — 链式规划（ReAct 逐步推理+执行）
+  2. build_hierarchical_plan_prompt()    — 分层规划·规划阶段（生成独立步骤列表）
+  3. build_hierarchical_synthesis_prompt() — 分层规划·汇总阶段（整合观察生成答案）
+  4. build_holistic_plan_prompt()        — 整体规划·规划阶段（生成含步骤依赖的计划）
+
+所有函数都从 TOOL_REGISTRY 动态读取工具信息，新增工具时无需修改此文件。
+&quot;&quot;&quot;
+from config.tool_registry import TOOL_REGISTRY as tool_registry
+import json
+
+# ════════════════════════════════════════════════════
+# 公共工具说明文本生成
+# ════════════════════════════════════════════════════
+
+def _build_tool_desc_text() -&gt; str:
+    &quot;&quot;&quot;
+    从 TOOL_REGISTRY 动态拼接所有工具的描述文本。
+
+    返回:
+        str — 格式化的工具列表，如：
+              【工具:calculator】
+              描述: 简单的四则运算器
+              入参Schema: {...}
+
+    调用方:
+        build_chain_prompt()
+        build_hierarchical_plan_prompt()
+    &quot;&quot;&quot;
+    parts = []
+    for name, info in tool_registry.items():
+        block = (
+            f&quot;【工具:{name}】\n&quot;
+            f&quot;描述: {info[&#x27;description&#x27;]}\n&quot;
+            f&quot;入参Schema: {json.dumps(info[&#x27;parameters&#x27;], ensure_ascii=False)}&quot;
+        )
+        parts.append(block)
+    return &quot;\n\n&quot;.join(parts)
+# ════════════════════════════════════════════════════
+# 1. 链式规划 Prompt
+# ════════════════════════════════════════════════════
+
+def build_chain_prompt(user_q: str, history: str) -&gt; str:
+    &quot;&quot;&quot;
+    构建链式规划（经典 ReAct）的完整 Prompt。
+
+    Prompt 结构：
+      - 角色设定：严格 ReAct 格式助手
+      - 可用工具列表（动态生成）
+      - 输出格式约束（Thought+Action 或 Thought+FinalAnswer 二选一）
+      - 铁则（防止 LLM 只输出 Thought 不输出 Action 等）
+      - 历史上下文
+      - 用户问题
+
+    参数:
+        user_q: str   — 用户原始问题（来源：ChainPlanner.solve() 传入）
+        history: str   — 已有序列化的历史上下文（来源：BasePlanner.format_history_for_prompt()）
+
+    返回:
+        str — 可直接传给 LLM 的完整 prompt
+
+    调用方:
+        ChainPlanner.solve()
+    &quot;&quot;&quot;
+    tool_text = _build_tool_desc_text()
+
+    prompt = f&quot;&quot;&quot;
+你是严格遵循ReAct固定格式的助手，**格式错误会无法完成任务**
+可用工具列表：
+{tool_text}
+
+# 强制输出格式（只能二选一，不能混合，不能省略标签）
+情况1：信息足够、不用工具回答
+必须两行：
+Thought: 你的推理内容
+FinalAnswer: 给用户的完整答案
+
+情况2：必须调用工具查询计算
+必须两行：
+Thought: 你的推理内容
+Action: {{&quot;name&quot;:&quot;工具名&quot;,&quot;parameters&quot;:{{}}}}
+
+# 铁则
+1. 只要Observation里已经拿到全部所需数据，**下一轮必须立刻输出FinalAnswer**，不许只写Thought
+2. 禁止只单独输出Thought，每一轮必须搭配Action 或 FinalAnswer
+3. Action只能单行标准JSON，无换行；FinalAnswer紧跟Thought之后
+4. 一轮只能调用一个工具
+
+历史上下文：
+{history}
+
+用户问题：
+{user_q}
+    &quot;&quot;&quot;.strip()
+    return prompt
+# ════════════════════════════════════════════════════
+# 2. 分层规划 — 规划阶段 Prompt
+# ════════════════════════════════════════════════════
+
+def build_hierarchical_plan_prompt(user_q: str) -&gt; str:
+    &quot;&quot;&quot;
+    构建分层规划·规划阶段的 Prompt。
+
+    要求 LLM 一次性输出 JSON 格式的步骤列表，每个步骤包含：
+      - step: 步骤编号
+      - tool: 工具名（必须是可用工具之一）
+      - params: 工具参数字典
+      - reason: 为什么需要这一步
+
+    如果无需工具即可回答，LLM 应输出 FinalAnswer 而非步骤列表。
+
+    参数:
+        user_q: str — 用户原始问题（来源：HierarchicalPlanner.solve() 传入）
+
+    返回:
+        str — 规划阶段 prompt
+
+    调用方:
+        HierarchicalPlanner.solve() 阶段1
+    &quot;&quot;&quot;
+    tool_text = _build_tool_desc_text()
+
+    prompt = f&quot;&quot;&quot;
+你是一个任务规划专家。请根据用户问题，制定一个完整的执行计划。
+
+可用工具列表：
+{tool_text}
+
+# 输出格式（二选一）
+
+情况1：需要调用工具才能回答
+请输出一个JSON数组，每个元素代表一个执行步骤：
+```json
+[
+  {{&quot;step&quot;: 1, &quot;tool&quot;: &quot;工具名&quot;, &quot;params&quot;: {{参数字典}}, &quot;reason&quot;: &quot;为什么需要这一步&quot;}},
+  {{&quot;step&quot;: 2, &quot;tool&quot;: &quot;工具名&quot;, &quot;params&quot;: {{参数字典}}, &quot;reason&quot;: &quot;为什么需要这一步&quot;}}
+]
+```
+
+情况2：无需工具，直接回答
+直接输出：
+FinalAnswer: 你的答案
+
+# 规则
+1. 步骤顺序必须合理，先查数据再做计算
+2. tool 必须是上面列出的可用工具之一
+3. params 必须符合工具的参数Schema
+4. 只输出JSON或FinalAnswer，不要输出其他内容
+
+用户问题：
+{user_q}
+    &quot;&quot;&quot;.strip()
+    return prompt
+# ════════════════════════════════════════════════════
+# 3. 分层规划 — 汇总阶段 Prompt
+# ════════════════════════════════════════════════════
+
+def build_hierarchical_synthesis_prompt(user_q: str, observations: list) -&gt; str:
+    &quot;&quot;&quot;
+    构建分层规划·汇总阶段的 Prompt。
+
+    将所有步骤的执行结果（Observation）和原始问题一起交给 LLM，
+    让 LLM 整合信息并输出 FinalAnswer。
+
+    参数:
+        user_q: str       — 用户原始问题（来源：HierarchicalPlanner.solve() 传入）
+        observations: list — 执行阶段收集的观察结果列表
+                             格式: [{&quot;step&quot;:1, &quot;tool&quot;:&quot;...&quot;, &quot;params&quot;:{}, &quot;observation&quot;:&quot;...&quot;}]
+
+    返回:
+        str — 汇总阶段 prompt
+
+    调用方:
+        HierarchicalPlanner.solve() 阶段3
+    &quot;&quot;&quot;
+    # 将 observations 格式化为可读文本
+    obs_lines = []
+    for obs in observations:
+        obs_lines.append(
+            f&quot;步骤{obs[&#x27;step&#x27;]}（工具:{obs[&#x27;tool&#x27;]}，参数:{obs[&#x27;params&#x27;]}）:\n&quot;
+            f&quot;结果: {obs[&#x27;observation&#x27;]}&quot;
+        )
+    obs_text = &quot;\n\n&quot;.join(obs_lines)
+
+    prompt = f&quot;&quot;&quot;
+你是一个答案整合助手。以下是根据用户问题执行工具后收集到的所有结果，请整合这些信息，给出完整准确的最终答案。
+
+用户问题：{user_q}
+
+执行结果：
+{obs_text}
+
+请输出：
+FinalAnswer: 整合后的完整答案
+    &quot;&quot;&quot;.strip()
+    return prompt
+# ════════════════════════════════════════════════════
+# 4. 整体规划 — 规划阶段 Prompt
+# ════════════════════════════════════════════════════
+
+def build_holistic_plan_prompt(user_q: str) -&gt; str:
+    &quot;&quot;&quot;
+    构建整体规划·规划阶段的 Prompt。
+
+    与分层规划的区别：
+      - 分层规划：步骤参数在规划时写死，步骤间完全独立
+      - 整体规划：步骤间可以引用前序步骤的输出，使用 $step_N 语法
+        例如：{&quot;num1&quot;: &quot;$step1&quot;, &quot;operator&quot;: &quot;*&quot;} 表示 num1 取第1步的 Observation 结果
+
+    如果无需工具即可回答，LLM 应输出 FinalAnswer 而非步骤列表。
+
+    参数:
+        user_q: str — 用户原始问题（来源：HolisticPlanner.solve() 传入）
+
+    返回:
+        str — 规划阶段 prompt
+
+    调用方:
+        HolisticPlanner.solve() 阶段1
+    &quot;&quot;&quot;
+    tool_text = _build_tool_desc_text()
+
+    prompt = f&quot;&quot;&quot;
+你是一个任务规划专家。请根据用户问题，制定一个完整的执行计划。
+
+可用工具列表：
+{tool_text}
+
+# 输出格式（二选一）
+
+情况1：需要调用工具才能回答
+请输出一个JSON数组，每个元素代表一个执行步骤。后续步骤的参数可以引用前序步骤的输出结果：
+```json
+[
+  {{&quot;step&quot;: 1, &quot;tool&quot;: &quot;工具名&quot;, &quot;params&quot;: {{参数字典}}, &quot;reason&quot;: &quot;为什么需要这一步&quot;}},
+  {{&quot;step&quot;: 2, &quot;tool&quot;: &quot;工具名&quot;, &quot;params&quot;: {{&quot;key1&quot;: &quot;$step1&quot;, &quot;key2&quot;: &quot;固定值&quot;}}, &quot;reason&quot;: &quot;为什么需要这一步&quot;}}
+]
+```
+
+参数引用语法：
+- &quot;$step1&quot; 表示引用第1步的Observation输出结果
+- &quot;$step2&quot; 表示引用第2步的Observation输出结果
+- 只有字符串类型的参数值才能使用引用，数字和布尔值直接写
+- 引用只能引用比当前步骤编号小的步骤（步骤按顺序执行）
+
+情况2：无需工具，直接回答
+直接输出：
+FinalAnswer: 你的答案
+
+# 规则
+1. 步骤按顺序执行，后续步骤可引用前序步骤的结果
+2. tool 必须是上面列出的可用工具之一
+3. params 必须符合工具的参数Schema
+4. 只输出JSON或FinalAnswer，不要输出其他内容
+
+用户问题：
+{user_q}
+    &quot;&quot;&quot;.strip()
+    return prompt
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-809d-844a-cda5706c294d" class="toggle"><li><details open=""><summary>output_parser.py</summary><div style="display:contents" dir="auto"><p id="3818db55-6aee-80a1-b32f-d467c5ca7ad8" class="">专门<strong>校验、提取、清洗大模型返回的杂乱文本</strong>，把 LLM 自由格式的回答，转换成程序能直接识别、执行的结构化数据；</p></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-80e3-b84e-e71013e5521b" class="">分别适配<strong>链式 ReAct 规划、分层规划</strong>两种输出格式，做容错防崩，是 <code>prompt_builder</code> 的反向配套模块：</p></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-8076-be39-c96aec249456" class="bulleted-list"><li style="list-style-type:disc"><code>prompt_builder</code>：拼装规则提示词 → 喂给 LLM</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-806f-bb6c-e035132394f8" class="bulleted-list"><li style="list-style-type:disc"><code>output_parser</code>：接收 LLM 乱序输出 → 解析成程序可用结构</li></ul></div><div style="display:contents" dir="auto"><pre id="3818db55-6aee-802b-b397-e91518f6dccf" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+output_parser.py — LLM 输出解析器
+==================================
+提供两种解析能力：
+
+  1. parse_llm_response() — 链式规划专用，解析单轮 ReAct 输出（Thought/Action/FinalAnswer）
+  2. parse_plan_response() — 分层规划专用，解析规划阶段的 JSON 步骤列表
+
+两种解析器都做了容错处理，解析失败不会抛异常，而是返回空结果。
+&quot;&quot;&quot;
+import json
+import re
+from typing import Tuple, Optional, Dict, List
+
+# ──────────────────────────────────────
+# 公共标签常量（与 base_planner 保持一致）
+# ──────────────────────────────────────
+TAG_THOUGHT = &quot;Thought&quot;
+TAG_ACTION = &quot;Action&quot;
+TAG_FINAL = &quot;FinalAnswer&quot;
+
+# 链式解析返回类型: (thought, action_info, final_answer)
+ParseResult = Tuple[str, Optional[Tuple[str, Dict]], Optional[str]]
+
+# ════════════════════════════════════════════════════
+# 1. 链式规划解析器
+# ════════════════════════════════════════════════════
+
+def parse_llm_response(content: str) -&gt; ParseResult:
+    &quot;&quot;&quot;
+    解析链式规划中 LLM 的单轮输出，提取 Thought / Action / FinalAnswer。
+
+    解析逻辑:
+        1. 按行拆分，去除空行
+        2. 逐行匹配标签前缀（Thought: / Action: / FinalAnswer:）
+        3. Action 行的值需是合法 JSON，格式为 {&quot;name&quot;:&quot;...&quot;, &quot;parameters&quot;:{...}}
+
+    参数:
+        content: str — LLM 原始输出文本（来源：mock_llm.call_model() 返回值）
+
+    返回:
+        ParseResult — 三元组：
+            - thought: str              推理内容，默认空串
+            - action_info: Optional     若有则为 (tool_name, params_dict)，否则 None
+            - final_answer: Optional    若有则为答案字符串，否则 None
+
+    调用方:
+        ChainPlanner.solve() 每轮解析 LLM 输出
+    &quot;&quot;&quot;
+    thought = &quot;&quot;
+    action_package: Optional[Tuple[str, Dict]] = None
+    final_answer = None
+
+    # 文本预处理：清洗空行和多余空格
+    lines = [line.strip() for line in content.split(&quot;\n&quot;) if line.strip()]
+
+    for line in lines:
+        # 匹配 Thought 行
+        if line.startswith(f&quot;{TAG_THOUGHT}:&quot;):
+            thought = line.replace(f&quot;{TAG_THOUGHT}:&quot;, &quot;&quot;).strip()
+
+        # 匹配 Action 行 — 需要解析 JSON
+        elif line.startswith(f&quot;{TAG_ACTION}:&quot;):
+            raw_json_str = line.replace(f&quot;{TAG_ACTION}:&quot;, &quot;&quot;).strip()
+            try:
+                data = json.loads(raw_json_str)
+                real_tool_name = data[&quot;name&quot;]
+                real_params = data.get(&quot;parameters&quot;, {})
+                action_package = (real_tool_name, real_params)
+            except Exception as e:
+                print(f&quot;JSON解析失败:{e}, 原始内容:{raw_json_str}&quot;)
+                action_package = None
+
+        # 匹配 FinalAnswer 行
+        elif line.startswith(f&quot;{TAG_FINAL}:&quot;):
+            final_answer = line.replace(f&quot;{TAG_FINAL}:&quot;, &quot;&quot;).strip()
+
+    return thought, action_package, final_answer
+# ════════════════════════════════════════════════════
+# 2. 分层规划解析器
+# ════════════════════════════════════════════════════
+
+def parse_plan_response(content: str) -&gt; List[Dict]:
+    &quot;&quot;&quot;
+    解析分层规划中 LLM 输出的执行计划（JSON 步骤列表）。
+
+    支持两种格式：
+      - 纯 JSON 数组：[{&quot;step&quot;:1, &quot;tool&quot;:&quot;...&quot;, &quot;params&quot;:{}, &quot;reason&quot;:&quot;...&quot;}, ...]
+      - Markdown 代码块包裹的 JSON：```json [...] ```
+
+    解析逻辑:
+        1. 先尝试从 markdown 代码块中提取 JSON
+        2. 若无代码块，尝试用正则找第一个 [ ... ] 区间
+        3. JSON 解析后校验每个步骤必须包含 step / tool / params 字段
+        4. 缺少 fields 的步骤会被跳过（容错）
+
+    参数:
+        content: str — LLM 原始输出文本（来源：mock_llm.call_model() 返回值）
+
+    返回:
+        List[Dict] — 步骤字典列表，每项包含 step / tool / params / reason
+                     解析失败返回空列表 []
+
+    调用方:
+        HierarchicalPlanner.solve() 阶段1 解析规划结果
+    &quot;&quot;&quot;
+    steps = []
+
+    # ── 尝试1：从 markdown 代码块中提取 ──
+    code_block_match = re.search(r&quot;```(?:json)?\s*\n?(.*?)\n?```&quot;, content, re.DOTALL)
+    if code_block_match:
+        json_str = code_block_match.group(1).strip()
+    else:
+        # ── 尝试2：正则匹配第一个 [ ... ] 区间 ──
+        bracket_match = re.search(r&quot;\[.*\]&quot;, content, re.DOTALL)
+        json_str = bracket_match.group(0) if bracket_match else &quot;&quot;
+
+    if not json_str:
+        return []
+
+    # ── JSON 解析 ──
+    try:
+        plan_list = json.loads(json_str)
+    except json.JSONDecodeError as e:
+        print(f&quot;⚠️ 计划JSON解析失败: {e}&quot;)
+        return []
+
+    # ── 逐条校验步骤字段完整性 ──
+    for item in plan_list:
+        if not isinstance(item, dict):
+            continue
+        # 必须包含 step / tool / params，缺一不可
+        if &quot;step&quot; not in item or &quot;tool&quot; not in item or &quot;params&quot; not in item:
+            print(f&quot;⚠️ 跳过不完整步骤: {item}&quot;)
+            continue
+        steps.append({
+            &quot;step&quot;: item[&quot;step&quot;],
+            &quot;tool&quot;: item[&quot;tool&quot;],
+            &quot;params&quot;: item[&quot;params&quot;],
+            &quot;reason&quot;: item.get(&quot;reason&quot;, &quot;&quot;)  # reason 可选
+        })
+
+    return steps
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-802e-9cfb-e72330bbda07" class="toggle"><li><details open=""><summary>base_planner.py</summary><div style="display:contents" dir="auto"><p id="3818db55-6aee-8033-8aee-eeeb855b6600" class="">这是所有三种规划器（链式 ReAct、整体规划、分层规划）的父类，把三种规划器重复、通用的逻辑全部抽离封装，子类只需要专注写各自独有的规划业务逻辑，不用重复写历史管理、工具调用、上下文格式化代码，典型面向对象「继承复用、解耦」设计。</p></div><div style="display:contents" dir="auto"><pre id="3818db55-6aee-80f1-ad61-f0502ba146a3" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">BasePlanner（公共底座）
+├─ 成员变量：最大轮次、history历史容器
+├─ 公共方法：
+│   ├─ clear_history() 清空会话
+│   ├─ format_history_for_prompt() 历史转Prompt文本
+│   └─ run_tool_and_get_obs() 统一工具执行器
+└─ 抽象入口 solve(question)
+        ↓由三个子类分别实现
+   ├─ ChainPlanner 链式ReAct规划
+   ├─ HolisticPlanner 整体一次性规划
+   └─ HierarchicalPlanner 分层两级规划</code></pre></div><div style="display:contents" dir="auto"><pre id="3818db55-6aee-8091-9470-fc7813ae5ffe" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+base_planner.py — 规划器公共基类
+================================
+抽取三种规划器的公共逻辑：
+  - 结构化历史记录管理（RoundRecord）
+  - 通用工具执行（通过 tool_registry 动态查找）
+  - 历史序列化为 Prompt 可读字符串
+
+子类只需实现 solve() 方法即可成为完整的规划 Agent。
+&quot;&quot;&quot;
+
+from typing import Dict, List, Union, Optional
+import json
+from config.tool_registry import get_tool_function
+import mock_llm
+
+# ──────────────────────────────────────
+# 全局格式标签常量，所有规划器共用
+# ──────────────────────────────────────
+TAG_THOUGHT = &quot;Thought&quot;
+TAG_ACTION = &quot;Action&quot;
+TAG_OBSERVATION = &quot;Observation&quot;
+TAG_FINAL = &quot;FinalAnswer&quot;
+TAG_PLAN = &quot;Plan&quot;
+
+# 历史轮次之间的分割线，方便 LLM 区分不同轮次
+SPLIT_SEP = &quot;\n=====单轮分割=====\n&quot;
+
+# 每一轮的结构化记录类型：{thought, action, observation}
+RoundRecord = Dict[str, Union[str, Dict, None]]
+
+
+class BasePlanner:
+    &quot;&quot;&quot;
+    规划器基类，封装 Agent 的通用基础设施。
+
+    子类：
+        - ChainPlanner        链式规划（逐步 Reason→Act→Observe 循环）
+        - HierarchicalPlanner 分层规划（规划→独立执行→汇总）
+        - HolisticPlanner     整体规划（含依赖规划→自动传参执行→直接输出）
+
+    参数:
+        max_tool_loop: int  — 最大工具调用轮数，防止死循环
+    &quot;&quot;&quot;
+
+    def __init__(self, max_tool_loop: int = 5):
+        self.MAX_TOOL_LOOP = max_tool_loop
+        # 结构化历史列表，每项是一个 RoundRecord 字典
+        self.history: List[RoundRecord] = []
+
+    # ──────────────────────────────────────
+    # 历史管理
+    # ──────────────────────────────────────
+
+    def clear_history(self):
+        &quot;&quot;&quot;清空历史记录，通常在每次 solve() 开始时调用&quot;&quot;&quot;
+        self.history = []
+
+    def format_history_for_prompt(self) -&gt; str:
+        &quot;&quot;&quot;
+        将内存中的结构化历史转为 LLM 可读的文本。
+
+        逻辑：遍历 self.history 列表，把每轮的 thought/action/observation
+        拼成标准 ReAct 格式字符串，轮次之间用 SPLIT_SEP 分隔。
+
+        返回:
+            str — 可直接嵌入 prompt 的历史上下文文本
+        &quot;&quot;&quot;
+        block_list = []
+        for rec in self.history:
+            # action 字典转 JSON 字符串，ensure_ascii=False 保留中文
+            act_str = json.dumps(rec[&quot;action&quot;], ensure_ascii=False) if rec[&quot;action&quot;] else &quot;&quot;
+            block = (
+                f&quot;{TAG_THOUGHT}:{rec[&#x27;thought&#x27;]}\n&quot;
+                f&quot;{TAG_ACTION}:{act_str}\n&quot;
+                f&quot;{TAG_OBSERVATION}:{rec[&#x27;observation&#x27;]}&quot;
+            )
+            block_list.append(block)
+        return SPLIT_SEP.join(block_list)
+
+    # ──────────────────────────────────────
+    # 工具执行
+    # ──────────────────────────────────────
+
+    def run_tool_and_get_obs(self, tool_name: str, params: dict) -&gt; str:
+        &quot;&quot;&quot;
+        通用工具执行入口。根据工具名从 TOOL_REGISTRY 查找函数并调用。
+
+        参数:
+            tool_name: str   — 工具名（需与 TOOL_REGISTRY 中的 key 一致）
+            params: dict     — 工具参数字典，会以 **params 解包传给工具函数
+
+        返回:
+            str — 工具执行结果字符串；异常时返回错误信息
+
+        调用方:
+            ChainPlanner.solve()        每轮 Act 阶段调用
+            HierarchicalPlanner.solve() 执行阶段逐条调用
+        &quot;&quot;&quot;
+        tool_func = get_tool_function(tool_name)
+        if not callable(tool_func):
+            return f&quot;{TAG_OBSERVATION}错误：不存在工具 {tool_name}&quot;
+        try:
+            result = tool_func(**params)
+            return str(result)
+        except Exception as e:
+            return f&quot;{TAG_OBSERVATION}执行异常：{repr(e)}&quot;
+
+    # ──────────────────────────────────────
+    # 抽象方法：子类必须实现
+    # ──────────────────────────────────────
+
+    def solve(self, question: str) -&gt; str:
+        &quot;&quot;&quot;
+        规划+执行主入口，子类必须实现。
+
+        参数:
+            question: str — 用户原始问题
+
+        返回:
+            str — 最终答案或超限提示
+        &quot;&quot;&quot;
+        raise NotImplementedError(&quot;子类必须实现 solve()&quot;)
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-805f-8c18-f44f9d98dc85" class="">三个抽象的具体实现</p></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-8028-8e58-e1ce8386569a" class="toggle"><li><details open=""><summary>chain_planner.py</summary><div style="display:contents" dir="auto"><p id="3818db55-6aee-80ad-bacd-e417e542917f" class="">最经典的链式规划，即ReAct的基本能力</p></div><div style="display:contents" dir="auto"><pre id="3818db55-6aee-80de-a1d7-cb9370bc781b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">用户问题 → solve()
+    循环开始：
+        1. 拼接历史 + 构建ReAct Prompt
+        2. LLM推理输出文本
+        3. Parser解析结果
+            ├─ 有FinalAnswer → 结束返回答案
+            └─ 有Action → 执行工具 → 存入本轮记录 → 下一轮
+循环超限 → 返回迭代超限提示</code></pre></div><div style="display:contents" dir="auto"><pre id="3818db55-6aee-80c0-afc7-d114439d4782" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+chain_planner.py — 链式规划器（Chain Planning）
+================================================
+经典 ReAct 模式：逐步推理、逐步执行。
+
+执行流程：
+  Thought → Action → Observation → Thought → Action → ... → FinalAnswer
+
+特点：
+  - 每一步都经过 LLM 推理，根据上一步 Observation 动态决定下一步
+  - 灵活性高，可在中途修正方向
+  - 缺点是每一步都需要调用 LLM，token 开销大
+
+继承 BasePlanner，复用历史管理和工具执行能力。
+&quot;&quot;&quot;
+
+from core.base_planner import BasePlanner, TAG_THOUGHT, TAG_ACTION, TAG_OBSERVATION, TAG_FINAL
+from core.prompt_builder import build_chain_prompt
+from core.output_parser import parse_llm_response
+import mock_llm
+
+
+class ChainPlanner(BasePlanner):
+    &quot;&quot;&quot;
+    链式规划器：经典 ReAct 逐步推理 + 逐步执行。
+
+    继承:
+        BasePlanner（历史管理、工具执行）
+
+    新增:
+        无额外属性，完全依赖基类
+
+    调用方:
+        test_main.py 中通过 mode=&quot;chain&quot; 选择实例化
+    &quot;&quot;&quot;
+
+    def solve(self, question: str) -&gt; str:
+        &quot;&quot;&quot;
+        链式规划主循环。
+
+        流程:
+            1. 清空历史
+            2. 循环 MAX_TOOL_LOOP 轮：
+               a. 构造 prompt（包含历史上下文）
+               b. 调用 LLM 获取推理结果
+               c. 解析 LLM 输出 → thought / action / final_answer
+               d. 若有 final_answer → 直接返回
+               e. 若有 action → 执行工具，获得 observation
+               f. 存入历史，进入下一轮
+
+        参数:
+            question: str — 用户原始问题
+
+        返回:
+            str — 最终答案 或 超限提示
+        &quot;&quot;&quot;
+        self.clear_history()
+        print(f&quot;===== 【链式规划】开始处理问题：{question} =====\n&quot;)
+
+        for loop_step in range(self.MAX_TOOL_LOOP):
+            step_num = loop_step + 1
+            print(f&quot;---------- 第{step_num}轮 ReAct 迭代 ----------&quot;)
+
+            try:
+                # 1) 将结构化历史序列化为文本，拼入 prompt
+                hist_str = self.format_history_for_prompt()
+                prompt = build_chain_prompt(question, hist_str)
+
+                # 2) 调用 LLM，获取原始文本输出
+                llm_raw_out = mock_llm.call_model(prompt)
+
+                # 3) 解析 LLM 输出，提取 thought / action / final_answer
+                thought, action_info, final_ans = parse_llm_response(llm_raw_out)
+                print(f&quot;【{TAG_THOUGHT}】{thought}&quot;)
+
+                # ── 分支A：LLM 认为信息已足够，直接输出最终答案 ──
+                if final_ans is not None and final_ans.strip():
+                    print(f&quot;\n✅ ReAct 迭代结束，{TAG_FINAL}：{final_ans}&quot;)
+                    return final_ans.strip()
+
+                # ── 分支B：LLM 需要调用工具获取更多信息 ──
+                if action_info is not None:
+                    tool_name, params = action_info
+                    print(f&quot;【{TAG_ACTION}】工具:{tool_name} 参数:{params}&quot;)
+
+                    # 执行工具，获得 Observation
+                    observation = self.run_tool_and_get_obs(tool_name, params)
+                    print(f&quot;【{TAG_OBSERVATION}】{observation}\n&quot;)
+
+                    # 本轮结果存入结构化历史，供下一轮 prompt 使用
+                    self.history.append({
+                        &quot;thought&quot;: thought,
+                        &quot;action&quot;: {&quot;name&quot;: tool_name, &quot;parameters&quot;: params},
+                        &quot;observation&quot;: observation
+                    })
+
+            except Exception as e:
+                err_msg = f&quot;本轮推理异常跳过：{repr(e)}&quot;
+                print(f&quot;⚠️ {err_msg}\n&quot;)
+                # 异常时填充空记录，防止历史断裂
+                self.history.append({
+                    &quot;thought&quot;: f&quot;解析出错:{e}&quot;,
+                    &quot;action&quot;: None,
+                    &quot;observation&quot;: err_msg
+                })
+
+        # 循环耗尽，仍未得到答案
+        return f&quot;⚠️ 已达最大{self.MAX_TOOL_LOOP}轮迭代，未能生成有效答案&quot;
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-80ee-9853-f2f17996adf7" class="toggle"><li><details open=""><summary>hierarchical_planner.py</summary><div style="display:contents" dir="auto"><p id="3818db55-6aee-803b-be51-f78c5ce4db0a" class=""><strong>分层规划（三段式：规划 → 批量执行 → 汇总）的具体实现类</strong>，同样继承BasePlanner复用工具执行、历史存储能力；</p></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-8053-8618-e80c48a44398" class="">和链式 ReAct 最大区别：<strong>全程只调用两次 LLM</strong>（一次做整体方案规划、一次收尾汇总），执行中间步骤完全不再调用大模型，步骤一次性定死、中途不能动态改思路。</p></div><div style="display:contents" dir="auto"><h2 id="3818db55-6aee-8020-8531-c1ce1058e891" class="">整体三段式核心架构</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8049-872c-d4b4651c7ff5" class="numbered-list" start="1"><li>规划阶段（1 次 LLM）：一次性生成全部工具执行步骤清单</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8018-9484-e11648cd1218" class="numbered-list" start="2"><li>执行阶段（无 LLM）：顺序跑完所有步骤，收集每一步结果</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-801a-9b7d-e25807d2f7b5" class="numbered-list" start="3"><li>汇总阶段（第 2 次 LLM）：整合全部结果生成最终回答</li></ol></div><div style="display:contents" dir="auto"><pre id="3818db55-6aee-80d3-ace3-f6d1e35f5783" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">用户问题
+   ↓
+【阶段1 规划】build_hierarchical_plan_prompt → LLM → parse_plan_response → 步骤列表
+   ↓
+【阶段2 执行】循环逐个执行工具，收集所有observation（无LLM调用）
+   ↓
+【阶段3 汇总】build_hierarchical_synthesis_prompt → LLM整合结果 → 提取FinalAnswer返回</code></pre></div><div style="display:contents" dir="auto"><pre id="3818db55-6aee-805d-848b-e8782615a0e5" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+hierarchical_planner.py — 分层规划器（Hierarchical Planning）
+============================================================
+将&quot;规划&quot;和&quot;执行&quot;分为两个独立阶段：
+
+  阶段1 — Planning（规划）：
+      LLM 一次性生成完整的步骤列表（Plan），每步指定工具名和参数。
+      例如：[{&quot;step&quot;:1, &quot;tool&quot;:&quot;calculator&quot;, &quot;params&quot;:{&quot;num1&quot;:123,&quot;num2&quot;:45,&quot;operator&quot;:&quot;*&quot;}},
+             {&quot;step&quot;:2, &quot;tool&quot;:&quot;info_search&quot;, &quot;params&quot;:{&quot;keyword&quot;:&quot;react&quot;}}]
+
+  阶段2 — Execution（执行）：
+      Agent 按顺序逐条执行 Plan 中的步骤，收集每步的 Observation。
+
+  阶段3 — Synthesis（汇总）：
+      将所有 Observation 交给 LLM，由 LLM 整合生成最终答案。
+
+特点：
+  - 规划与执行解耦，步骤一次性确定，中途不调整
+  - 规划只需 1 次 LLM 调用，执行阶段不调 LLM，节省 token
+  - 适合&quot;步骤间无依赖、可预判&quot;的任务；不适合&quot;上一步结果决定下一步&quot;的场景
+
+继承 BasePlanner，复用历史管理和工具执行能力。
+&quot;&quot;&quot;
+
+from core.base_planner import BasePlanner, TAG_OBSERVATION, TAG_FINAL
+from core.prompt_builder import build_hierarchical_plan_prompt, build_hierarchical_synthesis_prompt
+from core.output_parser import parse_plan_response
+import mock_llm
+
+
+class HierarchicalPlanner(BasePlanner):
+    &quot;&quot;&quot;
+    分层规划器：先整体规划，再顺序执行，最后汇总。
+    继承:
+        BasePlanner（历史管理、工具执行）
+
+    新增属性:
+        无额外属性
+
+    调用方:
+        test_main.py 中通过 mode=&quot;hierarchical&quot; 选择实例化
+    &quot;&quot;&quot;
+
+    def solve(self, question: str) -&gt; str:
+        &quot;&quot;&quot;
+        分层规划主流程：规划 → 执行 → 汇总。
+
+        流程:
+            1. 清空历史
+            2. 【规划阶段】构造规划 prompt → 调 LLM → 解析出步骤列表
+            3. 【执行阶段】遍历步骤列表，逐条执行工具，收集 observation
+            4. 【汇总阶段】将所有 observation 拼入汇总 prompt → 调 LLM → 返回最终答案
+
+        参数:
+            question: str — 用户原始问题
+
+        返回:
+            str — 最终答案 或 错误/超限提示
+        &quot;&quot;&quot;
+        self.clear_history()
+        print(f&quot;===== 【分层规划】开始处理问题：{question} =====\n&quot;)
+
+        # ═══════════════════════════════════════
+        # 阶段1：Planning — 让 LLM 一次性生成完整计划
+        # ═══════════════════════════════════════
+        print(&quot;【阶段1：规划】生成执行计划...&quot;)
+        plan_prompt = build_hierarchical_plan_prompt(question)
+        plan_raw = mock_llm.call_model(plan_prompt)
+
+        # 解析 LLM 输出，提取步骤列表
+        # 每个步骤格式: {&quot;step&quot;: int, &quot;tool&quot;: str, &quot;params&quot;: dict, &quot;reason&quot;: str}
+        plan_steps = parse_plan_response(plan_raw)
+
+        if not plan_steps:
+            # LLM 未生成有效计划，可能认为无需工具，直接尝试从原始输出中提取答案
+            print(f&quot;⚠️ 未解析到有效计划，LLM 原始输出：\n{plan_raw}\n&quot;)
+            return f&quot;⚠️ 规划失败，LLM 未能生成有效的执行步骤&quot;
+
+        # 打印规划结果
+        print(f&quot;📋 生成 {len(plan_steps)} 个步骤：&quot;)
+        for step in plan_steps:
+            print(f&quot;   步骤{step[&#x27;step&#x27;]}: 工具={step[&#x27;tool&#x27;]}, 参数={step[&#x27;params&#x27;]}, 原因={step.get(&#x27;reason&#x27;, &#x27;&#x27;)}&quot;)
+
+        # ═══════════════════════════════════════
+        # 阶段2：Execution — 按顺序执行每个步骤
+        # ═══════════════════════════════════════
+        print(f&quot;\n【阶段2：执行】按序执行 {len(plan_steps)} 个步骤...&quot;)
+        observations = []  # 收集每步的执行结果
+
+        for step in plan_steps:
+            tool_name = step[&quot;tool&quot;]
+            params = step[&quot;params&quot;]
+            step_num = step[&quot;step&quot;]
+
+            print(f&quot;\n   ▶ 步骤{step_num}: 调用 {tool_name}({params})&quot;)
+
+            # 调用基类的通用工具执行方法
+            obs = self.run_tool_and_get_obs(tool_name, params)
+            print(f&quot;   ◀ 结果: {obs}&quot;)
+
+            # 记录到结构化历史和观察列表
+            observations.append({
+                &quot;step&quot;: step_num,
+                &quot;tool&quot;: tool_name,
+                &quot;params&quot;: params,
+                &quot;observation&quot;: obs
+            })
+            self.history.append({
+                &quot;thought&quot;: f&quot;执行步骤{step_num}: {step.get(&#x27;reason&#x27;, &#x27;&#x27;)}&quot;,
+                &quot;action&quot;: {&quot;name&quot;: tool_name, &quot;parameters&quot;: params},
+                &quot;observation&quot;: obs
+            })
+
+        # ═══════════════════════════════════════
+        # 阶段3：Synthesis — 汇总所有观察，生成最终答案
+        # ═══════════════════════════════════════
+        print(&quot;\n【阶段3：汇总】整合所有观察结果...&quot;)
+        synthesis_prompt = build_hierarchical_synthesis_prompt(question, observations)
+        synthesis_raw = mock_llm.call_model(synthesis_prompt)
+
+        # 尝试提取 FinalAnswer 行；若无则直接返回全部文本
+        final_answer = self._extract_final_answer(synthesis_raw)
+        print(f&quot;\n✅ {TAG_FINAL}：{final_answer}&quot;)
+        return final_answer
+
+    def _extract_final_answer(self, text: str) -&gt; str:
+        &quot;&quot;&quot;
+        从汇总阶段的 LLM 输出中提取 FinalAnswer。
+
+        逻辑:
+            逐行扫描文本，查找 &quot;FinalAnswer:&quot; 开头的行；
+            若找不到，则返回整段文本作为答案（兜底）。
+
+        参数:
+            text: str — LLM 的原始输出文本
+
+        返回:
+            str — 提取到的最终答案
+
+        调用方:
+            self.solve() 阶段3 汇总后调用
+        &quot;&quot;&quot;
+        for line in text.strip().split(&quot;\n&quot;):
+            line = line.strip()
+            if line.startswith(f&quot;{TAG_FINAL}:&quot;):
+                return line.replace(f&quot;{TAG_FINAL}:&quot;, &quot;&quot;).strip()
+        # 兜底：找不到标签则返回原文
+        return text.strip()
+</code></pre></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-80f1-b30d-de62b177bd20" class=""><strong>优点</strong></p></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-808b-9f53-c79f44714a98" class="numbered-list" start="1"><li>LLM 调用次数极少，仅 2 次，Token 消耗更低、速度更快</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-804f-8601-cae97ed112ca" class="numbered-list" start="2"><li>规划、执行解耦，步骤透明可预览，便于调试、人工干预流程</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80b5-a728-fc0a6968e9a3" class="numbered-list" start="3"><li>执行阶段无模型推理，CPU / 接口开销小，批量任务性价比高</li></ol></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-8034-9324-ee7621320420" class=""><strong>缺点</strong></p></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80d9-ad1b-e2002c126161" class="numbered-list" start="1"><li><strong>无法动态调整路线</strong>：一旦规划完成，哪怕中间步骤结果异常、数据缺失，也不能临时改下一步动作</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-804a-a79d-f389cad311da" class="numbered-list" start="2"><li>不适合强依赖型任务：“上一步输出决定下一步参数” 的场景天然不适配（这类是整体规划 HolisticPlanner 的场景）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80e6-a220-c8e3e1f22cd2" class="numbered-list" start="3"><li>规划一旦出错，整套流程全部失效，容错弱于 ReAct 链式规划</li></ol></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-80a0-bb33-dcf19f49225b" class="">适用场景：流程固定、前置信息可预判的标准化任务（报表生成、固定格式数据整理、固定流程调研）</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-801b-957f-c9ea4f669acb" class="toggle"><li><details open=""><summary>holistic_planner.py</summary><div style="display:contents" dir="auto"><p id="3818db55-6aee-803b-8936-ee8944edeffa" class=""><strong>带步骤依赖传递的一次性整体规划器</strong>，同样继承BasePlanner；只需要<strong>1 次 LLM 调用</strong>完成全局方案规划，执行引擎自动解析$stepN占位符，把前一步输出自动注入后一步参数；</p></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-80c0-aa35-cadcf3ba4649" class=""><strong>没有独立汇总阶段</strong>，最后一步工具输出直接当作最终答案，专门解决「多步骤前后数据依赖」场景。</p></div><div style="display:contents" dir="auto"><pre id="3818db55-6aee-80a6-a0da-d803e70e24fa" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">用户问题
+   ↓
+【规划阶段】build_holistic_plan_prompt → LLM生成带$stepN依赖步骤列表 → parse_plan_response解析
+   ↓
+【执行阶段】逐个循环：
+    1. _resolve_references 解析参数引用
+    2. 执行工具
+    3. 保存结果到step_results，写入历史
+   ↓
+循环结束 → 最后一步Observation直接作为FinalAnswer返回</code></pre></div><div style="display:contents" dir="auto"><pre id="3818db55-6aee-80c5-9647-feb677f03e84" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&quot;&quot;&quot;
+holistic_planner.py — 整体规划器（Holistic Planning）
+======================================================
+与分层规划的核心区别：
+  - 分层规划：步骤参数在规划时就写死，步骤之间完全独立，需要额外的汇总LLM调用
+  - 整体规划：步骤之间可以存在依赖关系，后续步骤的参数可以引用前序步骤的输出，
+             执行时自动解析引用并传参，无需额外的汇总阶段
+
+执行流程：
+  阶段1 — Planning（规划）：
+      LLM 一次性生成完整的步骤列表，步骤间可通过 $step_N 引用前序输出。
+      例如：[{&quot;step&quot;:1, &quot;tool&quot;:&quot;info_search&quot;, &quot;params&quot;:{&quot;keyword&quot;:&quot;react&quot;}},
+             {&quot;step&quot;:2, &quot;tool&quot;:&quot;calculator&quot;, &quot;params&quot;:{&quot;num1&quot;:&quot;$step1&quot;,&quot;num2&quot;:45,&quot;operator&quot;:&quot;*&quot;}}]
+
+  阶段2 — Execution（执行）：
+      按顺序执行每个步骤，遇到 $step_N 引用时自动替换为对应步骤的 Observation 结果。
+
+特点：
+  - 只需 1 次 LLM 调用（规划），执行阶段不调 LLM，无需汇总
+  - 步骤间可传递中间结果，解决&quot;上一步输出是下一步输入&quot;的问题
+  - 适合需要多步串联、中间结果需传递的任务
+
+继承 BasePlanner，复用历史管理和工具执行能力。
+&quot;&quot;&quot;
+
+import re
+from core.base_planner import BasePlanner, TAG_FINAL
+from core.prompt_builder import build_holistic_plan_prompt
+from core.output_parser import parse_plan_response
+import mock_llm
+
+
+class HolisticPlanner(BasePlanner):
+    &quot;&quot;&quot;
+    整体规划器：一次性规划含步骤依赖，执行时自动传参，无需额外汇总。
+
+    继承:
+        BasePlanner（历史管理、工具执行）
+
+    新增属性:
+        无额外属性
+
+    调用方:
+        test_main.py 中通过 mode=&quot;holistic&quot; 选择实例化
+    &quot;&quot;&quot;
+
+    def solve(self, question: str) -&gt; str:
+        &quot;&quot;&quot;
+        整体规划主流程：规划 → 执行（含引用解析）→ 直接输出答案。
+
+        流程:
+            1. 清空历史
+            2. 【规划阶段】构造规划 prompt → 调 LLM → 解析出步骤列表（含依赖引用）
+            3. 【执行阶段】按序执行步骤：
+               - 遇到 $step_N 引用时，自动替换为第N步的 Observation 结果
+               - 将每步的 observation 存入 step_results 字典，供后续步骤引用
+            4. 最后一步的 Observation 直接作为最终答案返回（无需汇总 LLM 调用）
+
+        参数:
+            question: str — 用户原始问题
+
+        返回:
+            str — 最终答案 或 错误/超限提示
+        &quot;&quot;&quot;
+        self.clear_history()
+        print(f&quot;===== 【整体规划】开始处理问题：{question} =====\n&quot;)
+
+        # ═══════════════════════════════════════
+        # 阶段1：Planning — 让 LLM 一次性生成含依赖的完整计划
+        # ═══════════════════════════════════════
+        print(&quot;【阶段1：规划】生成执行计划（含步骤依赖）...&quot;)
+        plan_prompt = build_holistic_plan_prompt(question)
+        plan_raw = mock_llm.call_model(plan_prompt)
+
+        # 复用 parse_plan_response 解析步骤列表
+        plan_steps = parse_plan_response(plan_raw)
+
+        if not plan_steps:
+            print(f&quot;⚠️ 未解析到有效计划，LLM 原始输出：\n{plan_raw}\n&quot;)
+            # 尝试提取 FinalAnswer（LLM 可能认为无需工具直接回答）
+            for line in plan_raw.strip().split(&quot;\n&quot;):
+                line = line.strip()
+                if line.startswith(f&quot;{TAG_FINAL}:&quot;):
+                    return line.replace(f&quot;{TAG_FINAL}:&quot;, &quot;&quot;).strip()
+            return &quot;⚠️ 规划失败，LLM 未能生成有效的执行步骤&quot;
+
+        # 打印规划结果
+        print(f&quot;📋 生成 {len(plan_steps)} 个步骤：&quot;)
+        for step in plan_steps:
+            print(f&quot;   步骤{step[&#x27;step&#x27;]}: 工具={step[&#x27;tool&#x27;]}, 参数={step[&#x27;params&#x27;]}, 原因={step.get(&#x27;reason&#x27;, &#x27;&#x27;)}&quot;)
+
+        # ═══════════════════════════════════════
+        # 阶段2：Execution — 按序执行，自动解析步骤间引用
+        # ═══════════════════════════════════════
+        print(f&quot;\n【阶段2：执行】按序执行 {len(plan_steps)} 个步骤（自动解析依赖）...&quot;)
+
+        # 存储每步的执行结果，key=步骤号，value=Observation字符串
+        step_results: dict = {}
+        final_observation = &quot;&quot;
+
+        for step in plan_steps:
+            tool_name = step[&quot;tool&quot;]
+            raw_params = step[&quot;params&quot;]
+            step_num = step[&quot;step&quot;]
+
+            # ── 核心：解析 $step_N 引用 ──
+            # 将参数中所有 &quot;$step_N&quot; 替换为第N步的 Observation 结果
+            resolved_params = self._resolve_references(raw_params, step_results)
+
+            print(f&quot;\n   ▶ 步骤{step_num}: 调用 {tool_name}({resolved_params})&quot;)
+            if resolved_params != raw_params:
+                print(f&quot;     （引用解析: {raw_params} → {resolved_params}）&quot;)
+
+            # 调用基类的通用工具执行方法
+            obs = self.run_tool_and_get_obs(tool_name, resolved_params)
+            print(f&quot;   ◀ 结果: {obs}&quot;)
+
+            # 记录到结果字典和历史
+            step_results[step_num] = obs
+            final_obsation = obs  # 不断更新，最终保留最后一步的观测
+            self.history.append({
+                &quot;thought&quot;: f&quot;执行步骤{step_num}: {step.get(&#x27;reason&#x27;, &#x27;&#x27;)}&quot;,
+                &quot;action&quot;: {&quot;name&quot;: tool_name, &quot;parameters&quot;: resolved_params},
+                &quot;observation&quot;: obs
+            })
+
+        # ═══════════════════════════════════════
+        # 无需汇总阶段 — 最后一步的 Observation 就是最终答案
+        # ═══════════════════════════════════════
+        print(f&quot;\n✅ {TAG_FINAL}：{final_obsation}&quot;)
+        return final_obsation
+
+    def _resolve_references(self, params: dict, step_results: dict) -&gt; dict:
+        &quot;&quot;&quot;
+        解析参数中的步骤引用，将 $step_N 替换为第N步的 Observation 结果。
+
+        引用语法：
+          &quot;$step1&quot;  — 引用第1步的完整 Observation 字符串
+          &quot;$step2&quot;  — 引用第2步的完整 Observation 字符串
+
+        解析逻辑：
+          1. 遍历 params 字典的每个值
+          2. 若值为字符串且匹配 &quot;$step_N&quot; 格式，则替换为 step_results[N]
+          3. 若被引用的步骤尚无结果（不应发生），保留原始引用字符串
+          4. 非字符串值（int/float/bool）不做处理，直接保留
+
+        参数:
+            params: dict       — 原始参数字典（来源：parse_plan_response() 解析的步骤）
+            step_results: dict — 已执行步骤的结果 {步骤号: Observation字符串}
+
+        返回:
+            dict — 引用已解析的新参数字典
+
+        调用方:
+            self.solve() 执行阶段每步调用
+        &quot;&quot;&quot;
+        resolved = {}
+        for key, value in params.items():
+            if isinstance(value, str):
+                # 匹配 $step_N 格式的引用
+                match = re.match(r&quot;^\$step(\d+)$&quot;, value.strip())
+                if match:
+                    ref_step = int(match.group(1))
+                    # 从 step_results 中查找对应步骤的结果
+                    if ref_step in step_results:
+                        resolved[key] = step_results[ref_step]
+                    else:
+                        # 被引用步骤尚未执行，保留原始引用（不应发生）
+                        print(f&quot;   ⚠️ 引用 $step{ref_step} 未找到对应结果，保留原始值&quot;)
+                        resolved[key] = value
+                else:
+                    resolved[key] = value
+            else:
+                # 非字符串类型（int/float/bool）直接保留
+                resolved[key] = value
+        return resolved
+</code></pre></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-80f4-9073-fb10bcf653da" class=""><strong>优点</strong></p></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80c8-9d4d-e72fbd17cbfa" class="numbered-list" start="1"><li>LLM 调用最少：仅 1 次，成本最低、速度最快</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8009-9901-d697dec8160f" class="numbered-list" start="2"><li>原生支持步骤数据依赖，完美适配「前一步输出是后一步输入」链式计算任务</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8086-b97e-fe02ee0151a7" class="numbered-list" start="3"><li>省去汇总 LLM，架构简洁</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-806d-ba01-c462a9a2b762" class="numbered-list" start="4"><li>执行逻辑完全确定，流程透明可控，易于调试</li></ol></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-803d-80cf-fd3eb6e2e019" class=""><strong>缺点</strong></p></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80e2-9670-d7572d0c1924" class="numbered-list" start="1"><li>规划一旦写死，执行中途遇到异常、缺失数据<strong>无法动态调整路线</strong>，灵活性弱于 ReAct 链式规划</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-808a-80ea-c34794be1c64" class="numbered-list" start="2"><li>对 LLM 规划能力要求高，如果一开始步骤设计不合理，整套任务直接失败</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8042-a501-da278831785d" class="numbered-list" start="3"><li>最后一步必须天然是最终答案，不适合零散多信息需要融合总结的场景</li></ol></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-8010-8278-e6546cc8c2a2" class=""><strong>典型适用场景</strong></p></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-8040-8aa1-db9ca03de88b" class="bulleted-list"><li style="list-style-type:disc">多步连续运算、数据逐级传递计算</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-80a4-bc42-d0eb3356139b" class="bulleted-list"><li style="list-style-type:disc">固定流水线式数据处理：查询→提取→计算→输出</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-8044-ad1e-c8aa79e0c523" class="bulleted-list"><li style="list-style-type:disc">可以提前预判完整链路、前后有强数据依赖的任务</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-80dc-9303-dd4aa1cccb19" class="">总结这三个</p></div><div style="display:contents" dir="ltr"><table id="3818db55-6aee-80d9-b196-fe2d63e055ec" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3818db55-6aee-80c5-b14d-c7fb72e15277"><th id="sCVJ" class="simple-table-header-color simple-table-header">规划类型</th><th id="IB`i" class="simple-table-header-color simple-table-header">LLM 调用次数</th><th id="=q?[" class="simple-table-header-color simple-table-header">是否支持步骤参数依赖</th><th id="rVv^" class="simple-table-header-color simple-table-header">中途能否动态改思路</th><th id="NmVb" class="simple-table-header-color simple-table-header">有无汇总阶段</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3818db55-6aee-804b-b485-e9bf3203653b"><td id="sCVJ" class="">ChainPlanner 链式 ReAct</td><td id="IB`i" class="">最多 MAX 轮次，每步 1 次</td><td id="=q?[" class="">天然动态传递（靠历史上下文）</td><td id="rVv^" class="">✅ 可以动态调整</td><td id="NmVb" class="">自然终止出答案</td></tr></div><div style="display:contents" dir="ltr"><tr id="3818db55-6aee-8012-96cf-eb2844af71df"><td id="sCVJ" class="">HierarchicalPlanner 分层规划</td><td id="IB`i" class="">规划 1 次 + 汇总 1 次</td><td id="=q?[" class="">❌ 参数写死，不能互相引用</td><td id="rVv^" class="">❌ 方案固定不可修改</td><td id="NmVb" class="">✅ 单独汇总 LLM</td></tr></div><div style="display:contents" dir="ltr"><tr id="3818db55-6aee-8002-9c77-fcbafd5a43eb"><td id="sCVJ" class="">HolisticPlanner 整体规划</td><td id="IB`i" class="">仅规划 1 次</td><td id="=q?[" class="">✅ $stepN 自动解析传参</td><td id="rVv^" class="">❌ 方案固定不可修改</td><td id="NmVb" class="">❌ 最后一步直接收尾</td></tr></div></tbody></table></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

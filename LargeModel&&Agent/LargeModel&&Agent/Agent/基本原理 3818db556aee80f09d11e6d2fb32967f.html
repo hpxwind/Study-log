@@ -1,0 +1,755 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>基本原理</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3818db55-6aee-80f0-9d11-e6d2fb32967f" class="page sans"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/nasa_the_blue_marble.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">♠️</span></div><h1 class="page-title" dir="auto">基本原理</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><hr id="3818db55-6aee-80fd-9f2f-ff4c3ddd6621"/></div><div style="display:contents" dir="auto"><h2 id="3818db55-6aee-80f5-a8f2-f53acdd5a2cc" class="">一、基础定义</h2></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-80ed-9f90-f98fb2c073df" class="">Agent 的标准双阶段循环：<strong>规划 Plan → 执行 Execute → 观测反馈 → 重新规划</strong>，是 ReAct、AutoGPT、BabyAGI、LangGraph、OpenAI Agent 通用核心架构。</p></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8046-83e0-ffe7e05d8941" class="numbered-list" start="1"><li><strong>Plan 规划</strong><br/>大模型作为思考者，基于目标、历史上下文、工具能力，拆解复杂任务，生成结构化行动方案（步骤、工具调用顺序、参数），不真正调用外部工具，只输出思考与行动计划。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-801e-957a-d24d5ba37d0c" class="numbered-list" start="2"><li><strong>Execute 执行</strong><br/>程序运行时层，读取 Plan 输出的行动指令，调用真实工具/接口/代码/数据库，完成实际操作，返回工具原始结果给 Agent。</li></ol></div><div style="display:contents" dir="auto"><hr id="3818db55-6aee-80ef-aa22-dc4f37ed9eac"/></div><div style="display:contents" dir="auto"><h2 id="3818db55-6aee-804c-bc11-eaa3043b650d" class="">二、核心原理</h2></div><div style="display:contents" dir="auto"><h3 id="3818db55-6aee-8011-aa9f-ea178daa0e75" class="">1. Plan 规划层原理（LLM 驱动推理）</h3></div><div style="display:contents" dir="auto"><h3 id="3818db55-6aee-80b5-ad4c-e8663286015d" class="">核心作用：解决“大模型不能一步完成复杂任务”</h3></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-8060-9a08-dee5a688a63b" class="">LLM 上下文有限、无法直接操作外部世界，复杂目标（数据分析、爬虫、写代码、多步骤调研）必须拆分。</p></div><div style="display:contents" dir="auto"><h3 id="3818db55-6aee-8048-b02d-e470af85d22d" class="">规划底层逻辑分三类主流范式</h3></div><div style="display:contents" dir="auto"><h3 id="3818db55-6aee-80d1-8385-da1eb2189e79" class="">（1）链式规划 ReAct Plan（最简单）</h3></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-8065-8426-fdede19f0e1c" class="">Prompt 约束模型输出固定格式：<code>Thought(思考) → Action(行动) → Action Input(参数)</code></p></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-80ca-a36c-d8b4798b4ccf" class="bulleted-list"><li style="list-style-type:disc">输入：用户目标 + 已完成步骤结果 + 可用工具列表</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-80e1-9bba-f0c0aa994a4b" class="bulleted-list"><li style="list-style-type:disc">LLM 推理：分析当前还差什么信息、下一步该调用哪个工具</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-8098-9038-ca1951f00310" class="bulleted-list"><li style="list-style-type:disc">输出：单步行动计划（一次只规划一步）</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-803c-af2a-f81cb403a4a1" class="bulleted-list"><li style="list-style-type:disc">特点：每执行完一步再重新规划，适合动态、不确定场景</li></ul></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-801d-8c12-c0c3d6192903" class="">示例 Plan 输出：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3818db55-6aee-8068-a904-ebe199789974" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Thought: 需要先查询2025年GDP数据才能对比
+Action: search
+Action Input: 2025中国GDP总量</code></pre></div><div style="display:contents" dir="auto"><h3 id="3818db55-6aee-803c-98b6-e1bb7825bb0b" class="">（2）整体规划 Plan-and-Solve / BabyAGI 全局规划</h3></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-8019-88a1-c01d1d32b9e6" class="">一次性生成完整多步骤清单，先把全流程方案全部列出来，再依次执行。<br/>流程：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-805c-88da-db58ce2ee906" class="numbered-list" start="1"><li>LLM 接收总目标，输出完整分步列表：步骤1、步骤2、步骤3…</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8047-b243-f4846fead0e6" class="numbered-list" start="2"><li>Execute 按顺序逐条执行，中途失败则重新 Plan 修正流程<br/>适用：流程固定、任务可提前预知（文档整理、批量文件处理）</li></ol></div><div style="display:contents" dir="auto"><h3 id="3818db55-6aee-80b0-936a-f4a7e577ebdc" class="">（3）分层规划 Hierarchical Plan（复杂长任务）</h3></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-8062-bb7d-df859e62db67" class="bulleted-list"><li style="list-style-type:disc">高层 Plan：拆解<strong>子任务</strong>（宏观阶段）</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-80a0-b2e3-e9357fc7a6a3" class="bulleted-list"><li style="list-style-type:disc">底层 Plan：每个子任务再拆解<strong>工具调用步骤</strong><br/>适合超长任务：项目开发、论文撰写、多轮复杂调研（AutoGPT 核心机制）</li></ul></div><div style="display:contents" dir="auto"><h3 id="3818db55-6aee-8004-bd3e-da2ff6c30ab3" class="">Plan 层关键约束原理</h3></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-80cf-b27d-e7e605f5caf1" class="bulleted-list"><li style="list-style-type:disc">工具约束：LLM 必须知晓所有可用工具名称、入参、返回格式，否则生成无效 Action</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-8035-9d0d-cc5eecf931b6" class="bulleted-list"><li style="list-style-type:disc">上下文记忆：传入历史执行结果，避免重复调用工具</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-8085-ada9-f5798c4c06ef" class="bulleted-list"><li style="list-style-type:disc">反思修正：若上一步 Execute 返回失败/无效数据，Plan 会调整下一步行动</li></ul></div><div style="display:contents" dir="auto"><h3 id="3818db55-6aee-8053-8f73-d606d1779a04" class="">2. Execute 执行层原理（程序调度层，无LLM推理）</h3></div><div style="display:contents" dir="auto"><p id="3818db55-6aee-8005-ac70-e79812aa6755" class="">Execute 是<strong>代码运行时调度模块</strong>，不做思考，只负责落地 Plan 的指令，属于“工具调度器”。<br/>完整执行链路：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80fe-8eff-cfcac414402e" class="numbered-list" start="1"><li>解析 Plan 输出的结构化 Action（工具名、参数）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8079-bab7-cab012ab0e4f" class="numbered-list" start="2"><li>参数校验：类型、必填项、权限校验，过滤非法调用</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80ca-9621-de7febe42cb8" class="numbered-list" start="3"><li>路由分发：匹配对应工具函数<div style="display:contents" dir="auto"><ul id="3818db55-6aee-8079-97ad-eb0902c760f5" class="bulleted-list"><li style="list-style-type:disc">内置工具：代码解释器、计算器、文件读写</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-8023-bb04-c23041cfd6f8" class="bulleted-list"><li style="list-style-type:disc">外部API：搜索引擎、数据库、第三方接口</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-808e-9d83-e908cd3c0f40" class="bulleted-list"><li style="list-style-type:disc">子Agent：调用其他子智能体</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8040-9989-dc9b54132833" class="numbered-list" start="4"><li>真实运行工具，捕获返回结果、异常报错（超时、接口404、权限不足）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8054-9a54-cb99218183a9" class="numbered-list" start="5"><li>标准化封装观测 Observation，回传给 Plan 层作为下一轮输入</li></ol></div><div style="display:contents" dir="auto"><h3 id="3818db55-6aee-804c-9b76-cdb8c437f9f6" class="">Execute 核心能力</h3></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8031-85a2-e5ec77c29dbb" class="numbered-list" start="1"><li>隔离 LLM 与外部环境：LLM 无法直接访问网络/文件，所有IO操作由 Execute 代理，保证安全</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-806a-bf1c-f04b49e41a65" class="numbered-list" start="2"><li>异常容错：工具调用失败时捕获错误，把异常信息丢给 Plan，让大模型重新规划补救方案</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80e5-8ae7-d1c115117f26" class="numbered-list" start="3"><li>并行/串行调度：支持顺序执行、批量并行调用工具，提升效率</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80b9-b05e-cdcaaab75616" class="numbered-list" start="4"><li>权限管控：限制文件读写、网络访问范围，防止Agent危险操作</li></ol></div><div style="display:contents" dir="auto"><hr id="3818db55-6aee-80e2-be63-e1cae6cb8343"/></div><div style="display:contents" dir="auto"><h2 id="3818db55-6aee-8047-ad1d-c33f2b7126e9" class="">三、Plan + Execute 完整闭环工作流（标准循环）</h2></div><div style="display:contents" dir="auto"><pre id="3818db55-6aee-806e-a9ce-ee6749b527b3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1. 用户输入总目标
+↓
+2. Plan（LLM）：分析目标，生成行动计划（单步/全流程）
+↓
+3. Execute（程序调度）：解析行动，调用真实工具，拿到原始数据
+↓
+4. Observation 观测：格式化工具返回结果
+↓
+5. 送入Plan层上下文：LLM结合已有结果重新思考
+    - 任务完成：终止循环，整理答案输出
+    - 信息不足/执行失败：重新生成新Plan，重复循环</code></pre></div><div style="display:contents" dir="auto"><h3 id="3818db55-6aee-80b6-ac76-cf3f86900af5" class="">极简例子：查询北京今日气温</h3></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8040-a004-dd2b84c8c4ac" class="numbered-list" start="1"><li>用户目标：查北京今天温度</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-802b-9fd2-ec0b1ea235a8" class="numbered-list" start="2"><li>Plan阶段（LLM思考）：需要调用天气查询工具，城市参数北京<br/>Plan输出：Action=weather_query, city=&quot;北京&quot;</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-800e-bfef-fa30d9893272" class="numbered-list" start="3"><li>Execute阶段：<div style="display:contents" dir="auto"><ul id="3818db55-6aee-80cd-b3db-d9b22f3a915b" class="bulleted-list"><li style="list-style-type:disc">解析工具名 weather_query，参数北京</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-8019-8354-c5992c8ca0b6" class="bulleted-list"><li style="list-style-type:disc">调用天气API接口，获取原始数据 <code>{&quot;temp&quot;:28,&quot;weather&quot;:&quot;晴&quot;}</code></li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-806c-9825-fce10df7a48e" class="numbered-list" start="4"><li>Observation 回传：当前北京气温28度，晴天</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8002-9e32-c7ee93b8d195" class="numbered-list" start="5"><li>Plan再次判断：信息足够，无需继续执行，整理结果回复用户</li></ol></div><div style="display:contents" dir="auto"><hr id="3818db55-6aee-80f9-91cb-d11f520210bf"/></div><div style="display:contents" dir="auto"><h2 id="3818db55-6aee-8069-bea0-c54a0091c008" class="">四、Plan 与 Execute 核心区别对比</h2></div><div style="display:contents" dir="ltr"><table id="3818db55-6aee-80c9-9c60-c81704184159" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3818db55-6aee-806e-8526-f9583dd1efbb"><th id="M_el" class="simple-table-header-color simple-table-header">维度</th><th id="d=YP" class="simple-table-header-color simple-table-header">Plan 规划</th><th id="elxO" class="simple-table-header-color simple-table-header">Execute 执行</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3818db55-6aee-80de-829a-e04c55180ce2"><td id="M_el" class="">运行主体</td><td id="d=YP" class="">大模型 LLM</td><td id="elxO" class="">后端代码/调度器</td></tr></div><div style="display:contents" dir="ltr"><tr id="3818db55-6aee-8052-801d-d69fd8fc4d32"><td id="M_el" class="">核心能力</td><td id="d=YP" class="">逻辑推理、任务拆解、决策</td><td id="elxO" class="">IO调用、工具调度、异常处理</td></tr></div><div style="display:contents" dir="ltr"><tr id="3818db55-6aee-8074-ace0-fcea2e2a0167"><td id="M_el" class="">是否操作外部资源</td><td id="d=YP" class="">否，纯思考文本输出</td><td id="elxO" class="">是，真实访问接口、文件、数据库</td></tr></div><div style="display:contents" dir="ltr"><tr id="3818db55-6aee-8004-aa7d-dc7c41330553"><td id="M_el" class="">输出内容</td><td id="d=YP" class="">结构化行动指令（Thought/Action）</td><td id="elxO" class="">工具原始返回数据、报错信息</td></tr></div><div style="display:contents" dir="ltr"><tr id="3818db55-6aee-80e5-aea1-ebedfbd3030b"><td id="M_el" class="">失败处理</td><td id="d=YP" class="">重新推理、调整方案</td><td id="elxO" class="">捕获异常、记录错误，交给Plan修复</td></tr></div><div style="display:contents" dir="ltr"><tr id="3818db55-6aee-80eb-bfbb-fd61fe0b5dc1"><td id="M_el" class="">依赖</td><td id="d=YP" class="">Prompt、记忆、工具描述</td><td id="elxO" class="">函数注册、网络、文件系统权限</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="3818db55-6aee-80b9-b953-ccb812bfb9d2"/></div><div style="display:contents" dir="auto"><h2 id="3818db55-6aee-8050-b36e-d67051ef6b45" class="">五、主流框架中 Plan &amp; Execute 实现</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-804e-8b24-fc5e13924d54" class="numbered-list" start="1"><li><strong>LangChain</strong><div style="display:contents" dir="auto"><ul id="3818db55-6aee-805a-a43b-d3b934a2fc98" class="bulleted-list"><li style="list-style-type:disc">Plan：<code>PlanAgent</code>、ReActAgent 的 LLMChain 负责思考生成Action</li></ul></div><div style="display:contents" dir="auto"><ul id="3818db55-6aee-80a4-837e-d8aea60d0374" class="bulleted-list"><li style="list-style-type:disc">Execute：<code>ToolExecutor</code> / AgentExecutor 执行工具调用，封装循环</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-8088-918d-cd9a2d1235ae" class="numbered-list" start="2"><li><strong>LangGraph</strong><br/>节点拆分：plan_node（LLM推理节点） + execute_node（工具调用节点），图状态流转实现循环</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-802b-a55c-fd6607624dc3" class="numbered-list" start="3"><li><strong>AutoGPT / BabyAGI</strong><br/>分层规划模块输出任务列表，执行器循环遍历任务逐条运行</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80c2-b664-d646902b062a" class="numbered-list" start="4"><li><strong>OpenAI Agent SDK</strong><br/>model 输出 tool_calls（Plan），runtime 执行 tool 函数（Execute）</li></ol></div><div style="display:contents" dir="auto"><hr id="3818db55-6aee-8006-b343-cf0b5145d0fd"/></div><div style="display:contents" dir="auto"><h2 id="3818db55-6aee-8027-8a37-d86fcb41f850" class="">六、关键设计要点</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80ff-8a56-eef977a7fdff" class="numbered-list" start="1"><li>Plan 输出必须结构化（JSON/固定标记格式），否则 Execute 无法解析</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-809a-8e0c-c819bf10798e" class="numbered-list" start="2"><li>分离思考与执行解耦：更换LLM只改Plan层，新增工具只改Execute层</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80f0-adbe-f4a6e8017fcf" class="numbered-list" start="3"><li>长任务分层规划：避免一次性规划过长，超出LLM上下文窗口</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-80d6-88c7-fae2ee534c4b" class="numbered-list" start="4"><li>Execute 增加缓存：重复工具查询直接返回缓存，减少LLM+API消耗</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3818db55-6aee-807a-bb2b-e23a930a5566" class="numbered-list" start="5"><li>规划反思机制：每次执行后让Plan复盘上一步结果，优化后续行动路径</li></ol></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
