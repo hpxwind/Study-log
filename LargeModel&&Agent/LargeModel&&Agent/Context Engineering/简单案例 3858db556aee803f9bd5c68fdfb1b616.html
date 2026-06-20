@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>LargeModel&amp;&amp;Agent</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>简单案例</title><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -740,4 +740,119 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="2538db55-6aee-83cc-b552-813733c8d1b6" class="page sans"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/texturelabs_fabric_169S.jpg" style="object-position:center 0%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🤖</span></div><h1 class="page-title" dir="auto">LargeModel&amp;&amp;Agent</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="ltr"><figure id="6c68db55-6aee-8378-a2f0-01ef89e3a4b7" class="link-to-page"><a href="LargeModel&amp;&amp;Agent/Prompt%20Engineering%206c68db556aee8378a2f001ef89e3a4b7.html"><span class="icon">🚪</span>Prompt Engineering</a></figure></div><div style="display:contents" dir="ltr"><figure id="bb28db55-6aee-83ff-ade2-01116360e008" class="link-to-page"><a href="LargeModel&amp;&amp;Agent/RAG%20bb28db556aee83ffade201116360e008.html"><span class="icon">⛸️</span>RAG</a></figure></div><div style="display:contents" dir="ltr"><figure id="7158db55-6aee-83c0-80be-01ae003c133e" class="link-to-page"><a href="LargeModel&amp;&amp;Agent/Agent%207158db556aee83c080be01ae003c133e.html"><span class="icon">💄</span>Agent</a></figure></div><div style="display:contents" dir="ltr"><figure id="3838db55-6aee-806c-bc50-e2417d11659b" class="link-to-page"><a href="LargeModel&amp;&amp;Agent/Context%20Engineering%203838db556aee806cbc50e2417d11659b.html"><span class="icon">📕</span>Context Engineering</a></figure></div><div style="display:contents" dir="ltr"><figure id="3758db55-6aee-805f-993d-c846504d86b8" class="link-to-page"><a href="LargeModel&amp;&amp;Agent/CC%20Switch%203758db556aee805f993dc846504d86b8.html"><img class="icon" src="LargeModel&amp;&amp;Agent/CC%20Switch/ODF.png"/>CC Switch</a></figure></div><div style="display:contents" dir="ltr"><figure id="3768db55-6aee-80b0-a29c-d3abb93f4e70" class="link-to-page"><a href="LargeModel&amp;&amp;Agent/Cloude%20Code%203768db556aee80b0a29cd3abb93f4e70.html"><img class="icon" src="LargeModel&amp;&amp;Agent/Cloude%20Code/ODF.png"/>Cloude Code</a></figure></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+</style></head><body><article id="3858db55-6aee-803f-9bd5-c68fdfb1b616" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/rijksmuseum_jansz_1649.jpg" style="object-position:center 70%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">⛺</span></div><h1 class="page-title" dir="auto">简单案例</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="3858db55-6aee-8051-8593-fea4804fb9d2" class="block-color-purple_background"><strong>上下文筛选、摘要压缩、结构化组装</strong>，解决长对话冗余、无关信息混入窗口问题</p></div><div style="display:contents" dir="auto"><h2 id="3858db55-6aee-808e-9778-d8923de3cbf3" class="">目录结构</h2></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-803f-a275-df03d479c85c" class="toggle"><li><details open=""><summary>目录结构</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3858db55-6aee-8068-9892-d8d8addf2884" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">context_engineering_demo/
+├── .env                     # 存放 API Key、模型配置
+├── config/
+│   ├── __init__.py
+│   ├── prompt_template.py   # 提示词模板
+│   └── settings.py          # 读取 .env 配置
+├── utils/
+│   ├── __init__.py
+│   └── context_manager.py   # 上下文工程核心：过滤、压缩、组装
+└── main.py                   # 程序入口</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3858db55-6aee-802b-a596-d850b52e49e9" class="">config/settings.py 读取环境变量</h2></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-801d-b2ff-dd24f4ce7d4e" class="toggle"><li><details open=""><summary>settings.py</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3858db55-6aee-80c3-86eb-e5a2ca15f6fb" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import os
+from dotenv import load_dotenv
+
+# 加载 .env
+load_dotenv()
+
+OPENAI_API_KEY = os.getenv(&quot;OPENAI_API_KEY&quot;)
+OPENAI_BASE_URL = os.getenv(&quot;OPENAI_BASE_URL&quot;)
+OPENAI_MODEL_NAME = os.getenv(&quot;OPENAI_MODEL_NAME&quot;)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3858db55-6aee-8015-a213-c47daf94ddf7" class="">config/prompt_template.py</h2></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8091-8cf1-f61db309342a" class="toggle"><li><details open=""><summary>prompt_template.py</summary><div style="display:contents" dir="auto"><pre id="3858db55-6aee-802a-87d8-e76e5d85236d" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all"># 结构化上下文模板（Context Engineering 格式化规范）
+CONTEXT_PROMPT_TPL = &quot;&quot;&quot;
+【历史对话摘要】
+{chat_summary}
+
+【参考资料（仅允许使用以下内容回答）】
+{related_docs}
+
+【用户当前提问】
+{user_query}
+
+约束：禁止编造信息，只依据上文内容回答，回答精简直白。
+&quot;&quot;&quot;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3858db55-6aee-807b-87d2-d8c5dd340c3d" class="">utils/context_manager.py 上下文工程核心类</h2></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8067-86ff-d88040efdfac" class="toggle"><li><details open=""><summary>context_manager.py</summary><div style="display:contents" dir="auto"><pre id="3858db55-6aee-8034-984d-d978cf501330" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from langchain_openai import ChatOpenAI
+from langchain_core.prompts import PromptTemplate
+from config.settings import OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL_NAME
+
+class ContextManager:
+    def __init__(self):
+        self.llm = ChatOpenAI(
+            model=OPENAI_MODEL_NAME,
+            api_key=OPENAI_API_KEY,
+            base_url=OPENAI_BASE_URL
+        )
+
+    def filter_relevant_docs(self, all_docs: list, query: str) -&gt; list:
+        &quot;&quot;&quot;步骤1：上下文过滤，剔除无关文档，只保留相关内容&quot;&quot;&quot;
+        result = []
+        for doc in all_docs:
+            if &quot;退款&quot; in doc or &quot;会员&quot; in doc:
+                result.append(doc)
+        return result
+
+    def compress_chat_history(self, history: list) -&gt; str:
+        &quot;&quot;&quot;步骤2：长对话压缩摘要，减少 Token，防止上下文溢出&quot;&quot;&quot;
+        if not history:
+            return &quot;暂无历史对话&quot;
+        history_text = &quot;\n&quot;.join(history)
+        prompt = PromptTemplate.from_template(
+            &quot;用50字以内精简总结下面聊天记录：\n{text}&quot;
+        )
+        resp = self.llm.invoke(prompt.format(text=history_text))
+        return resp.content
+
+    def build_structured_context(self, summary, docs, query, template):
+        &quot;&quot;&quot;步骤3：结构化组装最终 Prompt（核心 Context Engineering）&quot;&quot;&quot;
+        doc_content = &quot;\n&quot;.join(docs) if docs else &quot;无匹配参考资料&quot;
+        final_prompt = template.format(
+            chat_summary=summary,
+            related_docs=doc_content,
+            user_query=query
+        )
+        return final_prompt
+
+    def chat_with_context(self, prompt: str):
+        &quot;&quot;&quot;传入构造好的上下文，调用真实大模型接口&quot;&quot;&quot;
+        return self.llm.invoke(prompt).content</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3858db55-6aee-8069-a87d-e4983a886fb7" class="">6. <a href="http://main.py/">main.py</a> 入口运行文件</h2></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8030-9484-caefb5a002dd" class="toggle"><li><details open=""><summary>main.py</summary><div style="display:contents" dir="auto"><pre id="3858db55-6aee-80a3-a77f-efc1a2d9dbe8" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from utils.context_manager import ContextManager
+from config.prompt_template import CONTEXT_PROMPT_TPL
+
+if __name__ == &quot;__main__&quot;:
+    # 模拟知识库杂乱原文
+    raw_docs = [
+        &quot;商品下单后48小时内安排发货&quot;,
+        &quot;会员开通7天内未使用可全额退款&quot;,
+        &quot;会员开通超过7天不支持退款，仅可用余额抵扣消费&quot;,
+        &quot;每月1号自动发放满50减5优惠券&quot;,
+        &quot;快递破损可申请免费换货&quot;
+    ]
+
+    # 杂乱历史聊天记录
+    chat_history = [
+        &quot;用户：我的订单什么时候发货？&quot;,
+        &quot;客服：48小时内出库&quot;,
+        &quot;用户：上个月15号开通的会员，能不能退？&quot;
+    ]
+
+    user_question = &quot;我现在可以退会员吗？&quot;
+
+    ctx = ContextManager()
+
+    # Context Engineering 完整流水线
+    relevant_docs = ctx.filter_relevant_docs(raw_docs, user_question)
+    history_summary = ctx.compress_chat_history(chat_history)
+    final_prompt = ctx.build_structured_context(
+        history_summary, relevant_docs, user_question, CONTEXT_PROMPT_TPL
+    )
+
+    print(&quot;=== 组装后送入模型的结构化上下文 ===&quot;)
+    print(final_prompt)
+    print(&quot;\n=== 模型返回回答 ===&quot;)
+    answer = ctx.chat_with_context(final_prompt)
+    print(answer)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3858db55-6aee-8018-a15d-c858bd6bc34c" class="block-color-purple_background">运行逻辑（Context Engineering 三点核心）</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3858db55-6aee-8002-b7e4-e54775ac94b0" class="block-color-purple_background numbered-list" start="1"><li><strong>过滤</strong>：自动筛掉发货、优惠券、快递无关文本，只保留会员退款规则</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3858db55-6aee-80f9-8cee-f79dde601378" class="block-color-purple_background numbered-list" start="2"><li><strong>压缩</strong>：长聊天记录做摘要，避免上下文过长、Token 浪费、模型迷失中间</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3858db55-6aee-80c7-9f41-c4a5d43209d1" class="block-color-purple_background numbered-list" start="3"><li><strong>结构化组装</strong>：分区排版，约束模型只能使用给定上下文作答</li></ol></div><div style="display:contents" dir="auto"><pre id="3858db55-6aee-8050-8d51-c2737ec31c2b" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import os
+from dotenv import load_dotenv
+
+# 加载 .env
+load_dotenv()
+
+OPENAI_API_KEY = os.getenv(&quot;OPENAI_API_KEY&quot;)
+OPENAI_BASE_URL = os.getenv(&quot;OPENAI_BASE_URL&quot;)
+OPENAI_MODEL_NAME = os.getenv(&quot;OPENAI_MODEL_NAME&quot;)</code></pre></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

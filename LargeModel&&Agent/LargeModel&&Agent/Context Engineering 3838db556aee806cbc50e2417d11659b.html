@@ -1,0 +1,743 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Context Engineering</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3838db55-6aee-806c-bc50-e2417d11659b" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/usda_oranges.png" style="object-position:center 35%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">📕</span></div><h1 class="page-title" dir="auto">Context Engineering</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><hr id="3838db55-6aee-800b-9bb8-c50054ae2300"/></div><div style="display:contents" dir="ltr"><figure id="3858db55-6aee-803f-9bd5-c68fdfb1b616" class="link-to-page"><a href="Context%20Engineering/%E7%AE%80%E5%8D%95%E6%A1%88%E4%BE%8B%203858db556aee803f9bd5c68fdfb1b616.html"><span class="icon">⛺</span>简单案例</a></figure></div><div style="display:contents" dir="auto"><hr id="3858db55-6aee-8094-9ce0-d4c50d787212"/></div><div style="display:contents" dir="auto"><h2 id="3838db55-6aee-8036-9685-cc02c73f62d4" class="">一、定义（是什么）</h2></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-809f-a00f-cba5ba1d2b00" class="">官方学术定义</h3></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-8012-b74d-e23f720647de" class="">上下文工程（<strong>Context Engineering，CE</strong>）是<mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">系统性设计、采集、检索、结构化、压缩、调度、管理全生命周期上下文信息</span></strong></mark>，在大模型有限上下文窗口内，给模型<strong>喂对、喂准、精简</strong>全部所需信息，降低幻觉、提升推理准确率、控制Token成本的工程体系学科。<br/>数学形式化：</p></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-8062-9e2b-d682215c4424" class="block-color-gray_background"><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>E</mi><mo>:</mo><mo stretchy="false">(</mo><mtext>原始上下文集合</mtext><mi>C</mi><mo separator="true">,</mo><mtext>目标任务</mtext><mi>T</mi><mo stretchy="false">)</mo><mo>→</mo><msub><mi>f</mi><mrow><mi>c</mi><mi>o</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>x</mi><mi>t</mi></mrow></msub><mo stretchy="false">(</mo><mtext>优化后上下文</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">CE:(原始上下文集合C,目标任务T) \rightarrow f_{context}(优化后上下文)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">CE</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord cjk_fallback">原始上下文集合</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord cjk_fallback">目标任务</span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">co</span><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord cjk_fallback">优化后上下文</span><span class="mclose">)</span></span></span></span></span></span></p></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-8010-92cf-e40444bcdd08" class="block-color-gray_background"><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mrow><mi>c</mi><mi>o</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>x</mi><mi>t</mi></mrow></msub><mo>=</mo><mtext>检索、筛选、排序、结构化、压缩、组装一系列处理函数。</mtext></mrow><annotation encoding="application/x-tex">f_{context} = 检索、筛选、排序、结构化、压缩、组装一系列处理函数。</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">co</span><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord cjk_fallback">检索、筛选、排序、结构化、压缩、组装一系列处理函数。</span></span></span></span></span></span></p></div><div style="display:contents" dir="ltr"><figure id="3838db55-6aee-8048-b4d3-fdf1dc9a87c3" class="image"><a href="Context%20Engineering/image.png"><img style="width:496.0044860839844px" src="Context%20Engineering/image.png"/></a></figure></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-8082-9e0b-c18d3c00e8c6" class="">通俗类比</h3></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-800a-8eea-ee23194de113" class="bulleted-list"><li style="list-style-type:disc"><strong>Prompt Engineering（提示工程）</strong>：研究<strong>怎么说话、怎么写指令</strong>（战术、单次输入优化）</li></ul></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-80cb-995c-c9d84eaf7506" class="bulleted-list"><li style="list-style-type:disc"><strong>Context Engineering（上下文工程）</strong>：研究<mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">给模型什么资料、什么时候给、怎么排版整理资料</span></strong></mark>（战略、全链路信息供给系统）</li></ul></div><div style="display:contents" dir="auto"><blockquote id="3838db55-6aee-8011-ad99-eda3b22a3c86" class="">厨师类比：PE是教怎么点菜；CE是全套食材采购、分拣、摆盘、控量，保证食材适配菜品、不多不少、没有垃圾食材</blockquote></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-8007-9b21-f442d0dfce19" class="">诞生背景（为什么需要CE）</h3></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8091-b796-d75a9236c8cf" class="numbered-list" start="1"><li><strong>上下文窗口硬限制</strong>：再大窗口（128K/1M token）也无法无限塞入全部资料，直接超长截断会丢失关键信息</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8064-a998-ebf177a56248" class="numbered-list" start="2"><li><strong>Lost in the Middle（中间遗忘效应）</strong>：大模型对上下文中段内容识别衰减超40%，乱序信息模型抓不住重点</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8054-a31a-f55420fb2fe3" class="numbered-list" start="3"><li><strong>信息过载幻觉</strong>：冗余、矛盾、无关信息灌入，模型混淆事实、胡说八道</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8065-8def-e89c77b38263" class="numbered-list" start="4"><li><strong>Token计费成本</strong>：无效上下文大幅拉高API调用开销</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8037-91b6-fb6db11193c8" class="numbered-list" start="5"><li><strong>提示工程局限性</strong>：仅优化话术，解决不了外部知识、长期记忆、多轮会话、工具调用的信息供给问题</li></ol></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-804f-9256-c2835d2a59bc" class="">上下文三大组成（模型看到的全部内容）</h3></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80b9-9d51-d70f0a200e6f" class="numbered-list" start="1"><li><strong>指令上下文（Instruction）</strong>：System角色设定、任务要求、Few-shot样例、输出格式约束</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8067-9982-cbe46bba5b56" class="numbered-list" start="2"><li><strong>知识上下文（Knowledge）</strong>：RAG检索文档、知识库、用户长期记忆、多轮对话历史、实时业务数据</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8054-befb-db643a5ef830" class="numbered-list" start="3"><li><strong>工具上下文（Tool）</strong>：函数定义、API返回结果、数据库查询、计算器/搜索引擎调用回执</li></ol></div><div style="display:contents" dir="auto"><h2 id="3838db55-6aee-8063-b945-ec32d47fafe8" class="">二、底层核心原理（大模型视角为什么CE生效）</h2></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-8078-aeb5-c2ce5e2cef58" class="">1. Transformer注意力机制底层逻辑</h3></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-8030-bc92-fa35a5029225" class="">LLM本质是<strong>基于输入Token序列，通过自注意力权重预测下一个Token</strong>：</p></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-80f7-b452-ed662fa28d39" class="bulleted-list"><li style="list-style-type:disc"><span style="border-bottom:0.05em solid">自注意力会自动计算每个Token相互关联权重，优先关注高相关文本</span></li></ul></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-804d-8a70-ee711bfa0b1f" class="bulleted-list"><li style="list-style-type:disc">信息杂乱、冗余、错序时，注意力被无效内容分散，关键信息权重被稀释</li></ul></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-8085-a999-d8111f8cbb91" class="bulleted-list"><li style="list-style-type:disc">CE通过<strong>筛选+排序+结构化排版</strong>，人为引导注意力聚焦有效信息，规避中间遗忘问题</li></ul></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-8095-909c-eb318bbcf8ed" class="">2. 窗口容量约束原理</h3></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-808e-aaad-ecf9e757f5bb" class="">所有LLM推理存在固定<code>Context Window</code>（上下文窗口），输入总Token不能超限：</p></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-8078-aef9-dd68a5cac2bc" class="bulleted-list"><li style="list-style-type:disc">粗暴截断：尾部丢数据，关键信息丢失</li></ul></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-80e7-8193-f3fb92f4e539" class="bulleted-list"><li style="list-style-type:disc">CE方案：信息择优、去重、摘要压缩、分层加载，<strong>最大化单位Token信息密度</strong></li></ul></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-80d0-b404-e7b9dac0d1e0" class="">3. 记忆分层底层设计（三层存储架构）</h3></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-805e-b74d-fcae854b1cc4" class="">CE标配三级记忆体系，解决短时记不住、长期存不下问题：</p></div><div style="display:contents" dir="ltr"><table id="3838db55-6aee-80fa-8187-d055a06f4a49" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3838db55-6aee-8067-bb5e-cf7f27d204da"><th id="R:DL" class="simple-table-header-color simple-table-header">层级</th><th id="LUif" class="simple-table-header-color simple-table-header">名称</th><th id="JhB`" class="simple-table-header-color simple-table-header">存储位置</th><th id="RN@^" class="simple-table-header-color simple-table-header">作用</th><th id="yfJG" class="simple-table-header-color simple-table-header">CE管控方式</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3838db55-6aee-8079-903b-f01f060c3e29"><td id="R:DL" class="">L1瞬时工作记忆</td><td id="LUif" class="">上下文窗口内存</td><td id="JhB`" class="">本轮实时推理内容</td><td id="RN@^" class="">滑动窗口裁剪、摘要合并、去重</td><td id="yfJG" class=""></td></tr></div><div style="display:contents" dir="ltr"><tr id="3838db55-6aee-80aa-ba21-d14ecade75ec"><td id="R:DL" class="">L2情景记忆</td><td id="LUif" class="">向量库/数据库</td><td id="JhB`" class="">多轮会话历史、用户交互记录</td><td id="RN@^" class="">定期压缩归档、按需召回注入</td><td id="yfJG" class=""></td></tr></div><div style="display:contents" dir="ltr"><tr id="3838db55-6aee-80d0-89e1-d711a2df9443"><td id="R:DL" class="">L3语义长期记忆</td><td id="LUif" class="">知识库+向量库</td><td id="JhB`" class="">全局领域知识、文档资料</td><td id="RN@^" class="">RAG检索、相关性筛选注入</td><td id="yfJG" class=""></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-8089-893b-e50c07cd67ad" class="">4. 信息论底层目标</h3></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-8047-a507-dc9c5b1dafe5" class="">CE优化目标：<strong>注入上下文与用户问题互信息最大化</strong>，剔除低互信息冗余文本，在Token预算约束下，输入信息熵最优。</p></div><div style="display:contents" dir="auto"><h2 id="3838db55-6aee-807b-b154-e7db5250ae25" class="">三、完整执行流程（标准流水线，怎么执行）</h2></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-80a8-ab57-e1ccc4cb768c" class="">完整上下文工程分为<strong>6大标准化执行步骤</strong>，端到端闭环：</p></div><div style="display:contents" dir="ltr"><figure id="3838db55-6aee-802f-bc8f-cc2e97f4ed76" class="image"><a href="Context%20Engineering/image%201.png"><img style="width:947.9910888671875px" src="Context%20Engineering/image%201.png"/></a></figure></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-8028-a354-e5da1b5f92a2" class="">步骤1：上下文采集（Raw Context Collection）</h3></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-80b8-9726-fa89a3cfae2c" class=""><strong>目标</strong>：汇聚所有潜在相关异构数据源<br/>数据源类型：</p></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-80ff-832b-eab45ac0c37a" class="bulleted-list"><li style="list-style-type:disc">对话类：当前用户提问、历史多轮会话</li></ul></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-80a3-85d4-efbf9be94266" class="bulleted-list"><li style="list-style-type:disc">知识库类：PDF、Word、网页、数据库结构化数据、业务台账</li></ul></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-8083-9b87-edc33017fa0e" class="bulleted-list"><li style="list-style-type:disc">环境动态类：时间、用户身份、设备状态、接口实时数据</li></ul></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-80d7-bae8-dcba39d788a0" class="bulleted-list"><li style="list-style-type:disc">工具类：函数调用结果、搜索返回、计算结果<br/>操作：统一清洗脏数据、去换行、乱码、无效符号，统一文本格式</li></ul></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-8089-840f-e0aa5a826a3b" class="">步骤2：上下文检索与筛选（Retrieval &amp; Selection）</h3></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-8020-adf4-de09d138152a" class=""><strong>核心：只留有用信息，过滤无关垃圾上下文</strong></p></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80f6-bf9d-ee3dade8ae13" class="numbered-list" start="1"><li><strong>多路检索融合</strong><div style="display:contents" dir="auto"><ul id="3838db55-6aee-806f-94c3-f7de6cc238bb" class="bulleted-list"><li style="list-style-type:disc">向量语义检索（向量库，语义匹配）</li></ul></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-8047-8ad6-fd3dfd2960f0" class="bulleted-list"><li style="list-style-type:disc">关键词检索（ES，精准关键词命中）</li></ul></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-805e-8093-d2dace43d7bc" class="bulleted-list"><li style="list-style-type:disc">图谱关联检索（知识图谱，实体关联推理）</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80a1-9ae5-d64269914584" class="numbered-list" start="2"><li><strong>相关性初筛</strong>：设定阈值，丢弃相似度过低文档片段</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80a9-9324-ffaf4636fb97" class="numbered-list" start="3"><li><strong>去重与冲突消解</strong>：剔除重复段落；多条矛盾事实标注来源，避免模型混淆</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8039-a2e6-fba6d6fb1655" class="numbered-list" start="4"><li><strong>防上下文投毒</strong>：过滤错误、恶意、涉密脏数据，保证上下文可信度</li></ol></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-8044-9075-deed65897715" class="">步骤3：上下文重排（Rerank &amp; Sequencing 最关键一步）</h3></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-80d1-bfb0-c80aee3e8156" class="">解决<code>Lost in the Middle</code>问题，固定排版规则：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-800f-b9a2-ef1db88b6e9d" class="numbered-list" start="1"><li>最高相关内容放<strong>开头、末尾</strong>（注意力最强位置）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-802d-877e-e8fd03a43778" class="numbered-list" start="2"><li>中等相关内容放置上下文中段</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8093-a482-f4040105930a" class="numbered-list" start="3"><li>每条片段附加<strong>来源元数据</strong>（文档名、页码、ID），方便溯源、减少幻觉</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8080-b463-fd7a82d34499" class="numbered-list" start="4"><li>指令、样例、知识、对话历史、工具结果分区隔离，用分隔符<code>--</code>/标题区分</li></ol></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-807d-9478-f0b3a5760fd1" class="">步骤4：上下文结构化封装（Structuring）</h3></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-8053-b697-d9591d3570a7" class="">自由文本模型易混乱，CE强制结构化排版：</p></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-8071-86b6-c3fdd25aed81" class="bulleted-list"><li style="list-style-type:disc">采用Markdown、JSON、分段标签做分区隔离</li></ul></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-8047-9fd8-c4c648c3f72b" class="bulleted-list"><li style="list-style-type:disc">固定模板：<code>系统指令 → 参考资料区 → 对话历史 → 用户当前问题 → 输出约束</code></li></ul></div><div style="display:contents" dir="auto"><ul id="3838db55-6aee-80a9-bbfa-d963e117523e" class="bulleted-list"><li style="list-style-type:disc">Few-shot示例规整对齐输入输出格式，约束模型输出范式</li></ul></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-800a-be70-df093605e7e9" class="">步骤5：上下文压缩（Compression，控Token）</h3></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-806b-8064-ee9322756d8d" class="">总长度逼近窗口上限时执行压缩，保留核心信息：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80c9-aa04-e7a3ee4ff568" class="numbered-list" start="1"><li><strong>抽取式压缩</strong>：提取段落核心句子，剔除修饰废话</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80de-9536-e234bc34ee1d" class="numbered-list" start="2"><li><strong>生成式摘要</strong>：轻量模型浓缩长文档核心观点</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80b7-8562-f41452574dd4" class="numbered-list" start="3"><li><strong>层级截断</strong>：优先丢弃低相关性片段，绝不暴力尾部一刀切</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80a5-b52b-d59f130410ed" class="numbered-list" start="4"><li><strong>会话滚动压缩</strong>：多轮对话旧轮次定期摘要归档，避免会话无限膨胀占满窗口</li></ol></div><div style="display:contents" dir="auto"><h3 id="3838db55-6aee-805f-aacb-ddb6f47f0761" class="">步骤6：上下文注入+后置管控（Injection &amp; Governance）</h3></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80cc-b39f-c34ab15f34ae" class="numbered-list" start="1"><li>组装全部处理后的上下文，拼接为完整Prompt送入LLM推理</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80eb-88f7-f161592fd6c4" class="numbered-list" start="2"><li><strong>上下文审计</strong>：记录本次注入了哪些资料、来源、Token数量，定位回答错误根源（是上下文错，还是模型推理错）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-804b-b434-c3c056ca4bcb" class="numbered-list" start="3"><li><strong>动态迭代</strong>：根据回答效果反向调优切片规则、检索阈值、排序策略，形成闭环优化</li></ol></div><div style="display:contents" dir="auto"><h2 id="3838db55-6aee-80c1-82c7-da86f1410246" class="">四、核心关键技术拆解</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-807b-872a-e709c139bd86" class="numbered-list" start="1"><li><strong>Chunk切片优化</strong><br/>RAG底层基础，CE管控切片大小、重叠度、语义边界，避免切太碎丢失语义、切太大冗余超标</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-809d-a189-db24ca7d0dd1" class="numbered-list" start="2"><li><strong>多路召回+重排</strong><br/>粗检索大批量捞候选，精排模型打分精选Top-N最优上下文，平衡召回率&amp;精准度</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8010-9250-f842b781f44a" class="numbered-list" start="3"><li><strong>分层记忆管理</strong><br/>短期会话滚动、中期会话摘要归档、长期知识库按需检索，按需注入，不全部塞进窗口</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8085-a08d-c468b7f83f65" class="numbered-list" start="4"><li><strong>动态上下文开关</strong><br/>简单问题少注入资料；复杂推理/专业问题补充多份参考上下文，弹性控制Token消耗</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80e3-b098-fc0128916e52" class="numbered-list" start="5"><li><strong>上下文冲突治理</strong><br/>多文档事实不一致时，标注来源+置信度，引导模型辨析，避免矛盾幻觉</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8011-817d-c91eede88a38" class="numbered-list" start="6"><li><strong>Agent工具上下文编排</strong><br/>管理工具描述、入参、返回结果的上下文收发，避免工具返回垃圾数据污染整体输入</li></ol></div><div style="display:contents" dir="auto"><h2 id="3838db55-6aee-80c3-9068-e419fe9d03fb" class="">五、Prompt Engineering vs Context Engineering 核心区别</h2></div><div style="display:contents" dir="ltr"><table id="3838db55-6aee-805a-9eb8-d767e9e2854d" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3838db55-6aee-8064-9bbf-fc9425f1a6d1"><th id="vfxO" class="simple-table-header-color simple-table-header">对比维度</th><th id="e|P@" class="simple-table-header-color simple-table-header">提示工程 PE</th><th id="~WlH" class="simple-table-header-color simple-table-header">上下文工程 CE</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3838db55-6aee-80b8-8669-e496a4e0cef3"><td id="vfxO" class="">核心关注点</td><td id="e|P@" class=""><strong>怎么写指令（话术优化）</strong></td><td id="~WlH" class=""><strong>给模型什么信息（信息全链路管理）</strong></td></tr></div><div style="display:contents" dir="ltr"><tr id="3838db55-6aee-8094-9731-cc93de8f902d"><td id="vfxO" class="">作用范围</td><td id="e|P@" class="">单次LLM调用、静态文本</td><td id="~WlH" class="">多轮会话、跨会话、系统级动态信息供给</td></tr></div><div style="display:contents" dir="ltr"><tr id="3838db55-6aee-8042-be4f-ccfcf9172445"><td id="vfxO" class="">技术手段</td><td id="e|P@" class="">句式优化、CoT、Few-shot、格式约束</td><td id="~WlH" class="">RAG检索、记忆系统、排序、压缩、工具编排、治理</td></tr></div><div style="display:contents" dir="ltr"><tr id="3838db55-6aee-80d0-90c5-d7f8f697aa0d"><td id="vfxO" class="">解决问题</td><td id="e|P@" class="">回答措辞、逻辑思路、输出格式</td><td id="~WlH" class="">信息缺失、信息冗余、幻觉、长文本遗忘、成本超标</td></tr></div><div style="display:contents" dir="ltr"><tr id="3838db55-6aee-8025-9d6e-df77bf63cc68"><td id="vfxO" class="">定位层级</td><td id="e|P@" class="">战术技巧</td><td id="~WlH" class="">系统架构级方案</td></tr></div><div style="display:contents" dir="ltr"><tr id="3838db55-6aee-80d1-8010-c60fb4d51a8a"><td id="vfxO" class="">适用场景</td><td id="e|P@" class="">简单单轮问答、原型调试</td><td id="~WlH" class="">企业知识库、智能Agent、长会话、生产级AI应用</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h2 id="3838db55-6aee-8071-b83e-d2d8951f8ad5" class="">六、典型应用场景</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8010-a041-ea891cbe71a1" class="numbered-list" start="1"><li><strong>企业RAG知识库问答</strong>：CE是RAG成败核心，解决检索乱、上下文乱、回答幻觉通病</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80e6-a2d5-f19d2892ec2f" class="numbered-list" start="2"><li><strong>长文档分析（论文/合同/财报）</strong>：超长文本分层切片、择优压缩，适配窗口限制精准解读</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8017-b941-c7d1881e3728" class="numbered-list" start="3"><li><strong>智能Agent/自动体</strong>：管理工具调用、思考轨迹、长期记忆动态上下文，实现自主规划</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-804c-b0f9-e8b471810638" class="numbered-list" start="4"><li><strong>长期个性化聊天机器人</strong>：管控用户历史记忆，按需调取，不会无限占满上下文</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8075-a6c7-e94ba1622888" class="numbered-list" start="5"><li><strong>代码知识库问答</strong>：注入项目架构、代码片段、编码规范上下文，生成贴合项目的代码</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8049-a06a-e32b1fee787a" class="numbered-list" start="6"><li><strong>行业客服系统</strong>：自动调取用户订单、工单、历史咨询上下文，实现不用重复提问的精准客服</li></ol></div><div style="display:contents" dir="auto"><h2 id="3838db55-6aee-809d-b0f4-c823a2435d78" class="">七、CE现存核心痛点</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8086-9161-c0cae0cbf039" class="numbered-list" start="1"><li>上下文质量不可量化，依赖人工调参迭代</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-8061-aba4-cfea333fa298" class="numbered-list" start="2"><li>超长上下文压缩易丢失关键细节</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-80be-954d-d0453e7e3ee3" class="numbered-list" start="3"><li>多源信息冲突自动辨析难度高</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3838db55-6aee-807c-ab2c-cb993434a791" class="numbered-list" start="4"><li>上下文注入策略无统一标准，业务定制化极强</li></ol></div><div style="display:contents" dir="auto"><p id="3838db55-6aee-8056-bdc7-d06bfe179847" class="">需要我给你一份**可直接落地的Context Engineering极简落地模板（含完整Prompt组装示例+切片/重排配置参数）**吗？</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
