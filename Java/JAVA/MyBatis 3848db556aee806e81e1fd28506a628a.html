@@ -1,0 +1,1630 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>MyBatis</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3848db55-6aee-806e-81e1-fd28506a628a" class="page sans"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/nationalMuseumOfAsianArt_landscapeWithGibbonsAndCranes.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="MyBatis/ODF.png"/></div><h1 class="page-title" dir="auto">MyBatis</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="3848db55-6aee-8000-9b40-cb6fa70a3a02" class=""><strong>MyBatis</strong> 是一款<strong>开源的持久层框架</strong>，专门用来简化 Java 程序操作数据库的代码，是当前主流的ORM架构。</p></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-80c7-92d4-ed501351448e"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-80e4-8f23-e659c9a7811b" class="">MyBatis基本流程</h1></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8058-b1d7-e716f93e191f" class="toggle"><li><details open=""><summary>引入包依赖 pom.xml</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3848db55-6aee-80e4-bad1-ed46a93f8442" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;dependency&gt;
+    &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+    &lt;version&gt;3.4.5&lt;/version&gt;
+  &lt;/dependency&gt;
+
+  &lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;version&gt;8.0.30&lt;/version&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-808c-aca7-cb7466700ca4" class="toggle"><li><details open=""><summary>数据库连接环境配置打印与mapper文件 resources.config.xml</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8036-8177-ff4f027e4883" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE configuration PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+
+&lt;!-- MyBatis 核心配置文件根标签 --&gt;
+&lt;configuration&gt;
+
+    &lt;!-- ======================== 全局行为配置 ======================== --&gt;
+    &lt;settings&gt;
+        &lt;!-- 配置 MyBatis 日志实现：控制台打印 SQL 语句（开发调试必备） --&gt;
+        &lt;setting name=&quot;logImpl&quot; value=&quot;STDOUT_LOGGING&quot;/&gt;
+    &lt;/settings&gt;
+
+    &lt;!-- ======================== 环境配置 ======================== --&gt;
+    &lt;!-- 可以配置多套环境，default 指定当前使用的环境 --&gt;
+    &lt;environments default=&quot;development&quot;&gt;
+        &lt;!-- 开发环境配置 --&gt;
+        &lt;environment id=&quot;development&quot;&gt;
+            &lt;!-- 事务管理类型：使用 JDBC 原生事务管理 --&gt;
+            &lt;transactionManager type=&quot;JDBC&quot;&gt;&lt;/transactionManager&gt;
+
+            &lt;!-- 数据源类型：POOLED 表示使用 MyBatis 自带的数据库连接池 --&gt;
+            &lt;dataSource type=&quot;POOLED&quot;&gt;
+                &lt;!-- MySQL 8.x 驱动类 --&gt;
+                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;
+                &lt;!-- 数据库连接 URL：指定 IP、端口、数据库名 mytest2 --&gt;
+                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mytest2&quot;/&gt;
+                &lt;!-- 数据库登录用户名 --&gt;
+                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
+                &lt;!-- 数据库登录密码 --&gt;
+                &lt;property name=&quot;password&quot; value=&quot;123.com.cn&quot;/&gt;
+            &lt;/dataSource&gt;
+        &lt;/environment&gt;
+    &lt;/environments&gt;
+
+    &lt;!-- ======================== Mapper 映射器 ======================== --&gt;
+    &lt;mappers&gt;
+        &lt;!-- 加载 Mapper XML 映射文件：指定文件路径 --&gt;
+        &lt;mapper resource=&quot;com/southwind/test/mapper/NewsMapper.xml&quot;&gt;&lt;/mapper&gt;
+    &lt;/mappers&gt;
+&lt;/configuration&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80e9-8cfe-f388c67d24b3" class="">默认无法读取java类中的xml，只能读取resources类中的，需要添加一个配置文件在pom.xml</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80a5-88f6-dec8250fd40f" class="toggle"><li><details open=""><summary>添加读取java类中的xml配置 pom.xml</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3848db55-6aee-8049-ab18-d4afff851b16" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;build&gt;
+	&lt;resources&gt;
+		&lt;resource&gt;
+		  &lt;directory&gt;src/main/java&lt;/directory&gt;
+		  &lt;includes&gt;
+		    &lt;include&gt;**/*.xml&lt;/include&gt;
+		  &lt;/includes&gt;
+		&lt;/resource&gt;
+	&lt;/resources&gt;
+&lt;/build&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-800d-98db-fd4183d05bfd" class="">随后创建Mapper接口与对应的xml文件</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-807c-b186-e548e349230c" class="toggle"><li><details open=""><summary>com.southwind.test.mapper.NewsMapper.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80fe-abaf-c4ef9ab475a1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.mapper;
+
+import com.southwind.test.News;
+
+public interface NewsMapper {
+    public int add(News news);
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8099-9aff-dab8ebd53091" class="toggle"><li><details open=""><summary>resources.com.southwind.test.mapper.NewsMapper.xml</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80f3-87f1-c9f15af4da7a" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+&lt;!--
+    Mapper 映射文件根标签
+    namespace：命名空间，必须对应 对应的 Mapper 接口的全类名
+    作用：绑定接口与 XML，实现方法与 SQL 对应
+--&gt;
+&lt;mapper namespace=&quot;com.southwind.test.mapper.NewsMapper&quot;&gt;
+
+    &lt;!--
+        新增数据标签：insert 表示插入操作
+        id：对应接口中的方法名（必须一致）
+        parameterType：参数类型，传入的 News 实体对象（全类名）
+    --&gt;
+    &lt;insert id=&quot;add&quot; parameterType=&quot;com.southwind.test.News&quot;&gt;
+        &lt;!-- 新增 SQL 语句：#{属性名} 自动从 News 对象中取值 --&gt;
+        insert into sys_news(title, content, createtime, opername)
+        values(#{title}, #{content}, #{createtime}, #{opername})
+    &lt;/insert&gt;
+
+&lt;/mapper&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-802a-a604-ced3657cdc35" class="">最后测试Test</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-804d-88c0-c81e382ff3b0" class="toggle"><li><details open=""><summary>Test.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-800d-9035-e3a8ac31b142" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import com.southwind.test.mapper.NewsMapper;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import java.io.InputStream;
+import java.util.Date;
+
+/**
+ * MyBatis 测试类
+ * 功能：测试向数据库插入新闻数据
+ */
+public class Test {
+    public static void main(String[] args) {
+        // 1. 加载 MyBatis 核心配置文件 config.xml（获取文件输入流）
+        InputStream resourceAsStream = Test.class.getClassLoader().getResourceAsStream(&quot;config.xml&quot;);
+        
+        // 2. 创建 SqlSessionFactory 建造者对象
+        SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+        
+        // 3. 使用配置文件，构建 SqlSessionFactory（核心工厂，用于创建会话）
+        SqlSessionFactory factory = builder.build(resourceAsStream);
+        
+        // 4. 打开数据库会话（连接），相当于获取 JDBC 连接
+        SqlSession session = factory.openSession();
+
+        // 5. 获取 Mapper 接口的代理对象（MyBatis 动态生成实现类）
+        NewsMapper mapper = session.getMapper(NewsMapper.class);
+        
+        // 6. 创建 News 实体对象，封装要插入的数据
+        News news = new News();
+        news.setTitle(&quot;测试&quot;);           // 标题
+        news.setContent(&quot;测试测试&quot;);     // 内容
+        news.setCreatetime(new Date());  // 创建时间（当前系统时间）
+        news.setOpername(&quot;testadmin&quot;);   // 操作人
+
+        // 7. 调用 Mapper 方法执行插入操作，返回受影响的行数
+        int add = mapper.add(news);
+        
+        // 8. 打印受影响行数（1 表示插入成功）
+        System.out.println(add);
+        
+        // 9. 提交事务（MyBatis 默认手动提交，必须写！）
+        session.commit();
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-808f-8573-dc7d3b9bee45" class="toggle"><li><details open=""><summary><mark class="highlight-yellow"><mark class="highlight-purple_background"><strong>MyBites梳理流程</strong></mark></mark></summary><div style="display:contents" dir="ltr"><figure id="3848db55-6aee-80e2-b3ef-edc9271fe7c6" class="image"><a href="MyBatis/5339510c-6a13-4319-abfb-0e6698d9ee65.png"><img style="width:666.0267944335938px" src="MyBatis/5339510c-6a13-4319-abfb-0e6698d9ee65.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-805a-9b3f-d26017a5c040" class="block-color-purple_background">1. 核心配置文件 <code>config.xml</code><mark class="highlight-yellow">（MyBatis 的 “大脑”）</mark><div class="indented"><div style="display:contents" dir="auto"><p id="3848db55-6aee-80d4-9b8f-cf2f794c74d2" class="block-color-purple_background">它包含数据库连接信息（url、driver、username、password）、事务配置、日志等全局设置。</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-806d-b76d-fb57675c066f" class="block-color-purple_background">图里它有两个关键箭头：<div class="indented"><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80fe-a27e-f06628b98d72" class="numbered-list" start="1"><li>箭头 1 → <strong>DB（数据库）</strong>：<code>config.xml</code> 里的 <code>&lt;environments&gt;</code> 配置，直接决定了 MyBatis 怎么连接到你的 MySQL。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8076-a5f0-e236d59c23f4" class="numbered-list" start="2"><li>箭头 2 → <strong>MyBatis 核心容器</strong>：它会把自己的配置加载到 MyBatis 里，告诉 MyBatis 去哪里找 <code>Mapper.xml</code>。</li></ol></div></div></p></div></div></p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80a6-ae00-faa849a27c01" class="block-color-purple_background">2. <code>Mapper.xml</code><mark class="highlight-yellow">（SQL 语句的 “载体”）</mark><div class="indented"><div style="display:contents" dir="auto"><p id="3848db55-6aee-8049-8ed7-d2ad9e6e441c" class="block-color-purple_background">它里面写了具体的增删改查 SQL，比如你写的 <code>insert into sys_news ...</code>。</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-803d-9fe8-cf50f80d83c1" class="block-color-purple_background">图里它的箭头 → <strong>Mapper 代理</strong>：MyBatis 会把 XML 里的 SQL 和 <code>Mapper</code> 接口绑定起来，让代理对象知道 “调用这个方法时，要执行哪条 SQL”。</p></div></div></p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-808b-b2f7-ef3819753163" class="block-color-purple_background">3. <code>Mapper</code> 接口（<code>NewsMapper.java</code>）<div class="indented"><div style="display:contents" dir="auto"><p id="3848db55-6aee-808c-be20-c6fd677f39be" class="block-color-purple_background">这是一个纯 Java 接口，只有方法声明，没有实现，比如 <code>int add(News news);</code>。</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80fd-82e1-ef4bde63187f" class="block-color-purple_background">图里它的箭头 → <strong>Mapper 代理</strong>：你调用 <code>session.getMapper(NewsMapper.class)</code> 时，MyBatis 会<strong>动态生成一个代理对象</strong>，帮你实现这个接口。</p></div></div></p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80d6-bb1e-f15c8c0d73bd" class="block-color-purple_background">4. <code>Mapper 代理</code><mark class="highlight-yellow">（MyBatis 给你生成的 “干活的人”）</mark><div class="indented"><div style="display:contents" dir="auto"><p id="3848db55-6aee-807b-9691-ff76ff8f4567" class="block-color-purple_background">这是 MyBatis 动态生成的实现类，你看不见它的源码，但它是真正干活的：<div class="indented"><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80a6-8608-cc2020628f83" class="bulleted-list"><li style="list-style-type:disc">接收你调用接口方法时传的参数（比如 <code>News</code> 对象）；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80a1-b1cb-fc94dfa7a6a5" class="bulleted-list"><li style="list-style-type:disc">找到 <code>Mapper.xml</code> 里对应的 SQL；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8086-ac27-db205b32423c" class="bulleted-list"><li style="list-style-type:disc">把参数塞进 SQL 里；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8086-af36-f60b313b8fc5" class="bulleted-list"><li style="list-style-type:disc">用 <code>config.xml</code> 里的数据库连接，把 SQL 发给数据库执行；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80da-8c8d-e0675d94710c" class="bulleted-list"><li style="list-style-type:disc">把数据库返回的结果（比如受影响行数）再返回给你。</li></ul></div></div></p></div></div></p></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-8085-9297-fc9218895ce3"/></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8041-b558-ddbc94365635" class="toggle"><li><details open=""><summary>用户触发流程</summary><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8009-a0f5-c339a4511ea6" class="numbered-list" start="1"><li><strong>加载 </strong><code><strong>config.xml</strong></code>：你的 <code>Test</code> 类先读取 <code>config.xml</code>，MyBatis 拿到数据库配置和 <code>Mapper.xml</code> 路径。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-803e-8ac2-c06fc4bb7208" class="numbered-list" start="2"><li><strong>构建 </strong><code><strong>SqlSessionFactory</strong></code>：工厂对象创建好，里面包含了所有配置信息。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80b1-9dfc-d2c6a2972771" class="numbered-list" start="3"><li><strong>打开 </strong><code><strong>SqlSession</strong></code>：拿到数据库会话，相当于 JDBC 的 <code>Connection</code>。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-801e-a93f-d586567acdbd" class="numbered-list" start="4"><li><strong>获取 </strong><code><strong>Mapper</strong></code><strong> 代理对象</strong>：<code>session.getMapper(NewsMapper.class)</code> 让 MyBatis 生成代理，把 <code>NewsMapper.java</code> 和 <code>NewsMapper.xml</code> 绑定。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8077-8b4f-cc008f35b886" class="numbered-list" start="5"><li><strong>调用接口方法 </strong><code><strong>mapper.add(news)</strong></code>：代理对象拿到你的 <code>News</code> 对象，找到 XML 里的 <code>insert</code> SQL，把参数拼进去，发给数据库执行。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8060-bbc2-c368e1afe509" class="numbered-list" start="6"><li><strong>提交事务 </strong><code><strong>session.commit()</strong></code>：事务提交，数据真正写入数据库。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-801b-b760-e62b35414acc"/></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8032-8af5-d1d3bb67a32c" class="block-color-purple_background">在NewsMapper.java中还可以按照如下方法写，但是依然需要resources.com.southwind.test.mapper.NewsMapper.xml 文件存在（里面可以没有内容）。</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80b2-8b0e-e162bf54a94c" class="">因为MyBatis <strong>不会自动扫描接口，他需要通过xml找到对应的Newspaper接口,进而创造代理。</strong></p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80e6-bc3c-e61ace7b6db9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public interface NewsMapper {
+    @Insert({&quot;insert into sys_news(title, content, createtime, opername) values(#{title}, #{content}, #{createtime}, #{opername})&quot;})
+    public int add(News news);
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-8020-afbf-cde1414c3ab3"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-80ae-ba02-ea6fd3337d32" class="">数据库语句</h1></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8036-a679-c282c7d1db03" class="">单表查询</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-805e-97a1-fb7b6564eb56" class="toggle"><li><details open=""><summary>实用注入形式的增删改查 NewsMapper.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80fd-a2e7-ed6e3f3d3dff" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public interface NewsMapper {
+    @Insert({&quot;insert into sys_news(title, content, createtime, opername) values(#{title}, #{content}, #{createtime}, #{opername})&quot;})
+    public int add(News news);
+
+    @Update({&quot;update sys_news set title = #{title},createtime=#{createtime},opername=#{opername} where id=#{id}&quot;})
+    public int update(News news);
+
+    @Delete({&quot;delete from sys_news where id=#{id}&quot;})
+    public int delete(int id);
+
+    @Select({&quot;select * from sys_news where id=#{id}&quot;})
+    public News findById(int id);
+
+    @Select({&quot;select * from sys_news&quot;})
+    public List&lt;News&gt; findAll();
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-807e-8ec4-f48fe86fdeeb" class="">多表查询（注释写法）</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80f1-83c6-e6de9228b9ed" class="">有两个表Department 和Employee</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80ac-8b39-ce5f7934666b" class="toggle"><li><details open=""><summary>表结构</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-8064-9178-fbb26e0bb417" class="">Department </p></div><div style="display:contents" dir="ltr"><table id="3848db55-6aee-80ce-980a-cca9157688aa" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8061-be1f-defe1302d7e9"><th id="qY:E" class="simple-table-header-color simple-table-header">字段名</th><th id=":NUo" class="simple-table-header-color simple-table-header">数据类型</th><th id="|k]j" class="simple-table-header-color simple-table-header">约束</th><th id="x:qu" class="simple-table-header-color simple-table-header">字段说明</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80c0-a0a2-f821489ae78e"><td id="qY:E" class="">id</td><td id=":NUo" class="">INT</td><td id="|k]j" class="">主键、自增</td><td id="x:qu" class="">部门唯一 ID</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8056-addc-e2df682fd840"><td id="qY:E" class="">dept_name</td><td id=":NUo" class="">VARCHAR(50)</td><td id="|k]j" class="">非空</td><td id="x:qu" class="">部门名称</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8034-af88-fd9c69efec61"><td id="qY:E" class="">location</td><td id=":NUo" class="">VARCHAR(100)</td><td id="|k]j" class="">可为空</td><td id="x:qu" class="">部门办公地点</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-808a-8c2e-f190bc660f01"><td id="qY:E" class="">manager</td><td id=":NUo" class="">VARCHAR(30)</td><td id="|k]j" class="">可为空</td><td id="x:qu" class="">部门负责人</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8037-9a4b-f9094962f97e"><td id="qY:E" class="">remark</td><td id=":NUo" class="">VARCHAR(255)</td><td id="|k]j" class="">可为空</td><td id="x:qu" class="">部门备注信息</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8092-91c3-e7e2fe597671"><td id="qY:E" class="">create_time</td><td id=":NUo" class="">DATETIME</td><td id="|k]j" class="">默认当前时间</td><td id="x:qu" class="">部门创建时间</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-808a-aaa5-cc9738c63603" class="">Employee</p></div><div style="display:contents" dir="ltr"><table id="3848db55-6aee-804e-a62b-d49ae17e93d7" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8023-821f-c68e648b2212"><th id="j]:t" class="simple-table-header-color simple-table-header">字段名</th><th id=";Q;C" class="simple-table-header-color simple-table-header">数据类型</th><th id="]KIQ" class="simple-table-header-color simple-table-header">约束</th><th id="pGZR" class="simple-table-header-color simple-table-header">字段说明</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8026-9512-d9a04e5ca090"><td id="j]:t" class="">id</td><td id=";Q;C" class="">INT</td><td id="]KIQ" class="">主键、自增</td><td id="pGZR" class="">员工唯一 ID</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-808d-b1ea-cd3c6b8476a9"><td id="j]:t" class="">emp_name</td><td id=";Q;C" class="">VARCHAR(30)</td><td id="]KIQ" class="">非空</td><td id="pGZR" class="">员工姓名</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-803a-873e-c1598d9d872a"><td id="j]:t" class="">age</td><td id=";Q;C" class="">INT</td><td id="]KIQ" class="">可为空</td><td id="pGZR" class="">员工年龄</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80a5-86d2-fde14f697452"><td id="j]:t" class="">gender</td><td id=";Q;C" class="">CHAR(1)</td><td id="]KIQ" class="">可为空</td><td id="pGZR" class="">性别：1 - 男，2 - 女</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-804d-bdb3-db4a25b857bd"><td id="j]:t" class="">phone</td><td id=";Q;C" class="">VARCHAR(20)</td><td id="]KIQ" class="">可为空</td><td id="pGZR" class="">联系电话</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80d3-bd89-f6e46dbae172"><td id="j]:t" class="">dept_id</td><td id=";Q;C" class="">INT</td><td id="]KIQ" class="">外键</td><td id="pGZR" class="">关联部门表 <code>department.id</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8052-b8de-e0c038d1d802"><td id="j]:t" class="">address</td><td id=";Q;C" class="">VARCHAR(255)</td><td id="]KIQ" class="">可为空</td><td id="pGZR" class="">家庭住址</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-800a-b801-e0118c21a459"><td id="j]:t" class="">create_time</td><td id=";Q;C" class="">DATETIME</td><td id="]KIQ" class="">默认当前时间</td><td id="pGZR" class="">员工入职时间</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80b7-b779-fd2bcc578ba7" class="block-color-purple_background toggle"><li><details open=""><summary>java…mapper.DepartmentMapper.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80d5-be47-fcc9136b8ead" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.mapper;
+
+import com.southwind.test.Department;
+import com.southwind.test.Employee;
+import org.apache.ibatis.annotations.Many;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+
+/**
+ * 部门 Mapper 接口
+ * 负责：单表查询 + 一对多关联查询
+ */
+public interface DepartmentMapper {
+
+    // ======================== 方法 1：根据ID查部门（给【一对一】调用） ========================
+    /**
+     * 作用：根据部门ID 查询 单个部门信息
+     * 场景：EmployeeMapper 中【一对一查询员工+所属部门】时，会调用这个方法
+     *
+     * 为什么必须写 @Results？
+     * 因为：数据库字段名 和 Java实体属性名 不一致！
+     * 数据库：dept_name    实体：deptName
+     * 数据库：create_time  实体：createTime
+     * MyBatis 默认不会自动驼峰转换 → 不写映射就会是 null！
+     */
+    @Select(&quot;select * from department where id = #{deptId}&quot;)
+    @Results({
+            // 数据库列名 dept_name  → 映射到 → 实体属性 deptName
+            @Result(column = &quot;dept_name&quot;, property=&quot;deptName&quot;),
+            // 数据库列名 create_time → 映射到 → 实体属性 createTime
+            @Result(column = &quot;create_time&quot;, property = &quot;createTime&quot;)
+    })
+    Department getDeptById(Integer deptId);
+
+    // ======================== 方法 2：根据ID查部门 + 旗下所有员工（一对多） ========================
+    /**
+     * 作用：查询 1个部门 + 该部门下所有员工（一对多查询）
+     * 一个部门 → 多个员工 → 所以用 @Many
+     */
+    @Select(&quot;select * from department where id = #{deptId}&quot;)
+    @Results({
+            // 主键映射（必须加 id=true，提高效率）
+            @Result(id = true, column = &quot;id&quot;, property = &quot;id&quot;),
+
+            // 普通字段映射：数据库列 → 实体属性
+            @Result(column = &quot;dept_name&quot;, property = &quot;deptName&quot;),
+            @Result(column = &quot;location&quot;, property = &quot;location&quot;),
+            @Result(column = &quot;manager&quot;, property = &quot;manager&quot;),
+            @Result(column = &quot;remark&quot;, property = &quot;remark&quot;),
+            @Result(column = &quot;create_time&quot;, property = &quot;createTime&quot;),
+
+            /**
+             * 一对多 核心映射！
+             * property = &quot;employeeList&quot;：Department实体中的集合属性名
+             * column = &quot;id&quot;：把当前部门表的 id 列的值，当作参数传给子查询
+             * many = @Many：表示一对多（返回多个结果 → 集合）
+             * select：指定调用哪个 Mapper 的哪个方法
+             *
+             * 执行流程：
+             * 1. 先查 department 得到部门 id=1
+             * 2. 自动调用 EmployeeMapper.getEmpByDeptId(1)
+             * 3. 把查到的员工列表 → 塞进 Department.employeeList
+             */
+            @Result(
+                    property = &quot;employeeList&quot;,
+                    column = &quot;id&quot;,
+                    many = @Many(select = &quot;com.southwind.test.mapper.EmployeeMapper.getEmpByDeptId&quot;)
+            )
+    })
+    Department getDeptAndEmp(Integer deptId);
+
+    // ======================== 方法 3：根据部门ID查所有员工（给【一对多】调用） ========================
+    /**
+     * 作用：根据部门ID，查询该部门下所有员工
+     * 场景：被上面的【一对多查询】调用
+     * 这里没有 @Results 为什么？
+     * 因为 employee 表的字段和实体属性 已经在 EmployeeMapper 里映射好了！
+     */
+    @Select(&quot;select * from employee where dept_id = #{deptId}&quot;)
+    List&lt;Employee&gt; getEmpByDeptId(Integer deptId);
+}</code></pre></div><div style="display:contents" dir="auto"><blockquote id="3848db55-6aee-80d2-9223-c4a64aa981fd" class=""><code>@Result(column = &quot;dept_name&quot;, property = &quot;deptName&quot;)</code>:告诉MyBatis怎么把数据库的值放进Java对象里(名字不一样→必须写)</blockquote></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80ee-89ea-d7d91cd50393" class="toggle"><li><details open=""><summary>resources…DepartmentMapper.xml 写法</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8004-a3db-da346e5feccd" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+&lt;!-- 命名空间必须对应接口全类名 --&gt;
+&lt;mapper namespace=&quot;com.southwind.test.mapper.DepartmentMapper&quot;&gt;
+
+    &lt;!-- 1. 根据部门ID查询部门（给一对一关联调用） --&gt;
+    &lt;select id=&quot;getDeptById&quot; parameterType=&quot;int&quot; resultType=&quot;com.southwind.test.Department&quot;&gt;
+        select * from department where id = #{deptId}
+    &lt;/select&gt;
+
+    &lt;!-- 2. 根据部门ID查询部门 + 旗下所有员工（一对多） --&gt;
+    &lt;resultMap id=&quot;DeptAndEmpMap&quot; type=&quot;com.southwind.test.Department&quot;&gt;
+        &lt;id column=&quot;id&quot; property=&quot;id&quot;/&gt;
+        &lt;result column=&quot;dept_name&quot; property=&quot;deptName&quot;/&gt;
+        &lt;result column=&quot;location&quot; property=&quot;location&quot;/&gt;
+        &lt;result column=&quot;manager&quot; property=&quot;manager&quot;/&gt;
+        &lt;result column=&quot;remark&quot; property=&quot;remark&quot;/&gt;
+        &lt;result column=&quot;create_time&quot; property=&quot;createTime&quot;/&gt;
+        
+        &lt;!-- 一对多：关联查询员工列表 --&gt;
+        &lt;collection property=&quot;employeeList&quot;
+                    column=&quot;id&quot;
+                    select=&quot;com.southwind.test.mapper.EmployeeMapper.getEmpByDeptId&quot;/&gt;
+    &lt;/resultMap&gt;
+
+    &lt;select id=&quot;getDeptAndEmp&quot; parameterType=&quot;int&quot; resultMap=&quot;DeptAndEmpMap&quot;&gt;
+        select * from department where id = #{deptId}
+    &lt;/select&gt;
+
+    &lt;!-- 3. 根据部门ID查询员工（给一对多关联调用） --&gt;
+    &lt;select id=&quot;getEmpByDeptId&quot; parameterType=&quot;int&quot; resultType=&quot;com.southwind.test.Employee&quot;&gt;
+        select * from employee where dept_id = #{deptId}
+    &lt;/select&gt;
+
+&lt;/mapper&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8028-b2a6-f9815b3ea0cd" class="block-color-purple_background toggle"><li><details open=""><summary>java…mapper.EmployeeMapper.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80ee-b16c-ec1eb698c6c3" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.mapper;
+
+import com.southwind.test.Department;
+import com.southwind.test.Employee;
+import org.apache.ibatis.annotations.One;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+
+/**
+ * 员工表 Mapper
+ * 功能：
+ * 1. 根据员工ID查询员工 + 所属部门（一对一关联查询）
+ * 2. 根据部门ID查询该部门下所有员工（给部门一对多调用）
+ */
+public interface EmployeeMapper {
+
+    // ===================== 1. 一对一查询：查询员工 + 所属部门 =====================
+    /**
+     * 需求：
+     * 根据员工ID查询员工信息，并且把【员工所属的部门】一起查出来
+     *
+     * 关系：
+     * 多个员工 ← 对应 → 一个部门
+     * 员工 → 部门 是【一对一】关系
+     */
+    @Select(&quot;select * from employee where id = #{empId}&quot;)
+    @Results({
+        // ======================================
+        // 主键映射：id=true 表示这是主键字段
+        // column = 数据库列名
+        // property = 实体类属性名
+        // ======================================
+        @Result(id = true, column = &quot;id&quot;, property = &quot;id&quot;),
+
+        // 数据库列 emp_name → 映射到实体属性 empName
+        @Result(column = &quot;emp_name&quot;, property = &quot;empName&quot;),
+
+        // 数据库列 age → 映射到实体属性 age
+        @Result(column = &quot;age&quot;, property = &quot;age&quot;),
+
+        // 数据库列 gender → 映射到实体属性 gender
+        @Result(column = &quot;gender&quot;, property = &quot;gender&quot;),
+
+        // 数据库列 phone → 映射到实体属性 phone
+        @Result(column = &quot;phone&quot;, property = &quot;phone&quot;),
+
+        // 数据库列 dept_id → 映射到实体属性 deptId
+        @Result(column = &quot;dept_id&quot;, property = &quot;deptId&quot;),
+
+        // 数据库列 address → 映射到实体属性 address
+        @Result(column = &quot;address&quot;, property = &quot;address&quot;),
+
+        // 数据库列 create_time → 映射到实体属性 createTime
+        @Result(column = &quot;create_time&quot;, property = &quot;createTime&quot;),
+
+        // ======================================
+        // 【一对一 关 联 查 询 核 心】
+        // 作用：查询员工的同时，自动查询所属部门
+        // ======================================
+        @Result(
+            // property = &quot;department&quot;
+            // 表示：把查询到的部门对象，赋值给 Employee 类中的 department 属性
+            property = &quot;department&quot;,
+
+            // column = &quot;dept_id&quot;
+            // 表示：把员工表的 dept_id 字段值，当作参数传给【部门查询方法】
+            // 也就是：拿 部门ID 去查部门
+            column = &quot;dept_id&quot;,
+
+            // one = @One
+            // 表示：这是【一对一】关联查询
+            // 因为一个员工只属于一个部门
+            one = @One(
+                // select = &quot;调用哪个Mapper的哪个方法&quot;
+                // 这里调用 DepartmentMapper 里的 getDeptById 方法
+                select = &quot;com.southwind.test.mapper.DepartmentMapper.getDeptById&quot;
+            )
+        )
+    })
+    Employee getEmpAndDept(Integer empId);
+
+    // ===================== 2. 根据部门ID查询该部门下所有员工 =====================
+    /**
+     * 作用：
+     * 根据部门ID，查询这个部门下的所有员工
+     *
+     * 谁会调用？
+     * DepartmentMapper 中的【一对多查询】会调用它
+     *
+     * 为什么这里不用 @Results？
+     * 因为：
+     * 1. 简单查询，只返回员工列表
+     * 2. 字段映射已经在上面的方法中完成
+     * 3. MyBatis 可以自动封装
+     */
+    @Select(&quot;select * from employee where dept_id = #{deptId}&quot;)
+    List&lt;Employee&gt; getEmpByDeptId(Integer deptId);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80c5-b6e7-d11155b3a92a" class="toggle"><li><details open=""><summary>resources…EmployeeMapper.xml 写法</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8026-bff5-f93e1f15fffa" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+&lt;!-- 命名空间 = 接口全类名 --&gt;
+&lt;mapper namespace=&quot;com.southwind.test.mapper.EmployeeMapper&quot;&gt;
+
+    &lt;!-- ======================== 1. 查询员工 + 所属部门（一对一） ======================== --&gt;
+    &lt;resultMap id=&quot;EmpAndDeptResultMap&quot; type=&quot;com.southwind.test.Employee&quot;&gt;
+        &lt;id column=&quot;id&quot; property=&quot;id&quot;/&gt;
+        &lt;result column=&quot;emp_name&quot; property=&quot;empName&quot;/&gt;
+        &lt;result column=&quot;age&quot; property=&quot;age&quot;/&gt;
+        &lt;result column=&quot;gender&quot; property=&quot;gender&quot;/&gt;
+        &lt;result column=&quot;phone&quot; property=&quot;phone&quot;/&gt;
+        &lt;result column=&quot;dept_id&quot; property=&quot;deptId&quot;/&gt;
+        &lt;result column=&quot;address&quot; property=&quot;address&quot;/&gt;
+        &lt;result column=&quot;create_time&quot; property=&quot;createTime&quot;/&gt;
+
+        &lt;!-- 一对一关联查询：对应注解 @One --&gt;
+        &lt;association
+            property=&quot;department&quot;
+            column=&quot;dept_id&quot;
+            select=&quot;com.southwind.test.mapper.DepartmentMapper.getDeptById&quot;
+        /&gt;
+    &lt;/resultMap&gt;
+
+    &lt;select id=&quot;getEmpAndDept&quot; parameterType=&quot;int&quot; resultMap=&quot;EmpAndDeptResultMap&quot;&gt;
+        select * from employee where id = #{empId}
+    &lt;/select&gt;
+
+    &lt;!-- ======================== 2. 根据部门ID查员工（给一对多调用） ======================== --&gt;
+    &lt;select id=&quot;getEmpByDeptId&quot; parameterType=&quot;int&quot; resultType=&quot;com.southwind.test.Employee&quot;&gt;
+        select * from employee where dept_id = #{deptId}
+    &lt;/select&gt;
+
+&lt;/mapper&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80dc-ac2a-e121ec47c151" class="">对应的类</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-808f-a549-d98c7e3638f4" class="toggle"><li><details open=""><summary>Department.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80fe-a694-f0ea73b86bc8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+import java.util.Date;
+import java.util.List;
+
+@Data
+public class Department {
+    private Integer id;         // 部门ID
+    private String deptName;    // 部门名称
+    private String location;    // 位置
+    private String manager;     // 负责人
+    private String remark;      // 备注
+    private Date createTime;    // 创建时间
+
+    // 一对多：一个部门包含多个员工
+    private List&lt;Employee&gt; employeeList;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80ad-9117-f56ebc0566ae" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80da-a64d-cd972deb6cb6" class="toggle"><li><details open=""><summary>Employee.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8097-a8eb-cdec93801ba0" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class Employee {
+    private Integer id;         // 员工ID
+    private String empName;     // 姓名
+    private Integer age;        // 年龄
+    private String gender;     // 性别
+    private String phone;      // 电话
+    private Integer deptId;    // 部门ID
+    private String address;   // 住址
+    private Date createTime;  // 入职时间
+
+    // 一对一：一个员工属于一个部门
+    private Department department;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-801d-8b7b-d435c994ec4b" class="">添加resources.config.xml配置文件</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8042-87bb-f48c638b5dd3" class="toggle"><li><details open=""><summary>config.xml</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8076-bbc5-c870d9f9c86c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;mappers&gt;
+        &lt;!-- 加载 Mapper XML 映射文件：指定文件路径 --&gt;
+        &lt;mapper class=&quot;com.southwind.test.mapper.NewsMapper&quot;/&gt;
+        &lt;mapper class=&quot;com.southwind.test.mapper.EmployeeMapper&quot;/&gt;
+        &lt;mapper class=&quot;com.southwind.test.mapper.DepartmentMapper&quot;/&gt;
+    &lt;/mappers&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80f6-96d1-ea3c77faf360" class="">测试文件</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8086-bb6c-f4fd8caef5dd" class="toggle"><li><details open=""><summary>Test.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80f8-b253-ebd022769ac8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import com.southwind.test.mapper.DepartmentMapper;
+import com.southwind.test.mapper.EmployeeMapper; // 加这行
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+public class Test {
+    public static void main(String[] args) {
+        try {
+            // 加载配置文件
+            SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+                    .build(Resources.getResourceAsReader(&quot;config.xml&quot;));
+            SqlSession session = factory.openSession(true);
+
+            // 1. 测试一对一：查询员工及所属部门
+            EmployeeMapper empMapper = session.getMapper(EmployeeMapper.class);
+            Employee emp = empMapper.getEmpAndDept(1);
+            System.out.println(&quot;===== 员工+所属部门 =====&quot;);
+            System.out.println(emp);
+            System.out.println(&quot;所属部门：&quot; + emp.getDepartment().getDeptName());
+
+            // 2. 测试一对多：查询部门及所有员工
+            DepartmentMapper deptMapper = session.getMapper(DepartmentMapper.class);
+            Department dept = deptMapper.getDeptAndEmp(1);
+            System.out.println(&quot;\n===== 部门+旗下员工 =====&quot;);
+            System.out.println(dept);
+
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-80b5-b456-d847920a6357"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-8073-bc4e-eb00e4471ab7" class="">MyBatis延迟加载</h1></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80a7-834a-d9428f1fbe85" class="">(Lazy Loading 懒加载)是针对<strong>多表关联查询</strong>的核心优化机制：<mark class="highlight-purple_background">查询主表数据时，不会立刻加载关联表数据；只有当代码主动访问关联对象 / 集合的属性时，才会额外执行 SQL 加载关联数据，可以降低内存与IO开销。</mark></p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8082-b2b0-ccfa949a0809" class="toggle"><li><details open=""><summary>立即加载与懒加载区别</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-8097-82b3-cfb13415295f" class="">立即加载：查询主对象时，<strong>一次性通过联表查询 / 多条 SQL 把主表 + 所有关联表数据全部加载</strong>。<div class="indented"><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8005-9966-c875fcda5493" class="bulleted-list"><li style="list-style-type:disc">特点：一次查询拿到所有数据，后续访问关联属性无需再查库</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8044-a04b-e596ee2766c5" class="bulleted-list"><li style="list-style-type:disc">适用：每次查询主数据<strong>必然要使用关联数据</strong></li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-802e-b0e5-c2c46df66d42" class="">懒加载：查询主对象时<strong>只查主表</strong>，关联数据先不加载；<strong>访问关联属性时才触发二次查询</strong><div class="indented"><div style="display:contents" dir="auto"><ul id="3848db55-6aee-801a-bc74-f83fc4b5b49c" class="bulleted-list"><li style="list-style-type:disc">特点：按需加载，减少无效查询</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8068-9c7c-df9d09185818" class="bulleted-list"><li style="list-style-type:disc">适用：大部分场景<strong>不需要使用关联数据</strong>，仅少数场景需要</li></ul></div></div></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8050-a124-e6ed03196be4" class="toggle"><li><details open=""><summary>MyBatis 延迟加载基于 <strong>CGLIB 动态代理</strong> 实现：</summary><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80da-903d-d10ac48120b0" class="bulleted-list"><li style="list-style-type:disc">开启懒加载后，MyBatis 不会直接返回原生实体对象，而是返回<strong>代理对象</strong>；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80b1-bfdf-f1a9f333509a" class="bulleted-list"><li style="list-style-type:disc">当代码调用<strong>关联属性的 getter 方法</strong>时，代理对象拦截请求；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80c0-917c-faa0529e00eb" class="bulleted-list"><li style="list-style-type:disc">拦截后自动执行预定义的关联查询 SQL，加载数据并注入到关联属性中；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80e9-951e-d54377d0f6a5" class="bulleted-list"><li style="list-style-type:disc">后续再次访问该关联属性，不会重复查库（数据已缓存）。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="3848db55-6aee-80ee-8b47-c44a413a69bd" class="block-color-purple_background">强制要求：<strong>实体类必须提供getter/setter方法(@Data)</strong>，否则代理无法拦截，懒加载直接失效。</blockquote></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-809e-ba53-daba0b6673d1" class="">全局核心配置以及解释：</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-804d-95d7-ca651aedbf03" class="toggle"><li><details open=""><summary>mybatis-config.xml</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-8086-8433-db7955422057" class="">延迟加载的总开关与行为控制，全部配置在<code>&lt;settings&gt;</code>标签内，共 3 个核心参数。</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8097-bbb1-c083713bc870" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;configuration&gt;
+    &lt;settings&gt;
+        &lt;!-- 1. 全局延迟加载总开关：默认 false（关闭），true 开启全局懒加载 --&gt;
+        &lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;
+
+        &lt;!-- 2. 积极懒加载：默认 true（老版本默认行为） --&gt;
+        &lt;setting name=&quot;aggressiveLazyLoading&quot; value=&quot;false&quot;/&gt;
+
+        &lt;!-- 3. 触发懒加载的方法列表：默认 equals,clone,hashCode,toString --&gt;
+        &lt;setting name=&quot;lazyLoadTriggerMethods&quot; value=&quot;equals,clone,hashCode&quot;/&gt;
+    &lt;/settings&gt;
+&lt;/configuration&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-805b-83bf-cb0959704cf6" class=""><strong>lazyLoadingEnabled</strong><div class="indented"><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8034-9a3d-f414fa726937" class="bulleted-list"><li style="list-style-type:disc"><code>true</code>：全局所有 <code>association/collection</code> 关联统一开启延迟加载；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8018-9e7b-e0f55bccae84" class="bulleted-list"><li style="list-style-type:disc"><code>false</code>（默认）：全局关闭，所有关联立即加载。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80ee-9b74-fb21968e6c4e" class=""><strong>aggressiveLazyLoading（重点）</strong><div class="indented"><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80bb-a889-eccdbf6c6db0" class="bulleted-list"><li style="list-style-type:disc"><code>true</code>（默认）：<strong>积极懒加载</strong>。只要调用<strong>主对象的任意方法</strong>，就会一次性加载所有关联数据，失去 “按需加载” 意义；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8011-a59f-f486bc5044e2" class="bulleted-list"><li style="list-style-type:disc"><code>false</code>（推荐配置）：<strong>按需懒加载</strong>。只有<strong>真正访问关联对象的属性 /getter</strong>，才会触发加载。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-802f-b3a6-f507983c15d3" class=""><strong>lazyLoadTriggerMethods</strong>指定哪些方法会<strong>强制触发延迟加载</strong>（不受 <code>aggressiveLazyLoading=false</code> 限制）。<div class="indented"><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80ae-9287-cd76e4e924b0" class="bulleted-list"><li style="list-style-type:disc">默认值：<code>equals,clone,hashCode,toString</code></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8091-b150-cf44c9cbdfa3" class="bulleted-list"><li style="list-style-type:disc">场景：即使只打印主对象 <code>System.out.println(user)</code>（调用 <code>toString()</code>），也会加载所有关联数据；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80f5-85f8-ca4fa38a625b" class="bulleted-list"><li style="list-style-type:disc">优化：可移除 <code>toString</code>，避免打印对象时误触发懒加载。</li></ul></div></div></p></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-800e-8f6b-c0984182ff70"/></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8072-b506-c3c080c9c536" class=""><code>association</code>（一对一）、<code>collection</code>（一对多）标签支持 <code>fetchType</code> 属性，<strong>局部单独控制当前关联的加载方式</strong>，优先级高于全局配置：</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8003-8df5-e8a7f6814d22" class="bulleted-list"><li style="list-style-type:disc"><code>fetchType=&quot;lazy&quot;</code>：当前关联延迟加载；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-801b-b199-cc02c651d906" class="bulleted-list"><li style="list-style-type:disc"><code>fetchType=&quot;eager&quot;</code>（默认）：当前关联立即加载。</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-808e-85f7-df517275d43c" class="">案例：</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-802e-8be2-cab0e82f0224" class="toggle"><li><details open=""><summary>用户(User)用户身份(IdCard)订单(Order)数据库创建</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-8088-8f4e-dd6191e6799c" class="">实体类</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80cc-ac72-c4c14531feb7" class="toggle"><li><details open=""><summary>User.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80b8-a4ab-d53d4f9a28e2" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+import java.util.List;
+
+
+@Data
+public class User {
+
+    private String username;
+    private Integer id;
+
+    private IdCard idCard;
+    private List&lt;Order&gt; orders;
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8008-9cf5-cbeeb1209dd4" class="toggle"><li><details open=""><summary>IdCard.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80d6-906a-eb78c78837b8" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+@Data
+public class IdCard {
+    private Integer id;
+    private String cardNo;
+    private Integer userId;
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8080-b840-f1c4a90d7b07" class="toggle"><li><details open=""><summary>Order.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-808b-9d97-e709edbceefd" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+@Data
+public class Order {
+    private Integer id;
+    private Integer userId;
+    private String orderName;
+
+}
+</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8017-af08-df3cc8288203" class="toggle"><li><details open=""><summary>映射接口定义 UserMapper.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80ef-ace6-f779796e7a5d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test.mapper;
+
+import com.southwind.test.User;
+
+public interface UserMapper {
+    User getUserById(Integer id);
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80e7-beb7-c64a87e90ea4" class="toggle"><li><details open=""><summary>SQL语句定义文件 UserMapper.xml</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-806b-a44f-d6c8e85fdbde" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!-- MyBatis Mapper文件头部声明，固定格式，指定文档类型与约束 --&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+&lt;!-- 
+    namespace：命名空间，**必须和对应的Mapper接口全类名完全一致**
+    作用：将当前XML文件与 Java 接口 com.southwind.test.mapper.UserMapper 进行绑定
+    MyBatis 通过该属性找到对应的接口，实现方法与SQL的映射
+--&gt;
+&lt;mapper namespace=&quot;com.southwind.test.mapper.UserMapper&quot;&gt;
+
+    &lt;!-- ===================== 一对一关系：用户 + 身份证 ===================== --&gt;
+    &lt;!-- 
+        resultMap：自定义结果映射集
+        id：映射集唯一标识，供下方select标签引用
+        type：指定该映射最终要封装的实体类全类名
+        作用：手动关联数据库查询字段 和 Java实体类属性，同时配置表之间关联关系、延迟加载
+    --&gt;
+    &lt;resultMap id=&quot;UserResultMap&quot; type=&quot;com.southwind.test.User&quot;&gt;
+        &lt;!-- 
+            id标签：映射数据库主键字段
+            column：数据库表中的字段名
+            property：Java实体类User中对应的属性名
+        --&gt;
+        &lt;id column=&quot;id&quot; property=&quot;id&quot;/&gt;
+        &lt;!-- 
+            result标签：映射普通非主键字段
+            column：数据库字段名
+            property：Java实体类属性名
+        --&gt;
+        &lt;result column=&quot;username&quot; property=&quot;username&quot;/&gt;
+
+        &lt;!-- 
+            association：一对一关联标签
+            适用场景：当前实体包含【单个】关联对象（一个用户对应一张身份证）
+            property：User实体中关联对象的属性名 idCard
+            select：分步查询，指定第二步要执行的SQL所在位置，格式：接口全类名.方法名
+                    表示调用 UserMapper 接口中的 getCardByUserId 方法执行关联查询
+            column：将当前查询出的数据库字段 id 作为参数，传给第二步SQL
+            fetchType=&quot;lazy&quot;：局部设置当前关联关系开启延迟加载
+                              只有代码主动访问 idCard 属性时，才执行第二步SQL
+        --&gt;
+        &lt;association
+                property=&quot;idCard&quot;
+                select=&quot;com.southwind.test.mapper.UserMapper.getCardByUserId&quot;
+                column=&quot;id&quot;
+                fetchType=&quot;lazy&quot;/&gt;
+    &lt;/resultMap&gt;
+
+    &lt;!-- ===================== 一对多关系：用户 + 多个订单 ===================== --&gt;
+    &lt;!-- 
+        新的结果映射集，专门用于「用户 + 订单集合」的一对多查询
+        id：唯一标识，与下方select标签对应
+        type：依旧封装到 User 实体类
+    --&gt;
+    &lt;resultMap id=&quot;UserOrderResultMap&quot; type=&quot;com.southwind.test.User&quot;&gt;
+        &lt;!-- 映射用户表主键 id --&gt;
+        &lt;id column=&quot;id&quot; property=&quot;id&quot;/&gt;
+        &lt;!-- 映射用户表普通字段 username --&gt;
+        &lt;result column=&quot;username&quot; property=&quot;username&quot;/&gt;
+
+        &lt;!-- 
+            collection：一对多关联标签
+            适用场景：当前实体包含【集合】类型关联数据（一个用户对应多个订单）
+            property：User实体中集合属性名 orderList（List&lt;Order&gt;）
+            select：分步查询，指定第二步执行的方法：接口全类名.方法名
+            column：把当前查询的用户id，作为参数传给订单查询SQL
+            fetchType=&quot;lazy&quot;：局部延迟加载，访问 orderList 集合时才执行订单查询SQL
+        --&gt;
+        &lt;collection
+                property=&quot;orderList&quot;
+                select=&quot;com.southwind.test.mapper.UserMapper.getOrderByUserId&quot;
+                column=&quot;id&quot;
+                fetchType=&quot;lazy&quot;/&gt;
+    &lt;/resultMap&gt;
+
+    &lt;!-- ===================== SQL语句：一对一查询主SQL ===================== --&gt;
+    &lt;!-- 
+        select：查询标签，用于编写查询SQL
+        id：方法名，**必须和Mapper接口中的方法名完全一致**
+             Java代码调用接口方法时，会匹配该id执行内部SQL
+        resultMap：引用上方自定义的结果映射集 UserResultMap
+                   表示查询结果按照 UserResultMap 规则封装对象
+    --&gt;
+    &lt;select id=&quot;getUserById&quot; resultMap=&quot;UserResultMap&quot;&gt;
+        &lt;!-- 原生MySQL语句：根据用户id查询用户信息 --&gt;
+        SELECT id, username FROM user WHERE id = #{id}
+    &lt;/select&gt;
+
+    &lt;!-- ===================== SQL语句：一对一 分步关联查询（查身份证） ===================== --&gt;
+    &lt;!-- 
+        id：对应接口中 getCardByUserId 方法
+        resultType：直接指定返回值实体类全类名，简单查询可简写，无需resultMap
+    --&gt;
+    &lt;select id=&quot;getCardByUserId&quot; resultType=&quot;com.southwind.test.IdCard&quot;&gt;
+        &lt;!-- 根据用户id查询对应的身份证信息，#{userId} 接收上层传递的参数 --&gt;
+        SELECT id, card_no, user_id FROM id_card WHERE user_id = #{userId}
+    &lt;/select&gt;
+
+    &lt;!-- ===================== SQL语句：一对多查询主SQL ===================== --&gt;
+    &lt;!-- 
+        id：对应接口中 getUserWithOrder 方法
+        resultMap：引用一对多专用映射集 UserOrderResultMap
+    --&gt;
+    &lt;select id=&quot;getUserWithOrder&quot; resultMap=&quot;UserOrderResultMap&quot;&gt;
+        &lt;!-- 根据id查询用户基础信息 --&gt;
+        SELECT id, username FROM user WHERE id = #{id}
+    &lt;/select&gt;
+
+    &lt;!-- ===================== SQL语句：一对多 分步关联查询（查订单） ===================== --&gt;
+    &lt;!-- 
+        id：对应接口中 getOrderByUserId 方法
+        resultType：返回订单实体，多条数据会自动封装为List集合
+    --&gt;
+    &lt;select id=&quot;getOrderByUserId&quot; resultType=&quot;com.southwind.test.Order&quot;&gt;
+        &lt;!-- 根据用户id查询该用户下所有订单 --&gt;
+        SELECT id, order_name, user_id FROM orders WHERE user_id = #{userId}
+    &lt;/select&gt;
+
+&lt;/mapper&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80b4-8e9d-df804f85bf7e" class="toggle"><li><details open=""><summary>懒加载开启配置文件 config.xml</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-808b-88b8-d12939bdafb6" class="">解释在上面 mybatis-config.xml 文件中</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8090-8a8b-fdd2a2f0458e" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;
+&lt;setting name=&quot;aggressiveLazyLoading&quot; value=&quot;false&quot;/&gt;
+&lt;!-- 移除toString，避免打印对象误触发懒加载 --&gt;
+&lt;setting name=&quot;lazyLoadTriggerMethods&quot; value=&quot;equals,clone,hashCode&quot;/&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80d0-854f-e8dd407edc0a" class="">记得映射SQL语句文件位置：</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80e5-9efd-f1b49f2cf938" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;mapper class=&quot;com.southwind.test.mapper.UserMapper&quot;/&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-807a-82a7-ed5691655bb5" class="toggle"><li><details open=""><summary>Test.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-809c-bd10-dbe4d4a8be1b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+        .build(Resources.getResourceAsReader(&quot;config.xml&quot;));
+SqlSession session = factory.openSession(true);
+
+UserMapper mapper = session.getMapper(UserMapper.class);
+User user = mapper.getUserById(1);
+System.out.println(user);
+session.close();</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-8078-8c08-c04763981ee3"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-8036-b78a-ddc3ad79805b" class="">mappers中的class/resource/namespace</h1></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80e5-9579-ef1cf6ace300" class="toggle"><li><details open=""><summary><code>&lt;mapper resource=&quot;文件路径&quot;&gt;</code>:<strong>根据相对路径加载Mapper XML文件</strong>，直接定位<code>.xml</code></summary><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8074-8473-fe9778151fd4" class="bulleted-list"><li style="list-style-type:disc">写在<code>mybatis-config.xml</code>的<code>&lt;mappers&gt;</code>内</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80f0-9ae6-cc90eb129270" class="bulleted-list"><li style="list-style-type:disc">路径分隔符用 <code><strong>/</strong></code></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80ba-80bf-f412d93d939f" class="bulleted-list"><li style="list-style-type:disc">从 <code>src/main/resources</code> 根目录开始写路径</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80bd-83d4-fe13d422d7cf" class="bulleted-list"><li style="list-style-type:disc">必须写完整文件名 + <code>.xml</code> 后缀</li></ul></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80cf-9b44-cfa6b5565b0f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;!-- mybatis-config.xml --&gt;
+&lt;mappers&gt;
+  &lt;mapper resource=&quot;com/southwind/test/mapper/UserMapper.xml&quot;/&gt;
+&lt;/mappers&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8025-a598-f0b134495010" class="">适用于</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8016-9612-febb977749de" class="bulleted-list"><li style="list-style-type:disc">项目标准结构：<strong>XML 统一放在 </strong><code><strong>resources</strong></code><strong> 目录</strong>（企业主流）</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80dd-8c1e-ceb95d2755f2" class="bulleted-list"><li style="list-style-type:disc">不需要关心接口位置，只需要保证 XML 路径正确</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8060-a512-e0db59e2d3e2" class="toggle"><li><details open=""><summary><code>&lt;mapper class=&quot;接口全类名&quot;&gt;</code>:<strong>根据Java Mapper接口全类名,反向去找对应的XML</strong></summary><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8013-9039-eced79701a40" class="bulleted-list"><li style="list-style-type:disc">同样写在 <code>mybatis-config.xml</code> 的 <code>&lt;mappers&gt;</code> 内部</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80f3-aa1f-ff1c7de5ccb1" class="bulleted-list"><li style="list-style-type:disc">填写 <strong>Mapper 接口的完整包名 + 类名</strong>（用 <code>.</code> 分隔包）</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80cb-b633-d63f65e45bf8" class="bulleted-list"><li style="list-style-type:disc">不写文件路径、不写 <code>.xml</code></li></ul></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8086-8799-f1cf4685100e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;!-- mybatis-config.xml --&gt;
+&lt;mappers&gt;
+  &lt;mapper class=&quot;com.southwind.test.mapper.UserMapper&quot;/&gt;
+&lt;/mappers&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80d4-9120-ee2aa5b256c0" class="">适用于</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80a7-9ffd-d00a0f9858ce" class="bulleted-list"><li style="list-style-type:disc">XML 和 Java 接口<strong>同目录存放</strong>（你现在这种结构）</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8086-bfcc-cf5abe30dcdc" class="bulleted-list"><li style="list-style-type:disc">不想手写 XML 路径，靠接口自动关联 XML</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8099-9a49-c2b25405f96a" class="toggle"><li><details open=""><summary><code>namespace=&quot;接口全类名”</code>唯一作用:把当前XML文件和Java Mapper接口进行绑定</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-8057-bacc-ffb7ce4983e1" class="">Mapper XML 的根标签上：</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-802b-9738-f8cb570dddb3" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;!-- UserMapper.xml --&gt;
+&lt;mapper namespace=&quot;com.southwind.test.mapper.UserMapper&quot;&gt;
+  &lt;!-- SQL、resultMap ... --&gt;
+&lt;/mapper&gt;</code></pre></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8050-8ae3-e95ad385fb0d" class="bulleted-list"><li style="list-style-type:disc"><strong>值必须 = Mapper 接口全类名</strong>，一个字符都不能错</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80e7-bcf2-c5428b0b9d4e" class="bulleted-list"><li style="list-style-type:disc">和 XML 放在哪个目录无关，只和 Java 接口有关</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-806b-9efb-f82c9f4c41d3" class="bulleted-list"><li style="list-style-type:disc">MyBatis 靠它建立：<code>接口方法</code> ↔ <code>XML 中 id=&quot;xxx&quot; 的SQL</code> 的映射</li></ul></div></details></li></ul></div><div style="display:contents" dir="ltr"><table id="3848db55-6aee-80d1-84b5-e27a8db6cf21" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-809d-884f-d7a34a33ea6b"><th id="`~`B" class="simple-table-header-color simple-table-header">配置项</th><th id="DmOR" class="simple-table-header-color simple-table-header">书写位置</th><th id="eR&gt;@" class="simple-table-header-color simple-table-header">填写内容</th><th id=":|[|" class="simple-table-header-color simple-table-header">核心作用</th><th id="VIK;" class="simple-table-header-color simple-table-header">分隔符</th><th id="s;TZ" class="simple-table-header-color simple-table-header">典型使用场景</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-806e-84e0-c975ee8aee43"><td id="`~`B" class=""><code>resource</code></td><td id="DmOR" class="">全局配置 <code>&lt;mappers&gt;</code></td><td id="eR&gt;@" class="">XML 文件路径 + .xml</td><td id=":|[|" class="">直接加载 XML 文件</td><td id="VIK;" class=""><code>/</code></td><td id="s;TZ" class="">XML 放 <code>resources</code>（主流）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-802b-a8c9-ef94a613d1b7"><td id="`~`B" class=""><code>class</code></td><td id="DmOR" class="">全局配置 <code>&lt;mappers&gt;</code></td><td id="eR&gt;@" class="">Mapper 接口全类名</td><td id=":|[|" class="">通过接口反向查找 XML</td><td id="VIK;" class=""><code>.</code></td><td id="s;TZ" class="">XML 与接口同目录</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80de-b221-c3c9e38c0ec3"><td id="`~`B" class=""><code>namespace</code></td><td id="DmOR" class="">Mapper XML 根标签</td><td id="eR&gt;@" class="">Mapper 接口全类名</td><td id=":|[|" class="">绑定 XML 和 Java 接口</td><td id="VIK;" class=""><code>.</code></td><td id="s;TZ" class="">所有 XML 必须配置</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-8036-ab0b-c6d3542b66ed"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-80f3-9c7d-d94ab83ea38a" class="">MyBatis缓存</h1></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80e7-ae80-d99aa7eadc0f" class="">如何提升运行效率？实用缓存，减少Java程序和数据库的交互次数，从而提升程序的运行效率。</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80de-8c01-f7f64f9e3e1d" class="">当查询出数据后，将数据保存到缓存中，当下一次需要实用同样数据的时候，直接从缓存中取出数据即可。</p></div><div style="display:contents" dir="auto"><h2 id="3848db55-6aee-8093-9b9a-e1d282639946" class="">一级缓存</h2></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80db-b02f-c28195dfc874" class="">默认开启，无需手动配置，在同一个sqlsession中缓存</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8045-b67d-f0d0bbf71705" class="toggle"><li><details open=""><summary>详细</summary><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8087-a246-e37a0bb4af60" class="bulleted-list"><li style="list-style-type:disc"><strong>所属范围</strong>：<code>SqlSession</code> 级别（一次数据库会话）</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8089-b603-e8f6cfedbf58" class="bulleted-list"><li style="list-style-type:disc"><strong>默认状态</strong>：<strong>默认开启</strong>，全局开关无法关闭，只能清空 / 失效</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-804d-ac4c-f8814d49f34a" class="bulleted-list"><li style="list-style-type:disc"><strong>存储位置</strong>：内存，和当前 <code>SqlSession</code> 绑定</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-804f-8dc6-da5fe9db3782" class="bulleted-list"><li style="list-style-type:disc"><strong>生命周期</strong>：<div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8089-98ff-f36a30366ee5" class="numbered-list" start="1"><li>打开 <code>SqlSession</code> → 执行查询，结果存入一级缓存</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80e9-b2ee-fd52f0b7d43e" class="numbered-list" start="2"><li>同会话内，<strong>相同 SQL + 相同参数</strong> 再次查询，走缓存</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8052-8b78-f5022151dc15" class="numbered-list" start="3"><li><code>SqlSession</code> 关闭 / 提交 / 回滚 → 一级缓存<strong>自动清空</strong></li></ol></div></li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80ee-8137-e75938dcb783" class="">执行流程：</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8042-adac-e39b451e5cc3" class="bulleted-list"><li style="list-style-type:disc">第一次查询：查数据库 → 结果放入一级缓存</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8024-a5a3-d0291ed4e22b" class="bulleted-list"><li style="list-style-type:disc">同 <code>SqlSession</code>、同 SQL、同参数：直接读缓存，不访问数据库</li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-809f-9683-d775651618a0" class="">失效场景：满足任意一条，缓存清空，下次重新查库：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8064-8447-e2bf5ab1adb4" class="block-color-purple_background numbered-list" start="1"><li>执行 <strong>增 / 删 / 改（INSERT/UPDATE/DELETE）</strong> 操作（不管操作哪张表）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80a4-b76f-cd68761bd2f4" class="block-color-purple_background numbered-list" start="2"><li>手动调用 <code>sqlSession.clearCache()</code> 清空缓存</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8096-a6c1-c0297a0bd11e" class="block-color-purple_background numbered-list" start="3"><li>会话关闭：<code>sqlSession.close()</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80c4-8d48-c7d80a2df14d" class="block-color-purple_background numbered-list" start="4"><li>不同 <code>SqlSession</code> 之间，一级缓存互不共享</li></ol></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80f8-bb42-d43faf2fdf85" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public static void main(String[] args) throws IOException {
+    InputStream is = Resources.getResourceAsStream(&quot;mybatis-config.xml&quot;);
+    SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(is);
+    // 同一个 SqlSession
+    SqlSession session = factory.openSession();
+    UserMapper mapper = session.getMapper(UserMapper.class);
+
+    // 第1次查询：访问数据库，存入一级缓存
+    User user1 = mapper.getUserById(1);
+    System.out.println(user1);
+
+    // 第2次查询：同SqlSession、同SQL参数 → 走一级缓存，不查库
+    User user2 = mapper.getUserById(1);
+    System.out.println(user2);
+
+    // 手动清空缓存
+    session.clearCache();
+
+    // 第3次查询：缓存已清空 → 重新访问数据库
+    User user3 = mapper.getUserById(1);
+    System.out.println(user3);
+
+    session.close();
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3848db55-6aee-80d0-89ba-dcca967ae371" class="">二级缓存</h2></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8043-9988-e3fc3b401ad1" class="">Mapper 级别，手动开启，在一级缓存失效后会话关闭，将数据写入二级缓存</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80d8-b690-f5bc1b56d8a0" class="toggle"><li><details open=""><summary>详细</summary><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8013-9f8b-cd0571ddc1bc" class="bulleted-list"><li style="list-style-type:disc"><strong>所属范围</strong>：<code>Mapper 命名空间（namespace）</code> 级别</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8055-9ccc-dd8866437f62" class="bulleted-list"><li style="list-style-type:disc"><strong>默认状态</strong>：<strong>默认关闭</strong>，需要手动开启</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80ae-b9e4-d4eed1e7746b" class="bulleted-list"><li style="list-style-type:disc"><strong>生命周期</strong>：跨 <code>SqlSession</code>，多个会话共享缓存</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8076-a6ed-ca63c22d9568" class="bulleted-list"><li style="list-style-type:disc"><strong>存储位置</strong>：内存，作用域是整个 Mapper XML 对应的命名空间</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8088-8265-d57f289636cd" class="bulleted-list"><li style="list-style-type:disc">数据流转：数据库 → 一级缓存 → <strong>会话关闭后数据写入二级缓存</strong></li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-802e-b4ac-d108f1475a80" class="">失效场景:</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80e5-bc36-ffabf8af53d6" class="bulleted-list"><li style="list-style-type:disc">当前 <code>namespace</code> 下执行 <strong>增 / 删 / 改</strong> 操作 → 清空该命名空间下所有二级缓存</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80b0-9ce1-f6de816363f8" class="bulleted-list"><li style="list-style-type:disc">手动 <code>sqlSession.clearCache()</code>：只清空一级缓存，<strong>不影响二级缓存</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-805c-9fe4-c0165b6320fb" class="bulleted-list"><li style="list-style-type:disc">不同 <code>namespace</code>（不同 Mapper）缓存相互隔离，互不干扰</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8034-a584-f5ac42355bb7" class="block-color-purple_background toggle"><li><details open=""><summary>开启流程</summary><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80f4-ac70-d0671bd48065" class="numbered-list" start="1"><li>全局配置开启二级缓存总开关<div style="display:contents" dir="auto"><p id="3848db55-6aee-8016-9f1c-e873783d8364" class="">在 <code>mybatis-config.xml</code> 的 <code>&lt;settings&gt;</code> 中添加：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3848db55-6aee-804a-9df5-c77a04954166" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;settings&gt;
+    &lt;!-- 开启二级缓存总开关，默认 true（高版本MyBatis默认开启，建议显式写上） --&gt;
+    &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;
+&lt;/settings&gt;</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80c3-850b-eaabd1e4a0ea" class="numbered-list" start="2"><li>在Mapper XML中开启当前命名空间缓存<div style="display:contents" dir="auto"><p id="3848db55-6aee-80e4-9ec6-c3a2f29175d4" class="">在你的 <code>UserMapper.xml</code> 根标签下添加 <code>&lt;cache/&gt;</code> 标签：</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-808d-b4f2-fd1ac41938f2" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;mapper namespace=&quot;com.southwind.test.mapper.UserMapper&quot;&gt;
+    &lt;!-- 开启当前 namespace 的二级缓存 --&gt;
+    &lt;cache/&gt;
+
+    &lt;!-- 下方原有 resultMap、SQL 不变 --&gt;
+&lt;/mapper&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8037-995c-cf50a36e82bb" class=""><code>&lt;cache/&gt;</code> 默认配置说明：</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80e0-94de-f4af97e8d915" class="bulleted-list"><li style="list-style-type:disc">使用 LRU 淘汰策略</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80e1-9585-ceb92084e835" class="bulleted-list"><li style="list-style-type:disc">缓存可读写</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8035-bc00-d7beddc083da" class="bulleted-list"><li style="list-style-type:disc">刷新间隔、缓存大小使用默认值</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80b8-aa4e-f8bf5f8fe398" class="numbered-list" start="3"><li>实体类实现序列化接口<div style="display:contents" dir="auto"><p id="3848db55-6aee-8014-94df-f5f38b470d1c" class="">二级缓存会将对象序列化存储，<strong>实体必须实现 </strong><code><strong>java.io.Serializable</strong></code></p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80df-a248-f99ffe7063c2" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">// User.java
+@Data
+public class User implements Serializable {
+    private Integer id;
+    private String username;
+    private IdCard idCard;
+    private List&lt;Order&gt; orderList;
+}
+
+// IdCard.java
+@Data
+public class IdCard implements Serializable {
+    private Integer id;
+    private String cardNo;
+    private Integer userId;
+}
+
+// Order.java
+@Data
+public class Order implements Serializable {
+    private Integer id;
+    private String orderName;
+    private Integer userId;
+}</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8029-9024-dfbc6e8a00ac" class="numbered-list" start="4"><li>自定义规则（自定义）<div style="display:contents" dir="auto"><pre id="3848db55-6aee-807d-b466-fa34397c6866" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;!--
+eviction：缓存淘汰策略
+  LRU：最近最少使用（默认）
+  FIFO：先进先出
+flushInterval：缓存刷新间隔(毫秒)，为空则不自动刷新
+size：缓存存放对象最大数量
+readOnly：只读，true=只读(性能高)，false=可读写(默认)
+--&gt;
+&lt;cache
+    eviction=&quot;LRU&quot;
+    flushInterval=&quot;60000&quot;
+    size=&quot;512&quot;
+    readOnly=&quot;true&quot;/&gt;</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-803f-a1f4-da36be767b99" class="numbered-list" start="5"><li>局部关闭二级缓存（某一条不想二级缓存）<div style="display:contents" dir="auto"><pre id="3848db55-6aee-8017-b58f-e4059b4e7165" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;getUserById&quot; resultMap=&quot;UserResultMap&quot; useCache=&quot;false&quot;&gt;
+    SELECT id, username FROM user WHERE id = #{id}
+&lt;/select&gt;</code></pre></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8049-9d05-cfafd1870218" class="toggle"><li><details open=""><summary>执行流程</summary><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8032-8ac0-e00069efaa2a" class="bulleted-list"><li style="list-style-type:disc">第一个 <code>SqlSession</code> 查询 → 查库 → 数据存入<strong>一级缓存</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80b5-97ca-d1994a530048" class="bulleted-list"><li style="list-style-type:disc"><code>SqlSession.close()</code> 关闭会话 → <strong>一级缓存数据刷入二级缓存</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8077-9d9e-f574507c269c" class="bulleted-list"><li style="list-style-type:disc">新的 <code>SqlSession</code> 执行相同查询 → 优先从<strong>二级缓存</strong>取数据，不查库</li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8034-9c0f-d4b248557f2c" class="">演示：</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8031-a23b-f32c3402bc68" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">public static void main(String[] args) throws IOException {
+    InputStream is = Resources.getResourceAsStream(&quot;mybatis-config.xml&quot;);
+    SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(is);
+
+    // 会话1
+    SqlSession session1 = factory.openSession();
+    UserMapper mapper1 = session1.getMapper(UserMapper.class);
+    User user1 = mapper1.getUserById(1);
+    System.out.println(user1);
+    session1.close(); // 关闭会话，数据写入二级缓存
+
+    // 会话2（全新 SqlSession）
+    SqlSession session2 = factory.openSession();
+    UserMapper mapper2 = session2.getMapper(UserMapper.class);
+    // 跨会话，直接读取二级缓存，不执行SQL
+    User user2 = mapper2.getUserById(1);
+    System.out.println(user2);
+    session2.close();
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80f4-9606-f62534c79bf9" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3848db55-6aee-8007-a536-c395f0bdc696" class="">对比</h2></div><div style="display:contents" dir="ltr"><table id="3848db55-6aee-80d7-a195-c474f2b6c9d1" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80e0-8c87-f890a25c1fca"><th id="@lFd" class="simple-table-header-color simple-table-header">对比项</th><th id="SMWD" class="simple-table-header-color simple-table-header">一级缓存</th><th id="{ReT" class="simple-table-header-color simple-table-header">二级缓存</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8092-991c-dc1e09c73b6a"><td id="@lFd" class="">作用域</td><td id="SMWD" class="">SqlSession（单次会话）</td><td id="{ReT" class="">Mapper Namespace（跨会话）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-803c-ae38-ec83d1c76a8c"><td id="@lFd" class="">默认状态</td><td id="SMWD" class="">默认开启，无法关闭</td><td id="{ReT" class="">默认关闭，需手动开启</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8071-97bb-ec8b37e15e65"><td id="@lFd" class="">共享性</td><td id="SMWD" class="">会话内独享，跨会话不共享</td><td id="{ReT" class="">所有会话共享</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80ca-be5b-cae1c40b2b40"><td id="@lFd" class="">清空时机</td><td id="SMWD" class="">会话关闭、DML、手动 clearCache</td><td id="{ReT" class="">当前命名空间执行 DML 时清空</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80f4-8f72-c60197c997b9"><td id="@lFd" class="">依赖序列化</td><td id="SMWD" class="">不需要</td><td id="{ReT" class=""><mark class="highlight-teal_background"><strong>实体必须实现 Serializable</strong></mark></td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8010-a4e5-de2f365f02cf"><td id="@lFd" class="">优先级</td><td id="SMWD" class="">高于二级缓存</td><td id="{ReT" class="">低于一级缓存</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-8091-981e-e7295d55f70c"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-80d0-b838-d9db7742a8df" class="">MyBatis动态SQL</h1></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80c6-aad4-e0f35317756f" class="">动态 SQL 是 MyBatis 核心功能之一，<strong>根据运行时参数动态拼接、裁剪 SQL 语句</strong>，解决传统硬编码 SQL 多条件查询、判空拼接、分支逻辑等问题</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8068-b6ec-d45efbe15236" class="">常用标签：<code>if</code>、<code>where</code>、<code>trim</code>、<code>choose/when/otherwise</code>、<code>foreach</code>、<code>set</code>、<code>bind</code>，结合实战场景逐一讲解，附完整可运行代码</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-801b-a710-f78574db1c59" class="toggle"><li><details open=""><summary>实体类(User)</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8085-8f7c-d9f05c3f0f24" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">@Data
+public class User implements Serializable {
+    private Integer id;
+    private String username;
+}</code></pre></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8059-91dd-eeb58ae523e1" class="toggle"><li><details open=""><summary>IdCard.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8059-898a-dec5fda8f2ab" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+@Data
+public class IdCard {
+    private Integer id;
+    private String cardNo;
+    private Integer userId;
+}
+</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8081-a604-e215776cdfaf" class="toggle"><li><details open=""><summary>Order.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80cc-8e1e-cc3a11c194a7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.southwind.test;
+
+import lombok.Data;
+
+@Data
+public class Order {
+    private Integer id;
+    private Integer userId;
+    private String orderName;
+
+}
+</code></pre></div></details></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80ef-ad49-e50d4d6c5117" class="toggle"><li><details open=""><summary>UserMapper.java接口</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8067-8304-ed51a0cfc41b" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">public interface UserMapper {
+    // 多条件动态查询
+    List&lt;User&gt; findUser(User user);
+    // 更新动态字段
+    int updateUser(User user);
+    // 批量删除
+    int batchDelete(@Param(&quot;ids&quot;) List&lt;Integer&gt; ids);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="3848db55-6aee-8017-a50d-cd643829398d" class="">前置说明：基于现有<code>user</code>、<code>id_card</code>、<code>orders</code>表与实体，直接可用</blockquote></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80a5-b24c-d4cca9f592a3" class="toggle"><li><details open=""><summary><code>&lt;if&gt;</code>条件判断</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-80cb-903a-c0a6cc109617" class="">单分支判断，<strong>参数不为空 / 不为空字符串时，拼接对应 SQL 片段</strong></p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80e6-8792-d3ca0345a069" class="">多用于：多条件模糊查询、可选查询参数</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-800d-a155-ef0c5e6d2b2f" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;if test=&quot;判断条件&quot;&gt;
+    SQL 片段
+&lt;/if&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80c9-a018-d691af6ba396" class="">test判断表达式，支持OGNL表达式</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80e7-91df-fe38bff8aff1" class="bulleted-list"><li style="list-style-type:disc">判空：username ≠ null and username ≠ ‘’</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80a9-bf18-c25196bc5f96" class="bulleted-list"><li style="list-style-type:disc">数值判断：id ≠ null</li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-801c-8e5c-f591dccbbd9f" class="">多条件查询id</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80d6-ad6d-c4039b650b98" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;findUser&quot; resultType=&quot;com.southwind.test.User&quot;&gt;
+    SELECT id, username FROM user
+    WHERE 1=1
+    &lt;!-- 如果 id 有值，拼接 id 查询条件 --&gt;
+    &lt;if test=&quot;id != null&quot;&gt;
+        AND id = #{id}
+    &lt;/if&gt;
+    &lt;!-- 如果 username 非空，拼接模糊查询 --&gt;
+    &lt;if test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+        AND username LIKE CONCAT(&#x27;%&#x27;,#{username},&#x27;%&#x27;)
+    &lt;/if&gt;
+&lt;/select&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-801e-8615-c643a31ed150" class="">测试场景</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80ce-bc07-dad4dfc5217b" class="bulleted-list"><li style="list-style-type:disc">不传参数：执行 <code>SELECT id,username FROM user WHERE 1=1</code>，查询全表</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80d3-9c3a-daf995cbd821" class="bulleted-list"><li style="list-style-type:disc">只传 <code>id=1</code>：拼接 <code>AND id = 1</code></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8082-ae61-e99b5e11665a" class="bulleted-list"><li style="list-style-type:disc">只传 <code>username=&#x27;hpc&#x27;</code>：拼接模糊查询</li></ul></div><div style="display:contents" dir="auto"><blockquote id="3848db55-6aee-80e3-ad06-ed8e7fbdba49" class="">问题：手动写 <code>WHERE 1=1</code> 是为了避免多个 <code>if</code> 同时不生效，出现 <code>WHERE</code> 关键字悬空语法错误。</blockquote></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80be-a63e-e71474cb3d0e" class="toggle"><li><details open=""><summary><code>&lt;where&gt;</code>只能处理where关键字</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-8096-88b0-f06fbc563e47" class="">替代手动 <code>WHERE 1=1</code>，<strong>自动识别条件、自动剔除多余的 </strong><code><strong>AND / OR</strong></code>，语法更优雅。</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8067-9023-c8da366bd4c7" class="">规则：<div class="indented"><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80bf-a5c4-ce44306384ed" class="numbered-list" start="1"><li>只有内部 <code>&lt;if&gt;</code> 条件成立，才会生成 <code>WHERE</code> 关键字</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8051-b5f3-c534b2a10a20" class="numbered-list" start="2"><li>自动移除条件<strong>开头</strong>多余的 <code>AND</code> / <code>OR</code></li></ol></div></div></p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8045-a1d1-ecdcfd91f57f" class="">对if中的进行改写</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80f2-a633-c9a78cdfd3e3" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;findUser&quot; resultType=&quot;com.southwind.test.User&quot;&gt;
+    SELECT id, username FROM user
+    &lt;where&gt;
+        &lt;if test=&quot;id != null&quot;&gt;
+            AND id = #{id}
+        &lt;/if&gt;
+        &lt;if test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+            AND username LIKE CONCAT(&#x27;%&#x27;,#{username},&#x27;%&#x27;)
+        &lt;/if&gt;
+    &lt;/where&gt;
+&lt;/select&gt;</code></pre></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-801b-92ba-c5c00673e986" class="bulleted-list"><li style="list-style-type:disc">无任何条件：不生成 <code>WHERE</code>，SQL 正常</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8068-a969-d403732492ef" class="bulleted-list"><li style="list-style-type:disc">有条件：自动拼接 <code>WHERE</code> + 条件，<strong>去掉开头多余 AND</strong></li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8031-9672-e7b77440b4f1" class="toggle"><li><details open=""><summary><code>&lt;trim&gt;</code>自定义截取/拼接</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-80e4-8488-e348620e761b" class="">通用格式化标签，可替代 <code>where</code>、<code>set</code>，<strong>自定义前缀、后缀、移除指定前缀 / 后缀字符</strong></p></div><div style="display:contents" dir="ltr"><table id="3848db55-6aee-80fe-9894-c6add316695d" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80f1-8868-d50451baab40"><th id="I\zZ" class="simple-table-header-color simple-table-header" style="width:220.06027221679688px">属性</th><th id="&gt;YUT" class="simple-table-header-color simple-table-header" style="width:388px">说明</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8003-91fc-ff40babf2555"><td id="I\zZ" class="" style="width:220.06027221679688px"><code>prefix</code></td><td id="&gt;YUT" class="" style="width:388px">整体添加前缀（如 <code>WHERE</code>、<code>SET</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8017-8a29-c8f924165f34"><td id="I\zZ" class="" style="width:220.06027221679688px"><code>prefixOverrides</code></td><td id="&gt;YUT" class="" style="width:388px">移除开头指定字符（如 <code>AND</code>、<code>OR</code>）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80ec-9fc5-ea440a6745c5"><td id="I\zZ" class="" style="width:220.06027221679688px"><code>suffix</code></td><td id="&gt;YUT" class="" style="width:388px">整体添加后缀</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80af-a927-d70293edac35"><td id="I\zZ" class="" style="width:220.06027221679688px"><code>suffixOverrides</code></td><td id="&gt;YUT" class="" style="width:388px">移除结尾指定字符（如 <code>,</code> 逗号）</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80e2-90e9-f8936df9bdd9" class="">用trim实现where效果</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8030-908f-e2c8da867e0e" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;findUser&quot; resultType=&quot;com.southwind.test.User&quot;&gt;
+    SELECT id, username FROM user
+    &lt;trim prefix=&quot;WHERE&quot; prefixOverrides=&quot;AND|OR&quot;&gt;
+        &lt;if test=&quot;id != null&quot;&gt;
+            AND id = #{id}
+        &lt;/if&gt;
+        &lt;if test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+            AND username LIKE CONCAT(&#x27;%&#x27;,#{username},&#x27;%&#x27;)
+        &lt;/if&gt;
+    &lt;/trim&gt;
+&lt;/select&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80dc-80c5-c62a7cef2679" class="toggle"><li><details open=""><summary><code>&lt;set&gt;</code>动态更新字段</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-802a-99a2-ee8e38b50d3c" class="">用于<code>update</code>语句，<strong>动态拼接更新字段，自动移除末尾多余逗号</strong><code><strong>,</strong></code></p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80ce-b4ea-c91e105019c3" class="">场景：只更新传入的非空字段，其余字段保持不变</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80bb-b74f-e95daf89a556" class="">案例，动态更新用户：</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8096-874a-db4c7e4a51fb" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;update id=&quot;updateUser&quot;&gt;
+    UPDATE user
+    &lt;set&gt;
+        &lt;if test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+            username = #{username},
+        &lt;/if&gt;
+    &lt;/set&gt;
+    WHERE id = #{id}
+&lt;/update&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8089-8681-d2399c1aa64b" class="">逻辑：<div class="indented"><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80bc-b2a1-eb512f60cf9c" class="numbered-list" start="1"><li><code>username</code> 非空 → 拼接 <code>username = ?,</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8075-a37d-d87d514debed" class="numbered-list" start="2"><li><code>&lt;set&gt;</code> 自动删除<strong>最后面多余的逗号</strong>，避免 SQL 语法报错</li></ol></div></div></p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80f2-a7ad-c175407678ae" class="">等价trim写法:</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8089-8fc6-e95f7cbb4f10" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;update id=&quot;updateUser&quot;&gt;
+    UPDATE user
+    &lt;trim prefix=&quot;SET&quot; suffixOverrides=&quot;,&quot;&gt;
+        &lt;if test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+            username = #{username},
+        &lt;/if&gt;
+    &lt;/trim&gt;
+    WHERE id = #{id}
+&lt;/update&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80b1-8a15-d6e800db6486" class="toggle"><li><details open=""><summary><code>&lt;choose&gt; &lt;when&gt; &lt;otherwise&gt;</code>多分支判断</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-809a-9855-c60df5594af4" class="">等价 Java 中<code>switch-case-default</code>，<strong>多选一，只会执行一个分支.</strong></p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80c7-bc5e-d720ff67e2c0" class="">场景：优先级查询（有 id 查 id，有用户名查用户名，都没有查全部）</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8042-9c40-fc42da536b3d" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;choose&gt;
+    &lt;when test=&quot;条件1&quot;&gt;SQL片段&lt;/when&gt;
+    &lt;when test=&quot;条件2&quot;&gt;SQL片段&lt;/when&gt;
+    &lt;otherwise&gt;都不满足时执行&lt;/otherwise&gt;
+&lt;/choose&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8029-aaec-d9f8a36fd835" class="">案例：</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80eb-919b-f17dca717502" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;findUser&quot; resultType=&quot;com.southwind.test.User&quot;&gt;
+    SELECT id, username FROM user
+    &lt;where&gt;
+        &lt;choose&gt;
+            &lt;when test=&quot;id != null&quot;&gt;
+                id = #{id}
+            &lt;/when&gt;
+            &lt;when test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+                username LIKE CONCAT(&#x27;%&#x27;,#{username},&#x27;%&#x27;)
+            &lt;/when&gt;
+            &lt;!-- 都不传参数，查询所有 --&gt;
+            &lt;otherwise&gt;
+                1=1
+            &lt;/otherwise&gt;
+        &lt;/choose&gt;
+    &lt;/where&gt;
+&lt;/select&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8083-a133-ff97bec59fc9" class="">执行规则：从上到下匹配，<strong>匹配到第一个满足条件的分支就结束.</strong></p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8009-89b6-e43bc9946750" class="toggle"><li><details open=""><summary><code>&lt;foreach&gt;</code>遍历集合（批量操作核心）</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-8080-ac83-fc46e5f24648" class="">遍历数组、List 集合，常用于 <strong>IN 查询、批量新增、批量删除</strong></p></div><div style="display:contents" dir="ltr"><table id="3848db55-6aee-80cd-b02f-c971c268a743" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8028-89e3-f6e253925280"><th id="Utgh" class="simple-table-header-color simple-table-header" style="width:157px">属性</th><th id="lUeT" class="simple-table-header-color simple-table-header" style="width:429px">说明</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80cb-bf83-e8eb08c081ff"><td id="Utgh" class="" style="width:157px"><code>collection</code></td><td id="lUeT" class="" style="width:429px">集合类型：List 写 <code>list</code> / 加了 <code>@Param</code> 写参数名</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8083-8600-d0812385121c"><td id="Utgh" class="" style="width:157px"><code>item</code></td><td id="lUeT" class="" style="width:429px">遍历后单个元素别名</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8035-a4f4-ca1046ee744e"><td id="Utgh" class="" style="width:157px"><code>open</code></td><td id="lUeT" class="" style="width:429px">遍历整体<strong>开头</strong>拼接字符</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80aa-80f7-c0296e439176"><td id="Utgh" class="" style="width:157px"><code>close</code></td><td id="lUeT" class="" style="width:429px">遍历整体<strong>结尾</strong>拼接字符</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80cb-b0fc-ce405b5eb50f"><td id="Utgh" class="" style="width:157px"><code>separator</code></td><td id="lUeT" class="" style="width:429px">元素之间的<strong>分隔符</strong></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8031-ba40-cab28e31342a" class="numbered-list" start="1"><li>场景1：IN 查询（根据多个 id 查询）<div style="display:contents" dir="auto"><pre id="3848db55-6aee-80af-ad54-c3485a838333" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;findUserByIds&quot; resultType=&quot;com.southwind.test.User&quot;&gt;
+    SELECT id, username FROM user
+    WHERE id IN
+    &lt;foreach collection=&quot;ids&quot; item=&quot;uid&quot; open=&quot;(&quot; close=&quot;)&quot; separator=&quot;,&quot;&gt;
+        #{uid}
+    &lt;/foreach&gt;
+&lt;/select&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8005-8fb3-c3bc558c55bb" class="">最终拼接 SQL：<code>WHERE id IN (1,2,3)</code></p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80ca-a983-c1bd5d288f65" class="numbered-list" start="2"><li>场景2：批量删除（最常用）<div style="display:contents" dir="auto"><p id="3848db55-6aee-80c6-a529-ec2f2ef8a64a" class="">接口方法：</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8076-b80d-d220a7d5d095" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">int batchDelete(@Param(&quot;ids&quot;) List&lt;Integer&gt; ids);</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8013-a029-e99ce28361d0" class="">XML：</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80e1-8681-f1f4ad637921" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;delete id=&quot;batchDelete&quot;&gt;
+    DELETE FROM user WHERE id IN
+    &lt;foreach collection=&quot;ids&quot; item=&quot;uid&quot; open=&quot;(&quot; close=&quot;)&quot; separator=&quot;,&quot;&gt;
+        #{uid}
+    &lt;/foreach&gt;
+&lt;/delete&gt;</code></pre></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8089-b1de-e726ef0f3020" class="toggle"><li><details open=""><summary><code>&lt;bind&gt;</code>绑定变量</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-80e8-bf93-e2a78460c64b" class="">自定义变量，<strong>解决数据库模糊查询兼容问题</strong>（不同数据库拼接 <code>%</code> 语法不同），统一写法</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80c9-9f86-fe654050a53d" class="">示例：模糊查询通用写法</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8051-8230-e15d3ce478d6" class="code code-wrap"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;findUser&quot; resultType=&quot;com.southwind.test.User&quot;&gt;
+    &lt;!-- 绑定变量 pattern，拼接前后 % --&gt;
+    &lt;bind name=&quot;pattern&quot; value=&quot;&#x27;%&#x27; + username + &#x27;%&#x27;&quot;/&gt;
+    SELECT id, username FROM user
+    &lt;where&gt;
+        &lt;if test=&quot;username != null and username != &#x27;&#x27;&quot;&gt;
+            username LIKE #{pattern}
+        &lt;/if&gt;
+    &lt;/where&gt;
+&lt;/select&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8093-b3c2-cb108ebb7ef7" class="">优势：不再使用 <code>CONCAT</code>，适配 MySQL、Oracle 等多种数据库</p></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

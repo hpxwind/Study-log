@@ -1,0 +1,866 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>第一个SpringBoot工程(基础)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3848db55-6aee-80a0-af73-f3944f79ba1e" class="page mono"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/webb4.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">1️⃣</span></div><h1 class="page-title" dir="auto">第一个SpringBoot工程(基础)</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><hr id="3848db55-6aee-8011-a334-fd4b8c3a4524"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-803f-9218-ec386228152f" class="">基础流程</h1></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-802e-8268-fa3212444715" class="toggle"><li><details open=""><summary>基础流程</summary><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8040-b4d9-ddbbabaa16f5" class="numbered-list" start="1"><li>创建空项目工程</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80c1-bcdd-df670b2915bf" class="numbered-list" start="2"><li>设置JDK</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8062-8f0d-da363a359d06" class="numbered-list" start="3"><li>设置maven</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8046-9537-f529024fa435" class="numbered-list" start="4"><li>新建一个全新的maven模块</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8032-b44a-d26648b61f1c" class="numbered-list" start="5"><li>在pom.xml文件中添加配置：<div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3848db55-6aee-807d-bc16-dd43d804ff1c" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;parent&gt;
+		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+		&lt;version&gt;3.5.8&lt;/version&gt;
+&lt;/parent&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8081-9367-d4fe1509a5a9" class="">这是一个启动器，启动器名称为：parent</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-808a-98db-ef9316073442" class="">名称为springboot parent starter</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8000-8256-c5230247ec88" class="">为什么继承它？<div class="indented"><div style="display:contents" dir="auto"><p id="3848db55-6aee-80ee-ba25-cb60ba6ad223" class="">使用父项目中规定的依赖版本，比较方便。</p></div></div></p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-801d-9da7-cf1c3c05dbdb" class="numbered-list" start="6"><li>在pom.xml中引入web开发所需的启动依赖：<div style="display:contents" dir="auto"><pre id="3848db55-6aee-80bf-a722-c76fa7491687" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;!--        做web开发引入这个web启动器--&gt;
+&lt;!--        底层这个启动器会关联引入web场景下的开发所需要的依赖--&gt;
+&lt;!--        关联引入：spring-webmvc，tomcat...--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8047-9e4d-d40250aa3a06" class="numbered-list" start="7"><li>编写Controller<div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3848db55-6aee-8055-a5ca-f9323ec8d74c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.Hpc.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+// @RestController = @Controller + @ResponseBody
+@RestController
+public class HelloController {
+
+    @GetMapping(&quot;/hello&quot;)
+    public String hello() {
+        return &quot;Hello World&quot;;
+    }
+}</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8030-bb1e-fcc85121c27a" class="numbered-list" start="8"><li>编写SpringBoot核心入口程序（main方法）<div style="display:contents" dir="auto"><pre id="3848db55-6aee-80f2-8ac1-c213354b42d0" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.Hpc;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+// springboot主入口程序
+@SpringBootApplication
+public class Main {
+    public static void main(String[] args) {
+        // 固定代码，启动容器
+        SpringApplication.run(Main.class, args);
+    }
+}</code></pre></div></li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80f2-bfe9-f3895f815465" class="toggle"><li><details open=""><summary>打包</summary><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80bd-9a30-dd70c39718b4" class="numbered-list" start="1"><li>springboot项目打包部署非常方便，首先需要在pom.xml文件中添加打包的插件<div style="display:contents" dir="auto"><pre id="3848db55-6aee-8084-8f30-d341a69ce350" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;build&gt;
+	&lt;plugins&gt;
+		&lt;plugin&gt;
+			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+		&lt;/plugin&gt;
+	&lt;/plugins&gt;
+&lt;/build&gt;</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-806f-b892-e77f8901c20b" class="numbered-list" start="2"><li>执行mvn package命令来打包，形成jar包</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80c9-87aa-eae1d851b192" class="numbered-list" start="3"><li>在.jar同目录下，配置application.properties，可以直接替换jar包中内置的</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-80e3-bcbb-dac719b67ec0"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-807d-acdb-ff7d592af53f" class="">脚手架</h1></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80a5-8fc3-c4f31e73f84d" class="">使用官方的脚手架网站：</p></div><div style="display:contents" dir="ltr"><figure id="3848db55-6aee-8046-a112-f18f656b6902"><a href="https://start.spring.io/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">start.spring.io</div></div><div class="bookmark-href">https://start.spring.io/</div></div></a></figure></div><div style="display:contents" dir="ltr"><figure id="3848db55-6aee-805a-b59f-e37dd39c0fd5" class="image"><a href="%E7%AC%AC%E4%B8%80%E4%B8%AASpringBoot%E5%B7%A5%E7%A8%8B(%E5%9F%BA%E7%A1%80)/Snipaste_2026-06-20_00-32-46.png"><img style="width:703.9955444335938px" src="%E7%AC%AC%E4%B8%80%E4%B8%AASpringBoot%E5%B7%A5%E7%A8%8B(%E5%9F%BA%E7%A1%80)/Snipaste_2026-06-20_00-32-46.png"/></a></figure></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-801b-bad3-e0fcb49766bb" class="toggle"><li><details open=""><summary>目录结构</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-802e-bf7a-de318ea27a2d" class="code code-wrap"><code class="language-markdown" style="white-space:pre-wrap;word-break:break-all">soringboot-02
+├── .mvn                     # Maven包装器相关配置目录
+│   └── wrapper
+│       └── maven-wrapper.properties  # 绑定指定Maven版本，适配mvnw脚本统一构建环境
+├── src
+│   ├── main                 # 项目业务源码根目录（打包运行生效）
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── hpx
+│   │   │           └── demo
+│   │   │               └── DemoApplication.java  # SpringBoot启动主类
+│   │   └── resources        # 项目资源配置目录
+│   │       ├── static       # 存放静态资源（html、js、css、图片等）
+│   │       ├── templates    # 存放页面模板文件（Thymeleaf等模板引擎页面）
+│   │       └── application.properties  # SpringBoot核心配置文件
+│   └── test                 # 单元测试源码根目录（测试专用，打包不打入）
+│       └── java
+│           └── com
+│               └── hpx
+│                   └── demo
+│                       └── DemoApplicationTests.java  # SpringBoot自带测试启动类
+├── target                   # 编译打包输出目录，存放class、jar包等产物，可mvn clean清空
+├── .gitattributes           # Git文件属性配置，定义不同文件换行符、编码等规则
+├── .gitignore               # Git忽略配置，指定不需要纳入版本管理的文件/目录
+├── HELP.md                  # SpringBoot自动生成的帮助说明文档
+├── mvnw                     # Linux/Mac 系统Maven包装器脚本（无需本地安装Maven即可构建）
+├── mvnw.cmd                 # Windows 系统Maven包装器脚本
+└── pom.xml                  # Maven项目核心配置文件（依赖、打包、项目坐标、插件管理）</code></pre></div><div style="display:contents" dir="ltr"><figure id="3848db55-6aee-808d-b833-f920a751a6de" class="image"><a href="%E7%AC%AC%E4%B8%80%E4%B8%AASpringBoot%E5%B7%A5%E7%A8%8B(%E5%9F%BA%E7%A1%80)/Snipaste_2026-06-20_00-30-08.png"><img style="width:1182px" src="%E7%AC%AC%E4%B8%80%E4%B8%AASpringBoot%E5%B7%A5%E7%A8%8B(%E5%9F%BA%E7%A1%80)/Snipaste_2026-06-20_00-30-08.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-801e-9460-db902a05b5a4" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8060-b7ed-de42ced39e2c" class="">使用IDEA的脚手架：</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8030-b9f4-ec49d4cec686" class="">和官方脚手架网站差不多</p></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-8070-aa0e-ecde7c76bf06"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-80dc-aaf3-c286be73c0ff" class="">SpringBoot采用继承而非引入依赖</h1></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-809f-af82-ecbcc53cd421" class="">父亲工程的优势:</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-804a-8509-d73d700d491b" class="bulleted-list"><li style="list-style-type:disc"><strong>统一版本管控</strong><br/>父工程预定义全套 Spring 生态及第三方依赖版本，子项目引入依赖<strong><span style="border-bottom:0.05em solid">无需写版本号</span></strong><span style="border-bottom:0.05em solid">，避免版本冲突。</span></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80d9-a589-d7d3495e4d63" class="bulleted-list"><li style="list-style-type:disc"><strong>内置插件默认配置</strong><br/>打包、编译、测试等 Maven 插件提前配置，子项目不用重复配置插件。</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80c1-a365-e26d75cb4fb0" class="bulleted-list"><li style="list-style-type:disc"><strong>依赖简化引入</strong><br/>直接导入各类 starter 即可自动装配配套依赖，不用手动罗列一堆子依赖。</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-807e-8d62-c1cfe1158387" class="bulleted-list"><li style="list-style-type:disc"><strong><span style="border-bottom:0.05em solid">版本升级便捷</span></strong><br/>仅修改父工程版本，整个项目所有相关依赖批量同步升级，维护成本低。</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8062-b34c-ddc31cd69171" class="bulleted-list"><li style="list-style-type:disc"><strong>规范项目构建行为</strong><br/>统一编码、JDK 编译级别、打包规则，多项目环境保持一致。</li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8024-bb0c-fa0c007e2d00" class="">直接引入的缺陷：</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-802f-b30e-fd706ed80b73" class="bulleted-list"><li style="list-style-type:disc"><strong>每个依赖必须手动指定版本</strong>，极易出现版本不兼容、jar 包冲突。</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8051-9a42-e268435a77b4" class="bulleted-list"><li style="list-style-type:disc"><strong>插件需要自行全部配置</strong>，打包、编译配置冗余繁琐。</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80ae-ab42-fe0fde70d479" class="bulleted-list"><li style="list-style-type:disc"><strong>starter 配套依赖需要自行梳理引入</strong>，容易漏引、多引多余包。</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-801a-bc92-ddfbf15804af" class="bulleted-list"><li style="list-style-type:disc"><strong>框架升级麻烦</strong>，需要逐个修改所有依赖版本，工作量大。</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-800e-8937-de3aec9ae340" class="bulleted-list"><li style="list-style-type:disc"><strong>多项目难统一规范</strong>，不同开发人员版本、编译配置容易混乱。</li></ul></div><div style="display:contents" dir="auto"><blockquote id="3848db55-6aee-8023-85c8-dbe38d5d26d1" class="block-color-purple_background">因此在继承父类的时候，切记如果父类有的不加版本号(&lt;version&gt;)，如果父类中没有才加版本号</blockquote></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-8094-a495-e513ec9e2516"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-80cd-9a0b-d288ab7d9e06" class="">SpringBoot中的启动器</h1></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80c5-b7cb-e0d0f27897d6" class=""><strong>SpringBoot 启动器（starter）</strong>：一组预先整合好版本的依赖包集合，引入一个 starter 就能自动导入该功能所需<mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">全部相关依赖</span></strong></mark>，不用手动逐个配置、管理版本，实现快速开发。</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-803e-b6ed-d9bef392e988" class="">例如：<code>spring-boot-starter-web</code>启动器：导入后自动包含SpringMVC、Tomcat等 web 开发全套依赖，不用自己逐个添加。</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80b6-b583-d2cfd0518960" class="">启动器分官方（spring-boot-xxx-xxx-starter）提供和非官方(xxx-xxx-spring-boot-starter)</p></div><div style="display:contents" dir="auto"><blockquote id="3848db55-6aee-80ff-a911-d1a6005f3b98" class="block-color-purple_background">启动器不只是在springboot中使用，在任何spring项目中都可以，是一个独立的东西</blockquote></div><div style="display:contents" dir="auto"><blockquote id="3848db55-6aee-80de-b759-d9235f76f19f" class="block-color-purple_background">也可以自己写启动器，只需要创建一个项目，引入需要的插件，依赖，再打包程jar，引入GAV坐标即可</blockquote></div><div style="display:contents" dir="auto"><blockquote id="3848db55-6aee-806e-9bd4-da919436dd37" class="block-color-yellow_background">如果版本号手动写错，或没有写，都以spring-boot-dependencies-xxx.pom文件（BOM：物料清单）</blockquote></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-8020-946d-d36a4b072b65"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-801f-b71c-ebd65cd9ca4e" class="">SpringBoot中如何保证版本一致</h1></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8068-95ac-f4093a8777fc" class="">在一个项目中向上追踪父类，最终会追踪到一个pom.xml文件，内部打包方式为pom，即(<code>&lt;pakaging&gt;pom&lt;/pakaging&gt;</code>)</p></div><div style="display:contents" dir="ltr"><figure id="3848db55-6aee-801a-92da-c16ba485fdeb" class="image"><a href="%E7%AC%AC%E4%B8%80%E4%B8%AASpringBoot%E5%B7%A5%E7%A8%8B(%E5%9F%BA%E7%A1%80)/Snipaste_2026-06-20_00-49-51.png"><img style="width:704.0067138671875px" src="%E7%AC%AC%E4%B8%80%E4%B8%AASpringBoot%E5%B7%A5%E7%A8%8B(%E5%9F%BA%E7%A1%80)/Snipaste_2026-06-20_00-49-51.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80ce-8bbf-eac8b70c9754" class="">里面只有<code>&lt;properties&gt; &lt;dependencyManagement&gt; &lt;build&gt;</code> 而没有<code>&lt;dependency&gt;</code> ，因此通过这个做版本控制，版本锁定。</p></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8046-84a0-dde90aa32642" class="toggle"><li><details open=""><summary>文件详细解释</summary><div style="display:contents" dir="auto"><h2 id="3848db55-6aee-80b9-92d4-d481177e7f90" class="">1. 核心定位</h2></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-809e-bf96-c1a6f6a9bdee" class=""><code>spring-boot-dependencies</code> 是 <strong>SpringBoot版本统一管控中心</strong>，打包类型为 <code>pom</code>，只做依赖版本声明，不会被打成Jar包。</p></div><div style="display:contents" dir="auto"><h2 id="3848db55-6aee-80c5-9e32-de03c5d16b74" class="">2. 关键标签 <code>packaging&gt;pom</code></h2></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8012-af20-f7c8ca705254" class=""><code>pom</code> 打包：<strong>该工程本身不会编译生成jar/war</strong>，仅用来管理依赖版本、统一配置，是典型的Maven父级版本管理工程。</p></div><div style="display:contents" dir="auto"><h2 id="3848db55-6aee-80e9-9a2c-ea2d65af2552" class="">3. 两大核心作用节点</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8072-8426-d0a9ee5f2597" class="numbered-list" start="1"><li><strong>properties</strong><br/>提前定义大量版本变量（如 <code>spring.version</code>、<code>mybatis.version</code>、各种中间件版本），集中管理版本号。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8058-a5f5-f0034b58b022" class="numbered-list" start="2"><li><strong>dependencyManagement（重点）</strong><br/>里面预声明Spring全家桶、第三方组件<strong>完整坐标+对应版本</strong>；<br/>子项目引入这些依赖时<strong>可以省略version</strong>，自动继承这里定义好的版本，全局版本统一，避免冲突。</li></ol></div><div style="display:contents" dir="auto"><blockquote id="3848db55-6aee-809e-81b1-d3b1edfa62eb" class="">注意：<code>dependencyManagement</code> 只是<strong>声明版本，不会实际导入依赖</strong>，子项目仍要自己写 <code>&lt;dependency&gt;</code> 才会引入包。</blockquote></div><div style="display:contents" dir="auto"><h2 id="3848db55-6aee-8032-a6d4-c84fbcdd7970" class="">4. 和 spring-boot-starter-parent 的关系</h2></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8008-9df6-fcaa5d05d87c" class="bulleted-list"><li style="list-style-type:disc"><code>spring-boot-starter-parent</code> 内部就继承了 <code>spring-boot-dependencies</code>；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80ec-a1cb-c8b936faf482" class="bulleted-list"><li style="list-style-type:disc">方案1（继承）：项目直接继承 <code>spring-boot-starter-parent</code>，最常用；</li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-805b-80ae-fa6158e7d536" class="bulleted-list"><li style="list-style-type:disc">方案2（导入）：无法多继承时，在pom用 <code>&lt;dependencyManagement&gt;</code> 导入 <code>spring-boot-dependencies</code>，同样实现版本统一。</li></ul></div><div style="display:contents" dir="auto"><h2 id="3848db55-6aee-80d7-81ae-c443df8026aa" class="">极简总结</h2></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80de-bfd6-eed41b66a30c" class="">这个pom是SpringBoot<strong>全局版本花名册</strong>，预先锁定所有组件版本，以此保证整个项目所有Starter、第三方依赖版本一致，解决版本冲突问题。</p></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8018-a4ab-c1ec1580d907" class="">需要我给你两种使用方式（继承/导入）的pom对比示例吗？</p></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="3848db55-6aee-80be-a0fe-f08a97725094" class="block-color-purple_background">任何一个springboot项目，都需要做两件事：<br/>1. 继承springboot-start-parent…<br/>2. 引入最核心的基础启动器：spring-boot-starter（可能是包含在其他启动器中）</blockquote></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-80de-9927-ed54927d3420"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-80d1-8796-e2d50421d343" class="">springboot的核心注释</h1></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8084-80ba-f15b1c022e48" class="toggle"><li><details open=""><summary>简单总结</summary><div style="display:contents" dir="ltr"><table id="3858db55-6aee-807e-8098-ff738264f0bf" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3858db55-6aee-8076-89e4-f90aca3466a2"><th id="X~p=" class="simple-table-header-color simple-table-header" style="width:422px">注解</th><th id="LRh\" class="simple-table-header-color simple-table-header" style="width:268.5729217529297px">核心用途</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3858db55-6aee-8009-a478-e03b95099eb9"><td id="X~p=" class="" style="width:422px">@SpringBootApplication</td><td id="LRh\" class="" style="width:268.5729217529297px">项目启动入口，三合一注解</td></tr></div><div style="display:contents" dir="ltr"><tr id="3858db55-6aee-8003-b58b-d37003349714"><td id="X~p=" class="" style="width:422px">@Component/@Controller/@Service/@Repository</td><td id="LRh\" class="" style="width:268.5729217529297px">分层注册 Bean</td></tr></div><div style="display:contents" dir="ltr"><tr id="3858db55-6aee-803b-af71-eef1d29f5e35"><td id="X~p=" class="" style="width:422px">@Autowired/@Resource</td><td id="LRh\" class="" style="width:268.5729217529297px">依赖注入</td></tr></div><div style="display:contents" dir="ltr"><tr id="3858db55-6aee-80a8-b928-c61bedc83026"><td id="X~p=" class="" style="width:422px">@Configuration+@Bean</td><td id="LRh\" class="" style="width:268.5729217529297px">第三方对象配置注册</td></tr></div><div style="display:contents" dir="ltr"><tr id="3858db55-6aee-80cb-95bd-d4908bf76a5c"><td id="X~p=" class="" style="width:422px">@Value/@ConfigurationProperties</td><td id="LRh\" class="" style="width:268.5729217529297px">读取配置文件</td></tr></div><div style="display:contents" dir="ltr"><tr id="3858db55-6aee-8099-8a12-e7a2e883f4d1"><td id="X~p=" class="" style="width:422px">@RestController、@PostMapping 等</td><td id="LRh\" class="" style="width:268.5729217529297px">接口接收请求</td></tr></div><div style="display:contents" dir="ltr"><tr id="3858db55-6aee-801d-86a2-cfc5cb7d930a"><td id="X~p=" class="" style="width:422px">@RequestBody/@PathVariable</td><td id="LRh\" class="" style="width:268.5729217529297px">参数接收</td></tr></div><div style="display:contents" dir="ltr"><tr id="3858db55-6aee-8087-bb7c-e1c00239d70a"><td id="X~p=" class="" style="width:422px">@Mapper/@MapperScan</td><td id="LRh\" class="" style="width:268.5729217529297px">MyBatis 扫描 DAO</td></tr></div><div style="display:contents" dir="ltr"><tr id="3858db55-6aee-807d-8746-ee75669dfc65"><td id="X~p=" class="" style="width:422px">@Transactional</td><td id="LRh\" class="" style="width:268.5729217529297px">数据库事务</td></tr></div><div style="display:contents" dir="ltr"><tr id="3858db55-6aee-807f-8c06-f03fc3783f6e"><td id="X~p=" class="" style="width:422px">@ConditionalXXX</td><td id="LRh\" class="" style="width:268.5729217529297px">条件装配</td></tr></div><div style="display:contents" dir="ltr"><tr id="3858db55-6aee-8051-8c71-f7ca43a2d31e"><td id="X~p=" class="" style="width:422px">@EnableXXX</td><td id="LRh\" class="" style="width:268.5729217529297px">开启对应模块功能</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ol type="1" id="3858db55-6aee-800d-91d6-f477df1d2aa4" class="numbered-list" start="1"><li>@Configuration 定义配置类，替代传统XML配置，类内部可使用<code>@Bean</code>注册第三方对象。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3858db55-6aee-80a2-8d78-d8013df096a9" class="numbered-list" start="2"><li>@Bean 写在方法上，将方法返回对象注册为 Spring Bean，默认方法名是 Bean 名称<div style="display:contents" dir="auto"><pre id="3858db55-6aee-80e7-be09-e67f9a6f30ab" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Configuration
+public class MyConfig {
+    @Bean
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
+}</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3858db55-6aee-80c5-8436-ed321279d2e2" class="numbered-list" start="3"><li>@SpringBootConfiguration 使用@SpringBootApplication标注的类就是一个配置类</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3858db55-6aee-80e2-8e2f-f0497cba3ec5" class="numbered-list" start="4"><li>@EnableAutoConfiguration 自动配置（默认开启），根据<code>application.properties</code>，根据你的路径中有哪些类，底层有一系列的条件，判断这些条件。每个配置就是一个配置类，当在springboot容器中满足某个/某些条件时候，对应的自动配置类会自动配置生效。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3858db55-6aee-8097-8ddf-e41b5d7e72a7" class="numbered-list" start="5"><li>@ComponentScan 自动扫描指定包下带组件注解的类，创建对应的Bean放入SpringIOC容器<div style="display:contents" dir="auto"><p id="3858db55-6aee-8010-8730-e1472e2b9aed" class="">被扫描识别的注解：<code>@Component,@Controller,@Service,@Repository</code></p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3858db55-6aee-805d-b40d-e7da3dc6df51" class="numbered-list" start="6"><li>@SpringBootApplication = @Configuration + @EnableAutoConfiguration + @ComponentScan</li></ol></div><div style="display:contents" dir="auto"><blockquote id="3858db55-6aee-8011-a96d-fbbf5f0bd19e" class="">配置类中是可以配置bean的，并且自动纳入IoC容器的管理，等同于spring.xml中<br/>&lt;bean id=”date” class=”java.util.Date”&gt;</blockquote></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-803e-ae6e-d130aebda7c0" class="toggle"><li><details open=""><summary>组件注册一类的</summary><div style="display:contents" dir="auto"><p id="3858db55-6aee-807e-bcc1-ceb5c1caf2aa" class=""><strong>1. @Component</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-804d-a501-c88885a74ea8" class="">通用组件注解，不属于三层架构的普通工具类使用，标记后被 Spring 扫描创建 Bean。</p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80c0-bcec-c2beeda49533" class=""><strong>2. @Controller</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-809d-8ffb-ffdb29f8ca54" class="">控制层（MVC），用于接收前端请求，返回页面/视图；<br/>不能返回 JSON 数据，返回JSON需搭配@ResponseBody</p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-803c-8a49-cdea87231db4" class=""><strong>3. @RestController</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80e4-811a-d06c30872338" class=""><code>@RestController = @Controller + @ResponseBody</code></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80c4-9583-de46fcc24375" class=""><strong>常用接口注解</strong>：所有方法默认返回 JSON 字符串，不再跳转页面。</p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-806c-849b-d4652b04290f" class=""><strong>4. @Service</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8007-abea-cf3f116092af" class="">业务层注解，写业务逻辑类，事务一般加在该层。</p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8096-b8f6-f785a2a475e2" class=""><strong>5. @Repository</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8084-9d89-df1b7758a0fa" class="">持久层注解，标记 DAO/Mapper 接口，解决数据库注入爆红问题；<br/>MyBatis 中更多使用@Mapper替代。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8017-b922-ce90f683de30" class="toggle"><li><details open=""><summary>依赖注入注解</summary><div style="display:contents" dir="auto"><p id="3858db55-6aee-8032-883a-c9674e1d7c95" class=""><strong>1. @Autowired</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80d9-877b-ef32eb4971c4" class="">自动按<strong>类型</strong>注入 Bean，Spring 原生注解</p></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-804b-b3da-d04af70b2b3b" class="bulleted-list"><li style="list-style-type:disc">可写在成员变量、set 方法、构造方法</li></ul></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8046-b7ec-c6ed9d09ac65" class="bulleted-list"><li style="list-style-type:disc">默认必须找到对应 Bean，找不到报错；</li></ul></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-80b9-be25-c9b14905a8aa" class="bulleted-list"><li style="list-style-type:disc"><code>@Autowired(required = false)</code>：找不到不报错</li></ul></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80a9-83e1-ecf88a5ae01e" class=""><strong>2. @Qualifier</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8027-9c2b-ce1918255d21" class="">配合<code>@Autowired</code>使用，<strong>按名称精准匹配</strong>，解决同类型多个 Bean 冲突</p></div><div style="display:contents" dir="auto"><pre id="3858db55-6aee-80c6-a603-cb01cb31b92e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Autowired
+@Qualifier(&quot;userServiceImpl&quot;)
+private UserService userService;</code></pre></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8019-821c-c883fe8daffb" class=""><strong>3. @Resource</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80e0-b6d8-dae60dcb5db3" class="">JSR 规范注解，默认</p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80fe-b7bb-ed891aac3cac" class=""><strong>先按名称匹配，再按类型匹配,</strong>等同于@Autowired+@Qualifier，部分场景兼容性更好。</p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-804c-a174-fb05da08adff" class=""><strong>4. @Value</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-801f-b5df-c68e3d795a10" class="">读取 <code>application.yml/application.properties</code> 配置文件单个值<code>user.name=张三</code></p></div><div style="display:contents" dir="auto"><pre id="3858db55-6aee-8055-bd4a-dbb7b8d3a840" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Value(&quot;${user.name}&quot;)
+private String username;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-80e6-a982-f84687f05b67" class="block-color-purple_background toggle"><li><details open=""><summary>配置文件批量绑定注解</summary><div style="display:contents" dir="auto"><p id="3858db55-6aee-80bf-8d38-e68620d542d9" class=""><strong>1.@ConfigurationProperties</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-809a-a061-fcccae2f5bbe" class="">批量将配置文件一组属性绑定到实体类，前缀匹配</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js" integrity="sha512-6O/PZimM3TD1NN3yrazePA4AbZrPcwt1QCGJrVY7WoHDJROZFc9TlBvIKMe+QfqgcslW4lQeBzNJEJvIMC8WhA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3858db55-6aee-80e0-8cdd-fa990dc64410" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">student:
+  id: 1
+  name: 李四
+  age: 20</code></pre></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8093-8d66-ea3df4cb678d" class="">实体类：</p></div><div style="display:contents" dir="auto"><pre id="3858db55-6aee-80d4-846c-e446a9147147" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Component
+@ConfigurationProperties(prefix = &quot;student&quot;)
+public class Student {
+    private Integer id;
+    private String name;
+    private Integer age;
+    // get/set
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8081-a4c5-d2780ebfb1a3" class="">必须搭配<code>@Component</code>让类被扫描；IDEA可安装SpringBoot配置提示插件。</p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-800f-a6a7-e7f1a6e04d29" class=""><strong>2.@EnableConfigurationProperties</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80b5-b293-e846f1e2c6c9" class="">开启指定类的<code>@ConfigurationProperties</code>绑定，不用在实体加<code>@Component</code>。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-808b-bca0-fe5625948aa2" class="toggle"><li><details open=""><summary>web开发常用</summary><div style="display:contents" dir="auto"><p id="3858db55-6aee-8096-b721-f2df601ca660" class=""><strong>1. @RequestMapping</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-804f-867c-f9cd5d7c81d6" class="">通用请求映射，可标注类 + 方法，指定请求路径、请求方式</p></div><div style="display:contents" dir="auto"><pre id="3858db55-6aee-80e9-9b1f-c0f0fe213ffc" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@RequestMapping(&quot;/user&quot;)
+public class UserController {
+    @RequestMapping(&quot;/list&quot;)
+    public List&lt;User&gt; list(){}
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80f5-b745-e4327ef51267" class="">属性：<code>value/path</code>路径、<code>method</code>指定 GET/POST 等</p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80e3-9916-deb26aa918a5" class=""><strong>派生注解（简化写法）</strong></p></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-80ec-b8a7-f33f2fb6ed38" class="bulleted-list"><li style="list-style-type:disc"><code>@GetMapping</code> = @RequestMapping(method = GET)</li></ul></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8039-bdc4-d7ac31109a40" class="bulleted-list"><li style="list-style-type:disc"><code>@PostMapping</code> = POST</li></ul></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-800f-8263-f98626e026d4" class="bulleted-list"><li style="list-style-type:disc"><code>@PutMapping</code> = PUT</li></ul></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8061-bf41-ec6aa317ffa7" class="bulleted-list"><li style="list-style-type:disc"><code>@DeleteMapping</code> = DELETE</li></ul></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-805d-8456-cf78905635a5" class=""><strong>2. @RequestParam</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-809e-90f9-df70b3190cdc" class="">接收<strong>普通请求参数</strong>（?name=xxx）</p></div><div style="display:contents" dir="auto"><pre id="3858db55-6aee-8063-a3bf-e6370aff7899" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public String test(@RequestParam String name)</code></pre></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-807b-8c5e-e58dfa71676c" class=""><strong>3. @PathVariable</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-808e-b5e5-f59010976919" class="">接收<strong>路径变量</strong> <code>/user/{id}</code></p></div><div style="display:contents" dir="auto"><pre id="3858db55-6aee-8045-bc4e-ec0ad96179eb" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@GetMapping(&quot;/{id}&quot;)
+public User getById(@PathVariable Integer id)</code></pre></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80e9-a035-f7b125d26ac0" class=""><strong>4. @RequestBody</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8028-bcdf-e296b85f6a6e" class="">接收前端<strong>JSON 请求体</strong>，POST 常用，自动 JSON 转对象</p></div><div style="display:contents" dir="auto"><pre id="3858db55-6aee-8083-8618-e020faead6ca" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@PostMapping
+public void add(@RequestBody User user)</code></pre></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80f4-b942-d64fc69c0d78" class=""><strong>5. @RequestHeader / @CookieValue</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8099-be51-e465a57d6425" class="">获取请求头、Cookie值。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8041-83eb-f562e4ae4ed7" class="toggle"><li><details open=""><summary>MyBatis/持久层相关注解</summary><div style="display:contents" dir="auto"><p id="3858db55-6aee-8036-aac5-e3b9638b9ded" class=""><strong>1. @Mapper</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8030-b472-d132974e8aa7" class="">标记 Mapper 接口，Spring自动生成代理对象，无需写<code>@Repository</code>，无需 XML 扫描配置。</p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8067-8091-f29075f9836a" class=""><strong>2. @MapperScan（启动类常用）</strong></p></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80eb-8f3a-fe039577173f" class="">批量扫描指定包下所有 Mapper 接口，不用每个接口加<code>@Mapper</code></p></div><div style="display:contents" dir="auto"><pre id="3858db55-6aee-806d-9db2-e8c8a8cc0910" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@SpringBootApplication
+@MapperScan(&quot;com.xxx.mapper&quot;)
+public class App{}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3858db55-6aee-80eb-8857-f184a2fd3e22"/></div><div style="display:contents" dir="auto"><h1 id="3858db55-6aee-805e-b6fd-c6988d73d9dd" class="">springboot中单元测</h1></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8087-94c7-c6e427d2bd1d" class=""><strong>单元测试：针对最小代码单元（一个方法、一个函数）单独写代码验证逻辑是否正确</strong>Java/SpringBoot 里最小单元一般就是某个 Service 方法、工具类方法。</p></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8028-810e-c7107146e802" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow_background"><strong>不用单元测试：人肉手动试，慢、容易漏、改代码容易改错旧功能</strong></mark></li></ul></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-80f2-8691-d3e560a9f4c4" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow_background"><strong>用单元测试：代码自动校验小方法，跑得快、防改错、便于维护迭代</strong></mark></li></ul></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-8061-81a6-fd1f4fc3b866" class="toggle"><li><details open=""><summary>使用流程</summary><div style="display:contents" dir="auto"><p id="3858db55-6aee-805b-9fee-ff3cbd5a26c0" class="">1、引入依赖（Maven）</p></div><div style="display:contents" dir="auto"><pre id="3858db55-6aee-8058-946b-c5b4b9854009" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-80c9-904a-ca75dfc8b6f0" class="">2、测试类注解</p></div><div style="display:contents" dir="auto"><pre id="3858db55-6aee-805a-a687-f3f9fee5132d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// JUnit5（默认新版）
+@SpringBootTest
+class TestDemo {
+
+    @Autowired
+    private UserService userService;
+
+    @Test
+    void testFunc() {
+        // 调用业务方法断言
+        System.out.println(userService.getById(1));
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8083-b892-ea65ab71cef8" class="">注解说明</p></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-809b-9541-c41431385587" class="bulleted-list"><li style="list-style-type:disc"><code>@SpringBootTest</code>：加载完整Spring上下文，自动扫描Bean，可<code>@Autowired</code>注入</li></ul></div><div style="display:contents" dir="auto"><ul id="3858db55-6aee-804c-8b3c-e6cd21734157" class="bulleted-list"><li style="list-style-type:disc"><code>@Test</code>：标记测试方法</li></ul></div><div style="display:contents" dir="auto"><p id="3858db55-6aee-8060-a8ea-e8208ee0fd87" class="">3、只测Controller（轻量，不用完整容器）</p></div><div style="display:contents" dir="auto"><pre id="3858db55-6aee-801d-bef7-cb8d4d512845" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@SpringBootTest
+@AutoConfigureMockMvc
+class ControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void testApi() throws Exception {
+        mockMvc.perform(get(&quot;/user/1&quot;))
+                .andExpect(status().isOk());
+    }
+}</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

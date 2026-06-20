@@ -1,0 +1,1333 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>SSM完整流程</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3848db55-6aee-8021-b9ed-dc944b9cf912" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/met_arnold_bocklin_1880.jpg" style="object-position:center 100%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">📝</span></div><h1 class="page-title" dir="auto">SSM完整流程</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><hr id="3848db55-6aee-8054-b4d7-d62b2aa4cf72"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-8069-bf74-f879a36c0e3c" class="">目录结构</h1></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80be-9da2-ff78b15e1d80" class="toggle"><li><details open=""><summary>目录结构</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3848db55-6aee-80f9-99e9-ee75fbd82713" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">SSMTest
+├── pom.xml                     # Maven核心配置：管理所有SSM依赖、资源打包规则
+├── src
+│   └── main
+│       ├── java/com/Hpc        # Java代码根包
+│       │   ├── controller      【SpringMVC 表现层】
+│       │   │   └── UserController.java   接收浏览器请求、调度业务
+│       │   ├── entity          【实体模型层】
+│       │   │   └── User.java             对应数据库ssm_demo表，封装数据
+│       │   ├── mapper          【MyBatis 持久层Dao】
+│       │   │   ├── UserMapper.java       数据库操作接口
+│       │   │   └── UserMapper.xml       编写SQL，映射数据表
+│       │   ├── service         【Spring 业务层】
+│       │   │   ├── UserService.java      业务接口
+│       │   │   └── impl/UserServiceImpl.java 业务实现类
+│       │   └── test
+│       │       └── Main.java             本地main方法测试Spring+MyBatis连通性
+│       ├── resources           # 配置文件资源目录
+│       │   ├── db.properties             数据库连接参数配置
+│       │   ├── spring.xml                Spring父容器配置（Service、数据源、MyBatis整合）
+│       │   └── springmvc.xml             SpringMVC子容器配置（Controller、视图解析器）
+│       └── webapp             # Web部署根目录
+│           └── WEB-INF
+│               ├── jsp/show.jsp           前端展示页面
+│               └── web.xml                Web项目部署描述文件（容器启动入口）
+└── target                      # Maven编译打包输出目录</code></pre></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80fe-b54f-fa5759dc1796" class="">分层对应关系：</p></div><div style="display:contents" dir="ltr"><table id="3848db55-6aee-807c-a6bf-ff1d5035d975" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8075-be7a-d8162385057a"><th id="~rdH" class="simple-table-header-color simple-table-header">分层</th><th id="|{BW" class="simple-table-header-color simple-table-header">对应框架</th><th id="POxC" class="simple-table-header-color simple-table-header">对应包位置</th><th id="~OIv" class="simple-table-header-color simple-table-header">核心职责</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80db-a285-f31f98f0bc1f"><td id="~rdH" class="">表现层（Web）</td><td id="|{BW" class="">SpringMVC</td><td id="POxC" class=""><code>controller</code></td><td id="~OIv" class="">接收请求、参数处理、页面跳转、数据转发</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-80b0-9b60-d9f52729db7c"><td id="~rdH" class="">业务层</td><td id="|{BW" class="">Spring</td><td id="POxC" class=""><code>service + service.impl</code></td><td id="~OIv" class="">业务逻辑处理、事务管理、依赖解耦</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-8097-b555-e3f290915d01"><td id="~rdH" class="">持久层（Dao）</td><td id="|{BW" class="">MyBatis</td><td id="POxC" class=""><code>mapper</code>（接口 + XML 映射文件）</td><td id="~OIv" class="">执行 SQL、操作 MySQL 数据库</td></tr></div><div style="display:contents" dir="ltr"><tr id="3848db55-6aee-806a-98fd-df1ce75f56b0"><td id="~rdH" class="">模型</td><td id="|{BW" class="">通用实体</td><td id="POxC" class=""><code>entity</code></td><td id="~OIv" class="">封装数据表数据，前后层数据载体</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80ca-9d5d-ca780ba99d99" class="toggle"><li><details open=""><summary>执行流程</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-805c-8001-e94bb6f0e6d7" class="">web测试流程：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80a4-996d-caaaacc69dc3" class="numbered-list" start="1"><li>浏览器发起带参数的 GET 请求，发送至 Tomcat 服务器</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-804e-af65-ec75ddc36535" class="numbered-list" start="2"><li>Tomcat 读取<code>web.xml</code>配置，由 **DispatcherServlet（SpringMVC 前端控制器）** 拦截全部请求</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-806a-8a26-e1b903217ad2" class="numbered-list" start="3"><li>SpringMVC 根据<code>@RequestMapping(&quot;/findUser&quot;)</code>匹配到<code>UserController</code>对应的处理方法</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8089-a869-e8727560a34d" class="numbered-list" start="4"><li>Controller 接收前端传递的<code>id</code>参数，调用<code>UserService</code>中的业务查询方法</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-806a-bfe4-dd350d675f38" class="numbered-list" start="5"><li><code>UserServiceImpl</code>通过<code>@Autowired</code>自动注入<code>UserMapper</code>代理对象，调用 Mapper 查询方法</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80fb-9ba7-c1a5620aab73" class="numbered-list" start="6"><li>程序读取<code>UserMapper.xml</code>中编写的 SQL 语句，向<code>mytest1</code>数据库的<code>ssm_demo</code>表发起查询</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80d9-8b76-d14f4b2c8f4d" class="numbered-list" start="7"><li>MySQL 执行 SQL，查询出对应数据并返回结果集</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8059-a822-ef84cd78d230" class="numbered-list" start="8"><li>MyBatis 自动把查询结果封装为<code>User</code>实体类对象，逐层向上回传：Mapper → Service → Controller</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8096-abc4-ebf823036839" class="numbered-list" start="9"><li>Controller 将封装好的<code>User</code>对象存入 Model 数据域，指定跳转视图名<code>show</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8028-b079-f620a3e25fc0" class="numbered-list numbered-list-digits-2" start="10"><li>SpringMVC 视图解析器根据配置前缀<code>/WEB-INF/jsp/</code>、后缀<code>.jsp</code>，拼接得到真实页面路径<code>/WEB-INF/jsp/show.jsp</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8050-a8bb-d22ad2d28c17" class="numbered-list numbered-list-digits-2" start="11"><li>JSP 页面通过 EL 表达式取出 Model 中的用户数据渲染展示</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80cb-bfeb-fe8313af0c87" class="numbered-list numbered-list-digits-2" start="12"><li>最终生成 HTML 页面，响应返回给浏览器完成展示</li></ol></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-80a5-ad8e-deed993b4586" class="">main测试流程：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8037-b8f5-dda695e3e07d" class="numbered-list" start="1"><li>运行<code>com.Hpc.test.Main</code>的 main 方法</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80b0-bb9c-ef116683e844" class="numbered-list" start="2"><li>加载<code>spring.xml</code>配置文件，初始化 Spring 父 IoC 容器</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-802f-a2ee-cdb61d9c4d94" class="numbered-list" start="3"><li>Spring 自动扫描包，创建<code>UserServiceImpl</code>、<code>UserMapper</code>代理对象并完成依赖注入</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-802c-a49c-c2b8ae4cdb3a" class="numbered-list" start="4"><li>从容器获取<code>UserService</code>对象，调用查询方法<code>getUserById(1)</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8038-a33a-d12563959d98" class="numbered-list" start="5"><li>调用 Mapper 接口，执行<code>UserMapper.xml</code>内 SQL 查询<code>ssm_demo</code>表</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80ab-bc6a-fef660ecdd27" class="numbered-list" start="6"><li>数据库返回数据，MyBatis 封装为 User 对象</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8076-91eb-ee89597aab0b" class="numbered-list" start="7"><li>控制台打印对象信息，关闭 Spring 容器，程序结束</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-8028-b98d-ccc29e7089ca"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-8081-ba62-cee0edf1adda" class="">main.java.com.Hpc</h1></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8067-8691-dfbbb9500204" class="toggle"><li><details open=""><summary>entity.User.jsva</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-8074-a61d-e9e7797b7d86" class="">这是<strong>数据库映射实体类</strong>：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8080-a6e5-d695bb8e96bf" class="numbered-list" start="1"><li>对应 <code>ssm_demo</code> 数据表，<code>id、username、age</code> 三个属性匹配表中三列；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-80e9-8305-cae8d060e3d6" class="numbered-list" start="2"><li><code>@Data</code> 借助 Lombok 自动生成 get/set、toString 等方法，简化代码；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3848db55-6aee-8066-bb35-f28207e62af8" class="numbered-list" start="3"><li>在 SSM 各层之间传递用户数据，MyBatis 查询数据库后会自动把数据封装成该<code>User</code>对象。</li></ol></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-807e-9bbb-f16ffb6f2a7c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">package com.Hpc.entity;
+import lombok.Data;
+@Data
+public class User {
+    private Integer id;
+    private String username;
+    private Integer age;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80ae-a286-f00af0670862" class="toggle"><li><details open=""><summary>mapper.UserMapper.java</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-80ae-beba-fc3755d5673e" class="">MyBatis 数据访问接口，定义查询数据库的方法；配合 <code>UserMapper.xml</code> 实现根据 ID 查询用户，供 Service 层调用操作数据库。</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3848db55-6aee-802b-8de4-e524ac5e3032" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.Hpc.mapper;
+import com.Hpc.entity.User;
+import org.apache.ibatis.annotations.Param;
+/**
+ * Mapper接口：对应ssm_demo表的数据操作
+ * 规范：方法名、参数、返回值需要和UserMapper.xml映射文件一一对应
+ */
+public interface UserMapper {
+    /**
+     * 根据用户id查询一条用户数据
+     * @Param(&quot;uid&quot;)：给形参起别名uid，在Mapper.xml中使用#{uid}接收该参数
+     * @param uid 要查询的用户主键id
+     * @return 查询成功返回封装好的User对象，无数据返回null
+     */
+    User selectById(@Param(&quot;uid&quot;) Integer uid);
+    // 查询全部用户
+    List&lt;User&gt; selectAll();
+    // 新增用户
+    int insert(User user);
+    // 修改用户
+    int update(User user);
+    // 删除用户
+    int deleteById(@Param(&quot;uid&quot;) Integer uid);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-809d-8711-e23ad67e7a32" class="toggle"><li><details open=""><summary>mapper.UserMapper.xml</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-80cd-8a40-c71b8607d1f2" class="">MyBatis SQL 映射文件，绑定<code>UserMapper</code>接口，编写真实查询 SQL；执行根据 ID 查询<code>ssm_demo</code>表数据，并自动封装为<code>User</code>实体返回。</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80be-9a21-cff47018af0f" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!-- MyBatis Mapper约束声明，校验当前xml语法格式 --&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//shturl.cc/8dzBOR Mapper 3.0//EN&quot;
+        &quot;shturl.cc/xe4dJhjlIdXKKF0NaQiAu9Ze3ixurmr45&quot;&gt;
+
+&lt;!-- namespace：绑定对应Mapper接口全类名，建立接口与XML的映射关系 --&gt;
+&lt;mapper namespace=&quot;com.Hpc.mapper.UserMapper&quot;&gt;
+    &lt;!--
+        id：对应UserMapper接口中的方法名 selectById
+        resultType：指定查询结果自动封装的实体类全路径
+    --&gt;
+    &lt;select id=&quot;selectById&quot; resultType=&quot;com.Hpc.entity.User&quot;&gt;
+        &lt;!-- 查询ssm_demo表，#{uid}接收接口@Param注解传递的参数 --&gt;
+        SELECT id,username,age FROM ssm_demo WHERE id = #{uid}
+    &lt;/select&gt;
+    &lt;!-- 查询所有 --&gt;
+    &lt;select id=&quot;selectAll&quot; resultType=&quot;User&quot;&gt;
+        SELECT id,username,age FROM ssm_demo
+    &lt;/select&gt;
+    &lt;!-- 新增 --&gt;
+    &lt;insert id=&quot;insert&quot;&gt;
+        INSERT INTO ssm_demo(username,age) VALUES(#{username},#{age})
+    &lt;/insert&gt;
+    &lt;!-- 修改 --&gt;
+    &lt;update id=&quot;update&quot;&gt;
+        UPDATE ssm_demo SET username=#{username},age=#{age} WHERE id=#{id}
+    &lt;/update&gt;
+    &lt;!-- 删除 --&gt;
+    &lt;delete id=&quot;deleteById&quot;&gt;
+        DELETE FROM ssm_demo WHERE id = #{uid}
+    &lt;/delete&gt;
+&lt;/mapper&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-803f-8e58-d52c53d7c0a6" class="toggle"><li><details open=""><summary>service.UserService.java</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-8029-a917-d9e852f8e1b8" class="">业务层接口，定义查询用户的业务方法，给 Controller 调用，规范业务逻辑，由对应的 Impl 类实现具体功能。</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-808b-b1f3-c7e0742d8fb9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.Hpc.service;
+import com.Hpc.entity.User;
+/**
+ * 用户业务层接口
+ * 定义用户相关业务规范，面向接口编程，降低代码耦合
+ */
+public interface UserService {
+    /**
+     * 根据id查询用户信息
+     * @param id 查询的用户主键id
+     * @return 查到返回User对象，无数据返回null
+     */
+    User getUserById(Integer id);
+    List&lt;User&gt; findAll();
+    void addUser(User user);
+    void editUser(User user);
+    void delUser(Integer id);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8083-a3e3-d55552762787" class="toggle"><li><details open=""><summary>service.impl.UserServiceImpl.java</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-8019-84ca-efb39270a086" class="">业务层接口实现类，完成具体查询逻辑；交由 Spring 容器管理，自动注入 Mapper 对象，调用数据库查询方法。</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-806e-9fec-dd6cfb6f6c90" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.Hpc.service.impl;
+import com.Hpc.entity.User;
+import com.Hpc.mapper.UserMapper;
+import com.Hpc.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+// @Service：将当前类交给Spring IoC容器创建并管理，成为Bean对象
+@Service
+public class UserServiceImpl implements UserService {
+
+    // @Autowired：Spring自动从容器中匹配UserMapper代理对象，完成依赖注入，无需手动new
+    @Autowired
+    private UserMapper userMapper;
+
+    /**
+     * 实现业务接口查询方法
+     * @param id 用户主键编号
+     * @return 封装好的用户实体对象
+     */
+    @Override
+    public User getUserById(Integer id) {
+        // 调用持久层Mapper方法，执行数据库查询，向上返回查询结果
+        return userMapper.selectById(id);
+    }
+    @Override
+    public List&lt;User&gt; findAll() {
+        return userMapper.selectAll();
+    }
+
+    @Override
+    public void addUser(User user) {
+        userMapper.insert(user);
+    }
+
+    @Override
+    public void editUser(User user) {
+        userMapper.update(user);
+    }
+
+    @Override
+    public void delUser(Integer id) {
+        userMapper.deleteById(id);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80c6-ad33-cf7495cdc1a7" class="toggle"><li><details open=""><summary>controller.UserController.java</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-809c-b65c-ee204cf6f81a" class="">SpringMVC 表现层控制器，接收前端浏览器请求，调用业务层查询数据，把数据存入域对象后跳转页面展示。</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8087-b2f9-f6b152400edf" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.Hpc.controller;
+import com.Hpc.entity.User;
+import com.Hpc.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.util.List;
+
+@Controller
+@RequestMapping(&quot;/user&quot;)
+public class UserController {
+    @Autowired
+    private UserService userService;
+
+    // 1. 跳转到列表页，查询全部
+    @RequestMapping(&quot;/list&quot;)
+    public String list(Model model){
+        List&lt;User&gt; userList = userService.findAll();
+        model.addAttribute(&quot;list&quot;, userList);
+        return &quot;list&quot;;
+    }
+
+    // 2. 跳转新增页面
+    @RequestMapping(&quot;/toAdd&quot;)
+    public String toAdd(){
+        return &quot;add&quot;;
+    }
+    // 执行新增提交
+    @RequestMapping(&quot;/add&quot;)
+    public String add(User user){
+        userService.addUser(user);
+        return &quot;redirect:/user/list&quot;;
+    }
+
+    // 3. 跳转修改页面（回显数据）
+    @RequestMapping(&quot;/toEdit&quot;)
+    public String toEdit(@RequestParam Integer id, Model model){
+        User user = userService.getUserById(id);
+        model.addAttribute(&quot;user&quot;, user);
+        return &quot;edit&quot;;
+    }
+    // 提交修改
+    @RequestMapping(&quot;/update&quot;)
+    public String update(User user){
+        userService.editUser(user);
+        return &quot;redirect:/user/list&quot;;
+    }
+
+    // 4. 删除
+    @RequestMapping(&quot;/delete&quot;)
+    public String delete(@RequestParam Integer id){
+        userService.delUser(id);
+        return &quot;redirect:/user/list&quot;;
+    }
+
+    // 原有单个查询
+    @RequestMapping(&quot;/findUser&quot;)
+    public String findUser(@RequestParam Integer id, Model model){
+        User user = userService.getUserById(id);
+        model.addAttribute(&quot;user&quot;,user);
+        return &quot;show&quot;;
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80e6-bb5c-c2aa271b7cf9" class="toggle"><li><details open=""><summary>test.Main.java</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80b9-ba63-d6c1048937f4" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.Hpc.test;
+import com.Hpc.entity.User;
+import com.Hpc.service.UserService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Main {
+    public static void main(String[] args) {
+        // 1. 加载resources下的spring.xml，启动Spring容器
+        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;spring.xml&quot;);
+
+        // 2. 从Spring容器取出业务层对象
+        UserService userService = context.getBean(UserService.class);
+
+        // 3. 调用业务方法，测试查询id=1的数据
+        User user = userService.getUserById(1);
+
+        // 4. 控制台打印结果
+        System.out.println(&quot;查询结果：&quot; + user);
+
+        // 关闭容器释放资源
+        ((ClassPathXmlApplicationContext) context).close();
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-80cc-991c-c7b1110c9cdf"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-804e-8581-ee11709cf6c5" class="">main.resources</h1></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8012-acd9-c4a117ce7d2e" class="toggle"><li><details open=""><summary>db.properties</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80fe-8f3a-e76003eb59a9" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all"># MySQL8 驱动
+jdbc.driver=com.mysql.cj.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/mytest1?useSSL=false&amp;serverTimezone=UTC&amp;allowMultiQueries=true&amp;allowPublicKeyRetrieval=true
+jdbc.username=root
+jdbc.password=123.com.cn</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8081-b6a6-e81d247fa5e8" class="toggle"><li><details open=""><summary>spring.xml</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-80d8-86fa-fcba4b06cecb" class=""><code>spring.xml</code> 是 Spring 父容器核心配置文件，加载数据库配置、创建 C3P0 连接池、整合 MyBatis、扫描 Service 与 Mapper，完成业务层、持久层 Bean 自动创建与依赖管理。</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80e4-845a-eb83302aecb3" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;
+http://www.springframework.org/schema/beans
+https://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+https://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+
+    &lt;!-- 加载类路径下db.properties，读取数据库账号、地址等配置，${key}取值使用 --&gt;
+    &lt;context:property-placeholder location=&quot;classpath:db.properties&quot;/&gt;
+
+    &lt;!-- 自动扫描com.Hpc.service包，把@Service注解类注册为Spring Bean，交由容器管理 --&gt;
+    &lt;context:component-scan base-package=&quot;com.Hpc.service&quot;/&gt;
+
+    &lt;!-- 配置C3P0数据库连接池，id=dataSource作为数据源唯一标识 --&gt;
+    &lt;bean id=&quot;dataSource&quot; class=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;&gt;
+        &lt;!-- 驱动类，从properties读取配置 --&gt;
+        &lt;property name=&quot;driverClass&quot; value=&quot;${jdbc.driver}&quot;/&gt;
+        &lt;!-- 数据库连接地址 --&gt;
+        &lt;property name=&quot;jdbcUrl&quot; value=&quot;${jdbc.url}&quot;/&gt;
+        &lt;!-- 数据库用户名 --&gt;
+        &lt;property name=&quot;user&quot; value=&quot;${jdbc.username}&quot;/&gt;
+        &lt;!-- 数据库密码 --&gt;
+        &lt;property name=&quot;password&quot; value=&quot;${jdbc.password}&quot;/&gt;
+    &lt;/bean&gt;
+
+    &lt;!-- MyBatis整合核心：SqlSessionFactory工厂，构建MyBatis会话对象 --&gt;
+    &lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;
+        &lt;!-- 注入上面配置好的数据库连接池 --&gt;
+        &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt;
+        &lt;!-- 给entity包下实体类设置别名，Mapper.xml写类名即可，不用写全限定名 --&gt;
+        &lt;property name=&quot;typeAliasesPackage&quot; value=&quot;com.Hpc.entity&quot;/&gt;
+    &lt;/bean&gt;
+
+    &lt;!-- 自动扫描Mapper接口包，自动生成Mapper代理对象，注入到Spring容器，供Service注入使用 --&gt;
+    &lt;bean class=&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;&gt;
+        &lt;property name=&quot;basePackage&quot; value=&quot;com.Hpc.mapper&quot;/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8049-a4a1-f27a585e9ba7" class="toggle"><li><details open=""><summary>springmvc.xml</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-80cb-aafc-dd598055716a" class=""><code>springmvc.xml</code> 是 SpringMVC 子容器配置文件，扫描控制器、开启 MVC 注解支持、配置视图解析器，专门处理 Web 请求跳转逻辑。</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80ae-bb43-cdc9171c9fa9" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+       xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;
+http://www.springframework.org/schema/beans
+https://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+https://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/mvc
+https://www.springframework.org/schema/mvc/spring-mvc.xsd&quot;&gt;
+
+    &lt;!-- 自动扫描controller包，将@Controller类交给SpringMVC容器管理，处理Web请求 --&gt;
+    &lt;context:component-scan base-package=&quot;com.Hpc.controller&quot;/&gt;
+
+    &lt;!-- 开启SpringMVC全套注解驱动，自动适配请求参数绑定、注解解析、类型转换等功能 --&gt;
+    &lt;mvc:annotation-driven/&gt;
+
+    &lt;!-- 配置内置资源视图解析器，简化页面跳转路径书写 --&gt;
+    &lt;bean class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;
+        &lt;!-- 页面存放前缀路径 --&gt;
+        &lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/jsp/&quot;/&gt;
+        &lt;!-- 页面文件后缀名 --&gt;
+        &lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;/&gt;
+    &lt;/bean&gt;
+    &lt;!-- 例：控制器return &quot;show&quot;，自动拼接为 /WEB-INF/jsp/show.jsp 完成跳转 --&gt;
+&lt;/beans&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-80e7-a469-e4dd503b7ff3"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-8041-83d0-e6cc7a572d6e" class="">pom.xml</h1></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80a6-ad27-e6af3a4b0bee" class="toggle"><li><details open=""><summary>pom.xml</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-8014-a6fe-ea09713ed7a7" class=""><code>pom.xml</code> 是 Maven 项目核心配置文件，<strong>管理项目坐标、SSM 全套依赖 Jar 包、全局编码、资源打包规则、编译插件、内置 Web 容器启动插件</strong>，统一管控项目构建、编译、运行。</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-806f-8ebd-c42b56b7db43" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!-- POM文件XML约束，校验当前pom语法合法性 --&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;&gt;
+    &lt;!-- POM模型版本，Maven固定写法，只能为4.0.0 --&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;!-- 项目唯一坐标，Maven用来定位、管理当前项目 --&gt;
+    &lt;groupId&gt;com.Hpc&lt;/groupId&gt;        &lt;!-- 组织/公司反向域名包名 --&gt;
+    &lt;artifactId&gt;MavenTest&lt;/artifactId&gt;&lt;!-- 当前子项目/模块名称 --&gt;
+    &lt;packaging&gt;war&lt;/packaging&gt;       &lt;!-- 打包类型：war为Web工程，可部署Tomcat --&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;  &lt;!-- 版本号；SNAPSHOT代表开发快照版本 --&gt;
+    &lt;name&gt;MavenTest Maven Webapp&lt;/name&gt;&lt;!-- 项目展示名称 --&gt;
+    &lt;url&gt;http://maven.apache.org&lt;/url&gt;&lt;!-- 项目官方地址，可自定义或删除 --&gt;
+
+    &lt;!-- 依赖管理：声明项目需要的所有第三方Jar，Maven自动从远程仓库下载 --&gt;
+    &lt;dependencies&gt;
+        &lt;!-- Lombok：简化实体类，编译期自动生成get/set、toString、equals等方法，消除模板代码 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+            &lt;version&gt;1.18.44&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- SpringMVC核心依赖：包含Spring基础容器、MVC请求分发、控制器相关全套类 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;
+            &lt;version&gt;5.3.39&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- MyBatis核心框架：替代原生JDBC，实现SQL与Java代码分离，简化数据库操作 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+            &lt;version&gt;3.4.5&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- MySQL驱动程序：Java程序与MySQL数据库建立连接的必备驱动 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+            &lt;version&gt;8.0.30&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- mybatis-spring整合包：让Spring容器管理MyBatis的SqlSession、Mapper代理对象，完成SSM整合 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis-spring&lt;/artifactId&gt;
+            &lt;version&gt;2.0.7&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- C3P0数据库连接池：复用数据库连接，避免频繁创建销毁连接，提升数据库访问性能 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;c3p0&lt;/groupId&gt;
+            &lt;artifactId&gt;c3p0&lt;/artifactId&gt;
+            &lt;version&gt;0.9.1.2&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- Servlet API：Servlet、Filter、Listener基础接口；scope=provided代表Tomcat容器自带，打包不会重复打入 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+            &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;
+            &lt;version&gt;3.0.1&lt;/version&gt;
+            &lt;scope&gt;provided&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- Spring-JDBC：Spring封装JDBC模板工具类 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;
+            &lt;version&gt;5.3.39&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!-- Spring事务核心包：声明式事务管理必备依赖 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-tx&lt;/artifactId&gt;
+            &lt;version&gt;5.3.39&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- JSTL标签库：JSP页面循环、判断等逻辑标签，用于遍历后端集合数据 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+            &lt;artifactId&gt;jstl&lt;/artifactId&gt;
+            &lt;version&gt;1.2&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.taglibs&lt;/groupId&gt;
+            &lt;artifactId&gt;taglibs-standard-impl&lt;/artifactId&gt;
+            &lt;version&gt;1.2.5&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;!-- 全局属性配置 --&gt;
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+        &lt;maven.compiler.encoding&gt;UTF-8&lt;/maven.compiler.encoding&gt;
+        &lt;!-- 指定编译JDK版本为1.8 --&gt;
+        &lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;
+        &lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;
+    &lt;/properties&gt;
+
+    &lt;!-- 项目构建配置：编译、资源打包、插件配置 --&gt;
+    &lt;build&gt;
+        &lt;!-- 打包生成的war包文件名 --&gt;
+        &lt;finalName&gt;MavenTest&lt;/finalName&gt;
+
+        &lt;!-- 资源文件配置：默认Maven只会打包resources目录文件，此配置将java目录下Mapper.xml一同打包 --&gt;
+        &lt;resources&gt;
+            &lt;resource&gt;
+                &lt;!-- 扫描src/main/java源码目录 --&gt;
+                &lt;directory&gt;src/main/java&lt;/directory&gt;
+                &lt;!-- 递归包含目录下所有xml映射文件，避免MyBatis映射文件打包丢失 --&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;**/*.xml&lt;/include&gt;
+                &lt;/includes&gt;
+            &lt;/resource&gt;
+        &lt;/resources&gt;
+
+        &lt;!-- 插件列表 --&gt;
+        &lt;plugins&gt;
+            &lt;!-- Maven编译插件：控制源码编译编码、JDK版本 --&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+                &lt;version&gt;3.13.0&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+                    &lt;source&gt;1.8&lt;/source&gt;
+                    &lt;target&gt;1.8&lt;/target&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+
+            &lt;!-- Tomcat7内置插件：无需本地安装Tomcat，一键运行Web项目 --&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.tomcat.maven&lt;/groupId&gt;
+                &lt;artifactId&gt;tomcat7-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;2.2&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;port&gt;8080&lt;/port&gt;          &lt;!-- 项目访问端口 --&gt;
+                    &lt;path&gt;/&lt;/path&gt;              &lt;!-- 项目上下文访问根路径 --&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+
+            &lt;!-- Jetty内置Web容器插件，备选服务器，启动速度更快 --&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.eclipse.jetty&lt;/groupId&gt;
+                &lt;artifactId&gt;jetty-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;9.4.43.v20210629&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;!-- 配置HTTP监听端口 --&gt;
+                    &lt;httpConnector&gt;
+                        &lt;port&gt;8080&lt;/port&gt;
+                    &lt;/httpConnector&gt;
+                    &lt;!-- 项目访问根路径 --&gt;
+                    &lt;webApp&gt;
+                        &lt;contextPath&gt;/&lt;/contextPath&gt;
+                    &lt;/webApp&gt;
+                    &lt;!-- 热部署扫描间隔，修改代码自动重启，单位秒 --&gt;
+                    &lt;scanIntervalSeconds&gt;10&lt;/scanIntervalSeconds&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3848db55-6aee-80e7-b937-f27bdee73432"/></div><div style="display:contents" dir="auto"><h1 id="3848db55-6aee-809c-b7d9-f7fc5e5b84fd" class="">webapp.WEB-INF</h1></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-806b-8c0f-f95ce82e7552" class="toggle"><li><details open=""><summary>web.xml</summary><div style="display:contents" dir="auto"><p id="3848db55-6aee-80fe-a74b-ccaae68a7ba1" class=""><code>web.xml</code> 是 Web 项目部署描述文件，配置编码过滤器、Spring 父子容器加载、SpringMVC 前端控制器，是 SSM 项目 Web 入口配置。</p></div><div style="display:contents" dir="auto"><pre id="3848db55-6aee-8054-b55d-c32e154d527d" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee shturl.cc/7tc6PjX3uzawPyYLKwpb4DSkKOgqlJL6M9WJrMq9&quot;
+         version=&quot;4.0&quot;&gt;
+
+    &lt;!-- 全局编码过滤器：统一所有请求编码为UTF-8，解决POST中文乱码 --&gt;
+    &lt;filter&gt;
+        &lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;
+        &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;encoding&lt;/param-name&gt;
+            &lt;param-value&gt;UTF-8&lt;/param-value&gt;
+        &lt;/init-param&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;forceEncoding&lt;/param-name&gt;
+            &lt;param-value&gt;true&lt;/param-value&gt;
+        &lt;/init-param&gt;
+    &lt;/filter&gt;
+    &lt;!-- 拦截所有访问路径，全部执行编码过滤 --&gt;
+    &lt;filter-mapping&gt;
+        &lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;
+        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+    &lt;/filter-mapping&gt;
+
+    &lt;!-- 监听器：项目启动时创建Spring父容器，加载spring.xml（管理Service、Mapper、数据源） --&gt;
+    &lt;listener&gt;
+        &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+    &lt;/listener&gt;
+    &lt;!-- 指定Spring配置文件位置 --&gt;
+    &lt;context-param&gt;
+        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+        &lt;param-value&gt;classpath:spring.xml&lt;/param-value&gt;
+    &lt;/context-param&gt;
+
+    &lt;!-- SpringMVC前端控制器：全局拦截所有请求，创建SpringMVC子容器 --&gt;
+    &lt;servlet&gt;
+        &lt;servlet-name&gt;dispatcherServlet&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+        &lt;!-- 指定MVC配置文件，扫描Controller --&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+            &lt;param-value&gt;classpath:springmvc.xml&lt;/param-value&gt;
+        &lt;/init-param&gt;
+        &lt;!-- 项目启动立刻初始化Servlet，不是第一次访问才创建 --&gt;
+        &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+    &lt;/servlet&gt;
+    &lt;!-- 匹配所有URL，交由DispatcherServlet分发处理 --&gt;
+    &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;dispatcherServlet&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;
+
+&lt;/web-app&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80a2-a0a0-f5cc23bd7560" class="toggle"><li><details open=""><summary>jsp.add.jsp</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-807b-9d1c-f878930ec197" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;新增用户&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h3&gt;新增用户&lt;/h3&gt;
+    &lt;form action=&quot;${pageContext.request.contextPath}/user/add&quot; method=&quot;post&quot;&gt;
+        用户名：&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt;&lt;br&gt;
+        年龄：&lt;input type=&quot;number&quot; name=&quot;age&quot;&gt;&lt;br&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-8055-bc31-d37f60ee0c0b" class="toggle"><li><details open=""><summary>jsp.edit.jsp</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80fe-b98e-d829d6c1c9b1" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;修改用户&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h3&gt;修改用户&lt;/h3&gt;
+    &lt;form action=&quot;${pageContext.request.contextPath}/user/update&quot; method=&quot;post&quot;&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;${user.id}&quot;&gt;
+        用户名：&lt;input type=&quot;text&quot; name=&quot;username&quot; value=&quot;${user.username}&quot;&gt;&lt;br&gt;
+        年龄：&lt;input type=&quot;number&quot; name=&quot;age&quot; value=&quot;${user.age}&quot;&gt;&lt;br&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;保存修改&quot;&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80e3-b1e4-cdaa41fc5617" class="toggle"><li><details open=""><summary>jsp.list.jsp</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-80ed-bf9d-cd21a304bcea" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;用户管理-增删改查&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h3&gt;用户列表&lt;/h3&gt;
+    &lt;a href=&quot;${pageContext.request.contextPath}/user/toAdd&quot;&gt;新增用户&lt;/a&gt;
+    &lt;table border=&quot;1&quot; cellpadding=&quot;5&quot;&gt;
+        &lt;tr&gt;
+            &lt;th&gt;ID&lt;/th&gt;
+            &lt;th&gt;用户名&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+            &lt;th&gt;操作&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;c:forEach items=&quot;${list}&quot; var=&quot;u&quot;&gt;
+            &lt;tr&gt;
+                &lt;td&gt;${u.id}&lt;/td&gt;
+                &lt;td&gt;${u.username}&lt;/td&gt;
+                &lt;td&gt;${u.age}&lt;/td&gt;
+                &lt;td&gt;
+                    &lt;a href=&quot;${pageContext.request.contextPath}/user/toEdit?id=${u.id}&quot;&gt;修改&lt;/a&gt;
+                    &lt;a href=&quot;${pageContext.request.contextPath}/user/delete?id=${u.id}&quot; onclick=&quot;return confirm(&#x27;确定删除？&#x27;)&quot;&gt;删除&lt;/a&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/c:forEach&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3848db55-6aee-80d1-9177-d383e0802c84" class="toggle"><li><details open=""><summary>jsp.show.jsp</summary><div style="display:contents" dir="auto"><pre id="3848db55-6aee-801d-8106-e4fc80d7e773" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;用户信息&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    编号：${user.id}&lt;br&gt;
+    姓名：${user.username}&lt;br&gt;
+    年龄：${user.age}
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3848db55-6aee-8035-bfe4-e34f5b75f369" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
