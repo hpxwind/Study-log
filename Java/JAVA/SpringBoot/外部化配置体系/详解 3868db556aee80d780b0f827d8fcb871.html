@@ -1,0 +1,879 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>详解</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3868db55-6aee-80d7-80b0-f827d8fcb871" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/met_gerome_1890.jpg" style="object-position:center 70%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🧩</span></div><h1 class="page-title" dir="auto">详解</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="3868db55-6aee-806a-a568-f7a43939c6f3" class="">一、YAML 基础概述</h1></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-804b-832a-c6ba0ba051d7" class="">1. 全称与定位</h3></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8080-99b8-d5cbcfca3d4b" class=""><strong>YAML = YAML Ain’t Markup Language（YAML 不是标记语言）</strong></p></div><div style="display:contents" dir="auto"><ul id="3868db55-6aee-8065-8566-f6e7c184de5a" class="bulleted-list"><li style="list-style-type:disc">诞生：2001 年，专为配置文件设计</li></ul></div><div style="display:contents" dir="auto"><ul id="3868db55-6aee-80ff-bae8-e1b7903c9340" class="bulleted-list"><li style="list-style-type:disc">后缀：<code>.yaml</code> / <code>.yml</code> 两种都通用，无本质区别</li></ul></div><div style="display:contents" dir="auto"><ul id="3868db55-6aee-8096-a63f-d72d3268b641" class="bulleted-list"><li style="list-style-type:disc">对比 XML / JSON：<div style="display:contents" dir="auto"><ul id="3868db55-6aee-805b-816b-d546c23ae500" class="bulleted-list"><li style="list-style-type:circle">JSON：紧凑、适合程序交互，嵌套多可读性差</li></ul></div><div style="display:contents" dir="auto"><ul id="3868db55-6aee-80f4-98c7-f27b8a22a72f" class="bulleted-list"><li style="list-style-type:circle">XML：标签冗余、体积大</li></ul></div><div style="display:contents" dir="auto"><ul id="3868db55-6aee-8061-acf7-fb172199f29b" class="bulleted-list"><li style="list-style-type:circle">YAML：缩进结构、极简、可读性极强，<strong>配置文件首选</strong>（Docker、K8s、SpringBoot、GitLab CI、Ansible、Prometheus 全部标配）</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8045-a138-ff23f27c40f1" class="">2. 核心设计思想</h3></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-8036-a966-e406a81e994b" class="numbered-list" start="1"><li>用<strong>缩进</strong>表示层级关系（不能用 Tab，只能空格）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-8039-a954-c8b8c93ea52d" class="numbered-list" start="2"><li>大量省略括号、引号、逗号</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-8099-9bc3-cbc371eeb290" class="numbered-list" start="3"><li>天然兼容 JSON，YAML 可以直接转 JSON</li></ol></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8067-91bc-e4331d7e1d26" class="">3. 基础硬性语法规则（重中之重，踩坑最多）</h3></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-80c1-be65-f470bc5ed652" class="numbered-list" start="1"><li><strong>缩进必须是空格，禁止 Tab 制表符</strong><br/>行业惯例：<strong>2 个空格缩进一级</strong>，也可用 4 空格，整个文件缩进规则必须统一</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-80fa-a7bd-d74ec8aed461" class="numbered-list" start="2"><li>冒号 <code>:</code> 后面<strong>必须跟一个空格</strong>，格式 <code>key: value</code><br/>❌ <code>name:张三</code><br/>✅ <code>name: 张三</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-80b0-8f85-c3fe6de5f761" class="numbered-list" start="3"><li>短横线  后面必须加空格，代表数组元素</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-8083-acbe-f91409fe6806" class="numbered-list" start="4"><li><code>#</code> 是单行注释，<strong>不支持多行注释</strong></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-8041-a8e3-d01e9092f8f1" class="numbered-list" start="5"><li>大小写敏感：<code>Name</code> 和 <code>name</code> 是两个不同键</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-806a-afa4-e6b04fd6126c" class="numbered-list" start="6"><li>字符串默认可以不加引号；特殊字符场景才需要单/双引号</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-80fc-893b-d05f1199f08e" class="numbered-list" start="7"><li>不能用 <code>\</code> 做转义（双引号除外）</li></ol></div><div style="display:contents" dir="auto"><hr id="3868db55-6aee-8033-b97c-ef6945298278"/></div><div style="display:contents" dir="auto"><h1 id="3868db55-6aee-809f-99ef-eb6ac8014a1a" class="">二、YAML 五种核心数据类型（逐类详解+示例）</h1></div><div style="display:contents" dir="auto"><h2 id="3868db55-6aee-80e7-b9db-ee439632c9a6" class="">类型1：标量（单个值：字符串、数字、布尔、null、日期）</h2></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8055-b474-d0f80fcd5ad2" class="">1. 字符串 String</h3></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8066-be05-c9b646008995" class="">三种写法：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js" integrity="sha512-6O/PZimM3TD1NN3yrazePA4AbZrPcwt1QCGJrVY7WoHDJROZFc9TlBvIKMe+QfqgcslW4lQeBzNJEJvIMC8WhA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3868db55-6aee-8010-81d7-e0f5e8e08367" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all"># 写法1：默认不写引号（最常用）
+username: zhangsan
+address: 北京市朝阳区
+
+# 写法2：单引号 &#x27; &#x27;
+# 特点：原样输出，不会解析转义字符 \n \t
+str1: &#x27;hello\nworld&#x27;
+
+# 写法3：双引号 &quot; &quot;
+# 特点：识别转义字符 \n换行、\t制表符、\&quot;引号
+str2: &quot;hello\nworld&quot;
+
+# 字符串包含冒号/井号必须加引号
+special: &quot;&lt;http://www.xxx.com&gt;&quot;
+note: &quot;内容#带井号的文字&quot;</code></pre></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-807e-bb1e-d5e26a4cf1e5" class="">2. 数字（整数、浮点数）</h3></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-8083-9637-dfac8b66f49f" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">age: 25          # 整数
+price: 99.99     # 浮点数
+big_num: 1000000</code></pre></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-80aa-bd0c-e0eb8bf2105e" class="">3. 布尔值 <code>true / false</code></h3></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-808d-9549-e28ebd25f461" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">enable: true
+is_delete: false
+# 大小写都识别 True/TRUE / False/FALSE
+switch: TRUE</code></pre></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8023-8f4c-e8efab2f989d" class="">4. 空值 null</h3></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-803a-8e00-da0d15a83bfd" class="">三种等价写法：</p></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-8010-b9a9-e18f72983e89" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">val1: null
+val2: ~
+val3:</code></pre></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-807f-baf1-c00d58fc7b65" class="">5. 日期时间（原生支持）</h3></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-80c1-b246-c283bdaa04c0" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">create_date: 2026-06-21
+time: 2026-06-21T15:30:00</code></pre></div><div style="display:contents" dir="auto"><hr id="3868db55-6aee-8081-b6de-ff2342d62202"/></div><div style="display:contents" dir="auto"><h2 id="3868db55-6aee-80b6-a794-d112499c108b" class="">类型2：对象（键值对，映射 Map / Dictionary）</h2></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8032-a092-ebff1701c1cf" class="">用缩进表示子属性层级</p></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-80bd-a6b2-e715cdbb4bce" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all"># 方式一：多行缩进写法（最常用）
+user:
+  name: 李四
+  age: 22
+  gender: 男
+
+# 方式二：行内紧凑写法（JSON 风格）
+user: {name: 李四, age: 22, gender: 男}</code></pre></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8035-89c1-f2a0ae56f825" class="">对应 JSON：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js" integrity="sha512-QXFMVAusM85vUYDaNgcYeU3rzSlc+bTV4JvkfJhjxSHlQEo+ig53BtnGkvFTiNJh8D+wv6uWAQ2vJaVmxe8d3w==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3868db55-6aee-8018-af0f-ef8032386dc5" class="code code-wrap"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">{&quot;user&quot;:{&quot;name&quot;:&quot;李四&quot;,&quot;age&quot;:22,&quot;gender&quot;:&quot;男&quot;}}</code></pre></div><div style="display:contents" dir="auto"><hr id="3868db55-6aee-80f6-b8b0-ded4158b6218"/></div><div style="display:contents" dir="auto"><h2 id="3868db55-6aee-8072-88b7-c602b6740cdb" class="">类型3：数组 / 列表 List（序列 Sequence）</h2></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8023-9095-e5aaeabe3bbf" class="">写法1：短横线  开头（最常用）</h3></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-8087-ae60-cc2ca5a76082" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">hobbies:
+  - 篮球
+  - 游泳
+  - 看书</code></pre></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-80b7-9a79-c23de59154c8" class="">写法2：行内数组 <code>[]</code></h3></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-809d-994d-f012afc3ec8a" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">hobbies: [篮球, 游泳, 看书]</code></pre></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8092-9069-dab361bc9a13" class="">对象数组（数组元素是对象，K8s 高频写法）</h3></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-804c-b559-e9f34ae3e4ed" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">students:
+  - name: 小明
+    score: 90
+  - name: 小红
+    score: 95</code></pre></div><div style="display:contents" dir="auto"><hr id="3868db55-6aee-805c-a8e3-d137ca47512e"/></div><div style="display:contents" dir="auto"><h2 id="3868db55-6aee-8031-9119-c3d56c2260cd" class="">类型4：多行字符串（| 与 &gt; 两大符号，极易混淆）</h2></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8072-b837-d7e1d4ea1da0" class="">1. <code>|</code> 保留换行（原样换行）</h3></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-80eb-8c24-e800bbcdbf12" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">content: |
+  第一行文字
+  第二行文字
+  第三行文字</code></pre></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8044-b7ce-f1ccd80ee199" class="">实际值：<code>第一行文字\n第二行文字\n第三行文字\n</code></p></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8046-a9a1-dccc930f35e9" class="">2. <code>&gt;</code> 折叠换行（换行转为空格，末尾保留一个换行）</h3></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-8010-bb41-fd67556ca808" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">content: &gt;
+  第一行文字
+  第二行文字
+  第三行文字</code></pre></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8001-b435-d46952a6ccaa" class="">实际值：<code>第一行文字 第二行文字 第三行文字\n</code></p></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8046-99ad-cf5bee2e6cdc" class="">后缀  去除末尾换行</h3></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8067-abd8-e4dec99c6fa9" class=""><code>|-</code>、<code>&gt;-</code> 会删除字符串最后的换行符</p></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-8033-abab-f4938d910960" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">text: |-
+  aaa
+  bbb
+# 结果：aaa\nbbb（末尾无换行）</code></pre></div><div style="display:contents" dir="auto"><hr id="3868db55-6aee-807e-871b-f8f4f3cd9b71"/></div><div style="display:contents" dir="auto"><h2 id="3868db55-6aee-8063-b4b3-e9858bee5cc4" class="">类型5：锚点 &amp; 引用 * 、合并 &lt;&lt;（高级复用，K8s 高频）</h2></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8085-bb0a-e62a5310f052" class="">解决重复配置冗余问题</p></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-80dc-a291-cedd58aa21d2" class="numbered-list" start="1"><li><code>&amp;别名</code>：定义锚点（模板）</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-8086-be85-e1068ba9d9e6" class="numbered-list" start="2"><li><code>别名</code>：引用锚点</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-80e0-8e0c-fc806bc4b6f4" class="numbered-list" start="3"><li><code>&lt;&lt;: *别名</code>：合并对象所有键</li></ol></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-80a9-9aab-f70307d6ab63" class="">示例1：基础锚点复用</h3></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-80b9-822a-dd7a2a113c0f" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all"># 定义锚点 base_config
+base_config: &amp;base
+  host: 127.0.0.1
+  port: 3306
+
+mysql:
+  &lt;&lt;: *base    # 继承 base 所有配置
+  database: test_db
+
+redis:
+  &lt;&lt;: *base
+  port: 6379</code></pre></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8032-9016-c2450ec18bef" class="">等价展开后：</p></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-80a2-bd51-c100bfc657a8" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">mysql:
+  host: 127.0.0.1
+  port: 3306
+  database: test_db</code></pre></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8009-87c6-c81b0e18eede" class="">示例2：数组锚点</h3></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-800d-b7b7-e428d25f1500" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">default_tags: &amp;tags
+  - dev
+  - test
+
+server1:
+  tags: *tags
+server2:
+  tags: *tags</code></pre></div><div style="display:contents" dir="auto"><hr id="3868db55-6aee-80ef-8ab4-ef646854f117"/></div><div style="display:contents" dir="auto"><h1 id="3868db55-6aee-80df-b414-e069784fa9d0" class="">三、引号深度详解（单引号 vs 双引号 vs 无引号）</h1></div><div style="display:contents" dir="ltr"><table id="3868db55-6aee-80e7-a62e-eea71663829d" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3868db55-6aee-809c-a85b-f284e27e1345"><th id=":d`g" class="simple-table-header-color simple-table-header">写法</th><th id="iGkN" class="simple-table-header-color simple-table-header">转义字符</th><th id="KaXS" class="simple-table-header-color simple-table-header">用途</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3868db55-6aee-80df-b991-c1602d545ab4"><td id=":d`g" class="">不加引号</td><td id="iGkN" class="">不解析转义 <code>\n</code></td><td id="KaXS" class="">普通字符串首选</td></tr></div><div style="display:contents" dir="ltr"><tr id="3868db55-6aee-801a-9395-c8c2d04b4259"><td id=":d`g" class="">单引号 <code>&#x27; &#x27;</code></td><td id="iGkN" class="">完全原样，<code>\</code> 只是普通字符</td><td id="KaXS" class="">包含 <code>\</code>、特殊符号、避免自动类型转换</td></tr></div><div style="display:contents" dir="ltr"><tr id="3868db55-6aee-8010-aa04-d333ec0b2beb"><td id=":d`g" class="">双引号 <code>&quot; &quot;</code></td><td id="iGkN" class="">识别 <code>\n \t \&quot; \\</code> 转义</td><td id="KaXS" class="">需要换行、转义场景</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-805c-838c-d255296627e5" class="">特殊场景必须加引号：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-8003-82ae-eedc51086c13" class="numbered-list" start="1"><li>字符串以 <code>[ { &#x27; &quot;</code> 开头</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-8018-9980-f0366f47ed65" class="numbered-list" start="2"><li>包含 <code># :</code> 等符号</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-80d7-b7e1-e41bb51fdfa5" class="numbered-list" start="3"><li>字符串是 <code>true/false/null</code>，想要强制存为字符串而非布尔/空值</li></ol></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-8043-83a9-c2b870cfdef9" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all"># 错误：会识别成布尔
+flag: true
+# 强制字符串
+flag: &quot;true&quot;</code></pre></div><div style="display:contents" dir="auto"><hr id="3868db55-6aee-8060-96bb-f6db143cd3ff"/></div><div style="display:contents" dir="auto"><h1 id="3868db55-6aee-8003-aa55-e3fc97364a48" class="">四、YAML 特殊语法</h1></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8026-91d3-f45557ec0c4d" class="">1. 多行键（问号 ? 复杂键名）</h3></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-80b5-afa5-fe2bfa789821" class="">键名包含空格、冒号、特殊字符时使用：</p></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-8077-8fee-f18314cc31cd" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">? user name
+: 张三
+
+? &lt;http://demo.com&gt;
+: 网站地址</code></pre></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8067-bc13-ce061845d06e" class="">2. 分段 <code>--</code> 分割多个 YAML 文档</h3></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8071-9092-eff465c07188" class="">一个文件存放多个独立配置，K8s 批量创建资源常用</p></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-8098-b73a-d35b31c88e13" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod1
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod2</code></pre></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8007-ae1d-f5b053ee0737" class=""><code>...</code> 可选，代表文档结束标记。</p></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8088-825d-f75641cc68e8" class="">3. 类型强制转换 <code>!!</code></h3></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8064-b487-c801c4de955a" class="">手动指定数据类型，防止自动推断：</p></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-80e1-a2e7-ebc1b53e0130" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">num_str: !!str 123    # 强制字符串 &quot;123&quot;
+bool_str: !!str true
+int_val: !!int &quot;456&quot;</code></pre></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-80f4-88ca-d1574b24c462" class="">常用类型：<code>!!str</code>、<code>!!int</code>、<code>!!float</code>、<code>!!bool</code>、<code>!!null</code></p></div><div style="display:contents" dir="auto"><hr id="3868db55-6aee-8006-9f9b-dbf12677ba4d"/></div><div style="display:contents" dir="auto"><h1 id="3868db55-6aee-80d2-b40a-fc07f08f11e1" class="">五、常见易错坑（避坑手册，必看）</h1></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-80c0-bfa6-f9e20917a656" class="numbered-list" start="1"><li><strong>混用 Tab 和空格</strong> → 解析直接报错，编辑器设置全部用空格</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-80e3-b894-c05f60d3110a" class="numbered-list" start="2"><li><code>key:值</code> 冒号后面没空格 → 语法错误</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-80b8-9fcb-ea42edbfca9d" class="numbered-list" start="3"><li><code>元素</code> 短横线后面没空格 → 数组解析失败</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-80ea-86a8-fa58e6d135fa" class="numbered-list" start="4"><li>缩进层级混乱，上下缩进空格数量不一致</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-809b-8ec0-f1c3692f9257" class="numbered-list" start="5"><li>多行字符串 <code>| &gt;</code> 用反混淆</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-8069-b679-fd4c163f9496" class="numbered-list" start="6"><li>字符串是 <code>true/false/null/数字</code> 不加引号，被自动转成非字符串类型</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-80ee-922e-e886eb960df4" class="numbered-list" start="7"><li>不能写多行注释，<code>#</code> 只能单行</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-8034-86a9-cf05b7982c84" class="numbered-list" start="8"><li>YAML 不允许末尾多余逗号（JSON 允许）</li></ol></div><div style="display:contents" dir="auto"><hr id="3868db55-6aee-8019-85fa-e93daf552eb9"/></div><div style="display:contents" dir="auto"><h1 id="3868db55-6aee-8060-9d57-e624aa95ea50" class="">六、YAML 与 JSON 互相转换示例</h1></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-808a-842b-dcd48e765c90" class="">JSON</h3></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-806f-bb8e-c31100d8f965" class="code code-wrap"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;project&quot;: &quot;yaml-demo&quot;,
+  &quot;version&quot;: &quot;1.0&quot;,
+  &quot;author&quot;: {
+    &quot;name&quot;: &quot;老王&quot;,
+    &quot;age&quot;: 28
+  },
+  &quot;tags&quot;: [&quot;java&quot;, &quot;yaml&quot;, &quot;config&quot;]
+}</code></pre></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-80bd-bf8f-e543c1615f04" class="">等价 YAML</h3></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-80ca-b478-e8ad54e32a5e" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">project: yaml-demo
+version: 1.0
+author:
+  name: 老王
+  age: 28
+tags:
+  - java
+  - yaml
+  - config</code></pre></div><div style="display:contents" dir="auto"><hr id="3868db55-6aee-809e-89ea-c9468dfbe409"/></div><div style="display:contents" dir="auto"><h1 id="3868db55-6aee-807a-96fb-f5f41fb73921" class="">七、主流编程语言解析 YAML 实操示例</h1></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8019-a980-fca4a9d1ceea" class="">1. Python（依赖 <code>pyyaml</code>）</h3></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-80e3-bd6e-cb7eab5142cf" class="">安装：<code>pip install pyyaml</code></p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3868db55-6aee-80ca-97f2-c02627705a0a" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">import yaml
+
+# 读取 yaml 文件
+with open(&quot;config.yml&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+    data = yaml.safe_load(f)
+
+print(data)
+
+# 写入 yaml
+data = {&quot;name&quot;: &quot;test&quot;, &quot;list&quot;: [1,2,3]}
+with open(&quot;out.yml&quot;, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+    yaml.dump(data, f, sort_keys=False, allow_unicode=True)</code></pre></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8080-87c0-cc9503896af9" class="">2. Java（SnakeYAML / SpringBoot 内置解析）</h3></div><div style="display:contents" dir="auto"><p id="3868db55-6aee-8024-a5f7-e0a253e077fa" class="">SpringBoot <code>application.yml</code> 自动加载，底层 SnakeYAML 解析；<br/>手动依赖 SnakeYAML 即可序列化反序列化。</p></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-8040-a1b1-cc3694b1d4fd" class="">3. Go：<a href="http://gopkg.in/yaml.v3">gopkg.in/yaml.v3</a></h3></div><div style="display:contents" dir="auto"><h3 id="3868db55-6aee-805a-9252-feb1c020ab7b" class="">4. JavaScript/NodeJS：js-yaml</h3></div><div style="display:contents" dir="auto"><hr id="3868db55-6aee-80ea-84d5-cc47afe4ff22"/></div><div style="display:contents" dir="auto"><h1 id="3868db55-6aee-803a-9c5e-ca4fc6351103" class="">八、典型实战案例（SpringBoot application.yml 完整范例）</h1></div><div style="display:contents" dir="auto"><pre id="3868db55-6aee-80c9-8436-d4bae9e83a32" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all"># 服务端口配置
+server:
+  port: 8080
+  servlet:
+    context-path: /demo
+
+# 数据库配置
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/test
+    username: root
+    password: root123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+# 自定义对象配置
+my:
+  user:
+    name: 张三
+    age: 20
+    hobbies:
+      - 跑步
+      - 听歌</code></pre></div><div style="display:contents" dir="auto"><h1 id="3868db55-6aee-80c4-872f-d28750dfa090" class="">九、在线校验工具（排错）</h1></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-8064-9366-e0b539a83f8a" class="numbered-list" start="1"><li>YAML Lint 在线校验语法：检查缩进、语法错误</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3868db55-6aee-8048-a43e-d4af118d6fcc" class="numbered-list" start="2"><li>YAML ↔ JSON 在线互转工具，快速验证结构是否正确</li></ol></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
