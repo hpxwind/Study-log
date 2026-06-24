@@ -1,0 +1,769 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>详解</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3888db55-6aee-8023-b56d-f55689d25e91" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/met_william_morris_1875.jpg" style="object-position:center 0%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🎳</span></div><h1 class="page-title" dir="auto">详解</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-80ea-ad4d-e018e3beea97" class="">一、核心定义与解决的根本问题</h2></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80a9-a2b7-d5e310c16333" class="">1. 什么是 Agent 记忆</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8007-94b3-cd476f707191" class="">Agent 记忆（Agent Memory）是自主智能体用来<strong>记录、存储、检索、更新、遗忘过往交互、思考过程、行动结果、用户偏好、任务状态、历史经验</strong>的整套模块系统。<br/>原生大模型仅拥有<strong>单次上下文窗口临时存储能力</strong>，存在三大硬缺陷：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80fc-b2f1-d295903240a9" class="numbered-list" start="1"><li>上下文长度有限，长对话、长期会话会丢失早期信息；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80b0-9756-fe0d3c2649cc" class="numbered-list" start="2"><li>模型断电/重启后所有历史全部清空，无法持久留存经验；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80cf-9f0d-f604914e65de" class="numbered-list" start="3"><li>无法自主复盘过往决策、吸取错误教训，不具备持续进化能力。</li></ol></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-807c-820c-c7641c2399dd" class="">记忆机制就是为了弥补以上缺陷，让 Agent 具备<strong>短期上下文连贯、中途存任务状态、长期积累经验、自主反思迭代</strong>的拟人化记忆能力，是 ReAct、Plan&amp;Solve、AutoGPT、Multi-Agent、RAG 智能体的基础核心组件。</p></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-80d8-9033-e846f69f8f94"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-8093-9807-e3a1f09bc674" class="">二、记忆完整分类体系（分层+功能双维度划分）</h1></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-8055-892c-d2aaf0dc2a65" class="">维度一：按存储生命周期分层（业界最经典三层架构）</h2></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-806f-8261-f4302b696731" class="">1. 短期记忆（Short-Term Memory / 上下文缓冲区记忆）</h2></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80e8-b000-dca5d21c6a51" class="">原理</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8097-95eb-c7520eab8763" class="">直接将完整对话消息列表放入 LLM 输入上下文窗口，<strong>存储生命周期 = 当前会话周期</strong>，完全依托模型 Token 窗口承载，无外部数据库。</p></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80a9-ad83-cbbbda7402bd" class="">存储形式</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80b5-b3b1-fb14d3d8361b" class="">数组/列表结构，逐条保存 <code>用户消息-助手回复</code> 消息对。</p></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-8026-b8e0-f7fc2fc6754a" class="">运行特性</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8006-aff2-ebc215163a5b" class="">优点：实现最简单、读取速度最快、无需向量、无需额外存储<br/>缺点：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8068-894a-e51f0d82275e" class="numbered-list" start="1"><li>有 Token 上限，消息过多必须截断，早期内容丢失；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8015-85c8-f7c591589528" class="numbered-list" start="2"><li>会话结束/程序重启，数据全部销毁；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80b4-a15a-daeab9e31023" class="numbered-list" start="3"><li>全部内容塞进 Prompt，冗余信息拉高成本、容易引发幻觉。</li></ol></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-8002-b080-c36c579152d2" class="">常见子类型</h3></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8010-98f5-cbc541f2a30d" class="numbered-list" start="1"><li><strong>BufferMemory 完整缓存记忆</strong><br/>无脑保存全部历史对话，直到触发窗口上限再整体截断。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8071-9c6b-fe54fa89794b" class="numbered-list" start="2"><li><strong>ConversationWindowMemory 滑动窗口记忆</strong><br/>只保留最近 N 轮对话，超出自动丢弃最早轮次，控制 Token 总量。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8025-8c1e-ebcd5865858d" class="numbered-list" start="3"><li><strong>SummaryBufferMemory 摘要缓冲记忆</strong><br/>消息积攒到一定长度后，调用 LLM 把早期长对话压缩成一段摘要，替代原始长文本，节省上下文空间。</li></ol></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-806e-b821-cc052ccdc9f0" class="">2. 中期记忆（Working Memory 工作记忆）</h2></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80a7-b6fc-d878af2034b4" class="">原理</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8011-ae9e-ef28d6b4000c" class="">专门存放<strong>当前多步骤任务的中间运行状态、工具返回结果、子任务进度、变量临时数据</strong>，生命周期仅限<strong>单个任务执行周期</strong>，任务完成后可清空或归档。<br/>不属于对话历史，是 Agent 思考执行的“草稿本”。</p></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-8013-8872-d2ef6257beba" class="">存储形式</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8080-86b6-d2dbf99c370b" class="">内存字典、结构体、任务队列、状态机变量、JSON 对象。</p></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-809a-8454-fc6ed892d67c" class="">运行特性</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-802d-8bd3-d9fc0bc6dae3" class="bulleted-list"><li style="list-style-type:disc">读写极快，只在内存运行；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80ea-bd32-f4d7feac3eb2" class="bulleted-list"><li style="list-style-type:disc">结构化存储，可精准修改、删除某一条中间数据；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80bc-884c-c773bbb2b49c" class="bulleted-list"><li style="list-style-type:disc">任务终止即失效，默认不长期落盘。</li></ul></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80be-81b5-edc0a3981c3c" class="">举例（多步骤任务场景）</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8056-9a5b-fa9697068738" class="">任务：查油价→计算加满50L油花费→对比公交出行成本<br/>工作记忆存储结构：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js" integrity="sha512-QXFMVAusM85vUYDaNgcYeU3rzSlc+bTV4JvkfJhjxSHlQEo+ig53BtnGkvFTiNJh8D+wv6uWAQ2vJaVmxe8d3w==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3888db55-6aee-802c-a763-d4033485bebc" class="code code-wrap"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;子任务1&quot;: {&quot;状态&quot;:&quot;已完成&quot;,&quot;结果&quot;:&quot;油价7.8元/升&quot;},
+  &quot;子任务2&quot;: {&quot;状态&quot;:&quot;进行中&quot;,&quot;计算中间值&quot;: 50*7.8},
+  &quot;子任务3&quot;: {&quot;状态&quot;:&quot;未开始&quot;}
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-808a-bf30-c51a0ebb3e23" class="">Agent 每完成一步就更新工作记忆，下一步读取已有结果继续运算；整个比价任务结束后，清空工作记忆。</p></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-8024-9ef8-cf9d3ab49d0c" class="">3. 长期记忆（Long-Term Memory / 向量检索记忆）</h2></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-802c-ace9-db6ba841aa04" class="">核心原理</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-804b-ad8d-ce0f3d5d45c9" class="">脱离 LLM 上下文窗口，使用<strong>向量数据库持久化存储</strong>，实现跨会话、跨天、重启不丢失的永久记忆。<br/>完整技术链路：<br/>文本 → Embedding 向量化编码 → 向量存入向量库 → 用户新提问同样向量化 → 余弦相似度检索匹配相关历史片段 → 把匹配到的历史信息注入 Prompt 辅助回答。</p></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80b8-a34f-d489b4ac7307" class="">存储载体</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8067-a81c-cf67581ebf1b" class="">Chroma、FAISS、Pinecone、Milvus、PGVector 等向量数据库。</p></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80fb-8ec3-c26aba337d02" class="">运行特性</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-807a-8a5d-ea6fd3438003" class="">✅ 突破上下文长度限制，可存储百万级海量历史；<br/>✅ 跨会话持久保存，下次打开对话仍能记得数月前信息；<br/>✅ 按需召回，只把相关内容放进 Prompt，减少冗余 Token<br/>❌ 增加 Embedding 调用、向量检索开销；相似度匹配存在召回不准问题。</p></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-8058-9064-cbb0efbcd905" class="">维度二：按功能用途分类（业务落地常用划分）</h2></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80cf-a169-df1328e17b68" class="">1. 对话记忆（Conversation Memory）</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80c9-94b2-f7291be821a1" class="">只聚焦人机聊天历史，核心解决上下文连贯，对应上面短期记忆体系，LangChain 原生大量该类实现。</p></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-803b-8382-d0c7880f32fe" class="">2. 动作/轨迹记忆（Action Memory / Step Memory）</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80f7-8219-d4fcd3f8f3e1" class="">记录 Agent 完整思考-行动轨迹（ReAct 必备），逐条保存：思考 Thought → 行动 Action → 工具入参 → 观察 Observation。<br/>示例单条轨迹：</p></div><div style="display:contents" dir="auto"><blockquote id="3888db55-6aee-80ee-a010-e8d7e6c51bd6" class="">Thought：需要实时气温数据<br/>Action：调用天气工具(city=北京)<br/>Observation：北京今日28℃</blockquote></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-800c-a0ef-f388abc7aed1" class="">作用：任务出错时回溯排查步骤、支持多轮链式调用、便于日志审计。</p></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80ca-a1e1-f34c89b76dc5" class="">3. 实体记忆（Entity Memory）</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8002-b65e-ec76601da5db" class="">从对话中自动抽取关键实体（人名、地址、手机号、偏好、物品、时间）单独结构化存储，不用检索全文即可精准调取信息。<br/>示例提取存储：</p></div><div style="display:contents" dir="auto"><pre id="3888db55-6aee-809f-bed5-d0483f633571" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">用户姓名：张三
+常住城市：上海
+生日：10月5日
+忌口：葱姜蒜</code></pre></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-805f-9183-fbd734c6a850" class="">4. 反思记忆（Reflection Memory，高阶智能体核心）</h3></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-800c-b219-eb942c1b02bb" class="">原理</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80ed-aa14-f2975eaf042f" class="">Agent 在单次任务结束 / 定时批量，主动对自己过往决策、错误回答、失败工具调用进行复盘总结，提炼经验教训存入长期记忆，实现自主迭代优化。<br/>分为两种：</p></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80ad-b57e-c17dec81fe54" class="bulleted-list"><li style="list-style-type:disc"><strong>短期反思（即时反思）</strong>：当前任务做完立刻总结本次得失；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-804f-a82b-f5af8f0cac2a" class="bulleted-list"><li style="list-style-type:disc"><strong>长期反思（批量反思）</strong>：汇总多条历史失败案例，归纳通用规则。</li></ul></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-803d-919a-d2d14987f5fc" class="">5. 检索知识库记忆（RAG Memory）</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-804e-a65d-d518ec677dd4" class="">外部私有文档、资料、手册作为知识型长期记忆，不属于个人对话历史，用来补齐模型外部知识，问答时检索引用资料作答。</p></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-80ce-ac68-d2519a49ff0c"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-805c-9ee3-fa5de82ade2c" class="">三、Agent 记忆整体完整运行机制与全流程</h1></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-8071-856c-ebba774c541f" class="">整体架构流转总图</h2></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3888db55-6aee-80c5-bd90-c963f5e459bd" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">用户输入 Query
+	↓
+	1. 预处理：提取关键词、生成查询向量
+	↓
+	2. 检索层：查询**长期记忆**，召回相似度匹配的历史经验/偏好/旧对话
+	↓
+	3. 读取层：读取**工作记忆**当前任务进度、中间变量状态
+	↓
+	4. 上下文组装：长期召回内容 + 工作状态 + 短期对话历史 + 用户当前提问，拼接完整 Prompt
+	↓
+	5. LLM 推理输出回答 + 下一步行动决策（是否调用工具）
+	↓
+	6. 分步更新三大记忆
+	① 本轮问答追加存入**短期记忆缓冲区**，超限自动摘要/截断
+	② 如有工具执行、子任务变更，修改/更新**工作记忆**状态
+	③ 提取关键有效信息、总结、反思内容，向量化写入**长期记忆向量库**
+	↓
+	7. （可选）触发反思：任务结束启动自省，总结经验存入长期记忆
+	↓
+返回最终回答给用户</code></pre></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-806b-a48a-ee609d521e36" class="">分步详细拆解（带实例走通全流程）</h2></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80f6-bfe5-edd141ee37c4" class="">场景设定</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80ed-8d25-d8d28c1074b1" class="">用户第一次会话：<code>帮我记录我每月房租 2200</code><br/>隔3天新开会话提问：<code>帮我统计我全年房租总支出</code></p></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80d0-a0ca-fd0f9e44586e" class="">步骤1：第一次交互（写入记忆）</h3></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-802b-9e3a-fc38d3ccbb89" class="numbered-list" start="1"><li>用户输入：帮我记录我每月房租 2200</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-807c-a367-d92ffd2aac8d" class="numbered-list" start="2"><li>长期记忆检索：无相关历史</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8014-80eb-fbf0f05f6f6c" class="numbered-list" start="3"><li>工作记忆：空，无正在执行任务</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-800b-b837-f89a516fd02b" class="numbered-list" start="4"><li>拼接Prompt+大模型回复：已为你记录月房租2200元</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80e7-a2e2-e99d892d8c7b" class="numbered-list" start="5"><li>更新记忆：<div style="display:contents" dir="auto"><ul id="3888db55-6aee-8051-86e1-f494186386f6" class="bulleted-list"><li style="list-style-type:disc">短期记忆：存入本轮问答</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8091-8351-fe7437a715bc" class="bulleted-list"><li style="list-style-type:disc">工作记忆：无任务，不修改</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-808d-acfc-c8c5ec58fd1c" class="bulleted-list"><li style="list-style-type:disc">提取关键信息「月房租=2200」向量化，插入长期向量库</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80cb-9e73-c8bef898ff01" class="">步骤2：隔三天新会话发起提问</h3></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80fa-9cbe-f3f3fd42a6b9" class="numbered-list" start="1"><li>用户输入：帮我统计我全年房租总支出</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-809f-9fb3-f8f2b0c84fb9" class="numbered-list" start="2"><li>生成查询向量，检索长期记忆 → 匹配到历史记录：月房租2200</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80c2-83de-c9719f9c876f" class="numbered-list" start="3"><li>工作记忆初始化，创建统计任务结构</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8061-9a7b-e5629d4d9e7f" class="numbered-list" start="4"><li>组装Prompt：历史记录：用户每月房租2200；当前任务：计算全年房租；用户问题：统计全年房租支出</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-808e-88af-d52a9443c40d" class="numbered-list" start="5"><li>LLM 推理计算：2200 × 12 = 26400，输出答案</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80c1-b37f-f493b17c29b4" class="numbered-list" start="6"><li>更新记忆<div style="display:contents" dir="auto"><ul id="3888db55-6aee-8087-89a6-fbbff65c27e1" class="bulleted-list"><li style="list-style-type:disc">短期记忆保存本次问答</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-804d-94e3-dec49e39f7f5" class="bulleted-list"><li style="list-style-type:disc">工作记忆写入计算结果、任务完成标记</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8075-8eca-e678542aa3b6" class="bulleted-list"><li style="list-style-type:disc">可选：将年度总开销总结存入长期记忆</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8075-af76-e783a18742fe" class="">整个过程实现<strong>跨会话记忆留存</strong>，仅靠原生上下文模型无法做到。</p></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-8073-bc7b-e3d2b89c4b3d"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-80c7-8256-d51421b2ec6e" class="">四、典型落地案例对比</h1></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-8049-a6b0-c460ddf74045" class="">案例1：简单聊天机器人（仅短期记忆）</h2></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8053-8add-f2c73e37fc8e" class="">结构：只使用 ConversationWindowMemory<br/>逻辑：只保留最近5轮对话，保证聊天连贯，会话关闭数据丢失<br/>局限：不能记住很久以前信息，长对话容易上下文溢出</p></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-8041-ab16-c58f1eb6786e" class="">案例2：多步骤任务智能体（短期+工作记忆）</h2></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80fa-b9ac-cb452362bd95" class="">场景：自动订票 Agent：查车次→筛选时间→填写乘车人→提交订单</p></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8054-952e-c362c9fb1a4e" class="bulleted-list"><li style="list-style-type:disc">短期记忆：保存和用户全部对话；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80f7-b6de-c1b8c5f5bb32" class="bulleted-list"><li style="list-style-type:disc">工作记忆：存储出发地、目的地、乘车人姓名、选中车次、订单步骤状态；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-803d-ad68-e0ee945fbee0" class="bulleted-list"><li style="list-style-type:disc">任务完成清空工作记忆，无法跨天记住乘车人信息。</li></ul></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-8069-b56d-d4e1779198a0" class="">案例3：个性化私人助理（三层完整记忆+实体提取）</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8098-8d49-c8876af58c27" class="numbered-list" start="1"><li>短期：实时聊天上下文；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8065-8d03-f4ba15fa47da" class="numbered-list" start="2"><li>工作记忆：代办清单、待办进度；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8096-868e-c5301e9d8e18" class="numbered-list" start="3"><li>长期向量记忆：存储用户作息、饮食忌口、生日、偏好、历史账单；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-807c-ae36-dbb15197e783" class="numbered-list" start="4"><li>实体记忆单独抽取关键信息；<br/>效果：时隔数月仍能贴合用户个人习惯给出个性化方案。</li></ol></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-808a-b433-e031d938351f" class="">案例4：AutoGPT 自主智能体（三层记忆+反思机制完整版）</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8001-b2fc-df2d4f6c93ad" class="numbered-list" start="1"><li>短期：当前对话上下文窗口；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8091-b13c-e39651b7c737" class="numbered-list" start="2"><li>工作记忆：任务目标列表、子任务队列、工具调用中间结果；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80a2-88b7-e47420f845d6" class="numbered-list" start="3"><li>长期向量记忆：过往所有任务、决策、经验；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8041-817d-c3e15593f3b8" class="numbered-list" start="4"><li>反思模块：任务结束复盘错误，沉淀经验优化后续规划；<br/>实现完全自主规划、试错、积累经验迭代。</li></ol></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-809b-9523-e2ebff8daec6"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-80a7-9e19-e2fdeeba8bb6" class="">五、记忆配套关键策略：压缩、遗忘、更新机制</h1></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-800e-9fcc-fc1344f2e9ff" class="">1. 记忆压缩策略（解决上下文溢出）</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8006-8f32-c7f16d3047b7" class="numbered-list" start="1"><li>滑动窗口截断；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8015-99cf-dfec9197301b" class="numbered-list" start="2"><li>历史摘要合并；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8010-83c8-df6a6c905fef" class="numbered-list" start="3"><li>重要性打分，丢弃低价值闲聊内容，只留存关键信息。</li></ol></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-80e0-9c7b-ed4858567abd" class="">2. 记忆遗忘机制（避免记忆冗余、过时错误）</h2></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80ca-a97c-c7c762e0641b" class="bulleted-list"><li style="list-style-type:disc">时间衰减：超过N个月的陈旧记忆降低检索权重；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8039-b55e-e20765d05fe0" class="bulleted-list"><li style="list-style-type:disc">显式删除：用户主动指令删除某条记忆；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-804e-9659-c29114cae854" class="bulleted-list"><li style="list-style-type:disc">冲突覆盖：新信息与旧实体矛盾时，更新覆盖旧记忆（如修改房租金额）。</li></ul></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-807b-bb32-ff8eec32d82d" class="">3. 记忆权重排序</h2></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8074-a468-fae062f7040f" class="">向量检索时设置相似度阈值，只召回高分相关片段，过滤无关噪声记忆，减少幻觉。</p></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-80d8-9506-ca7965444c68"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-8004-a063-f08c0b184841" class="">六、常见框架实现对应关系</h1></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80c5-9aa8-ff3ee3bcab53" class="numbered-list" start="1"><li><strong>LangChain</strong>：体系最完善，内置全部短期Memory封装，可对接向量库实现长期记忆，支持自定义反思逻辑；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80d6-97b3-c8cfa0f8b5fa" class="numbered-list" start="2"><li><strong>LlamaIndex</strong>：区分对话内存 + 外部索引长期知识库，侧重检索式记忆；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8009-97d3-f3ee860b6ea5" class="numbered-list" start="3"><li><strong>Dify/Coze</strong>：平台封装可视化记忆开关，开箱即用对话记忆、知识库长期记忆；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80cd-a933-e2fb9e0c3281" class="numbered-list" start="4"><li><strong>AutoGPT/BabyAGI</strong>：原生内置三层记忆+自省反思架构，是经典Agent记忆设计范本。</li></ol></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

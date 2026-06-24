@@ -1,0 +1,744 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>基础概念</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3888db55-6aee-8034-87c3-eaef829d74f2" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/webb4.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">📍</span></div><h1 class="page-title" dir="auto">基础概念</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-80ee-9d55-ea31adc902ba" class="">1. 什么是 AI Agent？它与传统 AI 系统有何不同？</h1></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80b3-809b-e2346af65d78" class="">AI Agent（人工智能智能体） 是一个能够<mark class="highlight-red"><strong>感知环境、自主决策并执行动作以达成特定目标的系统</strong></mark>。其核心特征包括：<span style="border-bottom:0.05em solid">感知（Perception）、推理（Reasoning）、行动（Action）和反馈（Feedback）</span>。</p></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8066-826e-c85b0fbfa89b" class="">与传统 AI 系统（如规则引擎、分类模型、静态 NLP 系统）相比：</p></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80f3-b77e-e7aecfd7f555" class="bulleted-list"><li style="list-style-type:disc"><strong>传统 AI</strong>：通常是“被动响应式”的，输入 → 处理 → 输出，缺乏目标驱动和持续交互能力。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-807c-be14-c074d81279ae" class="bulleted-list"><li style="list-style-type:disc"><strong>AI Agent</strong>：具备主动性、目标导向性、记忆能力与工具使用能力，能在多轮交互中动态调整策略，甚至调用外部工具完成复杂任务。</li></ul></div><div style="display:contents" dir="auto"><blockquote id="3888db55-6aee-80e9-91ed-e164d3c648fb" class="">举例：传统问答系统只能回答已有知识库中的问题；而 Agent 可主动搜索网页、调用计算器、写代码来回答开放性问题。</blockquote></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-80b5-a416-eb7bf2cf3486"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-8015-b469-ee7e5900a4cd" class="">2. LLM Agent 的核心能力有哪些？</h1></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8030-81a2-d3662b57b55a" class="">LLM Agent 的核心能力可归纳为以下五点：</p></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8072-b56a-c450ff718c9a" class="bulleted-list"><li style="list-style-type:disc"><strong>任务理解与分解</strong>：将用户模糊指令拆解为可执行子任务。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8063-959f-d8275a9ab76c" class="bulleted-list"><li style="list-style-type:disc"><strong>规划与推理</strong>：通过 CoT、ReAct 等机制进行多步推理。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80f7-9bb2-f74e7d62339e" class="bulleted-list"><li style="list-style-type:disc"><strong>工具调用（Tool Use）</strong>：安全调用 API、数据库、代码解释器等外部工具。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-805a-8567-ef50389713b1" class="bulleted-list"><li style="list-style-type:disc"><strong>记忆管理</strong>：利用短期/长期记忆维持上下文一致性。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80fe-808c-f9d5be8c95ba" class="bulleted-list"><li style="list-style-type:disc"><strong>自我反思与纠错</strong>：通过执行反馈修正错误路径（如 Reflexion 机制）。</li></ul></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-808d-a1a4-e13e09239e4c" class="">这些能力使 LLM 从“语言模型”升级为“行动模型”。</p></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-805c-ba93-d6f70bf6983b"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-80c1-bdc6-c5130a54b5b2" class="">3. 为什么说 LLM 是构建通用 Agent 的理想基座？</h1></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-806d-bd10-c332f583b23d" class="bulleted-list"><li style="list-style-type:disc">强泛化能力：LLM 在海量数据上预训练，具备跨领域的常识与语言理解能力。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8015-82f5-fdf291f57b31" class="bulleted-list"><li style="list-style-type:disc">零样本/少样本推理：无需重新训练即可适应新任务。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-801f-bf31-dfaa0b4db662" class="bulleted-list"><li style="list-style-type:disc">自然语言接口：能直接理解人类指令，并生成可执行的逻辑或工具调用。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80b2-beb7-fe1454b01a1e" class="bulleted-list"><li style="list-style-type:disc">模块化扩展性：可通过插件（如 Function Calling）轻松集成外部能力。</li></ul></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80be-a595-da80b751fa00" class="">相比之下，传统 Agent（如基于符号逻辑或 强化学习 的系统）往往任务专用、泛化差、开发成本高。</p></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-80d5-a057-e2dd928337cf"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-8019-a2a6-e32cc0201bcc" class="">4. Agent 和 Chatbot 的本质区别是什么？</h1></div><div style="display:contents" dir="ltr"><table id="3888db55-6aee-8051-8ca6-c354e1bff2bf" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3888db55-6aee-805b-90d8-c82b9ac1c23d"><th id="yRU?" class="simple-table-header-color simple-table-header" style="width:154px">维度</th><th id="O{N{" class="simple-table-header-color simple-table-header" style="width:211.5044708251953px">Chatbot</th><th id="Z^fu" class="simple-table-header-color simple-table-header" style="width:461.99554443359375px">AI Agent</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3888db55-6aee-8062-84e8-de8109b0343a"><td id="yRU?" class="" style="width:154px">目标</td><td id="O{N{" class="" style="width:211.5044708251953px">回答问题 / 完成对话</td><td id="Z^fu" class="" style="width:461.99554443359375px">完成任务 / 达成目标</td></tr></div><div style="display:contents" dir="ltr"><tr id="3888db55-6aee-8029-8eff-fc5dd9ddd35d"><td id="yRU?" class="" style="width:154px">主动性</td><td id="O{N{" class="" style="width:211.5044708251953px">被动响应</td><td id="Z^fu" class="" style="width:461.99554443359375px">主动规划、调用工具、追问澄清</td></tr></div><div style="display:contents" dir="ltr"><tr id="3888db55-6aee-8081-a030-d7f1748dc436"><td id="yRU?" class="" style="width:154px">状态维护</td><td id="O{N{" class="" style="width:211.5044708251953px">通常无长期状态</td><td id="Z^fu" class="" style="width:461.99554443359375px">具备记忆与状态跟踪</td></tr></div><div style="display:contents" dir="ltr"><tr id="3888db55-6aee-807b-8e50-d5297b08459c"><td id="yRU?" class="" style="width:154px">输出形式</td><td id="O{N{" class="" style="width:211.5044708251953px">文本回复</td><td id="Z^fu" class="" style="width:461.99554443359375px">可能包含 API 调用、代码执行、文件生成等</td></tr></div><div style="display:contents" dir="ltr"><tr id="3888db55-6aee-8060-b2d0-ed72420e7ab4"><td id="yRU?" class="" style="width:154px">错误处理</td><td id="O{N{" class="" style="width:211.5044708251953px">无法纠正</td><td id="Z^fu" class="" style="width:461.99554443359375px">可通过反馈循环重试或调整策略</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><blockquote id="3888db55-6aee-800e-be39-fbaf4fe52e08" class="">简言之：Chatbot 是“会说话的模型”，Agent 是“会做事的智能体”。</blockquote></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-808e-8eb1-c6c82ae7a43c"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-8026-9e5c-f5a78fc61586" class="">5. 什么是自主性（Autonomy）在 Agent 中的体现？</h1></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8014-8768-c9d266c6572d" class="">自主性指 Agent <strong>在</strong><mark class="highlight-red"><strong>无人干预下独立完成任务的能力</strong></mark>，具体表现为：</p></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-803c-9b46-d7054636dc6a" class="bulleted-list"><li style="list-style-type:disc">自主解析模糊指令；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80c6-aa96-dcdb4dbb81c2" class="bulleted-list"><li style="list-style-type:disc">自主选择工具与执行顺序；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80e2-ad43-ef4b1cf8e430" class="bulleted-list"><li style="list-style-type:disc">自主判断任务是否完成；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8072-9309-ca882d0b4b85" class="bulleted-list"><li style="list-style-type:disc">自主处理异常（如工具失败时换策略）；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-803b-911a-db7ca6925ef5" class="bulleted-list"><li style="list-style-type:disc">自主决定何时向用户求助。</li></ul></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8076-8f13-d92322ab2559" class=""><mark class="highlight-gray_background">自主性 ≠ 完全脱离人类</mark>，而是“在给定边界内最大化独立决策”。</p></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-80d5-b2fa-cc2ba1ccc83f"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-8098-9cbc-fa0012ee8b39" class="">6. Agent 是否必须具备“目标导向”？为什么？</h1></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8006-8441-e70ad77eb266" class="">是的，<mark class="highlight-red">目标导向是 Agent 的本质属性</mark>。</p></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8031-8036-de73baee3a9b" class="bulleted-list"><li style="list-style-type:disc">若无明确目标，Agent 将<mark class="highlight-gray_background">退化为随机响应系统</mark>，无法衡量其有效性。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8059-9995-f9abd9d9be07" class="bulleted-list"><li style="list-style-type:disc">目标驱动了<mark class="highlight-gray_background"><strong>规划、工具选择、记忆检索</strong></mark>等所有行为。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80a0-a2d6-e3934720eccd" class="bulleted-list"><li style="list-style-type:disc">即使是开放探索型 Agent（如科研假设生成），其“目标”也是“发现有价值的新知识”。</li></ul></div><div style="display:contents" dir="auto"><blockquote id="3888db55-6aee-805f-8c6c-ce9321411dba" class="">注：目标可以是显式的（用户指令），也可以是隐式的（系统预设，如“帮助用户”）。</blockquote></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-80b4-8043-e0db64e2744b"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-804d-aaed-cadff7f51983" class="">7. LLM Agent 能否进行长期规划？如何实现？</h1></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8045-af6f-e6aefa20175b" class="">可以，但需架构支持。纯 <mark class="highlight-red"><strong>LLM 本身不具备长期记忆或全局规划能力</strong></mark>，但通过以下方式可实现“准长期规划”：</p></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80e9-b3a7-ebb3fcb9114f" class="bulleted-list"><li style="list-style-type:disc">分层任务分解：将大目标拆为子目标树（类似 ToT）。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8082-b89e-e25cc321eb71" class="bulleted-list"><li style="list-style-type:disc">记忆增强：用向量数据库存储历史计划与结果，供后续步骤参考。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8054-a9e5-fc0123ecd0a1" class="bulleted-list"><li style="list-style-type:disc">元控制器（Meta-Controller）：引入高层 Agent 监控进度并调整策略。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8029-b88c-daf728a50ed1" class="bulleted-list"><li style="list-style-type:disc">检查点机制：定期总结当前状态，避免偏离目标。</li></ul></div><div style="display:contents" dir="auto"><blockquote id="3888db55-6aee-809c-a683-e8b6fbbea8a0" class="">当前限制：LLM Agent 的“长期”通常指数分钟到数小时内的任务，而非真正的人类级长期规划。</blockquote></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-80dd-9aac-efb2b130ceab"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-8001-9f24-cef254e1ac01" class="">8. 什么是具身智能（Embodied AI）？与 LLM Agent 有何关联？</h1></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8055-abd0-ca0e6198c904" class="">具身智能（Embodied AI） 指<mark class="highlight-red">智能体通过与物理或仿真环境交互来学习和行动</mark>（如机器人、游戏 AI）。与 LLM Agent 的关系：</p></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-802a-b844-c627a74cf8ed" class="bulleted-list"><li style="list-style-type:disc">互补融合：LLM 提供高层语义理解与规划，具身系统提供感知与执行（如 LLM 控制机械臂）。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8004-9d7f-eeacb0f5f3ea" class="bulleted-list"><li style="list-style-type:disc">新兴方向：VLA（Vision-Language-Action）模型（如 RT-2）将 LLM 与具身控制结合。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80b6-8137-f84b3e16d1c5" class="bulleted-list"><li style="list-style-type:disc">挑战：LLM 缺乏对物理世界的直观理解，需通过仿真或传感器数据桥接。</li></ul></div><div style="display:contents" dir="auto"><blockquote id="3888db55-6aee-8099-bf41-df6ac2c351fa" class="">未来趋势：LLM Agent 将成为具身智能的“大脑”。</blockquote></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-804d-82c2-f908cb5438fd"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-8038-9884-d0d6475cd724" class="">9. Agent 是否需要强化学习？为什么？</h1></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80ec-8642-cf77d48a1fbb" class=""><mark class="highlight-red">不一定需要，但 RL 可显著提升性能。</mark></p></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-807f-85ab-ebe14ac1dd4a" class="bulleted-list"><li style="list-style-type:disc">当前主流 Agent（如 ReAct） <mark class="highlight-gray_background"><strong>依赖提示工程 + 工具调用</strong></mark>，无需 RL。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80a2-929a-e7542f54d00d" class="bulleted-list"><li style="list-style-type:disc">RL 的价值：<div style="display:contents" dir="auto"><ul id="3888db55-6aee-80d1-9d95-e73dd9c370a8" class="bulleted-list"><li style="list-style-type:circle">优化工具选择策略；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80b9-a1a6-f5a6c4c13148" class="bulleted-list"><li style="list-style-type:circle">学习长期奖励信号（如任务成功率）；</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80a6-8e08-ef2f713af78d" class="bulleted-list"><li style="list-style-type:circle">减少幻觉与无效操作。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-802a-a004-fb00807ef4e1" class="bulleted-list"><li style="list-style-type:disc">难点：RL 训练成本高、奖励设计难、样本效率低。</li></ul></div><div style="display:contents" dir="auto"><blockquote id="3888db55-6aee-8080-ab3d-db93f8aac110" class="">实践建议：初期用规则/提示工程快速搭建原型，后期用 RL 微调关键策略。</blockquote></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-809e-b192-e49bbb57a137"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-80d5-9be6-c16d14e4e520" class="">10. 你如何理解“Agent 是 LLM 的操作系统”这一说法？</h1></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8073-9dd0-ff59822e9875" class="">这是一个形象的比喻，含义如下：</p></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8023-b4da-dad30b25c4f5" class="bulleted-list"><li style="list-style-type:disc">LLM 是“CPU”：提供基础计算与语言理解能力。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8090-a04b-fb4384fab7ff" class="bulleted-list"><li style="list-style-type:disc">Agent 框架是“OS”：管理资源（工具、内存）、调度任务（规划）、处理 I/O（用户交互）、保障安全（权限控制）。</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80d6-b8c6-c1d7e745e014" class="bulleted-list"><li style="list-style-type:disc">应用 = 用户指令：如同在操作系统上运行程序。</li></ul></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80c3-9f07-e4203137632e" class="">没有 Agent 框架，LLM 只能做“一次性问答”；有了 Agent，LLM 才能像计算机一样运行复杂程序。</p></div><div style="display:contents" dir="auto"><blockquote id="3888db55-6aee-80f4-a65f-e6431b5e28de" class="">类比：ChatGPT 是终端命令行，Agent 是带 GUI 和后台服务的完整操作系统。</blockquote></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-803d-9b89-cc5175038c87" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
