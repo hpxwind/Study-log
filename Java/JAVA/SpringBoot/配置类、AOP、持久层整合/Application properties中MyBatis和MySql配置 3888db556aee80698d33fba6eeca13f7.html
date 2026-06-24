@@ -1,0 +1,816 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Application.properties中MyBatis和MySql配置</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3888db55-6aee-8069-8d33-fba6eeca13f7" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/webb3.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">✏️</span></div><h1 class="page-title" dir="auto">Application.properties中MyBatis和MySql配置</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8031-82db-c31285583309" class="toggle"><li><details open=""><summary>完整配置</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3888db55-6aee-8041-94f6-dcd10a109c20" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all"># ===================== 1. MySQL 数据库连接配置 =====================
+# 数据库驱动（MySQL8.0+必须用 com.mysql.cj.jdbc.Driver）
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# 连接地址说明：
+# serverTimezone=Asia/Shanghai 时区，解决时差、插入时间偏差
+# useUnicode=true&amp;characterEncoding=utf-8 编码
+# useSSL=false 开发关闭SSL，生产按需开启
+# allowPublicKeyRetrieval=true 解决公钥检索报错
+spring.datasource.url=jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;allowPublicKeyRetrieval=true
+
+# 数据库账号密码
+spring.datasource.username=root
+spring.datasource.password=123456
+
+# 数据源类型（SpringBoot默认Hikari，性能最优）
+spring.datasource.type=com.zaxxer.hikari.HikariDataSource
+
+# ===================== 2. Hikari 连接池配置（默认连接池） =====================
+# 最小空闲连接
+spring.datasource.hikari.minimum-idle=5
+# 最大连接数
+spring.datasource.hikari.maximum-pool-size=15
+# 空闲连接超时时间（毫秒）
+spring.datasource.hikari.idle-timeout=300000
+# 连接最大生命周期
+spring.datasource.hikari.max-lifetime=1800000
+# 获取连接超时
+spring.datasource.hikari.connection-timeout=20000
+
+# ===================== 3. MyBatis 核心配置 =====================
+# mapper.xml 文件存放路径，多个用逗号分隔
+mybatis.mapper-locations=classpath:mapper/**/*.xml
+
+# 实体类别名包，不用写全类名，直接写类名
+mybatis.type-aliases-package=com.example.demo.entity
+
+# 开启MyBatis日志，打印执行SQL（开发必备）
+mybatis.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 开启驼峰命名自动转换：数据库 user_name → 实体 userName
+mybatis.configuration.map-underscore-to-camel-case=true
+
+# 关闭自动驼峰默认值（可选）
+# mybatis.configuration.map-underscore-to-camel-case=false
+
+# 全局开启延迟加载
+mybatis.configuration.lazy-loading-enabled=true
+# 按需延迟加载
+mybatis.configuration.aggressive-lazy-loading=false
+
+# ===================== 4. MyBatis 全局配置文件（可选） =====================
+# 如果有 mybatis-config.xml 全局配置文件，指定路径
+# mybatis.config-location=classpath:mybatis-config.xml
+
+# ===================== 5. 分页插件 PageHelper 配置（常用） =====================
+# pagehelper分页方言适配mysql
+pagehelper.helper-dialect=mysql
+# 合理化分页，页码&lt;=1查第一页，超过总页数查最后一页
+pagehelper.reasonable=true
+# 支持参数分页
+pagehelper.support-methods-arguments=true</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-8039-87ac-ed5ce4341236"/></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-805e-b05e-c41c622c13d5" class="">1、MySQL 数据源四要素（必须配置）</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-804c-9f2f-c5a487acaacc" class="">① driver-class-name 驱动类<div class="indented"><div style="display:contents" dir="auto"><ul id="3888db55-6aee-805c-b2b3-c6fbde5280db" class="bulleted-list"><li style="list-style-type:disc">MySQL 5.x：<code>com.mysql.jdbc.Driver</code></li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8005-8e66-dff74b0018a5" class="bulleted-list"><li style="list-style-type:disc">MySQL 8.0+ <strong>强制</strong>：<code>com.mysql.cj.jdbc.Driver</code></li></ul></div><div style="display:contents" dir="auto"><blockquote id="3888db55-6aee-8022-869b-de396ade54ff" class="">高版本驱动不带cj会启动报错</blockquote></div></div></p></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-808d-8089-da4bca5b5048" class="">② url 连接地址参数详解<div class="indented"><div style="display:contents" dir="auto"><p id="3888db55-6aee-80e5-88cb-ca142dab0d21" class=""><code>jdbc:mysql://IP:端口/数据库名?参数1&amp;参数2&amp;参数3</code></p></div><div style="display:contents" dir="ltr"><table id="3888db55-6aee-807a-a7d6-cab34e3cb7df" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3888db55-6aee-80b7-95a0-d72054cd5e54"><th id="&gt;LJP" class="simple-table-header-color simple-table-header">参数</th><th id="bNYa" class="simple-table-header-color simple-table-header">作用</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3888db55-6aee-80cb-b4a3-ce773af481dd"><td id="&gt;LJP" class="">serverTimezone=Asia/Shanghai</td><td id="bNYa" class="">设置东八区，解决插入时间比实际晚8小时、时区异常报错</td></tr></div><div style="display:contents" dir="ltr"><tr id="3888db55-6aee-8028-86cd-caa0b31ae12f"><td id="&gt;LJP" class="">useUnicode=true&amp;characterEncoding=utf-8</td><td id="bNYa" class="">指定字符集，防止中文乱码</td></tr></div><div style="display:contents" dir="ltr"><tr id="3888db55-6aee-8050-ab01-ca8041f7ccdb"><td id="&gt;LJP" class="">useSSL=false</td><td id="bNYa" class="">开发环境关闭SSL安全校验；生产环境建议改为true</td></tr></div><div style="display:contents" dir="ltr"><tr id="3888db55-6aee-801d-8cb1-faaa72982db0"><td id="&gt;LJP" class="">allowPublicKeyRetrieval=true</td><td id="bNYa" class="">解决 <code>Public Key Retrieval is not allowed</code> 连接报错</td></tr></div></tbody></table></div></div></p></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-808c-8155-c8fc1f716a13" class="">③ username / password<div class="indented"><div style="display:contents" dir="auto"><p id="3888db55-6aee-80bf-89ec-ff89e659e84c" class="">数据库登录账号密码，不要写中文、空格。</p></div></div></p></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8086-9d40-f991e90bddaa" class="">④ type 数据源类型<div class="indented"><div style="display:contents" dir="auto"><p id="3888db55-6aee-8079-8bc8-ea35138b4897" class="">SpringBoot2.x 默认 <strong>HikariDataSource</strong>（速度优于Druid）<br/>如果想用Druid：<code>spring.datasource.type=com.alibaba.druid.pool.DruidDataSource</code></p></div></div></p></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80ac-b050-c1be9370cc1a" class="">2、Hikari 连接池参数详解</h3></div><div style="display:contents" dir="auto"><pre id="3888db55-6aee-80f8-b6ea-d2822ebccba1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all"># 最小空闲连接：常驻池子最少连接数
+spring.datasource.hikari.minimum-idle=5
+# 最大连接总数：数据库并发上限
+spring.datasource.hikari.maximum-pool-size=15
+# 空闲连接多久销毁（5分钟）
+spring.datasource.hikari.idle-timeout=300000
+# 单个连接最长存活时间（30分钟）
+spring.datasource.hikari.max-lifetime=1800000
+# 拿连接超时时间（20秒拿不到连接抛异常）
+spring.datasource.hikari.connection-timeout=20000</code></pre></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-8046-8d0d-fee981156e23" class="">3、MyBatis 核心配置（重中之重）</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-802d-876e-ceb374c08c06" class="">（1）mybatis.mapper-locations<div class="indented"><div style="display:contents" dir="auto"><p id="3888db55-6aee-8037-b7fa-e10cfd7c68dd" class="">指定 <strong>Mapper XML 文件位置</strong></p></div><div style="display:contents" dir="auto"><pre id="3888db55-6aee-80a4-b4ab-e7f5115abf08" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all"># classpath:resources下mapper文件夹所有xml
+mybatis.mapper-locations=classpath:mapper/**/*.xml</code></pre></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80e9-aecb-c66d51c85ff6" class="bulleted-list"><li style="list-style-type:disc"><code>*</code> 代表递归所有子文件夹</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8009-bb10-f430c3d720a2" class="bulleted-list"><li style="list-style-type:disc">配置错误会报：<code>Invalid bound statement (not found)</code></li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80f0-a6d9-c3bfca6801cf" class="">（2）mybatis.type-aliases-package<div class="indented"><div style="display:contents" dir="auto"><p id="3888db55-6aee-80d3-b55c-eea4d639a296" class="">实体类别名包<br/>例：包 <code>com.example.demo.entity</code> 下有 <code>User</code> 实体</p></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80f7-afa4-ce30c3c5e21f" class="bulleted-list"><li style="list-style-type:disc">不配置：XML中写 <code>resultType=&quot;com.example.demo.entity.User&quot;</code></li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80fe-a133-cc48553e7ccd" class="bulleted-list"><li style="list-style-type:disc">配置后：直接简写 <code>resultType=&quot;User&quot;</code></li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-809c-9785-ea0190b27a99" class="">（3）驼峰自动转换（高频实用）<div class="indented"><div style="display:contents" dir="auto"><pre id="3888db55-6aee-8089-8b4e-e95e722320fe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mybatis.configuration.map-underscore-to-camel-case=true</code></pre></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80d1-9d45-d8b012435c70" class="">数据库字段 <code>user_name</code> → 实体属性 <code>userName</code>，不用手动写 <code>&lt;column&gt;</code> 映射。</p></div></div></p></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8039-8d9c-e60aadfc3a8e" class="">（4）SQL日志打印（调试必备）<div class="indented"><div style="display:contents" dir="auto"><pre id="3888db55-6aee-802c-9d6c-dfb6adaa42d8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mybatis.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl</code></pre></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80bb-9104-f98e79570cf9" class="">控制台自动输出：执行SQL、参数、影响行数，方便排错。</p></div></div></p></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-8013-820e-dc410657495f" class="">（5）mybatis.config-location（可选）<div class="indented"><div style="display:contents" dir="auto"><p id="3888db55-6aee-80bd-be80-e24bb0085550" class="">如果你单独创建 <code>mybatis-config.xml</code> 存放 setting、typeHandler、插件等，才需要配置：</p></div><div style="display:contents" dir="auto"><pre id="3888db55-6aee-8068-a2c0-e24119853691" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mybatis.config-location=classpath:mybatis-config.xml</code></pre></div><div style="display:contents" dir="auto"><blockquote id="3888db55-6aee-80dc-833e-e963fe85c39d" class="">大部分场景直接在 <code>application.properties</code> 配置即可，不需要单独xml。</blockquote></div></div></p></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80a9-a846-d8b6910853e1" class="">4、PageHelper 分页插件配置（常用拓展）</h3></div><div style="display:contents" dir="auto"><pre id="3888db55-6aee-80bf-8366-f9662c0ce1eb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">pagehelper.helper-dialect=mysql
+pagehelper.reasonable=true
+pagehelper.support-methods-arguments=true</code></pre></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80cc-ae29-ef3a3058eb69" class="bulleted-list"><li style="list-style-type:disc"><code>reasonable=true</code>：页码容错，pageNum&lt;=1自动查第一页，超出总页数查最后一页</li></ul></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-8091-82cb-c5f1e80a0584"/></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-8046-bed9-ef1497e8ae77"/></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-8028-8aa7-fa907ebc8674"/></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-8021-9713-fccc4ef3ff76" class="">五、常见报错&amp;解决方案</h3></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-805c-9dc4-f54fa68de5d4" class="numbered-list" start="1"><li><strong>Invalid bound statement (not found)</strong><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8059-bf62-f17fa212d9d8" class="bulleted-list"><li style="list-style-type:disc">mapper-locations路径写错 / 接口方法名和xml id不一致 / 没加@MapperScan</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80c4-9b72-f4663d799856" class="numbered-list" start="2"><li><strong>时区异常 The server time zone value...</strong><div style="display:contents" dir="auto"><ul id="3888db55-6aee-804c-83dc-c92d33e24612" class="bulleted-list"><li style="list-style-type:disc">url 补上 <code>serverTimezone=Asia/Shanghai</code></li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-8081-9a3d-cfba110cf5db" class="numbered-list" start="3"><li><strong>Public Key Retrieval is not allowed</strong><div style="display:contents" dir="auto"><ul id="3888db55-6aee-808e-a5c9-ef4804eda2a9" class="bulleted-list"><li style="list-style-type:disc">url 追加 <code>allowPublicKeyRetrieval=true</code></li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-804c-a9de-ca099b7ab04a" class="numbered-list" start="4"><li><strong>数据库字段下划线无法映射实体属性</strong><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80c7-9543-fb0b38aca7ed" class="bulleted-list"><li style="list-style-type:disc">开启 <code>map-underscore-to-camel-case=true</code></li></ul></div></li></ol></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

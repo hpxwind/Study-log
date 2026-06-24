@@ -1,0 +1,763 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>八股文</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3898db55-6aee-8049-8c87-f006f295b7d4" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/webb3.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🎯</span></div><h1 class="page-title" dir="auto">八股文</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="3898db55-6aee-803f-b057-c986126f1c9b" class=""><strong>你对 Spring 的理解</strong></h1></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-805b-a22b-d29fcf36fa3b" class="">Spring 是一款轻量级、分层式的 Java 一站式开源框架，核心设计思想是<mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">控制反转 (IOC)与面向切面编程 (AOP)</span></strong></mark>，用来简化企业级 Java 开发，降低代码耦合度。</p></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-8088-85b7-f1e53364245d" class="numbered-list" start="1"><li><strong>IOC 容器</strong>：把对象创建、依赖管理交给容器，不再手动 new 对象，实现组件解耦、便于单元测试；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-8033-bdb4-c350977800c2" class="numbered-list" start="2"><li><strong>AOP 面向切面</strong>：横向抽取通用逻辑（日志、事务、权限、监控），不修改业务代码就能增强功能；</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80bd-9de3-d44ef6c93b9e" class="numbered-list" start="3"><li>它还提供事务管理、JDBC 模板、SpringMVC、SpringBoot 等生态组件，覆盖持久层、Web 层、配置管理全场景，是 Java 后端事实上的主流开发框架。</li></ol></div><div style="display:contents" dir="auto"><h2 id="3898db55-6aee-8051-a6a3-d7e4f684c942" class="">对IoC容器的理解（反转控制）</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-8052-a9b9-d21b9534ac93" class="numbered-list" start="1"><li>解决什么问题？<div style="display:contents" dir="auto"><p id="3898db55-6aee-8028-be3a-da5bf2e3c883" class="">在没有Spring的时代，对象之间的依赖关系是由我们自己手动管理的。</p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-805b-b7fe-c21a46ebfafb" class="">比如，一个<code>OrderService</code>需要一个<code>OrderDao</code>，我们就得在<code>OrderService</code>的构造函数或某个方法里去<code>new OrderDao()</code>。这种方式导致了<strong>类与类之间的高度耦合</strong>，代码难以测试、难以维护、难以扩展。</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80a1-8d1c-f93ac59e0135" class="numbered-list" start="2"><li>spring如何解决<div style="display:contents" dir="auto"><p id="3898db55-6aee-801e-9942-c2085ce8818e" class="">反转控制：</p></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8036-bdc7-c744c4d1670e" class="bulleted-list"><li style="list-style-type:disc">Spring的核心是一个<strong>IoC容器</strong> （也叫Spring容器），它接管了所有对象的<strong>创建权</strong> 和 <strong>依赖关系的管理权</strong>。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-804e-bc61-f0208180ee41" class="bulleted-list"><li style="list-style-type:disc">我们不再在代码里去<code>new</code>对象，而是通过XML配置或注解（如<code>@Component</code>, <code>@Service</code>），告诉Spring：&quot;请帮我管理这个类（我们称之为<strong>Bean</strong>）&quot;。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-805c-9878-d7a43bf25116" class="bulleted-list"><li style="list-style-type:disc">当一个Bean（比如<code>OrderService</code>）需要另一个Bean（<code>OrderDao</code>）时，我们通过 <strong>依赖注入（DI, Dependency Injection）</strong> 的方式（比如使用<code>@Autowired</code>注解），告诉Spring：&quot;请把那个<code>OrderDao</code>的实例注入到我这里来。&quot;</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80af-8cfb-d0f8bf27e888" class="numbered-list" start="3"><li>价值<div style="display:contents" dir="auto"><p id="3898db55-6aee-8058-8fdd-e06c9bd40aa7" class="">解耦是最大的价值 ： <code>OrderService</code>不再关心<code>OrderDao</code>是如何被创建和管理的，它只关心接口和功能。这使得单元测试变得极其容易，我们可以轻松地注入一个Mock的<code>OrderDao</code>来进行测试。</p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8050-b056-c4ff39fb470b" class=""><strong>Bean的生命周期管理</strong> ：Spring容器负责Bean的创建、初始化、销毁等整个生命周期，让我们可以通过<code>@PostConstruct</code>, <code>@PreDestroy</code>等方式方便地进行扩展。</p></div></li></ol></div><div style="display:contents" dir="auto"><h2 id="3898db55-6aee-800d-b336-ca4754d9b528" class="">对AOP的理解（面向切面）</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-8040-a04c-c1db1e354652" class="numbered-list" start="1"><li>解决了什么问题<div style="display:contents" dir="auto"><p id="3898db55-6aee-805e-b1b3-ce10940ccbe6" class="">在我们的业务逻辑中，总是散落着大量与核心业务无关，但又必不可少的&quot;横切&quot;代码，比如<strong>日志记录、权限校验、性能监控、事务管理</strong>等。这些代码重复、臃肿，与业务逻辑耦合在一起，使得代码难以维护。</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-805d-bbe6-c04464063ce4" class="numbered-list" start="2"><li>spring如何解决<div style="display:contents" dir="auto"><ul id="3898db55-6aee-802d-a011-ea24dd020523" class="bulleted-list"><li style="list-style-type:disc">AOP允许我们将这些&quot;横切关注点&quot;<mark class="highlight-purple_background"><span style="border-bottom:0.05em solid">从业务逻辑中</span></mark><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">抽离</span></strong></mark> 出来，定义成独立的<strong>切面（Aspect）</strong>。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8046-b875-f0445610e00e" class="bulleted-list"><li style="list-style-type:disc">然后，通过配置，我们可以告诉Spring：&quot;请在某某方法（我们称之为<strong>切点，Pointcut</strong>）执行之前、之后、或者抛出异常时，动态地织入我这个切面的逻辑。&quot;</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80d1-8297-f6609016d6ef" class="numbered-list" start="3"><li>价值<div style="display:contents" dir="auto"><ul id="3898db55-6aee-80cf-8363-d5a5ffa749a9" class="bulleted-list"><li style="list-style-type:disc"><strong>模块化与可重用</strong>：将通用的横切逻辑（如日志）封装成一个切面，可以在系统的任何地方按需重用。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80f2-b3d6-e73bbc6627c8" class="bulleted-list"><li style="list-style-type:disc"><strong>业务代码更纯粹</strong>：业务开发人员可以更专注于核心业务逻辑，而无需关心那些通用的、非功能性的需求。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><blockquote id="3898db55-6aee-8002-97b2-c2cb3238587e" class=""><div style="display:contents" dir="auto"><p id="3898db55-6aee-80c1-88a8-ee681f008e7b" class="block-color-purple_background">普通封装工具类：抽公共代码 → <strong>业务里手动写 </strong><code><strong>工具类.方法()</strong></code><strong> 调用</strong>，侵入业务代码AOP：抽切面逻辑 → <strong>完全不用改业务代码、不用手动调用</strong>，Spring 通过动态代理自动拦截目标方法，在方法执行前后自动执行切面逻辑。</p></div></blockquote></div><div style="display:contents" dir="auto"><h2 id="3898db55-6aee-80c4-9f16-ff0b4e97ccf8" class="">在IoC和AOP上的丰富生态</h2></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80b6-af9f-dd0efe261488" class="">基于IoC和AOP，Spring构建了一个强大的一站式解决方案生态：</p></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80e7-ba0a-dcb546bf7cd1" class="bulleted-list"><li style="list-style-type:disc"><strong>声明式事务管理</strong> ：这是AOP最经典的应用。我们只需要在方法上加一个<code>@Transactional</code>注解，Spring就会通过AOP，自动地为这个方法加上事务的开启、提交、回滚逻辑，极其方便。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8062-b771-fa053e95576b" class="bulleted-list"><li style="list-style-type:disc"><strong>Spring MVC</strong>：一个强大而灵活的Web框架，通过IoC来管理Controller、Service等组件，实现了Web层的解耦。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-800f-8d3a-c522ce8f7c93" class="bulleted-list"><li style="list-style-type:disc"><strong>数据访问支持</strong> ：对JDBC、MyBatis、JPA等都提供了优秀的模板化支持（如<code>JdbcTemplate</code>, <code>MyBatis-Spring</code>集成），极大地简化了数据访问层的代码。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80cf-b134-e15e0b19ced2" class="bulleted-list"><li style="list-style-type:disc"><strong>Spring Boot</strong> ：它在Spring的基础上，通过&quot;约定大于配置&quot;的理念，提供了大量的<strong>自动配置（Auto-Configuration）和&quot;起步依赖&quot;（Starters）</strong>，让我们能够以极快的速度搭建一个可独立运行的、生产级的Spring应用，彻底解决了传统Spring配置繁琐的问题。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80d9-82b8-db3a56048c75" class="bulleted-list"><li style="list-style-type:disc"><strong>Spring Cloud</strong>：在Spring Boot的基础上，提供了一整套构建分布式系统的微服务治理方案（如服务发现、配置中心、网关、熔断器等）。</li></ul></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8032-bad6-cf4548b1270b" class="block-color-purple_background"><strong>总结一下</strong> ，Spring通过<strong>IoC</strong> 和<strong>AOP</strong> 这两大核心思想，从根本上解决了传统Java开发的耦合问题，并以此为基础，构建了一个从单体应用到微服务、从Web开发到数据访问的<strong>全方位、一站式</strong>的开发生态，是当之无愧的Java企业级应用开发的事实标准。</p></div><div style="display:contents" dir="auto"><hr id="3898db55-6aee-806d-8383-e0b1b761186f"/></div><div style="display:contents" dir="auto"><h1 id="3898db55-6aee-802a-affd-deb667838c68" class=""><strong>Spring IoC和AOP 介绍一下</strong></h1></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8094-ac4c-f139f24948dd" class="">可以用一个 <strong>&quot;造汽车&quot;</strong> 的比喻来解释它们：</p></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8044-b014-f66b24e3769c" class="bulleted-list"><li style="list-style-type:disc"><strong>IoC（控制反转）</strong> ：负责的是 <strong>&quot;零部件的组装&quot;</strong>。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-800d-8275-c9435a5b7775" class="bulleted-list"><li style="list-style-type:disc"><strong>AOP（面向切面编程）</strong> ：负责的是 <strong>&quot;全车功能的统一加装&quot;</strong>。</li></ul></div><div style="display:contents" dir="auto"><h3 id="3898db55-6aee-80cc-a36c-d35f06ce2603" class=""><strong>IoC (Inversion of Control) ------ 对象的组装者</strong></h3></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8052-91d3-dfad5f6e8063" class="bulleted-list"><li style="list-style-type:disc"><strong>核心思想</strong> ：IoC的核心是 <strong>&quot;</strong><mark class="highlight-red"><strong>控制反转</strong></mark><strong>&quot;</strong> 。<div style="display:contents" dir="auto"><ul id="3898db55-6aee-809b-b1fc-d81aecdb5f17" class="bulleted-list"><li style="list-style-type:circle">在传统开发中，我们需要自己去<code>new</code>一个对象，并手动处理它所依赖的其他对象。<div style="display:contents" dir="auto"><p id="3898db55-6aee-8026-aba4-f456bad88e83" class="">就像我们自己去买来发动机、轮胎、底盘，然后亲手把它们组装成一辆车。这导致<strong>零部件之间（对象之间）高度耦合</strong>。</p></div></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80a4-b1c2-f8226db2ae61" class="bulleted-list"><li style="list-style-type:circle">而有了IoC，我们就把这个 <strong>&quot;组装权&quot;</strong> 交给了 <strong>Spring容器</strong> 这个&quot;自动化装配工厂&quot;。我们只需要告诉工厂：&quot;我需要一个发动机，一个轮胎......&quot;，工厂就会自动地、按照我们的要求（通过<code>@Autowired</code>等依赖注入方式），把它们精准地组装在一起，交付给我们一辆完整的汽车。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8074-b03e-eceae5f33a7d" class="bulleted-list"><li style="list-style-type:disc"><strong>价值</strong> ：通过这种方式，<code><span style="border-bottom:0.05em solid">Service</span></code><span style="border-bottom:0.05em solid">层不再关心</span><code><span style="border-bottom:0.05em solid">DAO</span></code><span style="border-bottom:0.05em solid">层是如何被创建的，它们之间的耦合度被大大降低</span>。这使得我们的代码更容易进行单元测试和替换升级。</li></ul></div><div style="display:contents" dir="auto"><h3 id="3898db55-6aee-80b6-9b66-de5e63bb04e3" class=""><strong>AOP (Aspect-Oriented Programming) ------ 功能的增强者</strong></h3></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80e6-95b3-f0dd41ab4afc" class="bulleted-list"><li style="list-style-type:disc"><strong>核心思想</strong> ：AOP的核心是 <strong>&quot;</strong><mark class="highlight-red"><strong>横切关注点的分离</strong></mark><strong>&quot;</strong> 。<div style="display:contents" dir="auto"><ul id="3898db55-6aee-805b-981a-fb23e6b51534" class="bulleted-list"><li style="list-style-type:circle">继续用造车的比喻。一辆车除了核心的行驶功能，还需要很多通用的、非核心的功能，比如 <strong>&quot;喷漆&quot;、&quot;贴膜&quot;、&quot;安装车载导航&quot;、&quot;加装安全气囊&quot;</strong> 等等。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80d0-a7ed-f8418503eb8f" class="bulleted-list"><li style="list-style-type:circle">如果我们在组装每一个零部件（发动机、车门）的时候，都顺便去考虑一下喷漆、贴膜的问题，那整个生产流程就会变得极其混乱和重复。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80a3-9234-f60360afc71c" class="bulleted-list"><li style="list-style-type:circle">AOP就是把这些通用的&quot;加装&quot;工序，变成了<strong>独立的&quot;切面&quot;（Aspect）</strong>。比如，有一个专门的&quot;喷漆车间&quot;、一个&quot;贴膜车间&quot;。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8084-aed3-ebf0cf899942" class="bulleted-list"><li style="list-style-type:circle">当我们的汽车（目标对象）在生产线上流过时，AOP会通过<strong>动态代理</strong>技术，像一个机械臂一样，在适当的时机（比如方法执行前/后），自动地为这辆车完成喷漆、贴膜等操作。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80b5-8dde-d96050254793" class="bulleted-list"><li style="list-style-type:disc"><strong>实现原理</strong> ：<mark class="highlight-red"><strong>动态代理</strong></mark><mark class="highlight-red"> </mark>是其核心。<div style="display:contents" dir="auto"><ul id="3898db55-6aee-807b-864b-f1e281b3a4d3" class="block-color-gray_background bulleted-list"><li style="list-style-type:circle">如果目标对象实现了接口，Spring优先使用<strong>JDK动态代理</strong>，生成一个与目标对象实现了相同接口的代理对象。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80ed-a3a1-f93273346581" class="block-color-gray_background bulleted-list"><li style="list-style-type:circle">如果目标对象没有实现接口，Spring就会使用<strong>CGLib</strong>，通过继承的方式，生成一个目标对象的子类作为代理。</li></ul></div></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80e3-bb1e-f36e5ee170a1" class="bulleted-list"><li style="list-style-type:disc"><strong>价值</strong> ：AOP让我们<mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">能够将日志、事务、权限校验等通用逻辑从业务代码中彻底剥离出来</span></strong></mark>，使得业务代码更纯粹，通用逻辑也得到了复用。</li></ul></div><div style="display:contents" dir="auto"><h3 id="3898db55-6aee-80fc-abcc-dae3e20e84d3" class=""><strong>它们的结合</strong></h3></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-807c-a17b-cec158b6a353" class="">IoC和AOP在Spring中是天作之合，协同工作：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-803b-ab7c-fd44a465f100" class="numbered-list" start="1"><li>首先，<strong>IoC容器</strong> 负责创建和组装好我们所有的业务组件（Bean），比如<code>OrderService</code>和<code>OrderDao</code>，并处理好它们之间的依赖关系。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-8092-a8c9-c79e83b6b725" class="numbered-list" start="2"><li>然后，<strong>AOP</strong> 再基于这些已经由IoC容器管理好的Bean，对它们进行&quot;二次加工&quot;。比如，AOP会为<code>OrderService</code>的<code>placeOrder</code>方法动态地创建一个代理，在这个代理中织入事务管理的逻辑。</li></ol></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80ab-84f4-f1d5908b7856" class="">最终，我们从Spring容器中获取到的，实际上是经过AOP&quot;增强&quot;后的代理对象。这样，我们就得到了一个既解耦了对象依赖，又分离了横切关注点的、高内聚、低耦合的应用程序。</p></div><div style="display:contents" dir="auto"><hr id="3898db55-6aee-803d-9b10-f5d969bb6c7b"/></div><div style="display:contents" dir="auto"><h1 id="3898db55-6aee-80ea-9abc-e57eaf5c7489" class="">详细介绍一下AOP</h1></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-800b-b8b5-c422f8ad1317" class="">AOP提供了一种<strong>优雅地将通用功能与业务逻辑解耦</strong>的强大机制。</p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80a3-9b2f-d786bb4833e1" class="block-color-purple_background">AOP通过<strong>定义切面</strong> ，将散落在各处的通用功能（如事务、日志）<mark class="highlight-yellow"><strong>模块化</strong></mark>，然后通过<mark class="highlight-yellow"><strong>动态代理</strong></mark><mark class="highlight-yellow"> 技术</mark>，在<strong>运行时</strong>将这些功能&quot;织入&quot;到我们指定的核心业务方法中，从而实现了两者的完美解耦。这也是Spring框架能够如此强大和灵活的关键所在。</p></div><div style="display:contents" dir="auto"><h2 id="3898db55-6aee-804e-9ffd-ca4dcf42e8f0" class="">解决什么痛点</h2></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8013-a5c6-f42d3cb513eb" class="">对于如下代码：</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3898db55-6aee-80d9-b8db-d73958a77458" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class UserServiceImpl implements UserService {
+    public void addUser(User user) {
+        // --- 非核心业务逻辑 ---
+        System.out.println(&quot;[日志] 开始执行addUser方法...&quot;);
+        Transaction tx = transactionManager.beginTransaction(); // 开启事务
+
+        try {
+            // --- 核心业务逻辑 ---
+            userDao.insert(user);
+            
+            // --- 非核心业务逻辑 ---
+            tx.commit(); // 提交事务
+            System.out.println(&quot;[日志] addUser方法执行成功。&quot;);
+        } catch (Exception e) {
+            // --- 非核心业务逻辑 ---
+            tx.rollback(); // 回滚事务
+            System.err.println(&quot;[日志] addUser方法执行异常: &quot; + e.getMessage());
+            throw e;
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8078-a521-d8987b0cf186" class=""><strong>核心的业务逻辑（</strong><code><strong>userDao.insert(user)</strong></code><strong>）被大量重复的、与业务无关的&quot;样板代码&quot;（如日志、事务）所包围</strong> 。这些样板代码就是 <strong>&quot;横切关注点&quot;</strong>，它们污染了业务代码，使其难以阅读和维护。<mark class="highlight-yellow"><strong><span style="border-bottom:0.05em solid">AOP的核心目标，就是将这些&quot;横切关注点&quot;抽离出去，让业务代码回归纯粹。</span></strong></mark></p></div><div style="display:contents" dir="auto"><h2 id="3898db55-6aee-8090-9b71-d9b33e74c7ec" class="">AOP的核心概念与工作流程</h2></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80a6-8bc6-f66acf17c6f3" class="">AOP定义了一套自己的语言和工作流程。我们可以用&quot;<mark class="highlight-gray_background">我要给所有Service层的public方法都加上事务</mark>&quot;这个需求来理解这些概念：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-8042-a50f-c16486744229" class="numbered-list" start="1"><li><mark class="highlight-red"><strong>连接点 (Join Point)</strong></mark><mark class="highlight-red"> </mark>：首先，我们程序中所有可以被&quot;织入&quot;额外逻辑的点，都叫连接点。在Spring AOP中，这个点就是<strong>方法的执行</strong> 。所以，<code>UserServiceImpl</code>的<code>addUser</code>方法，就是一个连接点。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-8099-ab1d-e629b808b639" class="numbered-list" start="2"><li><mark class="highlight-red"><strong>切点 (Pointcut)</strong></mark><mark class="highlight-red"> </mark>：我们不可能对所有方法都加事务，所以需要一个&quot;筛选器&quot;来<strong>精确地定位</strong>我们感兴趣的那些连接点。这个筛选器就是切点。<div style="display:contents" dir="auto"><ul id="3898db55-6aee-8033-9eed-e17f2a8aa64a" class="bulleted-list"><li style="list-style-type:disc"><strong>如何定义？</strong> 我们会用一种表达式语言（比如AspectJ的切点表达式）来定义</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-801d-8b97-fdce12ce065b" class="bulleted-list"><li style="list-style-type:disc">例如：<code>execution(* com.example.service.*.*(..))</code>，这就精确地匹配了<code>com.example.service</code>包下所有类的所有public方法。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-8085-91a2-e878f6c8dcbd" class="numbered-list" start="3"><li><mark class="highlight-red"><strong>通知 (Advice)</strong></mark> ：这就是我们抽离出来的、具体的<strong>横切逻辑</strong>，也就是&quot;我们想干什么&quot;。<div style="display:contents" dir="auto"><ul id="3898db55-6aee-80f5-aeed-cd795ec7a6d3" class="bulleted-list"><li style="list-style-type:disc"><strong>类型</strong> ：通知有几种类型：<div style="display:contents" dir="auto"><ul id="3898db55-6aee-8076-a8cf-c868cab7eb1f" class="bulleted-list"><li style="list-style-type:circle"><code>@Before</code>：在目标方法执行<strong>前</strong>执行。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-805e-b815-f673ff9a6721" class="bulleted-list"><li style="list-style-type:circle"><code>@AfterReturning</code>：在目标方法<strong>成功返回后</strong>执行。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80f8-9850-df42d7367b35" class="bulleted-list"><li style="list-style-type:circle"><code>@AfterThrowing</code>：在目标方法<strong>抛出异常后</strong>执行。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8077-9b59-f7f49136b7bb" class="bulleted-list"><li style="list-style-type:circle"><code>@After</code>：无论成功还是异常，<strong>最终</strong>都会执行。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-802a-930b-ea9de0a74db8" class="bulleted-list"><li style="list-style-type:circle"><code>@Around</code>：功能最强大，它可以<strong>环绕</strong> 整个目标方法的执行，我们可以在这里手动控制何时执行目标方法，并处理其返回值和异常。<strong>Spring的声明式事务就是通过</strong><code><strong>@Around</strong></code><strong>通知实现的。</strong></li></ul></div></li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80ec-ad61-d38370ee7b3c" class="numbered-list" start="4"><li><mark class="highlight-red"><strong>切面 (Aspect)</strong></mark><mark class="highlight-red"> </mark>：切面是<mark class="highlight-red"><strong>切点</strong></mark><strong>和</strong><mark class="highlight-red"><strong>通知</strong></mark><strong>的结合体</strong> 。它回答了&quot;<strong>在什么地方（Pointcut），干什么事（Advice）</strong> &quot;这个问题。我们通常用一个带有<code>@Aspect</code>注解的类来定义一个切面。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80b1-bc2e-e505debbebaa" class="numbered-list" start="5"><li><mark class="highlight-red"><strong>织入 (Weaving)</strong></mark>：最后一步，就是将&quot;切面&quot;应用到&quot;目标对象&quot;上，生成一个代理对象的过程。当外部调用这个代理对象的方法时，织入的通知逻辑就会被触发。</li></ol></div><div style="display:contents" dir="auto"><h2 id="3898db55-6aee-80d9-bbb4-c4102fb9c1f9" class="">AOP的实现原理</h2></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80e1-99ed-c15286cf0845" class="">AOP的织入过程是<strong>在运行时动态完成的</strong> ，它主要依赖两种<strong>动态代理</strong>技术：</p></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-809b-896c-ee8c9f4865d7" class="bulleted-list"><li style="list-style-type:disc"><strong>JDK动态代理</strong> ：这是Java官方提供的代理方式。它要求<mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">目标对象必须实现至少一个接口</span></strong></mark>。Spring会生成一个实现了相同接口的代理类，来拦截方法调用。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-801b-b6a6-c994c7fce51b" class="bulleted-list"><li style="list-style-type:disc"><strong>CGLIB代理</strong> ：这是一个第三方的代码生成库。如果目标对象<mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">没有实现任何接口 </span></strong></mark>，Spring就会使用CGLIB，通过<strong>继承</strong>这个目标类的方式，来创建一个子类作为代理。</li></ul></div><div style="display:contents" dir="auto"><hr id="3898db55-6aee-80f6-923f-c19ef8238eec"/></div><div style="display:contents" dir="auto"><h1 id="3898db55-6aee-8005-ba94-e5744a8673e4" class="">IoC和AOP是通过什么机制实现的</h1></div><div style="display:contents" dir="auto"><h2 id="3898db55-6aee-808a-9443-e0acde86a9fe" class="">IoC的实现机制：一个“自动化对象装配工厂”</h2></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-808a-bbd6-c3ccef9dd6a9" class="">IoC容器的目标是<mark class="highlight-yellow"><strong><span style="border-bottom:0.05em solid">接管所有对象的创建和依赖管理权。依赖如下机制</span></strong></mark></p></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-808f-83de-f03b8ccc78ff" class="numbered-list" start="1"><li><strong>Bean定义信息的加载与解析 (蓝图读取)</strong><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80a6-b385-f9de506c2331" class="bulleted-list"><li style="list-style-type:disc">首先，Spring容器需要知道它要管理哪些对象（Bean），以及它们之间的依赖关系。这个信息可以来自<strong>XML配置文件</strong> 或<strong>Java注解</strong> （如<code>@Component</code>, <code>@Service</code>）。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-809b-ae79-d8e932e323e1" class="bulleted-list"><li style="list-style-type:disc">容器在启动时，会有一个 <code><strong>BeanDefinitionReader</strong></code> 的角色，负责读取这些配置信息，并将它们解析成Spring内部统一的数据结构-----<code><strong>BeanDefinition</strong></code> 。<code>BeanDefinition</code>就像是每个Bean的&quot;身份证&quot;或&quot;配置蓝图&quot;，里面包含了类的全名、作用域、依赖关系、是否懒加载等所有元数据。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-8014-bd61-e2612d41adf1" class="numbered-list" start="2"><li><strong>对象的实例化 (工厂生产) ------ </strong><mark class="highlight-yellow"><strong><span style="border-bottom:0.05em solid">反射 + 工厂模式</span></strong></mark><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8063-93c7-f95c099d603d" class="bulleted-list"><li style="list-style-type:disc">当容器需要创建一个Bean的实例时（比如在启动时或第一次被请求时），它会根据<code>BeanDefinition</code>中的类名，利用<mark class="highlight-purple_background"><strong> Java的反射机制</strong></mark><strong>（</strong><code><strong>Class.forName()</strong></code><strong>和</strong><code><strong>newInstance()</strong></code><strong>或构造器调用）</strong> 来动态地创建出对象实例。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-805e-b6ee-d311ecc0faae" class="bulleted-list"><li style="list-style-type:disc">整个Spring IoC容器，本质上就是一个<strong>巨大的、高度可配置的工厂（</strong><code><strong>BeanFactory</strong></code><strong>或</strong><code><strong>ApplicationContext</strong></code><strong>）</strong> ，它代替了我们自己去<code>new</code>对象。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-809c-b4af-fadb9814d150" class="numbered-list" start="3"><li><strong>依赖关系的注入 (自动化装配)</strong><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8002-bb05-d16770fb2403" class="bulleted-list"><li style="list-style-type:disc">对象实例化后，还只是一个&quot;半成品&quot;，它所依赖的其他Bean还没有被设置。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-804a-9476-c5f897a636f8" class="bulleted-list"><li style="list-style-type:disc">Spring容器会再次分析这个Bean的<code>BeanDefinition</code>，找出它的依赖项（比如带有<code>@Autowired</code>注解的字段）。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80f6-a851-d65c1169c895" class="bulleted-list"><li style="list-style-type:disc">然后，容器会去<strong>自己管理的一堆单例Bean中</strong>，找到匹配的依赖Bean实例。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-807b-9745-e1aef3594773" class="bulleted-list"><li style="list-style-type:disc">最后，还是通过<strong>反射机制</strong> （比如调用<code>field.set()</code>或相关的<code>setter</code>方法），将这个依赖Bean <strong>&quot;注入&quot;</strong> 到当前对象中。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8025-a10b-f6a10cf32897" class="bulleted-list"><li style="list-style-type:disc">这个过程，就是我们常说的<strong>依赖注入（DI）</strong>。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80d7-9a7f-e200d13e74a6" class="block-color-purple_background"><strong>总结一下IoC的实现</strong> ：它就像一个流水线工厂，先<strong>读取设计图（</strong><code><strong>BeanDefinition</strong></code><strong>）</strong> ，然后用<strong>反射</strong> 技术<strong>生产出毛坯零件（实例化Bean）</strong> ，最后再根据设计图，<strong>自动地将这些零件组装起来（依赖注入）</strong>。</p></div><div style="display:contents" dir="auto"><h2 id="3898db55-6aee-80fe-b60a-f7b8fd2a745c" class=""><strong>AOP 的实现机制：一个&quot;动态功能增强器&quot;</strong></h2></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8010-a99c-d718acf070d0" class="">AOP的目标是在<mark class="highlight-yellow"><strong><span style="border-bottom:0.05em solid">不修改源代码 的情况下</span></strong></mark>，为我们的业务对象<mark class="highlight-yellow"><strong><span style="border-bottom:0.05em solid">动态地增加一些通用功能</span></strong></mark>（如事务、日志）。它完全是构建在<strong>动态代理</strong>技术之上的。</p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-806b-9426-ee633650e4fb" class="">根据目标对象的特点，智能地选择两种代理方式：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80ee-a714-dbaf770c0c96" class="numbered-list" start="1"><li><strong>JDK动态代理 (基于接口)</strong><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80c4-98a1-cfd27948eb4d" class="bulleted-list"><li style="list-style-type:disc"><strong>使用条件</strong> ：当我们要代理的目标类，<strong>实现了至少一个接口</strong>时，Spring会优先使用这种方式。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8014-856f-d234142f8d0c" class="bulleted-list"><li style="list-style-type:disc"><strong>实现原理</strong> ：它利用<code>java.lang.reflect.Proxy</code>类和<code>InvocationHandler</code>接口。Spring会动态地创建一个新的代理类，这个代理类和我们的目标类<strong>实现了相同的接口</strong>。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-800e-a022-d3b588db3a07" class="bulleted-list"><li style="list-style-type:disc">当外部通过接口调用代理对象的方法时，这个调用会被<code>InvocationHandler</code>拦截。在<code>InvocationHandler</code>的<code>invoke</code>方法里，Spring就可以在<strong>调用真正的目标方法前后</strong>，织入我们定义的切面逻辑（Advice）。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-803b-ac98-c17e615b35a6" class="numbered-list" start="2"><li><strong>CGLIB动态代理 (基于继承)</strong><div style="display:contents" dir="auto"><ul id="3898db55-6aee-804c-9721-fb3539dc1d6f" class="bulleted-list"><li style="list-style-type:disc"><strong>使用条件</strong> ：当我们要代理的目标类，<strong>没有实现任何接口</strong>时，Spring就会切换到CGLIB。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8062-81e5-e6758606a786" class="bulleted-list"><li style="list-style-type:disc"><strong>实现原理</strong> ：CGLIB是一个强大的第三方代码生成库。它会在运行时，动态地<strong>创建一个被代理类的子类</strong> ，并重写父类（即目标类）中所有非<code>final</code>的方法。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-805c-9490-c7d751d436ba" class="bulleted-list"><li style="list-style-type:disc">在这个重写的方法里，CGLIB同样实现了拦截机制，让我们可以在调用<code>super.method()</code>（即真正的目标方法）前后，织入切面逻辑。</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-809c-bb58-f8ebbbf9b005" class="block-color-purple_background"><strong>总结一下AOP的实现</strong> ：无论是JDK代理还是CGLIB，Spring AOP的核心都是在<strong>运行时</strong> ，为目标Bean动态地创建一个<strong>代理对象</strong>。我们从Spring容器中获取到的，实际上是这个代理对象。当我们调用这个代理对象的方法时，AOP的增强逻辑（比如事务管理）就会被触发，从而在无侵入的情况下，实现了功能的扩展。</p></div><div style="display:contents" dir="auto"><hr id="3898db55-6aee-801b-8026-ea6b05aad8bb"/></div><div style="display:contents" dir="auto"><h1 id="3898db55-6aee-8028-abf7-f46c3508dbcf" class=""><strong>依赖倒置，依赖注入，控制反转分别是什么</strong></h1></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

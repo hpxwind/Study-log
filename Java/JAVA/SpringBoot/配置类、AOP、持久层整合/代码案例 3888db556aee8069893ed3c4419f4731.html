@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>SpringBoot</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>代码案例</title><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -740,4 +740,153 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="3848db55-6aee-807a-aaf5-cee3ac811c7e" class="page sans"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/texturelabs_concrete_146S.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="SpringBoot/ODF.png"/></div><h1 class="page-title" dir="auto">SpringBoot</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="ltr"><figure id="3848db55-6aee-80a0-af73-f3944f79ba1e" class="link-to-page"><a href="SpringBoot/%E7%AC%AC%E4%B8%80%E4%B8%AASpringBoot%E5%B7%A5%E7%A8%8B(%E5%9F%BA%E7%A1%80)%203848db556aee80a0af73f3944f79ba1e.html"><span class="icon">1️⃣</span>第一个SpringBoot工程(基础)</a></figure></div><div style="display:contents" dir="ltr"><figure id="3848db55-6aee-80ae-ae14-ddd605b16f1f" class="link-to-page"><a href="SpringBoot/%E5%A4%96%E9%83%A8%E5%8C%96%E9%85%8D%E7%BD%AE%E4%BD%93%E7%B3%BB%203848db556aee80aeae14ddd605b16f1f.html"><span class="icon">🏕️</span>外部化配置体系</a></figure></div><div style="display:contents" dir="ltr"><figure id="3878db55-6aee-8008-af6b-f32e1060490a" class="link-to-page"><a href="SpringBoot/%E9%85%8D%E7%BD%AE%E7%B1%BB%E3%80%81AOP%E3%80%81%E6%8C%81%E4%B9%85%E5%B1%82%E6%95%B4%E5%90%88%203878db556aee8008af6bf32e1060490a.html"><span class="icon">⛸️</span>配置类、AOP、持久层整合</a></figure></div><div style="display:contents" dir="ltr"><figure id="3898db55-6aee-80c1-a769-cf63e5393ea3" class="link-to-page"><a href="SpringBoot/%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%203898db556aee80c1a769cf63e5393ea3.html"><span class="icon">📁</span>自动配置</a></figure></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+</style></head><body><article id="3888db55-6aee-8069-893e-d3c4419f4731" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/webb1.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">👨🏼‍💻</span></div><h1 class="page-title" dir="auto">代码案例</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-80d4-b837-d69ca48f538a" class="">一、核心依赖（pom.xml）</h2></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8052-b324-fd38b7eecb41" class="toggle"><li><details open=""><summary>pom.xml</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3888db55-6aee-8002-a6be-f962fd7cda1a" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;!-- SpringBoot Web（可选，非必须） --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;!-- MyBatis 整合 SpringBoot 启动器 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;3.0.5&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- MySQL 驱动 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-j&lt;/artifactId&gt;
+    &lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;!-- 连接池 HikariCP（Boot 默认自带，可省略引入） --&gt;
+&lt;!-- Lombok 简化实体类 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+    &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+    &lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;
+&lt;!-- 测试 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-8097-9a71-f9e51662d7f1" class="">二、application.properties 配置文件</h2></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8098-95dd-ffbf3f1a121c" class="toggle"><li><details open=""><summary>application.properties</summary><div style="display:contents" dir="auto"><pre id="3888db55-6aee-80ad-85d0-edff5c3d0aaf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all"># 应用名
+spring.application.name=springboot-03
+
+# 1、数据库数据源配置
+spring.datasource.url=jdbc:mysql://localhost:3306/mytest1?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=Asia/Shanghai
+spring.datasource.username=root
+spring.datasource.password=123.com.CN
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.type=com.zaxxer.hikari.HikariDataSource
+
+# 2、MyBatis 核心配置
+# 映射XML文件存放路径
+mybatis.mapper-locations=classpath:mapper/*.xml
+# 实体类别名包，resultType可直接写类名不用全限定名
+mybatis.type-aliases-package=com.hpc.mybatis.entity
+# 开启下划线自动转驼峰（user_name → userName）
+mybatis.configuration.map-underscore-to-camel-case=true
+
+# 3、打印SQL日志（方便调试）
+logging.level.com.hpc.mybatis.mapper=DEBUG</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-808f-8789-d96ede2c7e1b" class="">三、项目包结构</h2></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80f3-8b45-c3426b59d549" class="toggle"><li><details open=""><summary>目录结构</summary><div style="display:contents" dir="auto"><pre id="3888db55-6aee-80fa-9f4f-d129b5d032b4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">src
+├── main
+│   ├── java/com/hpc/mybatis
+│   │   ├── Springboot03Application.java  # 启动类
+│   │   ├── entity                       # 实体类
+│   │   │   └── Vip.java
+│   │   ├── mapper                       # Mapper接口
+│   │   │   └── VipMapper.java
+│   │   ├── service                      # 业务接口
+│   │   │   └── VipService.java
+│   │   └── service/impl                 # 业务实现类
+│   │       └── VipServiceImpl.java
+│   └── resources
+│       ├── application.properties
+│       └── mapper                       # Mapper映射XML
+│           └── VipMapper.xml
+└── test/java/com/hpc/mybatis
+    └── Springboot03ApplicationTests.java # 测试类</code></pre></div><div style="display:contents" dir="ltr"><figure id="3888db55-6aee-80e3-b029-ce4d61cc8346" class="image"><a href="%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/image.png"><img style="width:429px" src="%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/image.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-80be-ac4f-e417a5a22ac4" class="">四、分步代码编写</h2></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-801e-8f7c-e5ee520b5f81" class="">1. 启动类（开启Mapper扫描）</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-806e-8f12-eeccb6548f35" class="toggle"><li><details open=""><summary>Springboot03Application.java</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3888db55-6aee-80e8-ba03-f465c5ca2c86" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpc.mybatis;
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+// 精准扫描Mapper接口所在包，避免误扫Service
+@MapperScan(basePackages = &quot;com.hpc.mybatis.mapper&quot;)
+public class Springboot03Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Springboot03Application.class, args);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-805e-8ca6-e58d85a09248" class="">2. 实体类 Vip.java</h3></div><div style="display:contents" dir="auto"><p id="3888db55-6aee-80c3-ad0f-f21f635c75ae" class="">匹配 user_msg 表</p></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8093-875d-dd096d6178c6" class="toggle"><li><details open=""><summary>Vip.java</summary><div style="display:contents" dir="auto"><pre id="3888db55-6aee-8023-b47f-d0ebbed514ec" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpc.mybatis.entity;
+
+import lombok.Data;
+
+@Data
+public class Vip {
+    private Integer id;
+    private String username;
+    private Integer age;
+    private String carNumber;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-8038-8aa9-cba187781d73" class="">3. Mapper 接口 VipMapper.java</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-806e-b0e0-cadd441dce10" class="toggle"><li><details open=""><summary>VipMapper.java</summary><div style="display:contents" dir="auto"><pre id="3888db55-6aee-80db-acc3-e5f91089fc1d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpc.mybatis.mapper;
+
+import com.hpc.mybatis.entity.Vip;
+import java.util.List;
+
+public interface VipMapper {
+    // 查询全部数据
+    List&lt;Vip&gt; selectAll();
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-8051-a58d-e0d8b99efe40" class="">4. Mapper 映射文件 resources/mapper/VipMapper.xml</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8026-a2a5-dd0722524d3c" class="toggle"><li><details open=""><summary>resources/mapper/VipMapper.xml</summary><div style="display:contents" dir="auto"><pre id="3888db55-6aee-80cb-b9e4-c274cfd4a972" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;&lt;http://mybatis.org/dtd/mybatis-3-mapper.dtd&gt;&quot;&gt;
+&lt;!-- namespace 必须和Mapper接口全类名完全一致 --&gt;
+&lt;mapper namespace=&quot;com.hpc.mybatis.mapper.VipMapper&quot;&gt;
+    &lt;!-- id对应接口方法名，resultType写实体类 --&gt;
+    &lt;select id=&quot;selectAll&quot; resultType=&quot;Vip&quot;&gt;
+        select * from `user_msg`
+    &lt;/select&gt;
+&lt;/mapper&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-8017-8d7e-f2ada8fc6538" class="">5. Service 层</h3></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80aa-8140-e85c540a6470" class="">VipService 接口</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-808b-88bf-c77d74e7051f" class="toggle"><li><details open=""><summary>sercvice/VipService.java</summary><div style="display:contents" dir="auto"><pre id="3888db55-6aee-80bb-83a4-d12f7c99d7d6" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpc.mybatis.service;
+
+import com.hpc.mybatis.entity.Vip;
+import java.util.List;
+
+public interface VipService {
+    List&lt;Vip&gt; getAll();
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-80db-9f95-f79db35877c1" class="">VipServiceImpl 实现类</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-802e-abaf-fa6f82b0a144" class="toggle"><li><details open=""><summary>service/impl/VipServiceImpl.java</summary><div style="display:contents" dir="auto"><pre id="3888db55-6aee-8017-b407-e64e2c90b003" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpc.mybatis.service.impl;
+
+import com.hpc.mybatis.entity.Vip;
+import com.hpc.mybatis.mapper.VipMapper;
+import com.hpc.mybatis.service.VipService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class VipServiceImpl implements VipService {
+    private final VipMapper mapper;
+
+    @Override
+    public List&lt;Vip&gt; getAll() {
+        return mapper.selectAll();
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="3888db55-6aee-8082-8c87-ed9e8aa772cc" class="">6. 测试类（验证整合是否成功）</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80b9-b0cd-e0ba6c82cbd0" class="toggle"><li><details open=""><summary>test.java</summary><div style="display:contents" dir="auto"><pre id="3888db55-6aee-809f-8aab-ea89c5295b7b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpc.mybatis;
+
+import com.hpc.mybatis.entity.Vip;
+import com.hpc.mybatis.service.VipService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import java.util.List;
+
+@SpringBootTest
+class Springboot03ApplicationTests {
+    @Autowired
+    private VipService vipService;
+
+    @Test
+    void contextLoads() {
+        List&lt;Vip&gt; list = vipService.getAll();
+        list.forEach(System.out::println);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3888db55-6aee-8089-a9a9-ca2522e896a5" class="">五、常见问题&amp;避坑总结（你之前遇到的全部问题）</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-800a-a403-daf93d1ccaef" class="numbered-list" start="1"><li><strong>Invalid bound statement (not found)</strong><div style="display:contents" dir="auto"><ul id="3888db55-6aee-801a-8430-e5d2971e1efa" class="bulleted-list"><li style="list-style-type:disc"><code>namespace</code> 和 Mapper 类名不一致</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80e5-acec-cdddfbbdbbb7" class="bulleted-list"><li style="list-style-type:disc"><code>mybatis.mapper-locations</code> 路径配置错误</li></ul></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80ba-867a-cce963599e1e" class="bulleted-list"><li style="list-style-type:disc"><code>@MapperScan</code> 扫描范围过大误扫Service</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80a0-bbb8-c99ea09aa267" class="numbered-list" start="2"><li><strong>Access denied 账号密码报错</strong><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8081-9ad9-ec588ee33e65" class="bulleted-list"><li style="list-style-type:disc">配置混用yml缩进+properties平铺格式，解析错乱</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80a3-a8ff-d639f14db5c3" class="numbered-list" start="3"><li><strong>Table 不存在</strong><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80d6-ba08-fe7eee9c92a3" class="bulleted-list"><li style="list-style-type:disc">连接不同MySQL实例、编译缓存残留，执行 <code>mvn clean</code> 清理</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3888db55-6aee-80bb-9a9c-e0159c8ed658" class="numbered-list" start="4"><li><strong>查询字段值为null</strong><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8005-b86f-f7b85b742f41" class="bulleted-list"><li style="list-style-type:disc">实体属性名和数据库字段名不匹配，开启驼峰自动转换</li></ul></div></li></ol></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

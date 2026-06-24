@@ -1,0 +1,1077 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>配置类、AOP、持久层整合</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3878db55-6aee-8008-af6b-f32e1060490a" class="page serif"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/gradients_5.png" style="object-position:center 40%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">⛸️</span></div><h1 class="page-title" dir="auto">配置类、AOP、持久层整合</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="ltr"><figure id="3888db55-6aee-8082-b83c-d59278285e87" class="link-to-page"><a href="%E9%85%8D%E7%BD%AE%E7%B1%BB%E3%80%81AOP%E3%80%81%E6%8C%81%E4%B9%85%E5%B1%82%E6%95%B4%E5%90%88/%E5%85%AB%E8%82%A1%E6%96%87%203888db556aee8082b83cd59278285e87.html"><span class="icon">⚖️</span>八股文</a></figure></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-806e-8377-e09e4c4e826d"/></div><div style="display:contents" dir="auto"><h1 id="3878db55-6aee-8091-a0df-e5bfb148df87" class="">SpringBoot中的AOP</h1></div><div style="display:contents" dir="ltr"><figure id="3878db55-6aee-80a6-954e-deeb3960ec52" class="link-to-page"><a href="%E9%85%8D%E7%BD%AE%E7%B1%BB%E3%80%81AOP%E3%80%81%E6%8C%81%E4%B9%85%E5%B1%82%E6%95%B4%E5%90%88/%E8%AF%A6%E8%A7%A3%203878db556aee80a6954edeeb3960ec52.html"><span class="icon">🛢️</span>详解</a></figure></div><div style="display:contents" dir="auto"><hr id="3878db55-6aee-806a-8660-cbb7b9cf4f10"/></div><div style="display:contents" dir="auto"><h1 id="3878db55-6aee-800b-b69e-d4c6a2b54bcb" class="">SpringBoot整合MyBatis</h1></div><div style="display:contents" dir="ltr"><figure id="3888db55-6aee-8069-893e-d3c4419f4731" class="link-to-page"><a href="%E9%85%8D%E7%BD%AE%E7%B1%BB%E3%80%81AOP%E3%80%81%E6%8C%81%E4%B9%85%E5%B1%82%E6%95%B4%E5%90%88/%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B%203888db556aee8069893ed3c4419f4731.html"><span class="icon">👨🏼‍💻</span>代码案例</a></figure></div><div style="display:contents" dir="ltr"><figure id="3888db55-6aee-8069-8d33-fba6eeca13f7" class="link-to-page"><a href="%E9%85%8D%E7%BD%AE%E7%B1%BB%E3%80%81AOP%E3%80%81%E6%8C%81%E4%B9%85%E5%B1%82%E6%95%B4%E5%90%88/Application%20properties%E4%B8%ADMyBatis%E5%92%8CMySql%E9%85%8D%E7%BD%AE%203888db556aee80698d33fba6eeca13f7.html"><span class="icon">✏️</span>Application.properties中MyBatis和MySql配置</a></figure></div><div style="display:contents" dir="auto"><hr id="3888db55-6aee-8056-af20-cca9872a5f4f"/></div><div style="display:contents" dir="auto"><h1 id="3888db55-6aee-8040-95d9-ccee4f3bfda1" class="">Lombok注释</h1></div><div style="display:contents" dir="ltr"><figure id="3888db55-6aee-80a3-bb5a-f78129f37900" class="link-to-page"><a href="%E9%85%8D%E7%BD%AE%E7%B1%BB%E3%80%81AOP%E3%80%81%E6%8C%81%E4%B9%85%E5%B1%82%E6%95%B4%E5%90%88/%E8%AF%A6%E8%A7%A3%203888db556aee80a3bb5af78129f37900.html"><span class="icon">🚪</span>详解</a></figure></div><div style="display:contents" dir="auto"><hr id="3898db55-6aee-8080-b8f1-d4a50eb5d7ef"/></div><div style="display:contents" dir="auto"><h1 id="3898db55-6aee-80b1-bd24-d3b16ffadc04" class="">建造者模式与@Builder注解</h1></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8031-a174-d62cb74866b0" class="">建造者模式（Builder Pattern）属于创造型设计模式，GoF23种设计模式之一</p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80f7-a320-e90e4df70200" class="block-color-purple_background">用于解决对象创建时参数过多的问题，它可以让对象的构造过程逐步完成，而不是一次性提供所有参数。</p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80a6-a5a5-e4635c1d157b" class="block-color-purple_background">建造模式的主要目的是让对象的创建过程更加清晰，灵活和可控。</p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8008-b263-d180139a55f1" class="">简而言之，建造模式属于：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-803c-a40d-de6b7ca8abce" class="numbered-list" start="1"><li><strong>简化构造过程</strong>：通过逐步构造对象，避免构造函数参数过多</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-801e-989c-ebb2ab9b2358" class="numbered-list" start="2"><li><strong>提高可读性与可维护性</strong>：让构造过程更加清晰和有序</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80d0-a565-d17c1c0d8480" class="numbered-list" start="3"><li><strong>增强灵活性</strong>：允许按需配置对象的不同部分</li></ol></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80eb-b8f1-d267fc6877a0" class="toggle"><li><details open=""><summary>手写构造结构code</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3898db55-6aee-8003-9286-d7577f98abdc" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 目标实体
+class User {
+    private Long id;
+    private String name;
+    private Integer age;
+    private String email;
+
+    // 私有构造，只能由Builder构建
+    private User(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.age = builder.age;
+        this.email = builder.email;
+    }
+
+    // 静态内部建造者
+    public static class Builder {
+        private Long id;
+        private String name;
+        private Integer age;
+        private String email;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this; // 链式返回自身
+        }
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+        public Builder age(Integer age) {
+            this.age = age;
+            return this;
+        }
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+        // 最终构建对象
+        public User build() {
+            return new User(this);
+        }
+    }
+
+    // getter
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public Integer getAge() { return age; }
+    public String getEmail() { return email; }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8004-b166-eaaff0440e04" class="toggle"><li><details open=""><summary>使用方式</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-809a-a4bc-c92c066af1ac" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">User user = new User.Builder()
+        .id(1L)
+        .name(&quot;张三&quot;)
+        .age(20)
+        .email(&quot;zs@qq.com&quot;)
+        .build();</code></pre></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-805b-929e-eb287dfd2fe8" class="bulleted-list"><li style="list-style-type:disc">链式调用，代码清晰易读</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-800f-a1fb-efcf537ae24d" class="bulleted-list"><li style="list-style-type:disc">灵活选择性赋值，不必传所有参数</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8070-8ba1-e93151cf292f" class="bulleted-list"><li style="list-style-type:disc">对象创建过程可控，可在<code>build()</code>中做参数校验</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-806b-a43f-f46e916d1bd9" class="bulleted-list"><li style="list-style-type:disc">构造逻辑与实体解耦</li></ul></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8026-a592-f62d4e30aba4" class="">@Builder即自动构建建造者模式</p></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80b3-a00f-c2ae8640c3d7" class="toggle"><li><details open=""><summary>引入xml依赖</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-80dd-bed6-d49212923966" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;dependency&gt;
+    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+    &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+    &lt;version&gt;1.18.30&lt;/version&gt;
+    &lt;scope&gt;provided&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80e6-9e8a-fbea7de4dc12" class="toggle"><li><details open=""><summary>简单使用</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-8022-a66e-e969dec812ef" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import lombok.Builder;
+import lombok.Getter;
+
+@Builder
+@Getter
+public class User {
+    private Long id;
+    private String name;
+    private Integer age;
+    private String email;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80e3-b014-c10b979bec35" class="">调用：</p></div><div style="display:contents" dir="auto"><pre id="3898db55-6aee-803f-a6af-d8eff447f57b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">User user = User.builder()
+        .id(1L)
+        .name(&quot;张三&quot;)
+        .age(20)
+        .email(&quot;zs@qq.com&quot;)
+        .build();</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80e7-9a97-f57ca45473c2" class="toggle"><li><details open=""><summary>@Builder原理</summary><div style="display:contents" dir="auto"><p id="3898db55-6aee-80b4-876a-e5cc04c3e6f5" class="">编译期自动生成：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80ae-953f-dff8e04d681c" class="numbered-list" start="1"><li>静态内部 <code>UserBuilder</code> 类</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-809d-9ade-fcff22329498" class="numbered-list" start="2"><li>每个字段对应同名赋值方法，支持链式返回</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-802b-99f2-e7f62ca98a29" class="numbered-list" start="3"><li><code>build()</code> 方法创建实例</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80b3-a1b1-e4653894b61c" class="numbered-list" start="4"><li>全参构造（默认私有）</li></ol></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80e1-aa05-c895f09d24a2" class="">等价于上面手写完整 Builder 代码，省去重复模板。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80a7-939a-f2a886381ac3" class="block-color-purple_background toggle"><li><details open=""><summary>常见问题</summary><div style="display:contents" dir="auto"><h3 id="3898db55-6aee-8050-99f6-d345e758a1b6" class="">1. 无参构造丢失问题</h3></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80fa-a621-e1da591b2fe4" class="">@Builder 默认只生成<strong>全参私有构造</strong>，框架（Spring、MyBatis、Jackson）反射需要无参构造会报错。<br/>解决：搭配 <code>@NoArgsConstructor + @AllArgsConstructor</code></p></div><div style="display:contents" dir="auto"><pre id="3898db55-6aee-80a5-a006-e107054253b1" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+public class User {
+    private Long id;
+    private String name;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-805b-a5f0-e12faf862bb8" class="">⚠️ 此时编译会报错，需要用 <code>@Builder.Default</code> 或手动兼容，推荐方案：</p></div><div style="display:contents" dir="auto"><pre id="3898db55-6aee-8015-ac28-e82c69de926c" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Getter
+@NoArgsConstructor
+public class User {
+    private Long id;
+    private String name;
+
+    @Builder
+    public User(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><h3 id="3898db55-6aee-80a0-884c-e7ddbae1c660" class="">2. 默认值失效问题</h3></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-806a-9d49-c4caa292fbd1" class="">直接写默认值，Builder 构建时会被覆盖：</p></div><div style="display:contents" dir="auto"><pre id="3898db55-6aee-80ef-88b8-fbc42e68025d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 错误
+@Builder
+private Integer status = 1;</code></pre></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-800f-af6c-dbfb79af695b" class="">使用 <code>@Builder.Default</code> 声明默认值：</p></div><div style="display:contents" dir="auto"><pre id="3898db55-6aee-807a-be25-dc3a2f0a3148" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Builder
+private @Builder.Default Integer status = 1;</code></pre></div><div style="display:contents" dir="auto"><h3 id="3898db55-6aee-8082-aba8-d979fea624ef" class="">3. 静态字段、final字段</h3></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-804b-a3aa-c1ed6d7a0574" class="bulleted-list"><li style="list-style-type:disc"><code>static</code> 字段不会生成 builder 赋值方法</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80cd-a97f-c58f5a089fb4" class="bulleted-list"><li style="list-style-type:disc"><code>final</code> 字段可以正常构建</li></ul></div><div style="display:contents" dir="auto"><h3 id="3898db55-6aee-8051-85c0-e33eb96113d2" class="">4. 父类字段无法构建</h3></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8045-ac93-f560140ef716" class="">子类 @Builder 默认不能给父类属性赋值，解决方案：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-8049-afff-e2dee1590a33" class="numbered-list" start="1"><li>父类也加 @Builder</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80d7-89b5-df48d87a7e1a" class="numbered-list" start="2"><li>使用 <code>@SuperBuilder</code>（Lombok 1.18+）</li></ol></div><div style="display:contents" dir="auto"><pre id="3898db55-6aee-8033-b57a-d222ee22ff41" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@SuperBuilder
+@Getter
+class Parent {
+    private String parentName;
+}
+
+@SuperBuilder
+@Getter
+class Son extends Parent {
+    private String sonName;
+}
+// 使用
+Son.builder().parentName(&quot;父&quot;).sonName(&quot;子&quot;).build();</code></pre></div><div style="display:contents" dir="auto"><h3 id="3898db55-6aee-80d3-9a65-d8a3501b4317" class="">5. 拷贝对象（toBuilder = true）</h3></div><div style="display:contents" dir="auto"><pre id="3898db55-6aee-80fc-a9b8-c028f82dcbb7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Builder(toBuilder = true)
+@Getter
+public class User {
+    private Long id;
+    private String name;
+}
+// 基于原有对象复制，修改个别字段
+User old = User.builder().id(1L).name(&quot;张三&quot;).build();
+User newUser = old.toBuilder().name(&quot;李四&quot;).build();</code></pre></div><div style="display:contents" dir="auto"><hr id="3898db55-6aee-801d-abb9-eaf2ecec6d48"/></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3898db55-6aee-8083-ac6b-cc4f52cd72a9"/></div><div style="display:contents" dir="auto"><h1 id="3898db55-6aee-8075-88c8-dacba7057569" class="">配合@Builder的@Singular注释</h1></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-805d-9fb3-e62cd258bbf6" class="">@Singular专门针对集合，让其构建时候像建造模式</p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8030-b1da-e9ae94199c41" class="">@Singular<strong>必须配合 @Builder 使用</strong>，专门优化<strong>集合类型字段</strong>的链式构建：</p></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8039-8f3a-fe75c54bbfae" class="bulleted-list"><li style="list-style-type:disc">不加@Singular时，Builder 只能一次性传入整个集合；</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8070-ad12-fd9631a847a7" class="bulleted-list"><li style="list-style-type:disc">加上后可以<strong>逐个追加元素</strong>，写法更优雅，同时自动生成批量添加、清空方法。</li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80a8-9fab-e5c2404dcba0" class="toggle"><li><details open=""><summary>代码定义</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-80c6-b8f0-f3e12dc9fd8f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import lombok.Builder;
+import lombok.Singular;
+import lombok.Getter;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+@Builder
+@Getter
+public class Student {
+    private Long id;
+    private String name;
+
+    // List 集合
+    @Singular
+    private List&lt;String&gt; hobbies;
+    // Set 集合
+    @Singular
+    private Set&lt;String&gt; tags;
+    // Map 集合
+    @Singular
+    private Map&lt;String, Integer&gt; scoreMap;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8006-b6b0-cd1d1d337f2e" class="">字段 <code>private List&lt;String&gt; hobbies;</code> 加 <code>@Singular</code> 后，Builder 内部自动生成 3 个方法：</p></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-8029-96d5-ff3c8ac7e1f5" class="numbered-list" start="1"><li><strong>单数添加方法：</strong><code><strong>hobby(String item)</strong></code> 追加单个元素，链式返回 Builder</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80fd-b9e4-dba7ece75c04" class="numbered-list" start="2"><li><strong>批量添加方法：</strong><code><strong>hobbies(Collection&lt;String&gt;)</strong></code> 追加一整个集合</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-809c-a57a-f235f676abf2" class="numbered-list" start="3"><li><strong>清空方法：</strong><code><strong>clearHobbies()</strong></code> 清空已添加所有元素</li></ol></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80fb-9d13-d0c09d257553" class="">⚠️ 不再生成 <code>hobbies(List)</code> 直接覆盖赋值的 setter</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80ca-bb6a-ed044cea5dbe" class="toggle"><li><details open=""><summary>构建调用</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-802a-af33-c3e97f35f52d" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">Student student = Student.builder()
+        .id(1L)
+        .name(&quot;小明&quot;)
+        // 逐个添加单个元素（单数方法 hobby()）
+        .hobby(&quot;游泳&quot;)
+        .hobby(&quot;打球&quot;)
+        // 批量追加整个集合（复数方法 hobbies()）
+        .hobbies(List.of(&quot;看书&quot;, &quot;画画&quot;))
+
+        .tag(&quot;好学生&quot;)
+        .tag(&quot;班干部&quot;)
+
+        // Map 键值对逐个添加
+        .scoreMap(&quot;语文&quot;, 90)
+        .scoreMap(&quot;数学&quot;, 95)
+        .build();</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3898db55-6aee-80f9-9d69-edf18c3da536"/></div><div style="display:contents" dir="auto"><h1 id="3898db55-6aee-8087-a42c-e63e16eceafe" class="">@Slf4j注解生成日志常量</h1></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8058-afdb-d91e1faefe25" class="">@Slf4j直接使用log打印日志</p></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8043-8eb0-fdef57cb8726" class="toggle"><li><details open=""><summary>引入依赖</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-8071-b305-e4aedfe1e569" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;!-- lombok --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+    &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+    &lt;version&gt;1.18.30&lt;/version&gt;
+    &lt;scope&gt;provided&lt;/scope&gt;
+&lt;/dependency&gt;
+
+&lt;!-- slf4j 门面 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+    &lt;version&gt;1.7.36&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;!-- 实现（logback/log4j2 二选一，项目一般已有） --&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8077-ae3d-fd637bb0bc53" class="toggle"><li><details open=""><summary>使用</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-8008-9816-f934964d5110" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class UserService {
+
+    public void test() {
+        log.info(&quot;普通信息日志&quot;);
+        log.error(&quot;异常日志&quot;, new RuntimeException(&quot;出错了&quot;));
+        log.debug(&quot;调试日志&quot;);
+        log.warn(&quot;警告日志&quot;);
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80a2-b2a3-cbf69aeab7f7" class="">Lombok 在编译期自动插入<strong>静态常量 logger</strong>，反编译等价代码：</p></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-803d-970c-c5316ac0bce8" class="toggle"><li><details open=""><summary>code</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-80e6-8784-e9aac8880e57" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class UserService {
+    // 自动生成：private static final Logger log
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
+    public void test() {
+        log.info(&quot;普通信息日志&quot;);
+        log.error(&quot;异常日志&quot;, new RuntimeException(&quot;出错了&quot;));
+        log.debug(&quot;调试日志&quot;);
+        log.warn(&quot;警告日志&quot;);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-802c-b0e5-ef2bbc272aa0" class=""><strong>关键特征</strong></p></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-8009-9b9c-cd90d2b0049a" class="numbered-list" start="1"><li>修饰符：<code>private static final</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-805f-9e61-c5629dbfc95c" class="numbered-list" start="2"><li>变量名默认：<code>log</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-809e-af6b-d46d5168ebfe" class="numbered-list" start="3"><li>构造：<code>LoggerFactory.getLogger(当前类.class)</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3898db55-6aee-80fb-a3d2-f56ba4d798a5" class="numbered-list" start="4"><li>属于<strong>类静态常量</strong>，全局唯一，不会重复创建 Logger</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-800d-9213-eb9c9ca92925" class="toggle"><li><details open=""><summary>同类日志注解对比（都是生成日志常量，只是实例名 / 工厂不同）</summary><div style="display:contents" dir="ltr"><table id="3898db55-6aee-8046-ba20-fdc36e1968aa" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3898db55-6aee-809d-85f6-f532143950bb"><th id="YNdv" class="simple-table-header-color simple-table-header">注解</th><th id="TviW" class="simple-table-header-color simple-table-header" style="width:349px">生成代码</th><th id="jYlI" class="simple-table-header-color simple-table-header" style="width:202.412109375px">适用日志框架</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3898db55-6aee-806c-883b-de5595dfb083"><td id="YNdv" class=""><code>@Slf4j</code></td><td id="TviW" class="" style="width:349px"><code>private static final Logger log = LoggerFactory.getLogger(当前类.class);</code></td><td id="jYlI" class="" style="width:202.412109375px">SLF4J + Logback/Log4j2</td></tr></div><div style="display:contents" dir="ltr"><tr id="3898db55-6aee-80c5-921e-cfe9be62792a"><td id="YNdv" class=""><code>@Log4j</code></td><td id="TviW" class="" style="width:349px"><code>private static final Logger log = Logger.getLogger(当前类.class);</code></td><td id="jYlI" class="" style="width:202.412109375px">Log4j1</td></tr></div><div style="display:contents" dir="ltr"><tr id="3898db55-6aee-80ee-8539-dfc845a22130"><td id="YNdv" class=""><code>@Log4j2</code></td><td id="TviW" class="" style="width:349px"><code>private static final Logger log = LogManager.getLogger(当前类.class);</code></td><td id="jYlI" class="" style="width:202.412109375px">Log4j2</td></tr></div><div style="display:contents" dir="ltr"><tr id="3898db55-6aee-80a4-b46e-f6be5ad29393"><td id="YNdv" class=""><code>@CommonsLog</code></td><td id="TviW" class="" style="width:349px"><code>private static final Log log = LogFactory.getLog(当前类.class);</code></td><td id="jYlI" class="" style="width:202.412109375px">Apache Commons Logging</td></tr></div><div style="display:contents" dir="ltr"><tr id="3898db55-6aee-801c-bc10-cb4330584683"><td id="YNdv" class=""><code>@Flogger</code></td><td id="TviW" class="" style="width:349px">Google Flogger 日志</td><td id="jYlI" class="" style="width:202.412109375px">Google 日志</td></tr></div></tbody></table></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8082-8d23-c6d5fa267da6" class="">自定义日志变量名（Lombok 配置修改 log 变量名）</p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80c0-9c23-d618c0780dd9" class="">默认变量是 <code>log</code>，如果项目规范要求必须叫 <code>logger</code>，有两种方式：</p></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-808c-adc3-d7421036fde9" class="toggle"><li><details open=""><summary>lombok.config 全局配置</summary><div style="display:contents" dir="auto"><p id="3898db55-6aee-8087-8f20-c019ae5826ee" class="">在项目根目录新建 <code>lombok.config</code></p></div><div style="display:contents" dir="auto"><pre id="3898db55-6aee-80fb-bbf7-c18e4f57286e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all"># 修改 @Slf4j 生成的变量名
+lombok.log.fieldName = logger</code></pre></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-802e-9e3e-d4472188e5ae" class="">编译后代码变为：</p></div><div style="display:contents" dir="auto"><pre id="3898db55-6aee-806f-8ed9-f32ffb009c1f" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">private static final Logger logger = LoggerFactory.getLogger(UserService.class);</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80b4-a04a-ceb93d1d2c91" class="toggle"><li><details open=""><summary>手动自己写 Logger</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-80fd-94dc-e2fe35ceeadc" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">public class UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8098-a180-d7fe40009e34" class="toggle"><li><details open=""><summary>注意事项</summary><div style="display:contents" dir="auto"><p id="3898db55-6aee-8095-8783-f3a02d1cdcc7" class=""><strong>1. 不能在静态代码块之前使用 log</strong></p></div><div style="display:contents" dir="auto"><pre id="3898db55-6aee-808a-84bc-fc1730cb61b2" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Slf4j
+public class Demo {
+    // 编译报错：变量未定义
+    static {
+        log.info(&quot;静态块&quot;);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80f5-9949-c6b3a988ba68" class="">原因：Lombok 生成的 <code>log</code> 常量在类成员变量区，静态代码块执行顺序早于成员变量初始化。</p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-809a-8955-cffe061dd18f" class=""><strong>2. 接口、抽象类不能直接用 @Slf4j</strong></p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80dc-8fb6-ef6b97ae31a4" class="">接口不能有实例静态成员变量，注解放接口编译报错；<br/>抽象类可以使用。</p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8000-b611-f2aa8b43d461" class=""><strong>3. 内部类使用注意</strong></p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80b8-ae7a-c686dddf87cc" class="">内部类不会共用外部类的 <code>log</code>，内部类要打印日志必须自己加 <code>@Slf4j</code> 或手动声明 Logger。</p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8059-984c-fca17982ac98" class=""><strong>4. 不要方法内 new Logger</strong></p></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-8068-bdb1-fafe7cd6b5fc" class="">频繁创建 Logger 开销大，@Slf4j 静态常量设计就是为了单例复用。</p></div></details></li></ul></div><div style="display:contents" dir="auto"><hr id="3898db55-6aee-80d8-8996-ef7be97401cb"/></div><div style="display:contents" dir="auto"><h1 id="3898db55-6aee-80b2-b953-d9ab4f1ad0b6" class="">MyBatis逆向生成</h1></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8084-b6c0-eefa2b17237f" class="toggle"><li><details open=""><summary>插件依赖</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-80f3-9a22-fae06b3eae73" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;build&gt;
+    &lt;plugins&gt;
+        &lt;!-- MyBatis 逆向生成插件 --&gt;
+        &lt;plugin&gt;
+            &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis-generator-maven-plugin&lt;/artifactId&gt;
+            &lt;version&gt;1.4.2&lt;/version&gt;
+            &lt;dependencies&gt;
+                &lt;!-- 数据库驱动，版本和项目保持一致 --&gt;
+                &lt;dependency&gt;
+                    &lt;groupId&gt;mysql&lt;/groupId&gt;
+                    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+                    &lt;version&gt;8.0.30&lt;/version&gt;
+                &lt;/dependency&gt;
+            &lt;/dependencies&gt;
+            &lt;configuration&gt;
+                &lt;!-- 配置文件路径 --&gt;
+                &lt;configurationFile&gt;${basedir}/src/main/resources/generator/generatorConfig.xml&lt;/configurationFile&gt;
+                &lt;!-- 覆盖已有文件 --&gt;
+                &lt;overwrite&gt;true&lt;/overwrite&gt;
+                &lt;verbose&gt;true&lt;/verbose&gt;
+            &lt;/configuration&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8089-a13c-c584149d7039" class="toggle"><li><details open=""><summary>配置窗口</summary><div style="display:contents" dir="ltr"><figure id="3898db55-6aee-8078-85e7-c1ef5a577e59" class="image"><a href="%E9%85%8D%E7%BD%AE%E7%B1%BB%E3%80%81AOP%E3%80%81%E6%8C%81%E4%B9%85%E5%B1%82%E6%95%B4%E5%90%88/image.png"><img style="width:666.0202026367188px" src="%E9%85%8D%E7%BD%AE%E7%B1%BB%E3%80%81AOP%E3%80%81%E6%8C%81%E4%B9%85%E5%B1%82%E6%95%B4%E5%90%88/image.png"/></a></figure></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="3898db55-6aee-80d9-bd3f-d22950e65b9c" class="">自动生成的配置如下</p></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-8044-87d3-e904a6ebe6b4" class="toggle"><li><details open=""><summary>entity/UserMsg.java</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-80f9-980d-efbfefb600da" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpc.mybatis.entity;
+
+import java.io.Serializable;
+import lombok.Data;
+
+/**
+ * user_msg
+ */
+@Data
+public class UserMsg implements Serializable {
+    private Integer id;
+
+    private String username;
+
+    private Integer age;
+
+    private String carnumber;
+
+    private static final long serialVersionUID = 1L;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-80ea-9196-f7bfe143b61a" class="toggle"><li><details open=""><summary>mapper/UserMsgMapper.java</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-80f7-8ec6-da4130e9a3b6" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">package com.hpc.mybatis.mapper;
+
+import com.hpc.mybatis.entity.UserMsg;
+
+public interface UserMsgMapper {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(UserMsg record);
+
+    int insertSelective(UserMsg record);
+
+    UserMsg selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(UserMsg record);
+
+    int updateByPrimaryKey(UserMsg record);
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="3898db55-6aee-809d-98ad-f89b2b0c8cb7" class="toggle"><li><details open=""><summary>resources/mapper/UserMsgMapper.xml</summary><div style="display:contents" dir="auto"><pre id="3898db55-6aee-805c-89e9-fceb7245354e" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.hpc.mybatis.mapper.UserMsgMapper&quot;&gt;
+  &lt;resultMap id=&quot;BaseResultMap&quot; type=&quot;com.hpc.mybatis.entity.UserMsg&quot;&gt;
+    &lt;id column=&quot;id&quot; jdbcType=&quot;INTEGER&quot; property=&quot;id&quot; /&gt;
+    &lt;result column=&quot;username&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;username&quot; /&gt;
+    &lt;result column=&quot;age&quot; jdbcType=&quot;INTEGER&quot; property=&quot;age&quot; /&gt;
+    &lt;result column=&quot;carNumber&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;carnumber&quot; /&gt;
+  &lt;/resultMap&gt;
+  &lt;sql id=&quot;Base_Column_List&quot;&gt;
+    id, username, age, carNumber
+  &lt;/sql&gt;
+  &lt;select id=&quot;selectByPrimaryKey&quot; parameterType=&quot;java.lang.Integer&quot; resultMap=&quot;BaseResultMap&quot;&gt;
+    select 
+    &lt;include refid=&quot;Base_Column_List&quot; /&gt;
+    from user_msg
+    where id = #{id,jdbcType=INTEGER}
+  &lt;/select&gt;
+  &lt;delete id=&quot;deleteByPrimaryKey&quot; parameterType=&quot;java.lang.Integer&quot;&gt;
+    delete from user_msg
+    where id = #{id,jdbcType=INTEGER}
+  &lt;/delete&gt;
+  &lt;insert id=&quot;insert&quot; keyColumn=&quot;id&quot; keyProperty=&quot;id&quot; parameterType=&quot;com.hpc.mybatis.entity.UserMsg&quot; useGeneratedKeys=&quot;true&quot;&gt;
+    insert into user_msg (username, age, carNumber
+      )
+    values (#{username,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{carnumber,jdbcType=VARCHAR}
+      )
+  &lt;/insert&gt;
+  &lt;insert id=&quot;insertSelective&quot; keyColumn=&quot;id&quot; keyProperty=&quot;id&quot; parameterType=&quot;com.hpc.mybatis.entity.UserMsg&quot; useGeneratedKeys=&quot;true&quot;&gt;
+    insert into user_msg
+    &lt;trim prefix=&quot;(&quot; suffix=&quot;)&quot; suffixOverrides=&quot;,&quot;&gt;
+      &lt;if test=&quot;username != null&quot;&gt;
+        username,
+      &lt;/if&gt;
+      &lt;if test=&quot;age != null&quot;&gt;
+        age,
+      &lt;/if&gt;
+      &lt;if test=&quot;carnumber != null&quot;&gt;
+        carNumber,
+      &lt;/if&gt;
+    &lt;/trim&gt;
+    &lt;trim prefix=&quot;values (&quot; suffix=&quot;)&quot; suffixOverrides=&quot;,&quot;&gt;
+      &lt;if test=&quot;username != null&quot;&gt;
+        #{username,jdbcType=VARCHAR},
+      &lt;/if&gt;
+      &lt;if test=&quot;age != null&quot;&gt;
+        #{age,jdbcType=INTEGER},
+      &lt;/if&gt;
+      &lt;if test=&quot;carnumber != null&quot;&gt;
+        #{carnumber,jdbcType=VARCHAR},
+      &lt;/if&gt;
+    &lt;/trim&gt;
+  &lt;/insert&gt;
+  &lt;update id=&quot;updateByPrimaryKeySelective&quot; parameterType=&quot;com.hpc.mybatis.entity.UserMsg&quot;&gt;
+    update user_msg
+    &lt;set&gt;
+      &lt;if test=&quot;username != null&quot;&gt;
+        username = #{username,jdbcType=VARCHAR},
+      &lt;/if&gt;
+      &lt;if test=&quot;age != null&quot;&gt;
+        age = #{age,jdbcType=INTEGER},
+      &lt;/if&gt;
+      &lt;if test=&quot;carnumber != null&quot;&gt;
+        carNumber = #{carnumber,jdbcType=VARCHAR},
+      &lt;/if&gt;
+    &lt;/set&gt;
+    where id = #{id,jdbcType=INTEGER}
+  &lt;/update&gt;
+  &lt;update id=&quot;updateByPrimaryKey&quot; parameterType=&quot;com.hpc.mybatis.entity.UserMsg&quot;&gt;
+    update user_msg
+    set username = #{username,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      carNumber = #{carnumber,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  &lt;/update&gt;
+&lt;/mapper&gt;</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><blockquote id="3898db55-6aee-80ec-abed-c91e4a2d5d77" class="">MyBatis-Plus 自带代码生成器，比 MBG 更简洁，可生成 Controller、Service、ServiceImpl、Mapper、Entity 全套，不再需要配置繁琐的 MBG。</blockquote></div><div style="display:contents" dir="auto"><hr id="3898db55-6aee-8096-9bb0-d374139d170a"/></div><div style="display:contents" dir="auto"><h1 id="3898db55-6aee-8092-8d0b-c9332c064eae" class="">基于SpringBoot的SSM整合</h1></div><div style="display:contents" dir="ltr"><figure id="3898db55-6aee-8072-bd83-ffa614a4b9e3" class="link-to-page"><a href="%E9%85%8D%E7%BD%AE%E7%B1%BB%E3%80%81AOP%E3%80%81%E6%8C%81%E4%B9%85%E5%B1%82%E6%95%B4%E5%90%88/%E8%AF%A6%E7%BB%86%E9%85%8D%E7%BD%AE%203898db556aee8072bd83ffa614a4b9e3.html"><span class="icon">🎰</span>详细配置</a></figure></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

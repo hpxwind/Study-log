@@ -1,0 +1,863 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>详解</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3878db55-6aee-80a6-954e-deeb3960ec52" class="page mono"><header><img class="page-cover-image" src="https://app.notion.com/images/page-cover/met_william_morris_1877_willow.jpg" style="object-position:center 90%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🛢️</span></div><h1 class="page-title" dir="auto">详解</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h2 id="3878db55-6aee-80f6-8268-f1237867c79e" class="">一、AOP 是什么</h2></div><div style="display:contents" dir="auto"><p id="3878db55-6aee-8012-9ff2-c1c7ca684891" class=""><strong>AOP（面向切面编程）</strong>，是对 OOP（面向对象）的补充。</p></div><div style="display:contents" dir="auto"><ul id="3878db55-6aee-80da-b4d9-c9e072d20358" class="bulleted-list"><li style="list-style-type:disc">OOP：纵向继承、封装、多态，解决类与类之间的纵向复用</li></ul></div><div style="display:contents" dir="auto"><ul id="3878db55-6aee-80b3-ba34-ce6741cd5410" class="bulleted-list"><li style="list-style-type:disc">AOP：横向抽取公共通用逻辑，在不修改原有业务代码前提下，增强方法功能</li></ul></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-8061-9904-dde8380f19f1" class="">典型使用场景</h3></div><div style="display:contents" dir="auto"><p id="3878db55-6aee-8008-9dcb-e0a2390448ff" class="">日志记录、接口耗时统计、权限校验、事务管理、异常统一处理、参数校验、接口防重复提交、敏感词过滤</p></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-80f7-98fe-cc3c92e6e65f" class="">核心思想</h3></div><div style="display:contents" dir="auto"><p id="3878db55-6aee-80ef-b311-ee404e5e9477" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">把通用横切逻辑抽成切面</span></strong></mark>，在目标方法执行前/后/异常时自动切入执行，解耦业务与非业务代码。</p></div><div style="display:contents" dir="auto"><h2 id="3878db55-6aee-80c7-88c2-c51e54c2e65b" class="">二、AOP 核心术语</h2></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8049-bf69-eb9678537ac5" class="toggle"><li><details open=""><summary>解释（spring中出现过）</summary><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-8076-8d1c-d29ad5db0323" class="numbered-list" start="1"><li><strong>连接点 JoinPoint</strong><br/>程序中可以被切入的位置，Spring AOP 仅支持<strong>方法执行</strong>作为连接点（所有方法都是潜在连接点）。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-80b0-8263-c810e67a0863" class="numbered-list" start="2"><li><strong>切入点 Pointcut</strong><br/>筛选匹配的连接点，定义<strong>哪些方法需要被增强</strong>，通过表达式匹配。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-809c-b44a-c98c38091f89" class="numbered-list" start="3"><li><strong>通知 Advice</strong><br/>切面具体要执行的逻辑，一共 5 种类型：<div style="display:contents" dir="ltr"><table id="3878db55-6aee-809e-b713-fd0bad6c43ec" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="3878db55-6aee-8099-8a8e-c768b2649d78"><th id="D:=l" class="simple-table-header-color simple-table-header" style="width:178.98828125px">通知类型</th><th id="Brt;" class="simple-table-header-color simple-table-header" style="width:466.99609375px">执行时机</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3878db55-6aee-8007-a20b-cfb6a5d28eff"><td id="D:=l" class="" style="width:178.98828125px">@Before</td><td id="Brt;" class="" style="width:466.99609375px">目标方法执行之前</td></tr></div><div style="display:contents" dir="ltr"><tr id="3878db55-6aee-8060-b0ef-d85b79a7dc11"><td id="D:=l" class="" style="width:178.98828125px">@AfterReturning</td><td id="Brt;" class="" style="width:466.99609375px">方法正常执行完毕、有返回值后</td></tr></div><div style="display:contents" dir="ltr"><tr id="3878db55-6aee-80b7-984c-ead7b34f6e83"><td id="D:=l" class="" style="width:178.98828125px">@AfterThrowing</td><td id="Brt;" class="" style="width:466.99609375px">方法抛出异常时执行</td></tr></div><div style="display:contents" dir="ltr"><tr id="3878db55-6aee-806d-b993-e6dca385051c"><td id="D:=l" class="" style="width:178.98828125px">@After</td><td id="Brt;" class="" style="width:466.99609375px">方法最终执行之后（无论正常/异常都会执行，类似 finally）</td></tr></div><div style="display:contents" dir="ltr"><tr id="3878db55-6aee-8096-a391-deeba432fd3d"><td id="D:=l" class="" style="width:178.98828125px">@Around</td><td id="Brt;" class="" style="width:466.99609375px">环绕通知，包裹目标方法，可手动控制方法执行、前后自定义逻辑、修改入参返回值</td></tr></div></tbody></table></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-80f9-9b0c-c302f2630ade" class="numbered-list" start="4"><li><strong>切面 Aspect</strong><br/>一个类，包含 <strong>Pointcut 切入点 + Advice 通知</strong> 的整体载体。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-80fb-a0a2-eaea84912367" class="numbered-list" start="5"><li><strong>目标对象 Target</strong><br/>被 AOP 代理增强的原始业务对象。</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-8067-acb7-f2892ffb11aa" class="numbered-list" start="6"><li><strong>代理 Proxy</strong><br/>Spring 自动创建代理对象，调用时走代理执行切面逻辑 + 原方法逻辑<div style="display:contents" dir="auto"><ul id="3878db55-6aee-80ab-8e4c-f734935626c8" class="bulleted-list"><li style="list-style-type:disc">接口优先：JDK 动态代理（实现接口）</li></ul></div><div style="display:contents" dir="auto"><ul id="3878db55-6aee-8047-ad81-fc408076903c" class="bulleted-list"><li style="list-style-type:disc">类直接代理：CGLIB 动态代理（SpringBoot2.x 默认开启）</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-8044-85b0-c9ef8b33f995" class="numbered-list" start="7"><li><strong>织入 Weaving</strong><br/>将切面代码动态植入目标方法的过程，Spring 运行期动态织入。</li></ol></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3878db55-6aee-80d8-a9d9-e0bef7c4c866" class="">三、SpringBoot 快速集成 AOP</h2></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-805a-a0f5-f4494022c437" class="block-color-purple_background">1. 引入依赖</h3></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3878db55-6aee-805a-9680-f0f2ac5e23b1" class="code code-wrap"><code class="language-xml" style="white-space:pre-wrap;word-break:break-all">&lt;!-- aop 依赖 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-8073-9637-d5927cd9a303" class="">2. 开启 AOP（默认自动开启，可显式配置）</h3></div><div style="display:contents" dir="auto"><p id="3878db55-6aee-8034-b410-caa9b3f33b08" class="">启动类注解（不加也生效）</p></div><div style="display:contents" dir="auto"><blockquote id="3878db55-6aee-8043-8c16-dc746e87688d" class=""><code>@EnableAspectJAutoProxy(proxyTargetClass = true)</code> 强制使用 CGLIB 代理</blockquote></div><div style="display:contents" dir="auto"><h2 id="3878db55-6aee-80d4-9daa-e86d8fa2039d" class="">四、切入点表达式 execution（最常用）</h2></div><div style="display:contents" dir="auto"><p id="3878db55-6aee-8017-88af-c62453abefd8" class="">语法：<code>execution(访问修饰符 返回值 包.类.方法(参数))</code></p></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-8087-abaf-ee06a68edc96" class="">通配符说明</h3></div><div style="display:contents" dir="auto"><ul id="3878db55-6aee-80f1-b865-dc89706a0fa1" class="bulleted-list"><li style="list-style-type:disc"><code>*</code>：匹配任意单个内容</li></ul></div><div style="display:contents" dir="auto"><ul id="3878db55-6aee-8037-84b4-e557c4038ca8" class="bulleted-list"><li style="list-style-type:disc"><code>..</code>：匹配多级包 / 任意多个参数</li></ul></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-8025-9243-f06d61cd9a25" class="">常用示例</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80cf-8347-e1361cea9216" class="toggle"><li><details open=""><summary>code</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" integrity="sha512-xKcnbsdT0KMoA4yrozkqZM1XJVTrPsjdQwvigxlAlxEDu8YDvC/jl+LfVqn0fY3Vs6m2y4a89JCHEIA/Z9zpmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3878db55-6aee-80e1-b4fa-c1902fb0d491" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">// 1. 匹配 com.service 下所有类所有方法
+execution(* com.service.*.*(..))
+
+// 2. 匹配 com.service 及其子包所有类所有方法
+execution(* com.service..*.*(..))
+
+// 3. 匹配指定类所有方法
+execution(* com.service.UserService.*(..))
+
+// 4. 匹配指定方法
+execution(* com.service.UserService.login(..))
+
+// 5. 任意返回值、public方法
+execution(public * com..*.*(..))</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-8056-ac12-d230ffd3220c" class="">其他切入点表达式</h3></div><div style="display:contents" dir="auto"><ul id="3878db55-6aee-80b8-a59e-c5255c78a37e" class="bulleted-list"><li style="list-style-type:disc"><code>within(包.类)</code>：限定匹配某个类/包内所有方法</li></ul></div><div style="display:contents" dir="auto"><ul id="3878db55-6aee-806a-a03d-ec4c48b4a85d" class="bulleted-list"><li style="list-style-type:disc"><code>@annotation(注解全类名)</code>：匹配加了指定自定义注解的方法（最常用做精准切入）</li></ul></div><div style="display:contents" dir="auto"><h2 id="3878db55-6aee-803b-b503-c7eb8ca89a8f" class="">五、五种通知完整代码示例</h2></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-804c-8f9f-ca0c9356980e" class="">步骤1：编写切面类</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8078-9969-c9d3038bf8f3" class="toggle"><li><details open=""><summary>code</summary><div style="display:contents" dir="auto"><pre id="3878db55-6aee-8012-b2b7-d061618c6cd3" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
+import org.springframework.stereotype.Component;
+
+@Aspect
+@Component // 交给Spring管理
+public class LogAspect {
+
+    // 定义公共切入点
+    @Pointcut(&quot;execution(* com.demo.service.*.*(..))&quot;)
+    public void pointCut(){}
+
+    // 前置通知
+    @Before(&quot;pointCut()&quot;)
+    public void before(JoinPoint joinPoint){
+        String methodName = joinPoint.getSignature().getName();
+        Object[] args = joinPoint.getArgs();
+        System.out.println(&quot;【前置通知】方法:&quot;+methodName+&quot;，参数:&quot;+args);
+    }
+
+    // 后置返回通知（正常返回才执行，可接收返回值）
+    @AfterReturning(value = &quot;pointCut()&quot;, returning = &quot;result&quot;)
+    public void afterReturn(JoinPoint joinPoint, Object result){
+        System.out.println(&quot;【返回通知】返回值：&quot;+result);
+    }
+
+    // 异常通知（方法报错才进）
+    @AfterThrowing(value = &quot;pointCut()&quot;, throwing = &quot;ex&quot;)
+    public void afterThrow(JoinPoint joinPoint, Exception ex){
+        System.out.println(&quot;【异常通知】异常信息：&quot;+ex.getMessage());
+    }
+
+    // 最终通知（无论正常异常必执行）
+    @After(&quot;pointCut()&quot;)
+    public void after(JoinPoint joinPoint){
+        System.out.println(&quot;【最终通知】方法执行结束&quot;);
+    }
+
+    // 环绕通知（功能最强，可手动控制执行）
+    @Around(&quot;pointCut()&quot;)
+    public Object around(ProceedingJoinPoint pjp) throws Throwable {
+        System.out.println(&quot;【环绕前置】&quot;);
+        long start = System.currentTimeMillis();
+
+        // 执行目标方法
+        Object res = pjp.proceed();
+
+        long cost = System.currentTimeMillis() - start;
+        System.out.println(&quot;【环绕后置】耗时：&quot;+cost+&quot;ms&quot;);
+        return res;
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-8000-b9d5-fb4c8d03c910" class="">执行顺序</h3></div><div style="display:contents" dir="auto"><p id="3878db55-6aee-8027-b5bb-c39cecfa4b41" class="">正常执行：<br/><strong>环绕前置 → @Before → 目标方法 → @AfterReturning → @After → 环绕后置</strong></p></div><div style="display:contents" dir="auto"><p id="3878db55-6aee-809f-a9ca-c4a1532160b2" class="">异常执行：<br/><strong>环绕前置 → @Before → 目标方法报错 → @AfterThrowing → @After → 环绕后置</strong></p></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-80c4-8a28-c838a930cf3b" class="">JoinPoint / ProceedingJoinPoint 常用方法</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8071-a59a-ec97eac4f3ad" class="toggle"><li><details open=""><summary>code</summary><div style="display:contents" dir="auto"><pre id="3878db55-6aee-80a2-8cdd-fe95370a3e9a" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">joinPoint.getSignature().getName()        // 获取方法名
+joinPoint.getTarget()                    // 获取原始目标对象
+joinPoint.getArgs()                      // 获取方法入参
+joinPoint.getSignature().getDeclaringTypeName() // 获取类全名
+proceedingJoinPoint.proceed()            // 执行目标方法（Around专属）</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3878db55-6aee-80d9-a3b5-dc5e841bab8f" class="">六、注解式切点（精准切入，推荐）</h2></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-80a4-bacf-c4db7fd6e080" class="">1. 自定义注解</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80cd-a2c6-f77e00aa1988" class="toggle"><li><details open=""><summary>code</summary><div style="display:contents" dir="auto"><pre id="3878db55-6aee-8012-b9e8-fbc668954f2b" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface LogRecord {
+    String value() default &quot;&quot;;
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-809d-a30a-c4e9e644f892" class="">2. 切面匹配该注解</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8049-8f6f-f3b0b0b32bb7" class="toggle"><li><details open=""><summary>code</summary><div style="display:contents" dir="auto"><pre id="3878db55-6aee-8059-aebc-dfd9650f1371" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Aspect
+@Component
+public class AnnotationAspect {
+
+    // 匹配加了 @LogRecord 的方法
+    @Pointcut(&quot;@annotation(com.demo.annotation.LogRecord)&quot;)
+    public void annoPoint(){}
+
+    @Around(&quot;annoPoint()&quot;)
+    public Object around(ProceedingJoinPoint pjp) throws Throwable{
+        // 获取注解属性
+        MethodSignature signature = (MethodSignature) pjp.getSignature();
+        LogRecord annotation = signature.getMethod().getAnnotation(LogRecord.class);
+        System.out.println(&quot;注解备注：&quot;+annotation.value());
+        return pjp.proceed();
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h3 id="3878db55-6aee-8016-90e0-e5f57a732663" class="">3. 使用</h3></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-8045-b85b-e28ce8d82063" class="toggle"><li><details open=""><summary>code</summary><div style="display:contents" dir="auto"><pre id="3878db55-6aee-80e7-a6db-ca590bfde8b7" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Service
+public class UserService {
+    @LogRecord(&quot;用户登录操作&quot;)
+    public String login(String username){
+        return &quot;success&quot;;
+    }
+}</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><h2 id="3878db55-6aee-80a2-a670-e930f558f364" class="">七、AOP 代理选择原理</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-8011-936e-c9a492e0f051" class="numbered-list" start="1"><li><strong>JDK 动态代理</strong><div style="display:contents" dir="auto"><ul id="3878db55-6aee-803f-b34a-e33c11506b23" class="bulleted-list"><li style="list-style-type:disc">要求：目标类<strong>必须实现接口</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="3878db55-6aee-80ab-a143-c7f8ff25b63c" class="bulleted-list"><li style="list-style-type:disc">代理对象实现原有接口，重写接口方法完成增强</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-8077-b672-d0cbde559566" class="numbered-list" start="2"><li><strong>CGLIB 代理</strong><div style="display:contents" dir="auto"><ul id="3878db55-6aee-801c-bc0a-dd127f4ff6ee" class="bulleted-list"><li style="list-style-type:disc">目标类没有实现接口时自动使用</li></ul></div><div style="display:contents" dir="auto"><ul id="3878db55-6aee-80b3-a899-dcdd71267f33" class="bulleted-list"><li style="list-style-type:disc">生成目标类的子类，重写父类方法实现增强</li></ul></div><div style="display:contents" dir="auto"><ul id="3878db55-6aee-80d6-910f-cf34f6642a7f" class="bulleted-list"><li style="list-style-type:disc">SpringBoot 2.x 默认 <code>proxyTargetClass=true</code>，优先 CGLIB</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><p id="3878db55-6aee-804d-b265-eae4f5f8ca03" class="">手动强制配置（application.yml）</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js" integrity="sha512-6O/PZimM3TD1NN3yrazePA4AbZrPcwt1QCGJrVY7WoHDJROZFc9TlBvIKMe+QfqgcslW4lQeBzNJEJvIMC8WhA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3878db55-6aee-80f9-835a-cce3ba5f4090" class="code code-wrap"><code class="language-yaml" style="white-space:pre-wrap;word-break:break-all">spring:
+  aop:
+    proxy-target-class: true # true CGLIB，false JDK</code></pre></div><div style="display:contents" dir="auto"><h2 id="3878db55-6aee-8028-b689-e756396b3286" class="">八、常见坑与注意事项</h2></div><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-808b-99d3-cf2e1e78bccf" class="numbered-list" start="1"><li><strong>内部调用 AOP 失效</strong><br/>同一个类 <code>this.xxx()</code> 调用本类方法不会触发切面，原因：<code>this</code> 是原始对象，不是代理对象<br/>解决：从容器获取代理对象调用，或拆分到不同类</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-80e9-a2c8-f44b1317196a" class="numbered-list" start="2"><li><strong>private / static 方法无法切入</strong><br/>Spring AOP 基于动态代理，只能增强 public 实例方法</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-80ee-82f6-cb2a1d3c80b5" class="numbered-list" start="3"><li><strong>切面顺序控制 @Order(n)</strong><br/>数值越小优先级越高，前置通知先执行；后置通知后执行<div style="display:contents" dir="auto"><pre id="3878db55-6aee-80c0-a4d0-f62005c56fad" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Aspect
+@Component
+@Order(1)
+public class Aspect1 {}</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3878db55-6aee-807c-9b37-f8a0cf7b1376" class="numbered-list" start="4"><li><strong>事务注解 @Transactional 底层就是 AOP</strong><br/>通过AOP环绕通知，方法前开启事务，正常提交、异常回滚</li></ol></div><div style="display:contents" dir="auto"><h2 id="3878db55-6aee-8062-be43-ec81a1d2c7d3" class="">九、实战场景：接口耗时统计完整案例</h2></div><div style="display:contents" dir="auto"><ul id="3888db55-6aee-80c4-b40b-c490227cf559" class="toggle"><li><details open=""><summary>code</summary><div style="display:contents" dir="auto"><pre id="3878db55-6aee-8042-9ef4-ef824f1b33c4" class="code code-wrap"><code class="language-java" style="white-space:pre-wrap;word-break:break-all">@Aspect
+@Component
+@Order(1)
+public class TimeAspect {
+    @Pointcut(&quot;execution(* com.demo.controller.*.*(..))&quot;)
+    public void cut(){}
+
+    @Around(&quot;cut()&quot;)
+    public Object timeCount(ProceedingJoinPoint pjp) throws Throwable{
+        long start = System.currentTimeMillis();
+        Object result = pjp.proceed();
+        long time = System.currentTimeMillis() - start;
+        String method = pjp.getSignature().toString();
+        System.out.printf(&quot;方法：%s，执行耗时：%d ms%n&quot;,method,time);
+        return result;
+    }
+}</code></pre></div></details></li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
